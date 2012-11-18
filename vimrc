@@ -60,7 +60,6 @@ let mapleader = "," " put ahead to make following maps work
                 let NERDTreeKeepTreeInNewTab=1
                 let g:nerdtree_tabs_open_on_gui_startup=0
             Bundle 'jistr/vim-nerdtree-tabs'
-                " todo:
                 map <leader>n <plug>NERDTreeTabsToggle<CR>
             Bundle 'Lokaltog/vim-easymotion'
 
@@ -78,6 +77,8 @@ let mapleader = "," " put ahead to make following maps work
             Bundle 'jeetsukumaran/vim-buffergator'
             "Bundle 'corntrace/bufexplorer'
             Bundle 'myusuf3/numbers.vim'
+            Bundle 'Raimondi/delimitMate'
+            Bundle 'matchit.zip'
             Bundle 'kien/ctrlp.vim'
                 let g:ctrlp_working_path_mode = 2
                 nnoremap <silent> <D-t> :CtrlP<CR>
@@ -85,13 +86,11 @@ let mapleader = "," " put ahead to make following maps work
                 let g:ctrlp_custom_ignore = {
                     \ 'dir':  '\.git$\|\.hg$\|\.svn$',
                     \ 'file': '\.exe$\|\.so$\|\.dll$' }
-            Bundle 'Raimondi/delimitMate'
             Bundle 'vim-scripts/sessionman.vim'
                 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
                 nmap <leader>sl :SessionList<CR>
                 nmap <leader>ss :SessionSave<CR>
             "Bundle 'restore_view.vim'
-            Bundle 'matchit.zip'
             Bundle 'nathanaelkane/vim-indent-guides'
                 let g:indent_guides_start_level = 2
                 let g:indent_guides_guide_size = 1
@@ -201,6 +200,10 @@ let mapleader = "," " put ahead to make following maps work
 cd ~ " change initial dir
 filetype plugin indent on   " Automatically detect file types, must be after pathogen or vundle setup
 set path+=~,~/configent/**
+" Encrypt options {{{2
+" Acceptable encryption strength, also remember to set viminfo=,
+" swap and undo are all encrypted, but may set nowritebackup and nobackup(default)
+set cryptmethod=blowfish "}}}
 set viewoptions=folds,options,cursor,unix,slash " better unix / windows compatibility
 "set timeoutlen=500 " mapping delay, default is 1000ms
 set ttimeoutlen=50 " key code delay, same as timeoutlen when < 0(default)
@@ -215,7 +218,7 @@ set visualbell t_vb= " no beep or flash
 set nrformats=alpha "also increse alpha characters use <c-a>/<c-x>
 set scrolljump=5                " lines to scroll when cursor leaves screen
 set scrolloff=3                 " minimum lines to keep above and below cursor
-set foldenable                  " auto fold code
+"set foldenable                  " auto fold code, use zi to toggle
 set wildmenu                    " show list instead of just completing
 set wildmode=list:longest,full  " command <Tab> completion, list matches, then longest common part, then all.
 set backspace=indent,eol,start  " backspace for dummies
@@ -246,12 +249,8 @@ set hlsearch                    " highlight search terms
 " Key Mappings {{{1
     inoremap jk <Esc>
     cmap w!! w !sudo tee % >/dev/null
-    " todo:
     " Source current line
-    set nospell
-    nnoremap <leader>S y:execute @@<cr>
-    " Source visual selection
-    vnoremap <leader>S ^vg_y:execute @@<cr>
+    nnoremap <leader>S ^y$:@"<cr>
     " Space to toggle folds.
     nnoremap <space> za
     vnoremap <space> za
@@ -267,16 +266,18 @@ set hlsearch                    " highlight search terms
     " Swap two words
     nmap <silent> gw :s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>`'
     " Underline the current line with '='
-    nmap <silent> <leader>ul :t.\|s/./=/g\|:nohls<cr>
+    "nmap <silent> <leader>ul :t.\|s/./=/g\|:nohls<cr>
     " set text wrapping toggles
     nmap <silent> <leader>tw :set invwrap<CR>:set wrap?<CR>
-    " find merge conflict markers
-    nmap <silent> <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
+    " Underline the current line with '=', frequently used in markdown headings
+    "nmap <silent> <leader>ul :t.\|s/./=/g\|:nohls<cr>
+    " find merge conflict markers, maybe duplicate as unimpaired exists mappings [n ]n
+    "nmap <silent> <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
     " Toggle hlsearch with <leader>hs
     nmap <leader>hs :set hlsearch! hlsearch?<CR>
-    " cd to the directory containing the file in the buffer
     " Adjust viewports to the same size
     map <Leader>= <C-w>=
+    " cd to the directory containing the file in the buffer
     nmap <silent> <leader>cd :lcd %:h<CR>
     cmap cd. lcd %:p:h
     " Create the directory containing the file in the buffer
@@ -350,18 +351,6 @@ set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
 " }}}
 
 " Functions{{{1
-function! NERDTreeInitAsNeeded()
-    redir => bufoutput
-    buffers!
-    redir END
-    let idx = stridx(bufoutput, "NERD_tree")
-    if idx > -1
-        NERDTreeMirror
-        NERDTreeFind
-        wincmd l
-    endif
-endfunction
-
 " Append modeline after last line in buffer.
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
 " files.
