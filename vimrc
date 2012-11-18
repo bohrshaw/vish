@@ -248,6 +248,7 @@ set hlsearch                    " highlight search terms
     cmap w!! w !sudo tee % >/dev/null
     " todo:
     " Source current line
+    set nospell
     nnoremap <leader>S y:execute @@<cr>
     " Source visual selection
     vnoremap <leader>S ^vg_y:execute @@<cr>
@@ -345,19 +346,6 @@ set statusline+=%{fugitive#statusline()} "  Git Hotness
 set statusline+=\ [%{&ff}/%Y]            " filetype
 set statusline+=\ [%{getcwd()}]          " current dir
 set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
-" GUI {{{2
-if has('gui_running')
-    if has('win32') || has('win64')
-        set guifont=Consolas:h10
-        au GUIEnter * simalt ~x " max window
-    else
-        set guifont=Consolas\ 10
-        set lines=999 columns=999
-    endif
-
-    set guioptions=
-    color solarized
-endif
 " }}}
 " }}}
 
