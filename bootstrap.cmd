@@ -7,6 +7,7 @@ call mklink /J %HOME%\vimise D:\projects\vimise
 :: call mkdir %BASE_DIR%\vim\bundle
 call mklink /J %HOME%\.vim %BASE_DIR%\vim
 call mklink %HOME%\.vimrc %BASE_DIR%\vimrc
+call mklink %HOME%\.gvimrc %BASE_DIR%\gvimrc
 
 :: call git clone http://github.com/gmarik/vundle.git %HOME%/.vim/bundle/vundle
 :: call vim -u "$BASE_DIR/vimrc" - +BundleInstall!
