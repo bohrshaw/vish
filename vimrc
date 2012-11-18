@@ -25,6 +25,7 @@ function! InitializeDirectories()
     endfor
 endfunction
 call InitializeDirectories()
+set viminfo+=n$HOME\\.vim\\.viminfo " change viminfo file dir
 
 " Disable swapfile and backup {{{2
 " set nobackup
