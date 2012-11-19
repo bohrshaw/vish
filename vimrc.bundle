@@ -1,0 +1,157 @@
+" This file contains bundles to bundle and bundles configuration.
+" vim: nowrap fdm=marker
+    " Deps {{{2
+        Bundle 'MarcWeber/vim-addon-mw-utils'
+        Bundle 'tomtom/tlib_vim'
+    "}}}
+
+    " list only the plugin groups you will use
+    let g:bundle_groups=['general', 'neocomplcache', 'programming', 'misc']
+
+    " general {{{2
+        if count(g:bundle_groups, 'general')
+            Bundle 'scrooloose/nerdtree'
+                map <C-n> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
+                let NERDTreeShowBookmarks=1
+                let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+                let NERDTreeChDirMode=0
+                let NERDTreeQuitOnOpen=1
+                let NERDTreeMouseMode=2
+                let NERDTreeShowHidden=1
+                let NERDTreeKeepTreeInNewTab=1
+                let g:nerdtree_tabs_open_on_gui_startup=0
+            Bundle 'jistr/vim-nerdtree-tabs'
+                map <leader>n <plug>NERDTreeTabsToggle<CR>
+            Bundle 'Lokaltog/vim-easymotion'
+
+            Bundle 'tpope/vim-surround'
+            Bundle 'tpope/vim-abolish'
+            Bundle 'tpope/vim-unimpaired'
+            Bundle 'tpope/vim-commentary'
+            Bundle 'tpope/vim-speeddating'
+            Bundle 'tpope/vim-repeat'
+                "Adding support to a plugin is generally as simple as the following command at the end of your map functions.
+                "silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
+
+            Bundle 'sjl/gundo.vim'
+                nnoremap <F5> :GundoToggle<CR>
+            Bundle 'jeetsukumaran/vim-buffergator'
+            "Bundle 'corntrace/bufexplorer'
+            Bundle 'myusuf3/numbers.vim'
+            Bundle 'Raimondi/delimitMate'
+            Bundle 'matchit.zip'
+            Bundle 'kien/ctrlp.vim'
+                let g:ctrlp_working_path_mode = 2
+                nnoremap <silent> <D-t> :CtrlP<CR>
+                nnoremap <silent> <D-r> :CtrlPMRU<CR>
+                let g:ctrlp_custom_ignore = {
+                    \ 'dir':  '\.git$\|\.hg$\|\.svn$',
+                    \ 'file': '\.exe$\|\.so$\|\.dll$' }
+            Bundle 'vim-scripts/sessionman.vim'
+                set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
+                nmap <leader>sl :SessionList<CR>
+                nmap <leader>ss :SessionSave<CR>
+            "Bundle 'restore_view.vim'
+            Bundle 'nathanaelkane/vim-indent-guides'
+                let g:indent_guides_start_level = 2
+                let g:indent_guides_guide_size = 1
+                let g:indent_guides_enable_on_vim_startup = 1
+            Bundle 'vimwiki'
+            Bundle 'altercation/vim-colors-solarized'
+            Bundle 'spf13/vim-colors'
+            "Bundle 'Lokaltog/vim-powerline'
+            "Bundle 'flazz/vim-colorschemes'
+            "Bundle 'godlygeek/csapprox'
+        endif
+
+    " programming {{{2
+        if count(g:bundle_groups, 'programming')
+            " Pick one of the checksyntax, jslint, or syntastic
+            Bundle 'scrooloose/syntastic'
+            Bundle 'tpope/vim-fugitive'
+                nnoremap <silent> <leader>gs :Gstatus<CR>
+                nnoremap <silent> <leader>gd :Gdiff<CR>
+                nnoremap <silent> <leader>gc :Gcommit<CR>
+                nnoremap <silent> <leader>gb :Gblame<CR>
+                nnoremap <silent> <leader>gl :Glog<CR>
+                nnoremap <silent> <leader>gp :Git push<CR>
+            "Bundle 'scrooloose/nerdcommenter'
+            Bundle 'godlygeek/tabular'
+            Bundle 'mattn/webapi-vim'
+            Bundle 'mattn/gist-vim'
+            if executable('ctags')
+                Bundle 'majutsushi/tagbar'
+                nnoremap <silent> <leader>tt :TagbarToggle<CR>
+            endif
+        endif
+
+    " snipmate & neocomplcache {{{2
+        if count(g:bundle_groups, 'snipmate')
+            Bundle 'garbas/vim-snipmate'
+            Bundle 'honza/snipmate-snippets'
+            " Source support_function.vim to support snipmate-snippets.
+            if filereadable(expand("~/.vim/bundle/snipmate-snippets/snippets/support_functions.vim"))
+                source ~/.vim/bundle/snipmate-snippets/snippets/support_functions.vim
+            endif
+        elseif count(g:bundle_groups, 'neocomplcache')
+            Bundle 'Shougo/neocomplcache'
+            Bundle 'Shougo/neosnippet'
+            Bundle 'honza/snipmate-snippets'
+        endif
+
+    " php {{{2
+        if count(g:bundle_groups, 'php')
+            Bundle 'spf13/PIV'
+            Bundle 'beyondwords/vim-twig'
+        endif
+
+    " scala {{{2
+        if count(g:bundle_groups, 'scala')
+            Bundle 'derekwyatt/vim-scala'
+            Bundle 'derekwyatt/vim-sbt'
+        endif
+
+    " python {{{2
+        if count(g:bundle_groups, 'python')
+            " Pick either python-mode or pyflakes & pydoc
+            Bundle 'klen/python-mode'
+                if !has('python')
+                   let g:pymode = 1
+                endif
+                let g:pymode_lint_checker = "pyflakes"
+            Bundle 'python.vim'
+            Bundle 'python_match.vim'
+            Bundle 'pythoncomplete'
+        endif
+
+    " ruby {{{2
+        if count(g:bundle_groups, 'ruby')
+            "Bundle 'tpope/vim-rails'
+            "Bundle 'tpope/vim-cucumber'
+            "Bundle 'quentindecock/vim-cucumber-align-pipes'
+            let g:rubycomplete_buffer_loading = 1
+            "let g:rubycomplete_classes_in_global = 1
+            "let g:rubycomplete_rails = 1
+        endif
+
+    " javascript {{{2
+        if count(g:bundle_groups, 'javascript')
+            Bundle 'leshill/vim-json'
+            Bundle 'groenewege/vim-less'
+            Bundle 'pangloss/vim-javascript'
+            Bundle 'briancollins/vim-jst'
+        endif
+
+    " html {{{2
+        if count(g:bundle_groups, 'html')
+            Bundle 'amirh/HTML-AutoCloseTag'
+            Bundle 'hail2u/vim-css3-syntax'
+        endif
+
+    " misc {{{2
+        if count(g:bundle_groups, 'misc')
+            Bundle 'tpope/vim-markdown'
+            Bundle 'spf13/vim-preview'
+            Bundle 'Puppet-Syntax-Highlighting'
+        endif
+    " }}}
