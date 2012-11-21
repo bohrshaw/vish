@@ -1,6 +1,7 @@
 " This file contains bundles to bundle and bundles configuration.
+" Be careful not to add comments directly after a bundle statement.
 " vim: nowrap fdm=marker
-    " Deps {{{2
+    " Deps {{{1
         Bundle 'MarcWeber/vim-addon-mw-utils'
         Bundle 'tomtom/tlib_vim'
     "}}}
@@ -8,8 +9,9 @@
     " list only the plugin groups you will use
     let g:bundle_groups=['general', 'neocomplcache', 'programming', 'misc']
 
-    " general {{{2
+    " general {{{1
         if count(g:bundle_groups, 'general')
+            " file, buffer and undo manager {{{2
             Bundle 'scrooloose/nerdtree'
                 map <C-n> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
                 let NERDTreeShowBookmarks=1
@@ -22,6 +24,25 @@
                 let g:nerdtree_tabs_open_on_gui_startup=0
             Bundle 'jistr/vim-nerdtree-tabs'
                 map <leader>n <plug>NERDTreeTabsToggle<CR>
+            Bundle 'kien/ctrlp.vim'
+                let g:ctrlp_working_path_mode = 2
+                nnoremap <silent> <D-t> :CtrlP<CR>
+                nnoremap <silent> <D-r> :CtrlPMRU<CR>
+                let g:ctrlp_custom_ignore = {
+                    \ 'dir':  '\.git$\|\.hg$\|\.svn$',
+                    \ 'file': '\.exe$\|\.so$\|\.dll$' }
+
+            Bundle 'corntrace/bufexplorer'
+            " Bundle 'jeetsukumaran/vim-buffergator'
+
+            "pure viml
+            Bundle 'mbbill/undotree'
+                nnoremap <F5> :UndotreeToggle<CR>
+            "need python support
+            " Bundle 'sjl/gundo.vim'
+            "     nnoremap <F5> :GundoToggle<CR>
+            "}}}
+
             Bundle 'Lokaltog/vim-easymotion'
 
             Bundle 'tpope/vim-surround'
@@ -33,20 +54,9 @@
                 "Adding support to a plugin is generally as simple as the following command at the end of your map functions.
                 "silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 
-            Bundle 'sjl/gundo.vim'
-                nnoremap <F5> :GundoToggle<CR>
-            Bundle 'jeetsukumaran/vim-buffergator'
-            "Bundle 'corntrace/bufexplorer'
             Bundle 'myusuf3/numbers.vim'
             Bundle 'Raimondi/delimitMate'
             Bundle 'matchit.zip'
-            Bundle 'kien/ctrlp.vim'
-                let g:ctrlp_working_path_mode = 2
-                nnoremap <silent> <D-t> :CtrlP<CR>
-                nnoremap <silent> <D-r> :CtrlPMRU<CR>
-                let g:ctrlp_custom_ignore = {
-                    \ 'dir':  '\.git$\|\.hg$\|\.svn$',
-                    \ 'file': '\.exe$\|\.so$\|\.dll$' }
             Bundle 'vim-scripts/sessionman.vim'
                 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
                 nmap <leader>sl :SessionList<CR>
@@ -56,15 +66,16 @@
                 let g:indent_guides_start_level = 2
                 let g:indent_guides_guide_size = 1
                 let g:indent_guides_enable_on_vim_startup = 1
+            "Bundle 'Lokaltog/vim-powerline'
             Bundle 'vimwiki'
+
             Bundle 'altercation/vim-colors-solarized'
             Bundle 'spf13/vim-colors'
-            "Bundle 'Lokaltog/vim-powerline'
             "Bundle 'flazz/vim-colorschemes'
             "Bundle 'godlygeek/csapprox'
         endif
 
-    " programming {{{2
+    " programming {{{1
         if count(g:bundle_groups, 'programming')
             " Pick one of the checksyntax, jslint, or syntastic
             Bundle 'scrooloose/syntastic'
@@ -85,7 +96,7 @@
             endif
         endif
 
-    " snipmate & neocomplcache {{{2
+    " snipmate & neocomplcache {{{1
         if count(g:bundle_groups, 'snipmate')
             Bundle 'garbas/vim-snipmate'
             Bundle 'honza/snipmate-snippets'
@@ -99,19 +110,19 @@
             Bundle 'honza/snipmate-snippets'
         endif
 
-    " php {{{2
+    " php {{{1
         if count(g:bundle_groups, 'php')
             Bundle 'spf13/PIV'
             Bundle 'beyondwords/vim-twig'
         endif
 
-    " scala {{{2
+    " scala {{{1
         if count(g:bundle_groups, 'scala')
             Bundle 'derekwyatt/vim-scala'
             Bundle 'derekwyatt/vim-sbt'
         endif
 
-    " python {{{2
+    " python {{{1
         if count(g:bundle_groups, 'python')
             " Pick either python-mode or pyflakes & pydoc
             Bundle 'klen/python-mode'
@@ -124,7 +135,7 @@
             Bundle 'pythoncomplete'
         endif
 
-    " ruby {{{2
+    " ruby {{{1
         if count(g:bundle_groups, 'ruby')
             "Bundle 'tpope/vim-rails'
             "Bundle 'tpope/vim-cucumber'
@@ -134,7 +145,7 @@
             "let g:rubycomplete_rails = 1
         endif
 
-    " javascript {{{2
+    " javascript {{{1
         if count(g:bundle_groups, 'javascript')
             Bundle 'leshill/vim-json'
             Bundle 'groenewege/vim-less'
@@ -142,16 +153,15 @@
             Bundle 'briancollins/vim-jst'
         endif
 
-    " html {{{2
+    " html {{{1
         if count(g:bundle_groups, 'html')
             Bundle 'amirh/HTML-AutoCloseTag'
             Bundle 'hail2u/vim-css3-syntax'
         endif
 
-    " misc {{{2
+    " misc {{{1
         if count(g:bundle_groups, 'misc')
             Bundle 'tpope/vim-markdown'
             Bundle 'spf13/vim-preview'
             Bundle 'Puppet-Syntax-Highlighting'
         endif
-    " }}}
