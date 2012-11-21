@@ -67,6 +67,8 @@
                 let g:indent_guides_guide_size = 1
                 let g:indent_guides_enable_on_vim_startup = 1
             "Bundle 'Lokaltog/vim-powerline'
+            " about 3000 line
+            " Bundle 'YankRing.vim'
             Bundle 'vimwiki'
 
             Bundle 'altercation/vim-colors-solarized'
