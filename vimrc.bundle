@@ -13,7 +13,7 @@
         if count(g:bundle_groups, 'general')
             " file, buffer and undo manager {{{2
             Bundle 'scrooloose/nerdtree'
-                map <C-n> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
+                noremap <C-n> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
                 let NERDTreeShowBookmarks=1
                 let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
                 let NERDTreeChDirMode=0
@@ -23,7 +23,7 @@
                 let NERDTreeKeepTreeInNewTab=1
                 let g:nerdtree_tabs_open_on_gui_startup=0
             Bundle 'jistr/vim-nerdtree-tabs'
-                map <leader>n <plug>NERDTreeTabsToggle<CR>
+                noremap <leader>n <plug>NERDTreeTabsToggle<CR>
             Bundle 'kien/ctrlp.vim'
                 let g:ctrlp_working_path_mode = 2
                 nnoremap <silent> <D-t> :CtrlP<CR>
@@ -32,8 +32,8 @@
                     \ 'dir':  '\.git$\|\.hg$\|\.svn$',
                     \ 'file': '\.exe$\|\.so$\|\.dll$' }
 
-            Bundle 'corntrace/bufexplorer'
-            " Bundle 'jeetsukumaran/vim-buffergator'
+            " Bundle 'corntrace/bufexplorer'
+            Bundle 'jeetsukumaran/vim-buffergator'
 
             "pure viml
             Bundle 'mbbill/undotree'
@@ -53,14 +53,16 @@
             Bundle 'tpope/vim-repeat'
                 "Adding support to a plugin is generally as simple as the following command at the end of your map functions.
                 "silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
+            if has("unix")
+                Bundle tpope/vim-eunuch
+            endif
 
             Bundle 'myusuf3/numbers.vim'
             Bundle 'Raimondi/delimitMate'
             Bundle 'matchit.zip'
-            Bundle 'vim-scripts/sessionman.vim'
-                set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
-                nmap <leader>sl :SessionList<CR>
-                nmap <leader>ss :SessionSave<CR>
+            " Bundle 'vim-scripts/sessionman.vim'
+            "     nnoremap <leader>sl :SessionList<CR>
+            "     nnoremap <leader>ss :SessionSave<CR>
             "Bundle 'restore_view.vim'
             Bundle 'nathanaelkane/vim-indent-guides'
                 let g:indent_guides_start_level = 2
@@ -159,6 +161,8 @@
         if count(g:bundle_groups, 'html')
             Bundle 'amirh/HTML-AutoCloseTag'
             Bundle 'hail2u/vim-css3-syntax'
+            " A parser for a condensed HTML format
+            Bundle 'rstacruz/sparkup'
         endif
 
     " misc {{{1
