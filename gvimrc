@@ -7,4 +7,3 @@ else
 endif
 
 set guioptions=
-color solarized
