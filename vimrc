@@ -27,7 +27,7 @@ function! InitializeDirectories()
     endfor
 endfunction
 call InitializeDirectories()
-set viminfo+=n$HOME\\.vim\\tmp\\.viminfo " change viminfo file dir
+set viminfo='50,<50,s10,h,n$HOME/.vim/tmp/.viminfo " keep less info and change viminfo file dir
 
 " improving security and efficiency while losing recovery and convenience {{{2
 " set noswapfile
@@ -35,6 +35,9 @@ set viminfo+=n$HOME\\.vim\\tmp\\.viminfo " change viminfo file dir
 " makes Vim write the buffer to the original file (resulting in the risk of destroying it in case of an I/O error)
 " but you prevent 'jumping files' on the Windows desktop with it
 set nowritebackup " write to the original file
+" set undofile                "so is persistent undo ...
+" set undolevels=1000         "maximum number of changes that can be undone
+" set undoreload=10000        "maximum number lines to save for undo on a buffer reload
 " fileformats and encodings {{{2
 set fileformats=unix,dos " will set new file to unix format
 set fileformat=unix " local to buffer, this option is set automatically when starting to edit a file
@@ -49,16 +52,13 @@ let mapleader = "," " put ahead to make following maps work
 " }}}
 
 " Behaviour(Affect Interaction){{{1
+" unclassified {{{2
 cd ~ " change initial dir
 filetype plugin indent on   " Automatically detect file types, must be after pathogen or vundle setup
 set path+=~,~/configent/**
 " set clipboard=unnamed " Link unnamed register and OS clipboard:
 " enable vim scripts syntax based foldding. refer: http://vim.wikia.com/wiki/Syntax_folding_of_Vim_scripts
 let g:vimsyn_folding='af'
-" Encrypt options {{{2
-" Acceptable encryption strength, also remember to set viminfo=
-" swap and undo are all encrypted, but may set nowritebackup and nobackup(default)
-set cryptmethod=blowfish "}}}
 set viewoptions=folds,options,cursor,unix,slash " 'slash' and 'unix' are useful on Windows when sharing view files
 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
 "set timeoutlen=500 " mapping delay, default is 1000ms
@@ -81,6 +81,35 @@ set backspace=indent,eol,start  " backspace for dummies
 set nolazyredraw " Don't redraw while executing macros
 "set nojoinspaces " no auto append spaces when joinin lines
 set spell                       " spell checking on
+"}}}
+" OmniComplete {{{2
+    if has("autocmd") && exists("+omnifunc")
+        autocmd Filetype *
+            \if &omnifunc == "" |
+            \setlocal omnifunc=syntaxcomplete#Complete |
+            \endif
+    endif
+
+    hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
+    hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
+    hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
+
+    " some convenient mappings
+    inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
+    inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
+    inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+    inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+    inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
+    inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
+
+    " automatically open and close the popup menu / preview window
+    au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+    set completeopt=menu,preview,longest
+" }}}2
+" Encrypt options {{{2
+" Acceptable encryption strength, also remember to set viminfo=
+" swap and undo are all encrypted, but may set nowritebackup and nobackup(default)
+set cryptmethod=blowfish "}}}
 " search {{{2
 set incsearch                   " find as you type search
 set ignorecase                  " case insensitive search
@@ -114,11 +143,10 @@ set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond
     inoremap jk <Esc>
     cnoremap jk <Esc>
     " I use ":" much more than ";", but remember this map is just for quick accessing command line
+    " I do miss ";", but mapping ":" to ";" may affect other normal maps,
+    " which in many cases don't use noremap.
     nnoremap ; :
     nnoremap q; q:
-    " I do miss ";", but mapping ":" to ";" may affect other normal maps which don't use noremap
-    " Maybe I will forget ";" to begin a new life.
-    nnoremap : ;
     cmap w!! w !sudo tee % >/dev/null
     " Source current line
     nnoremap <leader>S ^y$:@"<cr> :echo "current line sourced."<cr>
@@ -183,10 +211,10 @@ set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond
     " Some helpers to edit mode
     " http://vimcasts.org/e/14
     cnoremap %% <C-R>=expand('%:h').'/'<cr>
-    noremap <leader>ew :e %%
-    noremap <leader>es :sp %%
-    noremap <leader>ev :vsp %%
-    noremap <leader>et :tabe %%
+    nmap <leader>ew :e %%
+    nmap <leader>es :sp %%
+    nmap <leader>ev :vsp %%
+    nmap <leader>et :tabe %%
     " Easier horizontal scrolling
     noremap zl zL
     noremap zh zH
@@ -215,11 +243,13 @@ set showmode                    " display the current mode
 set cursorline                  " highlight current line
 set ruler                   " show the ruler
 set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " a ruler on steroids
-if &term == 'xterm' || &term == 'screen'
+if &term == 'xterm' || &term == 'xterm-256color' || &term == 'screen'
     set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
     let g:solarized_termcolors=256
 endif
 if has('gui_running')
+    color solarized
+elseif has('unix')
     color solarized
 else
     color molokai
