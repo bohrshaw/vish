@@ -33,7 +33,7 @@ set viminfo='50,<50,s10,h,n$HOME/.vim/tmp/.viminfo " keep less info and change v
 " set noswapfile
 " set viminfo=
 " makes Vim write the buffer to the original file (resulting in the risk of destroying it in case of an I/O error)
-" but you prevent 'jumping files' on the Windows desktop with it
+" but there will be no problem when you write to symbolic files on windows
 set nowritebackup " write to the original file
 " set undofile                "so is persistent undo ...
 " set undolevels=1000         "maximum number of changes that can be undone
