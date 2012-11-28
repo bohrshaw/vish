@@ -1,0 +1,5 @@
+nnoremap ; :
+map J gt
+map K gT
+color indigo
+" se defsearch=bing
