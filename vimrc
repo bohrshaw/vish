@@ -12,6 +12,7 @@ endif
     filetype off                   " required!
     set rtp+=~/.vim/bundle/vundle/
     call vundle#rc()
+    let g:vundle_default_git_proto = 'git' "use git protocol to avoid ssl error on some old git version
     Bundle 'gmarik/vundle'
 
 " Load plugins that ship with Vim {{{2
