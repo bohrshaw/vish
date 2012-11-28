@@ -21,7 +21,8 @@ tce-load -i $tcedir/squashfs-tools-4.x.tcz
 echo "preparing files..."
 cp -r $HOME/vimise $extdir/home/tc
 cp -ax $HOME/.vim $HOME/.vimrc $HOME/.gvimrc $HOME/.vimperator $HOME/.vimperatorrc $extdir/home/tc
-rm -rf $vimisedir/vim/tmp
+rm -rf $vimisedir/vim/tmp/*
+touch $vimisedir/vim/tmp/.gitignore
 rm -rf $vimisedir/vimperator/info
 
 echo "making squashfs..."

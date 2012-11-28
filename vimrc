@@ -20,15 +20,28 @@ runtime macros/matchit.vim
 " setup custome vim directories {{{2
 " all temporary info come to ~/.vim/tmp
 function! InitializeDirectories()
+    let separator = "."
+    let parent = $HOME
+    let prefix = '/.vim/tmp/'
     let dir_list = { 'backup': 'backupdir', 'views': 'viewdir', 'undo': 'undodir', 'swap': 'directory' }
     for [dirname, settingname] in items(dir_list)
-        let directory = '$HOME/.vim' . '/' . 'tmp/' . '.' . dirname . "/"
-        let directory = substitute(directory, " ", "\\\\ ", "g")
-        exec "set " . settingname . "=" . directory
+        let directory = parent . prefix . dirname . "/"
+        if exists("*mkdir")
+            if !isdirectory(directory)
+                call mkdir(directory)
+            endif
+        endif
+        if !isdirectory(directory)
+            echo "Warning: Unable to create backup directory: " . directory
+            echo "Try: mkdir -p " . directory
+        else
+            let directory = substitute(directory, " ", "\\\\ ", "g")
+            exec "set " . settingname . "=" . directory
+        endif
     endfor
 endfunction
 call InitializeDirectories()
-set viminfo='50,<50,s10,h,n$HOME/.vim/tmp/.viminfo " keep less info and change viminfo file dir
+set viminfo='50,<50,s10,h,n$HOME/.vim/tmp/viminfo " keep less info and change viminfo file dir
 
 " improving security and efficiency while losing recovery and convenience {{{2
 " set noswapfile
