@@ -3,13 +3,13 @@
 " vim: nowrap fdm=marker
 
     " list only the plugin groups you will use
-    let g:bundle_groups=['general', 'neocomplcache', 'programming', 'misc']
+    let g:bundle_groups=['general', 'neocomplcache', 'programming', 'markdown']
 
     " general {{{1
         if count(g:bundle_groups, 'general')
-            " file, buffer and undo manager {{{2
+            " file, buffer, window, tab, view and session managers {{{2
             Bundle 'scrooloose/nerdtree'
-                noremap <C-n> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
+                noremap <C-t> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
                 nmap <leader>n :NERDTreeFind<CR>
                 let NERDTreeShowBookmarks=1
                 let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
@@ -29,10 +29,16 @@
                 let g:ctrlp_custom_ignore = {
                     \ 'dir':  '\.git$\|\.hg$\|\.svn$',
                     \ 'file': '\.exe$\|\.so$\|\.dll$' }
-
-            " Bundle 'corntrace/bufexplorer'
-            Bundle 'jeetsukumaran/vim-buffergator'
-
+            Bundle 'corntrace/bufexplorer'
+                nmap <leader>b :BufExplorer<CR>
+            " Bundle 'jeetsukumaran/vim-buffergator'
+            Bundle 'spolu/dwm.vim'
+                " let g:dwm_map_keys=-1 " if set to a falsey value, prevents key mapping.
+                " let g:dwm_master_pane_width=85 " set the width of the master pane (e.g. g:dwm_master_pane_width=85)
+            "Bundle 'restore_view.vim'
+            "sessionman.vim is located in .vim/plugin
+            "}}}
+            " editing and navigation helpers {{{2
             "pure viml
             Bundle 'mbbill/undotree'
                 nnoremap <F5> :UndotreeToggle<CR>
@@ -40,56 +46,13 @@
             "need python support
             " Bundle 'sjl/gundo.vim'
             "     nnoremap <F5> :GundoToggle<CR>
-            "}}}
-
-            Bundle 'Lokaltog/vim-easymotion'
-
             Bundle 'tpope/vim-surround'
             Bundle 'tpope/vim-abolish'
             Bundle 'tpope/vim-unimpaired'
-            Bundle 'tpope/vim-commentary'
             Bundle 'tpope/vim-speeddating'
             Bundle 'tpope/vim-repeat'
                 "Adding support to a plugin is generally as simple as the following command at the end of your map functions.
                 "silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
-            if has("unix")
-                Bundle 'tpope/vim-eunuch'
-            endif
-
-            Bundle 'myusuf3/numbers.vim'
-            Bundle 'Raimondi/delimitMate'
-            Bundle 'matchit.zip'
-            "Bundle 'restore_view.vim'
-            Bundle 'nathanaelkane/vim-indent-guides'
-                let g:indent_guides_auto_colors = 1
-                let g:indent_guides_start_level = 2
-                let g:indent_guides_guide_size = 1
-                let g:indent_guides_enable_on_vim_startup = 1
-            "Bundle 'Lokaltog/vim-powerline'
-            " about 3000 line
-            " Bundle 'YankRing.vim'
-            Bundle 'vimwiki'
-
-            Bundle 'altercation/vim-colors-solarized'
-            Bundle 'spf13/vim-colors'
-            "Bundle 'flazz/vim-colorschemes'
-            if !has('gui_running') && &term != 'rxvt'
-                Bundle 'godlygeek/csapprox'
-            endif
-        endif
-
-    " programming {{{1
-        if count(g:bundle_groups, 'programming')
-            " Pick one of the checksyntax, jslint, or syntastic
-            Bundle 'scrooloose/syntastic'
-            Bundle 'tpope/vim-fugitive'
-                nnoremap <silent> <leader>gs :Gstatus<CR>
-                nnoremap <silent> <leader>gd :Gdiff<CR>
-                nnoremap <silent> <leader>gc :Gcommit<CR>
-                nnoremap <silent> <leader>gb :Gblame<CR>
-                nnoremap <silent> <leader>gl :Glog<CR>
-                nnoremap <silent> <leader>gp :Git push<CR>
-            "Bundle 'scrooloose/nerdcommenter'
             Bundle 'godlygeek/tabular'
                 nmap <Leader>a= :Tabularize /=<CR>
                 vmap <Leader>a= :Tabularize /=<CR>
@@ -101,13 +64,32 @@
                 vmap <Leader>a, :Tabularize /,<CR>
                 nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
                 vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-            Bundle 'mattn/webapi-vim'
-            Bundle 'mattn/gist-vim'
-            if executable('ctags')
-                Bundle 'majutsushi/tagbar'
-                    set tags=./tags;/,~/.vimtags
-                    nnoremap <silent> <leader>tt :TagbarToggle<CR>
+            Bundle 'Raimondi/delimitMate'
+            Bundle 'matchit.zip'
+            " Bundle 'YankRing.vim'
+            Bundle 'Lokaltog/vim-easymotion'
+            "}}}
+            " interface visual and color designers {{{2
+            Bundle 'myusuf3/numbers.vim'
+            Bundle 'nathanaelkane/vim-indent-guides'
+                let g:indent_guides_auto_colors = 1
+                let g:indent_guides_start_level = 2
+                let g:indent_guides_guide_size = 1
+                let g:indent_guides_enable_on_vim_startup = 1
+            "Bundle 'Lokaltog/vim-powerline'
+            Bundle 'altercation/vim-colors-solarized'
+            Bundle 'spf13/vim-colors'
+            "Bundle 'flazz/vim-colorschemes'
+            if !has('gui_running') && &term != 'rxvt'
+                Bundle 'godlygeek/csapprox'
             endif
+            "}}}
+            " extra tools and interfaces with external tools {{{2
+            Bundle 'vimwiki'
+            if has("unix")
+                Bundle 'tpope/vim-eunuch'
+            endif
+            "}}}
         endif
 
     " snipmate & neocomplcache {{{1
@@ -218,6 +200,30 @@
             Bundle 'honza/snipmate-snippets'
         endif
 
+    " programming {{{1
+        if count(g:bundle_groups, 'programming')
+            " Pick one of the checksyntax, jslint, or syntastic
+            Bundle 'scrooloose/syntastic'
+            if executable('git')
+                Bundle 'tpope/vim-fugitive'
+                    nnoremap <silent> <leader>gs :Gstatus<CR>
+                    nnoremap <silent> <leader>gd :Gdiff<CR>
+                    nnoremap <silent> <leader>gc :Gcommit<CR>
+                    nnoremap <silent> <leader>gb :Gblame<CR>
+                    nnoremap <silent> <leader>gl :Glog<CR>
+                    nnoremap <silent> <leader>gp :Git push<CR>
+            endif
+            Bundle 'scrooloose/nerdcommenter'
+            " Bundle 'tpope/vim-commentary'
+            Bundle 'mattn/webapi-vim'
+            Bundle 'mattn/gist-vim'
+            if executable('ctags')
+                Bundle 'majutsushi/tagbar'
+                    set tags=./tags;/,~/.vimtags
+                    nnoremap <silent> <leader>tt :TagbarToggle<CR>
+            endif
+        endif
+
     " php {{{1
         if count(g:bundle_groups, 'php')
             Bundle 'spf13/PIV'
@@ -270,10 +276,11 @@
             " A parser for a condensed HTML format
             Bundle 'rstacruz/sparkup'
         endif
+    " markdown {{{1
+            Bundle 'tpope/vim-markdown'
 
     " misc {{{1
         if count(g:bundle_groups, 'misc')
-            Bundle 'tpope/vim-markdown'
             Bundle 'spf13/vim-preview'
             Bundle 'Puppet-Syntax-Highlighting'
         endif

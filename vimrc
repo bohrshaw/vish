@@ -82,7 +82,7 @@ syntax on                   " syntax highlighting
 set hidden                      " allow buffer switching without saving
 set mouse=a                 " automatically enable mouse usage
 set history=1000                " Store a ton of history (default is 20)
-set shortmess+=filmnrxoOtT      " abbrev. of messages and avoids 'hit enter'
+set shortmess+=filmnrwxoOtTI      " abbrev. of messages and avoids 'hit enter'
 set showcmd                 " show partial commands in status line and
 set visualbell t_vb= " no beep or flash
 set nrformats=alpha "also increse alpha characters use <c-a>/<c-x>
@@ -161,6 +161,8 @@ set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond
     " which in many cases don't use noremap.
     nnoremap ; :
     nnoremap q; q:
+    " I still love ';'
+    nnoremap \ ;
     cmap w!! w !sudo tee % >/dev/null
     " Source current line
     nnoremap <leader>S ^y$:@"<cr> :echo "current line sourced."<cr>
@@ -209,11 +211,11 @@ set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond
     cmap cd. lcd %:p:h
     " Create the directory containing the file in the buffer
     nnoremap <silent> <leader>md :!mkdir -p %:p:h<CR>
-    " Easier moving in tabs and windows
-    noremap <C-J> <C-W>j
-    noremap <C-K> <C-W>k
-    noremap <C-L> <C-W>l
-    noremap <C-H> <C-W>h
+    " Easier moving in tabs and windows, conflict and duplicate with dwm.vim
+    " noremap <C-J> <C-W>j
+    " noremap <C-K> <C-W>k
+    " noremap <C-L> <C-W>l
+    " noremap <C-H> <C-W>h
     " Wrapped lines goes down/up to next row, rather than next line in file.
     nnoremap j gj
     nnoremap k gk
