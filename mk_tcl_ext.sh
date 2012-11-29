@@ -1,4 +1,4 @@
-#!/bin/ash
+#!/bin/bash
 # make a vimise extension(just customisation and plugins) for tiny core linux.
 # advantages: this ext. can be copyed to RAM to increase editing speed.
 # the final stable extension should not include temp or git related files, and I should also consider remove some supporting files
@@ -16,11 +16,11 @@ fi
 mkdir -p $HOME/exts/vimise/home/tc
 
 echo "loading squashfs-tools-4.x.tcz"
-tce-load -i $tcedir/squashfs-tools-4.x.tcz
+tce-load -il $tcedir/squashfs-tools-4.x.tcz
 
 echo "preparing files..."
 cp -r $HOME/vimise $extdir/home/tc
-cp -ax $HOME/.vim $HOME/.vimrc $HOME/.gvimrc $HOME/.vimperator $HOME/.vimperatorrc $extdir/home/tc
+cp -a $HOME/.vim $HOME/.vimrc $HOME/.gvimrc $HOME/.vimperator $HOME/.vimperatorrc $extdir/home/tc
 rm -rf $vimisedir/vim/tmp/*
 touch $vimisedir/vim/tmp/.gitignore
 rm -rf $vimisedir/vimperator/info

@@ -83,7 +83,7 @@ endif
 let s:cpo_save = &cpo
 set cpo&vim
 
-let s:sessions_path = $HOME . '/.vim/tmp/.sessions'
+let s:sessions_path = $HOME . '/.vim/tmp/sessions'
 
 let s:et_save = &et
 let s:sw_save = &sw
