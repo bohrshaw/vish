@@ -9,7 +9,7 @@ call mklink /J %HOME%\.vim %BASE_DIR%\vim
 call mklink %HOME%\.vimrc %BASE_DIR%\vimrc
 call mklink %HOME%\.gvimrc %BASE_DIR%\gvimrc
 
-call mklink /J %HOME%\.vimperator %BASE_DIR%\vimperator
+call mklink /J %HOME%\vimperator %BASE_DIR%\vimperator
 call mklink %HOME%\.vimperatorrc %BASE_DIR%\vimperatorrc
 
 :: call git clone http://github.com/gmarik/vundle.git %HOME%/.vim/bundle/vundle
