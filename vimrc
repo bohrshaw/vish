@@ -67,7 +67,6 @@ let mapleader = "," " put ahead to make following maps work
 
 " Behaviour(Affect Interaction){{{1
 " unclassified {{{2
-cd ~ " change initial dir
 filetype plugin indent on   " Automatically detect file types, must be after pathogen or vundle setup
 set path+=~,~/configent/**
 " set clipboard=unnamed " Link unnamed register and OS clipboard:
