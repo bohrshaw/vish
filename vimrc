@@ -207,7 +207,7 @@ set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond
     " Adjust viewports to the same size
     noremap <Leader>= <C-w>=
     " cd to the directory containing the file in the buffer
-    nnoremap <silent> <leader>cd :lcd %:h<CR>
+    nnoremap <silent> <leader>cd :lcd %:p:h<CR>
     cmap cd. lcd %:p:h
     " Create the directory containing the file in the buffer
     nnoremap <silent> <leader>md :!mkdir -p %:p:h<CR>
