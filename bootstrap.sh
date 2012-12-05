@@ -3,7 +3,9 @@
 # vimise with vimperator
 
 # link the repository to $HOME, so you can put this repository anywhere
-ln -sfn $PWD $HOME
+if [ ! -d $HOME/vimise ]; then
+    ln -sfn $PWD $HOME
+fi
 
 vimise_path="$HOME/vimise"
 
