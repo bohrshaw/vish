@@ -39,7 +39,6 @@
             "sessionman.vim is located in .vim/plugin
             "}}}
             " editing and navigation helpers {{{2
-            "pure viml
             Bundle 'mbbill/undotree'
                 nnoremap <F5> :UndotreeToggle<CR>
                 let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
