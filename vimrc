@@ -266,7 +266,7 @@ endif
 if has('gui_running')
     color solarized
 elseif has('unix')
-    color solarized
+    color molokai
 else
     color molokai
 endif
