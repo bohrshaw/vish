@@ -67,9 +67,11 @@ let mapleader = "," " put ahead to make following maps work
 
 " Behaviour(Affect Interaction){{{1
 " unclassified {{{2
-cd ~ " change initial dir
 filetype plugin indent on   " Automatically detect file types, must be after pathogen or vundle setup
 set path+=~,~/configent/**
+if 0 == argc() " if no files to edit at startup, change working directory to HOME
+    cd $HOME
+endif
 " set clipboard=unnamed " Link unnamed register and OS clipboard:
 " enable vim scripts syntax based foldding. refer: http://vim.wikia.com/wiki/Syntax_folding_of_Vim_scripts
 let g:vimsyn_folding='af'
