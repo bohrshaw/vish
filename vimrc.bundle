@@ -3,7 +3,7 @@
 " vim: nowrap fdm=marker
 
     " list only the plugin groups you will use
-    let g:bundle_groups=['general', 'neocomplcache', 'programming', 'markdown']
+    let g:bundle_groups=['general', 'neocomplcache', 'programming', 'ruby', 'html', 'markdown']
 
     " general {{{1
         if count(g:bundle_groups, 'general')
@@ -12,7 +12,7 @@
                 noremap <C-t> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
                 nmap <leader>n :NERDTreeFind<CR>
                 let NERDTreeShowBookmarks=1
-                let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+                let NERDTreeIgnore=['^..$[[dir]]', '^.$[[dir]]', '\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
                 let NERDTreeChDirMode=0
                 let NERDTreeQuitOnOpen=1
                 let NERDTreeMouseMode=2
@@ -253,9 +253,10 @@
     " ruby {{{1
         if count(g:bundle_groups, 'ruby')
             "Bundle 'tpope/vim-rails'
+            Bundle 'tpope/vim-rake'
             "Bundle 'tpope/vim-cucumber'
             "Bundle 'quentindecock/vim-cucumber-align-pipes'
-            let g:rubycomplete_buffer_loading = 1
+            "let g:rubycomplete_buffer_loading = 1
             "let g:rubycomplete_classes_in_global = 1
             "let g:rubycomplete_rails = 1
         endif
@@ -270,10 +271,12 @@
 
     " html {{{1
         if count(g:bundle_groups, 'html')
-            Bundle 'amirh/HTML-AutoCloseTag'
+            "Bundle 'amirh/HTML-AutoCloseTag'
             Bundle 'hail2u/vim-css3-syntax'
-            " A parser for a condensed HTML format
-            Bundle 'rstacruz/sparkup'
+            " A parser for a condensed HTML format(need for python)
+            " Installation method is copying files to ~/.vim/ftplugin
+            "Bundle 'rstacruz/sparkup'
+            "Bundle 'mattn/zencoding-vim'
         endif
     " markdown {{{1
             Bundle 'tpope/vim-markdown'
