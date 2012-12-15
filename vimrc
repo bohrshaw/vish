@@ -192,6 +192,8 @@ set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond
     nnoremap <leader>/ :set hlsearch! hlsearch?<CR>
     " set text wrapping toggles
     nnoremap <silent> <leader>tw :set invwrap<CR>:set wrap?<CR>
+    " set spell toggles
+    nnoremap <silent> <leader>ts :set invspell<CR>:set spell?<CR>
     " upper/lower word
     nnoremap <leader>u mQviwU`Q
     nnoremap <leader>l mQviwu`Q
