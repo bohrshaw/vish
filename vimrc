@@ -3,10 +3,13 @@
 set nocompatible        " must be first line
 " automatically source vimrc
 "au BufWritePost vimrc so ~/.vimrc
-" On Windows, also use '.vim' instead of 'vimfiles' {{{2
+" Windows Environment {{{2
 if has('win32') || has('win64')
-  " set to Unix default
+  " set runtimepath to Unix default
   set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+  " work with powershell
+  set shell=powershell
+  set shellcmdflag=-command
 endif
 " Setup vundle {{{2
     filetype off                   " required!
@@ -69,6 +72,7 @@ let mapleader = "," " put ahead to make following maps work
 " unclassified {{{2
 filetype plugin indent on   " Automatically detect file types, must be after pathogen or vundle setup
 set path+=~,~/configent/**
+set autoread " Automatically read a file that has changed(not delete) on disk
 if 0 == argc() " if no files to edit at startup, change working directory to HOME
     cd $HOME
 endif
