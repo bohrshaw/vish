@@ -1,7 +1,19 @@
-noremap ; :
-noremap \\ ;
-nnoremap J gt
-nnoremap K gT
+let mapleader = ","
+
+" Mappings
+no ; :
+no \\ ;
+nno J gt
+nno K gT
+
+" Abbreviations
+ca his hist -m 10 
+ia bo bohrshaw
+ia bog bohrshaw@gmail.com
+ia bos bohrshaw@sina.com
+ia as astenboer
 
 color indigo
-" se defsearch=bing
+" set defsearch=bing
+
+" vim: ft=vimperator:
