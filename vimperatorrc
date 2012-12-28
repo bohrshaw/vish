@@ -1,4 +1,10 @@
+" Vimperator customization file
+
 let mapleader = ","
+
+" useful for command-line completion
+set wildmode=list:longest,full
+cd $HOME
 
 " Mappings
 no ; :
@@ -8,7 +14,7 @@ nno K gT
 
 " Abbreviations
 ca his hist -m 10 
-ia bo bohrshaw
+ia boh bohrshaw
 ia bog bohrshaw@gmail.com
 ia bos bohrshaw@sina.com
 ia as astenboer
@@ -16,4 +22,36 @@ ia as astenboer
 color indigo
 " set defsearch=bing
 
+" automatic pass-through mode on certain pages
+autocmd LocationChange mail\\.google\\.com :js modes.passAllKeys = /mail\.google\.com/.test(buffer.URL)
+" Set the filetype to mail when editing email at Gmail
+autocmd LocationChange mail\\.google\\.com :set editor=gvim -f -c 'set ft=mail'
+
+" embedded JavaScript is possible:
+" move the RSS icon from the now-hidden location bar to the status bar instead
+javascript <<EOF
+(function(){
+var feedPanel = document.createElement("statusbarpanel");
+feedPanel.setAttribute("id", "feed-panel-clone");
+feedPanel.appendChild(document.getElementById("feed-button"));
+feedPanel.firstChild.setAttribute("style", "padding: 0; max-height: 16px;");
+document.getElementById("status-bar")
+.insertBefore(feedPanel, document.getElementById("security-button"));
+})();
+EOF
+
+" you can even add new functions which are then available to the :js command
+js <<EOF
+toggle_element = function (name) {
+document.getElementById(name).collapsed ^= 1;
+}
+EOF
+" and now use it in mappings
+map <silent> <F9> :js toggle_element('nav-bar')<CR>
+
+" define a keyword bookmark
+bmark -keyword=mozjscoreref https://developer.mozilla.org/Special:Search?search=%s&type=fulltext
+" ... and a command line abbreviation for the keyword
+ca j mozjscoreref
+" now in Vimperator type 'tj<Space>getElementById<CR>' and there you go
 " vim: ft=vimperator:
