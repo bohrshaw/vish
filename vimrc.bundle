@@ -69,7 +69,6 @@
             Bundle 'Lokaltog/vim-easymotion'
             "}}}
             " interface visual and color designers {{{2
-            Bundle 'myusuf3/numbers.vim'
             Bundle 'nathanaelkane/vim-indent-guides'
                 let g:indent_guides_auto_colors = 1
                 let g:indent_guides_start_level = 2

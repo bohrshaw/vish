@@ -139,6 +139,8 @@ set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond
 " formatting {{{2
     set nowrap                      " no wrap long lines
     set autoindent                  " indent at the same level of the previous line
+    set formatoptions+=a            " Automatic formatting of paragraphs
+    set textwidth=80                " auto insert newline when textwidth is too long
     set shiftwidth=4                " use indents of 4 spaces
     set shiftround                  " use multiple of shiftwidth when indenting with '<' and '>'
     set expandtab                   " tabs are spaces, not tabs
@@ -279,6 +281,7 @@ else
     color molokai
 endif
 set number                          " Line numbers on
+set relativenumber " relative number
 set showmatch                   " show matching brackets/parenthesis
 set winminheight=0              " windows can be 0 line high
 set list "show non-normal spaces, tabs etc.
