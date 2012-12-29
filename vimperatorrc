@@ -2,29 +2,30 @@
 
 let mapleader = ","
 
-" useful for command-line completion
 set wildmode=list:longest,full
-cd $HOME
+cd ~
+color indigo
+" set defsearch=bing
 
-" Mappings
+" Mappings" {{{
 no ; :
 no \\ ;
 nno J gt
 nno K gT
+" }}}
 
-" Abbreviations
+" Abbreviations" {{{
 ca his hist -m 10 
 ia boh bohrshaw
 ia bog bohrshaw@gmail.com
 ia bos bohrshaw@sina.com
 ia boq bohrshaw@qq.com
-ia as astenboer
-
-color indigo
-" set defsearch=bing
+ia ast astenboer
+" }}}
 
 " automatic pass-through mode on certain pages
 autocmd LocationChange .* :js modes.passAllKeys = /mail\.google\.com/.test(buffer.URL)
+autocmd LocationChange .* :js modes.passAllKeys = /app\.nirvanahq\.com/.test(buffer.URL)
 
 " embedded JavaScript is possible:
 " move the RSS icon from the now-hidden location bar to the status bar instead
@@ -54,4 +55,4 @@ map <silent> <F9> :js toggle_element('nav-bar')<CR>
 "ca j mozjscoreref
 " now in Vimperator type 'tj<Space>getElementById<CR>' and there you go
 
-" vim: ft=vimperator:
+" vim: ft=vimperator:fdm=marker:commentstring=\"\ %s
