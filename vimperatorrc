@@ -24,23 +24,10 @@ ia ast astenboer
 " }}}
 
 " automatic pass-through mode on certain pages
-autocmd LocationChange .* :js modes.passAllKeys = /mail\.google\.com/.test(buffer.URL)
-autocmd LocationChange .* :js modes.passAllKeys = /app\.nirvanahq\.com/.test(buffer.URL)
+"autocmd LocationChange .* :js modes.passAllKeys = /mail\.google\.com/.test(buffer.URL)
+"autocmd LocationChange .* :js modes.passAllKeys = /app\.nirvanahq\.com/.test(buffer.URL)
 
-" embedded JavaScript is possible:
-" move the RSS icon from the now-hidden location bar to the status bar instead
-javascript <<EOF
-(function(){
-var feedPanel = document.createElement("statusbarpanel");
-feedPanel.setAttribute("id", "feed-panel-clone");
-feedPanel.appendChild(document.getElementById("feed-button"));
-feedPanel.firstChild.setAttribute("style", "padding: 0; max-height: 16px;");
-document.getElementById("status-bar")
-.insertBefore(feedPanel, document.getElementById("security-button"));
-})();
-EOF
-
-" you can even add new functions which are then available to the :js command
+" add new functions which are then available to the :js command
 js <<EOF
 toggle_element = function (name) {
 document.getElementById(name).collapsed ^= 1;
@@ -49,10 +36,22 @@ EOF
 " and now use it in mappings
 map <silent> <F9> :js toggle_element('nav-bar')<CR>
 
+" move the RSS icon from the now-hidden location bar to the status bar instead
+"javascript <<EOF
+"(function(){
+"var feedPanel = document.createElement("statusbarpanel");
+"feedPanel.setAttribute("id", "feed-panel-clone");
+"feedPanel.appendChild(document.getElementById("feed-button"));
+"feedPanel.firstChild.setAttribute("style", "padding: 0; max-height: 16px;");
+"document.getElementById("status-bar")
+".insertBefore(feedPanel, document.getElementById("security-button"));
+"})();
+"EOF
+
 " define a keyword bookmark
 "bmark -keyword=mozjscoreref https://developer.mozilla.org/Special:Search?search=%s&type=fulltext
 " ... and a command line abbreviation for the keyword
 "ca j mozjscoreref
-" now in Vimperator type 'tj<Space>getElementById<CR>' and there you go
+" now in Vimperator type 't j<Space>' and there you go
 
 " vim: ft=vimperator:fdm=marker:commentstring=\"\ %s
