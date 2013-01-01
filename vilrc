@@ -1,4 +1,11 @@
 " "vil" represents "vim lightweight".
 " Usage: alias vil vim -u /path/to/vilrc
 
+" set runtimepath to Unix default with ~/.vim/(after) excluded
+set runtimepath=$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after
+" get the directory contains this sourced file vilrc
+let s:vilrc_dir = expand('<sfile>:p:h')
+" add the vilrc_dir/vil/(after) to 'runtimepath'
+let &runtimepath = printf('%s/vil, %s, %s/vil/after', s:vilrc_dir, &runtimepath, s:vilrc_dir)
+
 " vim: ft=vim:nowrap:fdm=marker
