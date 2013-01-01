@@ -1,22 +1,29 @@
 " Environment {{{1
-" vim: nowrap fdm=marker
 set nocompatible        " must be first line
 " automatically source vimrc
 "au BufWritePost vimrc so ~/.vimrc
+
 " Windows Environment {{{2
 if has('win32') || has('win64')
   " set runtimepath to Unix default
   set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
   " work with powershell
-  set shell=powershell
-  set shellcmdflag=-command
+  "set shell=powershell
+  "set shellcmdflag=-command
 endif
-" Setup vundle {{{2
-    filetype off                   " required!
-    set rtp+=~/.vim/bundle/vundle/
-    call vundle#rc()
-    let g:vundle_default_git_proto = 'git' "use git protocol to avoid ssl error on some old git version
-    Bundle 'gmarik/vundle'
+
+" Setup pathogen and disable bundles {{{2
+runtime bundle/vim-pathogen/autoload/pathogen.vim
+
+" Disable bundles
+" Rename a bundle like "rails" to "rails~" to disable this bundle
+" Or add disabled bundles to this list
+let g:pathogen_disabled = []
+if has('gui_running')
+    call add(g:pathogen_disabled, 'csapprox')
+endif
+
+call pathogen#infect()
 
 " Load plugins that ship with Vim {{{2
 runtime macros/matchit.vim
@@ -64,8 +71,12 @@ set encoding=utf-8 "Sets the character encoding used inside Vim, conversion will
 let mapleader = "," " put ahead to make following maps work
 " }}}1
 
-" Source bundles {{{1
-    source ~/vimise/vimrc.bundle
+" Source a common vimrc file(vicrc) shared by other vimrcs {{{1
+    source ~/vimise/vicrc
+" }}}
+
+" Source the bundle configuration file {{{1
+    "source ~/vimise/vimrc.bundle
 " }}}
 
 " Behaviour(Affect Interaction){{{1
@@ -370,3 +381,5 @@ endfunction
 set tabline=%!MyTabLine()
 " }}}
 " }}}
+
+" vim: nowrap fdm=marker
