@@ -1,2 +1,8 @@
-vim/bundle/
-vimperator/info
+# leading slash means the directory this .gitignore file located in
+# slash at end means only match directorys
+# and * don't match /
+
+# ignore directories under bundle
+/vim/bundle/*/
+
+/vimperator/info

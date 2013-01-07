@@ -3,10 +3,13 @@
 set nocompatible        " must be first line
 " automatically source vimrc
 "au BufWritePost vimrc so ~/.vimrc
-" On Windows, also use '.vim' instead of 'vimfiles' {{{2
+" Windows Environment {{{2
 if has('win32') || has('win64')
-  " set to Unix default
+  " set runtimepath to Unix default
   set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+  " work with powershell
+  set shell=powershell
+  set shellcmdflag=-command
 endif
 " Setup vundle {{{2
     filetype off                   " required!
@@ -69,10 +72,11 @@ let mapleader = "," " put ahead to make following maps work
 " unclassified {{{2
 filetype plugin indent on   " Automatically detect file types, must be after pathogen or vundle setup
 set path+=~,~/configent/**
+set autoread " Automatically read a file that has changed(not delete) on disk
 if 0 == argc() " if no files to edit at startup, change working directory to HOME
     cd $HOME
 endif
-" set clipboard=unnamed " Link unnamed register and OS clipboard:
+set clipboard=unnamed " Link unnamed register and OS clipboard:
 " enable vim scripts syntax based foldding. refer: http://vim.wikia.com/wiki/Syntax_folding_of_Vim_scripts
 let g:vimsyn_folding='af'
 set viewoptions=folds,options,cursor,unix,slash " 'slash' and 'unix' are useful on Windows when sharing view files
@@ -135,6 +139,7 @@ set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond
 " formatting {{{2
     set nowrap                      " no wrap long lines
     set autoindent                  " indent at the same level of the previous line
+    set textwidth=80                " auto insert newline when textwidth is too long
     set shiftwidth=4                " use indents of 4 spaces
     set shiftround                  " use multiple of shiftwidth when indenting with '<' and '>'
     set expandtab                   " tabs are spaces, not tabs
@@ -280,6 +285,7 @@ else
     color molokai
 endif
 set number                          " Line numbers on
+set relativenumber " relative number
 set showmatch                   " show matching brackets/parenthesis
 set winminheight=0              " windows can be 0 line high
 set list "show non-normal spaces, tabs etc.

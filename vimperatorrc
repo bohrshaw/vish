@@ -1,7 +1,57 @@
-noremap ; :
-noremap \\ ;
-nnoremap J gt
-nnoremap K gT
+" Vimperator customization file
 
+let mapleader = ","
+
+set wildmode=list:longest,full
+cd ~
 color indigo
-" se defsearch=bing
+" set defsearch=bing
+
+" Mappings" {{{
+no ; :
+no \\ ;
+nno J gt
+nno K gT
+" }}}
+
+" Abbreviations" {{{
+ca his hist -m 10 
+ia boh bohrshaw
+ia bog bohrshaw@gmail.com
+ia bos bohrshaw@sina.com
+ia boq bohrshaw@qq.com
+ia ast astenboer
+" }}}
+
+" automatic pass-through mode on certain pages
+"autocmd LocationChange .* :js modes.passAllKeys = /mail\.google\.com/.test(buffer.URL)
+"autocmd LocationChange .* :js modes.passAllKeys = /app\.nirvanahq\.com/.test(buffer.URL)
+
+" add new functions which are then available to the :js command
+js <<EOF
+toggle_element = function (name) {
+document.getElementById(name).collapsed ^= 1;
+}
+EOF
+" and now use it in mappings
+map <silent> <F9> :js toggle_element('nav-bar')<CR>
+
+" move the RSS icon from the now-hidden location bar to the status bar instead
+"javascript <<EOF
+"(function(){
+"var feedPanel = document.createElement("statusbarpanel");
+"feedPanel.setAttribute("id", "feed-panel-clone");
+"feedPanel.appendChild(document.getElementById("feed-button"));
+"feedPanel.firstChild.setAttribute("style", "padding: 0; max-height: 16px;");
+"document.getElementById("status-bar")
+".insertBefore(feedPanel, document.getElementById("security-button"));
+"})();
+"EOF
+
+" define a keyword bookmark
+"bmark -keyword=mozjscoreref https://developer.mozilla.org/Special:Search?search=%s&type=fulltext
+" ... and a command line abbreviation for the keyword
+"ca j mozjscoreref
+" now in Vimperator type 't j<Space>' and there you go
+
+" vim: ft=vimperator:fdm=marker:commentstring=\"\ %s
