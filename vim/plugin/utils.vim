@@ -1,6 +1,5 @@
 " This file contains small functions each has an isolated feature.
 " If the function will be complex, please move it to autoload directory.
-" vim: nowrap fdm=syntax
 
 " diff current file with current saved file or a different buffer
 function! DiffWith(...)
@@ -19,7 +18,7 @@ function! DiffWith(...)
 endfunction
 com! -nargs=? -complete=buffer DiffWith call DiffWith(<f-args>)
 
-" redir command output to buffer
+" redir command output to buffer, duplicate with Verbose in scriptease.vim
 function! RedirMessages(msgcmd, destcmd)
     " Redirect messages to a variable.
     redir => message
@@ -45,7 +44,7 @@ command! -nargs=+ -complete=command TabMessage call RedirMessages(<q-args>, 'tab
 " a local configuration file called .lvimrc and sources it.
 " The local configuration file is expected to have commands affecting
 " only the current buffer.
-function SetLocalOptions(fname)
+function! SetLocalOptions(fname)
 	let dirname = fnamemodify(a:fname, ":p:h")
 	while "/" != dirname
 		let lvimrc  = dirname . "/.lvimrc"
@@ -62,9 +61,11 @@ endfunction
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
 " files.
 function! AppendModeline()
-  let l:modeline = printf(" vim: set ts=%d sw=%d tw=%d :",
-        \ &tabstop, &shiftwidth, &textwidth)
+  let l:modeline = printf(" vim:et:ts=%d:sw=%d:tw=%d:fdm=marker:", &tabstop, &shiftwidth, &textwidth)
   let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
-  call append(line("$"), l:modeline)
+  # append a new line and a modeline at the end of file
+  call append(line("$"), ["", l:modeline])
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
+
+" vim: nowrap fdm=syntax

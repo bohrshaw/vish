@@ -2,6 +2,8 @@
 set nocompatible        " must be first line
 " automatically source vimrc
 "au BufWritePost vimrc so ~/.vimrc
+" shortcut to edit this vimrc file in a new tab
+command! Vimrc :tabe ~/vimise/vimrc
 
 " Windows Environment {{{2
 if has('win32') || has('win64')
@@ -145,7 +147,7 @@ set cryptmethod=blowfish "}}}
 set incsearch                   " find as you type search
 set ignorecase                  " case insensitive search
 set smartcase                   " case sensitive when uc present
-set hlsearch                    " highlight search terms
+"set hlsearch                    " highlight search terms
 set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond current line
 " formatting {{{2
     set nowrap                      " no wrap long lines
@@ -232,10 +234,10 @@ set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond
     " Create the directory containing the file in the buffer
     nnoremap <silent> <leader>md :!mkdir -p %:p:h<CR>
     " Easier moving in tabs and windows, conflict and duplicate with dwm.vim
-    " noremap <C-J> <C-W>j
-    " noremap <C-K> <C-W>k
-    " noremap <C-L> <C-W>l
-    " noremap <C-H> <C-W>h
+    noremap <C-J> <C-W>j
+    noremap <C-K> <C-W>k
+    noremap <C-L> <C-W>l
+    noremap <C-H> <C-W>h
     " Wrapped lines goes down/up to next row, rather than next line in file.
     nnoremap j gj
     nnoremap k gk
