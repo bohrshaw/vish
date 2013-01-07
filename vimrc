@@ -181,6 +181,7 @@ set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond
     " which in many cases don't use noremap.
     nnoremap ; :
     nnoremap q; q:
+    nnoremap @; @:
     " I still love ';'
     nnoremap \ ;
     cmap w!! w !sudo tee % >/dev/null
@@ -188,6 +189,10 @@ set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond
     nnoremap <leader>S ^y$:@"<cr> :echo "current line sourced."<cr>
     " Source visual selection
     vnoremap <leader>S y:@"<cr> :echo "selected lines sourced."<cr>
+    " execute current ruby file (make ruby)
+    command! Mr :let f=expand("%")|wincmd w|
+                 \ if bufexists("mr_output")|e! mr_output|else|sp mr_output|endif |
+                 \ execute '$!ruby "' . f . '"'|wincmd W
     " Space to toggle folds.
     nnoremap <space> za
     vnoremap <space> za
