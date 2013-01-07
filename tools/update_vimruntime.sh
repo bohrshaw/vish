@@ -1,6 +1,7 @@
 #! /bin/bash
-# This script is used to update vim runtime files(maybe to the develop version).
-# Modified from here
+# Currently I use Wu Yongwei's pre-compiled vim because it has many languages
+# support and the latest patches. This script is from him and is used to update
+# vim runtime files(maybe to the develop version).  Modified from here
 # "http://wyw.dcweb.cn/download.asp?path=vim&file=update_vimruntime.sh"
 
 # the directory files will be downloaded into
