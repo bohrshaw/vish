@@ -1,0 +1,4 @@
+" "vil" represents "vim lightweight".
+" Usage: alias vil vim -u /path/to/vilrc
+
+" vim: ft=vim:nowrap:fdm=marker
