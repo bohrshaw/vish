@@ -1,16 +1,22 @@
 # What's next?
+Change to vimwiki or todo.txt to manage tasks
+
 Make a :B command to jump to a existing window containing the buffer you want to
 switch to.
-
-Write bundle description in more details in "bundles.md", and adjust the
-"git-clone.sh" script accordingly.
 
 upload a single vimrc to net, then use ":e http://example.com/vimrc"
 to load and source my essential vimrc.
 
-The branch pathogen is used to rebase on the vundle branch from time to time, so
-I should carefully make a commit just for switching form vundle to pathogen
-anytime.
+# Make the new installing and updating scripts after switching to pathogen
+ - Split core configuration to vicrc.
+    - recheck vim initialization as colors in unavailable in vilrc
+    - config statusline
+ - Craft vilrc. If pathogen not included, then the directory "vil" should just
+    be removed; Else, I may create link to the subdirectories in "vim"(differently
+    on unix and window, so this process would be kept in bootstrap.sh).
+ - Describe bundles in details in "bundles.md", and adjust the
+   "git-clone.sh" script accordingly.
+ - Modify bootstrap.sh
 
 # Project management
 Task management tools wanted.(May consider tools in pure vim environment as long as
