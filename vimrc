@@ -168,44 +168,35 @@ set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond
 " }}}
 " }}}
 
-" Key Mappings and defined commands {{{1
-" when define mappings, check out :h index
-" that file contains a list of all commands for each mode, with a tag and a
-" short description.
-    " frequently used {{{2
-    " I prefer not to move my fingers
-    inoremap jk <Esc>
-    cnoremap jk <Esc>
-    " I use ":" much more than ";", but remember this map is just for quick accessing command line
-    " I do miss ";", but mapping ":" to ";" may affect other normal maps,
-    " which in many cases don't use noremap.
+" Mappings, commands and abbreviations {{{1
+" when define mappings, check out ":h index", which contains a list of all
+" commands for each mode, with a tag and a short description.
     nnoremap ; :
+    xnoremap ; :
     nnoremap q; q:
     nnoremap @; @:
-    " I still love ';'
     nnoremap \ ;
-    cmap w!! w !sudo tee % >/dev/null
-    " Source current line
-    nnoremap <leader>S ^y$:@"<cr> :echo "current line sourced."<cr>
-    " Source visual selection
-    vnoremap <leader>S y:@"<cr> :echo "selected lines sourced."<cr>
-    " execute current ruby file (make ruby)
-    command! Mr :let f=expand("%")|wincmd w|
-                 \ if bufexists("mr_output")|e! mr_output|else|sp mr_output|endif |
-                 \ execute '$!ruby "' . f . '"'|wincmd W
-    " Space to toggle folds.
+    inoremap jk <Esc>
+    cnoremap jk <Esc>
+    nnoremap Y y$
+    " Easily moving in tabs and windows
+    noremap <C-J> <C-W>w
+    noremap <C-K> <C-W>W
+    noremap <C-L> <C-W>l
+    noremap <C-H> <C-W>h
+    " toggle fold
     nnoremap <space> za
     vnoremap <space> za
     " two fingers tab navigation
     nnoremap gj gt
     nnoremap gk gT
-    "}}}
-    " personal plugin related {{{2
-        nnoremap <leader>sl :SessionList<CR>
-        nnoremap <leader>ss :SessionSave<CR>
-        nnoremap <leader>sa :SessionSaveAs<CR>
-    " }}}2
-" others {{{
+    " familiar command line editing shortcuts
+    cnoremap <C-a> <Home>
+    cnoremap <C-e> <End>
+    cmap w!! w !sudo tee % >/dev/null
+    " cd to the directory containing the current buffer
+    cmap lcd. lcd %:p:h
+    cmap cd. cd %:p:h
     " vertical split buffer
     cnoremap vsb vert sb 
     " Toggle paste mode
@@ -217,42 +208,15 @@ set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond
     nnoremap <silent> <leader>tw :set invwrap<CR>:set wrap?<CR>
     " set spell toggles
     nnoremap <silent> <leader>ts :set invspell<CR>:set spell?<CR>
-    " upper/lower word
-    nnoremap <leader>u mQviwU`Q
-    nnoremap <leader>l mQviwu`Q
-    " upper/lower first char of word
-    nnoremap <leader>U mQgewvU`Q
-    nnoremap <leader>L mQgewvu`Q
-    " Swap two words
-    nnoremap <silent> gw :s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>`'
-    " Underline the current line with '='
-    "nnoremap <silent> <leader>ul :t.\|s/./=/g\|:nohls<cr>
-    " Underline the current line with '=', frequently used in markdown headings
-    "nnoremap <silent> <leader>ul :t.\|s/./=/g\|:nohls<cr>
-    " find merge conflict markers, maybe duplicate as unimpaired exists mappings [n ]n
-    "nnoremap <silent> <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
-    " Adjust viewports to the same size
-    noremap <Leader>= <C-w>=
-    " cd to the directory containing the file in the buffer
-    nnoremap <silent> <leader>cd :lcd %:p:h<CR>
-    cmap cd. lcd %:p:h
-    " Create the directory containing the file in the buffer
-    nnoremap <silent> <leader>md :!mkdir -p %:p:h<CR>
-    " Easier moving in tabs and windows, conflict and duplicate with dwm.vim
-    noremap <C-J> <C-W>j
-    noremap <C-K> <C-W>k
-    noremap <C-L> <C-W>l
-    noremap <C-H> <C-W>h
     " Wrapped lines goes down/up to next row, rather than next line in file.
     nnoremap j gj
     nnoremap k gk
-    " Yank from the cursor to the end of the line, to be consistent with C and D.
-    nnoremap Y y$
+    " display help window at bottom right
+    command! -nargs=1 -complete=help H :wincmd b | :bel h 
     " visual shifting (does not exit Visual mode)
     vnoremap < <gv
     vnoremap > >gv
-    " Some helpers to edit mode
-    " http://vimcasts.org/e/14
+    " Some helpers to edit mode, see: http://vimcasts.org/e/14
     cnoremap %% <C-R>=expand('%:h').'/'<cr>
     nmap <leader>ew :e %%
     nmap <leader>es :sp %%
@@ -261,12 +225,25 @@ set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond
     " Easier horizontal scrolling
     noremap zl zL
     noremap zh zH
-    cnoremap <C-a> <Home>
-    cnoremap <C-e> <End>
-    "very magic(egrep) instead of magic(grep)
-    "nnoremap / /\v
-    "vnoremap / /\v
-    """ Code folding options
+    " Source current line
+    nnoremap <leader>S ^y$:@"<cr> :echo "current line sourced."<cr>
+    " Source visual selection
+    vnoremap <leader>S y:@"<cr> :echo "selected lines sourced."<cr>
+    " upper/lower word
+    nnoremap <leader>u mQviwU`Q
+    nnoremap <leader>l mQviwu`Q
+    " upper/lower first char of word
+    nnoremap <leader>U mQgewvU`Q
+    nnoremap <leader>L mQgewvu`Q
+    " Swap two words
+    nnoremap <silent> gw :s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>`'
+    " Create a directory based the current buffer's path
+    command! -nargs=? -complete=dir Mkdir :call mkdir(expand('%:p:h') . "/" . <q-args>, "p")
+    " Underline the current line with '=', frequently used in markdown headings
+    nnoremap <silent> <leader>ul :t.\|s/./=/g\|:nohls<cr>
+    " find merge conflict markers, maybe duplicate as unimpaired exists mappings [n ]n
+    "nnoremap <silent> <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
+    " set a fold level quickly "{{{3
     nnoremap <leader>f0 :set foldlevel=0<CR>
     nnoremap <leader>f1 :set foldlevel=1<CR>
     nnoremap <leader>f2 :set foldlevel=2<CR>
@@ -276,8 +253,20 @@ set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond
     nnoremap <leader>f6 :set foldlevel=6<CR>
     nnoremap <leader>f7 :set foldlevel=7<CR>
     nnoremap <leader>f8 :set foldlevel=8<CR>
-    nnoremap <leader>f9 :set foldlevel=9<CR>
-    " }}}
+    nnoremap <leader>f9 :set foldlevel=9<CR> "}}}3
+    " execute current ruby file (make ruby)
+    command! Mr :let f=expand("%")|wincmd w|
+                 \ if bufexists("mr_output")|e! mr_output|else|sp mr_output|endif |
+                 \ execute '$!ruby "' . f . '"'|wincmd W
+    " personal plugin related {{{2
+        nnoremap <leader>sl :SessionList<CR>
+        nnoremap <leader>ss :SessionSave<CR>
+        nnoremap <leader>sa :SessionSaveAs<CR>
+    " }}}2
+    " Abbreviations {{{2
+    " quickly call functions instead of define many maps or commands
+    ca c call
+    }}}2
 " }}}
 
 " Appearance(Vim UI, Statistic Elements){{{1
@@ -301,7 +290,9 @@ set number                          " Line numbers on
 set relativenumber " relative number
 set showmatch                   " show matching brackets/parenthesis
 set winminheight=0              " windows can be 0 line high
-set list "show non-normal spaces, tabs etc.
+" show non-normal spaces, tabs etc. But conflict with 'linkbreak' which is used for wrap at word boundry
+"set list
+set linebreak
 set listchars=tab:,.,trail:.,extends:>,precedes:<,nbsp:% "(eol:¬), Highlight problematic whitespace
 " statusline {{{2
 set laststatus=2
@@ -317,75 +308,6 @@ set statusline+=%-11.(%v\ %l/%L%)\ %p%%  " right offset position info and show p
 " must after ':color xxx' statement
 "in gui, fg is actually background light blue, and bg is actually font color
 hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=DarkCyan
-" }}}
-" tabline {{{2
-"http://vim.wikia.com/wiki/Show_tab_number_in_your_tab_line
-function! MyTabLine()
-  let s = '' " complete tabline goes here
-  " loop through each tab page
-  for t in range(tabpagenr('$'))
-    " select the highlighting for the buffer names
-    if t + 1 == tabpagenr()
-      let s .= '%#TabLineSel#'
-    else
-      let s .= '%#TabLine#'
-    endif
-    " empty space
-    let s .= ' '
-    " set the tab page number (for mouse clicks)
-    let s .= '%' . (t + 1) . 'T'
-    " set page number string
-    let s .= t + 1 . ' '
-    " get buffer names and statuses
-    let n = ''  "temp string for buffer names while we loop and check buftype
-    let m = 0 " &modified counter
-    let bc = len(tabpagebuflist(t + 1))  "counter to avoid last ' '
-    " loop through each buffer in a tab
-    for b in tabpagebuflist(t + 1)
-      " buffer types: quickfix gets a [Q], help gets [H]{base fname}
-      " others get 1dir/2dir/3dir/fname shortened to 1/2/3/fname
-      if getbufvar( b, "&buftype" ) == 'help'
-        let n .= '[H]' . fnamemodify( bufname(b), ':t:s/.txt$//' )
-      elseif getbufvar( b, "&buftype" ) == 'quickfix'
-        let n .= '[Q]'
-      else
-        let n .= pathshorten(bufname(b))
-        "let n .= bufname(b)
-      endif
-      " check and ++ tab's &modified count
-      if getbufvar( b, "&modified" )
-        let m += 1
-      endif
-      " no final ' ' added...formatting looks better done later
-      if bc > 1
-        let n .= ' '
-      endif
-      let bc -= 1
-    endfor
-    " add modified label [n+] where n pages in tab are modified
-    if m > 0
-      "let s .= '[' . m . '+]'
-      let s.= '+ '
-    endif
-    " add buffer names
-    if n == ''
-      let s .= '[No Name]'
-    else
-      let s .= n
-    endif
-    " switch to no underlining and add final space to buffer list
-    "let s .= '%#TabLineSel#' . ' '
-    let s .= ' '
-  endfor
-  " after the last tab fill with TabLineFill and reset tab page nr
-  let s .= '%#TabLineFill#%T'
-  " right-align the label to close the current tab page
-  if tabpagenr('$') > 1
-    let s .= '%=%#TabLine#%999XX'
-  endif
-  return s
-endfunction
-set tabline=%!MyTabLine()
 " }}}
 " }}}
 
