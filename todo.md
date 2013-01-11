@@ -1,4 +1,7 @@
 # What's next?
+Make a :B command to jump to a existing window containing the buffer you want to
+switch to.
+
 Write bundle description in more details in "bundles.md", and adjust the
 "git-clone.sh" script accordingly.
 

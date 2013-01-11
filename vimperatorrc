@@ -2,8 +2,10 @@
 
 let mapleader = ","
 
-set wildmode=list:longest,full
 cd ~
+
+set wildmode=list:longest,full
+set hintchars=asdfghjklweruio
 color indigo
 " set defsearch=bing
 
@@ -12,13 +14,14 @@ no ; :
 no \\ ;
 nno J gt
 nno K gT
+cno <c-p> <Up>
+cno <c-n> <Down>
 " }}}
 
 " Abbreviations" {{{
-ca his hist -m 10 
+ca his hist -m 10
 ia boh bohrshaw
 ia bog bohrshaw@gmail.com
-ia bos bohrshaw@sina.com
 ia boq bohrshaw@qq.com
 ia ast astenboer
 " }}}
