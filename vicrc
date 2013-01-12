@@ -1,4 +1,7 @@
-" This is a common file shared by multiply "vimrc"s. And you should NOT use it alone.
+" Descripation: This is a common file shared by multiply "vimrc"s.
+" Editing Rules:
+" 1.Perfect is the enemy of good enough.
+" 2.Use full names.
 
 " Section: Options {{{1
 set nocompatible
@@ -31,27 +34,29 @@ set viminfo='50,<50,s10,h,n$HOME/.vim/tmp/viminfo " keep less info and change vi
 " }}}2
 " Avoid the problem occurred when you write to symbolic files on windows
 set nowritebackup
+if 0 == argc() | cd $HOME | endif " Change the default working directory to HOME
+set path+=~,~/configent,~/vimise " where to look for files when using command like 'gf'
 
 set fileformats=unix,dos " will set new file to unix format
 set fileformat=unix " local to buffer, this option is set automatically when starting to edit a file
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1
 set encoding=utf-8 "Sets the character encoding used inside Vim, conversion will be done when 'encoding' and 'fileencoding' is defferent
 
-set shiftwidth=4                " number of spaces to use for each step of (auto)indent
+set shiftwidth=2                " number of spaces to use for each step of (auto)indent
 set shiftround                  " use multiple of shiftwidth to round when indenting with '<' and '>'
 set autoindent                  " indent at the same level of the previous line
-set tabstop=4                   " number of spaces a tab displayed in
-set softtabstop=4               " number of spaces used when press <Tab> or <BS>
+set tabstop=2                   " number of spaces a tab displayed in
+set softtabstop=2               " number of spaces used when press <Tab> or <BS>
 set expandtab                   " expand a tab to spaces
 set smarttab      " when at a start on line, the number of spaces a tab count for is determined by 'shiftwith'
 set nowrap                      " no wrap long lines
-set textwidth=80                " auto insert newline when textwidth is beyond the specified number
+set textwidth=78                " auto insert newline when textwidth is beyond the specified number
 
 set incsearch                   " find as you type search
 set ignorecase                  " case insensitive search
 set smartcase                   " case sensitive when uc present
 
-set scrolljump=5                " lines to scroll when cursor leaves screen
+set scrolljump=3                " lines to scroll when cursor leaves screen
 set scrolloff=3                 " minimum lines to keep above and below cursor
 set wildmenu                    " show list instead of just completing
 set wildmode=list:longest,full  " command <Tab> completion, list matches, then longest common part, then all.
@@ -69,88 +74,93 @@ set shortmess+=filmnrwxoOtTI      " abbrev. of messages and avoids 'hit enter'
 " Acceptable encryption strength, also remember to set viminfo=
 " swap and undo are all encrypted, but may set nowritebackup and nobackup(default)
 set cryptmethod=blowfish
+" enable vim scripts syntax based foldding. refer: http://vim.wikia.com/wiki/Syntax_folding_of_Vim_scripts
+let g:vimsyn_folding='af'
 " }}}1
 
 " Section: Mappings {{{1
 " when define mappings, check out ":h index"
-    nnoremap ; :
-    xnoremap ; :
-    nnoremap q; q:
-    nnoremap @; @:
-    nnoremap \ ;
-    inoremap jk <Esc>
-    cnoremap jk <Esc>
-    nnoremap Y y$
-    " Easily moving in tabs and windows
-    noremap <C-J> <C-W>w
-    noremap <C-K> <C-W>W
-    noremap <C-L> <C-W>l
-    noremap <C-H> <C-W>h
-    " toggle fold
-    nnoremap <space> za
-    vnoremap <space> za
-    " two fingers tab navigation
-    noremap gj gt
-    noremap gk gT
-    " familiar command line editing shortcuts
-    cnoremap <C-a> <Home>
-    cnoremap <C-e> <End>
-    cmap w!! w !sudo tee % >/dev/null
-    " cd to the directory containing the current buffer
-    cmap lcd. lcd %:p:h
-    cmap cd. cd %:p:h
-    " Toggle hlsearch
-    nnoremap <leader>/ :set hlsearch! hlsearch?<CR>
-    " set text wrapping toggles
-    nnoremap <silent> <leader>tw :set invwrap<CR>:set wrap?<CR>
-    " set spell toggles
-    nnoremap <silent> <leader>ts :set invspell<CR>:set spell?<CR>
-    " Wrapped lines goes down/up to next row, rather than next line in file.
-    nnoremap j gj
-    nnoremap k gk
-    " display help window at bottom right
-    command! -nargs=1 -complete=help H :wincmd b | :bel h 
-    " visual shifting (does not exit Visual mode)
-    vnoremap < <gv
-    vnoremap > >gv
-    " Some helpers to edit mode, see: http://vimcasts.org/e/14
-    cnoremap %% <C-R>=expand('%:h').'/'<cr>
-    nmap <leader>ew :e %%
-    nmap <leader>es :sp %%
-    nmap <leader>ev :vsp %%
-    nmap <leader>et :tabe %%
-    " Easier horizontal scrolling
-    noremap zl zL
-    noremap zh zH
-    " Source current line
-    nnoremap <leader>S ^y$:@"<cr> :echo "current line sourced."<cr>
-    " Source visual selection
-    vnoremap <leader>S y:@"<cr> :echo "selected lines sourced."<cr>
-    " upper/lower word
-    nnoremap <leader>u mQviwU`Q
-    nnoremap <leader>l mQviwu`Q
-    " upper/lower first char of word
-    nnoremap <leader>U mQgewvU`Q
-    nnoremap <leader>L mQgewvu`Q
-    " Swap two words
-    nnoremap <silent> gw :s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>`'
-    " Create a directory based the current buffer's path
-    command! -nargs=? -complete=dir Mkdir :call mkdir(expand('%:p:h') . "/" . <q-args>, "p")
-    " Underline the current line with '=', frequently used in markdown headings
-    nnoremap <silent> <leader>ul :t.\|s/./=/g\|:nohls<cr>
+nnoremap ; :
+xnoremap ; :
+nnoremap q; q:
+nnoremap @; @:
+nnoremap \ ;
+inoremap jk <Esc>
+cnoremap jk <Esc>
+nnoremap Y y$
+" toggle fold
+nnoremap <space> za
+vnoremap <space> za
+" two fingers tab navigation
+noremap gj gt
+noremap gk gT
+" familiar command line editing shortcuts
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cmap w!! w !sudo tee % >/dev/null
+" cd to the directory containing the current buffer
+cmap lcd. lcd %:p:h
+cmap cd. cd %:p:h
+" Toggle hlsearch
+nnoremap <leader>/ :set hlsearch! hlsearch?<CR>
+" set text wrapping toggles
+nnoremap <silent> <leader>tw :set invwrap<CR>:set wrap?<CR>
+" set spell toggles
+nnoremap <silent> <leader>ts :set invspell<CR>:set spell?<CR>
+" Wrapped lines goes down/up to next row, rather than next line in file.
+nnoremap j gj
+nnoremap k gk
+" visual shifting (does not exit Visual mode)
+vnoremap < <gv
+vnoremap > >gv
+" Some helpers to edit mode, see: http://vimcasts.org/e/14
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+nmap <leader>ew :e %%
+nmap <leader>es :sp %%
+nmap <leader>ev :vsp %%
+nmap <leader>et :tabe %%
+" Easier horizontal scrolling
+noremap zl zL
+noremap zh zH
+" Source current line
+nnoremap <leader>S ^y$:@"<cr> :echo "current line sourced."<cr>
+" Source visual selection
+vnoremap <leader>S y:@"<cr> :echo "selected lines sourced."<cr>
+" upper/lower word
+nnoremap <leader>u mQviwU`Q
+nnoremap <leader>l mQviwu`Q
+" upper/lower first char of word
+nnoremap <leader>U mQgewvU`Q
+nnoremap <leader>L mQgewvu`Q
+" Swap two words
+nnoremap <silent> gw :s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>`'
+" Move to the function name and operate on just this function name
+" as long as the cursor is before the function name.
+onoremap <silent> F :<C-U>normal! 0f(hviw<CR>
+" Create a directory based the current buffer's path
+command! -nargs=? -complete=dir Mkdir :call mkdir(expand('%:p:h') . "/" . <q-args>, "p")
+" Underline the current line with '=', frequently used in markdown headings
+nnoremap <silent> <leader>ul :t.\|s/./=/g\|:nohls<cr>
+" Appends the current date and time after the cursor
+nmap <F2> a<C-R>=strftime("%c")<CR><Esc>
 " }}}1
 
 " Section: Abbreviations {{{1
-    cabbrev vsb vert sb 
-    ca c call
+cabbrev vsb vert sb 
+ca c call
 " }}}1
 
 " Section: Commands {{{1
 " shortcut to edit this vimrc file in a new tab
 command! Vicrc :tabe ~/vimise/vicrc
+" display help window at bottom right
+command! -nargs=? -complete=help H :wincmd b | :bel h <args>
 " }}}1
 
 " Section: Autocommands {{{1
+" If you want to do more about this filetype, put these setting into
+" ~/.vim/after/ftplugin/python.vim
+autocmd FileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
 " }}}1
 
 " Section: Appearance {{{1
@@ -160,8 +170,8 @@ set cursorline                  " highlight current line
 set ruler                   " show the ruler
 set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " a ruler on steroids
 if &term == 'xterm' || &term == 'xterm-256color' || &term == 'screen'
-    set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
-    let g:solarized_termcolors=256
+set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
+let g:solarized_termcolors=256
 endif
 set number                          " Line numbers on
 set relativenumber                  " relative number
