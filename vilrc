@@ -1,11 +1,6 @@
 " "vil" represents "vim lightweight".
 " Usage: alias vil vim -u /path/to/vilrc
 
-filetype plugin indent on
-
-" shortcut to edit this vimrc file in a new tab
-command! Vimrc :tabe ~/vimise/vimrc
-
 " A unified runtime path(including the directory "vil")"{{{
 set runtimepath=$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after
 " get the directory contains this sourced file vilrc
@@ -14,11 +9,28 @@ let s:vilrc_dir = expand('<sfile>:p:h')
 let &runtimepath = printf('%s/vil, %s, %s/vil/after', s:vilrc_dir, &runtimepath, s:vilrc_dir)
 "}}}
 
-set noswapfile
-set viminfo=
-
 " Source a common vimrc file(vicrc) shared by other vimrcs 
 source <sfile>:h/vicrc
+
+" Section: Options {{{1
+filetype plugin indent on
+set noswapfile
+set viminfo=
+" }}}1
+
+" Section: Mappings {{{1
+" }}}1
+
+" Section: Abbreviations {{{1
+" }}}1
+
+" Section: Commands {{{1
+" shortcut to edit this vimrc file in a new tab
+command! Vimrc :tabe ~/vimise/vimrc
+" }}}1
+
+" Section: Autocommands {{{1
+" }}}1
 
 " Section: Appearance {{{1
 if has('gui_running')

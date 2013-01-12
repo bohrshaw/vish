@@ -2,14 +2,16 @@
 Change to vimwiki or todo.txt to manage tasks
 
 Make a :B command to jump to a existing window containing the buffer you want to
-switch to.
+switch to, even though the target window is at a different tab.
+
+Map some alt keys to vim.
 
 upload a single vimrc to net, then use ":e http://example.com/vimrc"
 to load and source my essential vimrc.
 
 # Make the new installing and updating scripts after switching to pathogen
  - Split core configuration to vicrc.
-    - recheck vim initialization as colors in unavailable in vilrc
+    - recheck vim initialization as syntax highlight in unavailable in vilrc
     - config statusline
  - Craft vilrc. If pathogen not included, then the directory "vil" should just
     be removed; Else, I may create link to the subdirectories in "vim"(differently

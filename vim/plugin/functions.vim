@@ -1,15 +1,6 @@
 " This file contains small functions each has an isolated feature.
 " If the function will be complex, please move it to autoload directory.
 
-" Switch the current window with the top left window(cursor is on this window)
-nnoremap <c-w><c-e> :call SwitchMainWindow()<cr>
-function! SwitchMainWindow()
-  let l:current_buf = winbufnr(0)
-  exe "buffer" . winbufnr(1)
-  1wincmd w
-  exe "buffer" . l:current_buf
-endfunction
-
 " diff current file with current saved file or a different buffer
 command! -nargs=? -complete=buffer DiffWith call DiffWith(<f-args>)
 function! DiffWith(...)
@@ -69,12 +60,12 @@ endfunction
 " Append modeline after last line in buffer.
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
 " files.
-nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
+command! AppendModeline :call AppendModeline()
 function! AppendModeline()
-  let l:modeline = printf(" vim:et:ts=%d:sw=%d:tw=%d:fdm=marker:", &tabstop, &shiftwidth, &textwidth)
-  let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
-  # append a new line and a modeline at the end of file
-  call append(line("$"), ["", l:modeline])
+  let modeline = printf(" vim:tw=%d:ts=%d:sw=%d:et:", &textwidth, &shiftwidth, &tabstop)
+  let modeline = substitute(&commentstring, "%s", modeline, "")
+  " append a new line and a modeline at the end of file
+  call append(line("$"), ["", modeline])
 endfunction
 
-" vim: nowrap fdm=syntax
+" vim:tw=78:ts=2:sw=2:et:

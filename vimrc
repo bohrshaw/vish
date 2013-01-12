@@ -70,12 +70,6 @@ set statusline+=\ %{fugitive#statusline()} "  Git Hotness
 "source ~/vimise/vimrc.bundle
 
 " Behaviour(Affect Interaction){{{1
-set path+=~,~/configent/**
-if 0 == argc() " if no files to edit at startup, change working directory to HOME
-    cd $HOME
-endif
-" enable vim scripts syntax based foldding. refer: http://vim.wikia.com/wiki/Syntax_folding_of_Vim_scripts
-let g:vimsyn_folding='af'
 set viewoptions=folds,options,cursor,unix,slash " 'slash' and 'unix' are useful on Windows when sharing view files
 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
 "set timeoutlen=500 " mapping delay, default is 1000ms
