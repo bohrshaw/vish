@@ -42,4 +42,4 @@ else
 endif
 " }}}1
 
-" vim:set ft=vim et tw=78 sw=2 fdm=marker:
+" vim:ft=vim tw=78 et sw=2 fdm=marker nowrap:
