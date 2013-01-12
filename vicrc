@@ -1,7 +1,9 @@
-" Descripation: This is a common file shared by multiply "vimrc"s.
+" Descripation:
+" This is a common file shared by multiply "vimrc"s.
 " Editing Rules:
-" 1.Perfect is the enemy of good enough.
-" 2.Use full names.
+" 1.Only vanilla vim related settings cat be included.
+" 2.Do not use abbreviations for all settings.
+" 3.Perfect is the enemy of good enough.
 
 " Section: Options {{{1
 set nocompatible
@@ -32,10 +34,14 @@ endfunction
 call InitializeDirectories()
 set viminfo='50,<50,s10,h,n$HOME/.vim/tmp/viminfo " keep less info and change viminfo file dir
 " }}}2
+syntax on                   " syntax highlighting
 " Avoid the problem occurred when you write to symbolic files on windows
 set nowritebackup
 if 0 == argc() | cd $HOME | endif " Change the default working directory to HOME
 set path+=~,~/configent,~/vimise " where to look for files when using command like 'gf'
+" key code delay, same as mapping delay(timeoutlen) when < 0(default)
+" Avoid the delay in entering normal mode after pressing ESC
+set ttimeoutlen=50
 
 set fileformats=unix,dos " will set new file to unix format
 set fileformat=unix " local to buffer, this option is set automatically when starting to edit a file
@@ -69,7 +75,7 @@ set visualbell t_vb= " no beep or flash
 au GUIEnter * set vb t_vb= " disable error sounds and error screen flash
 set hidden                      " allow buffer switching without saving
 set mouse=a                 " automatically enable mouse usage
-"set spell                       " spell checking on
+set spell                       " spell checking on
 set shortmess+=filmnrwxoOtTI      " abbrev. of messages and avoids 'hit enter'
 " Acceptable encryption strength, also remember to set viminfo=
 " swap and undo are all encrypted, but may set nowritebackup and nobackup(default)
@@ -132,6 +138,8 @@ nnoremap <leader>l mQviwu`Q
 " upper/lower first char of word
 nnoremap <leader>U mQgewvU`Q
 nnoremap <leader>L mQgewvu`Q
+" Appends the current date and time after the cursor
+nmap <leader>at a<C-R>=strftime("%c")<CR><Esc>
 " Swap two words
 nnoremap <silent> gw :s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>`'
 " Move to the function name and operate on just this function name
@@ -141,8 +149,6 @@ onoremap <silent> F :<C-U>normal! 0f(hviw<CR>
 command! -nargs=? -complete=dir Mkdir :call mkdir(expand('%:p:h') . "/" . <q-args>, "p")
 " Underline the current line with '=', frequently used in markdown headings
 nnoremap <silent> <leader>ul :t.\|s/./=/g\|:nohls<cr>
-" Appends the current date and time after the cursor
-nmap <F2> a<C-R>=strftime("%c")<CR><Esc>
 " }}}1
 
 " Section: Abbreviations {{{1
@@ -197,4 +203,4 @@ hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=DarkCyan
 " }}}
 " }}}
 
-" vim:set ft=vim et tw=78 sw=2 fdm=marker nowrap:
+" vim:ft=vim tw=78 et sw=2 fdm=marker nowrap:

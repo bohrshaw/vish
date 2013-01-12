@@ -53,6 +53,8 @@ command! Mr :let f=expand("%")|wincmd w|
 " }}}1
 
 " Section: Autocommands {{{1
+" remove trailing whitespaces and ^m chars
+autocmd filetype c,cpp,java,php,javascript,python,twig,xml,yml autocmd bufwritepre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
 " }}}1
 
 " Section: Appearance {{{1
@@ -72,20 +74,14 @@ set statusline+=\ %{fugitive#statusline()} "  Git Hotness
 " Behaviour(Affect Interaction){{{1
 set viewoptions=folds,options,cursor,unix,slash " 'slash' and 'unix' are useful on Windows when sharing view files
 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
-"set timeoutlen=500 " mapping delay, default is 1000ms
-set ttimeoutlen=50 " key code delay, same as timeoutlen when < 0(default)
-syntax on                   " syntax highlighting
 set history=1000                " Store a ton of history (default is 20)
-"set foldenable                  " fold code, use zi to toggle
+set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond current line
 set nolazyredraw " Don't redraw while executing macros
+"set foldenable                  " fold code, use zi to toggle
 "set nojoinspaces " no auto append spaces when joinin lines
 "set hlsearch                    " highlight search terms
-set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond current line
 "set matchpairs+=<:>                " match, to be used with %
 "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
-" remove trailing whitespaces and ^m chars
-autocmd filetype c,cpp,java,php,javascript,python,twig,xml,yml autocmd bufwritepre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
-autocmd bufnewfile,bufread *.html.twig set filetype=html.twig
 " OmniComplete {{{2
     if has("autocmd") && exists("+omnifunc")
         autocmd Filetype *
@@ -113,4 +109,4 @@ autocmd bufnewfile,bufread *.html.twig set filetype=html.twig
 " }}}
 
 
-" vim:set ft=vim et tw=78 sw=2 fdm=marker nowrap:
+" vim:ft=vim tw=78 et sw=2 fdm=marker nowrap:

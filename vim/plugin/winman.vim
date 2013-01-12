@@ -1,6 +1,6 @@
-" winman.vim - window management
-" Maintainer:   Bohr Shaw <pubohr@gmail.com>
-" Version:      1.0
+" FILE: winman.vim - window management
+" AUTHOR:  Bohr Shaw <pubohr@gmail.com>
+" Last Modified: 1/12/2013 19:59:19
 
 " Install in ~/.vim/plugin
 
