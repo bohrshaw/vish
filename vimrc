@@ -73,7 +73,6 @@ set statusline+=\ %{fugitive#statusline()} "  Git Hotness
 
 " Behaviour(Affect Interaction){{{1
 set viewoptions=folds,options,cursor,unix,slash " 'slash' and 'unix' are useful on Windows when sharing view files
-set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
 set history=1000                " Store a ton of history (default is 20)
 set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond current line
 set nolazyredraw " Don't redraw while executing macros

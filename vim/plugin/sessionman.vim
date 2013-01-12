@@ -84,6 +84,9 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 let s:sessions_path = $HOME . '/.vim/tmp/sessions'
+if has("win32") || has("dos32") || has("dos16") || has("os2")
+	let s:sessions_path = substitute(s:sessions_path, '\\', '/', 'g')
+endif
 
 let s:et_save = &et
 let s:sw_save = &sw
