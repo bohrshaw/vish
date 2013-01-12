@@ -1,6 +1,4 @@
 # What's next?
-Fix sessionman disfunction.
-
 Change to vimwiki or todo.txt to manage tasks
 
 Check for ins-completion
