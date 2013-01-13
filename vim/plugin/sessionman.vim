@@ -11,11 +11,6 @@
 "
 "  Description:
 "
-"  Modified by Bohr Shaw:
-"  1. The session file path is changed to ~/.vim/tmp/sessions.
-"  2. Not auto saving current session when exiting vim.
-"  3. Shorter commands name and make chained commands possible.
-"
 "  Vim provides a ':mksession' command to save the current editing session.
 "  This plug-in helps to work with Vim sessions by keeping them in the
 "  dedicated location and by providing commands to list all sessions, open
@@ -47,25 +42,27 @@
 "  When session is opened and 'cscope' is enabled, script calls 'cscope add'
 "  for the current directory so make sure it is set correctly for the session.
 "
-"  :SessionOpen command takes a session name as an argument.  It supports
+"  :Sopen command takes a session name as an argument.  It supports
 "  argument completion.
 "
-"  :SessionOpenLast command opens the g:LAST_SESSION session (see above).
+"  :SopenLast command opens the g:LAST_SESSION session (see above).
 "
-"  :SessionClose command wipes out all buffers, kills cscope and clears
+"  :Sclose command wipes out all buffers, kills cscope and clears
 "  variables with session name.
 "
-"  :SessionSave command saves the current editing session.  If v:this_session
+"  :Ssave command saves the current editing session.  If v:this_session
 "  is empty it asks for a session name.
 "
-"  :SessionSaveAs command takes a session name as an optional argument.  If
+"  :SsaveAs command takes a session name as an optional argument.  If
 "  there is no argument or it is empty, it asks for a session name (default
 "  is the last part of v:this_session).
 "
-"  :SessionShowLast command shows the content of the g:LAST_SESSION and
+"  :Sshow command shows the content of the g:LAST_SESSION and
 "  v:this_session variables.
 "
-"  If 'sessionman_save_on_exit != 0' (default) then the current editing
+"  More commands see below.
+"
+"  If 'sessionman_save_on_exit != 0' (not default) then the current editing
 "  session will be automatically saved when you exit Vim.
 "
 "  Plug-in creates a "Sessions" sub-menu under the "File" menu.
@@ -166,7 +163,7 @@ endfunction
 
 function! s:EditSession(name)
 	if a:name != '' && a:name[0] != '"'
-		bwipeout!
+		"bwipeout!
 		execute 'silent! edit ' . s:sessions_path . '/' . a:name
 		set ft=vim
 	endif
@@ -176,7 +173,7 @@ endfunction
 
 function! s:EditSessionExtra(name)
 	if a:name != '' && a:name[0] != '"'
-		bwipeout!
+		"bwipeout!
 		let n = substitute(a:name, "\\.[^.]*$", '', '')
 		execute 'silent! edit ' . s:sessions_path . '/' . n . 'x.vim'
 	endif
@@ -260,13 +257,17 @@ endfunction
 
 "============================================================================"
 
-function! s:ShowLastSession()
+function! s:ShowSession()
 	if exists('g:LAST_SESSION')
 		redraw | echo 'Last session is "' . g:LAST_SESSION . '"'
 	else
 		redraw | echo 'Last session is undefined'
 	endif
 	echon ', current session is "' . substitute(v:this_session, '.*\(/\|\\\)', '', '') . '"'
+	if a:0 > 0
+		let g:sessionman_save_on_exit = a:1
+	endif
+	if g:sessionman_save_on_exit == 1 | echon ', Autosave ON' | else | echon ', Autosave OFF' | endif
 endfunction
 
 "============================================================================"
@@ -279,12 +280,20 @@ endfunction
 "============================================================================"
 
 command! -bar -nargs=1 -complete=custom,s:SessionOpenComplete Sopen call s:OpenSession(<f-args>)
+command! -bar -nargs=1 -complete=custom,s:SessionOpenComplete Sswitch call s:CloseSession()| call s:OpenSession(<f-args>)
+command! -bar -nargs=1 -complete=custom,s:SessionOpenComplete Sdelete call s:DeleteSession(<f-args>)
+command! -bar -nargs=1 -complete=custom,s:SessionOpenComplete Sedit call s:EditSession(<f-args>)
 command! -bar -nargs=0 Sopenlast if exists('g:LAST_SESSION') | call s:OpenSession(g:LAST_SESSION) | endif
 command! -bar -nargs=0 Sclose call s:CloseSession()
 command! -bar -nargs=0 Slist call s:ListSessions()
 command! -bar -nargs=0 Ssave call s:SaveSession()
 command! -bar -nargs=? Ssaveas call s:SaveSessionAs(<f-args>)
-command! -bar -nargs=0 Sshowlast call s:ShowLastSession()
+command! -bar -nargs=0 Sshow call s:ShowSession()
+command! -bar -nargs=0 Sautosave if sessionman_save_on_exit |
+		\ let sessionman_save_on_exit = 0 |
+		\ echon "Auto save OFF" | else |
+		\ let sessionman_save_on_exit = 1 |
+		\ echon "Auto save ON" | endif
 
 "============================================================================"
 
@@ -297,6 +306,7 @@ an 10.375 &File.S&essions.Save\ &As\.\.\.	:SessionSaveAs<CR>
 
 aug sessionman
 	au VimLeavePre * if sessionman_save_on_exit && v:this_session != '' | call s:SaveSession() | endif
+	au SessionLoadPost * if substitute(v:this_session, '.*\(/\|\\\)', '', '') == 'vim-session' | let sessionman_save_on_exit = 1 | else | let sessionman_save_on_exit = 0 | endif
 aug END
 
 let &cpo = s:cpo_save
