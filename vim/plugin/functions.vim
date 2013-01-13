@@ -19,24 +19,16 @@ function! DiffWith(...)
 endfunction
 
 " redir command output to buffer, duplicate with Verbose in scriptease.vim
-" examples   :TabMessage echo "Key mappings for Control+A:" | map <C-A>
-command! -nargs=+ -complete=command BufMessage call RedirMessages(<q-args>, ''       )
-command! -nargs=+ -complete=command WinMessage call RedirMessages(<q-args>, 'new'    )
-command! -nargs=+ -complete=command TabMessage call RedirMessages(<q-args>, 'tabnew' )
-function! RedirMessages(msgcmd, destcmd)
-    " Redirect messages to a variable.
+command! -nargs=1 -complete=command Message call RedirMessages(<q-args>)
+function! RedirMessages(cmd)
+    " Redirect command outputs to a variable.
     redir => message
-    " Execute the specified Ex command
-    silent execute a:msgcmd
+    silent execute a:cmd
     redir END
-
-    " If no command is provided, output will be placed in the current buffer.
-    if strlen(a:destcmd) " destcmd is not an empty string
-        silent execute a:destcmd
-    endif
-
-    " Place the messages in the destination buffer.
-    silent put=message " a variable is also a expression
+    new
+    setlocal buftype=nofile bufhidden=wipe noswapfile
+    " Place the messages in the new buffer.
+    silent put=message
 endfunction
 
 " Set directory-wise configuration.

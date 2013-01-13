@@ -21,8 +21,6 @@ filetype plugin indent on " Must be after pathogen or vundle setup
 " Improve the ability of recovery
 " set undofile                "set persistent undo
 " Personal plugin options"{{{2
-" If auto save the opened session(v:this_sesssion)
-let sessionman_save_on_exit = 1
 "}}}2
 " }}}1
 
@@ -41,9 +39,9 @@ let sessionman_save_on_exit = 1
     nnoremap <leader>f8 :set foldlevel=8<CR>
     nnoremap <leader>f9 :set foldlevel=9<CR> "}}}2
     " personal plugin related {{{2
-        nnoremap <leader>sl :Slist<CR>
-        nnoremap <leader>ss :Ssave<CR>
-        nnoremap <leader>sa :Ssaveas<CR>
+        nnoremap <leader>sl :SSlist<CR>
+        nnoremap <leader>ss :SSsave<CR>
+        nnoremap <leader>sa :SSsaveas<CR>
     " }}}2
 " }}}1
 

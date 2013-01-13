@@ -37,7 +37,7 @@ set viminfo=!,'50,<50,s10,h,r/tmp,n$HOME/.vim/tmp/viminfo " keep less info and c
 syntax on                   " syntax highlighting
 " Avoid the problem occurred when you write to symbolic files on windows
 set nowritebackup
-set sessionoptions=blank,buffers,curdir,folds,help,tabpages,winsize,slash,unix
+set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
 if 0 == argc() | cd $HOME | endif " Change the default working directory to HOME
 set path+=~,~/configent,~/vimise " where to look for files when using command like 'gf'
 " key code delay, same as mapping delay(timeoutlen) when < 0(default)
@@ -92,6 +92,7 @@ xnoremap ; :
 nnoremap q; q:
 nnoremap @; @:
 nnoremap \ ;
+xnoremap \ ;
 inoremap jk <Esc>
 cnoremap jk <Esc>
 nnoremap Y y$
@@ -162,6 +163,9 @@ ca c call
 command! Vicrc :tabe ~/vimise/vicrc
 " display help window at bottom right
 command! -nargs=? -complete=help H :wincmd b | :bel h <args>
+command! -bar -nargs=1 -complete=file E :exe "edit ".substitute(<q-args>,'\(.*\):\(\d\+\):\=$','+\2 \1','')
+command! -bar -nargs=? -bang Scratch :silent enew<bang>|set buftype=nofile bufhidden=hide noswapfile buflisted filetype=<args> modifiable
+command! Rot13 :exe "normal ggg?G''"
 " }}}1
 
 " Section: Autocommands {{{1

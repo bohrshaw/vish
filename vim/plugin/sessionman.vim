@@ -1,5 +1,3 @@
-"============================================================================"
-"
 "  Vim session manager
 "
 "  Copyright (c) Yuri Klubakov
@@ -42,32 +40,11 @@
 "  When session is opened and 'cscope' is enabled, script calls 'cscope add'
 "  for the current directory so make sure it is set correctly for the session.
 "
-"  :Sopen command takes a session name as an argument.  It supports
-"  argument completion.
-"
-"  :SopenLast command opens the g:LAST_SESSION session (see above).
-"
-"  :Sclose command wipes out all buffers, kills cscope and clears
-"  variables with session name.
-"
-"  :Ssave command saves the current editing session.  If v:this_session
-"  is empty it asks for a session name.
-"
-"  :SsaveAs command takes a session name as an optional argument.  If
-"  there is no argument or it is empty, it asks for a session name (default
-"  is the last part of v:this_session).
-"
-"  :Sshow command shows the content of the g:LAST_SESSION and
-"  v:this_session variables.
-"
-"  More commands see below.
-"
 "  If 'sessionman_save_on_exit != 0' (not default) then the current editing
 "  session will be automatically saved when you exit Vim.
 "
 "  Plug-in creates a "Sessions" sub-menu under the "File" menu.
 "
-"============================================================================"
 
 if !has('mksession') || exists('loaded_sessionman')
 	finish
@@ -91,15 +68,11 @@ let s:et_save = &et
 let s:sw_save = &sw
 let s:ts_save = &ts
 
-"============================================================================"
-
 function! s:RestoreDefaults()
 	let &et = s:et_save
 	let &sw = s:sw_save
 	let &ts = s:ts_save
 endfunction
-
-"============================================================================"
 
 function! s:OpenSession(name)
 	if a:name != '' && a:name[0] != '"'
@@ -129,8 +102,6 @@ function! s:OpenSession(name)
 	endif
 endfunction
 
-"============================================================================"
-
 function! s:CloseSession()
 	call s:RestoreDefaults()
 	execute 'silent! 1,' . bufnr('$') . 'bwipeout!'
@@ -140,8 +111,6 @@ function! s:CloseSession()
 	unlet! g:LAST_SESSION
 	let v:this_session = ''
 endfunction
-
-"============================================================================"
 
 function! s:DeleteSession(name)
 	if a:name != '' && a:name[0] != '"'
@@ -159,8 +128,6 @@ function! s:DeleteSession(name)
 	endif
 endfunction
 
-"============================================================================"
-
 function! s:EditSession(name)
 	if a:name != '' && a:name[0] != '"'
 		"bwipeout!
@@ -169,8 +136,6 @@ function! s:EditSession(name)
 	endif
 endfunction
 
-"============================================================================"
-
 function! s:EditSessionExtra(name)
 	if a:name != '' && a:name[0] != '"'
 		"bwipeout!
@@ -178,8 +143,6 @@ function! s:EditSessionExtra(name)
 		execute 'silent! edit ' . s:sessions_path . '/' . n . 'x.vim'
 	endif
 endfunction
-
-"============================================================================"
 
 function! s:ListSessions()
 	let w_sl = bufwinnr("__SessionList__")
@@ -230,8 +193,6 @@ function! s:ListSessions()
 	setlocal nospell
 endfunction
 
-"============================================================================"
-
 function! s:SaveSessionAs(...)
 	if a:0 == 0 || a:1 == ''
 		let name = input('Save session as: ', substitute(v:this_session, '.*\(/\|\\\)', '', ''))
@@ -249,13 +210,9 @@ function! s:SaveSessionAs(...)
 	endif
 endfunction
 
-"============================================================================"
-
 function! s:SaveSession()
 	call s:SaveSessionAs(substitute(v:this_session, '.*\(/\|\\\)', '', ''))
 endfunction
-
-"============================================================================"
 
 function! s:ShowSession()
 	if exists('g:LAST_SESSION')
@@ -270,32 +227,26 @@ function! s:ShowSession()
 	if g:sessionman_save_on_exit == 1 | echon ', Autosave ON' | else | echon ', Autosave OFF' | endif
 endfunction
 
-"============================================================================"
-
 function! s:SessionOpenComplete(A, L, P)
 	let sessions = substitute(glob(s:sessions_path . '/*'), '\\', '/', 'g')
 	return substitute(sessions, '\(^\|\n\)' . s:sessions_path . '/', '\1', 'g')
 endfunction
 
-"============================================================================"
-
-command! -bar -nargs=1 -complete=custom,s:SessionOpenComplete Sopen call s:OpenSession(<f-args>)
-command! -bar -nargs=1 -complete=custom,s:SessionOpenComplete Sswitch call s:CloseSession()| call s:OpenSession(<f-args>)
-command! -bar -nargs=1 -complete=custom,s:SessionOpenComplete Sdelete call s:DeleteSession(<f-args>)
-command! -bar -nargs=1 -complete=custom,s:SessionOpenComplete Sedit call s:EditSession(<f-args>)
-command! -bar -nargs=0 Sopenlast if exists('g:LAST_SESSION') | call s:OpenSession(g:LAST_SESSION) | endif
-command! -bar -nargs=0 Sclose call s:CloseSession()
-command! -bar -nargs=0 Slist call s:ListSessions()
-command! -bar -nargs=0 Ssave call s:SaveSession()
-command! -bar -nargs=? Ssaveas call s:SaveSessionAs(<f-args>)
-command! -bar -nargs=0 Sshow call s:ShowSession()
-command! -bar -nargs=0 Sautosave if sessionman_save_on_exit |
+command! -bar -nargs=1 -complete=custom,s:SessionOpenComplete SSopen call s:OpenSession(<f-args>)
+command! -bar -nargs=1 -complete=custom,s:SessionOpenComplete SSswitch call s:CloseSession()| call s:OpenSession(<f-args>)
+command! -bar -nargs=1 -complete=custom,s:SessionOpenComplete SSdelete call s:DeleteSession(<f-args>)
+command! -bar -nargs=1 -complete=custom,s:SessionOpenComplete SSedit call s:EditSession(<f-args>)
+command! -bar -nargs=0 SSopenlast if exists('g:LAST_SESSION') | call s:OpenSession(g:LAST_SESSION) | endif
+command! -bar -nargs=0 SSclose call s:CloseSession()
+command! -bar -nargs=0 SSlist call s:ListSessions()
+command! -bar -nargs=0 SSsave call s:SaveSession()
+command! -bar -nargs=? SSsaveas call s:SaveSessionAs(<f-args>)
+command! -bar -nargs=0 SSshow call s:ShowSession()
+command! -bar -nargs=0 SSautosave if sessionman_save_on_exit |
 		\ let sessionman_save_on_exit = 0 |
 		\ echon "Auto save OFF" | else |
 		\ let sessionman_save_on_exit = 1 |
 		\ echon "Auto save ON" | endif
-
-"============================================================================"
 
 an 10.370 &File.-SessionsSep-				<Nop>
 an 10.371 &File.S&essions.&Open\.\.\.		:SessionList<CR>
@@ -306,7 +257,9 @@ an 10.375 &File.S&essions.Save\ &As\.\.\.	:SessionSaveAs<CR>
 
 aug sessionman
 	au VimLeavePre * if sessionman_save_on_exit && v:this_session != '' | call s:SaveSession() | endif
-	au SessionLoadPost * if substitute(v:this_session, '.*\(/\|\\\)', '', '') == 'vim-session' | let sessionman_save_on_exit = 1 | else | let sessionman_save_on_exit = 0 | endif
+	au SessionLoadPost * if substitute(v:this_session, '.*\(/\|\\\)', '', '') == 'vim-session' |
+		\ let sessionman_save_on_exit = 1 |
+		\ else | let sessionman_save_on_exit = 0 | endif
 aug END
 
 let &cpo = s:cpo_save
