@@ -32,11 +32,12 @@ function! InitializeDirectories()
     endfor
 endfunction
 call InitializeDirectories()
-set viminfo='50,<50,s10,h,n$HOME/.vim/tmp/viminfo " keep less info and change viminfo file dir
+set viminfo=!,'50,<50,s10,h,r/tmp,n$HOME/.vim/tmp/viminfo " keep less info and change viminfo file dir
 " }}}2
 syntax on                   " syntax highlighting
 " Avoid the problem occurred when you write to symbolic files on windows
 set nowritebackup
+set sessionoptions=blank,buffers,curdir,folds,help,tabpages,winsize,slash,unix
 if 0 == argc() | cd $HOME | endif " Change the default working directory to HOME
 set path+=~,~/configent,~/vimise " where to look for files when using command like 'gf'
 " key code delay, same as mapping delay(timeoutlen) when < 0(default)

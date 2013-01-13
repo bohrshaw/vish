@@ -4,12 +4,17 @@
 "
 "  Copyright (c) Yuri Klubakov
 "
-"  Author:      Yuri Klubakov <yuri.mlists at gmail dot com>
+"  Author:      Yuri Klubakov <yuri.mlists at gmail dot com>, Bohr shaw <pubohr@gmail.com>
 "  Version:     1.06 (2011-05-06)
 "  Requires:    Vim 6
 "  License:     GPL
 "
 "  Description:
+"
+"  Modified by Bohr Shaw:
+"  1. The session file path is changed to ~/.vim/tmp/sessions.
+"  2. Not auto saving current session when exiting vim.
+"  3. Shorter commands name and make chained commands possible.
 "
 "  Vim provides a ':mksession' command to save the current editing session.
 "  This plug-in helps to work with Vim sessions by keeping them in the
@@ -19,12 +24,8 @@
 "  edit session and edit extra session script.  Please note that session
 "  name can contain spaces and does not have to have a .vim extension.
 "
-"  On Windows, DOS and OS2 sessions are saved in:
-"    "$HOME/vimfiles/sessions"   if $HOME is defined
-"    "$APPDATA/Vim/sessions"     if $APPDATA is defined
-"    "$VIM/sessions"             otherwise
-"  On Unix sessions are saved in:
-"    "$HOME/.vim/sessions"
+"  On all platforms sessions are saved in:
+"    "$HOME/.vim/tmp/sessions"
 "  If this directory does not exist, it will be created by the :SessionSave
 "  command (requires Vim 7).
 "
@@ -76,8 +77,9 @@ if !has('mksession') || exists('loaded_sessionman')
 endif
 let loaded_sessionman = 1
 
+" Default is NOT to auto save the opened session when exiting vim
 if !exists('sessionman_save_on_exit')
-	let sessionman_save_on_exit = 1
+	let sessionman_save_on_exit = 0
 endif
 
 let s:cpo_save = &cpo
@@ -276,13 +278,13 @@ endfunction
 
 "============================================================================"
 
-command! -nargs=1 -complete=custom,s:SessionOpenComplete SessionOpen call s:OpenSession(<f-args>)
-command! -nargs=0 SessionOpenLast if exists('g:LAST_SESSION') | call s:OpenSession(g:LAST_SESSION) | endif
-command! -nargs=0 SessionClose call s:CloseSession()
-command! -nargs=0 SessionList call s:ListSessions()
-command! -nargs=0 SessionSave call s:SaveSession()
-command! -nargs=? SessionSaveAs call s:SaveSessionAs(<f-args>)
-command! -nargs=0 SessionShowLast call s:ShowLastSession()
+command! -bar -nargs=1 -complete=custom,s:SessionOpenComplete Sopen call s:OpenSession(<f-args>)
+command! -bar -nargs=0 Sopenlast if exists('g:LAST_SESSION') | call s:OpenSession(g:LAST_SESSION) | endif
+command! -bar -nargs=0 Sclose call s:CloseSession()
+command! -bar -nargs=0 Slist call s:ListSessions()
+command! -bar -nargs=0 Ssave call s:SaveSession()
+command! -bar -nargs=? Ssaveas call s:SaveSessionAs(<f-args>)
+command! -bar -nargs=0 Sshowlast call s:ShowLastSession()
 
 "============================================================================"
 
