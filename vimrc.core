@@ -11,12 +11,9 @@ let mapleader = "," " put ahead to make following maps work
 " setup custom temp directories used by vim {{{2
 " all temporary files come into ~/.vim/tmp
 function! InitializeDirectories()
-    let separator = "."
-    let parent = $HOME
-    let prefix = '/.vim/tmp/'
-    let dir_list = { 'backup': 'backupdir', 'views': 'viewdir', 'undo': 'undodir', 'swap': 'directory' }
+    let dir_list = { 'backups': 'backupdir', 'views': 'viewdir', 'undos': 'undodir', 'swaps': 'directory' }
     for [dirname, settingname] in items(dir_list)
-        let directory = parent . prefix . dirname . "/"
+        let directory = $HOME . '/.vim/tmp/' . dirname . "/"
         if exists("*mkdir")
             if !isdirectory(directory)
                 call mkdir(directory)
@@ -24,7 +21,6 @@ function! InitializeDirectories()
         endif
         if !isdirectory(directory)
             echo "Warning: Unable to create backup directory: " . directory
-            echo "Try: mkdir -p " . directory
         else
             let directory = substitute(directory, " ", "\\\\ ", "g")
             exec "set " . settingname . "=" . directory
@@ -37,7 +33,9 @@ set viminfo=!,'50,<50,s10,h,r/tmp,n$HOME/.vim/tmp/viminfo " keep less info and c
 syntax on                   " syntax highlighting
 " Avoid the problem occurred when you write to symbolic files on windows
 set nowritebackup
+" Exclude options and mappings in saved sessions and views
 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
+set viewoptions=folds,cursor,unix,slash
 if 0 == argc() | cd $HOME | endif " Change the default working directory to HOME
 set path+=~,~/configent,~/vimise " where to look for files when using command like 'gf'
 " key code delay, same as mapping delay(timeoutlen) when < 0(default)
@@ -63,8 +61,8 @@ set incsearch                   " find as you type search
 set ignorecase                  " case insensitive search
 set smartcase                   " case sensitive when uc present
 
-set scrolljump=3                " lines to scroll when cursor leaves screen
-set scrolloff=3                 " minimum lines to keep above and below cursor
+set scrolljump=2                " lines to scroll when cursor leaves screen
+set scrolloff=2                 " minimum lines to keep above and below cursor
 set wildmenu                    " show list instead of just completing
 set wildmode=list:longest,full  " command <Tab> completion, list matches, then longest common part, then all.
 set pastetoggle=<F4>           " toggle paste option, more robust than a mapping to ":set invpaste<CR>"
@@ -155,7 +153,6 @@ nnoremap <silent> <leader>ul :t.\|s/./=/g\|:nohls<cr>
 
 " Section: Abbreviations {{{1
 cabbrev vsb vert sb 
-ca c call
 " }}}1
 
 " Section: Commands {{{1
