@@ -164,8 +164,30 @@ command! Vicrc :tabe ~/vimise/vicrc
 " display help window at bottom right
 command! -nargs=? -complete=help H :wincmd b | :bel h <args>
 command! -bar -nargs=1 -complete=file E :exe "edit ".substitute(<q-args>,'\(.*\):\(\d\+\):\=$','+\2 \1','')
-command! -bar -nargs=? -bang Scratch :silent enew<bang>|set buftype=nofile bufhidden=hide noswapfile buflisted filetype=<args> modifiable
+command! -bar -nargs=? -bang TmpEdit :silent enew<bang>| set buftype=nowrite bufhidden=hide noswapfile filetype=<args>
+" Interesting text encoding that rotate the half of 26 alphas
 command! Rot13 :exe "normal ggg?G''"
+" Source a range of lines, default to the current line
+command! -range Source <line1>,<line2>g/./exe getline('.')
+command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+
+function! OpenURL(url)
+  if has("win32")
+    exe "!start cmd /cstart /b ".a:url.""
+  elseif $DISPLAY !~ '^\w'
+    exe "silent !sensible-browser \"".a:url."\""
+  else
+    exe "silent !sensible-browser -T \"".a:url."\""
+  endif
+  redraw!
+endfunction
+command! -nargs=1 OpenURL :call OpenURL(<q-args>)
+" open URL under cursor in browser
+nnoremap gb :OpenURL <cfile><CR>
+nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
+nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
+nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
+
 " }}}1
 
 " Section: Autocommands {{{1
