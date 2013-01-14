@@ -1,16 +1,16 @@
-" "vil" represents "vim lightweight".
-" Usage: alias vil vim -u /path/to/vilrc
+" vim lightweight.
+" Usage: alias vil vim -u /path/to/vimrc.light
 
 " A unified runtime path(including the directory "vil")"{{{
 set runtimepath=$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after
 " get the directory contains this sourced file vilrc
-let s:vilrc_dir = expand('<sfile>:p:h')
-" add the vilrc_dir/vil/(after) to 'runtimepath'
-let &runtimepath = printf('%s/vil, %s, %s/vil/after', s:vilrc_dir, &runtimepath, s:vilrc_dir)
+let s:vim_dir = expand('<sfile>:p:h')
+" add the vim_dir/vim-light/(after) to 'runtimepath'
+let &runtimepath = printf('%s/vim-light, %s, %s/vim-light/after', s:vim_dir, &runtimepath, s:vim_dir)
 "}}}
 
-" Source a common vimrc file(vicrc) shared by other vimrcs 
-source <sfile>:h/vicrc
+" Source a common vimrc file(vimrc.core) shared by other vimrcs 
+source <sfile>:h/vimrc.core
 
 " Section: Options {{{1
 filetype plugin indent on

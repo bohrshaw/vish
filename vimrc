@@ -3,8 +3,8 @@
 " A unified runtime path(Unix default)
 set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 
-" Source a common vimrc file(vicrc)
-source <sfile>:h/vimise/vicrc
+" Source a common vimrc file(vimrc.core)
+source <sfile>:h/vimise/vimrc.core
 
 " Section: pathogen {{{1
 runtime bundle/vim-pathogen/autoload/pathogen.vim
