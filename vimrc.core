@@ -164,14 +164,14 @@ command! Vicrc :tabe ~/vimise/vicrc
 " display help window at bottom right
 command! -nargs=? -complete=help H :wincmd b | :bel h <args>
 command! -bar -nargs=1 -complete=file E :exe "edit ".substitute(<q-args>,'\(.*\):\(\d\+\):\=$','+\2 \1','')
-command! -bar -nargs=? -bang TmpEdit :silent enew<bang>| set buftype=nowrite bufhidden=hide noswapfile filetype=<args>
+command! -bar -nargs=? -bang TmpEdit :silent e<bang> ~/.vim/tmp/tmpfile|set buftype=nowrite bufhidden=hide noswapfile filetype=<args>
 " Interesting text encoding that rotate the half of 26 alphas
 command! Rot13 :exe "normal ggg?G''"
 " Source a range of lines, default to the current line
 command! -range Source <line1>,<line2>g/./exe getline('.')
 command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
 
-function! OpenURL(url)
+function! OpenURL(url) " {{{2
   if has("win32")
     exe "!start cmd /cstart /b ".a:url.""
   elseif $DISPLAY !~ '^\w'
@@ -180,7 +180,7 @@ function! OpenURL(url)
     exe "silent !sensible-browser -T \"".a:url."\""
   endif
   redraw!
-endfunction
+endfunction " }}}2
 command! -nargs=1 OpenURL :call OpenURL(<q-args>)
 " open URL under cursor in browser
 nnoremap gb :OpenURL <cfile><CR>
@@ -188,6 +188,64 @@ nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
 nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
 nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
 
+function! DiffWith(...) " {{{2
+  let filetype=&ft
+  tab sp " open current buffer in a new tab
+  diffthis
+  if a:0 == 0
+    " load the original file
+    vnew | r # | normal! 1Gdd
+    " make it temp
+    exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+  else
+    exe "vert sb " . a:1
+  endif
+  diffthis
+endfunction " }}}2
+" diff current file with current saved file or a different buffer
+command! -nargs=? -complete=buffer DiffWith call DiffWith(<f-args>)
+
+function! RedirMessages(cmd) " {{{2
+    " Redirect command outputs to a variable.
+    redir => message
+    silent execute a:cmd
+    redir END
+    new
+    setlocal buftype=nofile bufhidden=wipe noswapfile
+    " Place the messages in the new buffer.
+    silent put=message
+endfunction " }}}2
+" redir command output to buffer, duplicate with Verbose in scriptease.vim
+command! -nargs=1 -complete=command Message call RedirMessages(<q-args>)
+
+function! SetLocalOptions(fname) " {{{2
+	let dirname = fnamemodify(a:fname, ":p:h")
+	while "/" != dirname
+		let lvimrc  = dirname . "/.lvimrc"
+		if filereadable(lvimrc)
+			execute "source " . lvimrc
+			break
+		endif
+		let dirname = fnamemodify(dirname, ":p:h:h")
+	endwhile
+endfunction " }}}2
+" Set directory-wise configuration.
+" Search from the directory the file is located upwards to the root for
+" a local configuration file called .lvimrc and sources it.
+" The local configuration file is expected to have commands affecting
+" only the current buffer.
+" au BufNewFile,BufRead * call SetLocalOptions(bufname("%"))
+
+function! AppendModeline() " {{{2
+  let modeline = printf(" vim:tw=%d:ts=%d:sw=%d:et:", &textwidth, &shiftwidth, &tabstop)
+  let modeline = substitute(&commentstring, "%s", modeline, "")
+  " append a new line and a modeline at the end of file
+  call append(line("$"), ["", modeline])
+endfunction " }}}2
+" Append modeline after last line in buffer.
+" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
+" files.
+command! AppendModeline :call AppendModeline()
 " }}}1
 
 " Section: Autocommands {{{1
@@ -230,4 +288,4 @@ hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=DarkCyan
 " }}}
 " }}}
 
-" vim:ft=vim tw=78 et sw=2 fdm=marker nowrap:
+" vim:ft=vim tw=78 et sw=2 fdm=marker cms="\ %s nowrap:
