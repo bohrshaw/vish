@@ -18,16 +18,18 @@ Convenience, Efficiency
      Don't reinvent another wheel!
 
 ### Architecture
-vimise <= vic => vil (vimrc <= vicrc => vilrc)
+"default vim" <= "core vim" => "lightweight vim"
+(vimrc <= vimrc.core => vimrc.light)
 
 Description:
-"vimise": the full vim distribution.
-"vil": the light weight vim distribution. "vil" exists mainly for startup efficiency.
-       Basically "vil" is just "vimise" without huge and less used plugins.
-       While "vimise" should be installed(linked), "vil" is often used by making an alias
-       like "alias vil vim -u /path/to/vilrc"
-"vic": The common part shared by the other two. Basically "vic" is just "vicrc" which
-       is incleded in "vimrc" and "vilrc".
+"default vim": the full vim distribution.
+"lightweight vim": the light weight vim distribution. "lightweight vim" exists
+    mainly for startup efficiency.  Basically "lightweight vim" is just "default
+    vim" without huge and less used plugins.  While "default vim" should be
+    installed(linked), "lightweight vim" is often used by making an alias like
+    "alias vil vim -u /path/to/vimrc.light"
+"core vim": The common part shared by the other two. Basically "core vim" is
+    just "vimrc.core" which is incleded in "vimrc" and "vimrc.light".
 
 ### Inspired by
  * [pathogen](https://github.com/tpope/vim-pathogen) ( runtime manager )
