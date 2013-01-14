@@ -6,7 +6,7 @@ set runtimepath=$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after
 " get the directory contains this sourced file vilrc
 let s:vim_dir = expand('<sfile>:p:h')
 " add the vim_dir/vim-light/(after) to 'runtimepath'
-let &runtimepath = printf('%s/vim-light, %s, %s/vim-light/after', s:vim_dir, &runtimepath, s:vim_dir)
+let &runtimepath = printf('%s/vim-light, %s/vim, %s, %s/vim/after, %s/vim-light/after', s:vim_dir, s:vim_dir, &runtimepath, s:vim_dir, s:vim_dir)
 "}}}
 
 " Source a common vimrc file(vimrc.core) shared by other vimrcs 

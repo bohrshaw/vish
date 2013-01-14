@@ -108,7 +108,7 @@ function! s:CloseSession()
 	if has('cscope')
 		silent! cscope kill -1
 	endif
-	unlet! g:LAST_SESSION
+	"unlet! g:LAST_SESSION
 	let v:this_session = ''
 endfunction
 
@@ -241,7 +241,7 @@ command! -bar -nargs=0 SSclose call s:CloseSession()
 command! -bar -nargs=0 SSlist call s:ListSessions()
 command! -bar -nargs=0 SSsave call s:SaveSession()
 command! -bar -nargs=? SSsaveas call s:SaveSessionAs(<f-args>)
-command! -bar -nargs=0 SSshow call s:ShowSession()
+command! -bar -nargs=0 SSinfo call s:ShowSession()
 command! -bar -nargs=0 SSautosave if sessionman_save_on_exit |
 		\ let sessionman_save_on_exit = 0 |
 		\ echon "Auto save OFF" | else |
@@ -257,9 +257,10 @@ an 10.375 &File.S&essions.Save\ &As\.\.\.	:SessionSaveAs<CR>
 
 aug sessionman
 	au VimLeavePre * if sessionman_save_on_exit && v:this_session != '' | call s:SaveSession() | endif
-	au SessionLoadPost * if substitute(v:this_session, '.*\(/\|\\\)', '', '') == 'vim-session' |
-		\ let sessionman_save_on_exit = 1 |
-		\ else | let sessionman_save_on_exit = 0 | endif
+	" Set auto save particular session based on the session name
+	"au SessionLoadPost * if substitute(v:this_session, '.*\(/\|\\\)', '', '') == 'vim-session' |
+		"\ let sessionman_save_on_exit = 1 |
+		"\ else | let sessionman_save_on_exit = 0 | endif
 aug END
 
 let &cpo = s:cpo_save

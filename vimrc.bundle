@@ -84,6 +84,7 @@
             "}}}
             " extra tools and interfaces with external tools {{{2
             Bundle 'vimwiki'
+                let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
             if has("unix")
                 Bundle 'tpope/vim-eunuch'
             endif

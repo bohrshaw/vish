@@ -20,6 +20,8 @@ Convenience, Efficiency
 ### Architecture
 "default vim" <= "core vim" => "lightweight vim"
 (vimrc <= vimrc.core => vimrc.light)
+(vim <= vim-core => vim-light)
+As vim is identical to vim-core, so actually (vim => vim-light)
 
 Description:
 "default vim": the full vim distribution.

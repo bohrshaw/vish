@@ -1,12 +1,20 @@
 # What's next?
+Make a portable vim sub-distribution. Currently vim-light has directories that
+located on ~/.vim/tmp/*.
+
+Make a :B command to jump to a existing window containing the buffer you want to
+switch to, even though the target window is at a different tab.
+
 Change to vimwiki or todo.txt to manage tasks
+
+Carefully craft a vim-session file, like including local options to a
+window(args) and buffer
 
 Check vim crash-recovery and security related options.
 
 Check vim syntax and spell section.
 
-Make a :B command to jump to a existing window containing the buffer you want to
-switch to, even though the target window is at a different tab.
+Check vim remote features(server and client mode)
 
 Map some alt keys to vim.
 
