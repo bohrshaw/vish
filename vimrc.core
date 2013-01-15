@@ -6,6 +6,7 @@
 " 3.Perfect is the enemy of good enough.
 
 " Section: Options {{{1
+
 set nocompatible
 let mapleader = "," " put ahead to make following maps work
 " setup custom temp directories used by vim {{{2
@@ -41,12 +42,10 @@ set path+=~,~/configent,~/vimise " where to look for files when using command li
 " key code delay, same as mapping delay(timeoutlen) when < 0(default)
 " Avoid the delay in entering normal mode after pressing ESC
 set ttimeoutlen=50
-
 set fileformats=unix,dos " will set new file to unix format
 set fileformat=unix " local to buffer, this option is set automatically when starting to edit a file
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1
 set encoding=utf-8 "Sets the character encoding used inside Vim, conversion will be done when 'encoding' and 'fileencoding' is defferent
-
 set shiftwidth=2                " number of spaces to use for each step of (auto)indent
 set shiftround                  " use multiple of shiftwidth to round when indenting with '<' and '>'
 set autoindent                  " indent at the same level of the previous line
@@ -56,11 +55,9 @@ set expandtab                   " expand a tab to spaces
 set smarttab      " when at a start on line, the number of spaces a tab count for is determined by 'shiftwith'
 set nowrap                      " no wrap long lines
 set textwidth=78                " auto insert newline when textwidth is beyond the specified number
-
 set incsearch                   " find as you type search
 set ignorecase                  " case insensitive search
 set smartcase                   " case sensitive when uc present
-
 set scrolljump=2                " lines to scroll when cursor leaves screen
 set scrolloff=2                 " minimum lines to keep above and below cursor
 set wildmenu                    " show list instead of just completing
@@ -81,9 +78,11 @@ set shortmess+=filmnrwxoOtTI      " abbrev. of messages and avoids 'hit enter'
 set cryptmethod=blowfish
 " enable vim scripts syntax based foldding. refer: http://vim.wikia.com/wiki/Syntax_folding_of_Vim_scripts
 let g:vimsyn_folding='af'
-" }}}1
 
+" }}}1
 " Section: Mappings {{{1
+
+" Abbreviations is separated in ~/.vim/after/plugin/abolish.vim
 " when define mappings, check out ":h index"
 nnoremap ; :
 xnoremap ; :
@@ -149,13 +148,10 @@ onoremap <silent> F :<C-U>normal! 0f(hviw<CR>
 command! -nargs=? -complete=dir Mkdir :call mkdir(expand('%:p:h') . "/" . <q-args>, "p")
 " Underline the current line with '=', frequently used in markdown headings
 nnoremap <silent> <leader>ul :t.\|s/./=/g\|:nohls<cr>
-" }}}1
 
-" Section: Abbreviations {{{1
-cabbrev vsb vert sb 
 " }}}1
-
 " Section: Commands {{{1
+
 " shortcut to edit this vimrc file in a new tab
 command! Vicrc :tabe ~/vimise/vicrc
 " display help window at bottom right
@@ -167,7 +163,6 @@ command! Rot13 :exe "normal ggg?G''"
 " Source a range of lines, default to the current line
 command! -range Source <line1>,<line2>g/./exe getline('.')
 command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
-
 function! OpenURL(url) " {{{2
   if has("win32")
     exe "!start cmd /cstart /b ".a:url.""
@@ -184,7 +179,6 @@ nnoremap gb :OpenURL <cfile><CR>
 nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
 nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
 nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
-
 function! DiffWith(...) " {{{2
   let filetype=&ft
   tab sp " open current buffer in a new tab
@@ -201,7 +195,6 @@ function! DiffWith(...) " {{{2
 endfunction " }}}2
 " diff current file with current saved file or a different buffer
 command! -nargs=? -complete=buffer DiffWith call DiffWith(<f-args>)
-
 function! RedirMessages(cmd) " {{{2
     " Redirect command outputs to a variable.
     redir => message
@@ -214,7 +207,6 @@ function! RedirMessages(cmd) " {{{2
 endfunction " }}}2
 " redir command output to buffer, duplicate with Verbose in scriptease.vim
 command! -nargs=1 -complete=command Message call RedirMessages(<q-args>)
-
 function! SetLocalOptions(fname) " {{{2
 	let dirname = fnamemodify(a:fname, ":p:h")
 	while "/" != dirname
@@ -232,7 +224,6 @@ endfunction " }}}2
 " The local configuration file is expected to have commands affecting
 " only the current buffer.
 " au BufNewFile,BufRead * call SetLocalOptions(bufname("%"))
-
 function! AppendModeline() " {{{2
   let modeline = printf(" vim:tw=%d:ts=%d:sw=%d:et:", &textwidth, &shiftwidth, &tabstop)
   let modeline = substitute(&commentstring, "%s", modeline, "")
@@ -243,15 +234,17 @@ endfunction " }}}2
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
 " files.
 command! AppendModeline :call AppendModeline()
-" }}}1
 
+" }}}1
 " Section: Autocommands {{{1
+
 " If you want to do more about this filetype, put these setting into
 " ~/.vim/after/ftplugin/python.vim
 autocmd FileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
-" }}}1
 
+" }}}1
 " Section: Appearance {{{1
+
 set background=dark         " Assume a dark background for colorschemes
 set showmode                    " display the current mode
 set cursorline                  " highlight current line

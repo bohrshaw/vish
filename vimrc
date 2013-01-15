@@ -7,6 +7,7 @@ set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.
 source <sfile>:h/vimise/vimrc.core
 
 " Section: pathogen {{{1
+
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 " Rename a bundle like "rails" to "rails~" to disable it Or add disabled bundles to the list bellow.
 let g:pathogen_disabled = []
@@ -14,17 +15,27 @@ if has('gui_running')
     call add(g:pathogen_disabled, 'csapprox')
 endif
 call pathogen#infect()
-" }}}1
 
+" }}}1
 " Section: Options {{{1
+
 filetype plugin indent on " Must be after pathogen or vundle setup
 " Improve the ability of recovery
+set history=1000                " Store a ton of history (default is 20)
+set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond current line
+set nolazyredraw " Don't redraw while executing macros
 " set undofile                "set persistent undo
+"set foldenable                  " fold code, use zi to toggle
+"set nojoinspaces " no auto append spaces when joinin lines
+"set hlsearch                    " highlight search terms
+"set matchpairs+=<:>                " match, to be used with %
+"set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
 " Personal plugin options"{{{2
 "}}}2
-" }}}1
 
+" }}}1
 " Section: Mappings {{{1
+
     " find merge conflict markers, maybe duplicate as unimpaired exists mappings [n ]n
     "nnoremap <silent> <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
     " set a fold level quickly "{{{2
@@ -43,23 +54,26 @@ filetype plugin indent on " Must be after pathogen or vundle setup
         nnoremap <leader>ss :SSsave<CR>
         nnoremap <leader>sa :SSsaveas<CR>
     " }}}2
-" }}}1
 
+" }}}1
 " Section: Commands {{{1
+
 " shortcut to edit this vimrc file in a new tab
 command! Vimrc :tabe ~/vimise/vimrc
 " execute current ruby file (make ruby)
 command! Mr :let f=expand("%")|wincmd w|
             \ if bufexists("mr_output")|e! mr_output|else|sp mr_output|endif |
             \ execute '$!ruby "' . f . '"'|wincmd W
-" }}}1
 
+" }}}1
 " Section: Autocommands {{{1
+
 " remove trailing whitespaces and ^m chars
 autocmd filetype c,cpp,java,php,javascript,python,twig,xml,yml autocmd bufwritepre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
-" }}}1
 
+" }}}1
 " Section: Appearance {{{1
+
 if has('gui_running')
     color solarized
 elseif has('unix')
@@ -68,20 +82,10 @@ else
     color molokai
 endif
 set statusline+=\ %{fugitive#statusline()} "  Git Hotness
-" }}}1
 
+" }}}1
 " Source the bundle configuration file
 "source ~/vimise/vimrc.bundle
-
-" Behaviour(Affect Interaction){{{1
-set history=1000                " Store a ton of history (default is 20)
-set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond current line
-set nolazyredraw " Don't redraw while executing macros
-"set foldenable                  " fold code, use zi to toggle
-"set nojoinspaces " no auto append spaces when joinin lines
-"set hlsearch                    " highlight search terms
-"set matchpairs+=<:>                " match, to be used with %
-"set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
 " OmniComplete {{{2
     if has("autocmd") && exists("+omnifunc")
         autocmd Filetype *
@@ -89,11 +93,9 @@ set nolazyredraw " Don't redraw while executing macros
             \setlocal omnifunc=syntaxcomplete#Complete |
             \endif
     endif
-
     hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
     hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
     hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
-
     " some convenient mappings
     inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
     inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
@@ -101,12 +103,9 @@ set nolazyredraw " Don't redraw while executing macros
     inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
     inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
     inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
-
     " automatically open and close the popup menu / preview window
     au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
     set completeopt=menu,preview,longest
 " }}}2
-" }}}
-
 
 " vim:ft=vim tw=78 et sw=2 fdm=marker nowrap:

@@ -13,26 +13,32 @@ let &runtimepath = printf('%s/vim-light, %s/vim, %s, %s/vim/after, %s/vim-light/
 source <sfile>:h/vimrc.core
 
 " Section: Options {{{1
+
 filetype plugin indent on
 set noswapfile
 set viminfo=
-" }}}1
 
+" }}}1
 " Section: Mappings {{{1
-" }}}1
 
+
+" }}}1
 " Section: Abbreviations {{{1
-" }}}1
 
+
+" }}}1
 " Section: Commands {{{1
+
 " shortcut to edit this vimrc file in a new tab
 command! Vimrc :tabe ~/vimise/vimrc
-" }}}1
 
+" }}}1
 " Section: Autocommands {{{1
-" }}}1
 
+
+" }}}1
 " Section: Appearance {{{1
+
 if has('gui_running')
     color solarized
 elseif has('unix')
@@ -40,6 +46,7 @@ elseif has('unix')
 else
     "color pablo
 endif
+
 " }}}1
 
 " vim:ft=vim tw=78 et sw=2 fdm=marker nowrap:
