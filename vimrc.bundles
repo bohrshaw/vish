@@ -1,0 +1,140 @@
+" Vim bundles specification and configuration for the "VIMISE" vim distribution.
+
+" Slogan: manage your runtimepath.
+" Bundle: tpope/vim-pathogen
+
+" Slogan: A Vim plugin for Vim plugins.
+" Bundle: tpope/vim-scriptease
+
+" Slogan: a tree explorer plugin for vim.
+" Bundle: scrooloose/nerdtree
+" noremap <C-t> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
+" nmap <leader>n :NERDTreeFind<CR>
+" let NERDTreeShowBookmarks=1
+" let NERDTreeIgnore=['^..$[[dir]]', '^.$[[dir]]', '\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+" let NERDTreeChDirMode=0
+" let NERDTreeQuitOnOpen=1
+" let NERDTreeMouseMode=2
+" let NERDTreeShowHidden=1
+" let NERDTreeKeepTreeInNewTab=1
+" let g:nerdtree_tabs_open_on_gui_startup=0
+" let g:NERDShutUp=1
+
+" Slogan: Buffer Explorer/Browser.
+" Bundle: vim-scripts/bufexplorer.zip
+" nmap <leader>b :BufExplorer<CR>
+
+" Slogan: Fuzzy file, buffer, mru, tag, etc finder.
+" Bundle: kien/ctrlp.vim
+" let g:ctrlp_working_path_mode = 2
+" nnoremap <silent> <D-t> :CtrlP<CR>
+" nnoremap <silent> <D-r> :CtrlPMRU<CR>
+" let g:ctrlp_custom_ignore = {
+" \ 'dir':  '\.git$\|\.hg$\|\.svn$',
+" \ 'file': '\.exe$\|\.so$\|\.dll$' }
+
+" Slogan: enable repeating supported plugin maps with ".".
+" Bundle: tpope/vim-repeat
+
+" Slogan: quoting/parenthesizing made simple.
+" Bundle: tpope/vim-surround
+
+" Slogan: use CTRL-A/CTRL-X to increment dates, times, and more.
+" Bundle: tpope/vim-speeddating
+
+" Slogan: easily search for, substitute, and abbreviate multiple variants of a word.
+" Bundle: tpope/vim-abolish
+nmap co <Plug>Coerce
+
+" Slogan: pairs of handy bracket mappings.
+" Bundle: tpope/vim-unimpaired
+
+" Slogan: a Git wrapper so awesome, it should be illegal.
+" Bundle: tpope/vim-fugitive
+" nnoremap <silent> <leader>gs :Gstatus<CR>
+" nnoremap <silent> <leader>gd :Gdiff<CR>
+" nnoremap <silent> <leader>gc :Gcommit<CR>
+" nnoremap <silent> <leader>gb :Gblame<CR>
+" nnoremap <silent> <leader>gl :Glog<CR>
+" nnoremap <silent> <leader>gp :Git push<CR>
+
+" Slogan: wisely add "end" in ruby, endfunction/endif/more in vim script, etc.
+" Bundle: tpope/vim-endwise
+
+" Slogan: Heuristically set buffer options.
+" Bundle: tpope/vim-sleuth
+
+" Slogan: helpers for UNIX(Windows).
+" Bundle: tpope/vim-eunuch
+
+" Slogan: Readline style insertion.
+" Bundle: tpope/vim-rsi
+
+" Slogan: runtime files for Haml, Sass, and SCSS .
+" Bundle: tpope/vim-haml
+
+" Slogan: Markdown runtime files.
+" Bundle: tpope/vim-markdown
+
+" Slogan: precision colorscheme for the vim text editor.
+" Bundle: altercation/vim-colors-solarized
+
+" Slogan: vim motions on speed.
+" Bundle: Lokaltog/vim-easymotion
+
+" Slogan: Vim plugin for intensely orgasmic commenting.
+" Bundle: scrooloose/nerdcommenter
+
+" Slogan: comment stuff out.
+"" Bundle: tpope/vim-commentary
+
+" Slogan: A Vim plugin for Windows PowerShell support.
+" Bundle: PProvost/vim-ps1
+
+" Slogan: Personal Wiki for Vim.
+" Bundle: vim-scripts/vimwiki
+
+" Slogan: A Vim plugin for visually displaying indent levels in code.
+" Bundle: nathanaelkane/vim-indent-guides
+
+" Slogan: Syntax checking hacks for vim.
+" Bundle: scrooloose/syntastic
+
+" Slogan: Display your undo history in a graph.
+" Bundle: mbbill/undotree
+" nnoremap <F5> :UndotreeToggle<CR>
+" let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
+
+" Slogan: Vim plugin to visualize your Vim undo tree.
+"" Bundle: sjl/gundo.vim
+
+" Slogan: Vim plugin that displays tags in a window, ordered by class etc.
+" Bundle: majutsushi/tagbar
+" set tags=./tags;/,~/.vimtags
+" nnoremap <silent> <leader>tt :TagbarToggle<CR>
+
+" Slogan: Vim plugin, provides insert mode auto-completion for quotes, parens, brackets, etc.
+" Bundle: Raimondi/delimitMate
+
+" Slogan: Vim Syntax for todo.txt (todotxt.com).
+" Bundle: davidoc/todo.txt-vim
+
+" Slogan: This script implements transparent editing of gpg encrypted files. The filename must have a ".gpg", ".pgp" or ".asc" suffix. When opening such a file the content is decrypted, when opening a new file the script will ask for the recipients of the encrypted file. The file content will be encrypted to all recipients before it is written. The script turns off viminfo, swapfile, and undofile to increase security.
+" Bundle: jamessan/vim-gnupg
+
+" Slogan: Perform all your vim insert mode completions with Tab.
+" Bundle: ervandew/supertab
+
+" Slogan: a colorscheme strangely reminiscent of Vibrant Ink for a certain OS X editor.
+" Bundle: tpope/vim-vividchalk
+
+" Slogan: one colorscheme pack to rule them all.
+" Bundle: flazz/vim-colorschemes
+
+" Slogan: Vim script for text filtering and alignment.
+" Bundle: godlygeek/tabular
+
+" Slogan: Personal Wiki for Vim.
+" Bundle: vim-scripts/vimwiki
+
+" vim:ft=vim tw=78 et sw=2 fdm=marker cms="\ %s nowrap:
