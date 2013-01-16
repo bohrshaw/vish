@@ -1,13 +1,15 @@
 #!/bin/bash
 
 # define variable
-usage="$(basename $0) [-h] [-d directory] [-c repository] [-C] [-p] [-P] -- clone or pull git repositories
+usage="Usage: $(basename $0) [-h] [-d directory] [-c repository] [-C] [-p] [-P]
 
 Where:
     -h  show this help text
     -d  change directory, default is '$HOME/.vim/bundle'
-    -c  clone a repository, either specify the full url or just like 'tpope/vim-pathogen'
+    -c  clone a repository, either specify the full URL
+        or the short form like 'tpope/vim-pathogen'
     -C  clone all repositories specified in bundles.md
+        abort if the destination directory already exists
     -p  pull repositories under the 'bundle' directory
     -P  pull repositories recursively under the 'bundle' directory"
 
@@ -34,7 +36,7 @@ do
 done
 
 if [ ! -z "$hflag" ] || [ $# -eq 0 ]; then
-       echo "$usage" >&2
+  echo "$usage" >&2
 fi
 
 if [ ! -z "$dflag" ]; then
@@ -56,50 +58,50 @@ if [ ! -z "$cflag" ]; then
 fi
 
 if [ ! -z "$Cflag" ]; then
-       echo "=========================== Clone Bundles ==========================="
-       # Clone bundles specified in bundles.md
-       bundle_list="$HOME/vimise/bundles.md"
-       # grep lines containing "**chars**", and sed plugin's name, example output: Fugitive
-       pluglist="$(grep '\*\*[^\*]*\*\*' $bundle_list | sed 's/^....\([^:]*\)..:.*$/\1/')"
-       cd $BUNDLE_DIR
-       for f in $pluglist
-       do
-           # get the "git clone ..." command
-           clone="$(grep $f $bundle_list | sed 's/.*`\(.*\)`.*$/\1/')"
-           # get destination folder name of the "git clone" command
-           fold=$(echo $clone | cut -f4 -d' ')
-           if [[ ! -d "$fold" ]]; then
-               echo  cloning into $fold
-               # executing git clone ...
-               eval $clone
-           fi
-       done
-       echo "=========================== Bundles Cloned ==========================="
+  echo "Cloning bundles..."
+  bundle_file="$HOME/vimise/bundles.md"
+  # Get the URL list of bundles and change protocol from https to git
+  url_list="$(grep '^##.*http' $bundle_file | sed 's/.*(https\(.*\)).*/git\1/')"
+  cd $BUNDLE_DIR
+  let count=0
+  for url in $url_list
+  do
+    tmp=${url##*\/}; dest=${tmp%%.git}
+    if [ ! -d $dest ]; then
+      echo "Cloning into $dest..."
+      git clone $url
+      let count+=1
+    fi
+  done
+  echo "Cloning $count bundles finished."
 fi
 
 if [ ! -z "$pflag" ]; then
-       echo "=========================== Pull Bundles ==========================="
-       # Update all git repositories under current directory,
-       # excluding directories end with '~'
-       for d in $(ls -d *[^~])
-       do
-           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $d"
-           (cd $d; git pull)
-       done
-       echo "=========================== Bundles Pulled ==========================="
+  echo "Pull bundles..."
+  # Update all git repositories under current directory,
+  # excluding directories end with '~'
+  let count=0
+  for d in $(ls -d *[^~])
+  do
+    echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $d"
+    (cd $d; git pull)
+    let count+=1
+  done
+  echo "Pull $count bundles finished."
 fi
 
 if [ ! -z "$Pflag" ]; then
-       echo "======================== Pull Bundles Recursively ========================"
-       # Update all git repositories under current directory recursively(maxdepth is 3),
-       # excluding directories end with '~'
-       find . -maxdepth 3 -path '*~' -prune \
-            -o -type d -name .git -print | while read f
-       do
-       echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ${f%/.git}"
-           (cd ${f%/.git}; git pull)
-       done
-       echo "=========================== Bundles Pulled Recursively ==========================="
+  echo  "Pull bundles recursively..."
+  # Update all git repositories under current directory recursively(maxdepth is 3),
+  # excluding directories end with '~'
+  let count=0
+  for d in $( find . -maxdepth 3 -path '*~' -prune -o -type d -name .git -print )
+  do
+    echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ${d%/.git}"
+    (cd ${d%/.git}; git pull)
+    let count+=1
+  done
+  echo  "Pull $count bundles recursively finished."
 fi
 
 shift $(($OPTIND - 1))
