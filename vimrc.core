@@ -34,6 +34,7 @@ set viminfo=!,'50,<50,s10,h,r/tmp,n$HOME/.vim/tmp/viminfo " keep less info and c
 syntax on                   " syntax highlighting
 " Avoid the problem occurred when you write to symbolic files on windows
 set nowritebackup
+"if has('win32') | set shell=\"C:\Program\ Files\Git\bin\sh.exe\" | endif
 " Exclude options and mappings in saved sessions and views
 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
 set viewoptions=folds,cursor,unix,slash
@@ -65,7 +66,7 @@ set wildmode=list:longest,full  " command <Tab> completion, list matches, then l
 set pastetoggle=<F4>           " toggle paste option, more robust than a mapping to ":set invpaste<CR>"
 set autoread " Automatically read a file that has changed(not delete) on disk
 set showcmd                 " show partial commands in status line and
-set clipboard=unnamed " Link unnamed register and OS clipboard:
+"set clipboard=unnamed " Link unnamed register and OS clipboard:
 set backspace=indent,eol,start  " backspace for dummies
 set visualbell t_vb= " no beep or flash
 au GUIEnter * set vb t_vb= " disable error sounds and error screen flash
@@ -131,16 +132,12 @@ noremap zh zH
 nnoremap <leader>S ^y$:@"<cr> :echo "current line sourced."<cr>
 " Source visual selection
 vnoremap <leader>S y:@"<cr> :echo "selected lines sourced."<cr>
-" upper/lower word
-nnoremap <leader>u mQviwU`Q
-nnoremap <leader>l mQviwu`Q
-" upper/lower first char of word
-nnoremap <leader>U mQgewvU`Q
-nnoremap <leader>L mQgewvu`Q
 " Appends the current date and time after the cursor
 nmap <leader>at a<C-R>=strftime("%c")<CR><Esc>
-" Swap two words
-nnoremap <silent> gw :s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>`'
+" Exchange two adjacent keywords
+nnoremap <leader>ew :s/\v(<\k*%#\k*>)(\_.{-})(<\k+>)/\3\2\1/<cr>
+" Remove duplicate lines
+nnoremap <leader>uq :g/^/kl\|if search('^'.escape(getline('.'),'\.*[]^$/').'$','bW')\|'ld<CR>
 " Move to the function name and operate on just this function name
 " as long as the cursor is before the function name.
 onoremap <silent> F :<C-U>normal! 0f(hviw<CR>
@@ -154,10 +151,15 @@ nnoremap <silent> <leader>ul :t.\|s/./=/g\|:nohls<cr>
 
 " shortcut to edit this vimrc file in a new tab
 command! Vicrc :tabe ~/vimise/vicrc
+" Remove adjacent duplicate lines by matching two lines first
+command! UniqAdjacent :g/\v^(.*)$\n\1$/d
+"command! UniqAdjacent :g/\v%(^\1$\n)@<=(.*)$/d
+" Remove duplicate lines, except for ture empty lines
+command! Uniq :g/^\(.+\)\n\_.*\%(^\1$\)/d
 " display help window at bottom right
-command! -nargs=? -complete=help H :wincmd b | :bel h <args>
-command! -bar -nargs=1 -complete=file E :exe "edit ".substitute(<q-args>,'\(.*\):\(\d\+\):\=$','+\2 \1','')
-command! -bar -nargs=? -bang TmpEdit :silent e<bang> ~/.vim/tmp/tmpfile|set buftype=nowrite bufhidden=hide noswapfile filetype=<args>
+command! -nargs=? -complete=help H :vert h <args>
+command! -nargs=? -complete=help Hb :wincmd b | :bel h <args>
+command! -bar -nargs=? -bang TmpFile :silent e<bang> ~/.vim/tmp/tmpfile|setlocal noswapfile filetype=<args>
 " Interesting text encoding that rotate the half of 26 alphas
 command! Rot13 :exe "normal ggg?G''"
 " Source a range of lines, default to the current line
@@ -206,7 +208,7 @@ function! RedirMessages(cmd) " {{{2
     silent put=message
 endfunction " }}}2
 " redir command output to buffer, duplicate with Verbose in scriptease.vim
-command! -nargs=1 -complete=command Message call RedirMessages(<q-args>)
+"command! -nargs=1 -complete=command Message call RedirMessages(<q-args>)
 function! SetLocalOptions(fname) " {{{2
 	let dirname = fnamemodify(a:fname, ":p:h")
 	while "/" != dirname
@@ -225,7 +227,7 @@ endfunction " }}}2
 " only the current buffer.
 " au BufNewFile,BufRead * call SetLocalOptions(bufname("%"))
 function! AppendModeline() " {{{2
-  let modeline = printf(" vim:tw=%d:ts=%d:sw=%d:et:", &textwidth, &shiftwidth, &tabstop)
+  let modeline = printf(" vim:tw=%d ts=%d sw=%d et:", &textwidth, &shiftwidth, &tabstop)
   let modeline = substitute(&commentstring, "%s", modeline, "")
   " append a new line and a modeline at the end of file
   call append(line("$"), ["", modeline])

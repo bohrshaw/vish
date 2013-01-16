@@ -12,8 +12,11 @@ color indigo
 " Mappings" {{{
 no ; :
 no \\ ;
+nno gj gt
 nno J gt
+nno gk gT
 nno K gT
+nno <leader>/ :set invhlsearch
 cno <c-p> <Up>
 cno <c-n> <Down>
 " }}}
