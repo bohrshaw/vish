@@ -44,7 +44,7 @@ if has('gui_running')
 elseif has('unix')
     color molokai
 else
-    "color pablo
+    color vividchalk
 endif
 
 " }}}1

@@ -43,3 +43,4 @@ Description:
  * [Drew Neil's dotfiles](https://github.com/nelstrom/dotfiles)
  * [skwp's dotfiles](https://github.com/skwp/dotfiles)
  * [dotvim](https://github.com/astrails/dotvim)
+ * [lh-vim](http://code.google.com/p/lh-vim/)
