@@ -9,6 +9,14 @@ VIMISE_PATH="$HOME/vimise"
 cd $VIMISE_PATH
 
 echo "Starting installation..."
+
+echo "Backing up current vim configuration files..."
+today=`date +%Y%m%d`
+# Backup only if not symbol links.
+for i in $HOME/.vim $HOME/.vimrc $HOME/.gvimrc $HOME/.vimperator $HOME/.vimperatorrc; do
+    [ -e $i ] && [ ! -L $i ] && mv $i $i.$today
+done
+
 echo "Linking files..."
 ln -sfn $VIMISE_PATH/vim $HOME/.vim
 ln -sf $VIMISE_PATH/vimrc $HOME/.vimrc
