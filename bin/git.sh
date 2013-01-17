@@ -59,10 +59,10 @@ fi
 
 if [ ! -z "$Cflag" ]; then
   echo "Cloning bundles..."
-  bundle_file="$HOME/vimise/vimrc.bundles"
-  # Get the URL list of bundles and change protocol from https to git
-  url_list="$(grep '^" Bundle' $bundle_file \
-    | sed 's/"\ Bundle:\ \(.*\)/git:\/\/github.com\/\1.git/')"
+  bundle_file="$HOME/vimise/vimrc.bundle"
+  # Get the URL list of bundles, the format '\'' match a '
+  url_list="$(grep '^" Bundle ' $bundle_file \
+    | sed 's_" Bundle '\''\(.*\)'\''_git://github.com/\1.git_')"
   cd $BUNDLE_DIR
   let count=0
   for url in $url_list
