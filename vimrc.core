@@ -8,29 +8,17 @@
 " Section: Options {{{1
 
 set nocompatible
-let mapleader = "," " put ahead to make following maps work
-" setup custom temp directories used by vim {{{2
-" all temporary files come into ~/.vim/tmp
 function! InitializeDirectories()
-    let dir_list = { 'backups': 'backupdir', 'views': 'viewdir', 'undos': 'undodir', 'swaps': 'directory' }
-    for [dirname, settingname] in items(dir_list)
-        let directory = $HOME . '/.vim/tmp/' . dirname . "/"
-        if exists("*mkdir")
-            if !isdirectory(directory)
-                call mkdir(directory)
-            endif
-        endif
-        if !isdirectory(directory)
-            echo "Warning: Unable to create backup directory: " . directory
-        else
-            let directory = substitute(directory, " ", "\\\\ ", "g")
-            exec "set " . settingname . "=" . directory
-        endif
-    endfor
+  let dir_list = { 'swap': 'directory', 'undo': 'undodir', 'backup': 'backupdir' }
+  for [dir_name, set_name] in items(dir_list)
+    let set_value = $HOME . '/.vim/tmp/' . dir_name . "/"
+    if !isdirectory(set_value) | silent! call mkdir(set_value) | endif
+    exec "set " . set_name . "^=" . set_value . "/"
+  endfor
+  set viewdir=~/.vim/tmp/view
 endfunction
 call InitializeDirectories()
-set viminfo=!,'50,<50,s10,h,r/tmp,n$HOME/.vim/tmp/viminfo " keep less info and change viminfo file dir
-" }}}2
+let mapleader = "," " put ahead to make following maps work
 syntax on                   " syntax highlighting
 " Avoid the problem occurred when you write to symbolic files on windows
 set nowritebackup
@@ -40,6 +28,7 @@ set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
 set viewoptions=folds,cursor,unix,slash
 if 0 == argc() | cd $HOME | endif " Change the default working directory to HOME
 set path+=~,~/configent,~/vimise " where to look for files when using command like 'gf'
+set complete-=i " Don't scan included files for keyword completion.
 " key code delay, same as mapping delay(timeoutlen) when < 0(default)
 " Avoid the delay in entering normal mode after pressing ESC
 set ttimeoutlen=50
@@ -61,10 +50,13 @@ set ignorecase                  " case insensitive search
 set smartcase                   " case sensitive when uc present
 set scrolljump=2                " lines to scroll when cursor leaves screen
 set scrolloff=2                 " minimum lines to keep above and below cursor
+set sidescrolloff=5                 " The minimal number of screen columns to keep around the cursor
+set display+=lastline           " ensure the last line is properly displayed
 set wildmenu                    " show list instead of just completing
 set wildmode=list:longest,full  " command <Tab> completion, list matches, then longest common part, then all.
 set pastetoggle=<F4>           " toggle paste option, more robust than a mapping to ":set invpaste<CR>"
 set autoread " Automatically read a file that has changed(not delete) on disk
+set autowrite
 set showcmd                 " show partial commands in status line and
 "set clipboard=unnamed " Link unnamed register and OS clipboard:
 set backspace=indent,eol,start  " backspace for dummies
@@ -74,6 +66,10 @@ set hidden                      " allow buffer switching without saving
 set mouse=a                 " automatically enable mouse usage
 set spell                       " spell checking on
 set shortmess+=filmnrwxoOtTI      " abbrev. of messages and avoids 'hit enter'
+" Allow color schemes do bright colors without forcing bold.
+if &t_Co == 8 && $TERM !~# '^linux'
+  set t_Co=16
+endif
 " Acceptable encryption strength, also remember to set viminfo=
 " swap and undo are all encrypted, but may set nowritebackup and nobackup(default)
 set cryptmethod=blowfish
@@ -198,27 +194,27 @@ endfunction " }}}2
 " diff current file with current saved file or a different buffer
 command! -nargs=? -complete=buffer DiffWith call DiffWith(<f-args>)
 function! RedirMessages(cmd) " {{{2
-    " Redirect command outputs to a variable.
-    redir => message
-    silent execute a:cmd
-    redir END
-    new
-    setlocal buftype=nofile bufhidden=wipe noswapfile
-    " Place the messages in the new buffer.
-    silent put=message
+  " Redirect command outputs to a variable.
+  redir => message
+  silent execute a:cmd
+  redir END
+  new
+  setlocal buftype=nofile bufhidden=wipe noswapfile
+  " Place the messages in the new buffer.
+  silent put=message
 endfunction " }}}2
 " redir command output to buffer, duplicate with Verbose in scriptease.vim
 "command! -nargs=1 -complete=command Message call RedirMessages(<q-args>)
 function! SetLocalOptions(fname) " {{{2
-	let dirname = fnamemodify(a:fname, ":p:h")
-	while "/" != dirname
-		let lvimrc  = dirname . "/.lvimrc"
-		if filereadable(lvimrc)
-			execute "source " . lvimrc
-			break
-		endif
-		let dirname = fnamemodify(dirname, ":p:h:h")
-	endwhile
+  let dirname = fnamemodify(a:fname, ":p:h")
+  while "/" != dirname
+    let lvimrc  = dirname . "/.lvimrc"
+    if filereadable(lvimrc)
+      execute "source " . lvimrc
+      break
+    endif
+    let dirname = fnamemodify(dirname, ":p:h:h")
+  endwhile
 endfunction " }}}2
 " Set directory-wise configuration.
 " Search from the directory the file is located upwards to the root for
@@ -253,8 +249,8 @@ set cursorline                  " highlight current line
 set ruler                   " show the ruler
 set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " a ruler on steroids
 if &term == 'xterm' || &term == 'xterm-256color' || &term == 'screen'
-set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
-let g:solarized_termcolors=256
+  set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
+  let g:solarized_termcolors=256
 endif
 set number                          " Line numbers on
 set relativenumber                  " relative number

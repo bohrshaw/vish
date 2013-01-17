@@ -86,6 +86,6 @@ set statusline+=\ %{fugitive#statusline()} "  Git Hotness
 
 " }}}1
 " Source the bundle configuration file
-source ~/vimise/vimrc.bundles
+source ~/vimise/vimrc.bundle
 
 " vim:ft=vim tw=78 et sw=2 fdm=marker nowrap:
