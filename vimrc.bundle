@@ -8,7 +8,7 @@
 
 " Slogan: a tree explorer plugin for vim.
 " Bundle 'scrooloose/nerdtree'
-" noremap <C-t> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
+noremap <C-t> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
 " nmap <leader>n :NERDTreeFind<CR>
 " let NERDTreeShowBookmarks=1
 " let NERDTreeIgnore=['^..$[[dir]]', '^.$[[dir]]', '\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
