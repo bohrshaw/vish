@@ -12,18 +12,12 @@ Where:
         abort if the destination directory already exists
     -p  pull repositories under the 'bundle' directory
     -P  pull repositories recursively under the 'bundle' directory
+        max depth of directories is 3
     -s  in addition to cloning all bundles, also delete unused bundles
         as long as their directories not ended with '~'"
 
-hflag=
-dflag=
-cflag=
-Cflag=
-pflag=
-Pflag=
-sflag=
-while getopts "hd:c:CpPs" name
-do
+hflag=; dflag=; cflag=; Cflag=; pflag=; Pflag=; sflag=
+while getopts "hd:c:CpPs" name; do
     case $name in
     h)    hflag=1;;
     d)    dflag=1

@@ -32,6 +32,11 @@ Description:
     "alias vil vim -u /path/to/vimrc.light"
 "core vim": The common part shared by the other two. Basically "core vim" is
     just "vimrc.core" which is incleded in "vimrc" and "vimrc.light".
+    
+### Installation
+1. Linux: run bin/install.sh
+   Windows: run bin/install.cmd(need admin privilege)
+2. Open vim and run the command "Helptags"
 
 ### Inspired by
  * [pathogen](https://github.com/tpope/vim-pathogen) ( runtime manager )
