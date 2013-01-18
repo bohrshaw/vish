@@ -8,17 +8,11 @@
 
 " Slogan: a tree explorer plugin for vim.
 " Bundle 'scrooloose/nerdtree'
-noremap <C-t> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
-" nmap <leader>n :NERDTreeFind<CR>
-" let NERDTreeShowBookmarks=1
-" let NERDTreeIgnore=['^..$[[dir]]', '^.$[[dir]]', '\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
-" let NERDTreeChDirMode=0
-" let NERDTreeQuitOnOpen=1
-" let NERDTreeMouseMode=2
-" let NERDTreeShowHidden=1
-" let NERDTreeKeepTreeInNewTab=1
-" let g:nerdtree_tabs_open_on_gui_startup=0
-" let g:NERDShutUp=1
+noremap <C-t> :NERDTreeToggle<CR>
+let NERDTreeIgnore=['^..$[[dir]]', '^.$[[dir]]', '\.pyc', '\~$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+let NERDTreeQuitOnOpen=1
+let NERDTreeMouseMode=2
+let NERDTreeShowHidden=1
 
 " Slogan: Buffer Explorer/Browser.
 " Bundle 'vim-scripts/bufexplorer.zip'
@@ -26,12 +20,12 @@ noremap <C-t> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
 
 " Slogan: Fuzzy file, buffer, mru, tag, etc finder.
 " Bundle 'kien/ctrlp.vim'
-" let g:ctrlp_working_path_mode = 2
-" nnoremap <silent> <D-t> :CtrlP<CR>
-" nnoremap <silent> <D-r> :CtrlPMRU<CR>
-" let g:ctrlp_custom_ignore = {
-" \ 'dir':  '\.git$\|\.hg$\|\.svn$',
-" \ 'file': '\.exe$\|\.so$\|\.dll$' }
+" let g:loaded_ctrlp = 1 " disable it completely
+let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/ctrlp'
+" let g:ctrlp_show_hidden = 1
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$' }
 
 " Slogan: enable repeating supported plugin maps with ".".
 " Bundle 'tpope/vim-repeat'
@@ -51,12 +45,12 @@ nmap co <Plug>Coerce
 
 " Slogan: a Git wrapper so awesome, it should be illegal.
 " Bundle 'tpope/vim-fugitive'
-" nnoremap <silent> <leader>gs :Gstatus<CR>
-" nnoremap <silent> <leader>gd :Gdiff<CR>
-" nnoremap <silent> <leader>gc :Gcommit<CR>
-" nnoremap <silent> <leader>gb :Gblame<CR>
-" nnoremap <silent> <leader>gl :Glog<CR>
-" nnoremap <silent> <leader>gp :Git push<CR>
+nnoremap <silent> <leader>gs :Gstatus<CR>
+nnoremap <silent> <leader>gd :Gdiff<CR>
+nnoremap <silent> <leader>gc :Gcommit<CR>
+nnoremap <silent> <leader>gb :Gblame<CR>
+nnoremap <silent> <leader>gl :Glog<CR>
+nnoremap <silent> <leader>gp :Git push<CR>
 
 " Slogan: wisely add "end" in ruby, endfunction/endif/more in vim script, etc.
 " Bundle 'tpope/vim-endwise'
@@ -103,7 +97,7 @@ nmap co <Plug>Coerce
 " Slogan: Display your undo history in a graph.
 " Bundle 'mbbill/undotree'
 " nnoremap <F5> :UndotreeToggle<CR>
-" let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
+let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 
 " Slogan: Vim plugin to visualize your Vim undo tree.
 "" Bundle 'sjl/gundo.vim'
@@ -136,5 +130,28 @@ nmap co <Plug>Coerce
 
 " Slogan: Personal Wiki for Vim.
 " Bundle 'vim-scripts/vimwiki'
+
+" Slogan: Vim plugin for the TaskPaper application.
+" Bundle 'davidoc/taskpaper.vim'
+
+" Slogan: snipMate.vim aims to be a concise vim script that implements some of TextMate's snippets features in Vim.
+" Bundle 'garbas/vim-snipmate'
+" Dependence: Slogan: vim: interpret a file by function and cache file automatically.
+" Bundle 'MarcWeber/vim-addon-mw-utils'
+" Dependence: Slogan: Some utility functions for VIM.
+" Bundle 'tomtom/tlib_vim'
+
+" Slogan: vim-snipmate default snippets.
+" Bundle 'honza/snipmate-snippets'
+
+" Disabled:
+" Slogan: Ultimate auto-completion system for Vim.
+"" Bundle 'Shougo/neocomplcache'
+
+" Slogan: neo-snippet plugin contains neocomplcache snippets source.
+"" Bundle 'Shougo/neosnippet'
+
+" Slogan: This is an implementation of TextMates Snippets for the Vim Text Editor. It has all features of TextMates Snippets and then some.
+"" Bundle 'SirVer/ultisnips'
 
 " vim:ft=vim tw=78 et sw=2 fdm=marker cms="\ %s nowrap:

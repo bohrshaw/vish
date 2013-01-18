@@ -18,7 +18,7 @@
 "  name can contain spaces and does not have to have a .vim extension.
 "
 "  On all platforms sessions are saved in:
-"    "$HOME/.vim/tmp/sessions"
+"    "$HOME/.vim/tmp/session"
 "  If this directory does not exist, it will be created by the :SessionSave
 "  command (requires Vim 7).
 "
@@ -59,7 +59,7 @@ endif
 let s:cpo_save = &cpo
 set cpo&vim
 
-let s:sessions_path = $HOME . '/.vim/tmp/sessions'
+let s:sessions_path = $HOME . '/.vim/tmp/session'
 if has("win32") || has("dos32") || has("dos16") || has("os2")
 	let s:sessions_path = substitute(s:sessions_path, '\\', '/', 'g')
 endif

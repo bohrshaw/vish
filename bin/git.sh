@@ -1,4 +1,6 @@
 #!/bin/bash
+# uncomment below to enable debug mode, or use 'bash -xv this_file.sh'
+# set -xv 
 
 # define variable
 usage="Usage: $(basename $0) [-h] [-d directory] [-c repository] [-C] [-p] [-P]
