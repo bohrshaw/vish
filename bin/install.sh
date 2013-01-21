@@ -12,7 +12,7 @@ echo "Starting installation..."
 
 echo "Backing up current vim configuration files..."
 today=`date +%Y%m%d`
-# Backup only if not symbol links.
+# Backup old non symbol link files.
 for i in $HOME/.vim $HOME/.vimrc $HOME/.gvimrc $HOME/.vimperator $HOME/.vimperatorrc; do
     [ -e $i ] && [ ! -L $i ] && mv $i $i.$today
 done

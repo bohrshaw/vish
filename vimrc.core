@@ -8,6 +8,9 @@
 " Section: Options {{{1
 
 set nocompatible
+filetype plugin indent on " Must be after pathogen or vundle setup
+syntax on
+runtime macros/matchit.vim
 function! SetPath()
   let dir_list = { 'swap': 'directory', 'undo': 'undodir', 'backup': 'backupdir' }
   for [dir_name, set_name] in items(dir_list)
@@ -16,11 +19,10 @@ function! SetPath()
     exec "set " . set_name . "^=" . set_value . "/"
   endfor
   set viewdir=~/.vim/tmp/view
-  set viminfo='50,<50,s10,h,n$HOME/.vim/tmp/viminfo
+  set viminfo=!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo
 endfunction
 call SetPath()
 let mapleader = "," " put ahead to make following maps work
-syntax on                   " syntax highlighting
 " Avoid the problem occurred when you write to symbolic files on windows
 set nowritebackup
 "if has('win32') | set shell=\"C:\Program\ Files\Git\bin\sh.exe\" | endif

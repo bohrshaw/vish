@@ -1,4 +1,5 @@
 " Vim bundles specification and configuration for the "VIMISE" vim distribution.
+" To disable a bundle, add two quotes before the "Bundle '...'" directive.
 
 " Slogan: manage your runtimepath.
 " Bundle 'tpope/vim-pathogen'
@@ -70,8 +71,14 @@ nnoremap <silent> <leader>gp :Git push<CR>
 " Slogan: Markdown runtime files.
 " Bundle 'tpope/vim-markdown'
 
+" Slogan: Vim/Ruby Configuration Files.
+" Bundle 'vim-ruby/vim-ruby'
+
 " Slogan: precision colorscheme for the vim text editor.
 " Bundle 'altercation/vim-colors-solarized'
+
+" Slogan: Make gvim-only colorschemes work transparently in terminal vim.
+" Bundle 'godlygeek/csapprox'
 
 " Slogan: vim motions on speed.
 " Bundle 'Lokaltog/vim-easymotion'
