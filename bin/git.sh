@@ -3,7 +3,7 @@
 # set -xv 
 
 # define variable
-usage="Usage: $(basename $0) [-h] [-d directory] [-c repository] [-C] [-p] [-P]
+usage="Usage: $(basename $0) [-h] [-d directory] [-c repository] [-C] [-p] [-P] [-s]
 
 Where:
     -h  show this help text
@@ -30,7 +30,7 @@ while getopts "hd:c:CpPs" name; do
     p)    pflag=1;;
     P)    Pflag=1;;
     s)    sflag=1;;
-    ?)    printf "Usage: %s: [-h] [-c args] [-C] [-p] [-P] -- clone or pull git repositories.\n" $0
+    ?)    printf "Usage: $(basename $0) [-h] [-d directory] [-c repository] [-C] [-p] [-P] [-s]\n" $0
           exit 2;;
     esac
 done
@@ -60,7 +60,7 @@ if [ ! -z "$cflag" ]; then
 fi
 
 function clone_all_bundles(){
-  echo "Cloning bundles..."
+  echo "Cloning bundles ..."
   # Get the URL list of bundles, the format '\'' match a '
   url_list="$(grep '^" Bundle ' $BUNDLE_FILE \
     | sed 's_" Bundle '\''\(.*\)'\''_git://github.com/\1.git_')"
@@ -69,7 +69,7 @@ function clone_all_bundles(){
   for url in $url_list; do
     tmp=${url##*\/}; dest=${tmp%%.git}
     if [ ! -d $dest ]; then
-      echo "Cloning into $dest..."
+      echo "Cloning into $dest ..."
       git clone $url
       let count+=1
     fi
@@ -82,7 +82,7 @@ if [ ! -z "$Cflag" ]; then
 fi
 
 if [ ! -z "$pflag" ]; then
-  echo "Pull bundles..."
+  echo "Pull bundles ..."
   # Update all git repositories under current directory,
   # excluding directories end with '~'
   let count=0
@@ -95,7 +95,7 @@ if [ ! -z "$pflag" ]; then
 fi
 
 if [ ! -z "$Pflag" ]; then
-  echo  "Pull bundles recursively..."
+  echo  "Pull bundles recursively ..."
   # Update all git repositories under current directory recursively(maxdepth is 3),
   # excluding directories end with '~'
   let count=0
@@ -108,7 +108,7 @@ if [ ! -z "$Pflag" ]; then
 fi
 
 if [ ! -z "$sflag" ]; then
-  echo "Syncing bundles(directories)..."
+  echo "Syncing bundles(directories) ..."
   bundle_list="$(grep '^" Bundle ' $BUNDLE_FILE | sed "s/.*\/\(.*\)'/\1/")"
   clone_all_bundles
   dir_list="$(ls -d *[^~])"

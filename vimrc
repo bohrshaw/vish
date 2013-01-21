@@ -3,10 +3,6 @@
 " A unified runtime path(Unix default)
 set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 
-" Source a common vimrc file(vimrc.core)
-source <sfile>:h/vimise/vimrc.core
-"runtime! macros/matchit.vim
-
 " Section: pathogen {{{1
 
 runtime bundle/vim-pathogen/autoload/pathogen.vim
@@ -18,9 +14,12 @@ endif
 call pathogen#infect()
 
 " }}}1
+
+" Source a common vimrc file(vimrc.core)
+source <sfile>:h/vimise/vimrc.core
+
 " Section: Options {{{1
 
-filetype plugin indent on " Must be after pathogen or vundle setup
 " Improve the ability of recovery
 set history=1000                " Store a ton of history (default is 20)
 set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond current line
@@ -62,9 +61,62 @@ set nolazyredraw " Don't redraw while executing macros
 " shortcut to edit this vimrc file in a new tab
 command! Vimrc :tabe ~/vimise/vimrc
 " execute current ruby file (make ruby)
-command! Mr :let f=expand("%")|wincmd w|
+command! RunRuby :let f=expand("%")|wincmd w|
             \ if bufexists("mr_output")|e! mr_output|else|sp mr_output|endif |
             \ execute '$!ruby "' . f . '"'|wincmd W
+
+function! Run()
+  let old_makeprg = &makeprg
+  let old_errorformat = &errorformat
+  try
+    let cmd = matchstr(getline(1),'^#!\zs[^ ]*')
+    if exists('b:run_command')
+      exe b:run_command
+    elseif cmd != '' && executable(cmd)
+      wa
+      let &makeprg = matchstr(getline(1),'^#!\zs.*').' %'
+      make
+    elseif &ft == 'ruby'
+      wa
+      if executable(expand('%:p')) || getline(1) =~ '^#!'
+        compiler ruby
+        let &makeprg = 'ruby'
+        make %
+      elseif executable('pry')
+        !pry -r"%:p"
+      else
+        !irb -r"%:p"
+      endif
+    elseif &ft == 'html' || &ft == 'xhtml'
+      wa
+      if !exists('b:url')
+        call OpenURL(expand('%:p'))
+      else
+        call OpenURL(b:url)
+      endif
+    elseif &ft == 'vim'
+      w
+      if exists(':Runtime')
+        return 'Runtime %'
+      else
+        unlet! g:loaded_{expand('%:t:r')}
+        return 'source %'
+      endif
+    else
+      wa
+      if &makeprg =~ '%'
+        make
+      else
+        make %
+      endif
+    endif
+    return ''
+  finally
+    let &makeprg = old_makeprg
+    let &errorformat = old_errorformat
+  endtry
+endfunction
+command! -bar Run :execute Run()
 
 " }}}1
 " Section: Autocommands {{{1
