@@ -9,7 +9,7 @@
 
 " Slogan: a tree explorer plugin for vim.
 " Bundle 'scrooloose/nerdtree'
-noremap <C-t> :NERDTreeToggle<CR>
+"noremap <C-t> :NERDTreeToggle<CR>
 let NERDTreeIgnore=['^..$[[dir]]', '^.$[[dir]]', '\.pyc', '\~$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
 let NERDTreeQuitOnOpen=1
 let NERDTreeMouseMode=2

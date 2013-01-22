@@ -121,8 +121,14 @@ command! -bar Run :execute Run()
 " }}}1
 " Section: Autocommands {{{1
 
-" remove trailing whitespaces and ^m chars
-autocmd filetype c,cpp,java,php,javascript,python,twig,xml,yml autocmd bufwritepre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
+" Prevent duplicate auto commands
+if !exists("autocommands_loaded")
+  let autocommands_loaded = 1
+  " remove trailing whitespaces and ^m chars
+  autocmd filetype c,cpp,java,php,javascript,python,twig,xml,yml autocmd bufwritepre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
+  " Settings for a new diary
+  autocmd BufAdd */diary/*.wiki :setlocal viminfo= | setlocal wrap | setlocal nospell
+endif
 
 " }}}1
 " Section: Appearance {{{1
