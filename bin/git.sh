@@ -55,7 +55,7 @@ if [ ! -z "$cflag" ]; then
     tmp=${cval##*\/}; dest=${tmp%%.git}
     git clone $cval $dest
   else
-    git clone "git://github.com/${cval}.git"
+    git clone "http://github.com/${cval}.git"
   fi
 fi
 
@@ -63,7 +63,7 @@ function clone_all_bundles(){
   echo "Cloning bundles ..."
   # Get the URL list of bundles, the format '\'' match a '
   url_list="$(grep '^" Bundle ' $BUNDLE_FILE \
-    | sed 's_" Bundle '\''\(.*\)'\''_git://github.com/\1.git_')"
+    | sed 's_" Bundle '\''\(.*\)'\''_http://github.com/\1.git_')"
   cd $BUNDLE_DIR
   let count=0
   for url in $url_list; do
