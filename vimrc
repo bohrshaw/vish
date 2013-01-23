@@ -6,10 +6,14 @@ set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.
 " Section: pathogen {{{1
 
 runtime bundle/vim-pathogen/autoload/pathogen.vim
-" Rename a bundle like "rails" to "rails~" to disable it Or add disabled bundles to the list bellow.
+" Rename a bundle like "rails" to "rails~" to disable it
+" Or add disabled bundles(directories) to the list bellow.
 let g:pathogen_disabled = []
 if has('gui_running')
     call add(g:pathogen_disabled, 'csapprox')
+endif
+if !executable('ack-grep') && !executable('ack')
+    call add(g:pathogen_disabled, 'ack.vim')
 endif
 call pathogen#infect()
 
@@ -140,7 +144,6 @@ elseif has('unix')
 else
     color molokai
 endif
-set statusline+=\ %{fugitive#statusline()} "  Git Hotness
 
 " }}}1
 " Source the bundle configuration file
