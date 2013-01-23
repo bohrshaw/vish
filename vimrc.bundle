@@ -98,6 +98,12 @@ nnoremap <silent> <leader>gp :Git push<CR>
 " Slogan: A Vim plugin for visually displaying indent levels in code.
 " Bundle 'nathanaelkane/vim-indent-guides'
 
+" Slogan: Vim plugin for the Perl module / CLI script 'ack'.
+" Bundle 'mileszs/ack.vim'
+if executable('ack-grep')
+  let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+endif
+
 " Slogan: Syntax checking hacks for vim.
 " Bundle 'scrooloose/syntastic'
 

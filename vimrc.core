@@ -25,7 +25,7 @@ call SetPath()
 let mapleader = "," " put ahead to make following maps work
 " Avoid the problem occurred when you write to symbolic files on windows
 set nowritebackup
-"if has('win32') | set shell=\"C:\Program\ Files\Git\bin\sh.exe\" | endif
+" If has('win32') | set shell=\"C:\Program\ Files\Git\bin\sh.exe\" | endif
 " Exclude options and mappings in saved sessions and views
 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
 set viewoptions=folds,cursor,unix,slash
@@ -33,7 +33,7 @@ if 0 == argc() | cd $HOME | endif " Change the default working directory to HOME
 set path=,~,~/projects,~/projects/vimise " where to look for files when using command like 'gf'
 set cdpath=,~,~/projects,~/projects/vimise
 set complete-=i " Don't scan included files for keyword completion.
-" key code delay, same as mapping delay(timeoutlen) when < 0(default)
+" Key code delay, same as mapping delay(timeoutlen) when < 0(default)
 " Avoid the delay in entering normal mode after pressing ESC
 set ttimeoutlen=50
 set fileformats=unix,dos " will set new file to unix format
@@ -59,7 +59,7 @@ set wildmenu                    " show list instead of just completing
 set wildmode=list:longest,full  " command <Tab> completion, list matches, then longest common part, then all.
 set pastetoggle=<F4>           " toggle paste option, more robust than a mapping to ":set invpaste<CR>"
 set autoread " Automatically read a file that has changed(not delete) on disk
-set autowrite
+set autowriteall
 set showcmd                 " show partial commands in status line and
 "set clipboard=unnamed " Link unnamed register and OS clipboard:
 set backspace=indent,eol,start  " backspace for dummies
@@ -67,23 +67,23 @@ set visualbell t_vb= " no beep or flash
 au GUIEnter * set vb t_vb= " disable error sounds and error screen flash
 "set hidden                      " maybe set autowrite if preferd
 set mouse=a                 " automatically enable mouse usage
-set spell                       " spell checking on
+"set spell                       " spell checking on
 set shortmess+=filmnrwxoOtTI      " abbrev. of messages and avoids 'hit enter'
 " Allow color schemes do bright colors without forcing bold.
 if &t_Co == 8 && $TERM !~# '^linux'
   set t_Co=16
 endif
 " Acceptable encryption strength, also remember to set viminfo=
-" swap and undo are all encrypted, but may set nowritebackup and nobackup(default)
+" Swap and undo are all encrypted, but may set nowritebackup and nobackup(default)
 set cryptmethod=blowfish
-" enable vim scripts syntax based foldding. refer: http://vim.wikia.com/wiki/Syntax_folding_of_Vim_scripts
+" Enable vim scripts syntax based foldding. refer: http://vim.wikia.com/wiki/Syntax_folding_of_Vim_scripts
 let g:vimsyn_folding='af'
 
 " }}}1
 " Section: Mappings {{{1
 
 " Abbreviations is separated in ~/.vim/after/plugin/abolish.vim
-" when define mappings, check out ":h index"
+" When define mappings, check out ":h index"
 nnoremap ; :
 xnoremap ; :
 nnoremap q; q:
@@ -93,29 +93,29 @@ xnoremap \ ;
 inoremap jk <Esc>
 cnoremap jk <Esc>
 nnoremap Y y$
-" toggle fold
+" Toggle fold
 nnoremap <space> za
 vnoremap <space> za
-" two fingers tab navigation
+" Two fingers tab navigation
 noremap gj gt
 noremap gk gT
-" familiar command line editing shortcuts
+" Familiar command line editing shortcuts
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cmap w!! w !sudo tee % >/dev/null
-" cd to the directory containing the current buffer
+" Cd to the directory containing the current buffer
 cmap lcd. lcd %:p:h
 cmap cd. cd %:p:h
 " Toggle hlsearch
 nnoremap <leader>/ :set hlsearch! hlsearch?<CR>
-" set text wrapping toggles
+"set text wrapping toggles
 nnoremap <silent> <leader>tw :set invwrap<bar>set wrap?<CR>
-" set spell toggles
+"set spell toggles
 nnoremap <silent> <leader>ts :set invspell<bar>set spell?<CR>
 " Wrapped lines goes down/up to next row, rather than next line in file.
 nnoremap j gj
 nnoremap k gk
-" visual shifting (does not exit Visual mode)
+" Visual shifting (does not exit Visual mode)
 vnoremap < <gv
 vnoremap > >gv
 " Some helpers to edit mode, see: http://vimcasts.org/e/14
@@ -137,7 +137,7 @@ nmap <leader>at a<C-R>=strftime("%c")<CR><Esc>
 " Exchange two adjacent keywords
 nnoremap <leader>ew :s/\v(<\k*%#\k*>)(\_.{-})(<\k+>)/\3\2\1/<cr>
 " Move to the function name and operate on just this function name
-" as long as the cursor is before the function name.
+" As long as the cursor is before the function name.
 onoremap <silent> F :<C-U>normal! 0f(hviw<CR>
 " Create a directory based the current buffer's path
 command! -nargs=? -complete=dir Mkdir :call mkdir(expand('%:p:h') . "/" . <q-args>, "p")
@@ -147,7 +147,7 @@ nnoremap <silent> <leader>ul :t.\|s/./=/g\|nohls<cr>
 " }}}1
 " Section: Commands {{{1
 
-" shortcut to edit this vimrc file in a new tab
+" Shortcut to edit this vimrc file in a new tab
 command! Vicrc tabe ~/vimise/vicrc
 " Remove adjacent duplicate lines by matching two lines first
 command! UniqAdjacent g/\v^(.*)$\n\1$/d
@@ -156,7 +156,7 @@ command! UniqAdjacent g/\v^(.*)$\n\1$/d
 command! Uniq g/^\(.+\)\n\_.*\%(^\1$\)/d
 command! UniqTrue g/^/kl |
       \ if search('^'.escape(getline('.'), '~\.*[]^$/').'$', 'bW') | 'ld | endif
-" display help window at bottom right
+" Display help window at bottom right
 command! -nargs=? -complete=help H wincmd b | bel h <args>
 command! -bar -nargs=? -bang TmpFile silent e<bang> ~/.vim/tmp/tmpfile|setlocal noswapfile filetype=<args>
 " Interesting text encoding that rotate the half of 26 alphas
@@ -175,7 +175,7 @@ function! OpenURL(url) " {{{2
   redraw!
 endfunction " }}}2
 command! -nargs=1 OpenURL call OpenURL(<q-args>)
-" open URL under cursor in browser
+" Open URL under cursor in browser
 nnoremap gb :OpenURL <cfile><CR>
 nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
 nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
@@ -194,7 +194,7 @@ function! DiffWith(...) " {{{2
   endif
   diffthis
 endfunction " }}}2
-" diff current file with current saved file or a different buffer
+" Diff current file with current saved file or a different buffer
 command! -nargs=? -complete=buffer DiffWith call DiffWith(<f-args>)
 function! RedirMessages(cmd) " {{{2
   " Redirect command outputs to a variable.
@@ -206,7 +206,7 @@ function! RedirMessages(cmd) " {{{2
   " Place the messages in the new buffer.
   silent put=message
 endfunction " }}}2
-" redir command output to buffer, duplicate with Verbose in scriptease.vim
+" Redir command output to buffer, duplicate with Verbose in scriptease.vim
 "command! -nargs=1 -complete=command Message call RedirMessages(<q-args>)
 function! SetLocalOptions(fname) " {{{2
   let dirname = fnamemodify(a:fname, ":p:h")
@@ -219,12 +219,12 @@ function! SetLocalOptions(fname) " {{{2
     let dirname = fnamemodify(dirname, ":p:h:h")
   endwhile
 endfunction " }}}2
-" Set directory-wise configuration.
+"set directory-wise configuration.
 " Search from the directory the file is located upwards to the root for
-" a local configuration file called .lvimrc and sources it.
+" A local configuration file called .lvimrc and sources it.
 " The local configuration file is expected to have commands affecting
-" only the current buffer.
-" au BufNewFile,BufRead * call SetLocalOptions(bufname("%"))
+" Only the current buffer.
+" autocmd BufNewFile,BufRead * call SetLocalOptions(bufname("%"))
 function! AppendModeline() " {{{2
   let modeline = printf(" vim:tw=%d ts=%d sw=%d et:", &textwidth, &shiftwidth, &tabstop)
   let modeline = substitute(&commentstring, "%s", modeline, "")
@@ -233,7 +233,7 @@ function! AppendModeline() " {{{2
 endfunction " }}}2
 " Append modeline after last line in buffer.
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
-" files.
+" Files.
 command! AppendModeline call AppendModeline()
 
 " }}}1
@@ -259,24 +259,25 @@ set number                          " Line numbers on
 set relativenumber                  " relative number
 set showmatch                   " show matching brackets/parenthesis
 set winminheight=0              " windows can be 0 line high
-" show non-normal spaces, tabs etc. But conflict with 'linkbreak' which is used for wrap at word boundry
+" Show non-normal spaces, tabs etc. But conflict with 'linkbreak' which is used for wrap at word boundry
 "set list
 set linebreak
 set listchars=tab:,.,trail:.,extends:>,precedes:<,nbsp:% "(eol:¬), Highlight problematic whitespace
-" statusline {{{2
+" Statusline {{{2
 set laststatus=2
-" if want colorful, '%1' is switch to User1 highlight and '%*' is switch back to statusline highlight
-" like 'set statusline=%1*%f%*'
-set statusline=%<%f\ %m%r%w%h " cut at start, path and status, 
-" set statusline+=\ %{strftime(\"%X\",getftime(expand(\"%:p\")))} " file modified time
+" If want colorful, '%1' is switch to User1 highlight and '%*' is switch back
+" to statusline highlight like 'set statusline=%1*%f%*'
+set statusline=%<%m%r%w%h\ %f " cut at start, path and status, 
+"set statusline+=\ %{strftime(\"%X\",getftime(expand(\"%:p\")))} " file modified time
 set statusline+=\ [%{&ff}/%{strlen(&fenc)?&fenc:'none'}/%Y] " fileformat, fileencoding and filetype
-" set statusline+=\ [%{getcwd()}]          " current dir
+if exists("*fugitive#statusline") | set statusline+=\ %{fugitive#statusline()} | endif
+"set statusline+=\ [%{getcwd()}]          " current dir
 set statusline+=%=      "left/right separator
-set statusline+=%-11.(%v\ %l/%L%)\ %p%%  " right offset position info and show percentage
-" must after ':color xxx' statement
-"in gui, fg is actually background light blue, and bg is actually font color
+set statusline+=%-1.(%v\ %l/%L%)\ %p%%  " right offset position info and show percentage
+" Must after ':color xxx' statement
+" In gui, fg is actually background light blue, and bg is actually font color
 hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=DarkCyan
 " }}}
 " }}}
 
-" vim:ft=vim tw=78 et sw=2 fdm=marker cms="\ %s nowrap:
+" Vim:ft=vim tw=78 et sw=2 fdm=marker cms="\ %s nowrap:
