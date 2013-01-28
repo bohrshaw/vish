@@ -91,7 +91,6 @@ nnoremap @; @:
 nnoremap \ ;
 xnoremap \ ;
 inoremap jk <Esc>
-cnoremap jk <Esc>
 nnoremap Y y$
 " Toggle fold
 nnoremap <space> za
@@ -274,9 +273,8 @@ if exists("*fugitive#statusline") | set statusline+=\ %{fugitive#statusline()} |
 "set statusline+=\ [%{getcwd()}]          " current dir
 set statusline+=%=      "left/right separator
 set statusline+=%-1.(%v\ %l/%L%)\ %p%%  " right offset position info and show percentage
-" Must after ':color xxx' statement
 " In gui, fg is actually background light blue, and bg is actually font color
-hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=DarkCyan
+autocmd ColorScheme * hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=DarkCyan
 " }}}
 " }}}
 
