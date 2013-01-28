@@ -216,15 +216,15 @@ endfunction
 
 function! s:ShowSession()
 	if exists('g:LAST_SESSION')
-		redraw | echo 'Last session is "' . g:LAST_SESSION . '"'
+		redraw | echo 'Last Session: "' . g:LAST_SESSION . '"'
 	else
-		redraw | echo 'Last session is undefined'
+		redraw | echo 'Last Session: Undefined'
 	endif
-	echon ', current session is "' . substitute(v:this_session, '.*\(/\|\\\)', '', '') . '"'
+	echon '| Current Session: "' . substitute(v:this_session, '.*\(/\|\\\)', '', '') . '"'
 	if a:0 > 0
 		let g:sessionman_save_on_exit = a:1
 	endif
-	if g:sessionman_save_on_exit == 1 | echon ', Autosave ON' | else | echon ', Autosave OFF' | endif
+	if g:sessionman_save_on_exit == 1 | echon '| Autosave: ON' | else | echon '| Autosave: OFF' | endif
 endfunction
 
 function! s:SessionOpenComplete(A, L, P)

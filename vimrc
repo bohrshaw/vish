@@ -9,6 +9,9 @@ runtime bundle/vim-pathogen/autoload/pathogen.vim
 " Rename a bundle like "rails" to "rails~" to disable it
 " Or add disabled bundles(directories) to the list bellow.
 let g:pathogen_disabled = []
+if has('win32') || !has("signs") || !has("clientserver")
+    call add(g:pathogen_disabled, 'vim-ruby-debugger')
+endif
 if has('gui_running')
     call add(g:pathogen_disabled, 'csapprox')
 endif
@@ -140,9 +143,9 @@ endif
 if has('gui_running')
     color solarized
 elseif has('unix')
-    color molokai
+    color solarized
 else
-    color molokai
+    color vividchalk
 endif
 
 " }}}1

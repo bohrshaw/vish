@@ -1,8 +1,8 @@
 #!/bin/bash
-# uncomment below to enable debug mode, or use 'bash -xv this_file.sh'
-# set -xv 
+# Uncomment below to enable debug mode, or use 'bash -xv this_file.sh'
+# Set -xv 
 
-# define variable
+# Define variable
 usage="Usage: $(basename $0) [-h] [-d directory] [-c repository] [-C] [-p] [-P] [-s]
 
 Where:
@@ -35,22 +35,23 @@ while getopts "hd:c:CpPs" name; do
     esac
 done
 
-if [ ! -z "$hflag" ] || [ $# -eq 0 ]; then
+# Display help.
+if [ -n "$hflag" ] || [ $# -eq 0 ]; then
   echo "$usage" >&2
 fi
 
-if [ ! -z "$dflag" ]; then
+# Set up the working directory.
+if [ -n "$dflag" ]; then
   BUNDLE_DIR="$dval"
 else
   [ ! -d $HOME/.vim/bundle ] && mkdir "$HOME/.vim/bundle"
   BUNDLE_DIR="$HOME/.vim/bundle"
 fi
+cd $BUNDLE_DIR
 BUNDLE_FILE="$HOME/vimise/vimrc.bundle"
 
-cd $BUNDLE_DIR
-
-if [ ! -z "$cflag" ]; then
-  cd $BUNDLE_DIR
+# Clone a single repository.
+if [ -n "$cflag" ]; then
   if [[ $cval == git* ]] || [[ $cval == http* ]] || [[ $cval == ssh* ]]; then
     tmp=${cval##*\/}; dest=${tmp%%.git}
     git clone $cval $dest
@@ -59,12 +60,12 @@ if [ ! -z "$cflag" ]; then
   fi
 fi
 
+# Clone all the repositories specified in the BUNDLE_FILE
 function clone_all_bundles(){
   echo "Cloning bundles ..."
   # Get the URL list of bundles, the format '\'' match a '
   url_list="$(grep '^" Bundle ' $BUNDLE_FILE \
     | sed 's_" Bundle '\''\(.*\)'\''_http://github.com/\1.git_')"
-  cd $BUNDLE_DIR
   let count=0
   for url in $url_list; do
     tmp=${url##*\/}; dest=${tmp%%.git}
@@ -76,16 +77,13 @@ function clone_all_bundles(){
   done
   echo "Cloning $count bundles finished."
 }
+if [ -n "$Cflag" ]; then clone_all_bundles; fi
 
-if [ ! -z "$Cflag" ]; then
-  clone_all_bundles
-fi
-
-if [ ! -z "$pflag" ]; then
+# Update all the bundles under the current working path.
+if [ -n "$pflag" ]; then
   echo "Pull bundles ..."
-  # Update all git repositories under current directory,
-  # excluding directories end with '~'
   let count=0
+  # Excluding directories end with '~'
   for d in $(ls -d *[^~]); do
     echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $d"
     (cd $d; git pull)
@@ -94,12 +92,16 @@ if [ ! -z "$pflag" ]; then
   echo "Pull $count bundles finished."
 fi
 
-if [ ! -z "$Pflag" ]; then
+# Update all the bundles RECURSIVELY under the current working path.
+if [ -n "$Pflag" ]; then
   echo  "Pull bundles recursively ..."
-  # Update all git repositories under current directory recursively(maxdepth is 3),
-  # excluding directories end with '~'
   let count=0
-  for d in $( find . -maxdepth 3 -path '*~' -prune -o -type d -name .git -print ); do
+  # Don't descent into a directory which is a git repository
+  # and exclude directories end with '~'
+  #for d in $( find . -exec test -d '{}'/.git \; ! -path '*~' -print -prune ); do
+  # As the above don't work in msysgit bash, here comes a solution of compromise.
+  for d in $( find . -maxdepth 3 -path "*~" -prune -o \
+                     -type d -name ".git" -print -prune ); do
     echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ${d%/.git}"
     (cd ${d%/.git}; git pull)
     let count+=1
@@ -107,12 +109,13 @@ if [ ! -z "$Pflag" ]; then
   echo  "Pull $count bundles recursively finished."
 fi
 
-if [ ! -z "$sflag" ]; then
+# Auto clone and delete directories according bundles specified within the BUNDLE_FILE.
+if [ -n "$sflag" ]; then
   echo "Syncing bundles(directories) ..."
   bundle_list="$(grep '^" Bundle ' $BUNDLE_FILE | sed "s/.*\/\(.*\)'/\1/")"
   clone_all_bundles
-  dir_list="$(ls -d *[^~])"
-  # for every directory in dir_list and not in bundle_list, delete it.
+  dir_list="$(ls -d *[^~])" # Don't delete directories ended with "~".
+  # For every directory in dir_list and not in bundle_list, delete it.
   for i in $dir_list; do
     match=0
     for j in $bundle_list; do
