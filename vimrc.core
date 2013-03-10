@@ -67,7 +67,7 @@ set visualbell t_vb= " no beep or flash
 au GUIEnter * set vb t_vb= " disable error sounds and error screen flash
 "set hidden                      " maybe set autowrite if preferd
 set mouse=a                 " automatically enable mouse usage
-"set spell                       " spell checking on
+set spell                       " spell checking on
 set shortmess+=filmnrwxoOtTI      " abbrev. of messages and avoids 'hit enter'
 " Allow color schemes do bright colors without forcing bold.
 if &t_Co == 8 && $TERM !~# '^linux'
@@ -147,7 +147,7 @@ nnoremap <silent> <leader>ul :t.\|s/./=/g\|nohls<cr>
 " Section: Commands {{{1
 
 " Shortcut to edit this vimrc file in a new tab
-command! Vicrc tabe ~/vimise/vicrc
+command! Vrcc tabe ~/vimise/vimrc.core
 " Remove adjacent duplicate lines by matching two lines first
 command! UniqAdjacent g/\v^(.*)$\n\1$/d
 "command! UniqAdjacent g/\v%(^\1$\n)@<=(.*)$/d
