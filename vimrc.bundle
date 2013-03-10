@@ -9,7 +9,7 @@
 
 " Slogan: a tree explorer plugin for vim.
 " Bundle 'scrooloose/nerdtree'
-"noremap <C-t> :NERDTreeToggle<CR>
+noremap <C-t> :NERDTreeToggle<CR>
 let NERDTreeIgnore=['^..$[[dir]]', '^.$[[dir]]', '\.pyc', '\~$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
 let NERDTreeQuitOnOpen=1
 let NERDTreeMouseMode=2
@@ -39,7 +39,8 @@ let g:ctrlp_custom_ignore = {
 
 " Slogan: easily search for, substitute, and abbreviate multiple variants of a word.
 " Bundle 'tpope/vim-abolish'
-nmap co <Plug>Coerce
+" More convenient to type than 'cr'
+nmap cx <Plug>Coerce
 
 " Slogan: pairs of handy bracket mappings.
 " Bundle 'tpope/vim-unimpaired'
