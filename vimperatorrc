@@ -20,7 +20,7 @@ nno <leader>/ :set invhlsearch
 cno <c-p> <Up>
 cno <c-n> <Down>
 cno <c-f> <esc><c-f>
-cno ood open kuaipan.cn/home.htm, vdisk.weibo.com, dbank.com, 115.com
+cno ood open https://kuaipan.cn/home.htm, vdisk.weibo.com, dbank.com, 115.com
 " }}}
 
 " Abbreviations" {{{
