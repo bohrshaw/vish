@@ -47,7 +47,6 @@ set tabstop=2                   " number of spaces a tab displayed in
 set softtabstop=2               " number of spaces used when press <Tab> or <BS>
 set expandtab                   " expand a tab to spaces
 set smarttab      " when at a start on line, the number of spaces a tab count for is determined by 'shiftwith'
-set textwidth=78                " auto insert newline when textwidth is beyond the specified number
 set incsearch                   " find as you type search
 set ignorecase                  " case insensitive search
 set smartcase                   " case sensitive when uc present
@@ -57,7 +56,6 @@ set sidescrolloff=5                 " The minimal number of screen columns to ke
 set display+=lastline           " ensure the last line is properly displayed
 set wildmenu                    " show list instead of just completing
 set wildmode=list:longest,full  " command <Tab> completion, list matches, then longest common part, then all.
-set pastetoggle=<F4>           " toggle paste option, more robust than a mapping to ":set invpaste<CR>"
 set autoread " Automatically read a file that has changed(not delete) on disk
 set autowriteall
 set showcmd                 " show partial commands in status line and
@@ -67,7 +65,6 @@ set visualbell t_vb= " no beep or flash
 au GUIEnter * set vb t_vb= " disable error sounds and error screen flash
 "set hidden                      " maybe set autowrite if preferd
 set mouse=a                 " automatically enable mouse usage
-set spell                       " spell checking on
 set shortmess+=filmnrwxoOtTI      " abbrev. of messages and avoids 'hit enter'
 " Allow color schemes do bright colors without forcing bold.
 if &t_Co == 8 && $TERM !~# '^linux'
@@ -255,7 +252,6 @@ if &term == 'xterm' || &term == 'xterm-256color' || &term == 'screen'
   let g:solarized_termcolors=256
 endif
 set number                          " Line numbers on
-set relativenumber                  " relative number
 set showmatch                   " show matching brackets/parenthesis
 set winminheight=0              " windows can be 0 line high
 " Show non-normal spaces, tabs etc. But conflict with 'linkbreak' which is used for wrap at word boundry
