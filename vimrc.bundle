@@ -1,6 +1,9 @@
 " Vim bundles specification and configuration for the "VIMISE" vim distribution.
 " To disable a bundle, add two quotes before the "Bundle '...'" directive.
 
+" Source the bundle configuration file
+command! Vrcb :tabe ~/vimise/vimrc.bundle
+
 " Slogan: manage your runtimepath.
 " Bundle 'tpope/vim-pathogen'
 
@@ -10,6 +13,8 @@
 " Slogan: a tree explorer plugin for vim.
 " Bundle 'scrooloose/nerdtree'
 noremap <C-t> :NERDTreeToggle<CR>
+noremap <leader>tf :NERDTreeFind<CR>
+noremap <leader>tt :NERDTreeFocus<CR>
 let NERDTreeIgnore=['^..$[[dir]]', '^.$[[dir]]', '\.pyc', '\~$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
 let NERDTreeQuitOnOpen=1
 let NERDTreeMouseMode=2
@@ -98,6 +103,8 @@ nnoremap <silent> <leader>gp :Git push<CR>
 
 " Slogan: Personal Wiki for Vim.
 " Bundle 'vim-scripts/vimwiki'
+  let g:vimwiki_list = [{'path': '~/vimwiki/',
+                       \ 'syntax': 'markdown', 'ext': '.md'}]
 
 " Slogan: A Vim plugin for visually displaying indent levels in code.
 " Bundle 'nathanaelkane/vim-indent-guides'
@@ -133,6 +140,9 @@ let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 " Slogan: Perform all your vim insert mode completions with Tab.
 " Bundle 'ervandew/supertab'
 
+" Slogan: Molokai color scheme for Vim.
+" Bundle 'tomasr/molokai'
+
 " Slogan: a colorscheme strangely reminiscent of Vibrant Ink for a certain OS X editor.
 " Bundle 'tpope/vim-vividchalk'
 
@@ -141,9 +151,6 @@ let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 
 " Slogan: Vim script for text filtering and alignment.
 " Bundle 'godlygeek/tabular'
-
-" Slogan: Personal Wiki for Vim.
-" Bundle 'vim-scripts/vimwiki'
 
 " Slogan: Vim plugin for the TaskPaper application.
 " Bundle 'davidoc/taskpaper.vim'

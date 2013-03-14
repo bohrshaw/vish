@@ -1,12 +1,13 @@
 " vim lightweight.
 " Usage: alias vil vim -u /path/to/vimrc.light
 
-" A unified runtime path(including the directory "vim-light")"{{{
-set runtimepath=$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after
-" get the directory contains this sourced file "vimrc.light"
-let s:vim_dir = expand('<sfile>:p:h')
-" add the vim_dir/vim-light/(after) to 'runtimepath'
-let &runtimepath = printf('%s/vim-light, %s/vim, %s, %s/vim/after, %s/vim-light/after', s:vim_dir, s:vim_dir, &runtimepath, s:vim_dir, s:vim_dir)
+"" Set runtime path to include picked bundles' paths {{{
+let g:bundles = ['vim-surround', 'vim-unimpaired', 'vim-speeddating', 'vim-repeat']
+let g:bundles += ['supertab']
+let g:bundles += ['vim-colors-solarized', 'molokai', 'vim-vividchalk']
+let s:paths = map(copy(g:bundles), '"~/.vim/bundle/" . v:val')
+let s:prepends = join(s:paths, ',')
+exec 'set rtp^='.fnameescape(s:prepends)
 "}}}
 
 " Source a common vimrc file(vimrc.core) shared by other vimrcs 
