@@ -36,6 +36,9 @@ let g:ctrlp_custom_ignore = {
 " Slogan: enable repeating supported plugin maps with ".".
 " Bundle 'tpope/vim-repeat'
 
+" Slogan: obsession.vim: continuously updated session files.
+" Bundle 'tpope/vim-obsession'
+
 " Slogan: quoting/parenthesizing made simple.
 " Bundle 'tpope/vim-surround'
 
