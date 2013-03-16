@@ -65,8 +65,9 @@ set nolazyredraw " Don't redraw while executing macros
 " }}}1
 " Section: Commands {{{1
 
-" shortcut to edit this vimrc file in a new tab
+" shortcut to edit vimrc files in a new tab
 command! Vrc :tabe ~/vimise/vimrc
+command! Vrcl :tabe ~/vimise/vimrc.light
 " execute current ruby file (make ruby)
 command! RunRuby :let f=expand("%")|wincmd w|
             \ if bufexists("mr_output")|e! mr_output|else|sp mr_output|endif |

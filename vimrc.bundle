@@ -33,11 +33,8 @@ let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(exe|so|dll)$' }
 
-" Slogan: enable repeating supported plugin maps with ".".
-" Bundle 'tpope/vim-repeat'
-
-" Slogan: obsession.vim: continuously updated session files.
-" Bundle 'tpope/vim-obsession'
+" Slogan: commentary.vim: comment stuff out.
+" Bundle 'tpope/vim-commentary'
 
 " Slogan: quoting/parenthesizing made simple.
 " Bundle 'tpope/vim-surround'
@@ -52,6 +49,12 @@ nmap cx <Plug>Coerce
 
 " Slogan: pairs of handy bracket mappings.
 " Bundle 'tpope/vim-unimpaired'
+
+" Slogan: enable repeating supported plugin maps with ".".
+" Bundle 'tpope/vim-repeat'
+
+" Slogan: obsession.vim: continuously updated session files.
+" Bundle 'tpope/vim-obsession'
 
 " Slogan: a Git wrapper so awesome, it should be illegal.
 " Bundle 'tpope/vim-fugitive'
@@ -77,14 +80,14 @@ nnoremap <silent> <leader>gp :Git push<CR>
 " Slogan: Markdown runtime files.
 " Bundle 'tpope/vim-markdown'
 
+" Slogan: it's like rails.vim without the rails.
+" Bundle 'tpope/vim-rake'
+
 " Slogan: Vim/Ruby Configuration Files.
 " Bundle 'vim-ruby/vim-ruby'
 
 " Slogan: Vim plugin for debugging Ruby applications (using ruby-debug-ide gem).
 " Bundle 'astashov/vim-ruby-debugger'
-
-" Slogan: it's like rails.vim without the rails.
-" Bundle 'tpope/vim-rake'
 
 " Slogan: precision colorscheme for the vim text editor.
 " Bundle 'altercation/vim-colors-solarized'
@@ -94,12 +97,6 @@ nnoremap <silent> <leader>gp :Git push<CR>
 
 " Slogan: vim motions on speed.
 " Bundle 'Lokaltog/vim-easymotion'
-
-" Slogan: Vim plugin for intensely orgasmic commenting.
-" Bundle 'scrooloose/nerdcommenter'
-
-" Slogan: comment stuff out.
-"" Bundle 'tpope/vim-commentary'
 
 " Slogan: A Vim plugin for Windows PowerShell support.
 " Bundle 'PProvost/vim-ps1'
@@ -169,20 +166,23 @@ let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 " Bundle 'honza/snipmate-snippets'
 
 " Disabled:
+" Slogan: Vim plugin for intensely orgasmic commenting.
+"x Bundle 'scrooloose/nerdcommenter'
+
 " Slogan: Ultimate auto-completion system for Vim.
-"" Bundle 'Shougo/neocomplcache'
+"x Bundle 'Shougo/neocomplcache'
 
 " Slogan: neo-snippet plugin contains neocomplcache snippets source.
-"" Bundle 'Shougo/neosnippet'
+"x Bundle 'Shougo/neosnippet'
 
 " Slogan: This is an implementation of TextMates Snippets for the Vim Text Editor. It has all features of TextMates Snippets and then some.
-"" Bundle 'SirVer/ultisnips'
+"x Bundle 'SirVer/ultisnips'
 
 " Slogan: Readline style insertion.
-"" Bundle 'tpope/vim-rsi'
+"x Bundle 'tpope/vim-rsi'
 " Reason: Key binding should be made carefully by yourself.
 
 " Slogan: Vim plugin to visualize your Vim undo tree.
-"" Bundle 'sjl/gundo.vim'
+"x Bundle 'sjl/gundo.vim'
 
 " vim:ft=vim tw=78 et sw=2 fdm=marker cms="\ %s nowrap:

@@ -65,6 +65,7 @@ set visualbell t_vb= " no beep or flash
 au GUIEnter * set vb t_vb= " disable error sounds and error screen flash
 "set hidden                      " maybe set autowrite if preferd
 set mouse=a                 " automatically enable mouse usage
+set spell
 set shortmess+=filmnrwxoOtTI      " abbrev. of messages and avoids 'hit enter'
 " Allow color schemes do bright colors without forcing bold.
 if &t_Co == 8 && $TERM !~# '^linux'
@@ -102,12 +103,6 @@ cmap w!! w !sudo tee % >/dev/null
 " Cd to the directory containing the current buffer
 cmap lcd. lcd %:p:h
 cmap cd. cd %:p:h
-" Toggle hlsearch
-nnoremap <leader>/ :set hlsearch! hlsearch?<CR>
-"set text wrapping toggles
-nnoremap <silent> <leader>tw :set invwrap<bar>set wrap?<CR>
-"set spell toggles
-nnoremap <silent> <leader>ts :set invspell<bar>set spell?<CR>
 " Wrapped lines goes down/up to next row, rather than next line in file.
 nnoremap j gj
 nnoremap k gk
