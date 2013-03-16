@@ -6,7 +6,7 @@ REM Set path variables.
 @if not exist "%HOME%\vimise" call mklink /J "%HOME%\vimise" "D:\projects\vimise"
 @set VIMISE_DIR=%HOME%\vimise
 @set GIT_DIR=C:\Program Files\Git
-@set SYNC_DIR=D:\Sync\SkyDrive
+@set SYNC_DIR=D:\Sync\SkyDrive\Documents
 
 REM Make links.
 @if not exist "%HOME%\.vim" call mklink /J "%HOME%\.vim" "%VIMISE_DIR%\vim"
@@ -22,6 +22,6 @@ REM Sync bundles.
 "%GIT_DIR%\cmd\bash.cmd" %VIMISE_DIR%\bin\git.sh -s
 
 REM Link the vimwiki repository to the synced directory.
-@if not exist "%HOME%\vimwiki" call mklink /J "%HOME%\vimwiki" "%SYNC_DIR%\vimwiki"
+@if not exist "%HOME%\vimwiki" call mklink /J "%HOME%\vimwiki" "%SYNC_DIR%\VimWiki"
 
 REM Finish installation.

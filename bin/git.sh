@@ -2,11 +2,9 @@
 # Uncomment below to enable debug mode, or use 'bash -xv this_file.sh'
 # Set -xv 
 
-# Define variable
-usage="Usage: $(basename $0) [-h] [-d directory] [-c/C repository] [-p/P] [-s/S]
+usage="Usage: $(basename $0) [-d directory] [-c/C repository] [-p/P] [-s/S] [-h]
 
 Where:
-    -h  show this help text
     -d  change target directory, default is '$HOME/.vim/bundle'
     -c  clone a repository, either specify the full URL
         or the short form like 'tpope/vim-pathogen'
@@ -14,12 +12,12 @@ Where:
     -p  pull all repositories under the 'bundle' directory
     -P  like -p, but pull recursively(max depth of directories is 3)
     -s  cloning all repositories specified in 'vimrc.bundle',
-    -S  like -s, but delete unspecified repositories whose name not ended with '~'"
+    -S  like -s, but delete unspecified repositories whose name not ended with '~'
+    -h  show this help text"
 
 hflag=; dflag=; cflag=; Cflag=; pflag=; Pflag=; sflag=; Sflag=
 while getopts "hd:c:C:pPsS" name; do
     case $name in
-    h)    hflag=1;;
     d)    dflag=1
           dval="$OPTARG";;
     c)    cflag=1
@@ -30,15 +28,11 @@ while getopts "hd:c:C:pPsS" name; do
     P)    Pflag=1;;
     s)    sflag=1;;
     S)    Sflag=1;;
+    h)    hflag=1;;
     ?)    printf "Usage: $(basename $0) [-h] [-d directory] [-c repository] [-C] [-p] [-P] [-s]\n" $0
           exit 2;;
     esac
 done
-
-# Display help.
-if [ -n "$hflag" ] || [ $# -eq 0 ]; then
-  echo "$usage" >&2
-fi
 
 # Set up the working directory.
 if [ -n "$dflag" ]; then
@@ -76,7 +70,7 @@ fi
 
 # Update all git repositories.
 if [[ -n "$pflag" ]] || [[ -n "$Pflag" ]]; then
-  # Update all the bundles under the current working path.
+  # Update all the repositories under the current working path.
   if [ -n "$pflag" ]; then
     echo "Pull bundles ..."
     let count=0
@@ -89,7 +83,7 @@ if [[ -n "$pflag" ]] || [[ -n "$Pflag" ]]; then
     echo "Pull $count bundles finished."
   fi
 
-  # Update all the bundles RECURSIVELY under the current working path.
+  # Update all the repositories RECURSIVELY under the current working path.
   if [ -n "$Pflag" ]; then
     echo  "Pull bundles recursively ..."
     let count=0
@@ -107,38 +101,50 @@ if [[ -n "$pflag" ]] || [[ -n "$Pflag" ]]; then
   fi
 fi
 
-# Sync directories according bundles specified within the BUNDLE_FILE.
+# Sync repositories according bundles specified in the BUNDLE_FILE.
 if [[ -n "$sflag" ]] || [[ -n "$Sflag" ]]; then
   echo "Syncing bundles(directories) ..."
   bundle_list="$(grep '^" Bundle ' $BUNDLE_FILE | sed "s/.*\/\(.*\)'/\1/")"
   # Get the URL list of bundles, the format '\'' match a '
   url_list="$(grep '^" Bundle ' $BUNDLE_FILE \
     | sed 's_" Bundle '\''\(.*\)'\''_http://github.com/\1.git_')"
+
   let count=0
   for url in $url_list; do
     tmp=${url##*\/}; dest=${tmp%%.git}
     if [ ! -d $dest ]; then
       echo "Cloning into $dest ..."
-      git clone $url
-      let count+=1
+      # Reuse the disabled repository instead of cloning a new one.
+      if [ -d $dest~ ]; then
+        mv $dest~ $dest
+      else
+        git clone $url
+        let count+=1
+      fi
     fi
   done
+
   echo "Cloning $count bundles finished."
 
-  # Delete directories not  specified in the BUNDLE_FILE.
-  if [ -n "$Sflag" ]; then
-    dir_list="$(ls -d *[^~])" # Don't delete directories ended with "~".
-    # For every directory in dir_list and not in bundle_list, delete it.
-    for i in $dir_list; do
-      match=0
-      for j in $bundle_list; do
-        [[ "$i" == "$j" ]] && match=1 && break
-      done
-      [[ "$match" != 1 ]] && rm -rf $i
+  # Disable or delete(Sflag) repositories not specified in the BUNDLE_FILE.
+  dir_list="$(ls -d *[^~])" # Exclude directories already ended with "~".
+  for i in $dir_list; do
+    match=false
+    for j in $bundle_list; do
+      [[ "$i" == "$j" ]] && match=true && break
     done
-  fi
+    if ! $match; then
+      # Ternary operator "...?...:..." in shell's form. But the 3rd part is also executed when the 2nd part failed.
+      [[ -n $Sflag ]] &&  rm -rf $i || mv $i $i~
+    fi
+  done
 
   echo "Syncing bundles(directories) finished."
+fi
+
+# Display help.
+if [ -n "$hflag" ] || [ $# -eq 0 ]; then
+  echo "$usage" >&2
 fi
 
 shift $(($OPTIND - 1))
