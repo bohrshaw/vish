@@ -57,13 +57,12 @@ set display+=lastline           " ensure the last line is properly displayed
 set wildmenu                    " show list instead of just completing
 set wildmode=list:longest,full  " command <Tab> completion, list matches, then longest common part, then all.
 set autoread " Automatically read a file that has changed(not delete) on disk
-set autowriteall
 set showcmd                 " show partial commands in status line and
-"set clipboard=unnamed " Link unnamed register and OS clipboard:
+" set clipboard=unnamed " Link unnamed register and OS clipboard:
 set backspace=indent,eol,start  " backspace for dummies
 set visualbell t_vb= " no beep or flash
 au GUIEnter * set vb t_vb= " disable error sounds and error screen flash
-"set hidden                      " maybe set autowrite if preferd
+set hidden                      " maybe set autowrite if preferd
 set mouse=a                 " automatically enable mouse usage
 set spell
 set shortmess+=filmnrwxoOtTI      " abbrev. of messages and avoids 'hit enter'
