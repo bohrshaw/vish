@@ -68,7 +68,7 @@ main do |optional_arg|
       end
     end
 
-    puts 'Syncing bundles finished.'
+    puts 'Syncing bundles done.'
   end
 
   if options[:clone]

@@ -80,7 +80,7 @@ if [[ -n "$pflag" ]] || [[ -n "$Pflag" ]]; then
       (cd $d; git pull)
       let count+=1
     done
-    echo "Pull $count bundles finished."
+    echo "Pull $count bundles done"
   fi
 
   # Update all the repositories RECURSIVELY under the current working path.
@@ -97,7 +97,7 @@ if [[ -n "$pflag" ]] || [[ -n "$Pflag" ]]; then
       (cd ${d%/.git}; git pull)
       let count+=1
     done
-    echo  "Pull $count bundles recursively finished."
+    echo  "Pull $count bundles recursively done"
   fi
 fi
 
@@ -124,7 +124,7 @@ if [[ -n "$sflag" ]] || [[ -n "$Sflag" ]]; then
     fi
   done
 
-  echo "Cloning $count bundles finished."
+  echo "Cloning $count bundles done"
 
   # Disable or delete(Sflag) repositories not specified in the BUNDLE_FILE.
   dir_list="$(ls -d *[^~])" # Exclude directories already ended with "~".
@@ -139,7 +139,7 @@ if [[ -n "$sflag" ]] || [[ -n "$Sflag" ]]; then
     fi
   done
 
-  echo "Syncing bundles(directories) finished."
+  echo "Syncing bundles(directories) done"
 fi
 
 # Display help.
