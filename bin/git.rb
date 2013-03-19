@@ -8,17 +8,17 @@
 
 require "thor"
 
-# A class for subcommands.
-# class Subcommand < Thor
-#   desc 'sync', "sync bundles"
-#   option :update
-#   option :delete
+# A class for a subcommand.(demo)
+class Subcommand < Thor
+  desc 'sync', "sync bundles"
+  option :update
+  option :delete
 
-#   def sync(arg=nil)
-#     puts "#{arg}"
-#     puts options[:delete]
-#   end
-# end
+  def sync(arg=nil)
+    puts "#{arg}"
+    puts options[:delete]
+  end
+end
 
 # The main class.
 class Git < Thor
@@ -29,10 +29,6 @@ class Git < Thor
   Dir.chdir ENV['HOME'] + '/.vim/bundle'
 
   BUNDLES_FILE = "#{ENV['HOME']}/vimise/vimrc.bundle"
-
-  # Conceal methods which are not tasks.
-  no_tasks do
-  end
 
   # Make an alias to a task.
   # map 's' => :sync
@@ -63,12 +59,9 @@ class Git < Thor
     end
 
     # Disable or remove unused bundles.(Old disabled bundles won't be touched.)
-    (Dir['*'] - Dir['*~']).each do |d|
-      match = false
-      bundles.each do |b|
-        b.match(/.*\/#{d}/) ? (match = true; break) : next
-      end
-      unless match == true
+    (Dir['*/'] - Dir['*~/']).each do |d|
+      d.chop! # remove the last '/'
+      unless bundles.map { |b| b[/[^\/]*$/] }.include? d
         options[:delete] ? FileUtils.rm_rf(d) : File.rename(d, d + '~')
       end
     end
@@ -82,32 +75,33 @@ class Git < Thor
   option :recursive, :aliases => '-r', :desc => 'Update all repositories recursively'
 
   def update(root_dir='.')
-    glob_pattern = if options[:recursive] && options[:all]
-                     root_dir + '/**/*/.git'
-                   elsif options[:recursive]
-                     # Exclude the current directory
-                     root_dir + '/**/*[^~]/.git'
-                   elsif options[:all]
-                     root_dir + '/*/.git'
-                   else
-                     # Default is excluding directories ended with '~'
-                     root_dir + '/*[^~]/.git'
-                   end
+    pattern_prepend = root_dir[-1] == '/' ? root_dir.chop : root_dir
 
-    Dir.glob(glob_pattern) do |d|
+    Dir.glob(pattern_prepend + glob_pattern) do |d|
       d.sub!(/\.git$/, '') 
       puts "Updating '#{d}'..."
       Dir.chdir(d) { puts `git pull` }
     end
-
     puts "Update repositories done."
   end
 
-  # long_desc <<-LONGDESC
-  #   A detail description for the subcommand.
-  # LONGDESC
-  # desc "subcommand command ...ARGS", "a subcommand"
-  # subcommand "subcommand", Subcommand
+  # Conceal methods that are not tasks.
+  no_tasks do
+    def glob_pattern
+      if options[:recursive] && options[:all]
+        '/**/*/.git'
+      elsif options[:recursive]
+        '/**/*[^~]/.git' # Exclude the current directory
+      elsif options[:all]
+        '/*/.git'
+      else
+        '/*[^~]/.git'
+      end
+    end
+  end
+
+  desc "subcommand command ...ARGS", "a subcommand"
+  subcommand "subcommand", Subcommand
 
 private
   # Get the full URL based on partial URL like 'partial/smile.git'.
@@ -125,11 +119,12 @@ private
     dest = url.gsub(%r|.*://.*/.*/(.*)\.git|, '\1')
     unless Dir.exists? dest
       if Dir.exists? dest + '~'
+        puts "Enable #{dest.capitalize}"
         File.rename dest+'~', dest
-        puts "#{dest.capitalize} enabled."
+
         if options[:update]
+          puts "Update #{dest.capitalize}"
           Dir.chdir(dest) { puts `git pull` }
-          puts "#{dest.capitalize} updated."
         end
       else
         puts "Cloning into '#{dest}'..."

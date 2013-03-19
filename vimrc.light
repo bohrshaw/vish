@@ -43,7 +43,7 @@ command! Vrcl :tabe ~/vimise/vimrc.light
 if has('gui_running')
     color solarized
 elseif has('unix')
-    color molokai
+    color vividchalk
 else
     color vividchalk
 endif

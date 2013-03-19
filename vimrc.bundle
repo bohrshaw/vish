@@ -92,9 +92,6 @@ nnoremap <silent> <leader>gp :Git push<CR>
 " Slogan: precision colorscheme for the vim text editor.
 " Bundle 'altercation/vim-colors-solarized'
 
-" Slogan: Make gvim-only colorschemes work transparently in terminal vim.
-" Bundle 'godlygeek/csapprox'
-
 " Slogan: vim motions on speed.
 " Bundle 'Lokaltog/vim-easymotion'
 
@@ -184,5 +181,8 @@ let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 
 " Slogan: Vim plugin to visualize your Vim undo tree.
 "x Bundle 'sjl/gundo.vim'
+
+" Slogan: Make gvim-only colorschemes work transparently in terminal vim.
+"x Bundle 'godlygeek/csapprox'
 
 " vim:ft=vim tw=78 et sw=2 fdm=marker cms="\ %s nowrap:
