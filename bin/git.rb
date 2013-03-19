@@ -97,7 +97,7 @@ class Git < Thor
     Dir.glob(glob_pattern) do |d|
       d.sub!(/\.git$/, '') 
       puts "Updating '#{d}'..."
-      Dir.chdir(d) { `git pull` }
+      Dir.chdir(d) { puts `git pull` }
     end
 
     puts "Update repositories done."
@@ -128,12 +128,12 @@ private
         File.rename dest+'~', dest
         puts "#{dest.capitalize} enabled."
         if options[:update]
-          Dir.chdir(dest) { `git pull` }
+          Dir.chdir(dest) { puts `git pull` }
           puts "#{dest.capitalize} updated."
         end
       else
         puts "Cloning into '#{dest}'..."
-        `git clone #{url}`
+        puts `git clone #{url}`
       end
     end
   end
