@@ -40,30 +40,39 @@ class Git < Thor
   desc 'sync [-u] [-d]', "Sync bundles"
   # option is an alias for method_option
   option :update, :aliases => '-u', :desc => 'Update the just enabled bundle'
-  option :delete, :aliases => '-d', :desc => 'Delete the bundle instead of disabling it'
+  option :clean, :aliases => '-c', :desc => 'Delete all disabled bundles'
 
   def sync()
     puts 'Syncing bundles ...'
 
     # Get the bundle list. A bundle is like "tpope/vim-surround"
     bundles = []
-    File.open(BUNDLES_FILE, 'r') do |f|
-      while line = f.gets
-        bundles << line.gsub(/^" Bundle '(.*)'$/, '\1').chomp if line.match(/^" Bundle '.*/)
+    File.foreach(BUNDLES_FILE) do |line|
+      if line =~ /^" Bundle '.*/
+        bundles << line.gsub(/^" Bundle '(.*)'$/, '\1').chomp
       end
     end
+
+    # More readable without sacrifice performance in ruby 2.0
+    # line_filter = proc { |i| i =~ /^" Bundle '.*/ }
+    # bundles = File.foreach(BUNDLES_FILE).lazy.select(&line_filter).map do |l|
+    #   l.gsub(/^" Bundle '(.*)'$/, '\1').chomp
+    # end.to_a
 
     # Enable or clone active bundles.
     bundles.each do |b|
       enable_or_clone_bundle get_url(b)
     end
 
-    # Disable or remove unused bundles.(Old disabled bundles won't be touched.)
+    # Disable or clean unused bundles.
     (Dir['*/'] - Dir['*~/']).each do |d|
       d.chop! # remove the last '/'
-      unless bundles.map { |b| b[/[^\/]*$/] }.include? d
-        options[:delete] ? FileUtils.rm_rf(d) : File.rename(d, d + '~')
+      unless bundles.count { |i| i =~ /.*\/#{d}/ } >= 1
+        options[:clean] ? FileUtils.rm_rf(d) : File.rename(d, d + '~')
       end
+    end
+    if options[:clean]
+        FileUtils.rm_rf(Dir['*~/'])
     end
 
     puts 'Syncing bundles done.'
