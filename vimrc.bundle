@@ -13,8 +13,10 @@ command! Vrcb :tabe ~/vimise/vimrc.bundle
 " Slogan: a tree explorer plugin for vim.
 " Bundle 'scrooloose/nerdtree'
 noremap <C-t> :NERDTreeToggle<CR>
+" Goto the current working directory
+noremap <leader>td :NERDTree<CR>
+" Goto the current editing file
 noremap <leader>tf :NERDTreeFind<CR>
-noremap <leader>tt :NERDTreeFocus<CR>
 let NERDTreeIgnore=['^..$[[dir]]', '^.$[[dir]]', '\.pyc', '\~$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
 let NERDTreeQuitOnOpen=1
 let NERDTreeMouseMode=2
