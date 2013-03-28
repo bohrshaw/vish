@@ -92,9 +92,16 @@ nnoremap Y y$
 " Toggle fold
 nnoremap <space> za
 vnoremap <space> za
-" Two fingers tab navigation
+" Quick tab navigation
 noremap gj gt
+noremap <c-tab> gt
 noremap gk gT
+noremap <c-s-tab> gT
+noremap <a-1> 1gt
+noremap <a-2> 2gt
+noremap <a-3> 3gt
+noremap <a-4> 4gt
+noremap <a-5> 5gt
 " Familiar command line editing shortcuts
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
@@ -138,7 +145,7 @@ nnoremap <silent> <leader>ul :t.\|s/./=/g\|nohls<cr>
 " Section: Commands {{{1
 
 " Shortcut to edit this vimrc file in a new tab
-command! Vrcc tabe ~/vimise/vimrc.core
+command! Vrcc tabe ~/configent/vim/vimrc.core
 " Remove adjacent duplicate lines by matching two lines first
 command! UniqAdjacent g/\v^(.*)$\n\1$/d
 "command! UniqAdjacent g/\v%(^\1$\n)@<=(.*)$/d
@@ -232,6 +239,8 @@ command! AppendModeline call AppendModeline()
 " If you want to do more about this filetype, put these setting into
 " ~/.vim/after/ftplugin/python.vim
 autocmd FileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
+
+autocmd FileType PS1 setlocal fileformat=dos
 
 " }}}1
 " Section: Appearance {{{1
