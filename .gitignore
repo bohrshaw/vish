@@ -4,5 +4,3 @@
 
 # ignore directories under bundle
 /vim/bundle/*/
-
-/vimperator/info
