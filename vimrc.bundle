@@ -1,5 +1,5 @@
 " Vim bundles specification and configuration for the "VIMISE" vim distribution.
-" To disable a bundle, add two quotes before the "Bundle '...'" directive.
+" Active bundles are specified with the format like: " Bundle 'author/bundle'
 
 " Source the bundle configuration file
 command! Vrcb :tabe ~/vimise/vimrc.bundle
@@ -131,7 +131,7 @@ let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 " Bundle 'Raimondi/delimitMate'
 
 " Slogan: Vim Syntax for todo.txt (todotxt.com).
-" Bundle 'davidoc/todo.txt-vim'
+"x Bundle 'davidoc/todo.txt-vim'
 
 " Slogan: This script implements transparent editing of gpg encrypted files. The filename must have a ".gpg", ".pgp" or ".asc" suffix. When opening such a file the content is decrypted, when opening a new file the script will ask for the recipients of the encrypted file. The file content will be encrypted to all recipients before it is written. The script turns off viminfo, swapfile, and undofile to increase security.
 " Bundle 'jamessan/vim-gnupg'
@@ -164,7 +164,6 @@ let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 " Slogan: vim-snipmate default snippets.
 " Bundle 'honza/snipmate-snippets'
 
-" Disabled:
 " Slogan: Vim plugin for intensely orgasmic commenting.
 "x Bundle 'scrooloose/nerdcommenter'
 

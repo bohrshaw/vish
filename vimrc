@@ -23,7 +23,7 @@ call pathogen#infect()
 " }}}1
 
 " Source a common vimrc file(vimrc.core)
-source <sfile>:h/vimise/vimrc.core
+source <sfile>:h/configent/vim/vimrc.core
 
 " Section: Options {{{1
 
@@ -66,8 +66,8 @@ set nolazyredraw " Don't redraw while executing macros
 " Section: Commands {{{1
 
 " shortcut to edit vimrc files in a new tab
-command! Vrc :tabe ~/vimise/vimrc
-command! Vrcl :tabe ~/vimise/vimrc.light
+command! Vrc :tabe ~/configent/vim/vimrc
+command! Vrcl :tabe ~/configent/vim/vimrc.light
 " execute current ruby file (make ruby)
 command! RunRuby :let f=expand("%")|wincmd w|
             \ if bufexists("mr_output")|e! mr_output|else|sp mr_output|endif |
@@ -151,6 +151,6 @@ endif
 
 " }}}1
 " Source the bundle configuration file
-source ~/vimise/vimrc.bundle
+source ~/configent/vim/vimrc.bundle
 
 " vim:ft=vim tw=78 et sw=2 fdm=marker nowrap:

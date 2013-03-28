@@ -2,6 +2,7 @@
 " Usage: alias vil vim -u /path/to/vimrc.light
 
 "" Set runtime path to include picked bundles' paths {{{
+set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 let g:bundles = ['vim-surround', 'vim-abolish', 'vim-unimpaired', 'vim-commentary', 'vim-speeddating', 'vim-repeat']
 let g:bundles += ['supertab', 'vim-endwise']
 let g:bundles += ['vim-colors-solarized', 'molokai', 'vim-vividchalk']
@@ -31,7 +32,7 @@ set viminfo=
 " Section: Commands {{{1
 
 " shortcut to edit this vimrc file in a new tab
-command! Vrcl :tabe ~/vimise/vimrc.light
+command! Vrcl :tabe ~/configent/vim/vimrc.light
 
 " }}}1
 " Section: Autocommands {{{1
