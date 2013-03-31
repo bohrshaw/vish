@@ -12,6 +12,7 @@ exec 'set rtp^='.fnameescape(s:prepends)
 "}}}
 
 " Source a common vimrc file(vimrc.core) shared by other vimrcs 
+source ~/.vimrc.core
 source <sfile>:h/vimrc.core
 
 " Section: Options {{{1

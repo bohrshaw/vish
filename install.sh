@@ -19,7 +19,9 @@ done
 
 echo "Linking files..."
 ln -sfn $VIMISE_PATH/vim $HOME/.vim
+ln -sf $VIMISE_PATH/vimrc.core $HOME/.vimrc.core
 ln -sf $VIMISE_PATH/vimrc $HOME/.vimrc
+ln -sf $VIMISE_PATH/vimrc.light $HOME/.vimrc.light
 ln -sf $VIMISE_PATH/gvimrc $HOME/.gvimrc
 
 echo "Syncing bundles..."
