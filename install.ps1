@@ -25,8 +25,6 @@ function Invoke-MKLink { cmd /c mklink $args }
 
 # Environment variables
 $vim_dir = Split-Path $script:MyInvocation.MyCommand.Path
-$bundle_dir = $vim_dir + '\vim\bundle'
-$bundle_file = $vim_dir + '\vimrc.bundle'
 $sync_dir = 'D:\Sync\Skydrive'
 
 # Link files
