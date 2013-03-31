@@ -31,11 +31,14 @@ $sync_dir = 'D:\Sync\Skydrive'
 
 # Link files
 New-Link "$vim_dir\vim" "$HOME\.vim"
-New-Link "$vim_dir\vimrc.core" "$HOME\.vimrc.core"
 New-Link "$vim_dir\vimrc" "$HOME\.vimrc"
 New-Link "$vim_dir\vimrc" "$HOME\_vimrc"
-New-Link "$vim_dir\vimrc.light" "$HOME\.vimrc.light"
 New-Link "$vim_dir\gvimrc" "$HOME\.gvimrc"
+
+New-Link "$vim_dir\vimrc.core" "$HOME\.vimrc.core"
+New-Link "$vim_dir\vimrc.light" "$HOME\.vimrc.light"
+New-Link "$vim_dir\vimrc.bundle" "$HOME\.vimrc.bundle"
+
 New-Link "$sync_dir\Documents\VimWiki" "$HOME\vimwiki"
 
 # Sync bundles
