@@ -34,15 +34,22 @@ while getopts "hd:c:C:pPsS" name; do
     esac
 done
 
+# Get the full directory of the current script
+pushd `dirname $0` > /dev/null
+SCRIPT_DIR=`pwd -P`
+popd > /dev/null
+
+VIM_DIR=${SCRIPT_DIR%/*}
+BUNDLE_FILE="$VIM_DIR/vimrc.bundle"
+
 # Set up the working directory.
 if [ -n "$dflag" ]; then
   BUNDLE_DIR="$dval"
 else
-  [ ! -d $HOME/.vim/bundle ] && mkdir "$HOME/.vim/bundle"
-  BUNDLE_DIR="$HOME/.vim/bundle"
+  [ ! -d $VIM_DIR/vim/bundle ] && mkdir "$VIM_DIR/vim/bundle"
+  BUNDLE_DIR="$VIM_DIR/vim/bundle"
 fi
 cd $BUNDLE_DIR
-BUNDLE_FILE="$HOME/vimise/vimrc.bundle"
 
 # Clone a single repository.
 if [[ -n "$cflag" ]] || [[ -n "$Cflag" ]]; then

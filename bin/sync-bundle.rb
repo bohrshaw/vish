@@ -25,10 +25,11 @@ class Git < Thor
   # Options for all methods inside this class.
   class_option :verbose, :type => :boolean
 
-  # Set the working directory.
-  Dir.chdir ENV['HOME'] + '/.vim/bundle'
+  VIM_DIR = File.expand_path('..', File.dirname(__FILE__) )
+  BUNDLES_FILE = "#{VIM_DIR}/vimrc.bundle"
 
-  BUNDLES_FILE = "#{ENV['HOME']}/vimise/vimrc.bundle"
+  # Set the working directory.
+  Dir.chdir "#{VIM_DIR}/vim/bundle"
 
   # Make an alias to a task.
   # map 's' => :sync
@@ -64,13 +65,15 @@ class Git < Thor
       enable_or_clone_bundle get_url(b)
     end
 
-    # Disable or clean unused bundles.
+    # Disable unused bundles.
     (Dir['*/'] - Dir['*~/']).each do |d|
       d.chop! # remove the last '/'
       unless bundles.count { |i| i =~ /.*\/#{d}/ } >= 1
-        options[:clean] ? FileUtils.rm_rf(d) : File.rename(d, d + '~')
+        File.rename(d, d + '~')
       end
     end
+
+    # Delete unused bundles.
     if options[:clean]
         FileUtils.rm_rf(Dir['*~/'])
     end
