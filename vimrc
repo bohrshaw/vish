@@ -23,7 +23,7 @@ call pathogen#infect()
 " }}}1
 
 " Source a common vimrc file(vimrc.core)
-source <sfile>:h/configent/vim/vimrc.core
+source ~/.vimrc.core
 
 " Section: Options {{{1
 
@@ -151,6 +151,6 @@ endif
 
 " }}}1
 " Source the bundle configuration file
-source ~/configent/vim/vimrc.bundle
+source ~/.vimrc.bundle
 
 " vim:ft=vim tw=78 et sw=2 fdm=marker nowrap:
