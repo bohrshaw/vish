@@ -7,10 +7,11 @@ include Methadone::Main
 include Methadone::CLILogging
 
 main do |optional_arg|
-  # Set the working directory.
-  Dir.chdir ENV['HOME'] + '/.vim/bundle'
+  VIM_DIR = File.expand_path('..', File.dirname(__FILE__) )
+  BUNDLES_FILE = "#{VIM_DIR}/vimrc.bundle"
 
-  bundles_file = "#{ENV['HOME']}/vimise/vimrc.bundle"
+  # Set the working directory.
+  Dir.chdir "#{VIM_DIR}/vim/bundle"
 
   # Get the full URL based on partial URL like 'partial/smile.git'.
   def get_url(partial_url)
@@ -42,11 +43,11 @@ main do |optional_arg|
 
     # Get the bundle list. A bundle is like "tpope/vim-surround"
     # Use shell to process the bundle file
-    # bundles_str = `grep '^" Bundle ' #{bundles_file} | sed -e "s/.* '//" -e "s/'//"`
+    # bundles_str = `grep '^" Bundle ' #{BUNDLES_FILE} | sed -e "s/.* '//" -e "s/'//"`
     # bundles = bundles_str.split
     # Use ruby to process the bundle file
     bundles = []
-    File.open(bundles_file, 'r') do |f|
+    File.open(BUNDLES_FILE, 'r') do |f|
       while line = f.gets
         bundles << line.gsub(/^" Bundle '(.*)'$/, '\1').chomp if line.match(/^" Bundle '.*/)
       end

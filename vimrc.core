@@ -109,6 +109,7 @@ cmap w!! w !sudo tee % >/dev/null
 " Cd to the directory containing the current buffer
 cmap lcd. lcd %:p:h
 cmap cd. cd %:p:h
+cnoremap vsb vert sb 
 " Wrapped lines goes down/up to next row, rather than next line in file.
 nnoremap j gj
 nnoremap k gk
@@ -277,4 +278,4 @@ autocmd ColorScheme * hi statusline ctermbg=Gray ctermfg=black guibg=black guifg
 " }}}
 " }}}
 
-" Vim:ft=vim tw=78 et sw=2 fdm=marker cms="\ %s nowrap:
+" vim:ft=vim tw=78 et sw=2 fdm=marker cms="\ %s nowrap:

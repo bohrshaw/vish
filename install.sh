@@ -21,10 +21,8 @@ echo "Linking files..."
 ln -sfn $VIMISE_PATH/vim $HOME/.vim
 ln -sf $VIMISE_PATH/vimrc $HOME/.vimrc
 ln -sf $VIMISE_PATH/gvimrc $HOME/.gvimrc
-ln -sfn $VIMISE_PATH/vimperator $HOME/.vimperator
-ln -sf $VIMISE_PATH/vimperatorrc $HOME/.vimperatorrc
 
 echo "Syncing bundles..."
-bin/git.sh -s
+bin/sync-bundle.sh -s
 
 echo "Finish installation."
