@@ -1,32 +1,29 @@
 #! /bin/bash
-# Install the "VIMISE" distribution including vim and vimperator.
+# Install the "VIMISE" distribution.
 
-# Link the repository to $HOME, so you can put this repository anywhere.
-if [ ! -d $HOME/vimise ]; then
-    ln -sfn $PWD $HOME
-fi
-VIMISE_PATH="$HOME/vimise"
-cd $VIMISE_PATH
+pushd `dirname $0` > /dev/null
+VIM_DIR=`pwd -P`
+popd > /dev/null
 
 echo "Starting installation..."
 
 echo "Backing up current vim configuration files..."
 today=`date +%Y%m%d`
 # Backup old non symbol link files.
-for i in $HOME/.vim $HOME/.vimrc $HOME/.gvimrc $HOME/.vimperator $HOME/.vimperatorrc; do
+for i in $HOME/.vim $HOME/.vimrc $HOME/.gvimrc; do
     [ -e $i ] && [ ! -L $i ] && mv $i $i.$today
 done
 
 echo "Linking files..."
-ln -sfn $VIMISE_PATH/vim $HOME/.vim
-ln -sf $VIMISE_PATH/vimrc $HOME/.vimrc
-ln -sf $VIMISE_PATH/gvimrc $HOME/.gvimrc
+ln -sfn $VIM_DIR/vim $HOME/.vim
+ln -sf $VIM_DIR/vimrc $HOME/.vimrc
+ln -sf $VIM_DIR/gvimrc $HOME/.gvimrc
 
-ln -sf $VIMISE_PATH/vimrc.core $HOME/.vimrc.core
-ln -sf $VIMISE_PATH/vimrc.light $HOME/.vimrc.light
-ln -sf $VIMISE_PATH/vimrc.bundle $HOME/.vimrc.bundle
+ln -sf $VIM_DIR/vimrc.core $HOME/.vimrc.core
+ln -sf $VIM_DIR/vimrc.light $HOME/.vimrc.light
+ln -sf $VIM_DIR/vimrc.bundle $HOME/.vimrc.bundle
 
 echo "Syncing bundles..."
-bin/sync-bundle.sh -s
+$VIM_DIR/bin/sync-bundle.sh -s
 
-echo "Finish installation."
+echo "Installation done."
