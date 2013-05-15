@@ -11,6 +11,7 @@ runtime bundle/vim-pathogen/autoload/pathogen.vim
 let g:pathogen_disabled = []
 if has('win32') || !has("signs") || !has("clientserver")
     call add(g:pathogen_disabled, 'vim-ruby-debugger')
+    call add(g:pathogen_disabled, 'vim-tbone')
 endif
 if has('gui_running')
     call add(g:pathogen_disabled, 'csapprox')
@@ -42,25 +43,6 @@ set nolazyredraw " Don't redraw while executing macros
 
 " }}}1
 " Section: Mappings {{{1
-
-    " find merge conflict markers, maybe duplicate as unimpaired exists mappings [n ]n
-    "nnoremap <silent> <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
-    " set a fold level quickly "{{{2
-    nnoremap <leader>f0 :set foldlevel=0<CR>
-    nnoremap <leader>f1 :set foldlevel=1<CR>
-    nnoremap <leader>f2 :set foldlevel=2<CR>
-    nnoremap <leader>f3 :set foldlevel=3<CR>
-    nnoremap <leader>f4 :set foldlevel=4<CR>
-    nnoremap <leader>f5 :set foldlevel=5<CR>
-    nnoremap <leader>f6 :set foldlevel=6<CR>
-    nnoremap <leader>f7 :set foldlevel=7<CR>
-    nnoremap <leader>f8 :set foldlevel=8<CR>
-    nnoremap <leader>f9 :set foldlevel=9<CR> "}}}2
-    " personal plugin related {{{2
-        nnoremap <leader>sl :SSlist<CR>
-        nnoremap <leader>ss :SSsave<CR>
-        nnoremap <leader>sa :SSsaveas<CR>
-    " }}}2
 
 " }}}1
 " Section: Commands {{{1

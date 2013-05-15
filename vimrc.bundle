@@ -2,7 +2,7 @@
 " Active bundles are specified with the format like: " Bundle 'author/bundle'
 
 " Source the bundle configuration file
-command! Vrcb :tabe ~/vimise/vimrc.bundle
+command! Vrcb :tabe ~/.vimrc.bundle
 
 " Slogan: manage your runtimepath.
 " Bundle 'tpope/vim-pathogen'
@@ -76,6 +76,9 @@ nnoremap <silent> <leader>gp :Git push<CR>
 " Slogan: helpers for UNIX(Windows).
 " Bundle 'tpope/vim-eunuch'
 
+" Slogan: tmux basics.
+" Bundle 'tpope/vim-tbone'
+
 " Slogan: runtime files for Haml, Sass, and SCSS .
 " Bundle 'tpope/vim-haml'
 
@@ -130,8 +133,8 @@ let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 " Slogan: Vim plugin, provides insert mode auto-completion for quotes, parens, brackets, etc.
 " Bundle 'Raimondi/delimitMate'
 
-" Slogan: Vim Syntax for todo.txt (todotxt.com).
-"x Bundle 'davidoc/todo.txt-vim'
+  " Slogan: Vim Syntax for todo.txt (todotxt.com).
+  " Bundle 'davidoc/todo.txt-vim'
 
 " Slogan: This script implements transparent editing of gpg encrypted files. The filename must have a ".gpg", ".pgp" or ".asc" suffix. When opening such a file the content is decrypted, when opening a new file the script will ask for the recipients of the encrypted file. The file content will be encrypted to all recipients before it is written. The script turns off viminfo, swapfile, and undofile to increase security.
 " Bundle 'jamessan/vim-gnupg'
@@ -154,36 +157,36 @@ let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 " Slogan: Vim plugin for the TaskPaper application.
 " Bundle 'davidoc/taskpaper.vim'
 
-" Slogan: snipMate.vim aims to be a concise vim script that implements some of TextMate's snippets features in Vim.
-" Bundle 'garbas/vim-snipmate'
-" Dependence: Slogan: vim: interpret a file by function and cache file automatically.
-" Bundle 'MarcWeber/vim-addon-mw-utils'
-" Dependence: Slogan: Some utility functions for VIM.
-" Bundle 'tomtom/tlib_vim'
+  " Slogan: snipMate.vim aims to be a concise vim script that implements some of TextMate's snippets features in Vim.
+  " Bundle 'garbas/vim-snipmate'
+  " Dependence: Slogan: vim: interpret a file by function and cache file automatically.
+  " Bundle 'MarcWeber/vim-addon-mw-utils'
+  " Dependence: Slogan: Some utility functions for VIM.
+  " Bundle 'tomtom/tlib_vim'
 
-" Slogan: vim-snipmate default snippets.
-" Bundle 'honza/snipmate-snippets'
+  " Slogan: vim-snipmate default snippets.
+  " Bundle 'honza/vim-snippets'
 
-" Slogan: Vim plugin for intensely orgasmic commenting.
-"x Bundle 'scrooloose/nerdcommenter'
+  " Slogan: Vim plugin for intensely orgasmic commenting.
+  " Bundle 'scrooloose/nerdcommenter'
 
-" Slogan: Ultimate auto-completion system for Vim.
-"x Bundle 'Shougo/neocomplcache'
+  " Slogan: Ultimate auto-completion system for Vim.
+  " Bundle 'Shougo/neocomplcache'
 
-" Slogan: neo-snippet plugin contains neocomplcache snippets source.
-"x Bundle 'Shougo/neosnippet'
+  " Slogan: neo-snippet plugin contains neocomplcache snippets source.
+  " Bundle 'Shougo/neosnippet'
 
 " Slogan: This is an implementation of TextMates Snippets for the Vim Text Editor. It has all features of TextMates Snippets and then some.
-"x Bundle 'SirVer/ultisnips'
+" Bundle 'SirVer/ultisnips'
 
-" Slogan: Readline style insertion.
-"x Bundle 'tpope/vim-rsi'
-" Reason: Key binding should be made carefully by yourself.
+  " Slogan: Readline style insertion.
+  " Bundle 'tpope/vim-rsi'
+  " Reason: Key binding should be made carefully by yourself.
 
-" Slogan: Vim plugin to visualize your Vim undo tree.
-"x Bundle 'sjl/gundo.vim'
+  " Slogan: Vim plugin to visualize your Vim undo tree.
+  " Bundle 'sjl/gundo.vim'
 
-" Slogan: Make gvim-only colorschemes work transparently in terminal vim.
-"x Bundle 'godlygeek/csapprox'
+  " Slogan: Make gvim-only colorschemes work transparently in terminal vim.
+  " Bundle 'godlygeek/csapprox'
 
 " vim:ft=vim tw=78 et sw=2 fdm=marker cms="\ %s nowrap:

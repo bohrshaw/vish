@@ -30,8 +30,8 @@ set nowritebackup
 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
 set viewoptions=folds,cursor,unix,slash
 if 0 == argc() | cd $HOME | endif " Change the default working directory to HOME
-set path=,~,~/projects,~/projects/vimise " where to look for files when using command like 'gf'
-set cdpath=,~,~/projects,~/projects/vimise
+set path=.,,~ " where to look for files when using command like 'gf'
+set cdpath=,,~/projects
 set complete-=i " Don't scan included files for keyword completion.
 " Key code delay, same as mapping delay(timeoutlen) when < 0(default)
 " Avoid the delay in entering normal mode after pressing ESC
@@ -50,8 +50,8 @@ set smarttab      " when at a start on line, the number of spaces a tab count fo
 set incsearch                   " find as you type search
 set ignorecase                  " case insensitive search
 set smartcase                   " case sensitive when uc present
-set scrolljump=2                " lines to scroll when cursor leaves screen
-set scrolloff=2                 " minimum lines to keep above and below cursor
+" set scrolljump=2                " lines to scroll when cursor leaves screen
+" set scrolloff=2                 " minimum lines to keep above and below cursor
 set sidescrolloff=5                 " The minimal number of screen columns to keep around the cursor
 set display+=lastline           " ensure the last line is properly displayed
 set wildmenu                    " show list instead of just completing
@@ -224,7 +224,7 @@ endfunction " }}}2
 " Only the current buffer.
 " autocmd BufNewFile,BufRead * call SetLocalOptions(bufname("%"))
 function! AppendModeline() " {{{2
-  let modeline = printf(" vim:tw=%d ts=%d sw=%d et:", &textwidth, &shiftwidth, &tabstop)
+  let modeline = printf(" vim:tw=%d ts=%d sw=%d et fdm=marker:", &textwidth, &shiftwidth, &tabstop)
   let modeline = substitute(&commentstring, "%s", modeline, "")
   " append a new line and a modeline at the end of file
   call append(line("$"), ["", modeline])
@@ -248,7 +248,6 @@ autocmd FileType PS1 setlocal fileformat=dos
 
 set background=dark         " Assume a dark background for colorschemes
 set showmode                    " display the current mode
-set cursorline                  " highlight current line
 set ruler                   " show the ruler
 set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " a ruler on steroids
 if &term == 'xterm' || &term == 'xterm-256color' || &term == 'screen'
@@ -278,4 +277,4 @@ autocmd ColorScheme * hi statusline ctermbg=Gray ctermfg=black guibg=black guifg
 " }}}
 " }}}
 
-" vim:ft=vim tw=78 et sw=2 fdm=marker cms="\ %s nowrap:
+" vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:

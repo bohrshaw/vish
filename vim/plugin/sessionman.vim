@@ -248,6 +248,10 @@ command! -bar -nargs=0 SSautosave if sessionman_save_on_exit |
 		\ let sessionman_save_on_exit = 1 |
 		\ echon "Auto save ON" | endif
 
+nnoremap <leader>sl :SSlist<CR>
+nnoremap <leader>ss :SSsave<CR>
+nnoremap <leader>sa :SSsaveas<CR>
+
 an 10.370 &File.-SessionsSep-				<Nop>
 an 10.371 &File.S&essions.&Open\.\.\.		:SessionList<CR>
 an 10.372 &File.S&essions.Open\ &Last		:SessionOpenLast<CR>

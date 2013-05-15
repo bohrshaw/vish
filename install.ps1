@@ -1,7 +1,14 @@
 Param ( [Switch] $override=$false )
 
 # Supporting functions#{{{
-function New-Link($target, $link) {
+function New-Link {
+    param([String]$target, [String]$link, [switch]$link_given = $false)
+
+    # Generate the line path if omitted.
+    if (! $link_given) {
+        $link = "$HOME\." + $target.split('\')[-1]
+    }
+
     # What to do if the link existed.
     if (Test-Path $link) {
         if ($script:override) {
@@ -28,16 +35,12 @@ $vim_dir = Split-Path $script:MyInvocation.MyCommand.Path
 $sync_dir = 'D:\Sync\Skydrive'
 
 # Link files
-New-Link "$vim_dir\vim" "$HOME\.vim"
-New-Link "$vim_dir\vimrc" "$HOME\.vimrc"
-New-Link "$vim_dir\vimrc" "$HOME\_vimrc"
-New-Link "$vim_dir\gvimrc" "$HOME\.gvimrc"
+$targets = @("vim", "vimrc", "gvimrc",
+             "vimrc.core", "vimrc.light", "vimrc.bundle", "vsvimrc")
 
-New-Link "$vim_dir\vimrc.core" "$HOME\.vimrc.core"
-New-Link "$vim_dir\vimrc.light" "$HOME\.vimrc.light"
-New-Link "$vim_dir\vimrc.bundle" "$HOME\.vimrc.bundle"
+foreach ( $target in $targets ) { New-Link "$vim_dir\$target" }
 
-New-Link "$sync_dir\Documents\VimWiki" "$HOME\vimwiki"
+New-Link "$sync_dir\Documents\VimWiki" "$HOME\vimwiki" -link_given
 
 # Sync bundles
 Invoke-Expression "$vim_dir\bin\Sync-Bundle.ps1"
