@@ -67,4 +67,4 @@ function! s:Bdelete(bang, buffer)
   execute wcurrent.'wincmd w'
 endfunction
 command! -bang -complete=buffer -nargs=? Bd call s:Bdelete('<bang>', '<args>')
-nnoremap <silent> <Leader>bd :Bdelete<CR>
+nnoremap <silent> <Leader>bd :Bd<CR>

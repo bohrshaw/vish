@@ -9,7 +9,7 @@ pushd $bundle_dir
 function Enable-Bundle($bundles) {
     foreach ($bundle in $bundles) {
         $bundle_dir = $bundle.split('/')[-1]
-        $bundle_url = 'http://github.com/' + $bundle + '.git'
+        $bundle_url = 'git://github.com/' + $bundle + '.git'
 
         if (Test-Path $bundle_dir) {
             if ($update) {
