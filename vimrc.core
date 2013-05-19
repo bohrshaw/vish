@@ -56,6 +56,7 @@ set sidescrolloff=5                 " The minimal number of screen columns to ke
 set display+=lastline           " ensure the last line is properly displayed
 set wildmenu                    " show list instead of just completing
 set wildmode=list:longest,full  " command <Tab> completion, list matches, then longest common part, then all.
+set wildignorecase              " Ignore case in command line auto-completion
 set autoread " Automatically read a file that has changed(not delete) on disk
 set showcmd                 " show partial commands in status line and
 " set clipboard=unnamed " Link unnamed register and OS clipboard:

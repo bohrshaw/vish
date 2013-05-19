@@ -28,7 +28,6 @@ source ~/.vimrc.core
 
 " Section: Options {{{1
 
-" Improve the ability of recovery
 set history=1000                " Store a ton of history (default is 20)
 set whichwrap+=<,>,[,]          " allow left and right arrow keys to move beyond current line
 set nolazyredraw " Don't redraw while executing macros
@@ -38,8 +37,6 @@ set nolazyredraw " Don't redraw while executing macros
 "set hlsearch                    " highlight search terms
 "set matchpairs+=<:>                " match, to be used with %
 "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
-" Personal plugin options"{{{2
-"}}}2
 
 " }}}1
 " Section: Mappings {{{1
