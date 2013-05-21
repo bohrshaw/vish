@@ -3,4 +3,5 @@
 # and * don't match /
 
 # ignore directories under bundle
-/vim/bundle/*/
+/vim/bundle/
+/vim/.netrwhist
