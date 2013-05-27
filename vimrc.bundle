@@ -1,7 +1,8 @@
-" Vim bundles specification and configuration for the "VIMISE" vim distribution.
-" Active bundles are specified with the format like: " Bundle 'author/bundle'
+" Vim bundles specification and configuration.
 
-" Source the bundle configuration file
+" Active bundles pattern: ^" Bundle '.*'
+
+" Command to source the bundle configuration file
 command! Vrcb :tabe ~/.vimrc.bundle
 
 " Slogan: manage your runtimepath.
@@ -142,11 +143,11 @@ let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 " Slogan: Perform all your vim insert mode completions with Tab.
 " Bundle 'ervandew/supertab'
 
-" Slogan: Molokai color scheme for Vim.
-" Bundle 'tomasr/molokai'
+  " Slogan: Molokai color scheme for Vim.
+  " Bundle 'tomasr/molokai'
 
-" Slogan: a colorscheme strangely reminiscent of Vibrant Ink for a certain OS X editor.
-" Bundle 'tpope/vim-vividchalk'
+  " Slogan: a colorscheme strangely reminiscent of Vibrant Ink for a certain OS X editor.
+  " Bundle 'tpope/vim-vividchalk'
 
 " Slogan: one colorscheme pack to rule them all.
 " Bundle 'flazz/vim-colorschemes'

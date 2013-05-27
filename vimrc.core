@@ -84,7 +84,7 @@ let g:vimsyn_folding='af'
 " When define mappings, check out ":h index"
 nnoremap ; :
 xnoremap ; :
-nnoremap q; q:
+nnoremap z; q:
 nnoremap @; @:
 nnoremap \ ;
 xnoremap \ ;
