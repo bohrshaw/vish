@@ -5,15 +5,16 @@
 set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 let g:bundles = ['vim-surround', 'vim-abolish', 'vim-unimpaired', 'vim-commentary', 'vim-speeddating', 'vim-repeat']
 let g:bundles += ['supertab', 'vim-endwise']
-let g:bundles += ['vim-colors-solarized', 'molokai', 'vim-vividchalk']
+let g:bundles += ['vim-colors-solarized', 'vim-colorschemes']
 let s:paths = map(copy(g:bundles), '"~/.vim/bundle/" . v:val')
 let s:prepends = join(s:paths, ',')
 exec 'set rtp^='.fnameescape(s:prepends)
 "}}}
 
 " Source a common vimrc file(vimrc.core) shared by other vimrcs 
-source ~/.vimrc.core
-source <sfile>:h/vimrc.core
+silent! source ~/.vimrc.core
+" In case files are not linked to HOME
+silent! source <sfile>:h/vimrc.core
 
 " Section: Options {{{1
 
@@ -45,7 +46,7 @@ command! Vrcl :tabe ~/configent/vim/vimrc.light
 if has('gui_running')
     color solarized
 elseif has('unix')
-    color vividchalk
+    color twilight256
 else
     color vividchalk
 endif
