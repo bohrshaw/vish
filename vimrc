@@ -49,6 +49,8 @@ set nolazyredraw " Don't redraw while executing macros
 " shortcut to edit vimrc files in a new tab
 command! Vrc :tabe ~/configent/vim/vimrc
 command! Vrcl :tabe ~/configent/vim/vimrc.light
+command! Vrcb :tabe ~/.vimrc.bundle
+
 " execute current ruby file (make ruby)
 command! RunRuby :let f=expand("%")|wincmd w|
             \ if bufexists("mr_output")|e! mr_output|else|sp mr_output|endif |
@@ -133,6 +135,7 @@ else
 endif
 
 " }}}1
+
 " Source the bundle configuration file
 source ~/.vimrc.bundle
 
