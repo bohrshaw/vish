@@ -8,6 +8,10 @@ command! Vrcb :tabe ~/.vimrc.bundle
 " Slogan: manage your runtimepath.
 " Bundle 'tpope/vim-pathogen'
 
+" Slogan: Software caps lock
+" Bundle 'tpope/vim-capslock'
+imap <C-L> <Plug>CapsLockToggle
+
 " Slogan: A Vim plugin for Vim plugins.
 " Bundle 'tpope/vim-scriptease'
 
