@@ -39,9 +39,11 @@ set nolazyredraw " Don't redraw while executing macros
 "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
 
 " }}}1
+
 " Section: Mappings {{{1
 
 " }}}1
+
 " Section: Commands {{{1
 
 " shortcut to edit vimrc files in a new tab
@@ -106,6 +108,7 @@ endfunction
 command! -bar Run :execute Run()
 
 " }}}1
+
 " Section: Autocommands {{{1
 
 " Prevent duplicate auto commands
@@ -118,6 +121,7 @@ if !exists("autocommands_loaded")
 endif
 
 " }}}1
+
 " Section: Appearance {{{1
 
 if has('gui_running')

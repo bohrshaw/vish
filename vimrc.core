@@ -78,6 +78,7 @@ set cryptmethod=blowfish
 let g:vimsyn_folding='af'
 
 " }}}1
+
 " Section: Mappings {{{1
 
 " Abbreviations is separated in ~/.vim/after/plugin/abolish.vim
@@ -133,8 +134,8 @@ vnoremap <leader>S "zy:let @z = substitute(@z, "\n *\\", "", "g")<bar>@z<bar>
       \echo "Selection sourced."<cr>
 " Appends the current date and time after the cursor
 nmap <leader>at a<C-R>=strftime("%c")<CR><Esc>
-" Exchange two adjacent keywords
-nnoremap <leader>ew :s/\v(<\k*%#\k*>)(\_.{-})(<\k+>)/\3\2\1/<cr>
+" Swap two adjacent keywords
+nnoremap <leader>sw :s/\v(<\k*%#\k*>)(\_.{-})(<\k+>)/\3\2\1/<cr>
 " Move to the function name and operate on just this function name
 " As long as the cursor is before the function name.
 onoremap <silent> F :<C-U>normal! 0f(hviw<CR>
@@ -144,6 +145,7 @@ command! -nargs=? -complete=dir Mkdir :call mkdir(expand('%:p:h') . "/" . <q-arg
 nnoremap <silent> <leader>ul :t.\|s/./=/g\|nohls<cr>
 
 " }}}1
+
 " Section: Commands {{{1
 
 " Shortcut to edit this vimrc file in a new tab
@@ -236,6 +238,7 @@ endfunction " }}}2
 command! AppendModeline call AppendModeline()
 
 " }}}1
+
 " Section: Autocommands {{{1
 
 " If you want to do more about this filetype, put these setting into
@@ -245,6 +248,7 @@ autocmd FileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
 autocmd FileType PS1 setlocal fileformat=dos
 
 " }}}1
+
 " Section: Appearance {{{1
 
 set background=dark         " Assume a dark background for colorschemes
@@ -262,17 +266,38 @@ set winminheight=0              " windows can be 0 line high
 "set list
 set linebreak
 set listchars=tab:,.,trail:.,extends:>,precedes:<,nbsp:% "(eol:¬), Highlight problematic whitespace
+
 " Statusline {{{2
-set laststatus=2
-" If want colorful, '%1' is switch to User1 highlight and '%*' is switch back
-" to statusline highlight like 'set statusline=%1*%f%*'
-set statusline=%<%m%r%w%h\ %f " cut at start, path and status, 
-"set statusline+=\ %{strftime(\"%X\",getftime(expand(\"%:p\")))} " file modified time
-set statusline+=\ [%{&ff}/%{strlen(&fenc)?&fenc:'none'}/%Y] " fileformat, fileencoding and filetype
-if exists("*fugitive#statusline") | set statusline+=\ %{fugitive#statusline()} | endif
-"set statusline+=\ [%{getcwd()}]          " current dir
-set statusline+=%=      "left/right separator
-set statusline+=%-1.(%v\ %l/%L%)\ %p%%  " right offset position info and show percentage
+set laststatus=2 " Always display statusline
+
+" '%1' is to switch to User1 highlight
+" '%*' is to switch back to statusline highlight 
+" E.g.: set statusline=%1*%f%*
+
+" File state and file name
+set statusline=%<%m%r%w%h\ %f
+
+" Current working directory
+set statusline+=\ %{split(getcwd(),'/')[-1]}
+
+" File modification time
+" set statusline+=\ %{strftime(\"%H:%M\",getftime(expand(\"%:p\")))}
+
+" File format, encoding and type
+set statusline+=\ [%{&ff}/%{strlen(&fenc)?&fenc:'none'}/%Y]
+
+" Git status
+" if exists("*fugitive#statusline") | set statusline+=\ %{fugitive#statusline()} | endif
+
+" Software caps lock status
+set statusline+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''}
+
+" Left/Right separator
+set statusline+=%=
+
+" Position and percentage
+set statusline+=%-1.(%v\ %l/%L%)\ %p%%
+
 " In gui, fg is actually background light blue, and bg is actually font color
 autocmd ColorScheme * hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=DarkCyan
 " }}}

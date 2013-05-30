@@ -65,6 +65,8 @@ class Bundle < Thor
     puts 'Syncing bundles done.'
   end
 
+  default_task :sync
+
 private
   # Get the full URL based on partial URL like 'partial/smile.git'.
   def get_url(partial_url)
