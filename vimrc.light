@@ -1,47 +1,36 @@
-" vim lightweight.
+" This is a vimrc file for a light weight vim.
 " Usage: alias vil vim -u /path/to/vimrc.light
+
+" Pre-settings {{{
 
 "" Set runtime path to include picked bundles' paths {{{
 set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+
 let g:bundles = ['vim-surround', 'vim-abolish', 'vim-unimpaired', 'vim-commentary', 'vim-speeddating', 'vim-repeat']
-let g:bundles += ['supertab', 'vim-endwise']
+let g:bundles += ['supertab', 'vim-easymotion', 'vim-endwise']
 let g:bundles += ['vim-colors-solarized', 'vim-colorschemes']
+
 let s:paths = map(copy(g:bundles), '"~/.vim/bundle/" . v:val')
 let s:prepends = join(s:paths, ',')
+
 exec 'set rtp^='.fnameescape(s:prepends)
 "}}}
 
 " Source a common vimrc file(vimrc.core) shared by other vimrcs 
 silent! source ~/.vimrc.core
+
 " In case files are not linked to HOME
 silent! source <sfile>:h/vimrc.core
 
-" Section: Options {{{1
+" }}}
 
-filetype plugin indent on
-set noswapfile
-set viminfo=
-
-" }}}1
-" Section: Mappings {{{1
-
-
-" }}}1
-" Section: Abbreviations {{{1
-
-
-" }}}1
-" Section: Commands {{{1
+" Customisation for this light version {{{
 
 " shortcut to edit this vimrc file in a new tab
 command! Vrcl :tabe ~/configent/vim/vimrc.light
 
-" }}}1
-" Section: Autocommands {{{1
-
-
-" }}}1
-" Section: Appearance {{{1
+set noswapfile
+set viminfo=
 
 if has('gui_running')
     color solarized
@@ -51,12 +40,13 @@ else
     color vividchalk
 endif
 
-" }}}1
-" Section: Bundle Configuration {{{1
+"}}}
+
+" Bundle Configuration {{{
 
 " More convenient to type than 'cr'
 nmap cx <Plug>Coerce
-  
-" }}}1
+
+" }}}
 
 " vim:ft=vim tw=78 et sw=2 fdm=marker nowrap:

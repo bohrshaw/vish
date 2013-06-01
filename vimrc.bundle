@@ -93,9 +93,6 @@ let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 " }}}
 
 " Visual {{{
-" Slogan: Syntax checking hacks for vim.
-" Bundle 'scrooloose/syntastic'
-
 " Slogan: one colorscheme pack to rule them all.
 " Bundle 'flazz/vim-colorschemes'
 
@@ -104,6 +101,26 @@ let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 
 " Slogan: A Vim plugin for visually displaying indent levels in code.
 " Bundle 'nathanaelkane/vim-indent-guides'
+" }}}
+
+" File types {{{
+" Slogan: Syntax checking hacks for vim.
+" Bundle 'scrooloose/syntastic'
+
+" Slogan: runtime files for Haml, Sass, and SCSS .
+" Bundle 'tpope/vim-haml'
+
+" Slogan: A Vim plugin for Windows PowerShell support.
+" Bundle 'PProvost/vim-ps1'
+
+" Slogan: Markdown runtime files.
+" Bundle 'tpope/vim-markdown'
+
+" Slogan: Vim plugin for debugging Ruby applications (using ruby-debug-ide gem).
+" Bundle 'astashov/vim-ruby-debugger'
+
+" Slogan: it's like rails.vim without the rails.
+" Bundle 'tpope/vim-rake'
 " }}}
 
 " External interaction {{{
@@ -137,26 +154,6 @@ endif
 " nnoremap <silent> <leader>tt :TagbarToggle<CR>
 " }}}
 
-" Programming languages {{{
-" Slogan: runtime files for Haml, Sass, and SCSS .
-" Bundle 'tpope/vim-haml'
-
-" Slogan: A Vim plugin for Windows PowerShell support.
-" Bundle 'PProvost/vim-ps1'
-
-" Slogan: Markdown runtime files.
-" Bundle 'tpope/vim-markdown'
-
-" Slogan: Vim/Ruby Configuration Files.
-" Bundle 'vim-ruby/vim-ruby'
-
-" Slogan: Vim plugin for debugging Ruby applications (using ruby-debug-ide gem).
-" Bundle 'astashov/vim-ruby-debugger'
-
-" Slogan: it's like rails.vim without the rails.
-" Bundle 'tpope/vim-rake'
-" }}}
-
 " Alternative usages {{{
 " Slogan: Personal Wiki for Vim.
 " Bundle 'vim-scripts/vimwiki'
@@ -176,6 +173,10 @@ endif
 
   " Slogan: Vim plugin for intensely orgasmic commenting.
   " Bundle 'scrooloose/nerdcommenter'
+
+  " Slogan: Vim/Ruby Configuration Files.
+  " Bundle 'vim-ruby/vim-ruby'
+  " Reason: This plugin is now shipped by vim and fairly updated.
 
   " Slogan: snipMate.vim aims to be a concise vim script that implements some of TextMate's snippets features in Vim.
   " Bundle 'garbas/vim-snipmate'
