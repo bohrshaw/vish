@@ -4,4 +4,6 @@
 
 # ignore directories under bundle
 /vim/bundle/
+/vim/tmp/
 /vim/.netrwhist
+/vim/spell/*spl

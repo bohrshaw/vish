@@ -1,3 +1,0 @@
-# match all directories and file beneath this path, except .gitignore
-*
-!.gitignore

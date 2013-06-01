@@ -1,16 +1,168 @@
-" Descripation:
-" This is a common file shared by multiply "vimrc"s.
-" Editing Rules:
-" 1.Only vanilla vim related settings cat be included.
-" 2.Do not use abbreviations for all settings.
-" 3.Perfect is the enemy of good enough.
+" This is a vimrc file providing the core configuration for vim.
+" Do only corrections, customisation should be made other where.
 
-" Section: Options {{{1
-
+" Never need to change {{{
 set nocompatible
 filetype plugin indent on " Must be after pathogen or vundle setup
 syntax on
+
+set ruler " Show the cursor position
+set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)
+
+set showmode " Display the current mode
+
+" Show non-normal spaces, tabs etc
+set list
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+ " Candidates: tab:,.,trail:.,nbsp:%,eol:¬
+if !has('win32') && (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8')
+  let &listchars = "tab:\u21e5 ,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u00b7"
+endif
+
+set winminheight=0 " Windows can be 0 line high
+
+set background=dark " Assume a dark background for colorschemes
+
+set showmatch " Show matching brackets/parenthesis
+
+set number " Line numbers on
+
+let mapleader = "," " Put ahead to make following maps work
+
+" Exclude options and mappings in saved sessions and views
+set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
+set viewoptions=folds,cursor,unix,slash
+
+" Change the default working directory to HOME
+if 0 == argc() | cd $HOME | endif
+
+" Acceptable encryption strength, also remember to set viminfo=
+" Swap and undo are all encrypted, but may set nowritebackup and nobackup(default)
+set cryptmethod=blowfish
+
+" Avoid all the hit-enter prompts caused by file messages
+set shortmess+=filmnrwxoOtTI
+
+" Allow color schemes do bright colors without forcing bold.
+if &t_Co == 8 && $TERM !~# '^linux'
+  set t_Co=16
+endif
+
+if &term == 'xterm' || &term == 'xterm-256color' || &term == 'screen'
+  set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
+  let g:solarized_termcolors=256
+endif
+
+set visualbell t_vb= " No beep or flash
+au GUIEnter * set vb t_vb= " Disable error sounds and error screen flash
+
+set backspace=indent,eol,start " Backspace through anything in insert mode
+
+set showcmd " Show partial commands in status line and
+
+set autoread " Automatically read a file that has changed on disk
+
+set wildmenu " Show list instead of just completing
+set wildmode=list:longest,full " Command <Tab> completion, list matches, then longest common part, then all.
+set wildignorecase " Ignore case in command line auto-completion
+
+set tabpagemax=50 " Allow more tabs
+
+set display+=lastline " Ensure the last line is properly displayed
+
+set scrolloff=1 " Minimum lines to keep above and below cursor
+set sidescrolloff=5 " The minimal number of screen columns to keep around the cursor
+
+set incsearch " Find as you type search
+set ignorecase " Case insensitive search
+set smartcase " Case sensitive when uc present
+
+set shiftround " Use multiple of shiftwidth to round when indenting with '<' and '>'
+set autoindent " Indent at the same level of the previous line
+set expandtab " Expand a tab to spaces
+set smarttab " Make tab width equals shiftwidth
+
+" Timeout on key codes
+set ttimeout
+" Key code delay (can avoid the delay in entering normal mode after pressing ESC)
+set ttimeoutlen=50
+
+" Don't assume numbers start with zero are octal, affecting CTRL-A and CTRL-X
+set nrformats-=octal
+
+" Don't scan included files for keyword completion.
+set complete-=i
+
+" Avoid the problem occurred when you write to symbolic files on windows
+set nowritebackup
+
+" Extended matching with '%'
 runtime macros/matchit.vim
+
+" Basic mappings {{{
+
+" Personal habits {{{
+nnoremap ; :
+xnoremap ; :
+nnoremap \ ;
+xnoremap \ ;
+nnoremap z; q:
+nnoremap @; @:
+" }}}
+
+" Quick window navigation {{{
+noremap <C-J> <C-W>w
+noremap <C-K> <C-W>W
+noremap <C-L> <C-W>l
+noremap <C-H> <C-W>h
+" }}}
+
+" Quick tab navigation
+noremap gj gt
+noremap gk gT
+
+nnoremap Y y$
+
+" Break undo sequence
+inoremap <c-u> <c-g>u<c-u>
+
+" Make repeating last substitution keep the flags
+nnoremap & :&&<cr>
+xnoremap & :&&<cr>
+
+" Toggle fold
+noremap <space> za
+
+inoremap jk <Esc>
+
+cnoremap vsb vert sb 
+
+" Wrapped lines goes down/up to next row, rather than next line in file.
+nnoremap j gj
+nnoremap k gk
+
+" Visual shifting (does not exit Visual mode)
+vnoremap < <gv
+vnoremap > >gv
+
+" Easier horizontal scrolling
+noremap zl zL
+noremap zh zH
+
+" Familiar command line editing shortcuts
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+" }}}
+
+" }}}
+
+" Change only necessary {{{
+
+" Shortcut to edit this vimrc file in a new tab
+command! Vrcc tabe ~/configent/vim/vimrc.core
+
+" Options {{{
+
+" Set default path of temporary files {{{
 function! SetPath()
   let dir_list = { 'swap': 'directory', 'undo': 'undodir', 'backup': 'backupdir' }
   for [dir_name, set_name] in items(dir_list)
@@ -22,252 +174,69 @@ function! SetPath()
   set viminfo=!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo
 endfunction
 call SetPath()
-let mapleader = "," " put ahead to make following maps work
-" Avoid the problem occurred when you write to symbolic files on windows
-set nowritebackup
-" If has('win32') | set shell=\"C:\Program\ Files\Git\bin\sh.exe\" | endif
-" Exclude options and mappings in saved sessions and views
-set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
-set viewoptions=folds,cursor,unix,slash
-if 0 == argc() | cd $HOME | endif " Change the default working directory to HOME
-set path=.,,~ " where to look for files when using command like 'gf'
+" }}}
+
+" Where to look for files when using command like 'gf'
+set path=.,,~
 set cdpath=,,~/projects
-set complete-=i " Don't scan included files for keyword completion.
-" Key code delay, same as mapping delay(timeoutlen) when < 0(default)
-" Avoid the delay in entering normal mode after pressing ESC
-set ttimeoutlen=50
-set fileformats=unix,dos " will set new file to unix format
-set fileformat=unix " local to buffer, this option is set automatically when starting to edit a file
+
+set fileformats=unix,dos " Affect new files
+set fileformat=unix " Local to buffer
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1
-set encoding=utf-8 "Sets the character encoding used inside Vim, conversion will be done when 'encoding' and 'fileencoding' is defferent
-set shiftwidth=2                " number of spaces to use for each step of (auto)indent
-set shiftround                  " use multiple of shiftwidth to round when indenting with '<' and '>'
-set autoindent                  " indent at the same level of the previous line
-set tabstop=2                   " number of spaces a tab displayed in
-set softtabstop=2               " number of spaces used when press <Tab> or <BS>
-set expandtab                   " expand a tab to spaces
-set smarttab      " when at a start on line, the number of spaces a tab count for is determined by 'shiftwith'
-set incsearch                   " find as you type search
-set ignorecase                  " case insensitive search
-set smartcase                   " case sensitive when uc present
-" set scrolljump=2                " lines to scroll when cursor leaves screen
-" set scrolloff=2                 " minimum lines to keep above and below cursor
-set sidescrolloff=5                 " The minimal number of screen columns to keep around the cursor
-set display+=lastline           " ensure the last line is properly displayed
-set wildmenu                    " show list instead of just completing
-set wildmode=list:longest,full  " command <Tab> completion, list matches, then longest common part, then all.
-set wildignorecase              " Ignore case in command line auto-completion
-set autoread " Automatically read a file that has changed(not delete) on disk
-set showcmd                 " show partial commands in status line and
+set encoding=utf-8 "Sets the character encoding used inside Vim
+
+set shiftwidth=2 " Number of spaces to use for each step of (auto)indent
+set tabstop=2 " Number of spaces a tab displayed in
+set softtabstop=2 " Number of spaces used when press <Tab> or <BS>
+
+" set scrolljump=2 " Lines to scroll when cursor leaves screen
+
 " set clipboard=unnamed " Link unnamed register and OS clipboard:
-set backspace=indent,eol,start  " backspace for dummies
-set visualbell t_vb= " no beep or flash
-au GUIEnter * set vb t_vb= " disable error sounds and error screen flash
-set hidden                      " maybe set autowrite if preferd
-set mouse=a                 " automatically enable mouse usage
-set spell
-set shortmess+=filmnrwxoOtTI      " abbrev. of messages and avoids 'hit enter'
-" Allow color schemes do bright colors without forcing bold.
-if &t_Co == 8 && $TERM !~# '^linux'
-  set t_Co=16
-endif
-" Acceptable encryption strength, also remember to set viminfo=
-" Swap and undo are all encrypted, but may set nowritebackup and nobackup(default)
-set cryptmethod=blowfish
-" Enable vim scripts syntax based foldding. refer: http://vim.wikia.com/wiki/Syntax_folding_of_Vim_scripts
-let g:vimsyn_folding='af'
 
-" }}}1
+set hidden " Maybe set autowrite
 
-" Section: Mappings {{{1
+set mouse=a " Enable mouse in all modes
 
-" Abbreviations is separated in ~/.vim/after/plugin/abolish.vim
-" When define mappings, check out ":h index"
-nnoremap ; :
-xnoremap ; :
-nnoremap z; q:
-nnoremap @; @:
-nnoremap \ ;
-xnoremap \ ;
-inoremap jk <Esc>
-nnoremap Y y$
-" Toggle fold
-nnoremap <space> za
-vnoremap <space> za
-" Quick tab navigation
-noremap gj gt
-noremap <c-tab> gt
-noremap gk gT
-noremap <c-s-tab> gT
-noremap <a-1> 1gt
-noremap <a-2> 2gt
-noremap <a-3> 3gt
-noremap <a-4> 4gt
-noremap <a-5> 5gt
-" Familiar command line editing shortcuts
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
+set spell " Check spell correctness
+
+" Save undo history to disk when write a buffer
+set undofile
+
+" set matchpairs+=<:> " For %
+
+" Don't redraw the screen while executing macros etc.
+set nolazyredraw
+
+" Wrap lines at a character in 'breakat', used to not break a word
+" set linebreak
+" }}}
+
+" Mappings {{{
 cmap w!! w !sudo tee % >/dev/null
+
 " Cd to the directory containing the current buffer
 cmap lcd. lcd %:p:h
 cmap cd. cd %:p:h
-cnoremap vsb vert sb 
-" Wrapped lines goes down/up to next row, rather than next line in file.
-nnoremap j gj
-nnoremap k gk
-" Visual shifting (does not exit Visual mode)
-vnoremap < <gv
-vnoremap > >gv
+
 " Some helpers to edit mode, see: http://vimcasts.org/e/14
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 nmap <leader>ew :e %%
 nmap <leader>es :sp %%
 nmap <leader>ev :vsp %%
 nmap <leader>et :tabe %%
-" Easier horizontal scrolling
-noremap zl zL
-noremap zh zH
-" Source current line
-nnoremap <leader>S ^"zy$:@z<bar>echo "Current line sourced."<cr>
-" Source visual selection even including a line continuation symbol '\'
-vnoremap <leader>S "zy:let @z = substitute(@z, "\n *\\", "", "g")<bar>@z<bar>
-      \echo "Selection sourced."<cr>
-" Appends the current date and time after the cursor
-nmap <leader>at a<C-R>=strftime("%c")<CR><Esc>
-" Swap two adjacent keywords
-nnoremap <leader>sw :s/\v(<\k*%#\k*>)(\_.{-})(<\k+>)/\3\2\1/<cr>
-" Move to the function name and operate on just this function name
-" As long as the cursor is before the function name.
-onoremap <silent> F :<C-U>normal! 0f(hviw<CR>
-" Create a directory based the current buffer's path
-command! -nargs=? -complete=dir Mkdir :call mkdir(expand('%:p:h') . "/" . <q-args>, "p")
-" Underline the current line with '=', frequently used in markdown headings
-nnoremap <silent> <leader>ul :t.\|s/./=/g\|nohls<cr>
+" }}}
 
-" }}}1
-
-" Section: Commands {{{1
-
-" Shortcut to edit this vimrc file in a new tab
-command! Vrcc tabe ~/configent/vim/vimrc.core
-" Remove adjacent duplicate lines by matching two lines first
-command! UniqAdjacent g/\v^(.*)$\n\1$/d
-"command! UniqAdjacent g/\v%(^\1$\n)@<=(.*)$/d
-" Remove duplicate lines, preserve all empty lines
-command! Uniq g/^\(.+\)\n\_.*\%(^\1$\)/d
-command! UniqTrue g/^/kl |
-      \ if search('^'.escape(getline('.'), '~\.*[]^$/').'$', 'bW') | 'ld | endif
-" Display help window at bottom right
-command! -nargs=? -complete=help H wincmd b | bel h <args>
-command! -bar -nargs=? -bang TmpFile silent e<bang> ~/.vim/tmp/tmpfile|setlocal noswapfile filetype=<args>
-" Interesting text encoding that rotate the half of 26 alphas
-command! Rot13 exe "normal ggg?G''"
-" Source a range of lines, default to the current line
-command! -range Source <line1>,<line2>g/./exe getline('.')
-command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
-function! OpenURL(url) " {{{2
-  if has("win32")
-    exe "!start cmd /cstart /b ".a:url.""
-  elseif $DISPLAY !~ '^\w'
-    exe "silent !sensible-browser \"".a:url."\""
-  else
-    exe "silent !sensible-browser -T \"".a:url."\""
-  endif
-  redraw!
-endfunction " }}}2
-command! -nargs=1 OpenURL call OpenURL(<q-args>)
-" Open URL under cursor in browser
-nnoremap gb :OpenURL <cfile><CR>
-nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
-nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
-nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
-function! DiffWith(...) " {{{2
-  let filetype=&ft
-  tab sp " open current buffer in a new tab
-  diffthis
-  if a:0 == 0
-    " load the original file
-    vnew | r # | normal! 1Gdd
-    " make it temp
-    exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
-  else
-    exe "vert sb " . a:1
-  endif
-  diffthis
-endfunction " }}}2
-" Diff current file with current saved file or a different buffer
-command! -nargs=? -complete=buffer DiffWith call DiffWith(<f-args>)
-function! RedirMessages(cmd) " {{{2
-  " Redirect command outputs to a variable.
-  redir => message
-  silent execute a:cmd
-  redir END
-  new
-  setlocal buftype=nofile bufhidden=wipe noswapfile
-  " Place the messages in the new buffer.
-  silent put=message
-endfunction " }}}2
-" Redir command output to buffer, duplicate with Verbose in scriptease.vim
-"command! -nargs=1 -complete=command Message call RedirMessages(<q-args>)
-function! SetLocalOptions(fname) " {{{2
-  let dirname = fnamemodify(a:fname, ":p:h")
-  while "/" != dirname
-    let lvimrc  = dirname . "/.lvimrc"
-    if filereadable(lvimrc)
-      execute "source " . lvimrc
-      break
-    endif
-    let dirname = fnamemodify(dirname, ":p:h:h")
-  endwhile
-endfunction " }}}2
-"set directory-wise configuration.
-" Search from the directory the file is located upwards to the root for
-" A local configuration file called .lvimrc and sources it.
-" The local configuration file is expected to have commands affecting
-" Only the current buffer.
-" autocmd BufNewFile,BufRead * call SetLocalOptions(bufname("%"))
-function! AppendModeline() " {{{2
-  let modeline = printf(" vim:tw=%d ts=%d sw=%d et fdm=marker:", &textwidth, &shiftwidth, &tabstop)
-  let modeline = substitute(&commentstring, "%s", modeline, "")
-  " append a new line and a modeline at the end of file
-  call append(line("$"), ["", modeline])
-endfunction " }}}2
-" Append modeline after last line in buffer.
-" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
-" Files.
-command! AppendModeline call AppendModeline()
-
-" }}}1
-
-" Section: Autocommands {{{1
-
-" If you want to do more about this filetype, put these setting into
-" ~/.vim/after/ftplugin/python.vim
-autocmd FileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
-
-autocmd FileType PS1 setlocal fileformat=dos
-
-" }}}1
-
-" Section: Appearance {{{1
-
-set background=dark         " Assume a dark background for colorschemes
-set showmode                    " display the current mode
-set ruler                   " show the ruler
-set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " a ruler on steroids
-if &term == 'xterm' || &term == 'xterm-256color' || &term == 'screen'
-  set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
-  let g:solarized_termcolors=256
+" Choose a color scheme {{{
+if has('gui_running')
+    color solarized
+elseif has('unix')
+    color solarized
+else
+    color vividchalk
 endif
-set number                          " Line numbers on
-set showmatch                   " show matching brackets/parenthesis
-set winminheight=0              " windows can be 0 line high
-" Show non-normal spaces, tabs etc. But conflict with 'linkbreak' which is used for wrap at word boundry
-"set list
-set linebreak
-set listchars=tab:,.,trail:.,extends:>,precedes:<,nbsp:% "(eol:¬), Highlight problematic whitespace
+" }}}
 
-" Statusline {{{2
+" Statusline {{{
 set laststatus=2 " Always display statusline
 
 " '%1' is to switch to User1 highlight
@@ -301,6 +270,8 @@ set statusline+=%-1.(%v\ %l/%L%)\ %p%%
 " In gui, fg is actually background light blue, and bg is actually font color
 autocmd ColorScheme * hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=DarkCyan
 " }}}
+
 " }}}
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
+

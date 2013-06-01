@@ -8,12 +8,6 @@
 " visually. This is ultra helpful when you are working on many files which are
 " messed up in many directories.
 
-" Easily moving in tabs and windows
-noremap <C-J> <C-W>w
-noremap <C-K> <C-W>W
-noremap <C-L> <C-W>l
-noremap <C-H> <C-W>h
-
 " Switch/Exchange the current window with the target window(default is the first
 " window), which can be specified with a count. This does not change the window
 " layout.
