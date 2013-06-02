@@ -13,7 +13,8 @@ set showmode " Display the current mode
 
 " Show non-normal spaces, tabs etc
 set list
-set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+ " Candidates: tab:,.,trail:.,nbsp:%,eol:¬
+" Candidates are tab:,.,trail:.,nbsp:%,eol:¬
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 if !has('win32') && (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8')
   let &listchars = "tab:\u21e5 ,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u00b7"
 endif
@@ -48,21 +49,25 @@ if &t_Co == 8 && $TERM !~# '^linux'
 endif
 
 if &term == 'xterm' || &term == 'xterm-256color' || &term == 'screen'
-  set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
+  " Enable 256 colors to stop the CSApprox warning
+  set t_Co=256
   let g:solarized_termcolors=256
 endif
 
 set visualbell t_vb= " No beep or flash
-au GUIEnter * set vb t_vb= " Disable error sounds and error screen flash
+" Disable error sounds and error screen flash
+au GUIEnter * set vb t_vb=
 
-set backspace=indent,eol,start " Backspace through anything in insert mode
+" Backspace through anything in insert mode
+set backspace=indent,eol,start
 
 set showcmd " Show partial commands in status line and
 
 set autoread " Automatically read a file that has changed on disk
 
 set wildmenu " Show list instead of just completing
-set wildmode=list:longest,full " Command <Tab> completion, list matches, then longest common part, then all.
+" Command <Tab> completion, list matches, then longest common part, then all.
+set wildmode=list:longest,full
 set wildignorecase " Ignore case in command line auto-completion
 
 set tabpagemax=50 " Allow more tabs
@@ -76,8 +81,10 @@ set incsearch " Find as you type search
 set ignorecase " Case insensitive search
 set smartcase " Case sensitive when uc present
 
-set shiftround " Use multiple of shiftwidth to round when indenting with '<' and '>'
-set autoindent " Indent at the same level of the previous line
+" Use multiple of shiftwidth to round when indenting with '<' and '>'
+set shiftround
+" Indent at the same level of the previous line
+set autoindent
 set expandtab " Expand a tab to spaces
 set smarttab " Make tab width equals shiftwidth
 
@@ -185,13 +192,18 @@ set fileformat=unix " Local to buffer
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1
 set encoding=utf-8 "Sets the character encoding used inside Vim
 
-set shiftwidth=2 " Number of spaces to use for each step of (auto)indent
-set tabstop=2 " Number of spaces a tab displayed in
-set softtabstop=2 " Number of spaces used when press <Tab> or <BS>
+" Number of spaces to use for each step of (auto)indent
+set shiftwidth=2
+" Number of spaces a tab displayed in
+set tabstop=2
+" Number of spaces used when press <Tab> or <BS>
+set softtabstop=2
 
-" set scrolljump=2 " Lines to scroll when cursor leaves screen
+" Lines to scroll when cursor leaves screen
+" set scrolljump=2
 
-" set clipboard=unnamed " Link unnamed register and OS clipboard:
+" Link unnamed register and OS clipboard:
+" set clipboard=unnamed
 
 set hidden " Maybe set autowrite
 
