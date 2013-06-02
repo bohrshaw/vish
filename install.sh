@@ -17,9 +17,7 @@ done
 
 echo "Link files ..."
 ln -sfn $VIM_DIR/vim $HOME/.vim
-
 ln -sf $VIM_DIR/vimrc $HOME/.vimrc
-ln -sf $VIM_DIR/gvimrc $HOME/.gvimrc
 
 ln -sf $VIM_DIR/vimrc.core $HOME/.vimrc.core
 ln -sf $VIM_DIR/vimrc.light $HOME/.vimrc.light

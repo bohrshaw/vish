@@ -71,19 +71,22 @@ nmap cx <Plug>Coerce
 imap <C-L> <Plug>CapsLockToggle
 " }}}
 
-" Slogan: Display your undo history in a graph.
-" Bundle 'mbbill/undotree'
-" nnoremap <F5> :UndotreeToggle<CR>
-let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
+" Slogan: vim motions on speed.
+" Bundle 'Lokaltog/vim-easymotion'
+
+" Slogan: True Sublime Text style multiple selections for Vim.
+" Bundle 'terryma/vim-multiple-cursors'
 
 " Slogan: Perform all your vim insert mode completions with Tab.
 " Bundle 'ervandew/supertab'
 
-" Slogan: vim motions on speed.
-" Bundle 'Lokaltog/vim-easymotion'
-
 " Slogan: Vim script for text filtering and alignment.
 " Bundle 'godlygeek/tabular'
+
+" Slogan: Display your undo history in a graph.
+" Bundle 'mbbill/undotree'
+" nnoremap <F5> :UndotreeToggle<CR>
+let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 
 " Slogan: This is an implementation of TextMates Snippets for the Vim Text Editor. It has all features of TextMates Snippets and then some.
 " Bundle 'SirVer/ultisnips'
@@ -115,9 +118,6 @@ let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 
 " Slogan: Markdown runtime files.
 " Bundle 'tpope/vim-markdown'
-
-" Slogan: Vim plugin for debugging Ruby applications (using ruby-debug-ide gem).
-" Bundle 'astashov/vim-ruby-debugger'
 
 " Slogan: it's like rails.vim without the rails.
 " Bundle 'tpope/vim-rake'
@@ -167,6 +167,9 @@ endif
 " }}}
 
 " Disabled {{{
+  " Slogan: Vim plugin for debugging Ruby applications (using ruby-debug-ide gem).
+  " Bundle 'astashov/vim-ruby-debugger'
+
 " Alternatives {{{
   " Slogan: Vim plugin to visualize your Vim undo tree.
   " Bundle 'sjl/gundo.vim'

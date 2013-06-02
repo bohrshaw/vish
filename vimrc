@@ -16,10 +16,6 @@ if has('win32') || !has("signs") || !has("clientserver")
     call add(g:pathogen_disabled, 'vim-tbone')
 endif
 
-if has('gui_running')
-    call add(g:pathogen_disabled, 'csapprox')
-endif
-
 if !executable('ack-grep') && !executable('ack')
     call add(g:pathogen_disabled, 'ack.vim')
 endif

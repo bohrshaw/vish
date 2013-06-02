@@ -35,8 +35,7 @@ $vim_dir = Split-Path $script:MyInvocation.MyCommand.Path
 $sync_dir = 'D:\Sync\Skydrive'
 
 # Link files
-$targets = @("vim", "vimrc", "gvimrc",
-             "vimrc.core", "vimrc.light", "vimrc.bundle", "vsvimrc")
+$targets = @("vim", "vimrc", "vimrc.core", "vimrc.light", "vimrc.bundle", "vsvimrc")
 
 foreach ( $target in $targets ) { New-Link "$vim_dir\$target" }
 
