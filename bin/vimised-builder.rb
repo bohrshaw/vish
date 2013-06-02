@@ -1,107 +1,188 @@
 #!/usr/bin/env ruby
 
-############################################################
+###############################################################
 # This is a file to create a portable and self contained vim
-# distribution officially called "vimised" for windows.
+# distribution officially called "vimised" for windows(32-bit).
 #
-# However you better run this file under linux.
-############################################################
+# However you should run this file under linux.
+###############################################################
 
 require 'fileutils'
 include FileUtils
 
+# Set the current working directory the building directory and cd to it
+BUILD_PATH = Dir.pwd
+
 # Configure before building {{{
-# Latest version of vim
-VIM_VERSION_LATEST = '73_46'
-# Official download URL directory
+# The name of this portable vim distribution
+APP_NAME = 'Vimised'
+
+# Official vim related files for windows URL
 URL_ROOT = 'ftp://ftp.vim.org/pub/vim/pc/'
-# Non-official executables hopefully with more features
-URL_ALTER = 'http://wyw.dcweb.cn/download.asp?path=vim&file=gvim73.zip'
+# Official gvim self-installing executable URL
+URL_OFFICIAL = 'ftp://ftp.vim.org/pub/vim/pc/gvim73_46.exe'
+# Official latest version of vim
+VIM_VERSION_LATEST = '73_46'
+
+# Cream-vim URL
+URL_CREAM = 'https://downloads.sourceforge.net/project/cream/Vim/7.3.829/gvim-7-3-829.exe'
+# Yongwei's executables URL
+URL_YONGWEI = 'http://wyw.dcweb.cn/download.asp?path=vim&file=gvim73.zip'
+
 
 # The path with all the third party plugins
-BUNDLES_PATH = File.expand_path '~/configent/vim/vim/bundle'
-# The path to your personal vimrc file
-VIMRC_PATH_ORIG = File.expand_path '~/configent/vim/vimrc.core'
+BUNDLE_PATH_ORIG = File.expand_path '~/.vim/bundle'
+# The plugins excluded. A plugin whose folder name ending with '~' is excluded
+# by default. And It doesn't matter weather a excluded plugin exists or not.
+BUNDLE_EXCLUDED = ['vim-pathogen', 'vundle', 'vim-tbone',
+  'ack.vim', 'vim-ruby-debugger']
+
+# The path to other runtime files
+VIM_PATH_ORIG = File.expand_path '~/.vim'
+
+# The path to your personal vimrc files
+VIMRCS_PATH_ORIG = [ File.expand_path( '~/.vimrc.core' ),
+  File.expand_path( '~/.vimrc.bundle' ) ]
 # }}}
 
 # Helpers {{{
+# Ask for yes or no
 def prompt_yes_no(*args)
+  puts args
+  print "Continue? (Y/n)"
   loop do
-    print(*args)
     result = gets.strip
     return true if result.empty? or result =~ /[y|Y]/
     return false if result =~ /[n|N]/
+    print 'Answer (y/n)?'
     next
+  end
+end
+
+# Write a file to disk
+def write_file(path, content)
+  File.open(path, 'w') do |file|
+    file.puts content
   end
 end
 # }}}
 
-# Setup the building directory and cd to it
-Dir.chdir BUILD_PATH = Dir.pwd
-
 # Pre-building checking {{{
+# Notify the user what to happen before continuing
+exit unless prompt_yes_no 'Start to build "Vimised" under the current direcotry.'
+
 # Clear the build directory before doing anything
-if File.exist? 'vim'
-  if prompt_yes_no "Warning: The 'vim' directory will be purged. Continue? (Y/n)"
-    rm_r 'vim'
+if File.exist? APP_NAME
+  if prompt_yes_no "Warning: The app folder '#{APP_NAME}' will be purged."
+    rm_rf APP_NAME
   else
-    puts 'Sorry! You must delete the vim directory before continuing.'
+    puts "Sorry! You must delete the #{APP_NAME} before continuing."
     exit
   end
 end
 # }}}
 
 # Download and extract the executables and runtime files {{{
-def download_uncompress(url, file_name)
+def download_decompress(url, file_name)
   unless File.exist? file_name
     `wget '#{url}' -O #{file_name}`
   end
-  `unzip #{file_name}`
+
+  file_ext = file_name.split('.')[-1]
+
+  if file_ext == 'zip'
+    `unzip #{file_name}`
+    mv 'vim', APP_NAME
+  elsif file_ext == 'exe'
+    `7z x -y #{file_name}`
+    mkdir APP_NAME unless File.directory? APP_NAME
+    mv 'vim73', APP_NAME
+    cp_r '$0/.', "#{APP_NAME}/vim73"
+  end
 end
 
-# GUI executable gvim##.zip
-file_exe = "gvim#{VIM_VERSION_LATEST}.zip"
-download_uncompress URL_ROOT + file_exe, file_exe
+# Official gvim**_**.exe
+# file_official = 'gvim_official.exe'
+# download_decompress URL_OFFICIAL, file_official
 
-# Runtime files vim##rt.zip
-file_rt = "vim#{VIM_VERSION_LATEST}rt.zip"
-download_uncompress URL_ROOT + file_rt, file_rt
+# Cream vim
+file_cream = 'gvim_cream.exe'
+download_decompress URL_CREAM, file_cream
 
-# Alternative executables
-file_alter = 'gvim_alter.zip'
-download_uncompress URL_ALTER, file_alter
-`mv gvim.exe vim/vim73/gvim_alter.exe`
-`mv vim.exe vim/vim73/vim.exe`
+# Official archives with exe replaced {{{
+# # GUI executable gvim##ole.zip
+# file_exe = "gvim#{VIM_VERSION_LATEST}ole.zip"
+# download_decompress URL_ROOT + file_exe, file_exe
+
+# # Runtime files vim##rt.zip
+# file_rt = "vim#{VIM_VERSION_LATEST}rt.zip"
+# download_decompress URL_ROOT + file_rt, file_rt
+
+# # Yongwei's executables
+# file_yongwei = 'gvim_yongwei.zip'
+# download_decompress URL_YONGWEI, file_yongwei
+# `mv -f gvim.exe vim/vim73/gvim.exe`
+# `mv -f vim.exe vim/vim73/vim.exe`
+# }}}
 # }}}
 
-VIMFILES_PATH = File.join BUILD_PATH, 'vim/vimfiles'
-VIMRC_PATH = File.join BUILD_PATH, 'vim/_vimrc'
-DIRS_TO_COPY = %w[ syntax spell plugin macros indent ftplugin ftdetect doc compiler colors autoload after ]
+# Update runtime files {{{
+# Make sure the directory for syncing runtime files with remote end exists
+runtime_sync_dir = 'runtime_sync'
+mkdir runtime_sync_dir unless File.directory? runtime_sync_dir
 
-# Copy the files from bundles to vimfiles {{{
+# Sync runtime files with remote end
+`rsync -avzcP --delete-after ftp.nl.vim.org::Vim/runtime/dos/ #{runtime_sync_dir}`
+
+sync_sub_dirs = ["autoload/", "colors/", "compiler/", "doc/", "ftplugin/", "indent/", "keymap/", "lang/", "macros/", "plugin/", "syntax/", "tools/", "tutor/"]
+
+# Sync runtime files with the updated local directory.
+`rsync -tvu #{runtime_sync_dir}/*.vim "#{APP_NAME}/vim73/"`
+sync_sub_dirs.each do |d|
+  `rsync -avu --delete #{runtime_sync_dir}/#{d} #{APP_NAME}/vim73/#{d}`
+end
+# }}}
+
+# Add other runtime files(plugins) {{{
+# Name the plugin folder 'bundle' other than 'vimfiles' to isolate this vim distribution.
+BUNDLE_PATH = File.join BUILD_PATH, APP_NAME, 'bundle'
+
+dirs_to_copy = %w[ syntax spell plugin macros indent ftplugin ftdetect doc compiler colors autoload after ]
+
 # Ensure destination directories exist
-DIRS_TO_COPY.each do |dir|
-  dir_to_create = File.join VIMFILES_PATH, dir
+dirs_to_copy.each do |dir|
+  dir_to_create = File.join BUNDLE_PATH, dir
   mkdir_p dir_to_create unless File.directory? dir_to_create
 end
 
-# Cd to the bundle directory
-Dir.chdir BUNDLES_PATH do
-  # Copy standard directories recursively
-  Dir["**[^~]/*/"].each do |dir|
-    dir_parts = dir.split('/')
+# Get the runtime path of vim
+rtp = ( Dir.glob(BUNDLE_PATH_ORIG + '/*/') + [VIM_PATH_ORIG] ).reject do |p|
+  folder_name = p.split('/')[-1]
+  BUNDLE_EXCLUDED.include? folder_name or folder_name =~ /~$/
+end
 
-    # Restrict only to valid directories
-    if dir_parts.length == 2 and DIRS_TO_COPY.include? dir_parts[1]
-      # todo: prompt if destination exists, compare file modification date
-      cp_r( dir + '/.', VIMFILES_PATH + '/' + dir_parts[1] )
+# Copy files
+rtp.each do |path|
+  Dir.glob(path + '/*').each do |p|
+    if File.file? p and File.extname(p) == '.vim'
+      cp p, BUNDLE_PATH
+    elsif File.directory? p
+      folder_name = p.split('/')[-1]
+
+      if dirs_to_copy.include? folder_name
+        # todo: prompt if destination exists, compare file modification date
+        cp_r p + '/.', BUNDLE_PATH + '/' + folder_name
+      end
     end
   end
 end
 
 def copy_other(bundle, *items)
-  Dir.chdir(File.join(BUNDLES_PATH, bundle)) do
-    cp_r items, VIMFILES_PATH
+  plugin_path = File.join(BUNDLE_PATH_ORIG, bundle)
+
+  return unless File.exist? plugin_path
+  Dir.chdir(plugin_path) do
+    cp_r items, BUNDLE_PATH
   end
 end
 
@@ -131,48 +212,44 @@ def shrink_file(path)
   write_file path, lines
 end
 
-# Write a file to disk
-def write_file(path, content)
-  File.open(path, 'w') do |file|
-    file.puts content
-  end
-end
-
-# Shrink files
-Dir["#{VIMFILES_PATH}/**/*"].select do |x|
+# Shrink rumtime and bundle files
+( Dir["#{APP_NAME}/vim73/**/*"] + Dir["#{BUNDLE_PATH}/**/*"] ).select do |x|
   File.file? x and File.extname(x) == '.vim'
-end.each do |path|
-  shrink_file path
+end.each do |file|
+  shrink_file file
 end
 # }}}
 
-# Generate and save a vimrc file {{{
-lines_to_prepend = [ 'let g:vimfiles_path = expand("<sfile>:h") . "/vimfiles"',
-  'let &rtp=g:vimfiles_path . ",$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after," . g:vimfiles_path . "/after"',
-  'com Helptags silent! execute "helptags" fnameescape(g:vimfiles_path . "/doc")' ]
-# 
-# Todo: Change temporary files' location
+# Generate a vimrc file {{{
+VIMRC_PATH = File.join BUILD_PATH, APP_NAME, '.vimrc'
 
-vimrc_content = lines_to_prepend + IO.readlines(VIMRC_PATH_ORIG)
+# Todo: Change temporary files' location
+vimrc_content = [ 'let g:bundle_path = expand("<sfile>:h") . "/bundle"',
+  'let &rtp=g:bundle_path . ",$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after," . g:bundle_path . "/after"',
+  'com Helptags silent! execute "helptags" fnameescape(g:bundle_path . "/doc")' ]
+
+VIMRCS_PATH_ORIG.each { |f| vimrc_content += IO.readlines(f) }
 
 # Save the generated vimrc file
 write_file VIMRC_PATH, vimrc_content
 
 # Shrink vimrc
 shrink_file VIMRC_PATH
-
-# Todo: what about gvimrc
 # }}}
 
-# Generate help tags
+# Generate vim help tags
 # `vim -u #{VIMRC_PATH} +Helptags +qall`
 # Fork to suppress some output warnings.
-fork do
-  exec("vim -u #{VIMRC_PATH} +Helptags +qall")
-end
+fork { exec("vim -u #{VIMRC_PATH} +Helptags +qall") }
 Process.wait
 
-# Build a compressed file
-`tar -cjf vimised.tar.bz2 vim`
+# Create batch files to launch vim with command line arguments
+contents_gvim = 'start "GVim" "%~dp0vim73\gvim.exe" -u .vimrc'
+contents_vim = 'start "Vim" "%~dp0vim73\vim.exe" -u .vimrc'
+write_file APP_NAME + '/gvim.cmd', contents_gvim
+write_file APP_NAME + '/vim.cmd', contents_vim
 
-#  vim:tw=0 ts=2 sw=2 et fdm=marker:
+# Package the folder to a self executable file
+`7z a -sfx Vimised.exe #{APP_NAME}`
+
+# vim:tw=0 ts=2 sw=2 et fdm=marker:
