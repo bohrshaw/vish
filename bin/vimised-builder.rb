@@ -11,48 +11,72 @@ require 'fileutils'
 include FileUtils
 
 # Configure before building {{{
-
-# Refer "ftp://ftp.vim.org/pub/vim/pc/" to get the latest version number
+# Latest version of vim
 VIM_VERSION_LATEST = '73_46'
+# Official download URL directory
+URL_ROOT = 'ftp://ftp.vim.org/pub/vim/pc/'
+# Non-official executables hopefully with more features
+URL_ALTER = 'http://wyw.dcweb.cn/download.asp?path=vim&file=gvim73.zip'
 
+# The path with all the third party plugins
 BUNDLES_PATH = File.expand_path '~/configent/vim/vim/bundle'
+# The path to your personal vimrc file
 VIMRC_PATH_ORIG = File.expand_path '~/configent/vim/vimrc.core'
-
 # }}}
 
-# BUILD_PATH = File.expand_path File.dirname(__FILE__)
-BUILD_PATH = Dir.pwd
+# Helpers {{{
+def prompt_yes_no(*args)
+  loop do
+    print(*args)
+    result = gets.strip
+    return true if result.empty? or result =~ /[y|Y]/
+    return false if result =~ /[n|N]/
+    next
+  end
+end
+# }}}
 
-# Cd to the building directory
-Dir.chdir BUILD_PATH
+# Setup the building directory and cd to it
+Dir.chdir BUILD_PATH = Dir.pwd
+
+# Pre-building checking {{{
+# Clear the build directory before doing anything
+if File.exist? 'vim'
+  if prompt_yes_no "Warning: The 'vim' directory will be purged. Continue? (Y/n)"
+    rm_r 'vim'
+  else
+    puts 'Sorry! You must delete the vim directory before continuing.'
+    exit
+  end
+end
+# }}}
 
 # Download and extract the executables and runtime files {{{
-root_url = 'ftp://ftp.vim.org/pub/vim/pc/'
+def download_uncompress(url, file_name)
+  unless File.exist? file_name
+    `wget '#{url}' -O #{file_name}`
+  end
+  `unzip #{file_name}`
+end
 
 # GUI executable gvim##.zip
-exe_file = "gvim#{VIM_VERSION_LATEST}.zip"
-unless File.exist? exe_file
-  `wget #{root_url}#{exe_file}`
-  `unzip #{exe_file}`
-end
+file_exe = "gvim#{VIM_VERSION_LATEST}.zip"
+download_uncompress URL_ROOT + file_exe, file_exe
 
 # Runtime files vim##rt.zip
-runtime_file = "vim#{VIM_VERSION_LATEST}rt.zip"
-unless File.exist? runtime_file
-  `wget #{root_url}#{runtime_file}`
-  `unzip #{runtime_file}`
-end
+file_rt = "vim#{VIM_VERSION_LATEST}rt.zip"
+download_uncompress URL_ROOT + file_rt, file_rt
 
-# You may consider manually add two alternative executables
-# "gvim.exe" and "vim.exe" from "http://wyw.dcweb.cn/#download"
+# Alternative executables
+file_alter = 'gvim_alter.zip'
+download_uncompress URL_ALTER, file_alter
+`mv gvim.exe vim/vim73/gvim_alter.exe`
+`mv vim.exe vim/vim73/vim.exe`
 # }}}
 
 VIMFILES_PATH = File.join BUILD_PATH, 'vim/vimfiles'
 VIMRC_PATH = File.join BUILD_PATH, 'vim/_vimrc'
 DIRS_TO_COPY = %w[ syntax spell plugin macros indent ftplugin ftdetect doc compiler colors autoload after ]
-
-# Cd to the bundle directory
-Dir.chdir BUNDLES_PATH
 
 # Copy the files from bundles to vimfiles {{{
 # Ensure destination directories exist
@@ -61,14 +85,17 @@ DIRS_TO_COPY.each do |dir|
   mkdir_p dir_to_create unless File.directory? dir_to_create
 end
 
-# Copy standard directories recursively
-Dir["**[^~]/*/"].each do |dir|
-  dir_parts = dir.split('/')
+# Cd to the bundle directory
+Dir.chdir BUNDLES_PATH do
+  # Copy standard directories recursively
+  Dir["**[^~]/*/"].each do |dir|
+    dir_parts = dir.split('/')
 
-  # Restrict only to valid directories
-  if dir_parts.length == 2 and DIRS_TO_COPY.include? dir_parts[1]
-    # todo: prompt if destination exists, compare file modification date
-    cp_r( dir + '/.', VIMFILES_PATH + '/' + dir_parts[1] )
+    # Restrict only to valid directories
+    if dir_parts.length == 2 and DIRS_TO_COPY.include? dir_parts[1]
+      # todo: prompt if destination exists, compare file modification date
+      cp_r( dir + '/.', VIMFILES_PATH + '/' + dir_parts[1] )
+    end
   end
 end
 
@@ -87,10 +114,18 @@ copy_other 'syntastic', 'syntax_checkers'
 # Reduce files' size {{{
 # Delete commented or empty lines and save the file
 def shrink_file(path)
+  # You can encode the whole file as compared to encoding per line
   # lines = File.read(path).encode!('UTF-8', 'UTF-8', :invalid => :replace).split("\n").each.reject do |line|
   lines = IO.readlines(path).reject do |line|
-    line.encode!('UTF-8', 'UTF-8', :invalid => :replace)
-    line =~ /^(".*|\s*)$/
+    # Encode to UTF-8 from UTF-8
+    # line.encode!('UTF-8', 'UTF-8', :invalid => :replace)
+
+    # If you have really troublesome input you can do a double conversion from UTF-8 to UTF-16 and back to UTF-8
+    line.encode!('UTF-16', 'UTF-8', :invalid => :replace, :replace => '')
+    line.encode!('UTF-8', 'UTF-16')
+
+    # Ignore a commented and empty line
+    line =~ /^\s*(".*|\s*)$/
   end
 
   write_file path, lines
@@ -104,15 +139,12 @@ def write_file(path, content)
 end
 
 # Shrink files
-Dir['**/*'].select do |x|
+Dir["#{VIMFILES_PATH}/**/*"].select do |x|
   File.file? x and File.extname(x) == '.vim'
 end.each do |path|
   shrink_file path
 end
 # }}}
-
-# Cd back to the building directory
-Dir.chdir BUILD_PATH
 
 # Generate and save a vimrc file {{{
 lines_to_prepend = [ 'let g:vimfiles_path = expand("<sfile>:h") . "/vimfiles"',
@@ -134,15 +166,13 @@ shrink_file VIMRC_PATH
 
 # Generate help tags
 # `vim -u #{VIMRC_PATH} +Helptags +qall`
-def run_vim
-  fork do
-    exec("vim -u #{VIMRC_PATH} +Helptags +qall")
-  end
-  Process.wait
+# Fork to suppress some output warnings.
+fork do
+  exec("vim -u #{VIMRC_PATH} +Helptags +qall")
 end
-run_vim
+Process.wait
 
-# Compress the folder
+# Build a compressed file
 `tar -cjf vimised.tar.bz2 vim`
 
 #  vim:tw=0 ts=2 sw=2 et fdm=marker:
