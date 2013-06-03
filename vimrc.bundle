@@ -85,7 +85,7 @@ imap <C-L> <Plug>CapsLockToggle
 
 " Slogan: Display your undo history in a graph.
 " Bundle 'mbbill/undotree'
-" nnoremap <F5> :UndotreeToggle<CR>
+nnoremap <c-q> :UndotreeToggle<CR>
 let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 
 " Slogan: This is an implementation of TextMates Snippets for the Vim Text Editor. It has all features of TextMates Snippets and then some.

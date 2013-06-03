@@ -1,21 +1,21 @@
 #!/usr/bin/env ruby
 
-###############################################################
-# This is a file to create a portable and self contained vim
-# distribution officially called "vimised" for windows(32-bit).
-#
-# However you should run this file under linux.
-###############################################################
+=begin
+This is a file to create a portable and self contained vim
+distribution officially called "Vimind" for windows(32-bit).
+
+However you should run this file under linux.
+=end
 
 require 'fileutils'
 include FileUtils
 
-# Set the current working directory the building directory and cd to it
+# Set the current working directory the building directory
 BUILD_PATH = Dir.pwd
 
 # Configure before building {{{
 # The name of this portable vim distribution
-APP_NAME = 'Vimised'
+APP_NAME = 'Vimind'
 
 # Official vim related files for windows URL
 URL_ROOT = 'ftp://ftp.vim.org/pub/vim/pc/'
@@ -69,12 +69,12 @@ end
 
 # Pre-building checking {{{
 # Notify the user what to happen before continuing
-exit unless prompt_yes_no 'Start to build "Vimised" under the current direcotry.'
+exit unless prompt_yes_no "Start to build #{APP_NAME} under the current direcotry."
 
 # Clear the build directory before doing anything
 if File.exist? APP_NAME
   if prompt_yes_no "Warning: The app folder '#{APP_NAME}' will be purged."
-    rm_rf APP_NAME
+    rm_r APP_NAME and mkdir APP_NAME
   else
     puts "Sorry! You must delete the #{APP_NAME} before continuing."
     exit
@@ -90,26 +90,27 @@ def download_decompress(url, file_name)
 
   file_ext = file_name.split('.')[-1]
 
+  # You should check the file structure carefully in these archives
   if file_ext == 'zip'
     `unzip #{file_name}`
     mv 'vim', APP_NAME
   elsif file_ext == 'exe'
-    `7z x -y #{file_name}`
-    mkdir APP_NAME unless File.directory? APP_NAME
-    mv 'vim73', APP_NAME
-    cp_r '$0/.', "#{APP_NAME}/vim73"
+    `7z x -y -otmp #{file_name} `
+    Dir.chdir 'tmp' do
+      cp_r '$0/.', 'vim73'
+    end
+    mv 'tmp/vim73', APP_NAME
+    rm_r 'tmp'
   end
 end
 
-# Official gvim**_**.exe
-# file_official = 'gvim_official.exe'
-# download_decompress URL_OFFICIAL, file_official
+# Official gvim
+# download_decompress URL_OFFICIAL, 'gvim_official.exe'
 
-# Cream vim
-file_cream = 'gvim_cream.exe'
-download_decompress URL_CREAM, file_cream
+# Cream gvim
+download_decompress URL_CREAM, 'gvim_cream.exe'
 
-# Official archives with exe replaced {{{
+# Official archives with executables replaced {{{
 # # GUI executable gvim##ole.zip
 # file_exe = "gvim#{VIM_VERSION_LATEST}ole.zip"
 # download_decompress URL_ROOT + file_exe, file_exe
@@ -119,10 +120,9 @@ download_decompress URL_CREAM, file_cream
 # download_decompress URL_ROOT + file_rt, file_rt
 
 # # Yongwei's executables
-# file_yongwei = 'gvim_yongwei.zip'
-# download_decompress URL_YONGWEI, file_yongwei
-# `mv -f gvim.exe vim/vim73/gvim.exe`
-# `mv -f vim.exe vim/vim73/vim.exe`
+# download_decompress URL_YONGWEI,  'gvim_yongwei.zip'
+# mv 'gvim.exe', "#{APP_NAME}/vim73/gvim.exe", :force => true
+# mv 'vim.exe', "#{APP_NAME}/vim73/vim.exe", :force => true
 # }}}
 # }}}
 
@@ -143,10 +143,11 @@ sync_sub_dirs.each do |d|
 end
 # }}}
 
-# Add other runtime files(plugins) {{{
+# Add other runtime files {{{
 # Name the plugin folder 'bundle' other than 'vimfiles' to isolate this vim distribution.
 BUNDLE_PATH = File.join BUILD_PATH, APP_NAME, 'bundle'
 
+# Standard folders to copy
 dirs_to_copy = %w[ syntax spell plugin macros indent ftplugin ftdetect doc compiler colors autoload after ]
 
 # Ensure destination directories exist
@@ -161,7 +162,7 @@ rtp = ( Dir.glob(BUNDLE_PATH_ORIG + '/*/') + [VIM_PATH_ORIG] ).reject do |p|
   BUNDLE_EXCLUDED.include? folder_name or folder_name =~ /~$/
 end
 
-# Copy files
+# Copy standard directories and files
 rtp.each do |path|
   Dir.glob(path + '/*').each do |p|
     if File.file? p and File.extname(p) == '.vim'
@@ -177,6 +178,7 @@ rtp.each do |path|
   end
 end
 
+# Copy non-standard directories and files
 def copy_other(bundle, *items)
   plugin_path = File.join(BUNDLE_PATH_ORIG, bundle)
 
@@ -185,8 +187,6 @@ def copy_other(bundle, *items)
     cp_r items, BUNDLE_PATH
   end
 end
-
-# Copy other directories recursively
 copy_other 'ultisnips', 'UltiSnips', 'utils'
 copy_other 'nerdtree', 'lib', 'nerdtree_plugin'
 copy_other 'syntastic', 'syntax_checkers'
@@ -221,14 +221,17 @@ end
 # }}}
 
 # Generate a vimrc file {{{
-VIMRC_PATH = File.join BUILD_PATH, APP_NAME, '.vimrc'
-
 # Todo: Change temporary files' location
-vimrc_content = [ 'let g:bundle_path = expand("<sfile>:h") . "/bundle"',
-  'let &rtp=g:bundle_path . ",$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after," . g:bundle_path . "/after"',
-  'com Helptags silent! execute "helptags" fnameescape(g:bundle_path . "/doc")' ]
+vimrc_content = %q{
+let g:bundle_path = expand("<sfile>:h") . "/bundle"
+let &rtp=g:bundle_path . ",$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after," . g:bundle_path . "/after"
+com Helptags silent! execute "helptags" fnameescape(g:bundle_path . "/doc")
+}
 
-VIMRCS_PATH_ORIG.each { |f| vimrc_content += IO.readlines(f) }
+# Concatenate vimrc contents with other vimrc files
+VIMRCS_PATH_ORIG.each { |f| vimrc_content += File.read(f) }
+
+VIMRC_PATH = File.join BUILD_PATH, APP_NAME, '.vimrc'
 
 # Save the generated vimrc file
 write_file VIMRC_PATH, vimrc_content
@@ -237,19 +240,37 @@ write_file VIMRC_PATH, vimrc_content
 shrink_file VIMRC_PATH
 # }}}
 
-# Generate vim help tags
+# Generate vim help tags {{{
 # `vim -u #{VIMRC_PATH} +Helptags +qall`
 # Fork to suppress some output warnings.
 fork { exec("vim -u #{VIMRC_PATH} +Helptags +qall") }
 Process.wait
+# }}}
 
-# Create batch files to launch vim with command line arguments
-contents_gvim = 'start "GVim" "%~dp0vim73\gvim.exe" -u .vimrc'
-contents_vim = 'start "Vim" "%~dp0vim73\vim.exe" -u .vimrc'
+# Create batch files to launch vim with command line arguments {{{
+contents_gvim = 'start "GVim" "%~dp0vim73\gvim.exe" -u .vimrc' + "\r\n"
+contents_vim = 'start "Vim" "%~dp0vim73\vim.exe" -u .vimrc' + "\r\n"
 write_file APP_NAME + '/gvim.cmd', contents_gvim
 write_file APP_NAME + '/vim.cmd', contents_vim
+# }}}
 
-# Package the folder to a self executable file
-`7z a -sfx Vimised.exe #{APP_NAME}`
+# Create a README file {{{
+contents_readme = <<'HERE'
+         _           _           __
+  __  __(_)___ ___  (_)___  ____/ /
+ / / / / / __ `__ \/ / __ \/ __/ /
+/ /_/ / / / / / / / / / / / /_/ /
+\__ _/_/_/ /_/ /_/_/_/ /_/\__/_/
+
+Enjoy the portable vim distribution!
+HERE
+contents_readme.gsub!(/\n/, "\r\n")
+
+write_file APP_NAME + '/README.txt', contents_readme
+# }}}
+
+# Package the folder
+`tar czf Vimind.tar.gz #{APP_NAME}`
+# `7z a Vimind.7z #{APP_NAME}`
 
 # vim:tw=0 ts=2 sw=2 et fdm=marker:
