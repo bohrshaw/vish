@@ -22,9 +22,9 @@ nnoremap <silent> <leader>ul :t.\|s/./=/g\|nohls<cr>
 command! UniqAdjacent g/\v^(.*)$\n\1$/d
 "command! UniqAdjacent g/\v%(^\1$\n)@<=(.*)$/d
 
-" Remove duplicate lines, preserve all empty lines
+" Remove duplicate lines
 command! Uniq g/\v^(.+)$\_.*\zs(^\1$)/d
-" command! UniqTrue g/^/kl |
+" command! Uniq g/^/kl |
 "       \ if search('^'.escape(getline('.'), '~\.*[]^$/').'$', 'bW') | 'ld | endif
 
 " Display help window at bottom right
