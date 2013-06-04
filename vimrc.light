@@ -29,7 +29,8 @@ silent! source <sfile>:h/vimrc.core
 " shortcut to edit this vimrc file in a new tab
 command! Vrcl :tabe ~/configent/vim/vimrc.light
 
-set noswapfile
+set swapfile!
+set undofile!
 set viminfo=
 
 if has('gui_running')

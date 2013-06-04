@@ -137,7 +137,8 @@ nnoremap & :&&<cr>
 xnoremap & :&&<cr>
 
 " Toggle fold
-noremap <space> za
+nnoremap <space> za
+xnoremap <space> za
 
 inoremap jk <Esc>
 
@@ -183,8 +184,10 @@ endfunction
 call SetPath()
 " }}}
 
-" Where to look for files when using command like 'gf'
+" Look for(gf) files in the same directory as the editing file,
+" the current working directory, and the home directory.
 set path=.,,~
+
 set cdpath=,,~/projects
 
 set fileformats=unix,dos " Affect new files
@@ -225,6 +228,9 @@ set nolazyredraw
 
 " Mappings {{{
 cmap w!! w !sudo tee % >/dev/null
+
+" Use 'q' to close the help window
+autocmd FileType help noremap <buffer> q <c-w>c
 
 " Cd to the directory containing the current buffer
 cmap lcd. lcd %:p:h
