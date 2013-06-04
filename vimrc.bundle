@@ -99,9 +99,6 @@ let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 " Slogan: one colorscheme pack to rule them all.
 " Bundle 'flazz/vim-colorschemes'
 
-" Slogan: precision colorscheme for the vim text editor.
-" Bundle 'altercation/vim-colors-solarized'
-
 " Slogan: A Vim plugin for visually displaying indent levels in code.
 " Bundle 'nathanaelkane/vim-indent-guides'
 " }}}
@@ -205,6 +202,9 @@ endif
 " Color Schemes {{{
   " Slogan: Make gvim-only colorschemes work transparently in terminal vim.
   " Bundle 'godlygeek/csapprox'
+
+  " Slogan: precision colorscheme for the vim text editor.
+  " Bundle 'altercation/vim-colors-solarized'
 
   " Slogan: Molokai color scheme for Vim.
   " Bundle 'tomasr/molokai'

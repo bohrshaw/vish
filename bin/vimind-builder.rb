@@ -162,23 +162,77 @@ rtp = ( Dir.glob(BUNDLE_PATH_ORIG + '/*/') + [VIM_PATH_ORIG] ).reject do |p|
   BUNDLE_EXCLUDED.include? folder_name or folder_name =~ /~$/
 end
 
+# Functions for copying files safely by renaming files {{{
+# Rename a file to a non-conflicted name under its directory, so a new
+# copied file will not override an existing file.
+def rename_file(f)
+  return unless File.file? f
+
+  renamed_file = ''
+  loop do
+    renamed_file = File.basename(f) + rand(999).to_s
+    break unless Dir.glob(File.dirname(f) + '/*').include? renamed_file
+  end
+
+  File.rename f, File.join(File.dirname(f), renamed_file)
+  puts "#{f} renamed."
+end
+
+# Copy a file, rename a destination file if exists
+def cp_custom(src, dest)
+  return unless File.file? src
+
+  dest_file = if File.directory? dest
+                File.join dest, File.basename(src)
+              else
+                dest
+              end
+
+  rename_file dest_file if File.exist? dest_file
+
+  cp src, dest
+end
+
+# Copy files recursively with cp_custom
+def cp_r_custom(src, dest)
+  return unless File.directory? dest
+
+  if File.directory? src
+    dest_dir = File.join dest, File.basename(src)
+
+    if ! File.directory? dest_dir
+      mkdir dest_dir
+    elsif File.file? dest_dir
+      puts "Error: Can't make #{dest_dir} as a file with the same name exists."
+      exit
+    end
+
+    Dir.glob(src + '/*').each do |p|
+      cp_r_custom(p, dest_dir)
+    end
+  elsif File.file? src
+    # Ignore tags files which will be generated later
+    cp_custom src, dest unless src =~ %r[doc/tags$]
+  else
+    puts "Error: can't find #{src}."
+    exit
+  end
+end
+# }}}
+
 # Copy standard directories and files
 rtp.each do |path|
   Dir.glob(path + '/*').each do |p|
     if File.file? p and File.extname(p) == '.vim'
-      cp p, BUNDLE_PATH
+      cp_custom p, BUNDLE_PATH
     elsif File.directory? p
       folder_name = p.split('/')[-1]
-
-      if dirs_to_copy.include? folder_name
-        # todo: prompt if destination exists, compare file modification date
-        cp_r p + '/.', BUNDLE_PATH + '/' + folder_name
-      end
+      cp_r_custom p, BUNDLE_PATH if dirs_to_copy.include? folder_name
     end
   end
 end
 
-# Copy non-standard directories and files
+# Copy non-standard directories
 def copy_other(bundle, *items)
   plugin_path = File.join(BUNDLE_PATH_ORIG, bundle)
 
@@ -221,7 +275,6 @@ end
 # }}}
 
 # Generate a vimrc file {{{
-# Todo: Change temporary files' location
 vimrc_content = %q{
 let g:bundle_path = expand("<sfile>:h") . "/bundle"
 let &rtp=g:bundle_path . ",$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after," . g:bundle_path . "/after"
