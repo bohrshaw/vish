@@ -34,4 +34,15 @@ source ~/.vimrc.bundle
 command! Vrc :tabe ~/configent/vim/vimrc
 command! Vrcb :tabe ~/configent/vim/vimrc.bundle
 
+" Choose a color scheme
+if has('gui_running')
+    color solarized
+else
+  if has('unix')
+    color solarized
+  else
+    color vividchalk
+  endif
+endif
+
 " vim:ft=vim tw=78 et sw=2 fdm=marker nowrap:

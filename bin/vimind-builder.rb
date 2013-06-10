@@ -275,18 +275,31 @@ end
 # }}}
 
 # Generate a vimrc file {{{
-vimrc_content = %q{
+# Setup runtime path and define a command to generate help tags
+vimrc_content = <<'HERE'
 let g:bundle_path = expand("<sfile>:h") . "/bundle"
 let &rtp=g:bundle_path . ",$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after," . g:bundle_path . "/after"
 com Helptags silent! execute "helptags" fnameescape(g:bundle_path . "/doc")
-}
+HERE
 
 # Concatenate vimrc contents with other vimrc files
 VIMRCS_PATH_ORIG.each { |f| vimrc_content += File.read(f) }
 
-VIMRC_PATH = File.join BUILD_PATH, APP_NAME, '.vimrc'
+# Setup a colorscheme
+vimrc_content += <<'HERE'
+if has('gui_running')
+    color solarized
+else
+  if has('unix')
+    color solarized
+  else
+    color vividchalk
+  endif
+endif
+HERE
 
 # Save the generated vimrc file
+VIMRC_PATH = File.join BUILD_PATH, APP_NAME, '.vimrc'
 write_file VIMRC_PATH, vimrc_content
 
 # Shrink vimrc
