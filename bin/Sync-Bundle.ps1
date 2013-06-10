@@ -1,7 +1,7 @@
 param([switch]$update = $true, [switch]$clean = $false)
 
 $vim_dir = ( Split-Path $script:MyInvocation.MyCommand.Path ) + '\..'
-$bundle_dir = $vim_dir + '\vim\bundle'
+$bundle_dir = $vim_dir + '\bundle'
 $bundle_file = $vim_dir + '\vimrc.bundle'
 pushd $bundle_dir
 

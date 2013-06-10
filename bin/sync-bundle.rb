@@ -15,7 +15,7 @@ class Bundle < Thor
 
   BUNDLES_FILE = "#{VIM_DIR}/vimrc.bundle"
 
-  Dir.chdir "#{VIM_DIR}/vim/bundle"
+  Dir.chdir "#{VIM_DIR}/bundle"
 
   # Make an alias to a task.
   map 's' => :sync

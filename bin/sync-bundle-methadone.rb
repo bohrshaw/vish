@@ -11,7 +11,7 @@ main do |optional_arg|
   BUNDLES_FILE = "#{VIM_DIR}/vimrc.bundle"
 
   # Set the working directory.
-  Dir.chdir "#{VIM_DIR}/vim/bundle"
+  Dir.chdir "#{VIM_DIR}/bundle"
 
   # Get the full URL based on partial URL like 'partial/smile.git'.
   def get_url(partial_url)

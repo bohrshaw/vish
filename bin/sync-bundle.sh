@@ -46,8 +46,8 @@ BUNDLE_FILE="$VIM_DIR/vimrc.bundle"
 if [ -n "$dflag" ]; then
   BUNDLE_DIR="$dval"
 else
-  [ ! -d $VIM_DIR/vim/bundle ] && mkdir "$VIM_DIR/vim/bundle"
-  BUNDLE_DIR="$VIM_DIR/vim/bundle"
+  [ ! -d $VIM_DIR/bundle ] && mkdir "$VIM_DIR/bundle"
+  BUNDLE_DIR="$VIM_DIR/bundle"
 fi
 cd $BUNDLE_DIR
 
