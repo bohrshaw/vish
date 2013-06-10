@@ -3,7 +3,7 @@
 # and * don't match /
 
 # ignore directories under bundle
-/vim/bundle/
-/vim/tmp/
-/vim/.netrwhist
-/vim/spell/*spl
+/bundle/
+/tmp/
+/.netrwhist
+/spell/*spl

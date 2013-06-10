@@ -16,7 +16,7 @@ for i in $HOME/.vim $HOME/.vimrc $HOME/.gvimrc; do
 done
 
 echo "Link files ..."
-ln -sfn $VIM_DIR/vim $HOME/.vim
+ln -sfn $VIM_DIR $HOME/.vim
 ln -sf $VIM_DIR/vimrc $HOME/.vimrc
 
 ln -sf $VIM_DIR/vimrc.core $HOME/.vimrc.core

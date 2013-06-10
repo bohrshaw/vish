@@ -34,11 +34,14 @@ function Invoke-MKLink { cmd /c mklink $args }
 $vim_dir = Split-Path $script:MyInvocation.MyCommand.Path
 $sync_dir = 'D:\Sync\Skydrive'
 
-# Link files
-$targets = @("vim", "vimrc", "vimrc.core", "vimrc.light", "vimrc.bundle", "vsvimrc")
+# Link this repository to ~/.vim
+New-Link $vim_dir
 
+# Link vimrc files
+$targets = @("vimrc", "vimrc.core", "vimrc.light", "vimrc.bundle", "vsvimrc")
 foreach ( $target in $targets ) { New-Link "$vim_dir\$target" }
 
+# Link vimwiki
 New-Link "$sync_dir\Documents\VimWiki" "$HOME\vimwiki" -link_given
 
 # Sync bundles
