@@ -1,3 +1,4 @@
+" Various help commands, mappings and functions.
 
 " Source current line
 nnoremap <leader>S ^"zy$:@z<bar>echo "Current line sourced."<cr>
@@ -5,6 +6,9 @@ nnoremap <leader>S ^"zy$:@z<bar>echo "Current line sourced."<cr>
 " Source visual selection even including a line continuation symbol '\'
 vnoremap <leader>S "zy:let @z = substitute(@z, "\n *\\", "", "g")<bar>@z<bar>
       \echo "Selection sourced."<cr>
+
+" Source a range of lines, default to the current line
+command! -range Source <line1>,<line2>g/./exe getline('.')
 
 " Appends the current date and time after the cursor
 nmap <leader>at a<C-R>=strftime("%c")<CR><Esc>
@@ -22,21 +26,16 @@ nnoremap <silent> <leader>ul :t.\|s/./=/g\|nohls<cr>
 command! UniqAdjacent g/\v^(.*)$\n\1$/d
 "command! UniqAdjacent g/\v%(^\1$\n)@<=(.*)$/d
 
-" Remove duplicate lines
-command! Uniq g/\v^(.+)$\_.*\zs(^\1$)/d
+" Remove duplicate non-empty lines
+command! Uniq g/\v^(.+)$\_.{-}\zs(^\1$)/d
 " command! Uniq g/^/kl |
-"       \ if search('^'.escape(getline('.'), '~\.*[]^$/').'$', 'bW') | 'ld | endif
+"       \ if search('^' . escape(getline('.'), '~\.*[]^$/') . '$', 'bW') | 'ld | endif
 
 " Display help window at bottom right
 command! -nargs=? -complete=help H wincmd b | bel h <args>
 
-command! -bar -nargs=? -bang TmpFile silent e<bang> ~/.vim/tmp/tmpfile|setlocal noswapfile filetype=<args>
-
-" Interesting text encoding that rotate the half of 26 alphas
+" Simple letter encoding with rot13
 command! Rot13 exe "normal ggg?G''"
-
-" Source a range of lines, default to the current line
-command! -range Source <line1>,<line2>g/./exe getline('.')
 
 command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
 
@@ -72,37 +71,6 @@ function! DiffWith(...) " {{{2
   diffthis
 endfunction " }}}2
 command! -nargs=? -complete=buffer DiffWith call DiffWith(<f-args>)
-
-" Redir command output to buffer, duplicate with Verbose in scriptease.vim
-function! RedirMessages(cmd) " {{{2
- " Redirect command outputs to a variable.
-  redir => message
-  silent execute a:cmd
-  redir END
-  new
-  setlocal buftype=nofile bufhidden=wipe noswapfile
- " Place the messages in the new buffer.
-  silent put=message
-endfunction " }}}2
-"command! -nargs=1 -complete=command Message call RedirMessages(<q-args>)
-
-"set directory-wise configuration.
-" Search from the directory the file is located upwards to the root for
-" A local configuration file called .lvimrc and sources it.
-" The local configuration file is expected to have commands affecting
-" Only the current buffer.
-function! SetLocalOptions(fname) " {{{2
-  let dirname = fnamemodify(a:fname, ":p:h")
-  while "/" != dirname
-    let lvimrc  = dirname . "/.lvimrc"
-    if filereadable(lvimrc)
-      execute "source " . lvimrc
-      break
-    endif
-    let dirname = fnamemodify(dirname, ":p:h:h")
-  endwhile
-endfunction " }}}2
-" autocmd BufNewFile,BufRead * call SetLocalOptions(bufname("%"))
 
 " Append modeline after last line in buffer.
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX

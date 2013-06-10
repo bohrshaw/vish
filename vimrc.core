@@ -25,7 +25,8 @@ set background=dark " Assume a dark background for colorschemes
 
 set showmatch " Show matching brackets/parenthesis
 
-set number " Line numbers on
+" set number " Line numbers on
+set relativenumber
 
 let mapleader = "," " Put ahead to make following maps work
 
@@ -212,8 +213,6 @@ set hidden " Maybe set autowrite
 
 set mouse=a " Enable mouse in all modes
 
-set spell " Check spell correctness
-
 " Save undo history to disk when write a buffer
 set undofile
 
@@ -228,9 +227,6 @@ set nolazyredraw
 
 " Mappings {{{
 cmap w!! w !sudo tee % >/dev/null
-
-" Use 'q' to close the help window
-autocmd FileType help noremap <buffer> q <c-w>c
 
 " Cd to the directory containing the current buffer
 cmap lcd. lcd %:p:h
@@ -274,7 +270,7 @@ set statusline+=\ %{split(getcwd(),'/')[-1]}
 set statusline+=\ [%{&ff}/%{strlen(&fenc)?&fenc:'none'}/%Y]
 
 " Git status
-" if exists("*fugitive#statusline") | set statusline+=\ %{fugitive#statusline()} | endif
+if exists("*fugitive#statusline") | set statusline+=\ %{fugitive#statusline()} | endif
 
 " Software caps lock status
 set statusline+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''}
@@ -283,9 +279,13 @@ set statusline+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''}
 set statusline+=%=
 
 " Position and percentage
-set statusline+=%-1.(%v\ %l/%L%)\ %p%%
+set statusline+=%-1.(%l/%L%)\ %p%%
 
-" In gui, fg is actually background light blue, and bg is actually font color
+" Change status line color after vim started, thus prevent color schemes modify the color
+autocmd VimEnter * hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=DarkCyan
+
+" Reapply the status line color after switching a color scheme
+" Note: In gui, fg is actually background light blue, and bg is actually font color
 autocmd ColorScheme * hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=DarkCyan
 " }}}
 
