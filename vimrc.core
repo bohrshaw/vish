@@ -34,9 +34,6 @@ let mapleader = "," " Put ahead to make following maps work
 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
 set viewoptions=folds,cursor,unix,slash
 
-" Change the default working directory to HOME
-if 0 == argc() | cd $HOME | endif
-
 " Acceptable encryption strength, also remember to set viminfo=
 " Swap and undo are all encrypted, but may set nowritebackup and nobackup(default)
 set cryptmethod=blowfish
@@ -240,16 +237,6 @@ nmap <leader>ev :vsp %%
 nmap <leader>et :tabe %%
 " }}}
 
-" Choose a color scheme {{{
-if has('gui_running')
-    color solarized
-elseif has('unix')
-    color solarized
-else
-    color vividchalk
-endif
-" }}}
-
 " Statusline {{{
 set laststatus=2 " Always display statusline
 
@@ -289,7 +276,7 @@ autocmd VimEnter * hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=Da
 autocmd ColorScheme * hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=DarkCyan
 " }}}
 
-" If has gui_running {{{
+" Differences between GUI and terminal {{{
 if has('gui_running')
   if has('win32') || has('win64')
       set guifont=Consolas:h10
@@ -300,6 +287,9 @@ if has('gui_running')
   endif
 
   set guioptions=
+
+  " Change the default working directory to HOME
+  if 0 == argc() | cd $HOME | endif
 endif
 " }}}
 
