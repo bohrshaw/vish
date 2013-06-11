@@ -1,4 +1,5 @@
-" This is a bundle of vim plugins friendly classified.
+" A bundle of vim plugins friendly classified.
+"
 " The configuration is made just after each plugin.
 " Use :Bundle to include a plugin, :Dundle to disable a plugin.
 
@@ -17,7 +18,7 @@ Bundle 'tpope/vim-pathogen'
 Bundle 'tpope/vim-scriptease'
 " }}}
 
-" Session, file, buffer, pane, window {{{
+" Session, file, buffer, pane, window, tab {{{
 " Slogan: obsession.vim: continuously updated session files.
 Bundle 'tpope/vim-obsession'
 
@@ -50,15 +51,82 @@ Bundle 'vim-scripts/bufexplorer.zip'
 " }}}
 
 " Editing {{{
-" By tpope {{{
-" Slogan: enable repeating supported plugin maps with ".".
-Bundle 'tpope/vim-repeat'
+" Undo {{{
+" Slogan: Display your undo history in a graph.
+Bundle 'mbbill/undotree'
+nnoremap <c-h> :UndotreeToggle<CR>
+let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 
+" Slogan: Vim plugin to visualize your Vim undo tree.
+Dundle 'sjl/gundo.vim'
+" }}}
+
+" Comment {{{
 " Slogan: commentary.vim: comment stuff out.
 Bundle 'tpope/vim-commentary'
 
+" Slogan: Vim plugin for intensely orgasmic commenting.
+Dundle 'scrooloose/nerdcommenter'
+" }}}
+
+" Insert mode {{{
+" Slogan: Software caps lock
+Bundle 'tpope/vim-capslock'
+imap <C-L> <Plug>CapsLockToggle
+
+" Slogan: Vim plugin, provides insert mode auto-completion for quotes, parens, brackets, etc.
+Bundle 'Raimondi/delimitMate'
+
+" Slogan: wisely add "end" in ruby, endfunction/endif/more in vim script, etc.
+Bundle 'tpope/vim-endwise'
+" }}}
+
+" Completion and snippets {{{
+" Slogan: A code-completion engine for Vim.
+if has('unix')
+  Bundle 'Valloric/YouCompleteMe'
+else
+  Dundle 'Valloric/YouCompleteMe'
+endif
+
+" Slogan: Perform all your vim insert mode completions with Tab.
+if ! has('unix')
+  Bundle 'ervandew/supertab'
+else
+  Dundle 'ervandew/supertab'
+endif
+
+" Slogan: This is an implementation of TextMates Snippets for the Vim Text Editor. It has all features of TextMates Snippets and then some.
+Bundle 'SirVer/ultisnips'
+
+" Slogan: Ultimate auto-completion system for Vim.
+Dundle 'Shougo/neocomplcache'
+
+" Slogan: neo-snippet plugin contains neocomplcache snippets source.
+Dundle 'Shougo/neosnippet'
+
+" Slogan: snipMate.vim aims to be a concise vim script that implements some of TextMate's snippets features in Vim.
+Dundle 'garbas/vim-snipmate'
+  " Dependence: Slogan: vim: interpret a file by function and cache file automatically.
+Dundle 'MarcWeber/vim-addon-mw-utils'
+  " Dependence: Slogan: Some utility functions for VIM.
+Dundle 'tomtom/tlib_vim'
+
+" Slogan: vim-snipmate default snippets.
+Dundle 'honza/vim-snippets'
+" }}}
+
 " Slogan: quoting/parenthesizing made simple.
 Bundle 'tpope/vim-surround'
+
+" Slogan: Vim script for text filtering and alignment.
+Bundle 'godlygeek/tabular'
+
+" Slogan: vim motions on speed.
+Bundle 'Lokaltog/vim-easymotion'
+
+" Slogan: True Sublime Text style multiple selections for Vim.
+Bundle 'terryma/vim-multiple-cursors'
 
 " Slogan: use CTRL-A/CTRL-X to increment dates, times, and more.
 Bundle 'tpope/vim-speeddating'
@@ -68,44 +136,30 @@ Bundle 'tpope/vim-abolish'
 " More convenient to type than 'cr'
 nmap cx <Plug>Coerce
 
-" Slogan: wisely add "end" in ruby, endfunction/endif/more in vim script, etc.
-Bundle 'tpope/vim-endwise'
-
 " Slogan: Heuristically set buffer options.
 Bundle 'tpope/vim-sleuth'
 
-" Slogan: Software caps lock
-Bundle 'tpope/vim-capslock'
-imap <C-L> <Plug>CapsLockToggle
-" }}}
-
-" Slogan: vim motions on speed.
-Bundle 'Lokaltog/vim-easymotion'
-
-" Slogan: True Sublime Text style multiple selections for Vim.
-Bundle 'terryma/vim-multiple-cursors'
-
-" Slogan: Perform all your vim insert mode completions with Tab.
-Bundle 'ervandew/supertab'
-
-" Slogan: Vim script for text filtering and alignment.
-Bundle 'godlygeek/tabular'
-
-" Slogan: Display your undo history in a graph.
-Bundle 'mbbill/undotree'
-nnoremap <c-q> :UndotreeToggle<CR>
-let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
-
-" Slogan: This is an implementation of TextMates Snippets for the Vim Text Editor. It has all features of TextMates Snippets and then some.
-Bundle 'SirVer/ultisnips'
-
-" Slogan: Vim plugin, provides insert mode auto-completion for quotes, parens, brackets, etc.
-Bundle 'Raimondi/delimitMate'
+" Slogan: enable repeating supported plugin maps with ".".
+Bundle 'tpope/vim-repeat'
 " }}}
 
 " Visual {{{
+" Color Schemes {{{
 " Slogan: one colorscheme pack to rule them all.
 Bundle 'flazz/vim-colorschemes'
+
+" Slogan: Make gvim-only colorschemes work transparently in terminal vim.
+Dundle 'godlygeek/csapprox'
+
+" Slogan: precision colorscheme for the vim text editor.
+Dundle 'altercation/vim-colors-solarized'
+
+" Slogan: Molokai color scheme for Vim.
+Dundle 'tomasr/molokai'
+
+" Slogan: a colorscheme strangely reminiscent of Vibrant Ink for a certain OS X editor.
+Dundle 'tpope/vim-vividchalk'
+" }}}
 
 " Slogan: A Vim plugin for visually displaying indent levels in code.
 Bundle 'nathanaelkane/vim-indent-guides'
@@ -129,6 +183,13 @@ Bundle 'tpope/vim-markdown'
 
 " Slogan: it's like rails.vim without the rails.
 Bundle 'tpope/vim-rake'
+
+" Slogan: Vim plugin for debugging Ruby applications (using ruby-debug-ide gem).
+Dundle 'astashov/vim-ruby-debugger'
+
+" Slogan: Vim/Ruby Configuration Files.
+Dundle 'vim-ruby/vim-ruby'
+  " Reason: This plugin is now shipped by vim and fairly updated.
 " }}}
 
 " External interaction {{{
@@ -175,62 +236,6 @@ Bundle 'majutsushi/tagbar'
 Bundle 'vim-scripts/vimwiki'
   let g:vimwiki_list = [{'path': '~/vimwiki/',
                        \ 'syntax': 'markdown', 'ext': '.md'}]
-" }}}
-
-" Miscellaneous {{{
-" Slogan: pairs of handy bracket mappings.
-Bundle 'tpope/vim-unimpaired'
-" }}}
-
-" Disabled {{{
-" Slogan: Vim plugin for debugging Ruby applications (using ruby-debug-ide gem).
-Dundle 'astashov/vim-ruby-debugger'
-
-" Alternatives {{{
-" Slogan: Vim plugin to visualize your Vim undo tree.
-Dundle 'sjl/gundo.vim'
-
-" Slogan: Vim plugin for intensely orgasmic commenting.
-Dundle 'scrooloose/nerdcommenter'
-
-" Slogan: Vim/Ruby Configuration Files.
-Dundle 'vim-ruby/vim-ruby'
-  " Reason: This plugin is now shipped by vim and fairly updated.
-
-" Slogan: snipMate.vim aims to be a concise vim script that implements some of TextMate's snippets features in Vim.
-Dundle 'garbas/vim-snipmate'
-  " Dependence: Slogan: vim: interpret a file by function and cache file automatically.
-Dundle 'MarcWeber/vim-addon-mw-utils'
-  " Dependence: Slogan: Some utility functions for VIM.
-Dundle 'tomtom/tlib_vim'
-
-" Slogan: vim-snipmate default snippets.
-Dundle 'honza/vim-snippets'
-
-" Slogan: Ultimate auto-completion system for Vim.
-Dundle 'Shougo/neocomplcache'
-
-" Slogan: neo-snippet plugin contains neocomplcache snippets source.
-Dundle 'Shougo/neosnippet'
-
-" Slogan: Readline style insertion.
-Dundle 'tpope/vim-rsi'
-  " Reason: Key binding should be made carefully by yourself.
-" }}}
-
-" Color Schemes {{{
-" Slogan: Make gvim-only colorschemes work transparently in terminal vim.
-Dundle 'godlygeek/csapprox'
-
-" Slogan: precision colorscheme for the vim text editor.
-Dundle 'altercation/vim-colors-solarized'
-
-" Slogan: Molokai color scheme for Vim.
-Dundle 'tomasr/molokai'
-
-" Slogan: a colorscheme strangely reminiscent of Vibrant Ink for a certain OS X editor.
-Dundle 'tpope/vim-vividchalk'
-" }}}
 
 " Task managers {{{
 " Slogan: Quicktask is a lightweight Vim task management plugin.
@@ -242,6 +247,11 @@ Dundle 'davidoc/taskpaper.vim'
 " Slogan: Vim Syntax for todo.txt (todotxt.com).
 Dundle 'davidoc/todo.txt-vim'
 " }}}
+" }}}
+
+" Miscellaneous and mixed {{{
+" Slogan: pairs of handy bracket mappings.
+Bundle 'tpope/vim-unimpaired'
 " }}}
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
