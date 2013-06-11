@@ -26,9 +26,6 @@ silent! source <sfile>:h/vimrc.core
 
 " Customisation for this light version {{{
 
-" shortcut to edit this vimrc file in a new tab
-command! Vrcl :tabe ~/configent/vim/vimrc.light
-
 set swapfile!
 set undofile!
 set viminfo=

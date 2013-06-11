@@ -1,23 +1,21 @@
-param([switch]$update = $true, [switch]$clean = $false)
+param([switch]$pull = $true, [switch]$clean = $false)
 
 $vim_dir = ( Split-Path $script:MyInvocation.MyCommand.Path ) + '\..'
 $bundle_dir = $vim_dir + '\bundle'
 $bundle_file = $vim_dir + '\vimrc.bundle'
+
 pushd $bundle_dir
 
-# Enable or clone bundles according to bundles specification.
-function Enable-Bundle($bundles) {
+# Clone or pull bundles according to bundles specification.
+function Bundle-Bundle($bundles) {
     foreach ($bundle in $bundles) {
         $bundle_dir = $bundle.split('/')[-1]
         $bundle_url = 'git://github.com/' + $bundle + '.git'
 
         if (Test-Path $bundle_dir) {
-            if ($update) {
+            if ($pull) {
                 cd $bundle_dir; iex "git pull"; cd ..
             }
-        }
-        elseif (Test-Path "$bundle_dir~") {
-            move-item "$bundle_dir~" $bundle_dir
         }
         else {
             iex "git clone $bundle_url"
@@ -25,9 +23,9 @@ function Enable-Bundle($bundles) {
     }
 }
 
-# Disable bundles according to bundles specification.
-function Disable-Bundle($bundles) {
-    foreach ($dir in ls -exclude "*~") {
+# Clean bundles according to bundles specification.
+function Clean-Bundle($bundles) {
+    foreach ($dir in ls) {
         foreach ($bundle in $bundles) {
             $bundle_dir = $bundle.split('/')[-1]
             if ($dir.name -eq $bundle_dir) {
@@ -35,29 +33,20 @@ function Disable-Bundle($bundles) {
             }
         }
         if (! $dir_is_active) {
-            move-item $dir "$dir~"
+            remove-item -recurse -force $dir
         }
-    }
-}
-
-# Clean disabled bundles
-function Clean-Bundle {
-    foreach ($dir in ls -filter "*~") {
-        remove-item -recurse -force $dir
     }
 }
 
 $bundles = @()
 foreach ($line in [System.IO.File]::ReadLines($bundle_file)) {
-    if ($line -match '^" Bundle ''(.*\.*)''') {
+    if ($line -match '^\s*Bundle ''(.*\.*)''') {
         $bundles += $line.remove(0, 10).trimend("'")
     }
 }
 
-Enable-Bundle $bundles
+Bundle-Bundle $bundles
 
-Disable-Bundle $bundles
-
-if($clean) { Clean-Bundle }
+if($clean) { Clean-Bundle $bundles }
 
 popd

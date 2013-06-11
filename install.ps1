@@ -45,6 +45,6 @@ foreach ( $target in $targets ) { New-Link "$vim_dir\$target" }
 New-Link "$sync_dir\Documents\VimWiki" "$HOME\vimwiki" -link_given
 
 # Sync bundles
-Invoke-Expression "$vim_dir\bin\Sync-Bundle.ps1"
+Invoke-Expression "$vim_dir\bin\bundle.ps1"
 
 # vim:tw=80 ts=4 sw=4 et fdm=marker:

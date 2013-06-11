@@ -23,8 +23,8 @@ ln -sf $VIM_DIR/vimrc.core $HOME/.vimrc.core
 ln -sf $VIM_DIR/vimrc.light $HOME/.vimrc.light
 ln -sf $VIM_DIR/vimrc.bundle $HOME/.vimrc.bundle
 
-echo "Sync bundles ..."
-$VIM_DIR/bin/sync-bundle.sh -s
+echo "Clone bundles ..."
+$VIM_DIR/bin/bundle.sh
 
 echo "Generate help tags ..."
 vim +Helptags +qall
