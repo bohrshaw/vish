@@ -163,9 +163,6 @@ cnoremap <C-e> <End>
 
 " Change only necessary {{{
 
-" Shortcut to edit this vimrc file in a new tab
-command! Vrcc tabe ~/configent/vim/vimrc.core
-
 " Options {{{
 
 " Set default path of temporary files {{{
@@ -209,6 +206,8 @@ set softtabstop=2
 set hidden " Maybe set autowrite
 
 set mouse=a " Enable mouse in all modes
+
+set spell " Check spell
 
 " Save undo history to disk when write a buffer
 set undofile

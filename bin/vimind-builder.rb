@@ -275,18 +275,20 @@ end
 # }}}
 
 # Generate a vimrc file {{{
-# Setup runtime path and define a command to generate help tags
 vimrc_content = <<'HERE'
+" Setup runtime path
 let g:bundle_path = expand("<sfile>:h") . "/bundle"
 let &rtp=g:bundle_path . ",$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after," . g:bundle_path . "/after"
+
+" Define a command to generate help tags
 com Helptags silent! execute "helptags" fnameescape(g:bundle_path . "/doc")
 HERE
 
 # Concatenate vimrc contents with other vimrc files
 VIMRCS_PATH_ORIG.each { |f| vimrc_content += File.read(f) }
 
-# Setup a colorscheme
 vimrc_content += <<'HERE'
+" Setup a colorscheme
 if has('gui_running')
     color solarized
 else
