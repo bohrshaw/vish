@@ -98,6 +98,16 @@ endif
 
 " Slogan: This is an implementation of TextMates Snippets for the Vim Text Editor. It has all features of TextMates Snippets and then some.
 Bundle 'SirVer/ultisnips'
+" Resolve the conflict with YouCompleteMe
+let g:UltiSnipsExpandTrigger='<C-E>'
+" The default <C-Tab> don't work in terminal
+let g:UltiSnipsListSnippets='<C-L>'
+" Snippets search path(must be under vim's runtime path)
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippet"]
+" Personal snippets path
+let g:UltiSnipsSnippetsDir = "~/.vim/snippet"
+" Don't check and reload snippets when a snippet expand is triggered
+" let g:UltiSnipsDoHash=0
 
 " Slogan: Ultimate auto-completion system for Vim.
 Dundle 'Shougo/neocomplcache'
