@@ -2,33 +2,18 @@
 " Author: Bohr Shaw(pubohr@gmail.com)
 " Description: vim default version configuration.
 
-" Pathogen and bundle configuration {{{1
-set nocompatible
-
+" Vundle and bundle configuration {{{1
 " A unified runtime path(Unix default)
 set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 
-" Source pathogen
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-
-" Rename a bundle like "rails" to "rails~" to disable it
-" Or add disabled bundles(directories) to the list bellow.
-let g:pathogen_disabled = []
-
-" A command letting external scripts parse all the bundled plugins
-" but actually doing nothing
-command! -buffer -nargs=1 Bundle :
-
-" A command letting pathogen disable a bundle
-command! -buffer -nargs=1 Dundle call add(g:pathogen_disabled, split(<args>, '/')[1])
-
-" Disable vundle in case it is installed
-Dundle 'gmarik/vundle'
+" Vundle initialization
+set nocompatible
+filetype off " required!
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
 
 " Source the bundle configuration file
 source ~/.vimrc.bundle
-
-call pathogen#infect()
 
 " Source the core vim configuration file {{{1
 source ~/.vimrc.core

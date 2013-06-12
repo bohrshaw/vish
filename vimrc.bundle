@@ -10,11 +10,9 @@
 autocmd BufReadPost {.,}vimrc.bundle nnoremap gB :call netrw#NetrwBrowseX(
   \ substitute(getline('.'),'\v.*\s.(.*).$','http://github.com/\1','g'),0)<cr>
 
-" Slogan: manage your runtimepath.
-Bundle 'tpope/vim-pathogen'
-
 " Slogan: Vundle, the plug-in manager for Vim.
 Bundle 'gmarik/vundle'
+let g:vundle_default_git_proto = 'git'
 
 " Slogan: A Vim plugin for Vim plugins.
 Bundle 'tpope/vim-scriptease'
@@ -99,7 +97,7 @@ Bundle 'sjl/gundo.vim'
 Bundle 'tpope/vim-commentary'
 
 " Slogan: Vim plugin for intensely orgasmic commenting.
-Dundle 'scrooloose/nerdcommenter'
+" Bundle 'scrooloose/nerdcommenter'
 
 " Inserting {{{2
 " Slogan: Software caps lock
@@ -115,10 +113,10 @@ Bundle 'tpope/vim-endwise'
 " Completion and snippets {{{2
 " Slogan: A code-completion engine for Vim.
 " Bundle 'Valloric/YouCompleteMe'
-Dundle 'bohrshaw/YouCompleteMe'
+" Bundle 'bohrshaw/YouCompleteMe'
 
 " Slogan: Perform all your vim insert mode completions with Tab.
-Dundle 'ervandew/supertab'
+" Bundle 'ervandew/supertab'
 
 " Slogan: This is an implementation of TextMates Snippets for the Vim Text Editor. It has all features of TextMates Snippets and then some.
 Bundle 'SirVer/ultisnips'
@@ -136,18 +134,18 @@ let g:UltiSnipsSnippetsDir="~/.vim/snippet"
 let g:snips_author='Bohr Shaw(pubohr@gmail.com)'
 
 " Slogan: Ultimate auto-completion system for Vim.
-Dundle 'Shougo/neocomplcache'
-Dundle 'Shougo/neocomplete'
+" Bundle 'Shougo/neocomplcache'
+" Bundle 'Shougo/neocomplete'
 
 " Slogan: neo-snippet plugin contains neocomplcache snippets source.
-Dundle 'Shougo/neosnippet'
+" Bundle 'Shougo/neosnippet'
 
 " Slogan: snipMate.vim aims to be a concise vim script that implements some of TextMate's snippets features in Vim.
 " Dependencies: 'MarcWeber/vim-addon-mw-utils' 'tomtom/tlib_vim'
-Dundle 'garbas/vim-snipmate'
+" Bundle 'garbas/vim-snipmate'
 
 " Slogan: vim-snipmate default snippets.
-Dundle 'honza/vim-snippets'
+" Bundle 'honza/vim-snippets'
 
 " }}}2
 
@@ -184,7 +182,7 @@ Bundle 'tpope/vim-characterize'
 Bundle 'nelstrom/vim-visual-star-search'
 
 " Slogan: Maintains a history of previous yanks, changes and deletes.
-Dundle 'vim-scripts/yankring.vim'
+" Bundle 'vim-scripts/yankring.vim'
 
 " Visual {{{1
 " Color Schemes {{{2
@@ -192,16 +190,16 @@ Dundle 'vim-scripts/yankring.vim'
 Bundle 'flazz/vim-colorschemes'
 
 " Slogan: Make gvim-only colorschemes work transparently in terminal vim.
-Dundle 'godlygeek/csapprox'
+" Bundle 'godlygeek/csapprox'
 
 " Slogan: precision colorscheme for the vim text editor.
-Dundle 'altercation/vim-colors-solarized'
+" Bundle 'altercation/vim-colors-solarized'
 
 " Slogan: Molokai color scheme for Vim.
-Dundle 'tomasr/molokai'
+" Bundle 'tomasr/molokai'
 
 " Slogan: a colorscheme strangely reminiscent of Vibrant Ink for a certain OS X editor.
-Dundle 'tpope/vim-vividchalk'
+" Bundle 'tpope/vim-vividchalk'
 
 " }}}2
 
@@ -212,7 +210,7 @@ let g:signify_vcs_list = ['git']
 let g:signify_sign_delete = '-'
 
 " Slogan: A Vim plugin which shows a git diff in the gutter (sign column).
-Dundle 'airblade/vim-gitgutter'
+" Bundle 'airblade/vim-gitgutter'
 
 " Slogan: A Vim plugin for visually displaying indent levels in code.
 Bundle 'nathanaelkane/vim-indent-guides'
@@ -252,11 +250,11 @@ Bundle 'bohrshaw/vim-vimperator-syntax'
 Bundle 'tpope/vim-rake'
 
 " Slogan: Vim plugin for debugging Ruby applications (using ruby-debug-ide gem).
-Dundle 'astashov/vim-ruby-debugger'
+" Bundle 'astashov/vim-ruby-debugger'
 
 " Slogan: Vim/Ruby Configuration Files.
 " This plugin is now shipped by vim and fairly updated.
-Dundle 'vim-ruby/vim-ruby'
+" Bundle 'vim-ruby/vim-ruby'
 
 " Slogan: My work on integration of Scala into Vim - not a ton here, but useful for me.
 Bundle 'derekwyatt/vim-scala'
@@ -281,22 +279,16 @@ Bundle 'tpope/vim-eunuch'
 " Slogan: tmux basics.
 if !has('win32')
   Bundle 'tpope/vim-tbone'
-else
-  Dundle 'tpope/vim-tbone'
 endif
 
 " Slogan: Vim plugin for the Perl module / CLI script 'ack'.
 if executable('ack-grep') || executable('ack')
   Bundle 'mileszs/ack.vim'
-else
-  Dundle 'mileszs/ack.vim'
 endif
 
 " Slogan: Vim plugin for the_silver_searcher, 'ag', a replacement for the Perl module/CLI script 'ack'
 if executable('ag')
   Bundle 'rking/ag.vim'
-else
-  Dundle 'rking/ag.vim'
 endif
 
 " Slogan: dispatch.vim: asynchronous build and test dispatcher.
@@ -314,21 +306,21 @@ Bundle 'majutsushi/tagbar'
 Bundle 'ivanov/vim-ipython'
 
 " Slogan: vim, your markup language of choice, and your browser of choice.
-Dundle 'matthias-guenther/hammer.vim'
+" Bundle 'matthias-guenther/hammer.vim'
 
 " Slogan: vim plugin to interact with the simplenote service.
-Dundle 'mrtazz/simplenote.vim'
+" Bundle 'mrtazz/simplenote.vim'
 
 " Alternative usages {{{1
 " Task managers {{{2
 " Slogan: Quicktask is a lightweight Vim task management plugin.
-Dundle 'aaronbieber/quicktask'
+" Bundle 'aaronbieber/quicktask'
 
 " Slogan: Vim plugin for the TaskPaper application.
-Dundle 'davidoc/taskpaper.vim'
+" Bundle 'davidoc/taskpaper.vim'
 
 " Slogan: Vim Syntax for todo.txt (todotxt.com).
-Dundle 'davidoc/todo.txt-vim'
+" Bundle 'davidoc/todo.txt-vim'
 
 " }}}2
 
@@ -351,9 +343,9 @@ Bundle 'tpope/vim-unimpaired'
 " Slogan: vim interface to Web API.
 Bundle 'mattn/webapi-vim'
 " Slogan: Slogan: vim: interpret a file by function and cache file automatically.
-Dundle 'MarcWeber/vim-addon-mw-utils'
+" Bundle 'MarcWeber/vim-addon-mw-utils'
 " Slogan: Slogan: Some utility functions for VIM.
-Dundle 'tomtom/tlib_vim'
+" Bundle 'tomtom/tlib_vim'
 
 " }}}1
 
