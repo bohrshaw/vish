@@ -6,7 +6,7 @@
 " Plugin management {{{
 " A command letting external scripts parse all the bundled plugins
 " but actually doing nothing
-command! -buffer -nargs=1 Bundle echo
+command! -buffer -nargs=1 Bundle :
 
 " A command letting pathogen disable a bundle
 command! -buffer -nargs=1 Dundle call add(g:pathogen_disabled, split(<args>, '/')[1])
