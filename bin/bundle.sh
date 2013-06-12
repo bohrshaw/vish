@@ -52,18 +52,22 @@ for url in $url_list; do
   # Get the destination to clone to
   tmp=${url##*\/}; dest=${tmp%%.git}
 
+  # A command to init and update git submodule
+  gsm="git submodule update --init"
+
   # Clone
   if [[ $# -eq 0 ]] || [[ -n "$cflag" ]]; then
     if [ ! -d $dest ]; then
       echo "Cloning into $dest ..."
       git clone $url
+      cd $dest; $gsm; cd -
     fi
   fi
 
   # Pull
   if [ -n "$pflag" ]; then
       echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $dest"
-      (cd $dest; git pull)
+      cd $dest; git pull; $gsm; cd -
   fi
 done
 

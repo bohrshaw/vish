@@ -12,13 +12,17 @@ function Bundle-Bundle($bundles) {
         $bundle_dir = $bundle.split('/')[-1]
         $bundle_url = 'git://github.com/' + $bundle + '.git'
 
+        # A command to init and update git submodules
+        $gsm="git submodule update --init"
+
         if (Test-Path $bundle_dir) {
             if ($pull) {
-                cd $bundle_dir; iex "git pull"; cd ..
+                cd $bundle_dir; iex "git pull;" + $gsm; cd ..
             }
         }
         else {
             iex "git clone $bundle_url"
+            cd $bundle_dir; iex $gsm; cd ..
         }
     }
 }
