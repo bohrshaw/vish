@@ -194,6 +194,12 @@ Bundle 'tpope/vim-markdown'
 " Slogan: it's like rails.vim without the rails.
 Bundle 'tpope/vim-rake'
 
+" Slogan: Syntax file for nginx.
+Bundle 'vim-scripts/nginx.vim'
+
+" Slogan: A mirror to the official vimperator's syntax file.
+Bundle 'bohrshaw/vim-vimperator-syntax'
+
 " Slogan: Vim plugin for debugging Ruby applications (using ruby-debug-ide gem).
 Dundle 'astashov/vim-ruby-debugger'
 
