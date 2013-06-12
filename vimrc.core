@@ -243,17 +243,17 @@ set laststatus=2 " Always display statusline
 " '%*' is to switch back to statusline highlight 
 " E.g.: set statusline=%1*%f%*
 
-" File state and file name
-set statusline=%<%m%r%w%h\ %f
+" File state
+set statusline=%<%m%r%w%h
 
-" Current working directory
-set statusline+=\ %{split(getcwd(),'/')[-1]}
+" File name and current working directory
+set statusline+=\ %t\|%{split(getcwd(),'/')[-1]}
 
 " File modification time
 " set statusline+=\ %{strftime(\"%H:%M\",getftime(expand(\"%:p\")))}
 
 " File format, encoding and type
-set statusline+=\ [%{&ff}/%{strlen(&fenc)?&fenc:'none'}/%Y]
+set statusline+=\ [%{&ff}\|%{strlen(&fenc)?&fenc:'none'}\|%Y]
 
 " Git status
 set statusline+=\ %{exists('*fugitive#statusline')?fugitive#statusline():''}
