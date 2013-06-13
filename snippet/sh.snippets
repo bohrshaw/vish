@@ -1,0 +1,38 @@
+snippet #! "#!/usr/bin/env bash" !
+#!/usr/bin/env bash`echo '\n\n'`
+endsnippet
+
+snippet xep "Ensure packages are installed." b
+# Ensure all the pre-required packages are installed.
+pkgs=(${1:packages})
+for p in $pkgs; do
+	dpkg -s $p > /dev/null 2>&1 || sudo apt-get install -y $p
+done
+
+$0
+endsnippet
+
+snippet xssd "Set the running script's directory." b
+# Get the running script's directory.
+pushd \`dirname \$0\` > /dev/null
+script_path=\`pwd -P\`
+popd > /dev/null
+
+$0
+endsnippet
+
+snippet xshv "Assign a HERE document to a variable." b
+read -d '' ${1:variable} <<"HERE"
+	$2
+HERE
+
+$0
+endsnippet
+
+snippet xpyn "Prompt to choose if continue." b
+read -p "${1:question}? (y/N)" -n 1 -r
+if [[ \$REPLY =~ ^[Yy]\$ ]]; then
+	$2
+fi
+$0
+endsnippet
