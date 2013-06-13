@@ -11,6 +11,9 @@ command! -buffer -nargs=1 Bundle :
 " A command letting pathogen disable a bundle
 command! -buffer -nargs=1 Dundle call add(g:pathogen_disabled, split(<args>, '/')[1])
 
+" A map for copying a bundle's URL
+noremap <buffer> <leader>c :call setreg('+', substitute(getline('.'), '\v.*\s.(.*).$', 'github.com/\1', 'g'))<cr>
+
 " Slogan: manage your runtimepath.
 Bundle 'tpope/vim-pathogen'
 
@@ -101,7 +104,7 @@ Bundle 'SirVer/ultisnips'
 " Resolve the conflict with YouCompleteMe
 let g:UltiSnipsExpandTrigger='<C-E>'
 " The default <C-Tab> don't work in terminal
-let g:UltiSnipsListSnippets='<C-L>'
+let g:UltiSnipsListSnippets='<C-A>'
 " Snippets search path(must be under vim's runtime path)
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippet"]
 " Personal snippets path
@@ -151,6 +154,9 @@ Bundle 'tpope/vim-sleuth'
 
 " Slogan: enable repeating supported plugin maps with ".".
 Bundle 'tpope/vim-repeat'
+
+" Slogan: Maintains a history of previous yanks, changes and deletes.
+Dundle 'vim-scripts/yankring.vim'
 " }}}
 
 " Visual {{{
@@ -181,6 +187,9 @@ Bundle 'scrooloose/syntastic'
 
 " Slogan: zen-coding for vim: http://code.google.com/p/zen-coding
 Bundle 'mattn/zencoding-vim'
+" Only enable insert mode functions
+let g:user_zen_mode='i'
+" let g:user_zen_leader_key = '<c-a>'
 
 " Slogan: runtime files for Haml, Sass, and SCSS .
 Bundle 'tpope/vim-haml'
@@ -190,6 +199,9 @@ Bundle 'PProvost/vim-ps1'
 
 " Slogan: Markdown runtime files.
 Bundle 'tpope/vim-markdown'
+
+" Slogan: Vim Git runtime files.
+Bundle 'tpope/vim-git'
 
 " Slogan: it's like rails.vim without the rails.
 Bundle 'tpope/vim-rake'
@@ -245,13 +257,25 @@ Bundle 'jamessan/vim-gnupg'
 Bundle 'majutsushi/tagbar'
 " set tags=./tags;/,~/.vimtags
 " nnoremap <silent> <leader>tt :TagbarToggle<CR>
+
+" Slogan: vim plugin to interact with the simplenote service.
+Dundle 'mrtazz/simplenote.vim'
+
+" Slogan: vimscript for gist.
+Dundle 'mattn/gist-vim'
 " }}}
 
 " Alternative usages {{{
 " Slogan: Personal Wiki for Vim.
 Bundle 'vim-scripts/vimwiki'
-  let g:vimwiki_list = [{'path': '~/vimwiki/',
-                       \ 'syntax': 'markdown', 'ext': '.md'}]
+" Restrict vimwiki's operation to only those paths listed in g:vimwiki_list.
+let g:vimwiki_global_ext = 0
+" Don't conceal characters
+let g:vimwiki_conceallevel = 0
+" Register one or more wikis
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+  \ 'syntax': 'markdown',
+  \ 'ext': '.md'}]
 
 " Task managers {{{
 " Slogan: Quicktask is a lightweight Vim task management plugin.
