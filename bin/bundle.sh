@@ -58,16 +58,16 @@ for url in $url_list; do
   # Clone
   if [[ $# -eq 0 ]] || [[ -n "$cflag" ]]; then
     if [ ! -d $dest ]; then
-      echo "Cloning into $dest ..."
+      echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $dest"
       git clone $url
-      cd $dest; $gsm; cd -
+      ( cd $dest; $gsm )
     fi
   fi
 
   # Pull
   if [ -n "$pflag" ]; then
       echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $dest"
-      cd $dest; git pull; $gsm; cd -
+      ( cd $dest; git pull; $gsm )
   fi
 done
 

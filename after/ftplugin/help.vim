@@ -8,6 +8,6 @@ noremap <buffer> <cr> <c-]>
 noremap <buffer> o :call search("'" . '\S\+' . "'")<cr>
 noremap <buffer> O :call search("'" . '\S\+' . "'", 'b')<cr>
 
-" Navigate to a link/tag (without affecting search history)
-noremap <buffer> <tab> :call search('\|\S\+\|')<cr>
-noremap <buffer> <s-tab> :call search('\|\S\+\|', 'b')<cr>
+" Jump to a subject (without affecting search history)
+noremap <buffer> s :call search('\|\S\+\|')<cr>
+noremap <buffer> S :call search('\|\S\+\|', 'b')<cr>
