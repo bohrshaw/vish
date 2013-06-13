@@ -120,6 +120,11 @@ nnoremap @; @:
 noremap <C-J> <C-W>w
 noremap <C-K> <C-W>W
 
+" Move a tab
+nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
+nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . tabpagenr()<CR>
+
+" Be consistent with other operators
 nnoremap Y y$
 
 " Break undo sequence
@@ -243,8 +248,8 @@ set laststatus=2 " Always display statusline
 " '%*' is to switch back to statusline highlight 
 " E.g.: set statusline=%1*%f%*
 
-" File state
-set statusline=%<%m%r%w%h
+" File modified flag, preview flag, quickfix flag, help flag
+set statusline=%<%m%w%q%h
 
 " File name and current working directory
 set statusline+=\ %t\|%{split(getcwd(),'/')[-1]}
