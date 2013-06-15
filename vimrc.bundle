@@ -33,7 +33,7 @@ noremap <leader>td :NERDTree<CR>
 " Goto the current editing file
 noremap <leader>tf :NERDTreeFind<CR>
 let NERDTreeBookmarksFile=expand('$HOME') . '/.vim/tmp/NERDTreeBookmarks'
-let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
+let NERDTreeIgnore=['^\.$', '^\.\.$', '\~$', '\.pyc$', '\.swp$']
 let NERDTreeShowHidden=1
 let NERDTreeShowBookmarks=1
 let NERDTreeQuitOnOpen=1

@@ -1,4 +1,4 @@
-param([switch]$pull = $true, [switch]$clean = $false)
+param([switch]$pull = $false, [switch]$clean = $false)
 
 $vim_dir = ( Split-Path $script:MyInvocation.MyCommand.Path ) + '\..'
 $bundle_dir = $vim_dir + '\bundle'
