@@ -1,4 +1,4 @@
-Param ( [Switch] $override=$false )
+Param ( [Switch] $override=$true )
 
 # Supporting functions#{{{
 function New-Link {
