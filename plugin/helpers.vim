@@ -32,7 +32,7 @@ command! Uniq g/\v^(.+)$\_.{-}\zs(^\1$)/d
 "       \ if search('^' . escape(getline('.'), '~\.*[]^$/') . '$', 'bW') | 'ld | endif
 
 " Display help window at bottom right
-command! -nargs=? -complete=help H wincmd b | bel h <args>
+command! -nargs=? -complete=help H tab h <args>
 
 " Simple letter encoding with rot13
 command! Rot13 exe "normal ggg?G''"
