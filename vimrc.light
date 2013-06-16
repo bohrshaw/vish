@@ -29,6 +29,7 @@ silent! source <sfile>:h/vimrc.core
 set swapfile!
 set undofile!
 set viminfo=
+set spell!
 
 if has('gui_running')
     color solarized
