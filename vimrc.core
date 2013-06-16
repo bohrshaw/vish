@@ -249,19 +249,30 @@ set laststatus=2 " Always display statusline
 " E.g.: set statusline=%1*%f%*
 
 " File modified flag, preview flag, quickfix flag, help flag
-set statusline=%<%m%w%q%h
+set statusline=%m%w%q%h
 
-" File name and current working directory
-set statusline+=\ %t\|%{split(getcwd(),'/')[-1]}
+" File name(truncate if too long) and current working directory
+set statusline+=%<%t(%{split(getcwd(),'/')[-1]}
+
+" Custom git branch status
+function! Git_branch_status()
+  if exists('*fugitive#head')
+    let status = fugitive#head(7)
+    return status != '' ? ','.status : ''
+  endif
+  return ''
+endfunction
+set statusline+=%{Git_branch_status()})
 
 " File modification time
 " set statusline+=\ %{strftime(\"%H:%M\",getftime(expand(\"%:p\")))}
 
-" File format, encoding and type
-set statusline+=\ [%{&ff}\|%{strlen(&fenc)?&fenc:'none'}\|%Y]
-
-" Git status
-set statusline+=\ %{exists('*fugitive#statusline')?fugitive#statusline():''}
+" File format
+set statusline+=,%{&ff}
+" File encoding
+set statusline+=%{strlen(&fenc)?','.&fenc:''}
+" File type
+set statusline+=%{strlen(&ft)?','.&ft:''}
 
 " Software caps lock status
 set statusline+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''}
@@ -270,7 +281,8 @@ set statusline+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''}
 set statusline+=%=
 
 " Position and percentage
-set statusline+=%-1.(%l/%L%)\ %p%%
+set statusline+=%l/%L,%p%%
+" set statusline+=%-1.(%l/%L%)\ %p%%
 
 " Change status line color after vim started, thus prevent color schemes modify the color
 autocmd VimEnter * hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=DarkCyan
