@@ -84,7 +84,7 @@ if File.exist? APP_NAME
 end
 # }}}
 
-# Download and extract the executables and runtime files {{{
+# Ensure the package is downloaded {{{
 def ensure_downloaded(url, file_name, override=false)
   if override or not File.exist? file_name
     `wget '#{url}' -O #{file_name}`

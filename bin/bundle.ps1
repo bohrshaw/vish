@@ -17,7 +17,7 @@ function Bundle-Bundle($bundles) {
 
         if (Test-Path $bundle_dir) {
             if ($pull) {
-                cd $bundle_dir; iex "git pull;" + $gsm; cd ..
+                pushd $bundle_dir; iex "git pull; $gsm"; popd
             }
         }
         else {
@@ -25,8 +25,9 @@ function Bundle-Bundle($bundles) {
                 move-item "$bundle_dir~" $bundle_dir
             }
             else {
+                echo $bundle_url
                 iex "git clone $bundle_url"
-                cd $bundle_dir; iex $gsm; cd ..
+                pushd $bundle_dir; iex $gsm; popd
             }
         }
     }
@@ -50,7 +51,8 @@ function Clean-Bundle($bundles) {
 $bundles = @()
 foreach ($line in [System.IO.File]::ReadLines($bundle_file)) {
     if ($line -match '^\s*Bundle ''(.*\.*)''') {
-        $bundles += $line.remove(0, 10).trimend("'")
+        $line = $line -replace "^\s*Bundle\s+'(.*)'", '$1'
+        $bundles += $line
     }
 }
 
