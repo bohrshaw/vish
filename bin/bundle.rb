@@ -33,17 +33,21 @@ def bundle
   # Clone or pull all bundles
   bundles.each do |b|
     url = get_url b
-    dest = url.gsub(%r|.*://.*/.*/(.*)\.git|, '\1')
+    dest = url.gsub(%r{^.*?://.*?/.*?/(.*?)(\.git)?$}, '\1')
 
     submodule_manage = proc do
       Dir.chdir(dest) { `git submodule update --init` }
     end
 
     if ACTION == nil or ACTION == 'clone'
-      unless Dir.exists? dest
-        puts "Cloning into '#{dest}'..."
-        puts `git clone #{url}`
-        submodule_manage.call
+      unless File.exist? dest
+        if File.exist? dest + '~'
+          File.rename dest + '~', dest
+        else
+          puts "Cloning into '#{dest}'..."
+          puts `git clone #{url}`
+          submodule_manage.call
+        end
       end
     end
 
@@ -70,9 +74,9 @@ end
 # Get the full URL based on partial URL like 'partial/smile.git'.
 def get_url(partial_url)
   case partial_url
-  when  /^(?<protocol>https?|git|ssh):\/\/(?<domain>[-A-Za-z0-9.]+)\/.*\/.*/
+  when  %r{^(https?|git|ssh)://.*?/.*?/.*$}
     partial_url
-  when %r|^[^/]+/[^/]+$|
+  when %r{^[^/]+/[^/]+$}
     'git://github.com/' + partial_url + '.git'
   end
 end

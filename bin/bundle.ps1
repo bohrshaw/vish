@@ -21,8 +21,13 @@ function Bundle-Bundle($bundles) {
             }
         }
         else {
-            iex "git clone $bundle_url"
-            cd $bundle_dir; iex $gsm; cd ..
+            if (Test-Path "$bundle_dir~") {
+                move-item "$bundle_dir~" $bundle_dir
+            }
+            else {
+                iex "git clone $bundle_url"
+                cd $bundle_dir; iex $gsm; cd ..
+            }
         }
     }
 }
