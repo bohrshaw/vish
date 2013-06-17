@@ -18,6 +18,9 @@ command! -buffer -nargs=1 Bundle :
 " A command letting pathogen disable a bundle
 command! -buffer -nargs=1 Dundle call add(g:pathogen_disabled, split(<args>, '/')[1])
 
+" Disable vundle in case it is installed
+Dundle 'gmarik/vundle'
+
 " Source the bundle configuration file
 source ~/.vimrc.bundle
 
