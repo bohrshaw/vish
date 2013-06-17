@@ -183,7 +183,7 @@ endfunction
 call SetPath()
 " }}}
 
-" Look for(gf) files in the same directory as the editing file,
+" Look for(gf,:find) files in the same directory as the editing file,
 " the current working directory, and the home directory.
 set path=.,,~
 
