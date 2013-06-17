@@ -4,13 +4,6 @@
 " Use :Bundle to include a plugin, :Dundle to disable a plugin.
 
 " Plugin management {{{
-" A command letting external scripts parse all the bundled plugins
-" but actually doing nothing
-command! -buffer -nargs=1 Bundle :
-
-" A command letting pathogen disable a bundle
-command! -buffer -nargs=1 Dundle call add(g:pathogen_disabled, split(<args>, '/')[1])
-
 " A map for copying a bundle's URL
 noremap <buffer> <leader>c :call setreg('+', substitute(getline('.'), '\v.*\s.(.*).$', 'github.com/\1', 'g'))<cr>
 
@@ -27,7 +20,7 @@ Bundle 'tpope/vim-obsession'
 
 " Slogan: a tree explorer plugin for vim.
 Bundle 'scrooloose/nerdtree'
-noremap <C-t> :NERDTreeToggle<CR>
+noremap <leader>tt :NERDTreeToggle<CR>
 " Goto the current working directory
 noremap <leader>td :NERDTree<CR>
 " Goto the current editing file
@@ -64,7 +57,7 @@ nnoremap <c-h> :UndotreeToggle<CR>
 let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 
 " Slogan: Vim plugin to visualize your Vim undo tree.
-Dundle 'sjl/gundo.vim'
+Bundle 'sjl/gundo.vim'
 " }}}
 
 " Comment {{{
@@ -157,6 +150,9 @@ Bundle 'tpope/vim-sleuth'
 
 " Slogan: enable repeating supported plugin maps with ".".
 Bundle 'tpope/vim-repeat'
+
+" Slogan: characterize.vim: Unicode character metadata.
+Bundle 'tpope/vim-characterize'
 
 " Slogan: Maintains a history of previous yanks, changes and deletes.
 Dundle 'vim-scripts/yankring.vim'
@@ -252,6 +248,9 @@ if executable('ack-grep') || executable('ack')
 else
   Dundle 'mileszs/ack.vim'
 endif
+
+" Slogan: dispatch.vim: asynchronous build and test dispatcher.
+Bundle 'tpope/vim-dispatch'
 
 " Slogan: This script implements transparent editing of gpg encrypted files. The filename must have a ".gpg", ".pgp" or ".asc" suffix. When opening such a file the content is decrypted, when opening a new file the script will ask for the recipients of the encrypted file. The file content will be encrypted to all recipients before it is written. The script turns off viminfo, swapfile, and undofile to increase security.
 Bundle 'jamessan/vim-gnupg'

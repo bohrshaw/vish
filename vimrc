@@ -11,6 +11,13 @@ runtime bundle/vim-pathogen/autoload/pathogen.vim
 " Or add disabled bundles(directories) to the list bellow.
 let g:pathogen_disabled = []
 
+" A command letting external scripts parse all the bundled plugins
+" but actually doing nothing
+command! -buffer -nargs=1 Bundle :
+
+" A command letting pathogen disable a bundle
+command! -buffer -nargs=1 Dundle call add(g:pathogen_disabled, split(<args>, '/')[1])
+
 " Source the bundle configuration file
 source ~/.vimrc.bundle
 
