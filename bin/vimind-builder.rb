@@ -24,6 +24,8 @@ URL_OFFICIAL = 'ftp://ftp.vim.org/pub/vim/pc/gvim73_46.exe'
 # Official latest version of vim
 VIM_VERSION_LATEST = '73_46'
 
+# Vim latest builds
+URL_LATEST = 'http://tuxproject.de/projects/vim/complete.7z'
 # Cream-vim URL
 URL_CREAM = 'https://downloads.sourceforge.net/project/cream/Vim/7.3.829/gvim-7-3-829.exe'
 # Yongwei's executables URL
@@ -35,7 +37,7 @@ BUNDLE_PATH_ORIG = File.expand_path '~/.vim/bundle'
 # The plugins excluded. A plugin whose folder name ending with '~' is excluded
 # by default. And It doesn't matter weather a excluded plugin exists or not.
 BUNDLE_EXCLUDED = ['vim-pathogen', 'vundle', 'vim-tbone',
-  'ack.vim', 'vim-ruby-debugger']
+  'YouCompleteMe', 'ack.vim', 'vim-ruby-debugger']
 
 # The path to other runtime files
 VIM_PATH_ORIG = File.expand_path '~/.vim'
@@ -83,44 +85,42 @@ end
 # }}}
 
 # Download and extract the executables and runtime files {{{
-def download_decompress(url, file_name)
-  unless File.exist? file_name
+def ensure_downloaded(url, file_name, override=false)
+  if override or not File.exist? file_name
     `wget '#{url}' -O #{file_name}`
-  end
-
-  file_ext = file_name.split('.')[-1]
-
-  # You should check the file structure carefully in these archives
-  if file_ext == 'zip'
-    `unzip #{file_name}`
-    mv 'vim', APP_NAME
-  elsif file_ext == 'exe'
-    `7z x -y -otmp #{file_name} `
-    Dir.chdir 'tmp' do
-      cp_r '$0/.', 'vim73'
-    end
-    mv 'tmp/vim73', APP_NAME
-    rm_r 'tmp'
   end
 end
 
+# Latest gvim
+pkg_name = 'vim_latest.7z'
+ensure_downloaded URL_LATEST, pkg_name, override=true
+`7z x -y -o#{APP_NAME}/vim73 #{pkg_name}`
+
 # Official gvim
-# download_decompress URL_OFFICIAL, 'gvim_official.exe'
+# ensure_downloaded URL_OFFICIAL, 'gvim_official.exe'
 
 # Cream gvim
-download_decompress URL_CREAM, 'gvim_cream.exe'
+# ensure_downloaded URL_CREAM, 'gvim_cream.exe'
+# `7z x -y -otmp #{file_name} `
+# Dir.chdir 'tmp' do
+#   cp_r '$0/.', 'vim73'
+# end
+# mv 'tmp/vim73', APP_NAME
+# rm_r 'tmp'
 
 # Official archives with executables replaced {{{
 # # GUI executable gvim##ole.zip
 # file_exe = "gvim#{VIM_VERSION_LATEST}ole.zip"
-# download_decompress URL_ROOT + file_exe, file_exe
+# ensure_downloaded URL_ROOT + file_exe, file_exe
 
 # # Runtime files vim##rt.zip
 # file_rt = "vim#{VIM_VERSION_LATEST}rt.zip"
-# download_decompress URL_ROOT + file_rt, file_rt
+# ensure_downloaded URL_ROOT + file_rt, file_rt
 
 # # Yongwei's executables
-# download_decompress URL_YONGWEI,  'gvim_yongwei.zip'
+# ensure_downloaded URL_YONGWEI,  'gvim_yongwei.zip'
+# `unzip #{file_name}`
+# mv 'vim', APP_NAME
 # mv 'gvim.exe', "#{APP_NAME}/vim73/gvim.exe", :force => true
 # mv 'vim.exe', "#{APP_NAME}/vim73/vim.exe", :force => true
 # }}}
@@ -282,6 +282,10 @@ let &rtp=g:bundle_path . ",$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after," . g:b
 
 " Define a command to generate help tags
 com Helptags silent! execute "helptags" fnameescape(g:bundle_path . "/doc")
+
+" Two commands doing nothing
+command! -buffer -nargs=1 Bundle :
+command! -buffer -nargs=1 Dundle :
 HERE
 
 # Concatenate vimrc contents with other vimrc files
