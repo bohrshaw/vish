@@ -252,7 +252,10 @@ set laststatus=2 " Always display statusline
 set statusline=%m%w%q%h
 
 " File name(truncate if too long) and current working directory
-set statusline+=%<%t(%{split(getcwd(),'/')[-1]}
+function! Current_directory()
+  return substitute(getcwd(), '.*[/|\\]' ,'' ,'')
+endfunction
+set statusline+=%<%t(%{Current_directory()}
 
 " Custom git branch status
 function! Git_branch_status()
