@@ -58,9 +58,13 @@ for url in $url_list; do
   # Clone
   if [[ $# -eq 0 ]] || [[ -n "$cflag" ]]; then
     if [ ! -d $dest ]; then
-      echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $dest"
-      git clone $url
-      ( cd $dest; $gsm )
+      if [ -d "$dest~" ]; then
+        mv "$dest~" "$dest"
+      else
+        echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $dest"
+        git clone $url
+        ( cd $dest; $gsm )
+      fi
     fi
   fi
 
