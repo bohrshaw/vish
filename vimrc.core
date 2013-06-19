@@ -15,10 +15,10 @@ set showmode " Display the current mode
 
 " Show non-normal spaces, tabs etc
 set list
-" Candidates are tab:,.,trail:.,nbsp:%,eol:¬
-set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 if !has('win32') && (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8')
   let &listchars = "tab:\u21e5 ,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u00b7"
+else
+  set listchars=tab:>-,trail:-,extends:>,precedes:<,nbsp:+
 endif
 
 set winminheight=0 " Windows can be 0 line high
@@ -107,7 +107,7 @@ runtime macros/matchit.vim
 " One key instead of two
 nnoremap ; :
 xnoremap ; :
-" I won't move backwards
+" Maybe enough to only be able to find a character forwards
 nnoremap , ;
 xnoremap , ;
 " Two keys instead of three
@@ -116,13 +116,13 @@ nnoremap z; q:
 nnoremap @; @:
 " }}}
 
+" Maps for switching between tabs with two fingers
+noremap gj gt
+noremap gk gT
+
 " Two maps enough for switching between windows
 noremap <C-J> <C-W>w
 noremap <C-K> <C-W>W
-
-" Move a tab
-nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
-nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . tabpagenr()<CR>
 
 " Be consistent with other operators
 nnoremap Y y$
@@ -138,13 +138,11 @@ xnoremap & :&&<cr>
 nnoremap <space> za
 xnoremap <space> za
 
-cnoremap vsb vert sb 
+cnoremap vsb vert sb
 
 " Wrapped lines goes down/up to next row, rather than next line in file.
 nnoremap j gj
-nnoremap gj j
 nnoremap k gk
-nnoremap gk k
 
 " Visual shifting (does not exit Visual mode)
 vnoremap < <gv
