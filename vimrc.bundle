@@ -154,6 +154,9 @@ Bundle 'tpope/vim-repeat'
 " Slogan: characterize.vim: Unicode character metadata.
 Bundle 'tpope/vim-characterize'
 
+" Slogan: Start a * or # search from a visual block.
+Bundle 'nelstrom/vim-visual-star-search'
+
 " Slogan: Maintains a history of previous yanks, changes and deletes.
 Dundle 'vim-scripts/yankring.vim'
 " }}}
@@ -192,6 +195,9 @@ let g:user_zen_mode='i'
 
 " Slogan: runtime files for Haml, Sass, and SCSS .
 Bundle 'tpope/vim-haml'
+
+" Slogan: Tern plugin for vim(provides Tern-based JavaScript editing support).
+Bundle 'marijnh/tern_for_vim'
 
 " Slogan: A Vim plugin for Windows PowerShell support.
 Bundle 'PProvost/vim-ps1'
