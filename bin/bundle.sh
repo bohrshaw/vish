@@ -4,20 +4,18 @@
 # Set -xv 
 
 # Usage documentation
-usage="Usage: $(basename $0) [-c] [-p] [-C]\n
+usage="Usage: $(basename $0) [-p] [-c]\n
 \n
 Where:\n
--c  clone all bundles(default)\n
--p  pull all bundles\n
--C  clean inactive bundles\n"
+-p  pull all bundles when cloning\n
+-c  clean inactive bundles\n"
 
 # Parse command line options
-cflag=; pflag=; Cflag=
-while getopts "cpC" name; do
+pflag=; cflag=
+while getopts "pc" name; do
     case $name in
-    c)    cflag=1;;
     p)    pflag=1;;
-    C)    Cflag=1;;
+    c)    cflag=1;;
     ?)    echo -e $usage; exit;;
     esac
 done
@@ -56,15 +54,13 @@ for url in $url_list; do
   gsm="git submodule update --init"
 
   # Clone
-  if [[ $# -eq 0 ]] || [[ -n "$cflag" ]]; then
-    if [ ! -d $dest ]; then
-      if [ -d "$dest~" ]; then
-        mv "$dest~" "$dest"
-      else
-        echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $dest"
-        git clone $url
-        ( cd $dest; $gsm )
-      fi
+  if [ ! -d $dest ]; then
+    if [ -d "$dest~" ]; then
+      mv "$dest~" "$dest"
+    else
+      echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $dest"
+      git clone $url
+      ( cd $dest; $gsm )
     fi
   fi
 
@@ -76,7 +72,7 @@ for url in $url_list; do
 done
 
 # Clean inactive bundles
-if [[ -n $Cflag ]]; then
+if [[ -n $cflag ]]; then
   # Get the bundle directory list
   bundle_dir_list="$(grep '^\s*Bundle ' $BUNDLE_FILE | sed "s/.*\/\(.*\)'/\1/")"
 
