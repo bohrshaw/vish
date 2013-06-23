@@ -37,12 +37,24 @@ let g:NERDTreeMapJumpPrevSibling=''
 
 " Slogan: Fuzzy file, buffer, mru, tag, etc finder.
 Bundle 'kien/ctrlp.vim'
-" let g:loaded_ctrlp = 1 " disable it completely
 let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/ctrlp'
-" let g:ctrlp_show_hidden = 1
+" Set the mode to determine the root searching directory.
+" let g:ctrlp_working_path_mode = 'ra'
+" let g:ctrlp_show_hidden = 1 " scan for dotfiles and dotdirs
+let g:ctrlp_by_filename = 1 " search by file name only
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$' }
+  \ 'file': '\v\.(exe|so|dll)$'
+  \ }
+" Specify an external tool to use for listing files.
+let g:ctrlp_user_command = {
+  \ 'types': {
+    \ 1: ['.git', 'cd %s && git ls-files'],
+    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+    \ }
+  \ }
+" Clear the cache of the current search path
+noremap <leader>cc :CtrlPClearCache<cr>
 
 " Slogan: Buffer Explorer/Browser.
 Bundle 'vim-scripts/bufexplorer.zip'
