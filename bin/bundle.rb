@@ -11,11 +11,10 @@ Dir.chdir BUNDLE_DIR
 ACTION = ARGV.shift
 
 # Available actions
-unless [nil, 'clone', 'pull', 'clean'].include? ACTION
+unless [nil, 'pull', 'clean'].include? ACTION
   puts <<-'HERE'
 Usage:
-bundle.rb [clone] -- clone all bundles
-bundle.rb pull    -- pull all bundles
+bundle.rb pull    -- pull all bundles when cloning
 bundle.rb clean   -- clean inactive bundles
   HERE
   exit
@@ -39,15 +38,13 @@ def bundle
       Dir.chdir(dest) { `git submodule update --init` }
     end
 
-    if ACTION == nil or ACTION == 'clone'
-      unless File.exist? dest
-        if File.exist? dest + '~'
-          File.rename dest + '~', dest
-        else
-          puts "Cloning into '#{dest}'..."
-          puts `git clone #{url}`
-          submodule_manage.call
-        end
+    unless File.exist? dest
+      if File.exist? dest + '~'
+        File.rename dest + '~', dest
+      else
+        puts "Cloning into '#{dest}'..."
+        puts `git clone #{url}`
+        submodule_manage.call
       end
     end
 
