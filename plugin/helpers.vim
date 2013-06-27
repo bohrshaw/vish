@@ -9,9 +9,6 @@ nmap <leader>at a<C-R>=strftime("%c")<CR><Esc>
 " Swap two adjacent keywords
 nnoremap <leader>sw :s/\v(<\k*%#\k*>)(\_.{-})(<\k+>)/\3\2\1/<cr>``
 
-" Underline the current line with '=', frequently used in markdown headings
-nnoremap <silent> <leader>ul :t.\|s/./=/g\|nohls<cr>
-
 " Remove adjacent duplicate lines by matching two lines first
 command! UniqAdjacent g/\v^(.*)$\n\1$/d
 "command! UniqAdjacent g/\v%(^\1$\n)@<=(.*)$/d
