@@ -152,6 +152,9 @@ vnoremap > >gv
 noremap zl zL
 noremap zh zH
 
+" Display help window at bottom right
+command! -nargs=? -complete=help H tab h <args>
+
 " Familiar command line editing shortcuts
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
@@ -224,22 +227,6 @@ set nolazyredraw
 
 " Wrap lines at a character in 'breakat', used to not break a word
 " set linebreak
-" }}}
-
-" Mappings and commands {{{
-inoremap jk <Esc>
-
-cmap w!! w !sudo tee % >/dev/null
-
-" Quite diff mode and close other diff buffers
-noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<cr>
-
-" Some helpers to edit mode, see: http://vimcasts.org/e/14
-cnoremap %% <C-R>=expand('%:h').'/'<cr>
-nmap <leader>ew :e %%
-nmap <leader>es :sp %%
-nmap <leader>ev :vsp %%
-nmap <leader>et :tabe %%
 " }}}
 
 " Statusline {{{
