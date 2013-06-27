@@ -33,7 +33,7 @@ noremap <leader>tt :NERDTreeToggle<CR>
 noremap <leader>td :NERDTree<CR>
 " Goto the current editing file
 noremap <leader>tf :NERDTreeFind<CR>
-let NERDTreeBookmarksFile=expand('$HOME') . '/.vim/tmp/NERDTreeBookmarks'
+let NERDTreeBookmarksFile=$HOME.'/.vim/tmp/NERDTreeBookmarks'
 let NERDTreeIgnore=['^\.$', '^\.\.$', '\~$', '\.pyc$', '\.swp$']
 let NERDTreeShowHidden=1
 let NERDTreeShowBookmarks=1
@@ -124,9 +124,11 @@ let g:UltiSnipsListSnippets='<C-A>'
 " Snippets search path(must be under vim's runtime path)
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippet"]
 " Personal snippets path
-let g:UltiSnipsSnippetsDir = "~/.vim/snippet"
+let g:UltiSnipsSnippetsDir="~/.vim/snippet"
 " Don't check and reload snippets when a snippet expand is triggered
 " let g:UltiSnipsDoHash=0
+" Specify the default author for created snippets
+let g:snips_author='Bohr Shaw(pubohr@gmail.com)'
 
 " Slogan: Ultimate auto-completion system for Vim.
 Dundle 'Shougo/neocomplcache'
@@ -268,11 +270,15 @@ endif
 " Slogan: Vim plugin for the Perl module / CLI script 'ack'.
 if executable('ack-grep') || executable('ack')
   Bundle 'mileszs/ack.vim'
-  if executable('ack-grep')
-    let g:ackprg="ack-grep -H --nocolor --nogroup --column"
-  endif
 else
   Dundle 'mileszs/ack.vim'
+endif
+
+" Slogan: Vim plugin for the_silver_searcher, 'ag', a replacement for the Perl module/CLI script 'ack'
+if executable('ag')
+  Bundle 'rking/ag.vim'
+else
+  Dundle 'rking/ag.vim'
 endif
 
 " Slogan: dispatch.vim: asynchronous build and test dispatcher.
@@ -288,6 +294,9 @@ Bundle 'majutsushi/tagbar'
 
 " Slogan: A two-way integration between Vim and IPython 0.11+.
 Bundle 'ivanov/vim-ipython'
+
+" Slogan: vim, your markup language of choice, and your browser of choice.
+Bundle 'matthias-guenther/hammer.vim'
 
 " Slogan: vim plugin to interact with the simplenote service.
 Dundle 'mrtazz/simplenote.vim'
