@@ -57,32 +57,16 @@ nnoremap gG :call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand
 nnoremap gT :call netrw#NetrwBrowseX("http://translate.google.com.hk/#auto/zh-CN/".expand("<cword>"),0)<cr>
 nnoremap gW :call netrw#NetrwBrowseX("http://en.wikipedia.org/wiki/Special:Search?search=".expand("<cword>"),0)<cr>
 command! -nargs=1 Google call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand("<args>"),0)
+"}}}2
 
-" Diff the current buffer with the current saved state or another file {{{2
-function! DiffWith(...)
-  let filetype=&ft
-  tab sp
-  diffthis
-  if a:0 == 0
-    vnew | exe "setl bt=nofile bh=wipe nobl ft=" . filetype
-    r # | 1del
-  else
-    exe "vsp " . a:1
-  endif
-  diffthis
-  wincmd p
-endfunction
-command! -nargs=? -complete=buffer DiffWith call DiffWith(<f-args>)
+" Calculate words frequency
+command! -range=% WordFrequency <line1>,<line2>call helpers#word_frequency()
 
-" Append a mode line {{{2
-function! AppendModeline()
-  let modeline = printf(" vim:tw=%d ts=%d sw=%d et fdm=marker:", &textwidth, &shiftwidth, &tabstop)
-  " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX Files.
-  let modeline = substitute(&commentstring, "%s", modeline, "")
-  " Append a new line and a modeline at the end of file
-  call append(line("$"), ["", modeline])
-endfunction
-command! AppendModeline call AppendModeline()
+" Diff with another file
+command! -nargs=? -complete=buffer DiffWith call helpers#DiffWith(<f-args>)
+
+" Append a mode line
+command! AppendModeline call helpers#appendModeline()
 
 " }}}1
 
