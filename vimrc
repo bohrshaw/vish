@@ -1,4 +1,6 @@
-" This is a vimrc file digging out the full power of vim.
+" File: vimrc
+" Author: Bohr Shaw(pubohr@gmail.com)
+" Description: vim default version configuration.
 
 " Pathogen and bundle configuration {{{1
 " A unified runtime path(Unix default)
@@ -25,12 +27,11 @@ Dundle 'gmarik/vundle'
 source ~/.vimrc.bundle
 
 call pathogen#infect()
-" }}}1
 
-" Source a common vimrc file(vimrc.core)
+" Source the core vim configuration file {{{1
 source ~/.vimrc.core
 
-" Choose a color scheme
+" Choose a color scheme {{{1
 if has('gui_running')
     color solarized
 else
@@ -40,5 +41,6 @@ else
     color vividchalk
   endif
 endif
+"}}}1
 
 " vim:ft=vim tw=78 et sw=2 fdm=marker nowrap:

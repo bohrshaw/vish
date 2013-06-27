@@ -1,8 +1,6 @@
-" FILE: winman.vim - window management
-" AUTHOR:  Bohr Shaw <pubohr@gmail.com>
-" Last Modified: 1/12/2013 19:59:19
-
-" Install in ~/.vim/plugin
+" File: winman.vim
+" Author: Bohr Shaw(pubohr@gmail.com)
+" Description: manage vim windows.
 
 " Using effective window management to navigate and remember your current works
 " visually. This is ultra helpful when you are working on many files which are
@@ -44,3 +42,4 @@ function! StackWindow(...)
   wincmd b | exe "belowright " . "sbuffer " . target_buf
 endfunction
 
+" vim:tw=78 ts=2 sw=2 et fdm=marker:

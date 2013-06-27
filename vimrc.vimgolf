@@ -1,4 +1,6 @@
-" vimgolf vimrc
+" File: vimrc.vimgolf
+" Author: Bohr Shaw(pubohr@gmail.com)
+" Description: vimgolf vimrc.
 
 set nocompatible " use vim defaults
 set scrolloff=3 " keep 3 lines when scrolling

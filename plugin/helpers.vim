@@ -1,4 +1,6 @@
-" Various help commands, mappings and functions.
+" File: helpers.vim
+" Author: Bohr Shaw(pubohr@gmail.com)
+" Description: Various help commands, mappings and functions.
 
 " Editting {{{1
 " Appends the current date and time after the cursor
@@ -21,7 +23,7 @@ command! Uniq g/\v^(.+)$\_.{-}\zs(^\1$)/d
 
 " Editing in a chosen window or tab
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
-nmap <leader>ew :e %%
+nmap <leader>ee :e %%
 nmap <leader>es :sp %%
 nmap <leader>ev :vsp %%
 nmap <leader>et :tabe %%
