@@ -28,7 +28,7 @@ set background=dark " Assume a dark background for colorschemes
 set showmatch " Show matching brackets/parenthesis
 
 " Exclude options and mappings in saved sessions and views
-set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
+set sessionoptions=blank,buffers,curdir,folds,help,tabpages,winsize,slash,unix
 set viewoptions=folds,cursor,unix,slash
 
 " Acceptable encryption strength, also remember to set viminfo=
@@ -272,7 +272,7 @@ set statusline+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''}
 set statusline+=%=
 
 " Position and percentage
-set statusline+=%l/%L,%p%%
+set statusline+=%v,%l/%L,%p%%
 " set statusline+=%-1.(%l/%L%)\ %p%%
 
 " Change status line color after vim started, thus prevent color schemes modify the color
@@ -289,7 +289,7 @@ if has('gui_running')
       set guifont=Consolas:h10
       au GUIEnter * simalt ~x " max window
   else
-      " set guifont=Consolas\ 10
+      set guifont=Consolas\ 10
       set lines=250 columns=200
   endif
 
