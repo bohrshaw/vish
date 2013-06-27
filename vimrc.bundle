@@ -4,8 +4,9 @@
 " Use :Bundle to include a plugin, :Dundle to disable a plugin.
 
 " Plugin management {{{
-" A map for copying a bundle's URL
-noremap <buffer> <leader>c :call setreg('+', substitute(getline('.'), '\v.*\s.(.*).$', 'github.com/\1', 'g'))<cr>
+" A buffer local map to open a bundle's URL in the browser
+autocmd BufReadPost {.,}vimrc.bundle nnoremap gB :call netrw#NetrwBrowseX(
+  \ substitute(getline('.'),'\v.*\s.(.*).$','http://github.com/\1','g'),0)<cr>
 
 " Slogan: manage your runtimepath.
 Bundle 'tpope/vim-pathogen'
