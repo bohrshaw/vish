@@ -1,4 +1,7 @@
-" Small powerful tolls.
+" File: tools.vim
+" Author: Bohr Shaw(pubohr@gmail.com)
+" Description: Small powerful tolls.
+
 " http://vim.wikia.com/wiki/Word_frequency_statistics_for_a_file
 function! tools#word_frequency() range
   let all = split(join(getline(a:firstline, a:lastline)), '\A\+')

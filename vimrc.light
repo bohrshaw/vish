@@ -1,9 +1,9 @@
-" This is a vimrc file for a light weight vim.
-" Usage: alias vil vim -u /path/to/vimrc.light
+" File: vimrc.light
+" Author: Bohr Shaw(pubohr@gmail.com)
+" Description: vim light weight version configuration.
+" Start up like: vim -u /path/to/vimrc.light
 
-" Pre-settings {{{
-
-"" Set runtime path to include picked bundles' paths {{{
+" Pick bundles {{{1
 set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 
 let g:bundles = ['vim-surround', 'vim-abolish', 'vim-unimpaired', 'vim-commentary', 'vim-speeddating', 'vim-repeat']
@@ -14,23 +14,20 @@ let s:paths = map(copy(g:bundles), '"~/.vim/bundle/" . v:val')
 let s:prepends = join(s:paths, ',')
 
 exec 'set rtp^='.fnameescape(s:prepends)
-"}}}
 
-" Source a common vimrc file(vimrc.core) shared by other vimrcs 
+" Source the core vim configuration file {{{1
 silent! source ~/.vimrc.core
 
 " In case files are not linked to HOME
 silent! source <sfile>:h/vimrc.core
 
-" }}}
-
-" Customisation for this light version {{{
-
+" Make it lighter {{{1
 set swapfile!
 set undofile!
 set viminfo=
 set spell!
 
+" Choose a color scheme {{{1
 if has('gui_running')
     color solarized
 elseif has('unix')
@@ -39,13 +36,10 @@ else
     color vividchalk
 endif
 
-"}}}
-
-" Bundle Configuration {{{
-
+" Bundle Configuration {{{1
 " More convenient to type than 'cr'
 nmap cx <Plug>Coerce
 
-" }}}
+" }}}1
 
 " vim:ft=vim tw=78 et sw=2 fdm=marker nowrap:

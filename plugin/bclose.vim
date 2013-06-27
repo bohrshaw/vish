@@ -1,3 +1,7 @@
+" File: bclose.vim
+" Author: Bohr Shaw(pubohr@gmail.com)
+" Description: Delete a buffer without closing its window.
+
 " http://vim.wikia.com/wiki/Deleting_a_buffer_without_closing_the_window
 " Delete buffer while keeping window layout (don't close buffer's windows).
 let loaded_bclose = 1

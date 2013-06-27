@@ -1,12 +1,26 @@
-" This is a vimrc file providing the core configuration for vim.
-" Do only corrections, customisation should be made other where.
+" File: vimrc.core
+" Author: Bohr Shaw(pubohr@gmail.com)
+" Description: vim core configuration.
+" Only basic customisations and corrections are suited to be in this file.
 
-" Changeless {{{
-
-" Options {{{
+" Options {{{1
 set nocompatible
 filetype plugin indent on " Must be after pathogen or vundle setup
 syntax on
+
+" Set default path of temporary files {{{2
+function! SetPath()
+  let dir_list = { 'swap': 'directory', 'undo': 'undodir', 'backup': 'backupdir' }
+  for [dir_name, set_name] in items(dir_list)
+    let set_value = $HOME . '/.vim/tmp/' . dir_name . "/"
+    if !isdirectory(set_value) | silent! call mkdir(set_value) | endif
+    exec "set " . set_name . "^=" . set_value . "/"
+  endfor
+  set viewdir=~/.vim/tmp/view
+  set viminfo=!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo
+endfunction
+call SetPath()
+"}}}2
 
 set ruler " Show the cursor position
 set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)
@@ -99,91 +113,8 @@ set nowritebackup
 
 " Extended matching with '%'
 runtime macros/matchit.vim
-" }}}
 
-" Mappings {{{
-
-" Life changing {{{
-" One key instead of two
-nnoremap ; :
-xnoremap ; :
-" Maybe enough to only be able to find a character forwards
-nnoremap , ;
-xnoremap , ;
-" Two keys instead of three
-nnoremap z; q:
-" Three keys instead of four
-nnoremap @; @:
-" }}}
-
-" Maps for switching between tabs with two fingers
-noremap gj gt
-noremap gk gT
-
-" Two maps enough for switching between windows
-noremap <C-J> <C-W>w
-noremap <C-K> <C-W>W
-
-" Be consistent with other operators
-nnoremap Y y$
-
-" Break undo sequence
-inoremap <c-u> <c-g>u<c-u>
-
-" Make repeating last substitution keep the flags
-nnoremap & :&&<cr>
-xnoremap & :&&<cr>
-
-" Toggle fold
-nnoremap <space> za
-xnoremap <space> za
-
-cnoremap vsb vert sb
-
-" Wrapped lines goes down/up to next row, rather than next line in file.
-nnoremap j gj
-nnoremap k gk
-
-" Visual shifting (does not exit Visual mode)
-vnoremap < <gv
-vnoremap > >gv
-
-" Easier horizontal scrolling
-noremap zl zL
-noremap zh zH
-
-" Display help window at bottom right
-command! -nargs=? -complete=help H tab h <args>
-
-" Familiar command line editing shortcuts
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
-cnoremap <c-f> <Right>
-cnoremap <c-b> <Left>
-cnoremap <c-d> <Del>
-set cedit=<c-g>
-" }}}
-
-" }}}
-
-" Changeable {{{
-
-" Options {{{
-
-" Set default path of temporary files {{{
-function! SetPath()
-  let dir_list = { 'swap': 'directory', 'undo': 'undodir', 'backup': 'backupdir' }
-  for [dir_name, set_name] in items(dir_list)
-    let set_value = $HOME . '/.vim/tmp/' . dir_name . "/"
-    if !isdirectory(set_value) | silent! call mkdir(set_value) | endif
-    exec "set " . set_name . "^=" . set_value . "/"
-  endfor
-  set viewdir=~/.vim/tmp/view
-  set viminfo=!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo
-endfunction
-call SetPath()
-" }}}
-
+" Options changeable {{{1
 " Look for(gf,:find) files in the same directory as the editing file,
 " the current working directory, and the home directory.
 set path=.,,~
@@ -227,9 +158,64 @@ set nolazyredraw
 
 " Wrap lines at a character in 'breakat', used to not break a word
 " set linebreak
-" }}}
 
-" Statusline {{{
+" Mappings {{{1
+" One pressing instead of two
+nnoremap ; :
+xnoremap ; :
+" Two pressings instead of three
+nnoremap z; q:
+" Three pressings instead of four
+nnoremap @; @:
+
+" Maps for switching between tabs with two fingers
+noremap gj gt
+noremap gk gT
+
+" Two maps enough for switching between windows
+noremap <C-J> <C-W>w
+noremap <C-K> <C-W>W
+
+" Be consistent with other operators
+nnoremap Y y$
+
+" Break undo sequence
+inoremap <c-u> <c-g>u<c-u>
+
+" Make repeating last substitution keep the flags
+nnoremap & :&&<cr>
+xnoremap & :&&<cr>
+
+" Toggle fold
+nnoremap <space> za
+xnoremap <space> za
+
+cnoremap vsb vert sb
+
+" Wrapped lines goes down/up to next row, rather than next line in file.
+nnoremap j gj
+nnoremap k gk
+
+" Visual shifting (does not exit Visual mode)
+vnoremap < <gv
+vnoremap > >gv
+
+" Easier horizontal scrolling
+noremap zl zL
+noremap zh zH
+
+" Display the help window in a new tab
+command! -nargs=? -complete=help H tab h <args>
+
+" Familiar command line editing shortcuts
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <c-f> <Right>
+cnoremap <c-b> <Left>
+cnoremap <c-d> <Del>
+set cedit=<c-g>
+
+" Statusline {{{1
 set laststatus=2 " Always display statusline
 
 " '%1' is to switch to User1 highlight
@@ -281,9 +267,8 @@ autocmd VimEnter * hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=Da
 " Reapply the status line color after switching a color scheme
 " Note: In gui, fg is actually background light blue, and bg is actually font color
 autocmd ColorScheme * hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=DarkCyan
-" }}}
 
-" Differences between GUI and terminal {{{
+" GUI {{{1
 if has('gui_running')
   if has('win32') || has('win64')
       set guifont=Consolas:h10
@@ -298,9 +283,8 @@ if has('gui_running')
   " Change the default working directory to HOME
   if 0 == argc() | cd $HOME | endif
 endif
-" }}}
 
-" }}}
+" }}}1
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
 

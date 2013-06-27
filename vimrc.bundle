@@ -1,9 +1,9 @@
-" A bundle of vim plugins friendly classified.
-"
-" The configuration is made just after each plugin.
-" Use :Bundle to include a plugin, :Dundle to disable a plugin.
+" File: vimrc.bundle
+" Author: Bohr Shaw(pubohr@gmail.com)
+" Description: vim bundle configuration.
+" Use Bundle to include and enable a plugin, Dundle to disable a plugin.
 
-" Plugin management {{{
+" Plugin management {{{1
 " A buffer local map to open a bundle's URL in the browser
 autocmd BufReadPost {.,}vimrc.bundle nnoremap gB :call netrw#NetrwBrowseX(
   \ substitute(getline('.'),'\v.*\s.(.*).$','http://github.com/\1','g'),0)<cr>
@@ -13,9 +13,8 @@ Bundle 'tpope/vim-pathogen'
 
 " Slogan: A Vim plugin for Vim plugins.
 Bundle 'tpope/vim-scriptease'
-" }}}
 
-" Session, file, buffer, pane, window, tab {{{
+" Session, file, buffer, pane, window, tab {{{1
 " Slogan: Vim session manager.
 Bundle 'bohrshaw/sessionman.vim'
 let g:session_save_on_exit = 0
@@ -67,10 +66,9 @@ noremap <leader>cc :CtrlPClearCache<cr>
 " Slogan: Buffer Explorer/Browser.
 Bundle 'vim-scripts/bufexplorer.zip'
 " nmap <leader>b :BufExplorer<CR>
-" }}}
 
-" Editing {{{
-" Undo {{{
+" Editing {{{1
+" Undo {{{2
 " Slogan: Display your undo history in a graph.
 Bundle 'mbbill/undotree'
 nnoremap <c-h> :UndotreeToggle<CR>
@@ -78,17 +76,15 @@ let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 
 " Slogan: Vim plugin to visualize your Vim undo tree.
 Bundle 'sjl/gundo.vim'
-" }}}
 
-" Comment {{{
+" Comment {{{2
 " Slogan: commentary.vim: comment stuff out.
 Bundle 'tpope/vim-commentary'
 
 " Slogan: Vim plugin for intensely orgasmic commenting.
 Dundle 'scrooloose/nerdcommenter'
-" }}}
 
-" Insert mode {{{
+" Insert mode {{{2
 " Slogan: Software caps lock
 Bundle 'tpope/vim-capslock'
 imap <C-L> <Plug>CapsLockToggle
@@ -98,9 +94,8 @@ Bundle 'Raimondi/delimitMate'
 
 " Slogan: wisely add "end" in ruby, endfunction/endif/more in vim script, etc.
 Bundle 'tpope/vim-endwise'
-" }}}
 
-" Completion and snippets {{{
+" Completion and snippets {{{2
 " Slogan: A code-completion engine for Vim.
 if has('unix')
   Bundle 'Valloric/YouCompleteMe'
@@ -145,7 +140,8 @@ Dundle 'tomtom/tlib_vim'
 
 " Slogan: vim-snipmate default snippets.
 Dundle 'honza/vim-snippets'
-" }}}
+
+" }}}2
 
 " Slogan: quoting/parenthesizing made simple.
 Bundle 'tpope/vim-surround'
@@ -181,10 +177,9 @@ Bundle 'nelstrom/vim-visual-star-search'
 
 " Slogan: Maintains a history of previous yanks, changes and deletes.
 Dundle 'vim-scripts/yankring.vim'
-" }}}
 
-" Visual {{{
-" Color Schemes {{{
+" Visual {{{1
+" Color Schemes {{{2
 " Slogan: one colorscheme pack to rule them all.
 Bundle 'flazz/vim-colorschemes'
 
@@ -199,13 +194,13 @@ Dundle 'tomasr/molokai'
 
 " Slogan: a colorscheme strangely reminiscent of Vibrant Ink for a certain OS X editor.
 Dundle 'tpope/vim-vividchalk'
-" }}}
+
+" }}}2
 
 " Slogan: A Vim plugin for visually displaying indent levels in code.
 Bundle 'nathanaelkane/vim-indent-guides'
-" }}}
 
-" File types {{{
+" File types {{{1
 " Slogan: Syntax checking hacks for vim.
 Bundle 'scrooloose/syntastic'
 
@@ -245,9 +240,8 @@ Dundle 'astashov/vim-ruby-debugger'
 " Slogan: Vim/Ruby Configuration Files.
 Dundle 'vim-ruby/vim-ruby'
   " Reason: This plugin is now shipped by vim and fairly updated.
-" }}}
 
-" External interaction {{{
+" External interaction {{{1
 " Slogan: a Git wrapper so awesome, it should be illegal.
 Bundle 'tpope/vim-fugitive'
 nnoremap <silent> <leader>gs :Gstatus<CR>
@@ -303,9 +297,20 @@ Dundle 'mrtazz/simplenote.vim'
 
 " Slogan: vimscript for gist.
 Dundle 'mattn/gist-vim'
-" }}}
 
-" Alternative usages {{{
+" Alternative usages {{{1
+" Task managers {{{2
+" Slogan: Quicktask is a lightweight Vim task management plugin.
+Dundle 'aaronbieber/quicktask'
+
+" Slogan: Vim plugin for the TaskPaper application.
+Dundle 'davidoc/taskpaper.vim'
+
+" Slogan: Vim Syntax for todo.txt (todotxt.com).
+Dundle 'davidoc/todo.txt-vim'
+
+" }}}2
+
 " Slogan: Personal Wiki for Vim.
 Bundle 'vim-scripts/vimwiki'
 " Restrict vimwiki's operation to only those paths listed in g:vimwiki_list.
@@ -317,21 +322,10 @@ let g:vimwiki_list = [{'path': '~/vimwiki/',
   \ 'syntax': 'markdown',
   \ 'ext': '.md'}]
 
-" Task managers {{{
-" Slogan: Quicktask is a lightweight Vim task management plugin.
-Dundle 'aaronbieber/quicktask'
-
-" Slogan: Vim plugin for the TaskPaper application.
-Dundle 'davidoc/taskpaper.vim'
-
-" Slogan: Vim Syntax for todo.txt (todotxt.com).
-Dundle 'davidoc/todo.txt-vim'
-" }}}
-" }}}
-
-" Miscellaneous and mixed {{{
+" Miscellaneous and mixed {{{1
 " Slogan: pairs of handy bracket mappings.
 Bundle 'tpope/vim-unimpaired'
-" }}}
+
+" }}}1
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
