@@ -15,6 +15,13 @@ Bundle 'tpope/vim-scriptease'
 " }}}
 
 " Session, file, buffer, pane, window, tab {{{
+" Slogan: Vim session manager.
+Bundle 'bohrshaw/sessionman.vim'
+let g:session_save_on_exit = 0
+nnoremap <leader>sl :SSlist<CR>
+nnoremap <leader>ss :SSsave<CR>
+nnoremap <leader>sa :SSsaveas<CR>
+
 " Slogan: obsession.vim: continuously updated session files.
 Bundle 'tpope/vim-obsession'
 
