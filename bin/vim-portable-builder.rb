@@ -1,19 +1,17 @@
 #!/usr/bin/env ruby
 
-=begin
-This is a file to create a portable and self contained vim
-distribution officially called "Vimind" for windows(32-bit).
+# This script creates a portable and self contained vim distribution
+# officially called "Vimind" for windows(32-bit). However you should
+# run this file under linux.
+#
+# Author:: Bohr Shaw (mailto:pubohr@gmail.com)
+# Copyright:: Copyright (c) Bohr Shaw
+# License:: Distributes under the same terms as Ruby
 
-However you should run this file under linux.
-=end
-
+# Importing modules and configuration {{{1
 require 'fileutils'
 include FileUtils
 
-# Set the current working directory the building directory
-BUILD_PATH = Dir.pwd
-
-# Configure before building {{{
 # The name of this portable vim distribution
 APP_NAME = 'Vimind'
 
@@ -45,9 +43,8 @@ VIM_PATH_ORIG = File.expand_path '~/.vim'
 # The path to your personal vimrc files
 VIMRCS_PATH_ORIG = [ File.expand_path( '~/.vimrc.core' ),
   File.expand_path( '~/.vimrc.bundle' ) ]
-# }}}
 
-# Helpers {{{
+# Helpers {{{1
 # Ask for yes or no
 def prompt_yes_no(*args)
   puts args
@@ -67,9 +64,11 @@ def write_file(path, content)
     file.puts content
   end
 end
-# }}}
 
-# Pre-building checking {{{
+# Pre-building settings {{{1
+# Set the current working directory the building directory
+BUILD_PATH = Dir.pwd
+
 # Notify the user what to happen before continuing
 exit unless prompt_yes_no "Start to build #{APP_NAME} under the current direcotry."
 
@@ -82,9 +81,8 @@ if File.exist? APP_NAME
     exit
   end
 end
-# }}}
 
-# Ensure the package is downloaded {{{
+# Ensure the package is downloaded {{{1
 def ensure_downloaded(url, file_name, override=false)
   if override or not File.exist? file_name
     `wget '#{url}' -O #{file_name}`
@@ -108,7 +106,7 @@ ensure_downloaded URL_LATEST, pkg_name, override=true
 # mv 'tmp/vim73', APP_NAME
 # rm_r 'tmp'
 
-# Official archives with executables replaced {{{
+# Official archives with executables replaced {{{2
 # # GUI executable gvim##ole.zip
 # file_exe = "gvim#{VIM_VERSION_LATEST}ole.zip"
 # ensure_downloaded URL_ROOT + file_exe, file_exe
@@ -123,10 +121,10 @@ ensure_downloaded URL_LATEST, pkg_name, override=true
 # mv 'vim', APP_NAME
 # mv 'gvim.exe', "#{APP_NAME}/vim73/gvim.exe", :force => true
 # mv 'vim.exe', "#{APP_NAME}/vim73/vim.exe", :force => true
-# }}}
-# }}}
 
-# Update runtime files {{{
+# }}}2
+
+# Update runtime files {{{1
 # Make sure the directory for syncing runtime files with remote end exists
 runtime_sync_dir = 'runtime_sync'
 mkdir runtime_sync_dir unless File.directory? runtime_sync_dir
@@ -141,9 +139,8 @@ sync_sub_dirs = ["autoload/", "colors/", "compiler/", "doc/", "ftplugin/", "inde
 sync_sub_dirs.each do |d|
   `rsync -avu --delete #{runtime_sync_dir}/#{d} #{APP_NAME}/vim73/#{d}`
 end
-# }}}
 
-# Add other runtime files {{{
+# Add other runtime files {{{1
 # Name the plugin folder 'bundle' other than 'vimfiles' to isolate this vim distribution.
 BUNDLE_PATH = File.join BUILD_PATH, APP_NAME, 'bundle'
 
@@ -162,7 +159,7 @@ rtp = ( Dir.glob(BUNDLE_PATH_ORIG + '/*/') + [VIM_PATH_ORIG] ).reject do |p|
   BUNDLE_EXCLUDED.include? folder_name or folder_name =~ /~$/
 end
 
-# Functions for copying files safely by renaming files {{{
+# Functions for copying files safely by renaming files {{{2
 # Rename a file to a non-conflicted name under its directory, so a new
 # copied file will not override an existing file.
 def rename_file(f)
@@ -218,7 +215,8 @@ def cp_r_custom(src, dest)
     exit
   end
 end
-# }}}
+
+# }}}2
 
 # Copy standard directories and files
 rtp.each do |path|
@@ -244,9 +242,8 @@ end
 copy_other 'ultisnips', 'UltiSnips', 'utils'
 copy_other 'nerdtree', 'lib', 'nerdtree_plugin'
 copy_other 'syntastic', 'syntax_checkers'
-# }}}
 
-# Reduce files' size {{{
+# Reduce files' size {{{1
 # Delete commented or empty lines and save the file
 def shrink_file(path)
   # You can encode the whole file as compared to encoding per line
@@ -272,9 +269,8 @@ end
 end.each do |file|
   shrink_file file
 end
-# }}}
 
-# Generate a vimrc file {{{
+# Generate a vimrc file {{{1
 vimrc_content = <<'HERE'
 " Setup runtime path
 let g:bundle_path = expand("<sfile>:h") . "/bundle"
@@ -310,23 +306,20 @@ write_file VIMRC_PATH, vimrc_content
 
 # Shrink vimrc
 shrink_file VIMRC_PATH
-# }}}
 
-# Generate vim help tags {{{
+# Generate vim help tags {{{1
 # `vim -u #{VIMRC_PATH} +Helptags +qall`
 # Fork to suppress some output warnings.
 fork { exec("vim -u #{VIMRC_PATH} +Helptags +qall") }
 Process.wait
-# }}}
 
-# Create batch files to launch vim with command line arguments {{{
+# Create batch files to launch vim with command line arguments {{{1
 contents_gvim = 'start "GVim" "%~dp0vim73\gvim.exe" -u .vimrc' + "\r\n"
 contents_vim = 'start "Vim" "%~dp0vim73\vim.exe" -u .vimrc' + "\r\n"
 write_file APP_NAME + '/gvim.cmd', contents_gvim
 write_file APP_NAME + '/vim.cmd', contents_vim
-# }}}
 
-# Create a README file {{{
+# Create a README file {{{1
 contents_readme = <<'HERE'
          _           _           __
   __  __(_)___ ___  (_)___  ____/ /
@@ -339,10 +332,11 @@ HERE
 contents_readme.gsub!(/\n/, "\r\n")
 
 write_file APP_NAME + '/README.txt', contents_readme
-# }}}
 
-# Package the folder
+# Package {{{1
 `tar czf Vimind.tar.gz #{APP_NAME}`
 # `7z a Vimind.7z #{APP_NAME}`
+
+# }}}1
 
 # vim:tw=0 ts=2 sw=2 et fdm=marker:
