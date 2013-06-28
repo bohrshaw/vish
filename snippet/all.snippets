@@ -1,0 +1,14 @@
+global !p
+import vim
+
+def cms():
+    return vim.eval('&cms').split('%s')
+cms = cms()
+
+endglobal
+
+snippet author "author information" b
+`!p snip.rv = cms[0]`Author: ${2:`!v g:snips_author`}`!p snip.rv = cms[1]`
+$0
+endsnippet
+
