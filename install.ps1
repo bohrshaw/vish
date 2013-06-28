@@ -47,4 +47,7 @@ New-Link "$sync_dir\Documents\VimWiki" "$HOME\vimwiki" -link_given
 # Sync bundles
 Invoke-Expression "$vim_dir\bin\bundle.ps1"
 
+# Generate help tags
+Invoke-Expression "vim +Helptags +qall"
+
 # vim:tw=80 ts=4 sw=4 et fdm=marker:

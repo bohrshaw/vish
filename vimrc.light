@@ -6,9 +6,10 @@
 " Pick bundles {{{1
 set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 
-let g:bundles = ['vim-surround', 'vim-abolish', 'vim-unimpaired', 'vim-commentary', 'vim-speeddating', 'vim-repeat']
+let g:bundles = ['vim-surround', 'vim-commentary', 'vim-abolish']
+let g:bundles += ['vim-speeddating', 'vim-unimpaired', 'vim-repeat']
 let g:bundles += ['supertab', 'vim-easymotion', 'vim-endwise']
-let g:bundles += ['vim-colors-solarized', 'vim-colorschemes']
+let g:bundles += ['vim-git', 'vim-colorschemes']
 
 let s:paths = map(copy(g:bundles), '"~/.vim/bundle/" . v:val')
 let s:prepends = join(s:paths, ',')
