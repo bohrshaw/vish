@@ -1,7 +1,9 @@
 " File: vimrc.bundle
 " Author: Bohr Shaw(pubohr@gmail.com)
 " Description: vim bundle configuration.
-" Use Bundle to include and enable a plugin, Dundle to disable a plugin.
+" 'Dundle' is for pathogen to disable a plugin.
+" 'Bundle' is for vundle to enable a plugin.
+" 'Bundle' is also for scripts to clone a plugin.
 
 " Plugin management {{{1
 " A buffer local map to open a bundle's URL in the browser
@@ -10,6 +12,9 @@ autocmd BufReadPost {.,}vimrc.bundle nnoremap gB :call netrw#NetrwBrowseX(
 
 " Slogan: manage your runtimepath.
 Bundle 'tpope/vim-pathogen'
+
+" Slogan: Vundle, the plug-in manager for Vim.
+Bundle 'gmarik/vundle'
 
 " Slogan: A Vim plugin for Vim plugins.
 Bundle 'tpope/vim-scriptease'
