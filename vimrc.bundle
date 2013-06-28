@@ -290,7 +290,7 @@ Bundle 'majutsushi/tagbar'
 Bundle 'ivanov/vim-ipython'
 
 " Slogan: vim, your markup language of choice, and your browser of choice.
-Bundle 'matthias-guenther/hammer.vim'
+Dundle 'matthias-guenther/hammer.vim'
 
 " Slogan: vim plugin to interact with the simplenote service.
 Dundle 'mrtazz/simplenote.vim'
