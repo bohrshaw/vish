@@ -33,7 +33,7 @@ command! Scratch e __Scratch__ | set buftype=nofile bufhidden=hide
 noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<cr>
 
 " Create a directory based the current buffer's path
-command! -nargs=1 -complete=dir Mkdir :call mkdir(<q-args>, "p")
+command! -nargs=1 -complete=dir Mkdir :call mkdir(getcwd() . "/" . <q-args>, "p")
 
 " Simple letter encoding with rot13
 command! Rot13 exe "normal ggg?G''"
