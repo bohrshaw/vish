@@ -67,6 +67,8 @@ let g:ctrlp_user_command = {
   \ }
 " Clear the cache of the current search path
 noremap <leader>cc :CtrlPClearCache<cr>
+" Open CtrlP bookmarked directories
+noremap <leader>cb :CtrlPBookmarkDir<cr>
 
 " Slogan: Buffer Explorer/Browser.
 Bundle 'vim-scripts/bufexplorer.zip'
