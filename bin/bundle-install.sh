@@ -33,7 +33,7 @@ gem install github-markup tilt redcarpet
 # Markdown previewer {{{1
 # Install multimarkdown from source.
 pushd ~/local
-git clone https://github.com/fletcher/MultiMarkdown-4.git multimarkdown
+git clone --depth 1 https://github.com/fletcher/MultiMarkdown-4.git multimarkdown
 
 pushd multimarkdown
 git submodule update --init

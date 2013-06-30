@@ -59,7 +59,7 @@ for url in $url_list; do
       mv "$dest~" "$dest"
     else
       echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $dest"
-      git clone $url
+      git clone --depth 1 $url
       ( cd $dest; $gsm )
     fi
   fi

@@ -26,7 +26,7 @@ function Bundle-Bundle($bundles) {
             }
             else {
                 echo $bundle_url
-                iex "git clone $bundle_url"
+                iex "git clone --depth 1 $bundle_url"
                 pushd $bundle_dir; iex $gsm; popd
             }
         }
