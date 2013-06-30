@@ -35,9 +35,18 @@ function! helpers#diffWith(...)
   wincmd p
 endfunction
 
+" Wipe out all unlisted buffers {{{1
+function! helpers#bufffer_wipe_unlisted()
+  for b in range(1, bufnr('$'))
+    if bufexists(b) && ! buflisted(b)
+      exe 'bw' . b
+    endif
+  endfor
+endfunction
+
 " Append a mode line {{{1
 function! helpers#appendModeline()
-  let modeline = printf(" vim:tw=%d ts=%d sw=%d et fdm=marker:", &textwidth, &shiftwidth, &tabstop)
+  let modeline = printf("vim:tw=%d ts=%d sw=%d et fdm=marker:", &textwidth, &shiftwidth, &tabstop)
   " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX Files.
   let modeline = substitute(&commentstring, "%s", modeline, "")
   " Append a new line and a modeline at the end of file
