@@ -62,6 +62,9 @@ command! -range=% WordFrequency <line1>,<line2>call helpers#word_frequency()
 " Diff with another file
 command! -nargs=? -complete=buffer DiffWith call helpers#DiffWith(<f-args>)
 
+" Wipe out all unlisted buffers
+command! BwUnlisted call helpers#bufffer_wipe_unlisted()
+
 " Append a mode line
 command! AppendModeline call helpers#appendModeline()
 
