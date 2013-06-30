@@ -43,7 +43,7 @@ def bundle
         File.rename dest + '~', dest
       else
         puts "Cloning into '#{dest}'..."
-        puts `git clone #{url}`
+        puts `git clone --depth 1 #{url}`
         submodule_manage.call
       end
     end
