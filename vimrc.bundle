@@ -59,12 +59,21 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll)$'
   \ }
 " Specify an external tool to use for listing files.
-let g:ctrlp_user_command = {
-  \ 'types': {
-    \ 1: ['.git', 'cd %s && git ls-files; git ls-files -o --exclude-standard'],
-    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+if has('win32') || has('win64')
+  let g:ctrlp_user_command = {
+    \ 'types': {
+      \ 1: ['.git', '(cd %s && git ls-files && git ls-files -o --exclude-standard)'],
+      \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+      \ }
     \ }
-  \ }
+else
+  let g:ctrlp_user_command = {
+    \ 'types': {
+      \ 1: ['.git', 'cd %s && git ls-files && git ls-files -o --exclude-standard'],
+      \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+      \ }
+    \ }
+endif
 " Clear the cache of the current search path
 noremap <leader>cc :CtrlPClearCache<cr>
 " Open CtrlP bookmarked directories
