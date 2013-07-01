@@ -11,7 +11,7 @@ function! s:MarkdownPreview(line1, line2)
   " Set the path of temporary files
   if has('win32') || has('win64')
     let md_path = $temp . "\\" . md_file
-    let html_path = $temp . "\\" . md_path
+    let html_path = $temp . "\\" . html_file
   else
     let md_path = "/tmp/" . md_file
     let html_path = "/tmp/" . html_file
