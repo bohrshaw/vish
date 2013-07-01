@@ -163,6 +163,9 @@ set nolazyredraw
 " One pressing instead of two
 nnoremap ; :
 xnoremap ; :
+" The substitution to ';'
+nnoremap \| ;
+xnoremap \| ;
 " Two pressings instead of three
 nnoremap z; q:
 " Three pressings instead of four
