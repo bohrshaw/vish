@@ -37,6 +37,7 @@ noremap <leader>tt :NERDTreeToggle<CR>
 noremap <leader>td :NERDTree<CR>
 " Goto the current editing file
 noremap <leader>tf :NERDTreeFind<CR>
+" let NERDTreeHijackNetrw=0 # use :Explore to open Netrw instead
 let NERDTreeBookmarksFile=$HOME.'/.vim/tmp/NERDTreeBookmarks'
 let NERDTreeIgnore=['^\.$', '^\.\.$', '\~$', '\.pyc$', '\.swp$']
 let NERDTreeShowHidden=1
@@ -100,7 +101,7 @@ Bundle 'tpope/vim-commentary'
 " Slogan: Vim plugin for intensely orgasmic commenting.
 Dundle 'scrooloose/nerdcommenter'
 
-" Insert mode {{{2
+" Inserting {{{2
 " Slogan: Software caps lock
 Bundle 'tpope/vim-capslock'
 imap <C-L> <Plug>CapsLockToggle
@@ -129,9 +130,9 @@ endif
 " Slogan: This is an implementation of TextMates Snippets for the Vim Text Editor. It has all features of TextMates Snippets and then some.
 Bundle 'SirVer/ultisnips'
 " Resolve the conflict with YouCompleteMe
-let g:UltiSnipsExpandTrigger='<C-E>'
+let g:UltiSnipsExpandTrigger='<C-J>'
 " The default <C-Tab> don't work in terminal
-let g:UltiSnipsListSnippets='<C-A>'
+let g:UltiSnipsListSnippets='<C-Q>'
 " Snippets search path(must be under vim's runtime path)
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippet"]
 " Personal snippets path
