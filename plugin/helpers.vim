@@ -26,13 +26,16 @@ nmap <leader>ev :vsp %%
 nmap <leader>et :tabe %%
 
 " Utilities {{{1
+" Display the help window in a new tab
+command! -nargs=? -complete=help H tab h <args>
+
 " Create a scratch buffer
 command! Scratch e __Scratch__ | set buftype=nofile bufhidden=hide
 
 " Quite diff mode and close other diff buffers
 noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<cr>
 
-" Create a directory based the current buffer's path
+" Create a directory under the current path
 command! -nargs=1 -complete=dir Mkdir :call mkdir(getcwd() . "/" . <q-args>, "p")
 
 " Simple letter encoding with rot13
