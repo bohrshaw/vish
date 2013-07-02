@@ -15,7 +15,7 @@ cd $script_path/../bundle
 # Ensure you have Vim 7.3.584+ with python2 support
 # Ensure required packages are installed
 pkgs=(build-essential cmake python-dev)
-for p in $pkgs; do
+for p in ${pkgs[@]}; do
   dpkg -s $p > /dev/null 2>&1 || sudo apt-get install -y $p
 done
 
@@ -27,11 +27,9 @@ pushd YouCompleteMe
 # ./install.sh --clang-completer
 popd
 
-# Hammer.vim {{{1
-gem install github-markup tilt redcarpet
-
 # Markdown previewer {{{1
 # Install multimarkdown from source.
+[ -d ~/local/bin ] || mkdir -p ~/local/bin
 pushd ~/local
 git clone --depth 1 https://github.com/fletcher/MultiMarkdown-4.git multimarkdown
 

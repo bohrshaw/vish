@@ -1,11 +1,12 @@
 snippet #! "#!/usr/bin/env bash" !
-#!/usr/bin/env bash`echo '\n\n'`
+#!/usr/bin/env bash
+
 endsnippet
 
 snippet xep "Ensure packages are installed." b
 # Ensure all the pre-required packages are installed.
 pkgs=(${1:packages})
-for p in $pkgs; do
+for p in \${pkgs[@]}; do
 	dpkg -s $p > /dev/null 2>&1 || sudo apt-get install -y $p
 done
 
