@@ -1,16 +1,27 @@
 #!/usr/bin/env ruby
 
+# Author: Bohr Shaw(pubohr@gmail.com)
+# Description: Sync vim bundles.
+
+# Settings {{{
 require 'fileutils'
 
 VIM_DIR = File.expand_path('..', File.dirname(__FILE__) )
 BUNDLE_DIR = "#{VIM_DIR}/bundle"
-BUNDLES_FILE = "#{VIM_DIR}/vimrc.bundle"
+BUNDLE_FILE = "#{VIM_DIR}/vimrc.bundle"
 
-Dir.chdir BUNDLE_DIR
+# Get the bundle list
+BUNDLES = [] # A bundle's format is like "user/repository"
+File.foreach(BUNDLE_FILE) do |line|
+  if line =~ /^\s*Bundle '.*/
+    BUNDLES << line.gsub(/^\s*Bundle '(.*)'$/, '\1').chomp
+  end
+end
 
+# Parse the command line argument
 ACTION = ARGV.shift
 
-# Available actions
+# Prompt the usage
 unless [nil, 'pull', 'clean'].include? ACTION
   puts <<-'HERE'
 Usage:
@@ -20,51 +31,68 @@ bundle.rb clean   -- clean inactive bundles
   exit
 end
 
-def bundle
-  # Get the bundle list. A bundle is like "tpope/vim-surround"
-  bundles = []
-  File.foreach(BUNDLES_FILE) do |line|
-    if line =~ /^\s*Bundle '.*/
-      bundles << line.gsub(/^\s*Bundle '(.*)'$/, '\1').chomp
-    end
-  end
+# }}}
 
-  # Clone or pull all bundles
-  bundles.each do |b|
-    url = get_url b
-    dest = url.gsub(%r{^.*?://.*?/.*?/(.*?)(\.git)?$}, '\1')
+# Sync all bundles
+def sync_bundles
+  Dir.chdir(BUNDLE_DIR) do
+    BUNDLES.each do |bundle|
+      bundle_dir = bundle.split('/')[1]
 
-    submodule_manage = proc do
-      Dir.chdir(dest) { `git submodule update --init` }
-    end
-
-    unless File.exist? dest
-      if File.exist? dest + '~'
-        File.rename dest + '~', dest
+      if File.exist? bundle_dir or File.exist? bundle_dir + '~'
+        File.rename bundle_dir + '~', bundle_dir if File.exist? bundle_dir + '~'
+        update_bundle bundle
       else
-        puts "Cloning into '#{dest}'..."
-        puts `git clone --depth 1 #{url}`
-        submodule_manage.call
+        puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Clone #{bundle_dir.capitalize}"
+        puts `git clone --depth 1 #{get_url bundle}`
+        update_submodules bundle_dir
       end
     end
 
-    if ACTION == 'pull'
-      puts "Pull #{dest.capitalize}"
-      Dir.chdir(dest) { puts `git pull` }
-      submodule_manage.call
+    clean_bundles if ACTION == 'clean'
+  end
+end
+
+# Pull a bundle
+def update_bundle(bundle)
+  author, bundle_dir = bundle.split('/')
+
+  Dir.chdir(bundle_dir) do
+    author_orig = `git config --get remote.origin.url`.split('/')[-2]
+
+    if author != author_orig
+      puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Update #{bundle_dir.capitalize}"
+      `git remote set-url origin $bundle_url`
+      `git fetch origin`
+      `git reset --hard origin/HEAD`
+      `git branch -u origin/HEAD`
+      update_submodules '.'
+    else
+      if ACTION == 'pull'
+        puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Update #{bundle_dir.capitalize}"
+        puts `git pull`
+        update_submodules '.'
+      end
     end
   end
+end
 
-  # Get the bundle directory list
-  bundle_dirs = bundles.map do |b|
+# Update submodules
+def update_submodules(dest)
+  Dir.chdir(dest) do
+    `git submodule sync`
+    `git submodule update --init`
+  end
+end
+
+# Clean unused bundles.
+def clean_bundles
+  bundle_dirs = BUNDLES.map do |b|
     b.split('/')[-1]
   end
 
-  # Clean unused bundles.
-  if ACTION == 'clean'
-    Dir.glob('*/').each do |b|
-      FileUtils.rm_rf(b) unless bundle_dirs.include? b.chomp('/')
-    end
+  Dir.glob('*/').each do |b|
+    FileUtils.rm_rf(b) unless bundle_dirs.include? b.chomp('/')
   end
 end
 
@@ -78,5 +106,7 @@ def get_url(partial_url)
   end
 end
 
-# Start bundle
-bundle
+# Execute
+sync_bundles
+
+# vim:fdm=marker:
