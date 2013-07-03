@@ -62,7 +62,7 @@ def update_bundle(bundle)
 
     if author != author_orig
       puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Update #{bundle_dir.capitalize}"
-      `git remote set-url origin $bundle_url`
+      `git remote set-url origin #{get_url bundle}`
       `git fetch origin`
       `git reset --hard origin/HEAD`
       `git branch -u origin/HEAD`
