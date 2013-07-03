@@ -24,7 +24,7 @@ ln -sf $VIM_DIR/vimrc.light $HOME/.vimrc.light
 ln -sf $VIM_DIR/vimrc.bundle $HOME/.vimrc.bundle
 
 echo "Clone bundles ..."
-$VIM_DIR/bin/bundle.sh
+$VIM_DIR/bin/bundle.rb
 
 echo "Generate help tags ..."
 vim +Helptags +qall
