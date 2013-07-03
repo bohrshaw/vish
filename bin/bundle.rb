@@ -41,11 +41,9 @@ def sync_bundles
 
       if File.exist? bundle_dir or File.exist? bundle_dir + '~'
         File.rename bundle_dir + '~', bundle_dir if File.exist? bundle_dir + '~'
-        update_bundle bundle
+        Dir.chdir(bundle_dir) { update_bundle bundle }
       else
-        puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Clone #{bundle_dir.capitalize}"
-        puts `git clone --depth 1 #{get_url bundle}`
-        update_submodules bundle_dir
+        clone_bundle bundle
       end
     end
 
@@ -56,36 +54,36 @@ end
 # Pull a bundle
 def update_bundle(bundle)
   author, bundle_dir = bundle.split('/')
+  author_orig = `git config --get remote.origin.url`.split('/')[-2]
 
-  Dir.chdir(bundle_dir) do
-    author_orig = `git config --get remote.origin.url`.split('/')[-2]
-
-    if author != author_orig
-      puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Update #{bundle_dir.capitalize}"
-      `git remote set-url origin #{get_url bundle}`
-      `git fetch origin`
-      `git reset --hard origin/HEAD`
-      `git branch -u origin/HEAD`
-      update_submodules '.'
-    else
-      if ACTION == 'pull'
-        puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Update #{bundle_dir.capitalize}"
-        puts `git pull`
-        update_submodules '.'
-      end
-    end
+  if author != author_orig
+    FileUtils.rm_rf '.'
+    clone_bundle bundle, '.'
+  elsif ACTION == 'pull'
+    puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Update #{bundle_dir.capitalize}"
+    puts `git pull`
+    update_submodules
   end
 end
 
+# Clone a bundle
+def clone_bundle(bundle, dest_dir = nil)
+  bundle_dir = bundle.split('/')[1]
+  dest_dir ||= bundle_dir
+  puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Clone #{bundle_dir.capitalize}"
+  puts `git clone --depth 1 #{get_url bundle} #{dest_dir}`
+  Dir.chdir(dest_dir) { update_submodules }
+end
+
 # Update submodules
-def update_submodules(dest)
-  Dir.chdir(dest) do
+def update_submodules
+  if File.exist? '.gitmodules'
     `git submodule sync`
     `git submodule update --init`
   end
 end
 
-# Clean unused bundles.
+# Clean obsolete bundles.
 def clean_bundles
   bundle_dirs = BUNDLES.map do |b|
     b.split('/')[-1]
@@ -96,7 +94,7 @@ def clean_bundles
   end
 end
 
-# Get the full URL based on partial URL like 'partial/smile.git'.
+# Get the full URL based on a partial URL like 'partial/smile.git'.
 def get_url(partial_url)
   case partial_url
   when  %r{^(https?|git|ssh)://.*?/.*?/.*$}
