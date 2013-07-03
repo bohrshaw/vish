@@ -167,7 +167,7 @@ Bundle 'tpope/vim-surround'
 Bundle 'godlygeek/tabular'
 
 " Slogan: vim motions on speed.
-Bundle 'Lokaltog/vim-easymotion'
+Bundle 'bohrshaw/vim-easymotion'
 
 " Slogan: True Sublime Text style multiple selections for Vim.
 Bundle 'terryma/vim-multiple-cursors'
