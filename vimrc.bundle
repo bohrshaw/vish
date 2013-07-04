@@ -88,7 +88,7 @@ Bundle 'vim-scripts/bufexplorer.zip'
 " Undo {{{2
 " Slogan: Display your undo history in a graph.
 Bundle 'mbbill/undotree'
-nnoremap <c-h> :UndotreeToggle<CR>
+nnoremap <leader>u :UndotreeToggle<CR>
 let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 
 " Slogan: Vim plugin to visualize your Vim undo tree.
@@ -114,18 +114,10 @@ Bundle 'tpope/vim-endwise'
 
 " Completion and snippets {{{2
 " Slogan: A code-completion engine for Vim.
-if has('unix')
-  Bundle 'Valloric/YouCompleteMe'
-else
-  Dundle 'Valloric/YouCompleteMe'
-endif
+Bundle 'Valloric/YouCompleteMe'
 
 " Slogan: Perform all your vim insert mode completions with Tab.
-if ! has('unix')
-  Bundle 'ervandew/supertab'
-else
-  Dundle 'ervandew/supertab'
-endif
+Dundle 'ervandew/supertab'
 
 " Slogan: This is an implementation of TextMates Snippets for the Vim Text Editor. It has all features of TextMates Snippets and then some.
 Bundle 'SirVer/ultisnips'
