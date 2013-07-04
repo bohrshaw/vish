@@ -3,20 +3,24 @@
 # Extra works to installing bundles.
 
 # Pre settings {{{1
-# Get the script path
+# Set the bundle directory
 pushd `dirname $0` > /dev/null
-script_path=`pwd -P`
+bundle_dir=`pwd -P`/../bundle
 popd > /dev/null
 
 # CD to the bundle directory
-cd $script_path/../bundle
+cd $bundle_dir
+
+# Set the executable path
+exe_path = ~/local/bin
+[ -d $exe_path ] || mkdir -p $exe_path
 
 # YouCompleteMe {{{1
 # Ensure you have Vim 7.3.584+ with python2 support
 # Ensure required packages are installed
 pkgs=(build-essential cmake python-dev)
 for p in ${pkgs[@]}; do
-  dpkg -s $p > /dev/null 2>&1 || sudo apt-get install -y $p
+  dpkg -s $p &> /dev/null || sudo apt-get install -y $p
 done
 
 # Start installation(for Linux)
@@ -27,9 +31,26 @@ pushd YouCompleteMe
 # ./install.sh --clang-completer
 popd
 
+# Ag {{{1
+sudo apt-get install -y automake pkg-config libpcre3-dev zlib1g-dev liblzma-dev
+pushd ~/local
+
+git clone git://github.com/ggreer/the_silver_searcher.git ag
+pushd  ag
+./build.sh
+chmod +x ag
+mv ag $exe_path
+popd
+
+rm -rf ag
+
+popd
+
+# Ctags {{{1
+sudo apt-get install -y exuberant-ctags
+
 # Markdown previewer {{{1
 # Install multimarkdown from source.
-[ -d ~/local/bin ] || mkdir -p ~/local/bin
 pushd ~/local
 git clone --depth 1 https://github.com/fletcher/MultiMarkdown-4.git multimarkdown
 
@@ -39,8 +60,10 @@ touch greg/greg.c # prevent an error which caused the build to fail
 make
 make test-all
 chmod +x multimarkdown
-ln -sf ~/local/multimarkdown/multimarkdown ~/local/bin
+mv multimarkdown $exe_path
 popd
+
+rm -rf multimarkdown
 
 popd
 
