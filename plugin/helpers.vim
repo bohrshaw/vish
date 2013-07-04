@@ -18,12 +18,14 @@ command! Uniq g/\v^(.+)$\_.{-}\zs(^\1$)/d
 " command! Uniq g/^/kl |
 "       \ if search('^' . escape(getline('.'), '~\.*[]^$/') . '$', 'bW') | 'ld | endif
 
-" Editing in a chosen window or tab
-cnoremap %% <C-R>=expand('%:h').'/'<cr>
-nmap <leader>ee :e %%
-nmap <leader>es :sp %%
-nmap <leader>ev :vsp %%
-nmap <leader>et :tabe %%
+" An abbreviation for the current file's relative path
+cabbrev %% <C-R>=expand('%:h').'/'<cr>
+
+" Edit a file in a window or tab
+nmap <leader>ee :e %:h/
+nmap <leader>es :sp %:h/
+nmap <leader>ev :vs %:h/
+nmap <leader>et :tabe %:h/
 
 " Utilities {{{1
 " Display the help window in a new tab

@@ -183,6 +183,9 @@ noremap <C-K> <C-W>W
 " Be consistent with other operators
 nnoremap Y y$
 
+" Very magic search
+nnoremap / /\v
+
 " Make repeating last substitution keep the flags
 nnoremap & :&&<cr>
 xnoremap & :&&<cr>
@@ -205,7 +208,10 @@ noremap zh zH
 
 " Map! {{{2
 " The counterpart of the command 'vsp'
-cnoremap vsb vert sb
+cabbrev vsb vert sb
+
+" Open the command-line window
+set cedit=<C-G>
 
 " Break the undo sequence
 inoremap <c-u> <c-g>u<c-u>
@@ -221,14 +227,14 @@ cnoremap        <C-A> <Home>
 cnoremap   <C-X><C-A> <C-A>
 inoremap <expr> <C-E> col('.')>strlen(getline('.'))?"\<Lt>C-E>":"\<Lt>End>"
 
-" Move the cursor around one WORD
+" Move the cursor around one word
 noremap!        <M-f> <S-Right>
 noremap!        <M-b> <S-Left>
 
 " Move the cursor around one character
 inoremap <expr> <C-F> col('.')>strlen(getline('.'))?"\<Lt>C-F>":"\<Lt>Right>"
-cnoremap <expr> <C-F> getcmdpos()>strlen(getcmdline())?&cedit:"\<Lt>Right>"
-inoremap <expr> <C-B> getline('.')=~'^\s*$'&&col('.')>strlen(getline('.'))?"0\<Lt>C-D>\<Lt>Esc>kJs":"\<Lt>Left>"
+cnoremap        <C-F> <Right>
+inoremap        <C-B> <Left>
 cnoremap        <C-B> <Left>
 
 " Delete one word after the cursor
