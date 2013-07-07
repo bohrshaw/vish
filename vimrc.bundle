@@ -114,7 +114,7 @@ Bundle 'tpope/vim-endwise'
 
 " Completion and snippets {{{2
 " Slogan: A code-completion engine for Vim.
-Bundle 'Valloric/YouCompleteMe'
+Bundle 'bohrshaw/YouCompleteMe'
 
 " Slogan: Perform all your vim insert mode completions with Tab.
 Dundle 'ervandew/supertab'
