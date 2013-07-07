@@ -34,6 +34,12 @@ command! -nargs=? -complete=help H tab h <args>
 " Create a scratch buffer
 command! Scratch e __Scratch__ | set buftype=nofile bufhidden=hide
 
+" Calculate the size of the current buffer
+function BufSize()
+  return line2byte(line('$') + 1) - 1
+endfunction
+command! BufSize :echo BufSize()
+
 " Quite diff mode and close other diff buffers
 noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<cr>
 
