@@ -22,6 +22,8 @@ endfunction
 call SetPath()
 "}}}2
 
+let maplocalleader = ','
+
 set ruler " Show the cursor position
 set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)
 
