@@ -60,7 +60,7 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll)$'
   \ }
 " Specify an external tool to use for listing files.
-if has('win32') || has('win64')
+if has('win32')
   let g:ctrlp_user_command = {
     \ 'types': {
       \ 1: ['.git', '(cd %s && git ls-files && git ls-files -o --exclude-standard)'],
@@ -273,7 +273,7 @@ nnoremap <silent> <leader>gp :Git push<CR>
 Bundle 'tpope/vim-eunuch'
 
 " Slogan: tmux basics.
-if has('unix') && has("signs") && has("clientserver")
+if !has('win32')
   Bundle 'tpope/vim-tbone'
 else
   Dundle 'tpope/vim-tbone'
