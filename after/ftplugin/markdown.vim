@@ -9,7 +9,7 @@ function! s:MarkdownPreview(line1, line2)
   let html_file = "markdown-preview.html"
 
   " Set the path of temporary files
-  if has('win32') || has('win64')
+  if has('win32')
     let md_path = $temp . "\\" . md_file
     let html_path = $temp . "\\" . html_file
   else
@@ -24,7 +24,7 @@ function! s:MarkdownPreview(line1, line2)
   call system("multimarkdown -c " . md_path . " -o " . html_path)
 
   " Open the HTML file in the browser
-  if has('win32') || has('win64')
+  if has('win32')
     call system('"' . html_path . '"')
   elseif has('unix')
     call system("xdg-open " . html_path)

@@ -19,7 +19,7 @@ Bundle 'gmarik/vundle'
 " Slogan: A Vim plugin for Vim plugins.
 Bundle 'tpope/vim-scriptease'
 
-" Session, file, buffer, pane, window, tab {{{1
+" Session, File, Buffer, Pane, Window, Tab {{{1
 " Slogan: Vim session manager.
 Bundle 'bohrshaw/sessionman.vim'
 let g:session_save_on_exit = 0
@@ -60,7 +60,7 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll)$'
   \ }
 " Specify an external tool to use for listing files.
-if has('win32') || has('win64')
+if has('win32')
   let g:ctrlp_user_command = {
     \ 'types': {
       \ 1: ['.git', '(cd %s && git ls-files && git ls-files -o --exclude-standard)'],
@@ -206,6 +206,15 @@ Dundle 'tpope/vim-vividchalk'
 
 " }}}2
 
+" Slogan: A plugin that shows a diff via Vim's sign column.
+Bundle 'mhinz/vim-signify'
+let g:signify_disable_by_default = 1
+let g:signify_vcs_list = ['git']
+let g:signify_sign_delete = '-'
+
+" Slogan: A Vim plugin which shows a git diff in the gutter (sign column).
+Dundle 'airblade/vim-gitgutter'
+
 " Slogan: A Vim plugin for visually displaying indent levels in code.
 Bundle 'nathanaelkane/vim-indent-guides'
 
@@ -264,7 +273,7 @@ nnoremap <silent> <leader>gp :Git push<CR>
 Bundle 'tpope/vim-eunuch'
 
 " Slogan: tmux basics.
-if has('unix') && has("signs") && has("clientserver")
+if !has('win32')
   Bundle 'tpope/vim-tbone'
 else
   Dundle 'tpope/vim-tbone'
@@ -331,7 +340,7 @@ let g:vimwiki_list = [{'path': '~/vimwiki/',
   \ 'syntax': 'markdown',
   \ 'ext': '.md'}]
 
-" Miscellaneous and mixed {{{1
+" Miscellaneous {{{1
 " Slogan: pairs of handy bracket mappings.
 Bundle 'tpope/vim-unimpaired'
 
