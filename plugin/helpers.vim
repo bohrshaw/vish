@@ -31,6 +31,9 @@ nmap <leader>et :tabe %:h/
 " Display the help window in a new tab
 command! -nargs=? -complete=help H tab h <args>
 
+" Execute an external command silently
+command! -nargs=1 -complete=shellcmd Silent call system(<q-args>)
+
 " Create a scratch buffer
 command! Scratch e __Scratch__ | set buftype=nofile bufhidden=hide
 

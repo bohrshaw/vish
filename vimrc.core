@@ -319,7 +319,7 @@ autocmd ColorScheme * hi statusline ctermbg=Gray ctermfg=black guibg=black guifg
 
 " GUI {{{1
 if has('gui_running')
-  if has('win32') || has('win64')
+  if has('win32')
       set guifont=Consolas:h10
       au GUIEnter * simalt ~x " max window
   else
