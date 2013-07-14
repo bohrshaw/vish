@@ -114,6 +114,7 @@ Bundle 'tpope/vim-endwise'
 
 " Completion and snippets {{{2
 " Slogan: A code-completion engine for Vim.
+" Bundle 'Valloric/YouCompleteMe'
 Bundle 'bohrshaw/YouCompleteMe'
 
 " Slogan: Perform all your vim insert mode completions with Tab.
@@ -269,6 +270,10 @@ nnoremap <silent> <leader>gb :Gblame<CR>
 nnoremap <silent> <leader>gl :Glog<CR>
 nnoremap <silent> <leader>gp :Git push<CR>
 
+" Slogan: vimscript for gist.
+" Dependencies: 'mattn/webapi-vim'
+Bundle 'mattn/gist-vim'
+
 " Slogan: helpers for UNIX(Windows).
 Bundle 'tpope/vim-eunuch'
 
@@ -313,9 +318,6 @@ Dundle 'matthias-guenther/hammer.vim'
 " Slogan: vim plugin to interact with the simplenote service.
 Dundle 'mrtazz/simplenote.vim'
 
-" Slogan: vimscript for gist.
-Dundle 'mattn/gist-vim'
-
 " Alternative usages {{{1
 " Task managers {{{2
 " Slogan: Quicktask is a lightweight Vim task management plugin.
@@ -343,6 +345,10 @@ let g:vimwiki_list = [{'path': '~/vimwiki/',
 " Miscellaneous {{{1
 " Slogan: pairs of handy bracket mappings.
 Bundle 'tpope/vim-unimpaired'
+
+" Dependencies {{{1
+" Slogan: vim interface to Web API.
+Bundle 'mattn/webapi-vim'
 
 " }}}1
 
