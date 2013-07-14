@@ -31,7 +31,7 @@ pushd YouCompleteMe
 # ./install.sh --clang-completer
 popd
 
-# Ag {{{1
+# Ag.vim {{{1
 sudo apt-get install -y automake pkg-config libpcre3-dev zlib1g-dev liblzma-dev
 pushd ~/local
 
@@ -46,10 +46,14 @@ rm -rf ag
 
 popd
 
-# Ctags {{{1
+# Gist-vim {{{1
+sudo apt-get install -y curl
+
+# Tarbar {{{1
 sudo apt-get install -y exuberant-ctags
 
-# Markdown previewer {{{1
+# Personal plug-in dependencies {{{1
+# Markdown previewer {{{2
 # Install multimarkdown from source.
 pushd ~/local
 git clone --depth 1 https://github.com/fletcher/MultiMarkdown-4.git multimarkdown
