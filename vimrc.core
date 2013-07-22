@@ -218,7 +218,8 @@ set cedit=<C-G>
 " Break the undo sequence
 inoremap <c-u> <c-g>u<c-u>
 
-" Recall older or more recent command-line from history
+" Recall older or more recent command-line from history, whose beginning matches
+" the current command-line.
 noremap!        <M-p> <Up>
 noremap!        <M-n> <Down>
 

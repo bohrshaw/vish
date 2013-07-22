@@ -115,7 +115,7 @@ Bundle 'tpope/vim-endwise'
 " Completion and snippets {{{2
 " Slogan: A code-completion engine for Vim.
 " Bundle 'Valloric/YouCompleteMe'
-Bundle 'bohrshaw/YouCompleteMe'
+Dundle 'bohrshaw/YouCompleteMe'
 
 " Slogan: Perform all your vim insert mode completions with Tab.
 Dundle 'ervandew/supertab'
@@ -137,16 +137,14 @@ let g:snips_author='Bohr Shaw(pubohr@gmail.com)'
 
 " Slogan: Ultimate auto-completion system for Vim.
 Dundle 'Shougo/neocomplcache'
+Dundle 'Shougo/neocomplete'
 
 " Slogan: neo-snippet plugin contains neocomplcache snippets source.
 Dundle 'Shougo/neosnippet'
 
 " Slogan: snipMate.vim aims to be a concise vim script that implements some of TextMate's snippets features in Vim.
+" Dependencies: 'MarcWeber/vim-addon-mw-utils' 'tomtom/tlib_vim'
 Dundle 'garbas/vim-snipmate'
-  " Dependence: Slogan: vim: interpret a file by function and cache file automatically.
-Dundle 'MarcWeber/vim-addon-mw-utils'
-  " Dependence: Slogan: Some utility functions for VIM.
-Dundle 'tomtom/tlib_vim'
 
 " Slogan: vim-snipmate default snippets.
 Dundle 'honza/vim-snippets'
@@ -349,6 +347,10 @@ Bundle 'tpope/vim-unimpaired'
 " Dependencies {{{1
 " Slogan: vim interface to Web API.
 Bundle 'mattn/webapi-vim'
+" Slogan: Slogan: vim: interpret a file by function and cache file automatically.
+Dundle 'MarcWeber/vim-addon-mw-utils'
+" Slogan: Slogan: Some utility functions for VIM.
+Dundle 'tomtom/tlib_vim'
 
 " }}}1
 
