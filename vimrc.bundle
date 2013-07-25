@@ -242,21 +242,24 @@ Bundle 'tpope/vim-markdown'
 " Slogan: Vim Git runtime files.
 Bundle 'tpope/vim-git'
 
-" Slogan: it's like rails.vim without the rails.
-Bundle 'tpope/vim-rake'
-
 " Slogan: Syntax file for nginx.
 Bundle 'vim-scripts/nginx.vim'
 
 " Slogan: A mirror to the official vimperator's syntax file.
 Bundle 'bohrshaw/vim-vimperator-syntax'
 
+" Slogan: it's like rails.vim without the rails.
+Bundle 'tpope/vim-rake'
+
 " Slogan: Vim plugin for debugging Ruby applications (using ruby-debug-ide gem).
 Dundle 'astashov/vim-ruby-debugger'
 
 " Slogan: Vim/Ruby Configuration Files.
+" This plugin is now shipped by vim and fairly updated.
 Dundle 'vim-ruby/vim-ruby'
-  " Reason: This plugin is now shipped by vim and fairly updated.
+
+" Slogan: My work on integration of Scala into Vim - not a ton here, but useful for me.
+Bundle 'derekwyatt/vim-scala'
 
 " External interaction {{{1
 " Slogan: a Git wrapper so awesome, it should be illegal.
