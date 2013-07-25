@@ -3,6 +3,8 @@
 " Description: vim default version configuration.
 
 " Pathogen and bundle configuration {{{1
+set nocompatible
+
 " A unified runtime path(Unix default)
 set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 
