@@ -318,7 +318,7 @@ autocmd VimEnter * hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=Da
 " Note: In gui, fg is actually background light blue, and bg is actually font color
 autocmd ColorScheme * hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=DarkCyan
 
-" GUI {{{1
+" GUI vs Terminal {{{1
 if has('gui_running')
   if has('win32')
       set guifont=Consolas:h10
@@ -330,8 +330,14 @@ if has('gui_running')
 
   set guioptions=
 
+  color solarized
+
   " Change the default working directory to HOME
   if 0 == argc() | cd $HOME | endif
+else
+  if !has('win32')
+    color solarized
+  endif
 endif
 
 " }}}1
