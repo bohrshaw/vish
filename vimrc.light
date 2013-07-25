@@ -16,6 +16,10 @@ let s:prepends = join(s:paths, ',')
 
 exec 'set rtp^='.fnameescape(s:prepends)
 
+" Bundle Configuration {{{1
+" More convenient to type than 'cr'
+nmap cx <Plug>Coerce
+
 " Source the core vim configuration file {{{1
 silent! source ~/.vimrc.core
 
@@ -28,18 +32,9 @@ set undofile!
 set viminfo=
 set spell!
 
-" Choose a color scheme {{{1
-if has('gui_running')
-    color solarized
-elseif has('unix')
-    color twilight256
-else
-    color vividchalk
+if !has('gui_running') && has('unix')
+  color twilight256
 endif
-
-" Bundle Configuration {{{1
-" More convenient to type than 'cr'
-nmap cx <Plug>Coerce
 
 " }}}1
 

@@ -1,11 +1,8 @@
 " File: vimrc.bundle
 " Author: Bohr Shaw(pubohr@gmail.com)
 " Description: vim bundle configuration.
-" 'Dundle' is for pathogen to disable a plugin.
-" 'Bundle' is for vundle to enable a plugin.
-" 'Bundle' is also for scripts to clone a plugin.
 
-" Plugin management {{{1
+" Bundle management {{{1
 " A buffer local map to open a bundle's URL in the browser
 autocmd BufReadPost {.,}vimrc.bundle nnoremap gB :call netrw#NetrwBrowseX(
   \ substitute(getline('.'),'\v.*\s.(.*).$','http://github.com/\1','g'),0)<cr>
