@@ -3,20 +3,19 @@
 " Description: Various help commands, mappings and functions.
 
 " Editting {{{1
-" Appends the current date and time after the cursor
-nmap <leader>at a<C-R>=strftime("%c")<CR><Esc>
+" Appends the current date or time after the cursor
+nnoremap <leader>at a<C-R>=strftime("%a %b %d %H:%M:%S %Y")<CR><Esc>
 
 " Swap two adjacent keywords
-nnoremap <leader>sw :s/\v(<\k*%#\k*>)(\_.{-})(<\k+>)/\3\2\1/<cr>``
+nnoremap <leader>sw :s/\v(<\k*%#\k*>)(.{-})(<\k+>)/\3\2\1/<cr>``
 
-" Remove adjacent duplicate lines by matching two lines first
-command! UniqAdjacent g/\v^(.*)$\n\1$/d
-"command! UniqAdjacent g/\v%(^\1$\n)@<=(.*)$/d
+" Remove adjacent duplicate lines
+command! UniqAdjacent g/\v^(.*)\n\1$/d
 
 " Remove duplicate non-empty lines
-command! Uniq g/\v^(.+)$\_.{-}\zs(^\1$)/d
-" command! Uniq g/^/kl |
-"       \ if search('^' . escape(getline('.'), '~\.*[]^$/') . '$', 'bW') | 'ld | endif
+command! Uniq g/^./if search('^\V'.escape(getline('.'),'\').'\$', 'bW') | delete | endif <NL> silent! normal! ``
+" This one is far slower than the above
+" command! Uniq g/\v^(.+\n)(.*\n){-}(\1)/d <NL> silent! normal! ``
 
 " An abbreviation for the current file's relative path
 cabbrev %% <C-R>=expand('%:h').'/'<cr>
