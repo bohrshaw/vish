@@ -166,9 +166,6 @@ Bundle 'tpope/vim-abolish'
 " More convenient to type than 'cr'
 nmap cx <Plug>Coerce
 
-" Slogan: Heuristically set buffer options.
-Bundle 'tpope/vim-sleuth'
-
 " Slogan: enable repeating supported plugin maps with ".".
 Bundle 'tpope/vim-repeat'
 
