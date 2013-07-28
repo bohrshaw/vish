@@ -314,10 +314,11 @@ fork { exec("vim -u #{VIMRC_PATH} +Helptags +qall") }
 Process.wait
 
 # Create batch files to launch vim with command line arguments {{{1
-contents_gvim = 'start "GVim" "%~dp0vim73\gvim.exe" -u .vimrc' + "\r\n"
-contents_vim = 'start "Vim" "%~dp0vim73\vim.exe" -u .vimrc' + "\r\n"
-write_file APP_NAME + '/gvim.cmd', contents_gvim
-write_file APP_NAME + '/vim.cmd', contents_vim
+contents_common = 'Set ws=CreateObject("WScript.Shell")' + "\r\n"
+contents_gvim = 'ws.Run "vim73\gvim.exe -u .vimrc", 0, false' + "\r\n"
+contents_vim = 'ws.Run "vim73\vim.exe -u .vimrc", 0, false' + "\r\n"
+write_file APP_NAME + '/gvim.vbs', contents_common + contents_gvim
+write_file APP_NAME + '/vim.vbs', contents_common + contents_vim
 
 # Create a README file {{{1
 contents_readme = <<'HERE'
