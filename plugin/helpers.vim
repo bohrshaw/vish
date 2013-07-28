@@ -2,6 +2,31 @@
 " Author: Bohr Shaw(pubohr@gmail.com)
 " Description: Various help commands, mappings and functions.
 
+" Vim itself {{{1
+" Source vim scripts {{{2
+" Source current line
+nnoremap <leader>S ^"zy$:@z<bar>echo "Current line sourced."<cr>
+
+" Source visual selection even including a line continuation symbol '\'
+vnoremap <leader>S "zy:let @z = substitute(@z, "\n *\\", "", "g")<bar>@z<bar>
+      \echo "Selection sourced."<cr>
+
+" Source a range of lines, default to the current line
+command! -range Source <line1>,<line2>g/./exe getline('.')
+" }}}2
+
+" Display the help window in a new tab
+command! -nargs=? -complete=help H tab h <args>
+
+" Calculate the time spending on executing commands
+function! Time(commands)
+  let time_start = reltime()
+  exe a:commands
+  let time = reltime(time_start)
+  echo 'Total Seconds: ' . split(reltimestr(time))[0]
+endfunction
+command! -nargs=1 -complete=command Time call Time(<q-args>)
+
 " Editting {{{1
 " Appends the current date or time after the cursor
 nnoremap <leader>at a<C-R>=strftime("%a %b %d %H:%M:%S %Y")<CR><Esc>
@@ -27,12 +52,6 @@ nmap <leader>ev :vs %:h/
 nmap <leader>et :tabe %:h/
 
 " Utilities {{{1
-" Display the help window in a new tab
-command! -nargs=? -complete=help H tab h <args>
-
-" Execute an external command silently
-command! -nargs=1 -complete=shellcmd Silent call system(<q-args>)
-
 " Create a scratch buffer
 command! Scratch e __Scratch__ | set buftype=nofile bufhidden=hide
 
@@ -42,35 +61,17 @@ function BufSize()
 endfunction
 command! BufSize :echo BufSize()
 
-" Quite diff mode and close other diff buffers
-noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<cr>
-
 " Create a directory under the current path
 command! -nargs=1 -complete=dir Mkdir :call mkdir(getcwd() . "/" . <q-args>, "p")
 
 " Simple letter encoding with rot13
 command! Rot13 exe "normal ggg?G''"
 
-" Source vim scripts {{{2
-" Source current line
-nnoremap <leader>S ^"zy$:@z<bar>echo "Current line sourced."<cr>
-
-" Source visual selection even including a line continuation symbol '\'
-vnoremap <leader>S "zy:let @z = substitute(@z, "\n *\\", "", "g")<bar>@z<bar>
-      \echo "Selection sourced."<cr>
-
-" Source a range of lines, default to the current line
-command! -range Source <line1>,<line2>g/./exe getline('.')
-
-" Search words via the web {{{2
-nnoremap gG :call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand("<cword>"),0)<cr>
-nnoremap gT :call netrw#NetrwBrowseX("http://translate.google.com.hk/#auto/zh-CN/".expand("<cword>"),0)<cr>
-nnoremap gW :call netrw#NetrwBrowseX("http://en.wikipedia.org/wiki/Special:Search?search=".expand("<cword>"),0)<cr>
-command! -nargs=1 Google call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand("<args>"),0)
-"}}}2
-
 " Calculate words frequency
 command! -range=% WordFrequency <line1>,<line2>call helpers#word_frequency()
+
+" Quite diff mode and close other diff buffers
+noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<cr>
 
 " Diff with another file
 command! -nargs=? -complete=buffer DiffWith call helpers#DiffWith(<f-args>)
@@ -80,6 +81,16 @@ command! BwUnlisted call helpers#bufffer_wipe_unlisted()
 
 " Append a mode line
 command! AppendModeline call helpers#appendModeline()
+
+" External interaction {{{1
+" Execute an external command silently
+command! -nargs=1 -complete=shellcmd Silent call system(<q-args>)
+
+" Search words via the web
+nnoremap gG :call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand("<cword>"),0)<cr>
+nnoremap gT :call netrw#NetrwBrowseX("http://translate.google.com.hk/#auto/zh-CN/".expand("<cword>"),0)<cr>
+nnoremap gW :call netrw#NetrwBrowseX("http://en.wikipedia.org/wiki/Special:Search?search=".expand("<cword>"),0)<cr>
+command! -nargs=1 Google call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand("<args>"),0)
 
 " }}}1
 
