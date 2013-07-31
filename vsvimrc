@@ -11,10 +11,10 @@ set ignorecase
 set smartcase
 
 " Mappings {{{1
-let mapleader="," 
+let mapleader="\"
 
 no ; :
-no \ ;
+no + ;
 
 no Y y$
 

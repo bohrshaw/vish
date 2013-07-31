@@ -154,6 +154,7 @@ Bundle 'godlygeek/tabular'
 
 " Slogan: vim motions on speed.
 Bundle 'bohrshaw/vim-easymotion'
+let g:EasyMotion_leader_key = ','
 
 " Slogan: True Sublime Text style multiple selections for Vim.
 Bundle 'terryma/vim-multiple-cursors'

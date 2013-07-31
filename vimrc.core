@@ -162,13 +162,14 @@ set nolazyredraw
 " set linebreak
 
 " Mappings {{{1
+" See :help index, :help map-which-keys
 " Map {{{2
 " One pressing instead of two
 nnoremap ; :
 xnoremap ; :
 " The substitution to ';'
-nnoremap \| ;
-xnoremap \| ;
+nnoremap + ;
+xnoremap + ;
 " Two pressings instead of three
 nnoremap z; q:
 " Three pressings instead of four
