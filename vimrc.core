@@ -113,6 +113,12 @@ set complete-=i
 " Avoid the problem occurred when you write to symbolic files on windows
 set nowritebackup
 
+" a larger history of commands and search patterns to keep
+set history=50
+
+" Confirm with a dialog instead of display an error message when certain operations fail
+set confirm
+
 " Extended matching with '%'
 runtime macros/matchit.vim
 
