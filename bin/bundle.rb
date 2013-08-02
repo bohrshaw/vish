@@ -38,6 +38,9 @@ end
 
 # Sync all bundles
 def sync_bundles
+  # Make sure the bundle directory exists
+  Dir.mkdir BUNDLE_DIR unless Dir.exist? BUNDLE_DIR
+
   Dir.chdir(BUNDLE_DIR) do
     BUNDLES.each do |bundle|
       bundle_dir = bundle.split('/')[1]
