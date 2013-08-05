@@ -39,7 +39,7 @@ let NERDTreeShowHidden=1
 let NERDTreeShowBookmarks=1
 let NERDTreeQuitOnOpen=1
 let NERDTreeMouseMode=2
-" Disable these mappings <c-j> and <c-k>
+" Disable these mappings: <c-j> and <c-k>
 let g:NERDTreeMapJumpNextSibling=''
 let g:NERDTreeMapJumpPrevSibling=''
 
@@ -109,7 +109,7 @@ Bundle 'tpope/vim-endwise'
 
 " Completion and snippets {{{2
 " Slogan: A code-completion engine for Vim.
-" Bundle 'Valloric/YouCompleteMe'
+Bundle 'Valloric/YouCompleteMe'
 " Bundle 'bohrshaw/YouCompleteMe'
 
 " Slogan: Perform all your vim insert mode completions with Tab.
@@ -158,6 +158,10 @@ let g:EasyMotion_leader_key = ','
 
 " Slogan: True Sublime Text style multiple selections for Vim.
 Bundle 'terryma/vim-multiple-cursors'
+
+" Slogan: Seek makes navigating long lines effortless, acting like f but taking two characters.
+Bundle 'goldfeld/vim-seek'
+let g:seek_enable_jumps = 1
 
 " Slogan: use CTRL-A/CTRL-X to increment dates, times, and more.
 Bundle 'tpope/vim-speeddating'
