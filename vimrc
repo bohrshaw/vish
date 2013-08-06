@@ -19,4 +19,4 @@ source ~/.vim/vimrc.core
 
 " }}}1
 
-" vim:ft=vim tw=78 et sw=2 fdm=marker nowrap:
+" vim:ft=vim tw=78 et sw=2 nowrap fdm=marker fdl=1:
