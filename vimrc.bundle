@@ -15,6 +15,21 @@ let g:vundle_default_git_proto = 'git'
 Bundle 'tpope/vim-scriptease'
 
 " Session, File, Buffer, Pane, Window, Tab {{{1
+" Slogan: A start screen for Vim.
+Bundle 'mhinz/vim-startify'
+let g:startify_session_dir = '~/.vim/tmp/session'
+autocmd FileType startify setlocal nospell
+let g:startify_custom_header = [
+      \ '              __                         ',
+      \ '     __   __ /\_\    ___ ___             ',
+      \ '    /\ \ /\ \\/\ \ /` __` __`\           ',
+      \ '    \ \ \_/ / \ \ \/\ \/\ \/\ \          ',
+      \ '     \ \___/   \ \_\ \_\ \_\ \_\         ',
+      \ '      \/__/     \/_/\/_/\/_/\/_/         ',
+      \ '',
+      \ '',
+      \ ]
+
 " Slogan: Vim session manager.
 Bundle 'bohrshaw/sessionman.vim'
 let g:session_save_on_exit = 0
