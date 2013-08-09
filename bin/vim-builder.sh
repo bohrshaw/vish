@@ -61,9 +61,9 @@ pushd $src_dir
 make
 
 # Install vim
-# sudo make install
+sudo make install
 # Install vim prepackaged with a debian package format
-sudo checkinstall
+# sudo checkinstall
 
 popd
 

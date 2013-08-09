@@ -12,7 +12,7 @@ popd > /dev/null
 cd $bundle_dir
 
 # Set the executable path
-exe_path = ~/local/bin
+exe_path=~/local/bin
 [ -d $exe_path ] || mkdir -p $exe_path
 
 # YouCompleteMe {{{1
