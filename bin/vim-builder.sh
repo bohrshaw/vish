@@ -5,8 +5,7 @@
 # http://vim.wikia.com/wiki/Building_Vim
 #
 # Author: Bohr Shaw (mailto:pubohr@gmail.com)
-# Copyright: Copyright (c) Bohr Shaw
-# License: Distributes under the same terms as Ruby
+# License: Distributes under the same terms as vim
 
 # Ensure all the pre-required packages are installed {{{1
 # Use `apt-get build-dep vim-gnome` to check what packages needed.
