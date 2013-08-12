@@ -22,6 +22,7 @@ endfunction
 call SetPath()
 "}}}2
 
+let mapleader = ' '
 let maplocalleader = ','
 
 set ruler " Show the cursor position
@@ -197,9 +198,6 @@ nnoremap / /\v
 
 " Make repeating last substitution keep the flags
 NXnoremap & :&&<cr>
-
-" Toggle fold
-NXnoremap <space> za
 
 " Wrapped lines goes down/up to next row, rather than next line in file.
 nnoremap j gj
