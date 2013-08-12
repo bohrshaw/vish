@@ -32,7 +32,9 @@ set undofile!
 set viminfo=
 set spell!
 
-if !has('gui_running') && has('unix')
+if has('gui_running')
+  color solarized
+elseif has('unix')
   color twilight256
 endif
 

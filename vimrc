@@ -11,11 +11,13 @@ filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-" Bundle configuration {{{1
+" Configuration {{{1
+source ~/.vim/vimrc.core
 source ~/.vim/vimrc.bundle
 
-" Vim configuration {{{1
-source ~/.vim/vimrc.core
+if has('gui_running') || has('unix')
+  color solarized
+endif
 
 " }}}1
 

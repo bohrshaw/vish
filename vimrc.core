@@ -333,14 +333,8 @@ if has('gui_running')
 
   set guioptions=
 
-  color solarized
-
   " Change the default working directory to HOME
   if 0 == argc() | cd $HOME | endif
-else
-  if !has('win32')
-    color solarized
-  endif
 endif
 
 " }}}1
