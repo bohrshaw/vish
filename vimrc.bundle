@@ -5,7 +5,7 @@
 " Bundle management {{{1
 " A buffer local map to open a bundle's URL in the browser
 autocmd BufReadPost {.,}vimrc.bundle nnoremap gB :call netrw#NetrwBrowseX(
-  \ substitute(getline('.'),'\v.*\s.(.*).$','http://github.com/\1','g'),0)<cr>
+      \ substitute(getline('.'),'\v.*\s.(.*).$','http://github.com/\1','g'),0)<cr>
 
 " Slogan: Vundle, the plug-in manager for Vim.
 Bundle 'gmarik/vundle'
@@ -66,16 +66,16 @@ let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/ctrlp'
 " let g:ctrlp_show_hidden = 1 " scan for dotfiles and dotdirs
 let g:ctrlp_by_filename = 1 " search by file name only
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$'
-  \ }
+      \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+      \ 'file': '\v\.(exe|so|dll)$'
+      \ }
 " Specify an external tool to use for listing files.
 let g:ctrlp_user_command = {
-  \ 'types': {
-    \ 1: ['.git', 'cd %s && git ls-files && git ls-files -o --exclude-standard'],
-    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-  \ },
-  \ }
+      \ 'types': {
+      \ 1: ['.git', 'cd %s && git ls-files && git ls-files -o --exclude-standard'],
+      \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+      \ },
+      \ }
 if has('win32')
   let g:ctrlp_user_command['types'][1][1] = '(' . g:ctrlp_user_command['types'][1][1] . ')'
 endif
@@ -343,8 +343,8 @@ let g:vimwiki_global_ext = 0
 let g:vimwiki_conceallevel = 0
 " Register one or more wikis
 let g:vimwiki_list = [{'path': '~/vimwiki/',
-  \ 'syntax': 'markdown',
-  \ 'ext': '.md'}]
+      \ 'syntax': 'markdown',
+      \ 'ext': '.md'}]
 
 " Miscellaneous {{{1
 " Slogan: pairs of handy bracket mappings.
