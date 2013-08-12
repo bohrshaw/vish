@@ -2,19 +2,24 @@
 " Author: Bohr Shaw(pubohr@gmail.com)
 " Description: vim default version configuration.
 
-" Vundle initialization {{{1
+" Bundles {{{1
 " A unified runtime path(Unix default)
 set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 
+" Setup vundle
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-" Configuration {{{1
-source ~/.vim/vimrc.core
+" Include and configure bundles
 source ~/.vim/vimrc.bundle
 
+" Configuration {{{1
+" Source the fundamental vimrc file
+source ~/.vim/vimrc.core
+
+" Apply a color scheme
 if has('gui_running') || has('unix')
   color solarized
 endif
