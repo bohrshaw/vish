@@ -2,7 +2,6 @@
 " Author: Bohr Shaw(pubohr@gmail.com)
 " Description: vim default version configuration.
 
-" Bundles {{{1
 " A unified runtime path(Unix default)
 set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 
@@ -13,9 +12,9 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 " Include and configure bundles
+let mapleader = ' '
 source ~/.vim/vimrc.bundle
 
-" Configuration {{{1
 " Source the fundamental vimrc file
 source ~/.vim/vimrc.core
 
