@@ -15,7 +15,7 @@ set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/afte
 let g:bundles = ['vim-surround', 'vim-commentary', 'vim-abolish',
       \ 'vim-unimpaired', 'vim-speeddating', 'vim-repeat',
       \ 'vim-easymotion', 'vim-seek',
-      \ 'vim-git', 'vim-colorschemes']
+      \ 'vim-git', 'base16-vim', 'vim-colorschemes']
 
 let s:map_replace = '"~/.vim/bundle/" . v:val'
 " For portable Vim
@@ -37,9 +37,9 @@ set viminfo=
 set spell!
 
 if has('gui_running')
-  color solarized
+  color base16-solarized
 elseif has('unix')
-  color twilight256
+  " color twilight256
 endif
 
 " }}}1

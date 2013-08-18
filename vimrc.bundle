@@ -196,11 +196,14 @@ Bundle 'nelstrom/vim-visual-star-search'
 
 " Visual {{{1
 " Color Schemes {{{2
+" Slogan: Base16 for Vim.
+Bundle 'chriskempson/base16-vim'
+
 " Slogan: one colorscheme pack to rule them all.
 Bundle 'flazz/vim-colorschemes'
 
-" Slogan: Tomorrow Theme for Vim.
-Bundle 'chriskempson/vim-tomorrow-theme'
+" Slogan: Sublime Text 2 Themes (textmate) created by Dayle Rees.
+" Bundle 'daylerees/colour-schemes', { 'rtp': 'vim-themes' }
 
 " Slogan: Make gvim-only colorschemes work transparently in terminal vim.
 " Bundle 'godlygeek/csapprox'
@@ -221,6 +224,7 @@ Bundle 'bling/vim-airline'
 set showmode!
 let g:airline_left_sep=''
 let g:airline_right_sep=''
+let g:airline_paste_symbol = 'P'
 let g:airline_mode_map = {
       \ '__' : '-',
       \ 'n'  : 'N',
