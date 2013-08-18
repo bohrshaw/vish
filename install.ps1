@@ -37,7 +37,7 @@ $vim_dir = Split-Path $script:MyInvocation.MyCommand.Path
 New-Link $vim_dir $HOME\.vim
 
 # Link vimrc files
-$targets = @("vimrc", "vimrc.core", "vimrc.light", "vimrc.bundle", "vsvimrc")
+$targets = @("vimrc", "vimrc.light", "vsvimrc")
 foreach( $target in $targets ) { New-Link "$vim_dir\$target" }
 
 # Sync bundles

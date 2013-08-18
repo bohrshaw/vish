@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 # Install the "VIMISE" distribution.
 
 pushd `dirname $0` > /dev/null
@@ -18,10 +18,7 @@ done
 echo "Link files ..."
 ln -sfn $VIM_DIR $HOME/.vim
 ln -sf $VIM_DIR/vimrc $HOME/.vimrc
-
-ln -sf $VIM_DIR/vimrc.core $HOME/.vimrc.core
 ln -sf $VIM_DIR/vimrc.light $HOME/.vimrc.light
-ln -sf $VIM_DIR/vimrc.bundle $HOME/.vimrc.bundle
 
 echo "Clone bundles ..."
 $VIM_DIR/bin/bundle.rb
