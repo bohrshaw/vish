@@ -14,7 +14,7 @@ BUNDLE_FILE = "#{VIM_DIR}/vimrc.bundle"
 BUNDLES = [] # A bundle's format is like "user/repository"
 File.foreach(BUNDLE_FILE) do |line|
   if line =~ /^\s*Bundle '.*/
-    BUNDLES << line.gsub(/^\s*Bundle '(.*)'$/, '\1').chomp
+    BUNDLES << line.gsub(/^\s*Bundle ['|"](.*?)['|"].*/, '\1').chomp
   end
 end
 
