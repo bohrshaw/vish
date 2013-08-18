@@ -1,11 +1,8 @@
-" File: vimrc.core
+" Description: Vim core configuration.
 " Author: Bohr Shaw(pubohr@gmail.com)
-" Description: vim core configuration.
-" Only basic customisations and corrections are suited to be in this file.
 
 " Options {{{1
 set nocompatible
-filetype plugin indent on " Must be after pathogen or vundle setup
 syntax on
 
 " Set default path of temporary files {{{2
@@ -195,6 +192,7 @@ nnoremap Y y$
 
 " Very magic search
 nnoremap / /\v
+nnoremap ? ?\v
 
 " Make repeating last substitution keep the flags
 NXnoremap & :&&<cr>
@@ -269,11 +267,9 @@ if !has("gui_running")
 endif
 
 " Statusline {{{1
-set laststatus=2 " Always display statusline
+" Starline: A quiet Vim Status line
 
-" '%1' is to switch to User1 highlight
-" '%*' is to switch back to statusline highlight 
-" E.g.: set statusline=%1*%f%*
+set laststatus=2 " Always display statusline
 
 " File modified flag, preview flag, quickfix flag, help flag
 set statusline=%m%w%q%h
@@ -282,7 +278,7 @@ set statusline=%m%w%q%h
 function! Current_directory()
   return substitute(getcwd(), '.*[/|\\]' ,'' ,'')
 endfunction
-set statusline+=%<%t(%{Current_directory()}
+set statusline+=%<%t[%{Current_directory()}
 
 " Custom git branch status
 function! Git_branch_status()
@@ -292,17 +288,19 @@ function! Git_branch_status()
   endif
   return ''
 endfunction
-set statusline+=%{Git_branch_status()})
+set statusline+=%{Git_branch_status()}]
 
 " File modification time
-" set statusline+=\ %{strftime(\"%H:%M\",getftime(expand(\"%:p\")))}
+" set statusline+=,%{strftime(\"%H:%M\",getftime(expand(\"%:p\")))}
+
+" File encoding
+set statusline+=,%{strlen(&fenc)?','.&fenc:''}
 
 " File format
-set statusline+=,%{&ff}
-" File encoding
-set statusline+=%{strlen(&fenc)?','.&fenc:''}
+set statusline+=[%{&ff}]
+
 " File type
-set statusline+=%{strlen(&ft)?','.&ft:''}
+set statusline+=,%{strlen(&ft)?','.&ft:''}
 
 " Software caps lock status
 set statusline+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''}
@@ -312,13 +310,10 @@ set statusline+=%=
 
 " Position and percentage
 set statusline+=%v,%l/%L,%p%%
-" set statusline+=%-1.(%l/%L%)\ %p%%
 
-" Change status line color after vim started, thus prevent color schemes modify the color
+" Apply the status line color after Vim started.
 autocmd VimEnter * hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=DarkCyan
-
-" Reapply the status line color after switching a color scheme
-" Note: In gui, fg is actually background light blue, and bg is actually font color
+" Reapply the status line color after switching a color scheme.
 autocmd ColorScheme * hi statusline ctermbg=Gray ctermfg=black guibg=black guifg=DarkCyan
 
 " GUI vs Terminal {{{1

@@ -121,7 +121,7 @@ Bundle 'tpope/vim-endwise'
 
 " Completion and snippets {{{2
 " Slogan: A code-completion engine for Vim.
-Bundle 'Valloric/YouCompleteMe'
+" Bundle 'Valloric/YouCompleteMe'
 " Bundle 'bohrshaw/YouCompleteMe'
 
 " Slogan: Perform all your vim insert mode completions with Tab.
@@ -200,6 +200,9 @@ Bundle 'nelstrom/vim-visual-star-search'
 " Slogan: one colorscheme pack to rule them all.
 Bundle 'flazz/vim-colorschemes'
 
+" Slogan: Tomorrow Theme for Vim.
+Bundle 'chriskempson/vim-tomorrow-theme'
+
 " Slogan: Make gvim-only colorschemes work transparently in terminal vim.
 " Bundle 'godlygeek/csapprox'
 
@@ -213,6 +216,25 @@ Bundle 'flazz/vim-colorschemes'
 " Bundle 'tpope/vim-vividchalk'
 
 " }}}2
+
+" Slogan: lean & mean statusline for vim that's light as air.
+Bundle 'bling/vim-airline'
+set showmode!
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_mode_map = {
+      \ '__' : '-',
+      \ 'n'  : 'N',
+      \ 'i'  : 'I',
+      \ 'R'  : 'R',
+      \ 'c'  : 'C',
+      \ 'v'  : 'V',
+      \ 'V'  : 'VL',
+      \ '' : 'VB',
+      \ 's'  : 'S',
+      \ 'S'  : 'SL',
+      \ '' : 'SB',
+      \ }
 
 " Slogan: A plugin that shows a diff via Vim's sign column.
 Bundle 'mhinz/vim-signify'
