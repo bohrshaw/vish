@@ -20,7 +20,7 @@ filetype plugin indent on
 
 " Apply a color scheme
 if has('gui_running') || has('unix')
-  color solarized
+  color base16-solarized
 endif
 
 " vim:ft=vim tw=78 et sw=2 nowrap:
