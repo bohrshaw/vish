@@ -2,10 +2,10 @@
 " Author: Bohr Shaw(pubohr@gmail.com)
 
 " Core configuration {{{1
-silent! source ~/.vimrc.core
+silent! source ~/.vim/vimrc.core
 
-" In case files are not linked to HOME
-silent! source <sfile>:h/vimrc.core
+" For portable Vim
+" silent! source <sfile>:h/vimrc.core
 
 filetype plugin indent on
 
@@ -17,7 +17,11 @@ let g:bundles = ['vim-surround', 'vim-commentary', 'vim-abolish',
       \ 'vim-easymotion', 'vim-seek',
       \ 'vim-git', 'vim-colorschemes']
 
-let s:rtp_prepends = join(map(copy(g:bundles), '"~/.vim/bundle/" . v:val'), ',')
+let s:map_replace = '"~/.vim/bundle/" . v:val'
+" For portable Vim
+" let s:map_replace = "'" . expand('<sfile>:h') . "'" . ' . "/bundle/" . v:val'
+
+let s:rtp_prepends = join(map(copy(g:bundles), s:map_replace), ',')
 
 exec 'set rtp^='.fnameescape(s:rtp_prepends)
 
