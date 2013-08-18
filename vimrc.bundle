@@ -1,6 +1,5 @@
-" File: vimrc.bundle
+" Description: Vim bundle configuration.
 " Author: Bohr Shaw(pubohr@gmail.com)
-" Description: vim bundle configuration.
 
 " Bundle management {{{1
 " A buffer local map to open a bundle's URL in the browser
@@ -252,11 +251,11 @@ Bundle 'nathanaelkane/vim-indent-guides'
 " Slogan: Syntax checking hacks for vim.
 Bundle 'scrooloose/syntastic'
 
-" Slogan: zen-coding for vim: http://code.google.com/p/zen-coding
-Bundle 'mattn/zencoding-vim'
+" Slogan: emmet for vim: http://emmet.io
+Bundle 'mattn/emmet-vim'
 " Only enable insert mode functions
-let g:user_zen_mode='i'
-" let g:user_zen_leader_key = '<c-a>'
+let g:user_emmet_mode='i'
+" let g:user_emmet_leader_key = '<c-a>'
 
 " Slogan: runtime files for Haml, Sass, and SCSS .
 Bundle 'tpope/vim-haml'
