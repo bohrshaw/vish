@@ -1,13 +1,13 @@
-" File: vimrc.light
+" Description: Vim configuration for the light weight version.
 " Author: Bohr Shaw(pubohr@gmail.com)
-" Description: vim light weight version configuration.
-" Start up like: vim -u /path/to/vimrc.light
 
-" Source the core vim configuration file {{{1
+" Core configuration {{{1
 silent! source ~/.vimrc.core
 
 " In case files are not linked to HOME
 silent! source <sfile>:h/vimrc.core
+
+filetype plugin indent on
 
 " Pick bundles {{{1
 set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after

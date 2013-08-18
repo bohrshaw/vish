@@ -1,28 +1,26 @@
-" File: vimrc
+" Description: Vim configuration for the default version.
 " Author: Bohr Shaw(pubohr@gmail.com)
-" Description: vim default version configuration.
 
 " A unified runtime path(Unix default)
 set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 
-" Setup vundle
-set nocompatible
+" Core configuration
+source ~/.vim/vimrc.core
+
+" Configure vundle
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 " Include and configure bundles
-let mapleader = ' '
 source ~/.vim/vimrc.bundle
 
-" Source the fundamental vimrc file
-source ~/.vim/vimrc.core
+" Must be after pathogen or vundle setup
+filetype plugin indent on
 
 " Apply a color scheme
 if has('gui_running') || has('unix')
   color solarized
 endif
 
-" }}}1
-
-" vim:ft=vim tw=78 et sw=2 nowrap fdm=marker fdl=1:
+" vim:ft=vim tw=78 et sw=2 nowrap:
