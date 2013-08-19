@@ -3,24 +3,25 @@
 
 " Options {{{1
 set nocompatible
-syntax on
-
-" Set default path of temporary files {{{2
-function! SetPath()
-  let dir_list = { 'swap': 'directory', 'undo': 'undodir', 'backup': 'backupdir' }
-  for [dir_name, set_name] in items(dir_list)
-    let set_value = $HOME . '/.vim/tmp/' . dir_name . "/"
-    if !isdirectory(set_value) | silent! call mkdir(set_value) | endif
-    exec "set " . set_name . "^=" . set_value . "/"
-  endfor
-  set viewdir=~/.vim/tmp/view
-  set viminfo=!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo
-endfunction
-call SetPath()
-"}}}2
 
 let mapleader = ' '
 let maplocalleader = ','
+
+" Set default path of temporary files {{{2
+let dir_list = { 'swap': 'directory', 'undo': 'undodir', 'backup': 'backupdir' }
+for [dir_name, set_name] in items(dir_list)
+  let set_value = $HOME . '/.vim/tmp/' . dir_name
+  if !isdirectory(set_value)
+    silent! call mkdir(set_value)
+  endif
+  exec "set " . set_name . "^=" . set_value
+endfor
+
+" These options accept a string.
+set viewdir=~/.vim/tmp/view
+set viminfo=!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo
+
+"}}}2
 
 set ruler " Show the cursor position
 set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)
@@ -52,20 +53,8 @@ set cryptmethod=blowfish
 " Avoid all the hit-enter prompts caused by file messages
 set shortmess+=filmnrwxoOtTI
 
-" Allow color schemes do bright colors without forcing bold.
-if &t_Co == 8 && $TERM !~# '^linux'
-  set t_Co=16
-endif
-
-if &term == 'xterm' || &term == 'xterm-256color' || &term == 'screen'
-  " Enable 256 colors to stop the CSApprox warning
-  set t_Co=256
-  let g:solarized_termcolors=256
-endif
-
-set visualbell t_vb= " No beep or flash
-" Disable error sounds and error screen flash
-au GUIEnter * set vb t_vb=
+" Disable error beep and screen flash
+au VimEnter * set vb t_vb=
 
 " Backspace through anything in insert mode
 set backspace=indent,eol,start
@@ -330,9 +319,19 @@ if has('gui_running')
 
   " Change the default working directory to HOME
   if 0 == argc() | cd $HOME | endif
+else
+  " Allow color schemes do bright colors without forcing bold.
+  if &t_Co == 8 && $TERM !~# '^linux'
+    set t_Co=16
+  endif
+
+  if &term == 'xterm' || &term == 'xterm-256color' || &term == 'screen'
+    " Enable 256 colors to stop the CSApprox warning
+    set t_Co=256
+    let g:solarized_termcolors=256
+  endif
 endif
 
 " }}}1
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
-
