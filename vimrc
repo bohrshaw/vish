@@ -15,8 +15,8 @@ call vundle#rc()
 " Include and configure bundles
 source ~/.vim/vimrc.bundle
 
-" Must be after pathogen or vundle setup
-filetype plugin indent on
+filetype plugin indent on " must be after pathogen or vundle setup
+syntax on
 
 " Apply a color scheme
 if has('gui_running') || has('unix')
