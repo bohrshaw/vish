@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Install the "VIMISE" distribution.
 
 pushd `dirname $0` > /dev/null
@@ -7,18 +7,26 @@ popd > /dev/null
 
 echo "Start installation ..."
 
-echo "Back up files ..."
+echo "Back up and link files ..."
 today=`date +%Y%m%d`
+backup () {
+  # Backup only non symbol link files.
+  if [ -e $1 ] && [ ! -L $1 ]; then
+    mv $1 $1.$today
+    echo "$1 has been renamed to $1.$today."
+  fi
+}
 
-# Backup old non symbol link files.
-for i in $HOME/.vim $HOME/.vimrc $HOME/.gvimrc; do
-    [ -e $i ] && [ ! -L $i ] && mv $i $i.$today
+# Check whether the repository path is already ~/.vim
+if [[ $VIM_DIR != $HOME'/.vim' ]]; then
+  backup $HOME'/.vim'
+  ln -sfn $VIM_DIR $HOME/.vim
+fi
+
+for f in vimrc gvimrc vimrc.light; do
+  backup $HOME/.$f
+  ln -sf $VIM_DIR/$f $HOME/.$f
 done
-
-echo "Link files ..."
-ln -sfn $VIM_DIR $HOME/.vim
-ln -sf $VIM_DIR/vimrc $HOME/.vimrc
-ln -sf $VIM_DIR/vimrc.light $HOME/.vimrc.light
 
 echo "Clone bundles ..."
 $VIM_DIR/bin/bundle.rb
