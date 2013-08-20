@@ -168,9 +168,12 @@ nnoremap z; q:
 " Three pressings instead of four
 nnoremap @; @:
 
-" Maps for switching between tabs with two fingers
+" Switch tabs quickly
 noremap gj gt
 noremap gk gT
+for n in range(1, 9)
+  exe 'noremap ' . '<A-' . n . '> ' . n . 'gt'
+endfor
 
 " Two maps enough for switching between windows
 noremap <C-J> <C-W>w
