@@ -1,6 +1,5 @@
-" File: helpers.vim
+" Description: Various helpers.
 " Author: Bohr Shaw(pubohr@gmail.com)
-" Description: Various help commands, mappings and functions.
 
 " Vim itself {{{1
 " Source vim scripts {{{2
@@ -27,12 +26,24 @@ function! Time(commands)
 endfunction
 command! -nargs=1 -complete=command Time call Time(<q-args>)
 
-" Editting {{{1
+" Manipulating text {{{1
+" Read only {{{2
+" Calculate words frequency
+command! -range=% WordFrequency <line1>,<line2>call helpers#word_frequency()
+
+" Calculate the size of the current buffer
+command! BufSize :echo line2byte(line('$') + 1) - 1
+
+" }}}2
+
 " Appends the current date or time after the cursor
 nnoremap <leader>at a<C-R>=strftime("%a %b %d %H:%M:%S %Y")<CR><Esc>
 
 " Swap two adjacent keywords
 nnoremap <leader>sw :s/\v(<\k*%#\k*>)(.{-})(<\k+>)/\3\2\1/<cr>``
+
+" Remove trailing white spaces
+command! Trim %s/\s\+$//
 
 " Remove adjacent duplicate lines
 command! UniqAdjacent g/\v^(.*)\n\1$/d
@@ -42,45 +53,36 @@ command! Uniq g/^./if search('^\V'.escape(getline('.'),'\').'\$', 'bW') | delete
 " This one is far slower than the above
 " command! Uniq g/\v^(.+\n)(.*\n){-}(\1)/d <NL> silent! normal! ``
 
-" An abbreviation for the current file's relative path
-cabbrev %% <C-R>=expand('%:h').'/'<cr>
-
-" Edit a file in a window or tab
-nmap <leader>ee :e %:h/
-nmap <leader>es :sp %:h/
-nmap <leader>ev :vs %:h/
-nmap <leader>et :tabe %:h/
-
-" Utilities {{{1
-" Create a scratch buffer
-command! Scratch e __Scratch__ | set buftype=nofile bufhidden=hide
-
-" Calculate the size of the current buffer
-function BufSize()
-  return line2byte(line('$') + 1) - 1
-endfunction
-command! BufSize :echo BufSize()
-
-" Create a directory under the current path
-command! -nargs=1 -complete=dir Mkdir :call mkdir(getcwd() . "/" . <q-args>, "p")
+" Append a mode line
+command! AppendModeline call helpers#appendModeline()
 
 " Simple letter encoding with rot13
 command! Rot13 exe "normal ggg?G''"
 
-" Calculate words frequency
-command! -range=% WordFrequency <line1>,<line2>call helpers#word_frequency()
+" Manipulating others {{{1
+" Edit a file in the same directory of the current file
+NXnoremap <leader>ee :e %:h/
+NXnoremap <leader>es :sp %:h/
+NXnoremap <leader>ev :vs %:h/
+NXnoremap <leader>et :tabe %:h/
 
-" Quite diff mode and close other diff buffers
-noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<cr>
+" Get the relative path of the current file
+cabbrev %% <C-R>=expand('%:h').'/'<cr>
+
+" Create a scratch buffer
+command! Scratch e __Scratch__ | set buftype=nofile bufhidden=hide
+
+" Create a directory under the current path
+command! -nargs=1 -complete=dir Mkdir :call mkdir(getcwd() . "/" . <q-args>, "p")
 
 " Diff with another file
 command! -nargs=? -complete=buffer DiffWith call helpers#DiffWith(<f-args>)
 
+" Quit diff mode and close other diff buffers
+noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<cr>
+
 " Wipe out all unlisted buffers
 command! BwUnlisted call helpers#bufffer_wipe_unlisted()
-
-" Append a mode line
-command! AppendModeline call helpers#appendModeline()
 
 " External interaction {{{1
 " Execute an external command silently
