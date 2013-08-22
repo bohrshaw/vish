@@ -32,6 +32,6 @@ echo "Clone bundles ..."
 $VIM_DIR/bin/bundle.rb
 
 echo "Generate help tags ..."
-vim +Helptags +qall
+vim +BundleDocs +qall
 
 echo "Installation done."
