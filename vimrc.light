@@ -40,6 +40,7 @@ set spell!
 if has('gui_running')
   color base16-solarized
 elseif has('unix')
+  color terminater
   " color twilight256
 endif
 
