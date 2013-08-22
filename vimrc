@@ -19,8 +19,10 @@ filetype plugin indent on " must be after pathogen or vundle setup
 syntax on
 
 " Apply a color scheme
-if has('gui_running') || has('unix')
+if has('gui_running')
   color base16-solarized
+elseif has('unix')
+  color terminater
 endif
 
 " vim:ft=vim tw=78 et sw=2 nowrap:
