@@ -221,11 +221,13 @@ Bundle 'flazz/vim-colorschemes'
 
 " Slogan: lean & mean statusline for vim that's light as air.
 Bundle 'bling/vim-airline'
-set showmode!
-let g:airline_left_sep=''
-let g:airline_right_sep=''
+" Remove separators, the different colors already make it easy to distinguish.
+let [g:airline_left_sep, g:airline_right_sep] = ['', '']
 let g:airline_paste_symbol = 'P'
-let g:airline_section_z = '%v %l/%L %p%%'
+let g:airline_section_z = '%v %l/%L %p%%' "right side section
+let g:airline_detect_whitespace=0 "disable error whitespace detection
+set showmode! "don't show modes indicators below the status line
+" Use shorter modes indicators
 let g:airline_mode_map = {
       \ '__' : '-',
       \ 'n'  : 'N',

@@ -121,7 +121,7 @@ end
 def clone_bundle(bundle, dest_dir = nil)
   bundle_dir = bundle.split('/')[1]
   dest_dir ||= bundle_dir
-  puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Clone #{bundle_dir.capitalize}"
+  puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Clone #{bundle_dir}"
   puts `git clone --depth 1 #{get_url bundle} #{dest_dir}`
   Dir.chdir(dest_dir) { update_submodules }
 end

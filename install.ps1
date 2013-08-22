@@ -44,6 +44,6 @@ foreach( $target in $targets ) { New-Link "$vim_dir\$target" }
 Invoke-Expression "$vim_dir\bin\bundle.rb"
 
 # Generate help tags
-Invoke-Expression "vim +Helptags +qall"
+Invoke-Expression "vim +BundleDocs +qall"
 
 # vim:tw=80 ts=4 sw=4 et fdm=marker:

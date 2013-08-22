@@ -202,8 +202,11 @@ noremap zl zL
 noremap zh zH
 
 " Map! {{{2
-" The counterpart of the command 'vsp'
+" Split a buffer vertically
 cabbrev vsb vert sb
+
+" Edit a file in a new tab
+cabbrev te tabe
 
 " Open the command-line window
 set cedit=<C-G>
