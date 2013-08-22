@@ -23,7 +23,6 @@ foreach {
 }
 popd
 
-# Note: The current path is the directory of Vim's source.
 $vim_src = "vim-src" # the directory name of Vim's source
 $python_src = "C:\Python27"
 $python3_src = "C:\Python33"
@@ -33,11 +32,11 @@ $lua_src = [System.IO.Path]::GetFullPath((Join-Path (pwd) "..\luajit-src\src"))
 # Prepare the source {{{1
 # Vim
 if((git config --get-regex remote.*url) -match '.*b4winckler/vim.*') {
-  nmake clean;
+  nmake clean
   git reset --hard; git clean -dxfq
   git pull
 }else {
-  git clone git://github.com/b4winckler/vim.git $vim_src
+  git clone --depth 1 git://github.com/b4winckler/vim.git $vim_src
   cd $vim_src
 }
 
