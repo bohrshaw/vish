@@ -4,8 +4,10 @@
 " License:
 "
 " Note:
-" See highlighting groups for various occasions:
-" so $VIMRUNTIME/syntax/hitest.vim
+" To see available terminal colors visually:
+" Run 'bin/color-show.sh'
+" To see highlighting groups for various occasions:
+" :so $VIMRUNTIME/syntax/hitest.vim
 
 " Colorscheme initialization {{{1
 hi clear
