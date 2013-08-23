@@ -225,26 +225,23 @@ Bundle 'bling/vim-airline'
 let [g:airline_left_sep, g:airline_right_sep] = ['', '']
 let g:airline_paste_symbol = 'P'
 let g:airline_section_z = '%v %l/%L %p%%' "right side section
-let g:airline_detect_whitespace=0 "disable error whitespace detection
 set showmode! "don't show modes indicators below the status line
 " Use shorter modes indicators
-let g:airline_mode_map = {
-      \ '__' : '-',
-      \ 'n'  : 'N',
-      \ 'i'  : 'I',
-      \ 'R'  : 'R',
-      \ 'c'  : 'C',
-      \ 'v'  : 'V',
-      \ 'V'  : 'VL',
-      \ '' : 'VB',
-      \ 's'  : 'S',
-      \ 'S'  : 'SL',
-      \ '' : 'SB',
-      \ }
+let g:airline_mode_map = { '__': '-', 'n': 'N', 'i': 'I', 'R': 'R', 'c': 'C',
+      \ 'v': 'V', 'V': 'VL', '': 'VB', 's': 'S', 'S': 'SL', '': 'SB'}
+" Extensions
+" Disable showing a summary of changed hunks under source control.
+" let g:airline#extensions#hunks#enabled = 0
+" Showing only non-zero hunks.
+let g:airline#extensions#hunks#non_zero_only = 1
+" Disable detection of whitespace errors.
+let g:airline#extensions#whitespace#enabled = 0
+" Disable tagbar integration.
+" let g:airline#extensions#tagbar#enabled = 0
 
 " Slogan: A plugin that shows a diff via Vim's sign column.
 Bundle 'mhinz/vim-signify'
-let g:signify_disable_by_default = 1
+" let g:signify_disable_by_default = 1
 let g:signify_vcs_list = ['git']
 let g:signify_sign_delete = '-'
 
