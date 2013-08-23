@@ -158,4 +158,7 @@ end
 # Execute
 sync_bundles
 
+# Generate help tags
+%x{vim +BundleDocs +qall < `tty` > `tty`}
+
 # vim:fdm=marker:
