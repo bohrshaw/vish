@@ -1,10 +1,16 @@
 " Description: Vim bundle configuration.
-" Author: Bohr Shaw(pubohr@gmail.com)
+" Author: Bohr Shaw <pubohr@gmail.com>
 
 " Bundle management {{{1
-" A buffer local map to open a bundle's URL in the browser
-autocmd BufReadPost {.,}vimrc.bundle nnoremap gB :call netrw#NetrwBrowseX(
-      \ substitute(getline('.'),'\v.*\s.(.*).$','http://github.com/\1','g'),0)<cr>
+set nocompatible
+
+" A unified runtime path(Unix default)
+set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+
+" Configure vundle
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
 
 " Slogan: Vundle, the plug-in manager for Vim.
 Bundle 'gmarik/vundle'
@@ -12,6 +18,10 @@ let g:vundle_default_git_proto = 'git'
 
 " Slogan: A Vim plugin for Vim plugins.
 Bundle 'tpope/vim-scriptease'
+
+" A buffer local map to open a bundle's URL in the browser
+autocmd BufReadPost {.,}vimrc.bundle nnoremap gB :call netrw#NetrwBrowseX(
+      \ substitute(getline('.'),'\v.*\s.(.*).$','http://github.com/\1','g'),0)<cr>
 
 " Session, File, Buffer, Pane, Window, Tab {{{1
 " Slogan: A start screen for Vim.

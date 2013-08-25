@@ -1,18 +1,10 @@
 " Description: Vim configuration for the default version.
-" Author: Bohr Shaw(pubohr@gmail.com)
-
-" A unified runtime path(Unix default)
-set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+" Author: Bohr Shaw <pubohr@gmail.com>
 
 " Core configuration
 source ~/.vim/vimrc.core
 
-" Configure vundle
-filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-" Include and configure bundles
+" Bundle configuration
 source ~/.vim/vimrc.bundle
 
 filetype plugin indent on " must be after pathogen or vundle setup

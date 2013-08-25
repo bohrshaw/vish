@@ -159,6 +159,6 @@ end
 sync_bundles
 
 # Generate help tags
-%x{vim +BundleDocs +qall < `tty` > `tty`}
+`vim -esu ~/.vim/vimrc.bundle --noplugin +BundleDocs +qa`
 
 # vim:fdm=marker:
