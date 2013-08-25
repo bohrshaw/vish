@@ -94,6 +94,4 @@ nnoremap gT :call netrw#NetrwBrowseX("http://translate.google.com.hk/#auto/zh-CN
 nnoremap gW :call netrw#NetrwBrowseX("http://en.wikipedia.org/wiki/Special:Search?search=".expand("<cword>"),0)<cr>
 command! -nargs=1 Google call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand("<args>"),0)
 
-" }}}1
-
 " vim:tw=78 ts=2 sw=2 et fdm=marker:

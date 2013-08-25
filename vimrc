@@ -7,10 +7,10 @@ source ~/.vim/vimrc.core
 " Bundle configuration
 source ~/.vim/vimrc.bundle
 
+" Post configuration
 filetype plugin indent on " must be after pathogen or vundle setup
 syntax on
 
-" Apply a color scheme
 if has('gui_running')
   color base16-solarized
 elseif has('unix')

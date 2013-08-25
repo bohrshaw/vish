@@ -252,7 +252,7 @@ let g:airline#extensions#whitespace#enabled = 0
 " let g:airline#extensions#tagbar#enabled = 0
 
 " Slogan: A plugin that shows a diff via Vim's sign column.
-Bundle 'mhinz/vim-signify'
+" Bundle 'mhinz/vim-signify'
 " let g:signify_disable_by_default = 1
 let g:signify_vcs_list = ['git']
 let g:signify_sign_delete = '-'
@@ -394,7 +394,5 @@ Bundle 'mattn/webapi-vim'
 " Bundle 'MarcWeber/vim-addon-mw-utils'
 " Slogan: Slogan: Some utility functions for VIM.
 " Bundle 'tomtom/tlib_vim'
-
-" }}}1
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:

@@ -338,6 +338,4 @@ write_file APP_NAME + '/README.txt', contents_readme
 `tar czf Vimind.tar.gz #{APP_NAME}`
 # `7z a Vimind.7z #{APP_NAME}`
 
-# }}}1
-
 # vim:tw=0 ts=2 sw=2 et fdm=marker:

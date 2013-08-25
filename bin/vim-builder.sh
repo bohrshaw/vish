@@ -73,6 +73,4 @@ sudo update-alternatives --set editor /usr/local/bin/vim
 sudo update-alternatives --install /usr/bin/vi vi /usr/local/bin/vim 1
 sudo update-alternatives --set vi /usr/local/bin/vim
 
-# }}}1
-
 # vim:tw=0 ts=2 sw=2 et fdm=marker:

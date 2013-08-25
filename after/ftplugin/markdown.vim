@@ -35,6 +35,4 @@ endfunction
 
 command! -range=% MarkdownPreview call s:MarkdownPreview(<line1>, <line2>)
 
-" }}}1
-
 " vim:tw=70 ts=2 sw=2 et fdm=marker:
