@@ -149,7 +149,7 @@ let g:UltiSnipsSnippetsDir="~/.vim/snippet"
 " Don't check and reload snippets when a snippet expand is triggered
 " let g:UltiSnipsDoHash=0
 " Specify the default author for created snippets
-let g:snips_author='Bohr Shaw(pubohr@gmail.com)'
+let g:snips_author='Bohr Shaw <pubohr@gmail.com>'
 
 " Slogan: Ultimate auto-completion system for Vim.
 " Bundle 'Shougo/neocomplcache'

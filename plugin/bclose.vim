@@ -1,5 +1,5 @@
 " File: bclose.vim
-" Author: Bohr Shaw(pubohr@gmail.com)
+" Author: Bohr Shaw <pubohr@gmail.com>
 " Description: Delete a buffer without closing its window.
 
 " http://vim.wikia.com/wiki/Deleting_a_buffer_without_closing_the_window

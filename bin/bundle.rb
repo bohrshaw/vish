@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-# Author: Bohr Shaw(pubohr@gmail.com)
+# Author: Bohr Shaw <pubohr@gmail.com>
 # Description: Sync vim bundles.
 
 # Settings {{{

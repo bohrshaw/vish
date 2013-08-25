@@ -1,5 +1,5 @@
 " Description: Vim configuration for the light weight version.
-" Author: Bohr Shaw(pubohr@gmail.com)
+" Author: Bohr Shaw <pubohr@gmail.com>
 
 " Core configuration {{{1
 silent! source ~/.vim/vimrc.core

@@ -4,7 +4,7 @@
 # https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source
 # http://vim.wikia.com/wiki/Building_Vim
 #
-# Author: Bohr Shaw (mailto:pubohr@gmail.com)
+# Author: Bohr Shaw <pubohr@gmail.com>
 # License: Distributes under the same terms as vim
 
 # Pre-building {{{1
@@ -50,7 +50,7 @@ pushd $src_dir
   --enable-multibyte \
   --enable-cscope \
   --disable-netbeans \
-  --with-compiledby="Bohr Shaw(pubohr@gmail.com)" \
+  --with-compiledby="Bohr Shaw <pubohr@gmail.com>" \
   --quiet # do not print 'checking...' messages
 # --with-python-config-dir= \
   # --with-python3-config-dir= \

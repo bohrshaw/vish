@@ -1,5 +1,5 @@
 " Description: Various helpers.
-" Author: Bohr Shaw(pubohr@gmail.com)
+" Author: Bohr Shaw <pubohr@gmail.com>
 
 " Vim itself {{{1
 " Source vim scripts {{{2
