@@ -138,9 +138,11 @@ Bundle 'tpope/vim-endwise'
 
 " Slogan: This is an implementation of TextMates Snippets for the Vim Text Editor. It has all features of TextMates Snippets and then some.
 Bundle 'SirVer/ultisnips'
-" Resolve the conflict with YouCompleteMe
+" The default key <Tab> is mapped to something else.
 let g:UltiSnipsExpandTrigger='<C-J>'
-" The default <C-Tab> don't work in terminal
+" The default key <C-K> is used to enter a digraph. Assign a non-function key to disable it.
+let g:UltiSnipsJumpBackwardTrigger='<C-0>'
+" The default <C-Tab> doesn't work in terminal.
 let g:UltiSnipsListSnippets='<C-Q>'
 " Snippets search path(must be under vim's runtime path)
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippet"]
