@@ -10,7 +10,7 @@ silent! source ~/.vim/vimrc.core
 filetype plugin indent on
 syntax on
 
-" Pick bundles {{{1
+" Bundle configuration {{{1
 set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 
 let g:bundles = ['vim-surround', 'vim-commentary', 'vim-abolish',
@@ -26,12 +26,12 @@ let s:rtp_prepends = join(map(copy(g:bundles), s:map_replace), ',')
 
 exec 'set rtp^='.fnameescape(s:rtp_prepends)
 
-" Bundle Configuration {{{2
+" Configuration
 nmap cx <Plug>Coerce
-let g:EasyMotion_leader_key = ','
+let g:EasyMotion_leader_key = '\'
 let g:seek_enable_jumps = 1
 
-" Make it lighter {{{1
+" Post configuration {{{1
 set swapfile!
 set undofile!
 set viminfo=
@@ -43,7 +43,5 @@ elseif has('unix')
   color terminater
   " color twilight256
 endif
-
-" }}}1
 
 " vim:ft=vim tw=78 et sw=2 fdm=marker nowrap:

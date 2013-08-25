@@ -181,5 +181,4 @@ call <sid>hi("markdownHeadingDelimiter",  s:t0D, "", "")
 call <sid>hi("gitCommitOverflow",  s:t08, "", "")
 call <sid>hi("gitCommitSummary",   s:t0B, "", "")
 
-" __Footer__ {{{1
 " vim:fdm=marker:

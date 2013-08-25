@@ -71,6 +71,4 @@ rm -rf multimarkdown
 
 popd
 
-# }}}1
-
 # vim:tw=0 ts=2 sw=2 et fdm=marker:

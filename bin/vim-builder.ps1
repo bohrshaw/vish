@@ -87,6 +87,5 @@ mv runtime vim\vim74
 
 mv vim\vim74 runtime
 rmdir vim
-# }}}1
 
 # vim:tw=0 ts=2 sw=2 et fdm=marker:
