@@ -1,5 +1,5 @@
 " File: helpers.vim
-" Author: Bohr Shaw(pubohr@gmail.com)
+" Author: Bohr Shaw <pubohr@gmail.com>
 " Description: Small powerful tolls.
 
 " Calculate words frequency {{{1

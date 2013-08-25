@@ -1,5 +1,5 @@
 " Description: Vim core configuration.
-" Author: Bohr Shaw(pubohr@gmail.com)
+" Author: Bohr Shaw <pubohr@gmail.com>
 
 " Options {{{1
 set nocompatible

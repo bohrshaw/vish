@@ -1,5 +1,5 @@
 " File: winman.vim
-" Author: Bohr Shaw(pubohr@gmail.com)
+" Author: Bohr Shaw <pubohr@gmail.com>
 " Description: manage vim windows.
 
 " Using effective window management to navigate and remember your current works
