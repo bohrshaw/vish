@@ -1,16 +1,9 @@
 " Description: Vim configuration for the light weight version.
 " Author: Bohr Shaw <pubohr@gmail.com>
 
-" Core configuration {{{1
-silent! source ~/.vim/vimrc.core
-
-" For portable Vim
-" silent! source <sfile>:h/vimrc.core
-
-filetype plugin indent on
-syntax on
-
 " Bundle configuration {{{1
+set nocompatible
+
 set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 
 let g:bundles = ['vim-surround', 'vim-commentary', 'vim-abolish',
@@ -30,6 +23,12 @@ exec 'set rtp^='.fnameescape(s:rtp_prepends)
 nmap cx <Plug>Coerce
 let g:EasyMotion_leader_key = '\'
 let g:seek_enable_jumps = 1
+
+" Core configuration {{{1
+silent! source ~/.vim/vimrc.core
+
+" For portable Vim
+" silent! source <sfile>:h/vimrc.core
 
 " Post configuration {{{1
 set swapfile!

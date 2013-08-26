@@ -41,7 +41,7 @@ $targets = @("vimrc", "vimrc.light", "vsvimrc")
 foreach( $target in $targets ) { New-Link "$vim_dir\$target" }
 
 # Sync bundles
-Invoke-Expression "$vim_dir\bin\bundle.rb"
+Invoke-Expression "ruby $vim_dir\bin\bundle.rb"
 
 # Generate help tags
 Invoke-Expression "vim -esu ~/.vim/vimrc.bundle --noplugin +BundleDocs +qa"
