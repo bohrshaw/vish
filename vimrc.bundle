@@ -3,6 +3,8 @@
 
 " Bundle management {{{1
 set nocompatible
+let mapleader = ' '
+let maplocalleader = ','
 
 " A unified runtime path(Unix default)
 set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
