@@ -59,7 +59,6 @@ nmake -f Make_mvc.mak `
   CPUNR=i686 WINVER=0x0600 `
   FEATURES=BIG `
   MBYTE=yes IME=yes `
-  PYTHON=$python_src DYNAMIC_PYTHON=yes PYTHON_VER=27 `
   PYTHON3=$python3_src DYNAMIC_PYTHON3=yes PYTHON3_VER=33
 
 # Gvim
@@ -69,11 +68,11 @@ nmake -f Make_mvc.mak `
   USERDOMAIN=gmail.com `
   CPUNR=i686 WINVER=0x0600 `
   FEATURES=HUGE `
-  GUI=yes OLE=yes MBYTE=yes IME=yes `
-  PYTHON=$python_src DYNAMIC_PYTHON=yes PYTHON_VER=27 `
+  GUI=yes MBYTE=yes IME=yes `
   PYTHON3=$python3_src DYNAMIC_PYTHON3=yes PYTHON3_VER=33 `
   RUBY=$ruby_src DYNAMIC_RUBY=yes RUBY_VER=20 RUBY_VER_LONG=2.0.0 RUBY_API_VER=200 RUBY_PLATFORM=i386-mswin32_110 `
   LUA=$lua_src DYNAMIC_LUA=yes LUA_VER=51
+  # PYTHON=$python_src DYNAMIC_PYTHON=yes PYTHON_VER=27 `
 
 popd
 
