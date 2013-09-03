@@ -36,6 +36,9 @@ command! BufSize :echo line2byte(line('$') + 1) - 1
 
 " }}}2
 
+" Switch case of the current word
+noremap <A-u> mzg~iw`z
+
 " Appends the current date or time after the cursor
 nnoremap <leader>at a<C-R>=strftime("%a %b %d %H:%M:%S %Y")<CR><Esc>
 
