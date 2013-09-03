@@ -2,7 +2,9 @@
 " Author: Bohr Shaw <pubohr@gmail.com>
 
 " Bundle management {{{1
+" Essential options to make the following settings work properly.
 set nocompatible
+set encoding=utf-8 " Allow mappings start with the ALT key work properly.
 let mapleader = ' '
 let maplocalleader = ','
 
