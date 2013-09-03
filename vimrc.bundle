@@ -65,9 +65,6 @@ let NERDTreeShowHidden=1
 let NERDTreeShowBookmarks=1
 let NERDTreeQuitOnOpen=1
 let NERDTreeMouseMode=2
-" Disable these mappings: <c-j> and <c-k>
-let g:NERDTreeMapJumpNextSibling=''
-let g:NERDTreeMapJumpPrevSibling=''
 
 " Slogan: Fuzzy file, buffer, mru, tag, etc finder.
 Bundle 'kien/ctrlp.vim'
@@ -204,6 +201,9 @@ Bundle 'tpope/vim-characterize'
 
 " Slogan: Start a * or # search from a visual block.
 Bundle 'nelstrom/vim-visual-star-search'
+
+" Slogan: A Vim plugin to move function arguments (and other delimited-by-something items) left and right.
+" Bundle 'AndrewRadev/sideways.vim'
 
 " Slogan: Maintains a history of previous yanks, changes and deletes.
 " Bundle 'vim-scripts/yankring.vim'
