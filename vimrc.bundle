@@ -53,7 +53,7 @@ Bundle 'tpope/vim-obsession'
 
 " Slogan: a tree explorer plugin for vim.
 Bundle 'scrooloose/nerdtree'
-noremap <leader>tt :NERDTreeToggle<CR>
+noremap <A-t> :NERDTreeToggle<CR>
 " Goto the current working directory
 noremap <leader>td :NERDTree<CR>
 " Goto the current editing file
@@ -68,6 +68,7 @@ let NERDTreeMouseMode=2
 
 " Slogan: Fuzzy file, buffer, mru, tag, etc finder.
 Bundle 'kien/ctrlp.vim'
+let g:ctrlp_map = '<A-p>'
 let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/ctrlp'
 " Set the mode to determine the root searching directory.
 " let g:ctrlp_working_path_mode = 'ra'
