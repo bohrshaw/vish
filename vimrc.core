@@ -172,15 +172,15 @@ nnoremap z; q:
 nnoremap @; @:
 
 " Switch tabs quickly
-noremap <A-l> gt
-noremap <A-h> gT
+noremap gl gt
+noremap gh gT
 for n in range(1, 9)
   exe 'noremap ' . '<A-' . n . '> ' . n . 'gt'
 endfor
 
 " Two maps enough for switching between windows
-noremap <A-j> <C-W>w
-noremap <A-k> <C-W>W
+noremap gj <C-W>w
+noremap gk <C-W>W
 
 " Be consistent with other operators
 nnoremap Y y$
@@ -252,16 +252,21 @@ noremap! <expr> <SID>transposition getcmdpos()>strlen(getcmdline())?"\<Left>":ge
 noremap! <expr> <SID>transpose "\<BS>\<Right>".matchstr(getcmdline()[0 : getcmdpos()-2], '.$')
 cmap   <script> <C-T> <SID>transposition<SID>transpose
 
-" Resolve some problems related to the terminal
+" }}}2
+" Remap the mappings with the ALT key in the terminal.
 if !has("gui_running")
   silent! exe "set <S-Left>=\<Esc>b"
   silent! exe "set <S-Right>=\<Esc>f"
   silent! exe "set <F31>=\<Esc>d"
-  silent! exe "set <F32>=\<Esc>n"
-  silent! exe "set <F33>=\<Esc>p"
   map! <F31> <M-d>
+  silent! exe "set <F32>=\<Esc>n"
   map! <F32> <M-n>
+  silent! exe "set <F33>=\<Esc>p"
   map! <F33> <M-p>
+  silent! exe "set <F34>=\<Esc>u"
+  nmap <F34> <M-u>
+  silent! exe "set <F35>=\<Esc>t"
+  nmap <F35> <M-t>
 endif
 
 " Statusline {{{1
