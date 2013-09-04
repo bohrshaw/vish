@@ -48,13 +48,13 @@ nnoremap <leader>sw :s/\v(<\k*%#\k*>)(.{-})(<\k+>)/\3\2\1/<cr>``
 " Remove trailing white spaces
 command! Trim %s/\s\+$//
 
-" Remove adjacent duplicate lines
-command! UniqAdjacent g/\v^(.*)\n\1$/d
+" Remove duplicate, consecutive lines
+command! UniqConsecutive g/\v^(.*)\n\1$/d
 
-" Remove duplicate non-empty lines
-command! Uniq g/^./if search('^\V'.escape(getline('.'),'\').'\$', 'bW') | delete | endif <NL> silent! normal! ``
+" Remove duplicate, nonconsecutive and nonempty lines
+command! UniqNonconsecutiveNonempty g/^./if search('^\V'.escape(getline('.'),'\').'\$', 'bW') | delete | endif <NL> silent! normal! ``
 " This one is far slower than the above
-" command! Uniq g/\v^(.+\n)(.*\n){-}(\1)/d <NL> silent! normal! ``
+" command! UniqNonconsecutiveNonempty g/\v^(.+)$\_.{-}^\1$/d <NL> silent! normal! ``
 
 " Append a mode line
 command! AppendModeline call helpers#appendModeline()
