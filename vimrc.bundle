@@ -311,6 +311,9 @@ Bundle 'tpope/vim-rake'
 " Slogan: My work on integration of Scala into Vim - not a ton here, but useful for me.
 Bundle 'derekwyatt/vim-scala'
 
+" Slogan: CoffeeScript support for vim.
+Bundle 'kchmck/vim-coffee-script'
+
 " External interaction {{{1
 " Slogan: a Git wrapper so awesome, it should be illegal.
 Bundle 'tpope/vim-fugitive'
