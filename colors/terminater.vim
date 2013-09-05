@@ -38,7 +38,7 @@ let s:t0F = "14"
 let s:darklight = 235
 
 " Highlighting function {{{1
-fun <sid>hi(group, ctermfg, ctermbg, attr)
+fun! <sid>hi(group, ctermfg, ctermbg, attr)
   if a:ctermfg != ""
     exec "hi " . a:group . " ctermfg=" . a:ctermfg
   endif
@@ -120,7 +120,7 @@ call <sid>hi("String",       s:t0B, "", "")
 call <sid>hi("Structure",    s:t0E, "", "")
 call <sid>hi("Tag",          s:t0A, "", "")
 call <sid>hi("Todo",         s:t0A, "", "")
-call <sid>hi("Type",         s:t09, "", "none")
+" call <sid>hi("Type",         s:t09, "", "none")
 call <sid>hi("Typedef",      s:t0A, "", "")
 
 " Spelling highlighting {{{1
@@ -135,10 +135,11 @@ call <sid>hi("DiffChange",   s:t0D, s:darklight, "")
 call <sid>hi("DiffDelete",   s:t08, s:darklight, "")
 call <sid>hi("DiffText",     s:t0D, "", "")
 call <sid>hi("DiffAdded",    s:t0B, "", "")
-call <sid>hi("DiffFile",     s:t08, "", "")
-call <sid>hi("DiffNewFile",  s:t0B, "", "")
+call <sid>hi("DiffFile",     "none", "", "")
+" call <sid>hi("DiffNewFile",  s:t0B, "", "")
 call <sid>hi("DiffLine",     s:t0D, "", "")
 call <sid>hi("DiffRemoved",  s:t08, "", "")
+hi link diffSubname none
 
 " Ruby highlighting {{{1
 call <sid>hi("rubyAttribute",               s:t0D, "", "")
@@ -178,7 +179,7 @@ call <sid>hi("markdownCodeBlock",         s:t0B, "", "")
 call <sid>hi("markdownHeadingDelimiter",  s:t0D, "", "")
 
 " Git highlighting {{{1
-call <sid>hi("gitCommitOverflow",  s:t08, "", "")
-call <sid>hi("gitCommitSummary",   s:t0B, "", "")
+" call <sid>hi("gitcommitOverflow",  s:t08, "", "")
+" call <sid>hi("gitcommitSummary",   s:t0B, "", "")
 
 " vim:fdm=marker:
