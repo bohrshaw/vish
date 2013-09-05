@@ -49,7 +49,8 @@ nnoremap <leader>sw :s/\v(<\k*%#\k*>)(.{-})(<\k+>)/\3\2\1/<cr>``
 command! Trim %s/\s\+$//
 
 " Remove duplicate, consecutive lines
-command! UniqConsecutive g/\v^(.*)\n\1$/d
+command! UniqConsecutive sort /$^/ u
+" command! UniqConsecutive g/\v^(.*)\n\1$/d
 
 " Remove duplicate, nonconsecutive and nonempty lines
 command! UniqNonconsecutiveNonempty g/^./if search('^\V'.escape(getline('.'),'\').'\$', 'bW') | delete | endif <NL> silent! normal! ``
