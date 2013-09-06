@@ -21,7 +21,7 @@ done
 # sudo apt-get remove vim-gnome vim-nox vim-runtime vim-tiny vim-common vim-gui-common --auto-remove
 
 # Prepare the source of vim {{{1
-src_dir='vim-src'
+vim_src='vim-src'
 
 # Get the source
 if [[ $(git config --get-regex remote.*url) == *b4winckler/vim* ]]; then
@@ -31,13 +31,13 @@ if [[ $(git config --get-regex remote.*url) == *b4winckler/vim* ]]; then
   git reset --hard; git clean -dxfq
   git pull
 else
-  # hg clone https://code.google.com/p/vim/ $src_dir
+  # hg clone https://code.google.com/p/vim/ $vim_src
   git clone --depth 1 git://github.com/b4winckler/vim.git $vim_src
-  pushd $src_dir
+  cd $vim_src
 fi
 
 # Configure, compile and install vim {{{1
-pushd $src_dir
+pushd src
 
 ./configure \
   --enable-fail-if-missing \

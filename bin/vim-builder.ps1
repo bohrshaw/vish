@@ -35,7 +35,12 @@ if((git config --get-regex remote.*url) -match '.*b4winckler/vim.*') {
   nmake clean
   git reset --hard; git clean -dxfq
   git pull
-}else {
+}
+elseif((hg paths default) -match '.*code\.google\.com/p/vim.*') {
+  nmake clean
+  hg pull; hg update -C; hg purge --all
+}
+else {
   git clone --depth 1 git://github.com/b4winckler/vim.git $vim_src
   cd $vim_src
 }
@@ -77,7 +82,7 @@ nmake -f Make_mvc.mak `
 popd
 
 # Package {{{1
-git ls-files -o src | ? { $_ -match '.*\.(exe|dll)$' } | cp -Destination runtime
+ls -r src | ? { $_ -match '.*\.(exe|dll)$' } | cp -Destination runtime
 
 mkdir vim
 mv runtime vim\vim74
