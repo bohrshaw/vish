@@ -27,9 +27,11 @@ vim_src='vim-src'
 if [[ $(git config --get-regex remote.*url) == *b4winckler/vim* ]]; then
   # Clean and update the repository
   make distclean
-  # hg pull; hg update -C; hg purge --all
   git reset --hard; git clean -dxfq
   git pull
+elif [[ $(hg paths default) == *vim* ]]; then
+  make distclean
+  hg pull; hg update -C; hg purge --all
 else
   # hg clone https://code.google.com/p/vim/ $vim_src
   git clone --depth 1 git://github.com/b4winckler/vim.git $vim_src
