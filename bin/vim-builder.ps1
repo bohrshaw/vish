@@ -36,7 +36,7 @@ if((git config --get-regex remote.*url) -match '.*b4winckler/vim.*') {
   git reset --hard; git clean -dxfq
   git pull
 }
-elseif((hg paths default) -match '.*code\.google\.com/p/vim.*') {
+elseif((hg paths default) -match '.*vim.*') {
   nmake clean
   hg pull; hg update -C; hg purge --all
 }
