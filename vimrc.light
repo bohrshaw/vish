@@ -43,6 +43,5 @@ elseif has('unix')
   color terminater
   " color twilight256
 endif
-syntax on
 
 " vim:ft=vim tw=78 et sw=2 fdm=marker nowrap:
