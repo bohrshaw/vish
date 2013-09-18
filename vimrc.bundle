@@ -405,8 +405,7 @@ Bundle 'majutsushi/tagbar'
 Bundle 'ivanov/vim-ipython'
 
 " Slogan: runs RuboCop and displays the results in Vim.
-Bundle 'ngmy/vim-rubocop'
-let g:vimrubocop_keymap = 0
+Bundle 'bohrshaw/vim-rubocop'
 
 " Slogan: vim, your markup language of choice, and your browser of choice.
 " Bundle 'matthias-guenther/hammer.vim'
