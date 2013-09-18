@@ -2,24 +2,6 @@
 " Author: Bohr Shaw <pubohr@gmail.com>
 
 " Bundle management {{{1
-" Essential options to make the following settings work properly.
-set nocompatible
-set encoding=utf-8 " Allow mappings start with the ALT key work properly.
-let mapleader = ' '
-let maplocalleader = ','
-
-" A unified runtime path(Unix default)
-set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
-
-" Configure vundle
-filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-" Slogan: Vundle, the plug-in manager for Vim.
-Bundle 'gmarik/vundle'
-let g:vundle_default_git_proto = 'git'
-
 " Slogan: A Vim plugin for Vim plugins.
 Bundle 'tpope/vim-scriptease'
 

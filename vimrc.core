@@ -2,14 +2,6 @@
 " Author: Bohr Shaw <pubohr@gmail.com>
 
 " Options {{{1
-set nocompatible
-
-filetype plugin indent on " must be after pathogen or vundle setup
-syntax on
-
-let mapleader = ' '
-let maplocalleader = ','
-
 " Set default path of temporary files {{{2
 let dir_list = { 'swap': 'directory', 'undo': 'undodir', 'backup': 'backupdir' }
 for [dir_name, set_name] in items(dir_list)
