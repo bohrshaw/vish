@@ -35,6 +35,5 @@ if has('gui_running')
 elseif has('unix')
   color terminater
 endif
-syntax on
 
 " vim:ft=vim tw=78 et sw=2 nowrap:
