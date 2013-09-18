@@ -130,7 +130,7 @@ Dir.chdir BUNDLE_DIR
 Bundle.sync
 
 # Ensure all git operations have finished
-ThreadsWait.all_waits(*Thread.list)
+ThreadsWait.all_waits(*(Thread.list - [Thread.main]))
 
 # Generate Vim help tags
 system('vim', '-Nesu', 'NONE', '--cmd',
