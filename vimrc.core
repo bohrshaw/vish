@@ -117,11 +117,11 @@ set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1
 set encoding=utf-8 "Sets the character encoding used inside Vim
 
 " Number of spaces to use for each step of (auto)indent
-set shiftwidth=2
+set shiftwidth=4
 " Number of spaces a tab displayed in
-set tabstop=2
+set tabstop=4
 " Number of spaces used when press <Tab> or <BS>
-set softtabstop=2
+set softtabstop=4
 
 " Lines to scroll when cursor leaves screen
 " set scrolljump=2
