@@ -5,14 +5,10 @@
 " In order to reduce the startup time, you can do profiling with this command:
 " vim --startuptime startup_profiling
 
-" Options should set as early as possible
-set nocompatible
-set encoding=utf-8 " Allow mappings start with the ALT key work properly.
-let mapleader = ' '
-let maplocalleader = ','
+" Core configuration
+source ~/.vim/vimrc.core
 
 " Vundle initialization
-set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
@@ -25,9 +21,6 @@ filetype plugin indent on
 
 " Bundle configuration
 source ~/.vim/vimrc.bundle
-
-" Core configuration
-source ~/.vim/vimrc.core
 
 " Post configuration
 if has('gui_running')
