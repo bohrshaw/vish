@@ -2,6 +2,19 @@
 " Author: Bohr Shaw <pubohr@gmail.com>
 
 " Options {{{1
+" Options should set as early as possible {{{2
+set nocompatible
+
+" A unified runtime path(Unix default)
+set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+
+let mapleader = ' '
+let maplocalleader = ','
+
+" The character encoding used inside Vim (Set early to allow mappings start
+" with the ALT key work properly.)
+set encoding=utf-8
+
 " Set default path of temporary files {{{2
 let dir_list = { 'swap': 'directory', 'undo': 'undodir', 'backup': 'backupdir' }
 for [dir_name, set_name] in items(dir_list)
@@ -116,7 +129,6 @@ set cdpath=,,~/projects
 set fileformats=unix,dos " Affect new files
 set fileformat=unix " Local to buffer
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1
-set encoding=utf-8 "Sets the character encoding used inside Vim
 
 " Number of spaces to use for each step of (auto)indent
 set shiftwidth=4

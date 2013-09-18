@@ -1,15 +1,12 @@
 " Description: Vim configuration for the light weight version.
 " Author: Bohr Shaw <pubohr@gmail.com>
 
-" Options should set as early as possible
-set nocompatible
-set encoding=utf-8 " Allow mappings start with the ALT key work properly.
-let mapleader = ' '
-let maplocalleader = ','
+" Core configuration
+silent! source ~/.vim/vimrc.core
+" silent! source <sfile>:h/vimrc.core
 filetype plugin indent on
 
 " Runtime path configuration
-set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 let g:bundles = ['vim-surround', 'vim-commentary', 'vim-abolish',
       \ 'vim-unimpaired', 'vim-speeddating', 'vim-repeat',
       \ 'vim-easymotion', 'vim-seek',
@@ -24,12 +21,6 @@ exec 'set rtp^='.fnameescape(s:rtp_prepends)
 nmap cx <Plug>Coerce
 let g:EasyMotion_leader_key = '\'
 let g:seek_enable_jumps = 1
-
-" Core configuration
-silent! source ~/.vim/vimrc.core
-
-" For portable Vim
-" silent! source <sfile>:h/vimrc.core
 
 " Post configuration
 set swapfile!
