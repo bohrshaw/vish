@@ -31,8 +31,6 @@ set viminfo=!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo
 
 "}}}2
 
-syntax enable
-
 set ruler " Show the cursor position
 set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)
 

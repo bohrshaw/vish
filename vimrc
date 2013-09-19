@@ -9,15 +9,14 @@
 source ~/.vim/vimrc.core
 
 " Vundle initialization
-filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 Bundle 'gmarik/vundle'
 let g:vundle_default_git_proto = 'git'
 
-" Set this early to improve startup performance.
-" But it must be after the initialization of pathogen or vundle.
+" Set these after rtp setup, but as early as possible to reduce startup time.
 filetype plugin indent on
+syntax enable
 
 " Bundle configuration
 source ~/.vim/vimrc.bundle
