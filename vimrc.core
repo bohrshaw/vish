@@ -182,6 +182,13 @@ for n in range(1, 9)
   exe 'noremap ' . '<A-' . n . '> ' . n . 'gt'
 endfor
 
+" Move tabs
+noremap gH :tabm -1<cr>
+noremap gL :tabm +1<cr>
+cabbrev tm tabm
+cabbrev tmh tabm -1
+cabbrev tml tabm +1
+
 " Two maps enough for switching between windows
 noremap gj <C-W>w
 noremap gk <C-W>W
