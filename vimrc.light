@@ -5,6 +5,7 @@
 silent! source ~/.vim/vimrc.core
 " silent! source <sfile>:h/vimrc.core
 filetype plugin indent on
+syntax enable
 
 " Runtime path configuration
 let g:bundles = ['vim-surround', 'vim-commentary', 'vim-abolish',
