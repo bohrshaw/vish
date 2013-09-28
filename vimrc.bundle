@@ -165,6 +165,11 @@ let g:EasyMotion_leader_key = '\'
 " Slogan: True Sublime Text style multiple selections for Vim.
 Bundle 'terryma/vim-multiple-cursors'
 
+" Slogan: Extended f, F, t and T key mappings for Vim.
+Bundle 'rhysd/clever-f.vim'
+let g:clever_f_across_no_line = 1
+let g:clever_f_fix_key_direction = 1
+
 " Slogan: Seek makes navigating long lines effortless, acting like f but taking two characters.
 Bundle 'goldfeld/vim-seek'
 let g:seek_enable_jumps = 1
