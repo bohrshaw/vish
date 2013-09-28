@@ -83,6 +83,7 @@ popd
 
 # Package {{{1
 ls -r src | ? { $_ -match '.*\.(exe|dll)$' } | cp -Destination runtime
+cp $lua_src\*.dll runtime
 
 mkdir vim
 mv runtime vim\vim74
