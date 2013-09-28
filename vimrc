@@ -8,20 +8,14 @@
 " Core configuration
 source ~/.vim/vimrc.core
 
-" Vundle initialization
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-Bundle 'gmarik/vundle'
-let g:vundle_default_git_proto = 'git'
+" Bundle configuration
+source ~/.vim/vimrc.bundle
 
 " Set these after rtp setup, but as early as possible to reduce startup time.
 filetype plugin indent on
 syntax enable
 
-" Bundle configuration
-source ~/.vim/vimrc.bundle
-
-" Post configuration
+" Choose a color scheme
 if has('gui_running')
   color base16-solarized
 elseif has('unix')

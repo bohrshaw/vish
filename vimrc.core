@@ -166,7 +166,7 @@ set nolazyredraw
 " Create a map in the normal and visual modes.
 command! -nargs=1 NXnoremap nnoremap <args>| xnoremap <args>
 " Map {{{2
-" One pressing instead of two
+" One key instead of two
 NXnoremap ; :
 " The substitution to ';'
 NXnoremap + ;

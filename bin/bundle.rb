@@ -159,6 +159,6 @@ end
 sync_bundles
 
 # Generate help tags
-`vim -esu ~/.vim/vimrc.bundle --noplugin +BundleDocs +qa`
+`vim -Nesu ~/.vim/vimrc.bundle --noplugin +BundleDocs +qa`
 
 # vim:fdm=marker:

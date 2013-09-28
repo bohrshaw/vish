@@ -2,6 +2,14 @@
 " Author: Bohr Shaw <pubohr@gmail.com>
 
 " Bundle management {{{1
+" Vundle initialization
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" Slogan: Vundle, the plug-in manager for Vim.
+Bundle 'gmarik/vundle'
+let g:vundle_default_git_proto = 'git'
+
 " Slogan: A Vim plugin for Vim plugins.
 Bundle 'tpope/vim-scriptease'
 
