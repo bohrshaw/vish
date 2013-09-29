@@ -75,6 +75,7 @@ cabbrev %% <C-R>=expand('%:h').'/'<cr>
 
 " Create a scratch buffer
 command! Scratch e __Scratch__ | set buftype=nofile bufhidden=hide
+noremap <leader>_ :Scratch<CR>
 
 " Create a directory under the current path
 command! -nargs=1 -complete=dir Mkdir :call mkdir(getcwd() . "/" . <q-args>, "p")
