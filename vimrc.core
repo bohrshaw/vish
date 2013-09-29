@@ -165,15 +165,19 @@ set nolazyredraw
 " See :help index, :help map-which-keys
 " Create a map in the normal and visual modes.
 command! -nargs=1 NXnoremap nnoremap <args>| xnoremap <args>
+
 " Map {{{2
-" One key instead of two
+" Map ';' to ':' to reduce keystrokes
 NXnoremap ; :
-" The substitution to ';'
-NXnoremap + ;
-" Two pressings instead of three
-nnoremap z; q:
-" Three pressings instead of four
-nnoremap @; @:
+NXnoremap z; q:
+NXnoremap @; @:
+
+" The substitution to ';' and ','
+NXnoremap - ;
+NXnoremap _ ,
+
+" The counterpart to <CR>
+NXnoremap <S-CR> -
 
 " Switch tabs quickly
 noremap gl gt
