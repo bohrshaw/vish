@@ -13,9 +13,12 @@ let g:vundle_default_git_proto = 'git'
 " Slogan: A Vim plugin for Vim plugins.
 Bundle 'tpope/vim-scriptease'
 
-" A buffer local map to open a bundle's URL in the browser
-autocmd BufReadPost {.,}vimrc.bundle nnoremap gB :call netrw#NetrwBrowseX(
-      \ substitute(getline('.'),'\v.*\s.(.*).$','http://github.com/\1','g'),0)<cr>
+aug bundle
+  au!
+  " A buffer local map to open a bundle's URL in the browser
+  au BufReadPost {.,}vimrc.bundle nnoremap gB :call netrw#NetrwBrowseX(
+        \ substitute(getline('.'),'\v.*\s.(.*).$','http://github.com/\1','g'),0)<CR>
+aug END
 
 " Session, File, Buffer, Pane, Window, Tab {{{1
 " Slogan: A start screen for Vim.
@@ -125,7 +128,7 @@ Bundle 'tpope/vim-endwise'
 " Bundle 'bohrshaw/YouCompleteMe'
 
 " Slogan: Perform all your vim insert mode completions with Tab.
-" Bundle 'ervandew/supertab'
+Bundle 'ervandew/supertab'
 
 " Slogan: This is an implementation of TextMates Snippets for the Vim Text Editor. It has all features of TextMates Snippets and then some.
 Bundle 'SirVer/ultisnips'
@@ -172,6 +175,9 @@ let g:EasyMotion_leader_key = '\'
 
 " Slogan: True Sublime Text style multiple selections for Vim.
 Bundle 'terryma/vim-multiple-cursors'
+
+" Slogan: Mappings for simultaneously pressed keys.
+" Bundle 'kana/vim-arpeggio'
 
 " Slogan: Extended f, F, t and T key mappings for Vim.
 " Bundle 'rhysd/clever-f.vim'
