@@ -163,6 +163,7 @@ set nolazyredraw
 
 " Mappings {{{1
 " See :help index, :help map-which-keys
+
 " Create a map in the normal and visual modes.
 command! -nargs=1 NXnoremap nnoremap <args>| xnoremap <args>
 
@@ -193,7 +194,7 @@ cabbrev tm tabm
 cabbrev tmh tabm -1
 cabbrev tml tabm +1
 
-" Two maps enough for switching between windows
+" Two maps enough for switching windows
 noremap gj <C-W>w
 noremap gk <C-W>W
 

@@ -20,7 +20,131 @@ aug bundle
         \ substitute(getline('.'),'\v.*\s.(.*).$','http://github.com/\1','g'),0)<CR>
 aug END
 
-" Session, File, Buffer, Pane, Window, Tab {{{1
+" Editing {{{1
+" Motion {{{2
+" Slogan: vim motions on speed.
+Bundle 'bohrshaw/vim-easymotion'
+let g:EasyMotion_leader_key = '\'
+
+" Slogan: Seek makes navigating long lines effortless, acting like f but taking two characters.
+Bundle 'goldfeld/vim-seek'
+let g:seek_enable_jumps = 1
+
+" Slogan: Extended f, F, t and T key mappings for Vim.
+" Bundle 'rhysd/clever-f.vim'
+" let g:clever_f_across_no_line = 1
+
+
+" Insert {{{2
+" Slogan: Software caps lock
+Bundle 'tpope/vim-capslock'
+imap <C-L> <Plug>CapsLockToggle
+
+" Slogan: Vim plugin, provides insert mode auto-completion for quotes, parens, brackets, etc.
+Bundle 'Raimondi/delimitMate'
+
+" Slogan: wisely add "end" in ruby, endfunction/endif/more in vim script, etc.
+Bundle 'tpope/vim-endwise'
+
+" Completion and snippets {{{3
+" Slogan: A code-completion engine for Vim.
+" Bundle 'Valloric/YouCompleteMe'
+" Bundle 'bohrshaw/YouCompleteMe'
+
+" Slogan: Perform all your vim insert mode completions with Tab.
+Bundle 'ervandew/supertab'
+
+" Slogan: This is an implementation of TextMates Snippets for the Vim Text Editor. It has all features of TextMates Snippets and then some.
+Bundle 'SirVer/ultisnips'
+" The default key <Tab> is mapped to something else.
+let g:UltiSnipsExpandTrigger='<C-J>'
+" The default key <C-K> is used to enter a digraph. Assign a non-function key to disable it.
+let g:UltiSnipsJumpBackwardTrigger='<C-0>'
+" The default <C-Tab> doesn't work in terminal.
+let g:UltiSnipsListSnippets='<C-Q>'
+" Snippets search path(must be under vim's runtime path)
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippet"]
+" Personal snippets path
+let g:UltiSnipsSnippetsDir="~/.vim/snippet"
+" Don't check and reload snippets when a snippet expand is triggered
+" let g:UltiSnipsDoHash=0
+" Specify the default author for created snippets
+let g:snips_author='Bohr Shaw <pubohr@gmail.com>'
+
+" Slogan: Ultimate auto-completion system for Vim.
+" Bundle 'Shougo/neocomplcache'
+" Bundle 'Shougo/neocomplete'
+
+" Slogan: neo-snippet plugin contains neocomplcache snippets source.
+" Bundle 'Shougo/neosnippet'
+
+" Slogan: snipMate.vim aims to be a concise vim script that implements some of TextMate's snippets features in Vim.
+" Dependencies: 'MarcWeber/vim-addon-mw-utils' 'tomtom/tlib_vim'
+" Bundle 'garbas/vim-snipmate'
+
+" Slogan: vim-snipmate default snippets.
+" Bundle 'honza/vim-snippets'
+
+" Change {{{2
+" Slogan: commentary.vim: comment stuff out.
+Bundle 'tpope/vim-commentary'
+
+" Slogan: Vim plugin for intensely orgasmic commenting.
+" Bundle 'scrooloose/nerdcommenter'
+
+" Slogan: quoting/parenthesizing made simple.
+Bundle 'tpope/vim-surround'
+
+" Slogan: Vim script for text filtering and alignment.
+Bundle 'godlygeek/tabular'
+
+" Slogan: use CTRL-A/CTRL-X to increment dates, times, and more.
+Bundle 'tpope/vim-speeddating'
+
+" Slogan: Punctuation text objects: ci/ da; vi@ yiq da<space> ...
+Bundle 'kurkale6ka/vim-pairs'
+
+" Slogan: Easy swapping of text in Vim.
+Bundle 'kurkale6ka/vim-swap'
+
+" Slogan: easily search for, substitute, and abbreviate multiple variants of a word.
+Bundle 'tpope/vim-abolish'
+" More convenient to type than 'cr'
+nmap cx <Plug>Coerce
+
+" Slogan: True Sublime Text style multiple selections for Vim.
+Bundle 'terryma/vim-multiple-cursors'
+
+" History {{{2
+" Slogan: Display your undo history in a graph.
+Bundle 'mbbill/undotree'
+nnoremap <leader>u :UndotreeToggle<CR>
+let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
+
+" Slogan: Vim plugin to visualize your Vim undo tree.
+Bundle 'sjl/gundo.vim'
+
+" Slogan: enable repeating supported plugin maps with ".".
+Bundle 'tpope/vim-repeat'
+
+" Slogan: Maintains a history of previous yanks, changes and deletes.
+" Bundle 'vim-scripts/yankring.vim'
+
+" Various {{{2
+" Slogan: characterize.vim: Unicode character metadata.
+Bundle 'tpope/vim-characterize'
+
+" Search, Map, Option {{{1
+" Slogan: Start a * or # search from a visual block.
+Bundle 'nelstrom/vim-visual-star-search'
+
+" Slogan: Mappings for simultaneously pressed keys.
+" Bundle 'kana/vim-arpeggio'
+
+" Slogan: pairs of handy bracket mappings.
+Bundle 'tpope/vim-unimpaired'
+
+" File, Buffer, Pane, Window, Tab, Session {{{1
 " Slogan: A start screen for Vim.
 Bundle 'mhinz/vim-startify'
 let g:startify_session_dir = '~/.vim/tmp/session'
@@ -94,123 +218,12 @@ noremap <leader>cm :CtrlPBookmarkDir<cr>
 Bundle 'vim-scripts/bufexplorer.zip'
 " nmap <leader>b :BufExplorer<CR>
 
-" Editing {{{1
-" Undo {{{2
-" Slogan: Display your undo history in a graph.
-Bundle 'mbbill/undotree'
-nnoremap <leader>u :UndotreeToggle<CR>
-let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
+" Slogan: Automatic resizing of Vim windows to the golden ratio.
+Bundle 'roman/golden-ratio'
+let g:golden_ratio_autocommand = 0
+noremap <C-W>G :GoldenRatioResize<CR>
 
-" Slogan: Vim plugin to visualize your Vim undo tree.
-Bundle 'sjl/gundo.vim'
-
-" Comment {{{2
-" Slogan: commentary.vim: comment stuff out.
-Bundle 'tpope/vim-commentary'
-
-" Slogan: Vim plugin for intensely orgasmic commenting.
-" Bundle 'scrooloose/nerdcommenter'
-
-" Inserting {{{2
-" Slogan: Software caps lock
-Bundle 'tpope/vim-capslock'
-imap <C-L> <Plug>CapsLockToggle
-
-" Slogan: Vim plugin, provides insert mode auto-completion for quotes, parens, brackets, etc.
-Bundle 'Raimondi/delimitMate'
-
-" Slogan: wisely add "end" in ruby, endfunction/endif/more in vim script, etc.
-Bundle 'tpope/vim-endwise'
-
-" Completion and snippets {{{2
-" Slogan: A code-completion engine for Vim.
-" Bundle 'Valloric/YouCompleteMe'
-" Bundle 'bohrshaw/YouCompleteMe'
-
-" Slogan: Perform all your vim insert mode completions with Tab.
-Bundle 'ervandew/supertab'
-
-" Slogan: This is an implementation of TextMates Snippets for the Vim Text Editor. It has all features of TextMates Snippets and then some.
-Bundle 'SirVer/ultisnips'
-" The default key <Tab> is mapped to something else.
-let g:UltiSnipsExpandTrigger='<C-J>'
-" The default key <C-K> is used to enter a digraph. Assign a non-function key to disable it.
-let g:UltiSnipsJumpBackwardTrigger='<C-0>'
-" The default <C-Tab> doesn't work in terminal.
-let g:UltiSnipsListSnippets='<C-Q>'
-" Snippets search path(must be under vim's runtime path)
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippet"]
-" Personal snippets path
-let g:UltiSnipsSnippetsDir="~/.vim/snippet"
-" Don't check and reload snippets when a snippet expand is triggered
-" let g:UltiSnipsDoHash=0
-" Specify the default author for created snippets
-let g:snips_author='Bohr Shaw <pubohr@gmail.com>'
-
-" Slogan: Ultimate auto-completion system for Vim.
-" Bundle 'Shougo/neocomplcache'
-" Bundle 'Shougo/neocomplete'
-
-" Slogan: neo-snippet plugin contains neocomplcache snippets source.
-" Bundle 'Shougo/neosnippet'
-
-" Slogan: snipMate.vim aims to be a concise vim script that implements some of TextMate's snippets features in Vim.
-" Dependencies: 'MarcWeber/vim-addon-mw-utils' 'tomtom/tlib_vim'
-" Bundle 'garbas/vim-snipmate'
-
-" Slogan: vim-snipmate default snippets.
-" Bundle 'honza/vim-snippets'
-
-" }}}2
-
-" Slogan: quoting/parenthesizing made simple.
-Bundle 'tpope/vim-surround'
-
-" Slogan: Vim script for text filtering and alignment.
-Bundle 'godlygeek/tabular'
-
-" Slogan: vim motions on speed.
-Bundle 'bohrshaw/vim-easymotion'
-let g:EasyMotion_leader_key = '\'
-
-" Slogan: True Sublime Text style multiple selections for Vim.
-Bundle 'terryma/vim-multiple-cursors'
-
-" Slogan: Mappings for simultaneously pressed keys.
-" Bundle 'kana/vim-arpeggio'
-
-" Slogan: Extended f, F, t and T key mappings for Vim.
-" Bundle 'rhysd/clever-f.vim'
-" let g:clever_f_across_no_line = 1
-
-" Slogan: Seek makes navigating long lines effortless, acting like f but taking two characters.
-Bundle 'goldfeld/vim-seek'
-let g:seek_enable_jumps = 1
-
-" Slogan: use CTRL-A/CTRL-X to increment dates, times, and more.
-Bundle 'tpope/vim-speeddating'
-
-" Slogan: easily search for, substitute, and abbreviate multiple variants of a word.
-Bundle 'tpope/vim-abolish'
-" More convenient to type than 'cr'
-nmap cx <Plug>Coerce
-
-" Slogan: enable repeating supported plugin maps with ".".
-Bundle 'tpope/vim-repeat'
-
-" Slogan: characterize.vim: Unicode character metadata.
-Bundle 'tpope/vim-characterize'
-
-" Slogan: Start a * or # search from a visual block.
-Bundle 'nelstrom/vim-visual-star-search'
-
-" Slogan: A Vim plugin to move function arguments (and other delimited-by-something items) left and right.
-" Bundle 'AndrewRadev/sideways.vim'
-
-" Slogan: Maintains a history of previous yanks, changes and deletes.
-" Bundle 'vim-scripts/yankring.vim'
-
-" Visual {{{1
+" Appearance {{{1
 " Color Schemes {{{2
 " Slogan: Base16 for Vim.
 Bundle 'chriskempson/base16-vim'
@@ -325,8 +338,9 @@ nnoremap <silent> <leader>gl :Glog<CR>
 nnoremap <silent> <leader>gp :Git push<CR>
 
 " Slogan: vimscript for gist.
-" Dependencies: 'mattn/webapi-vim'
 Bundle 'mattn/gist-vim'
+" Dependencies: vim interface to Web API.
+Bundle 'mattn/webapi-vim'
 
 " Slogan: helpers for UNIX(Windows).
 Bundle 'tpope/vim-eunuch'
@@ -389,17 +403,5 @@ let g:vimwiki_conceallevel = 0
 let g:vimwiki_list = [{'path': '~/vimwiki/',
       \ 'syntax': 'markdown',
       \ 'ext': '.md'}]
-
-" Miscellaneous {{{1
-" Slogan: pairs of handy bracket mappings.
-Bundle 'tpope/vim-unimpaired'
-
-" Dependencies {{{1
-" Slogan: vim interface to Web API.
-Bundle 'mattn/webapi-vim'
-" Slogan: Slogan: vim: interpret a file by function and cache file automatically.
-" Bundle 'MarcWeber/vim-addon-mw-utils'
-" Slogan: Slogan: Some utility functions for VIM.
-" Bundle 'tomtom/tlib_vim'
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
