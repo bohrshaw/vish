@@ -42,9 +42,6 @@ noremap <A-u> mzg~iw`z
 " Appends the current date or time after the cursor
 nnoremap <leader>at a<C-R>=strftime("%a %b %d %H:%M:%S %Y")<CR><Esc>
 
-" Swap two adjacent keywords
-nnoremap <leader>sw :s/\v(<\k*%#\k*>)(.{-})(<\k+>)/\3\2\1/<cr>``
-
 " Remove trailing white spaces
 command! Trim %s/\s\+$//
 
