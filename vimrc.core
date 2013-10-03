@@ -215,6 +215,9 @@ NXnoremap & :&&<cr>
 nnoremap j gj
 nnoremap k gk
 
+" Allow the `.` to execute once for each line of a visual selection.
+vnoremap . :normal .<CR>
+
 " Visual shifting (does not exit Visual mode)
 vnoremap < <gv
 vnoremap > >gv
@@ -225,6 +228,12 @@ noremap zh zH
 
 " Open help in a new tab
 command! -nargs=? -complete=help H tab h <args>
+
+" Open help in a vertical window
+cabbrev vh vert h
+
+" Print the change list
+cabbrev chs changes
 
 " Map! {{{2
 " Split a buffer vertically
