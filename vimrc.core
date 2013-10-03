@@ -162,7 +162,10 @@ set nolazyredraw
 " set linebreak
 
 " Mappings {{{1
-" See :help index, :help map-which-keys
+" Note:
+" * See :help index, :help map-which-keys
+" * Always use low case letter for mappings containing the Alt key.
+"   Because <A-K> is not the same as <A-k> for the terminal vim.
 
 " Create a map in the normal and visual modes.
 command! -nargs=1 NXnoremap nnoremap <args>| xnoremap <args>
@@ -181,8 +184,8 @@ NXnoremap _ ,
 NXnoremap <S-CR> -
 
 " Switch tabs quickly
-noremap gl gt
-noremap gh gT
+noremap <A-l> gt
+noremap <A-h> gT
 for n in range(1, 9)
   exe 'noremap ' . '<A-' . n . '> ' . n . 'gt'
 endfor
@@ -195,8 +198,8 @@ cabbrev tmh tabm -1
 cabbrev tml tabm +1
 
 " Two maps enough for switching windows
-noremap gj <C-W>w
-noremap gk <C-W>W
+noremap <A-j> <C-W>w
+noremap <A-k> <C-W>W
 
 " Be consistent with other operators
 nnoremap Y y$
