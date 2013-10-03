@@ -308,14 +308,26 @@ endif
 
 set laststatus=2 " Always display statusline
 
-" File modified flag, preview flag, quickfix flag, help flag
-set statusline=%m%w%q%h
+" File modified flag, read only flag, preview flag, quickfix flag
+set statusline=%m%r%w%q
 
 " File name(truncate if too long) and current working directory
 function! Current_directory()
   return substitute(getcwd(), '.*[/|\\]' ,'' ,'')
 endfunction
-set statusline+=%<%t[%{Current_directory()}
+set statusline+=%<%f(%{Current_directory()})
+
+" File modification time
+" set statusline+=,%{strftime(\"%H:%M\",getftime(expand(\"%:p\")))}
+
+" File encoding
+set statusline+=\ %{&fenc==''?'':','.&fenc}
+
+" File format
+set statusline+=%{&ff==''?'':','.&ff}
+
+" File type
+set statusline+=%{&ft==''?'':','.&ft}
 
 " Custom git branch status
 function! Git_branch_status()
@@ -325,19 +337,7 @@ function! Git_branch_status()
   endif
   return ''
 endfunction
-set statusline+=%{Git_branch_status()}]
-
-" File modification time
-" set statusline+=,%{strftime(\"%H:%M\",getftime(expand(\"%:p\")))}
-
-" File encoding
-set statusline+=,%{strlen(&fenc)?','.&fenc:''}
-
-" File format
-set statusline+=[%{&ff}]
-
-" File type
-set statusline+=,%{strlen(&ft)?','.&ft:''}
+set statusline+=%{Git_branch_status()}
 
 " Software caps lock status
 set statusline+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''}
