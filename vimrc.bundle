@@ -13,10 +13,10 @@ let g:vundle_default_git_proto = 'git'
 " Slogan: A Vim plugin for Vim plugins.
 Bundle 'tpope/vim-scriptease'
 
-aug bundle
+aug Bundle
   au!
   " A buffer local map to open a bundle's URL in the browser
-  au BufReadPost {.,}vimrc.bundle nnoremap gB :call netrw#NetrwBrowseX(
+  au Bundle BufReadPost {.,}vimrc.bundle nnoremap gB :call netrw#NetrwBrowseX(
         \ substitute(getline('.'),'\v.*\s.(.*).$','http://github.com/\1','g'),0)<CR>
 aug END
 
@@ -278,7 +278,13 @@ let g:signify_sign_delete = '-'
 " Bundle 'airblade/vim-gitgutter'
 
 " Slogan: A Vim plugin for visually displaying indent levels in code.
-Bundle 'nathanaelkane/vim-indent-guides'
+" Bundle 'nathanaelkane/vim-indent-guides'
+" let g:indent_guides_guide_size = 1
+
+" Slogan: A vim plugin to display the indention levels with thin vertical lines.
+Bundle 'Yggdroot/indentLine'
+let g:indentLine_enabled = 0
+noremap <leader>it :IndentLinesToggle<CR>
 
 " File types {{{1
 " Slogan: Syntax checking hacks for vim.
