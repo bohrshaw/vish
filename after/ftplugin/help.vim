@@ -1,16 +1,26 @@
 " Use 'q' to close the help window
-noremap <buffer> q <c-w>c
+noremap <buffer> q <C-W>c
 
 " Jump to a subject quickly
-noremap <buffer> <cr> <c-]>
+nnoremap <buffer> <CR> <C-]>
 
-" Navigate to an option (without affecting search history)
-noremap <silent> <buffer> o :call search("'" . '\S\+' . "'")<cr>
-noremap <silent> <buffer> O :call search("'" . '\S\+' . "'", 'b')<cr>
+" Goto a position specified with a pattern 'count' times.
+function! s:goto(pattern, ...)
+    let counter = v:count1
+    let flag = a:0 == 0 ? '' : a:1
+    while counter > 0
+        " search without affecting search history
+        silent call search(a:pattern, flag)
+        let counter = counter - 1
+    endwhile
+endfunction
 
-" Jump to a subject (without affecting search history)
+" Goto to an option.
+nnoremap <silent> <buffer> o :<C-U>call <SID>goto("'" . '\S\+' . "'")<CR>
+nnoremap <silent> <buffer> O :<C-U>call <SID>goto("'" . '\S\+' . "'", 'b')<CR>
+
+" Goto to a subject.
+" Don't map <Tab> because <C-I> will also be mapped.
 " 'I' is the initial of 'Insignia' which is a synonym of 'Tag'
-noremap <silent> <buffer> <Tab> :call search('\|\S\+\|')<cr>
-noremap <silent> <buffer> <S-Tab> :call search('\|\S\+\|', 'b')<cr>
-noremap <silent> <buffer> i :call search('\|\S\+\|')<cr>
-noremap <silent> <buffer> I :call search('\|\S\+\|', 'b')<cr>
+nnoremap <silent> <buffer> i :<C-U>call <SID>goto('\|\S\+\|')<CR>
+nnoremap <silent> <buffer> I :<C-U>call <SID>goto('\|\S\+\|', 'b')<CR>
