@@ -2,6 +2,32 @@
 " Author: Bohr Shaw <pubohr@gmail.com>
 " Description: Small powerful tolls.
 
+" Calculate the time spending on executing commands {{{1
+function! helpers#time(commands)
+  let time_start = reltime()
+  exe a:commands
+  let time = reltime(time_start)
+  echo 'Total Seconds: ' . split(reltimestr(time))[0]
+endfunction
+
+" Count anything in a range of lines {{{1
+function! helpers#count(...)
+    if a:0 == 3
+      let range = a:2 . ',' . a:3
+    elseif a:0 == 2
+      let range = a:1 . ',' . a:2
+    else
+      let range = '%'
+    endif
+
+    redir => subscount
+    silent exe range . 's/' . (a:0 == 0 ? '' : a:1) . '//gne'
+    redir END
+
+    let result = matchstr(subscount, '\d\+')
+    return result == "" ? 0 : result
+endfunction
+
 " Calculate words frequency {{{1
 " http://vim.wikia.com/wiki/Word_frequency_statistics_for_a_file
 function! helpers#word_frequency() range
