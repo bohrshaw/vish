@@ -223,6 +223,9 @@ vnoremap > >gv
 noremap zl zL
 noremap zh zH
 
+" Open help in a new tab
+command! -nargs=? -complete=help H tab h <args>
+
 " Map! {{{2
 " Split a buffer vertically
 cabbrev vsb vert sb

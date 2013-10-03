@@ -1,44 +1,7 @@
 " Description: Various helpers.
 " Author: Bohr Shaw <pubohr@gmail.com>
 
-" Vim itself {{{1
-" Source vim scripts {{{2
-" Source current line
-nnoremap <leader>S ^"zy$:@z<bar>echo "Current line sourced."<cr>
-
-" Source visual selection even including a line continuation symbol '\'
-vnoremap <leader>S "zy:let @z = substitute(@z, "\n *\\", "", "g")<bar>@z<bar>
-      \echo "Selection sourced."<cr>
-
-" Source a range of lines, default to the current line
-command! -range Source <line1>,<line2>g/./exe getline('.')
-" }}}2
-
-" Display the help window in a new tab
-command! -nargs=? -complete=help H tab h <args>
-
-" Calculate the time spending on executing commands
-function! Time(commands)
-  let time_start = reltime()
-  exe a:commands
-  let time = reltime(time_start)
-  echo 'Total Seconds: ' . split(reltimestr(time))[0]
-endfunction
-command! -nargs=1 -complete=command Time call Time(<q-args>)
-
-" Manipulating text {{{1
-" Read only {{{2
-" Calculate words frequency
-command! -range=% WordFrequency <line1>,<line2>call helpers#word_frequency()
-
-" Calculate the size of the current buffer
-command! BufSize :echo line2byte(line('$') + 1) - 1
-
-" }}}2
-
-" Switch case of the current word
-noremap <A-u> mzg~iw`z
-
+" Editing {{{1
 " Appends the current date or time after the cursor
 nnoremap <leader>at a<C-R>=strftime("%a %b %d %H:%M:%S %Y")<CR><Esc>
 
@@ -60,7 +23,19 @@ command! AppendModeline call helpers#appendModeline()
 " Simple letter encoding with rot13
 command! Rot13 exe "normal ggg?G''"
 
-" Manipulating others {{{1
+" Various {{{1
+" Source vim scripts {{{2
+" Source current line
+nnoremap <leader>S ^"zy$:@z<bar>echo "Current line sourced."<cr>
+
+" Source visual selection even including a line continuation symbol '\'
+vnoremap <leader>S "zy:let @z = substitute(@z, "\n *\\", "", "g")<bar>@z<bar>
+      \echo "Selection sourced."<cr>
+
+" Source a range of lines, default to the current line
+command! -range Source <line1>,<line2>g/./exe getline('.')
+" }}}2
+
 " Edit a file in the same directory of the current file
 NXnoremap <leader>ee :e %:h/
 NXnoremap <leader>es :sp %:h/
@@ -96,4 +71,20 @@ nnoremap gT :call netrw#NetrwBrowseX("http://translate.google.com.hk/#auto/zh-CN
 nnoremap gW :call netrw#NetrwBrowseX("http://en.wikipedia.org/wiki/Special:Search?search=".expand("<cword>"),0)<cr>
 command! -nargs=1 Google call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand("<args>"),0)
 
-" vim:tw=78 ts=2 sw=2 et fdm=marker:
+" Statistics {{{1
+" Calculate the time spending on executing commands
+command! -nargs=1 -complete=command Time call helpers#time(<q-args>)
+
+" Count anything in a range of lines
+command! -range=% -nargs=? Count echo helpers#count(<q-args>, <line1>, <line2>) | normal ``
+
+" Calculate the total lines of source code minus blank lines and comment lines.
+command! -range=% SLOC echo helpers#count('^[^' . &cms[0] . ']', <line1>, <line2>) | normal ``
+
+" Calculate words frequency
+command! -range=% WordFrequency <line1>,<line2>call helpers#word_frequency()
+
+" Calculate the size of the current buffer
+command! BufSize :echo line2byte(line('$') + 1) - 1
+
+" vim:tw=80 ts=2 sw=2 et fdm=marker:
