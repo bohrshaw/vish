@@ -43,7 +43,4 @@ foreach( $target in $targets ) { New-Link "$vim_dir\$target" }
 # Sync bundles
 Invoke-Expression "ruby $vim_dir\bin\bundle.rb"
 
-# Generate help tags
-Invoke-Expression "vim -Nesu ~/.vim/vimrc.bundle --noplugin +BundleDocs +qa"
-
 # vim:tw=80 ts=4 sw=4 et fdm=marker:
