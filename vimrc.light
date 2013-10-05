@@ -12,11 +12,9 @@ let g:bundles = ['vim-surround', 'vim-commentary', 'vim-abolish',
       \ 'vim-unimpaired', 'vim-speeddating', 'vim-repeat',
       \ 'vim-easymotion', 'vim-seek',
       \ 'vim-git', 'base16-vim', 'vim-colorschemes']
-let s:map_replace = '"~/.vim/bundle/" . v:val'
-" For portable Vim
-" let s:map_replace = "'" . expand('<sfile>:h') . "'" . ' . "/bundle/" . v:val'
-let s:rtp_prepends = join(map(copy(g:bundles), s:map_replace), ',')
-exec 'set rtp^='.fnameescape(s:rtp_prepends)
+let s:rtp_prepends = fnameescape(join(map(copy(g:bundles),  '"~/.vim/bundle/" . v:val'), ','))
+let s:rtp_appends = fnameescape(join(map(copy(g:bundles), '"~/.vim/bundle/" . v:val . "/after"'), ','))
+let &rtp="$HOME/.vim," . s:rtp_prepends . "$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after" . s:rtp_appends
 
 " Bundle configuration
 nmap cx <Plug>Coerce
