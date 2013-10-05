@@ -1,9 +1,8 @@
 #!/usr/bin/env ruby
 
 # Author: Bohr Shaw <pubohr@gmail.com>
-# Description: Sync vim bundles.
+# Description: Sync Vim bundles.
 
-# Settings {{{
 require 'fileutils'
 
 VIM_DIR = File.expand_path('..', File.dirname(__FILE__) )
@@ -36,7 +35,7 @@ usage: bundle.rb        -- sync bundles
    or: bundle.rb clean  -- clean bundles
   HERE
   exit
-end # }}}
+end
 
 # Sync all bundles
 def sync_bundles
@@ -145,4 +144,4 @@ sync_bundles
 # Generate help tags
 `vim -Nesu ~/.vim/vimrc.bundle --noplugin +BundleDocs +qa`
 
-# vim:fdm=marker:
+# vim:fdm=syntax:
