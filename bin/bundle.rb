@@ -90,7 +90,6 @@ def update_bundle(bundle)
     end
 
     # Track the default remote branch from the current branch
-    # Note: The remote branch must be specified in earlier versions of git.
     `cd #{repo} && git branch -u #{remote_name}/master`
 
     update_branch repo, remote_name
@@ -120,8 +119,7 @@ end
 # Fetch updates and reset the current branch to the tracking remote branch
 def update_branch(repo, remote_name)
   # todo: shallow fetch a new remote
-  `cd #{repo} && git fetch #{remote_name}`
-  `cd #{repo} && git reset --hard #{remote_name}/master`
+  `cd #{repo} && git fetch #{remote_name} && git reset --hard #{remote_name}/master`
 
   # Update submodules
   if File.exist? "#{repo}/.gitmodules"
