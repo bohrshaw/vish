@@ -53,7 +53,7 @@ noremap <leader>_ :Scratch<CR>
 command! -nargs=1 -complete=dir Mkdir :call mkdir(getcwd() . "/" . <q-args>, "p")
 
 " Diff with another file
-command! -nargs=? -complete=buffer DiffWith call helpers#DiffWith(<f-args>)
+command! -nargs=? -complete=buffer DiffWith call helpers#diffwith(<f-args>)
 
 " Quit diff mode and close other diff buffers
 noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<cr>

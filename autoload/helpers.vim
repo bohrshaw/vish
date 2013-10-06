@@ -45,7 +45,7 @@ function! helpers#word_frequency() range
 endfunction
 
 " Diff with another file {{{1
-function! helpers#diffWith(...)
+function! helpers#diffwith(...)
   let filetype=&ft
   tab sp
   diffthis
