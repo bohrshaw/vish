@@ -17,6 +17,9 @@ command! UniqNonconsecutiveNonempty g/^./if search('^\V'.escape(getline('.'),'\'
 " This one is far slower than the above
 " command! UniqNonconsecutiveNonempty g/\v^(.+)$\_.{-}^\1$/d <NL> silent! normal! ``
 
+" Reverse the selected text
+vnoremap <leader>rv c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
+
 " Append a mode line
 command! AppendModeline call helpers#appendModeline()
 
