@@ -70,15 +70,15 @@ def update_bundle(bundle)
 
   # Update the branch if the repository author not matching the bundle author
   if author.casecmp(author_current) != 0
-    remote_urls = `cd #{repo} && git config --get-regex 'remote\.[^.]+\.url'`.split(/\r?\n/)
+    remote_urls = %x(cd #{repo} && git config --get-regex remote\.\\S+\.url).split(/\r?\n/)
 
     # Check if the remote URL are already existed
     is_remote_existed, remote_name = nil
     remote_urls.each do |url|
-      a_author = url.split(%r[/|:])[-2]
-      if a_author == author
+      if author == url.split(%r[/|:])[-2]
         is_remote_existed = true
         remote_name = url.split(/\./)[1]
+        break
       end
     end
 
@@ -91,7 +91,7 @@ def update_bundle(bundle)
 
     # Track the default remote branch from the current branch
     # Note: The remote branch must be specified in earlier versions of git.
-    `cd #{repo} && git branch -u #{remote_name}`
+    `cd #{repo} && git branch -u #{remote_name}/master`
 
     update_branch repo, remote_name
     return
@@ -119,8 +119,9 @@ end
 
 # Fetch updates and reset the current branch to the tracking remote branch
 def update_branch(repo, remote_name)
+  # todo: shallow fetch a new remote
   `cd #{repo} && git fetch #{remote_name}`
-  `cd #{repo} && git reset --hard #{remote_name}`
+  `cd #{repo} && git reset --hard #{remote_name}/master`
 
   # Update submodules
   if File.exist? "#{repo}/.gitmodules"
