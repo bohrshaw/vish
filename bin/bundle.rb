@@ -68,40 +68,11 @@ def update_bundle(bundle)
   author, repo = bundle.split('/')
   author_current = `cd #{repo} && git ls-remote --get-url`.chomp.split(%r[/|:])[-2]
 
-  # Update the branch if the repository author not matching the bundle author
   if author.casecmp(author_current) != 0
-    remote_urls = %x(cd #{repo} && git config --get-regex remote\.\\S+\.url).split(/\r?\n/)
-
-    # Check if the remote URL are already existed
-    is_remote_existed, remote_name = nil
-    remote_urls.each do |url|
-      if author == url.split(%r[/|:])[-2]
-        is_remote_existed = true
-        remote_name = url.split(/\./)[1]
-        break
-      end
-    end
-
-    # Add the bundle remote if not existing
-    unless is_remote_existed
-      # todo: track the default remote branch instead of 'master'
-      `cd #{repo} && git remote add -t master #{author} #{get_url(bundle)}`
-      remote_name = author
-    end
-
-    # Track the default remote branch from the current branch
-    `cd #{repo} && git branch -u #{remote_name}/master`
-
-    update_branch repo, remote_name
-    return
-  end
-
-  if ACTION == 'update'
-    # Get the name of the tracking remote of the current local branch
-    branch_name = `cd #{repo} && git name-rev --name-only HEAD`.chomp
-    remote_name = `cd #{repo} && git config branch.#{branch_name}.remote`.chomp
-
-    update_branch repo, remote_name
+    FileUtils.rm_rf repo
+    clone_bundle bundle
+  elsif ACTION == 'update'
+    update_branch repo
   end
 end
 
@@ -117,9 +88,11 @@ def clean_bundles
 end
 
 # Fetch updates and reset the current branch to the tracking remote branch
-def update_branch(repo, remote_name)
-  # todo: shallow fetch a new remote
-  `cd #{repo} && git fetch #{remote_name} && git reset --hard #{remote_name}/master`
+def update_branch(repo)
+  # Get the tracking remote name of the current local branch
+  # branch_name = `cd #{repo} && git name-rev --name-only HEAD`.chomp
+  # remote_name = `cd #{repo} && git config branch.#{branch_name}.remote`.chomp
+  `cd #{repo} && git fetch && git reset --hard origin`
 
   # Update submodules
   if File.exist? "#{repo}/.gitmodules"
