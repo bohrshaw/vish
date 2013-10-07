@@ -71,10 +71,10 @@ set showcmd " Show partial commands in status line and
 
 set autoread " Automatically read a file that has changed on disk
 
-set wildmenu " Show list instead of just completing
-" Command <Tab> completion, list matches, then longest common part, then all.
-set wildmode=list:longest,full
-set wildignorecase " Ignore case in command line auto-completion
+" Command line completion
+set wildmenu
+set wildmode=longest:full,full
+set wildignorecase
 
 set tabpagemax=50 " Allow more tabs
 
