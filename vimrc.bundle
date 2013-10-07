@@ -148,17 +148,19 @@ Bundle 'tpope/vim-unimpaired'
 " Slogan: A start screen for Vim.
 Bundle 'mhinz/vim-startify'
 let g:startify_session_dir = '~/.vim/tmp/session'
-autocmd FileType startify setlocal nospell
+let g:startify_list_order = ['sessions', 'bookmarks', 'files']
 let g:startify_custom_header = [
-      \ '              __                         ',
-      \ '     __   __ /\_\    ___ ___             ',
-      \ '    /\ \ /\ \\/\ \ /` __` __`\           ',
-      \ '    \ \ \_/ / \ \ \/\ \/\ \/\ \          ',
-      \ '     \ \___/   \ \_\ \_\ \_\ \_\         ',
-      \ '      \/__/     \/_/\/_/\/_/\/_/         ',
-      \ '',
+      \ '            (__)',
+      \ '            (00)',
+      \ '      /------\/  ---------------',
+      \ '     / |    ||   HAVE A GOOD DAY',
+      \ '    *  /\---/\   ---------------',
+      \ '       ~~   ~~',
       \ '',
       \ ]
+autocmd FileType startify setlocal nospell
+" Prevent CtrlP open a split
+autocmd FileType startify setlocal buftype=
 
 " Slogan: Vim session manager.
 Bundle 'bohrshaw/sessionman.vim'
