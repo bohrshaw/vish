@@ -311,14 +311,8 @@ set laststatus=2 " Always display statusline
 " File modified flag, read only flag, preview flag, quickfix flag
 set statusline=%m%r%w%q
 
-" File name(truncate if too long) and current working directory
-function! Current_directory()
-  return substitute(getcwd(), '.*[/|\\]' ,'' ,'')
-endfunction
-set statusline+=%<%f(%{Current_directory()})
-
-" File modification time
-" set statusline+=,%{strftime(\"%H:%M\",getftime(expand(\"%:p\")))}
+" File name (truncate if too long)
+set statusline+=%<%f
 
 " File encoding
 set statusline+=\ %{&fenc==''?'':','.&fenc}
@@ -328,6 +322,12 @@ set statusline+=%{&ff==''?'':','.&ff}
 
 " File type
 set statusline+=%{&ft==''?'':','.&ft}
+
+" Software caps lock status
+set statusline+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''}
+
+" Left/Right separator
+set statusline+=%=
 
 " Custom git branch status
 function! Git_branch_status()
@@ -339,14 +339,14 @@ function! Git_branch_status()
 endfunction
 set statusline+=%{Git_branch_status()}
 
-" Software caps lock status
-set statusline+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''}
+" The current working directory
+function! Current_directory()
+  return substitute(getcwd(), '.*[/|\\]' ,'' ,'')
+endfunction
+set statusline+=\ %{Current_directory()}
 
-" Left/Right separator
-set statusline+=%=
-
-" Position and percentage
-set statusline+=%v,%l/%L,%p%%
+" Cursor position and line percentage (with a minimum width)
+set statusline+=\ %14(%v,%l/%L,%p%%%)
 
 " Apply the status line color after Vim started.
 autocmd VimEnter * hi statusline guifg=black
