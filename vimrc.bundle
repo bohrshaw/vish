@@ -272,6 +272,9 @@ Bundle 'flazz/vim-colorschemes'
 " Disable tagbar integration.
 " let g:airline#extensions#tagbar#enabled = 0
 
+" Slogan: super simple vim plugin to show the list of buffers in the command bar.
+" Bundle 'bling/vim-bufferline'
+
 " Slogan: A plugin that shows a diff via Vim's sign column.
 " Bundle 'mhinz/vim-signify'
 " let g:signify_disable_by_default = 1
