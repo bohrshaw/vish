@@ -218,6 +218,10 @@ noremap <leader>cm :CtrlPBookmarkDir<cr>
 Bundle 'vim-scripts/bufexplorer.zip'
 " nmap <leader>b :BufExplorer<CR>
 
+" Slogan: Delete buffers in Vim without closing your windows or messing up your layout.
+Bundle 'moll/vim-bbye'
+nnoremap <Leader>bd :Bdelete<CR>
+
 " Slogan: Automatic resizing of Vim windows to the golden ratio.
 Bundle 'roman/golden-ratio'
 let g:golden_ratio_autocommand = 0
