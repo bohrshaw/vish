@@ -407,7 +407,7 @@ Bundle 'ivanov/vim-ipython'
 " }}}2
 
 " Slogan: Personal Wiki for Vim.
-Bundle 'vim-scripts/vimwiki'
+Bundle 'vimwiki/vimwiki'
 " Restrict vimwiki's operation to only those paths listed in g:vimwiki_list.
 let g:vimwiki_global_ext = 0
 " Don't conceal characters
