@@ -163,11 +163,13 @@ autocmd FileType startify setlocal nospell
 autocmd FileType startify setlocal buftype=
 
 " Slogan: Vim session manager.
-Bundle 'bohrshaw/sessionman.vim'
-let g:session_save_on_exit = 0
-nnoremap <leader>sl :SSlist<CR>
-nnoremap <leader>ss :SSsave<CR>
-nnoremap <leader>sa :SSsaveas<CR>
+Bundle 'bohrshaw/vim-sessionman'
+let g:session_path = '~/.vim/tmp/session'
+" let g:session_save_on_exit = 1
+nnoremap <leader>sl :SessionList<CR>
+nnoremap <leader>ss :SessionSave<CR>
+nnoremap <leader>sa :SessionSaveas<CR>
+nnoremap <leader>si :SessionInfo<CR>
 
 " Slogan: obsession.vim: continuously updated session files.
 Bundle 'tpope/vim-obsession'
