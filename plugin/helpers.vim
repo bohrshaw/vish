@@ -87,7 +87,7 @@ command! -range=% SLOC echo helpers#count('^[^' . &cms[0] . ']', <line1>, <line2
 " Calculate words frequency
 command! -range=% WordFrequency <line1>,<line2>call helpers#word_frequency()
 
-" Calculate the size of the current buffer
+" Calculate the size of the current buffer (see also 'g Ctrl-G')
 command! BufSize :echo line2byte(line('$') + 1) - 1
 
 " vim:tw=80 ts=2 sw=2 et fdm=marker:
