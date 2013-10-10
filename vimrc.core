@@ -330,20 +330,10 @@ set statusline+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''}
 set statusline+=%=
 
 " Custom git branch status
-function! Git_branch_status()
-  if exists('*fugitive#head')
-    let status = fugitive#head(7)
-    return status != '' ? ','.status : ''
-  endif
-  return ''
-endfunction
-set statusline+=%{Git_branch_status()}
+set statusline+=%{exists('*fugitive#head')&&fugitive#head(7)!=''?fugitive#head(7):''}
 
 " The current working directory
-function! Current_directory()
-  return substitute(getcwd(), '.*[/|\\]' ,'' ,'')
-endfunction
-set statusline+=\ %{Current_directory()}
+set statusline+=\ %{substitute(getcwd(),'.*[\\/]','','')}
 
 " Cursor position and line percentage (with a minimum width)
 set statusline+=\ %14(%v,%l/%L,%p%%%)
