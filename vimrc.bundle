@@ -34,7 +34,6 @@ let g:seek_enable_jumps = 1
 " Bundle 'rhysd/clever-f.vim'
 " let g:clever_f_across_no_line = 1
 
-
 " Insert {{{2
 " Slogan: Software caps lock
 Bundle 'tpope/vim-capslock'
@@ -217,6 +216,11 @@ endif
 noremap <leader>cc :CtrlPClearCache<cr>
 " Open CtrlP bookmarked directories
 noremap <leader>cm :CtrlPBookmarkDir<cr>
+" Extentions
+let g:ctrlp_extensions = ['funky']
+" Slogan: a ctrlp.vim extension - Navigate and jump to function defs.
+Bundle 'tacahiroy/ctrlp-funky'
+nnoremap <Leader>fu :CtrlPFunky<CR>
 
 " Slogan: Buffer Explorer/Browser.
 Bundle 'vim-scripts/bufexplorer.zip'
