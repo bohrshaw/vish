@@ -16,7 +16,7 @@ Bundle 'tpope/vim-scriptease'
 aug Bundle
   au!
   " A buffer local map to open a bundle's URL in the browser
-  au Bundle BufReadPost {.,}vimrc.bundle nnoremap gB :call netrw#NetrwBrowseX(
+  au Bundle BufReadPost {.,}vimrc.bundle nnoremap <buffer> gB :call netrw#NetrwBrowseX(
         \ substitute(getline('.'),'\v.*\s.(.*).$','http://github.com/\1','g'),0)<CR>
 aug END
 
