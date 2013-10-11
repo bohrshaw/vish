@@ -148,6 +148,7 @@ Bundle 'tpope/vim-unimpaired'
 Bundle 'mhinz/vim-startify'
 let g:startify_session_dir = '~/.vim/tmp/session'
 let g:startify_list_order = ['sessions', 'bookmarks', 'files']
+let g:startify_skiplist = ['[Vv]im.*[\/]doc[\/][^\/]\+\.txt']
 let g:startify_custom_header = [
       \ '            (__)',
       \ '            (00)',
