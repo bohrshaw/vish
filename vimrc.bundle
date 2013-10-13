@@ -140,6 +140,9 @@ Bundle 'nelstrom/vim-visual-star-search'
 " Slogan: Mappings for simultaneously pressed keys.
 " Bundle 'kana/vim-arpeggio'
 
+" Slogan: fixes key codes for console Vim.
+Bundle 'drmikehenry/vim-fixkey'
+
 " Slogan: pairs of handy bracket mappings.
 Bundle 'tpope/vim-unimpaired'
 
