@@ -286,23 +286,6 @@ noremap! <expr> <SID>transposition getcmdpos()>strlen(getcmdline())?"\<Left>":ge
 noremap! <expr> <SID>transpose "\<BS>\<Right>".matchstr(getcmdline()[0 : getcmdpos()-2], '.$')
 cmap   <script> <C-T> <SID>transposition<SID>transpose
 
-" }}}2
-" Remap the mappings with the ALT key in the terminal.
-if !has("gui_running")
-  silent! exe "set <S-Left>=\<Esc>b"
-  silent! exe "set <S-Right>=\<Esc>f"
-  silent! exe "set <F31>=\<Esc>d"
-  map! <F31> <M-d>
-  silent! exe "set <F32>=\<Esc>n"
-  map! <F32> <M-n>
-  silent! exe "set <F33>=\<Esc>p"
-  map! <F33> <M-p>
-  silent! exe "set <F34>=\<Esc>u"
-  nmap <F34> <M-u>
-  silent! exe "set <F35>=\<Esc>t"
-  nmap <F35> <M-t>
-endif
-
 " Statusline {{{1
 " Starline: A quiet Vim Status line
 
