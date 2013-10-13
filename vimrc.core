@@ -253,8 +253,8 @@ inoremap <c-u> <c-g>u<c-u>
 
 " Recall older or more recent command-line from history, whose beginning matches
 " the current command-line.
-noremap!        <M-p> <Up>
-noremap!        <M-n> <Down>
+cnoremap        <C-P> <Up>
+cnoremap        <C-N> <Down>
 
 " Move the cursor around the line
 inoremap        <C-A> <C-O>^
@@ -270,11 +270,10 @@ noremap!        <M-b> <S-Left>
 " Move the cursor around one character
 inoremap <expr> <C-F> col('.')>strlen(getline('.'))?"\<Lt>C-F>":"\<Lt>Right>"
 cnoremap        <C-F> <Right>
-inoremap        <C-B> <Left>
-cnoremap        <C-B> <Left>
+noremap!        <C-B> <Left>
 
 " Delete one word after the cursor
-noremap!        <M-d> <C-O>dw
+inoremap        <M-d> <C-O>dw
 cnoremap        <M-d> <S-Right><C-W>
 
 " Delete one character after the cursor
