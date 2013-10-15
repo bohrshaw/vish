@@ -226,9 +226,11 @@ let g:ctrlp_extensions = ['funky']
 Bundle 'tacahiroy/ctrlp-funky'
 nnoremap <Leader>fu :CtrlPFunky<CR>
 
+" Slogan: Vim plugin to list, select and switch between buffers.
+" Bundle 'jeetsukumaran/vim-buffergator'
+
 " Slogan: Buffer Explorer/Browser.
 Bundle 'vim-scripts/bufexplorer.zip'
-" nmap <leader>b :BufExplorer<CR>
 
 " Slogan: Delete buffers in Vim without closing your windows or messing up your layout.
 Bundle 'moll/vim-bbye'

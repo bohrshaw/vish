@@ -4,6 +4,7 @@
 # Description: Sync Vim bundles.
 
 require 'fileutils'
+require 'thwait'
 
 VIM_DIR = File.expand_path('..', File.dirname(__FILE__) )
 BUNDLE_DIR = "#{VIM_DIR}/bundle"
@@ -44,7 +45,7 @@ def sync_bundles
 
     # todo: consider the 'rugged' gem the 'parallel' gem.
     # todo: output the process and the result of syncing bundles (consider popen3)
-    Thread.new do
+    $threads << Thread.new do
       if File.exist? bundle_dir or File.exist? bundle_dir + '~'
         File.rename bundle_dir + '~', bundle_dir if File.exist? bundle_dir + '~'
         update_bundle bundle
@@ -110,10 +111,12 @@ def get_url(partial_url)
   end
 end
 
-# Execute
+# Start execution
+$threads = []
 sync_bundles
+ThreadsWait.all_waits(*$threads)
 
-# Generate help tags
+# Generate help tags (ensure all git operations have finished)
 `vim -Nesu ~/.vim/vimrc.bundle --noplugin +BundleDocs +qa`
 
 # vim:fdm=syntax:
