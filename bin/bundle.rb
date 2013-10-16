@@ -114,9 +114,14 @@ end
 # Start execution
 $threads = []
 sync_bundles
+
+# Ensure all git operations have finished
 ThreadsWait.all_waits(*$threads)
 
-# Generate help tags (ensure all git operations have finished)
-`vim -Nesu ~/.vim/vimrc.bundle --noplugin +BundleDocs +qa`
+# Generate help tags
+cmd = %w{vim -Nesu NONE --cmd}
+cmd += ['if &rtp !~# "\v[\/]\.vim[,|$]" | set rtp^=~/.vim | endif |
+        call pathing#setout() | Helptags | qa']
+system(*cmd)
 
 # vim:fdm=syntax:
