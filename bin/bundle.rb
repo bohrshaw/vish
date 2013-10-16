@@ -121,7 +121,7 @@ ThreadsWait.all_waits(*$threads)
 # Generate help tags
 cmd = %w{vim -Nesu NONE --cmd}
 cmd += ['if &rtp !~# "\v[\/]\.vim[,|$]" | set rtp^=~/.vim | endif |
-        call pathing#setout() | Helptags | qa']
+        call pathway#setout() | Helptags | qa']
 system(*cmd)
 
 # vim:fdm=syntax:
