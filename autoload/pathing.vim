@@ -85,7 +85,7 @@ function! pathing#helptags() abort " {{{1
   for glob in pathing#split(&rtp)
     for dir in split(glob(glob), "\n")
       if (dir.'/')[0 : strlen($VIMRUNTIME)] !=# $VIMRUNTIME.'/' && filewritable(dir.'/doc') == 2 && !empty(filter(split(glob(dir.'/doc/*'),"\n>"),'!isdirectory(v:val)')) && (!filereadable(dir.'/doc/tags') || filewritable(dir.'doc/tags'))
-        silent! execute 'helptags' pathing#fnameescape(dir.'/doc')
+        silent! execute 'helptags' fnameescape(dir.'/doc')
       endif
     endfor
   endfor
