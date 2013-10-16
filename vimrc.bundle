@@ -34,6 +34,9 @@ let g:seek_enable_jumps = 1
 " Bundle 'rhysd/clever-f.vim'
 " let g:clever_f_across_no_line = 1
 
+" Slogan: Create your own text objects.
+Bundle 'kana/vim-textobj-user'
+
 " Insert {{{2
 " Slogan: Software caps lock
 Bundle 'tpope/vim-capslock'
