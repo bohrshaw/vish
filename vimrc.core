@@ -319,7 +319,7 @@ set statusline+=%{exists('*fugitive#head')&&fugitive#head(7)!=''?fugitive#head(7
 set statusline+=\ %{substitute(getcwd(),'.*[\\/]','','')}
 
 " Cursor position and line percentage (with a minimum width)
-set statusline+=\ %14(%v,%l/%L,%p%%%)
+set statusline+=\ %14(%c%V,%l/%L,%p%%%)
 
 " Apply the status line color after Vim started.
 autocmd VimEnter * hi statusline guifg=black
