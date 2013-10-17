@@ -87,12 +87,20 @@ set incsearch " Find as you type search
 set ignorecase " Case insensitive search
 set smartcase " Case sensitive when uc present
 
+" Number of spaces to use for each step of (auto)indent
+set shiftwidth=4
 " Use multiple of shiftwidth to round when indenting with '<' and '>'
 set shiftround
-" Indent at the same level of the previous line
-set autoindent
+
+" Number of spaces a tab displayed in
+set tabstop=4
+" Number of spaces used when press <Tab> or <BS>
+set softtabstop=4
 set expandtab " Expand a tab to spaces
 set smarttab " Make tab width equals shiftwidth
+
+" Indent at the same level of the previous line
+set autoindent
 
 " Timeout on key codes
 set ttimeout
@@ -127,13 +135,6 @@ set cdpath=,,~/projects
 set fileformats=unix,dos " Affect new files
 set fileformat=unix " Local to buffer
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1
-
-" Number of spaces to use for each step of (auto)indent
-set shiftwidth=4
-" Number of spaces a tab displayed in
-set tabstop=4
-" Number of spaces used when press <Tab> or <BS>
-set softtabstop=4
 
 " Lines to scroll when cursor leaves screen
 " set scrolljump=2
