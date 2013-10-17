@@ -24,7 +24,7 @@ aug END
 " Motion {{{2
 " Slogan: vim motions on speed.
 Bundle 'bohrshaw/vim-easymotion'
-let g:EasyMotion_leader_key = '\'
+let g:EasyMotion_leader_key = ','
 
 " Slogan: Seek makes navigating long lines effortless, acting like f but taking two characters.
 Bundle 'goldfeld/vim-seek'
