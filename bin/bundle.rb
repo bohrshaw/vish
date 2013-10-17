@@ -101,7 +101,7 @@ class Bundle
     # Update submodules
     if File.exist? "#{repo}/.gitmodules"
       `cd #{repo} && git submodule sync \
-          && git submodule update --init --recursive`
+       && git submodule update --init --recursive`
     end
   end
 
@@ -133,7 +133,7 @@ ThreadsWait.all_waits(*GIT_THREADS)
 # Generate Vim help tags
 cmd = %w{vim -Nesu NONE --cmd}
 cmd << 'if &rtp !~# "\v[\/]\.vim[,|$]" | set rtp^=~/.vim | endif \
-  | call pathway#setout() | Helptags | qa'
+        | call pathway#setout() | Helptags | qa'
 system(*cmd)
 
 # vim:fdm=syntax:
