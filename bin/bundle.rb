@@ -3,24 +3,30 @@
 # Sync Vim bundles
 # Author: Bohr Shaw <pubohr@gmail.com>
 
+require 'optparse'
 require 'fileutils'
 require 'thwait'
 
-# Parse the command line options
-OPTIONS = ARGV.join.gsub(/\W/, '').chars
+# Parse command line options
+OPTIONS = {}
+OptionParser.new do |opts|
+  opts.banner = 'Usage: bundle.rb [options]'
 
-# Print usages
-unless OPTIONS.sort.join =~ /^c?u?$/
-  puts <<-END.gsub(/^\s+\|/, '')
-    |Vim bundle manager, sync bundles by default.
-    |
-    |usage: bundle.rb [options]
-    |
-    |options: -u  update bundles
-    |         -c  clean bundles
+  opts.separator <<-END.gsub(/^ +/, '')
+
+    Sync bundles by default.
+
+    Options:
   END
-  exit
-end
+
+  opts.on('-u', '--update', 'update bundles') do
+    OPTIONS[:update] = true
+  end
+
+  opts.on('-c', '--clean', 'clean bundles') do
+    OPTIONS[:clean] = true
+  end
+end.parse!
 
 # Define constants
 VIM_DIR = File.expand_path('..', File.dirname(__FILE__))
@@ -53,7 +59,7 @@ class Bundle
       end
     end
 
-    clean if OPTIONS.include? 'c'
+    clean if OPTIONS[:clean]
   end
 
   # Clone a bundle
@@ -70,7 +76,7 @@ class Bundle
     if author.casecmp(author_current) != 0
       FileUtils.rm_rf repo
       clone bundle
-    elsif OPTIONS.include? 'u'
+    elsif OPTIONS[:update]
       update_branch repo
     end
   end
