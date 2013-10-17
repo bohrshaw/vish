@@ -404,6 +404,9 @@ Bundle 'majutsushi/tagbar'
 " Slogan: A two-way integration between Vim and IPython 0.11+.
 Bundle 'ivanov/vim-ipython'
 
+" Slogan: runs RuboCop and displays the results in Vim.
+Bundle 'ngmy/vim-rubocop'
+
 " Slogan: vim, your markup language of choice, and your browser of choice.
 " Bundle 'matthias-guenther/hammer.vim'
 
