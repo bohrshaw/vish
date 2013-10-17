@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Install the "VIMISE" distribution.
+# Install the "Vish" distribution.
 
 pushd `dirname $0` > /dev/null
 VIM_DIR=`pwd -P`

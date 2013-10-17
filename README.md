@@ -1,4 +1,4 @@
-# Vimise - A vim distribution!
+# Vish - A vim distribution!
 
 # Installation
  * Linux: `./install.sh`

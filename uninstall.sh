@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Uninstall the "VIMISE" distribution.
+# Uninstall the "Vish" distribution.
 
 echo "Starting uninstallation..."
 
