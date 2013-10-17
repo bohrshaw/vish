@@ -5,5 +5,8 @@ set softtabstop=2
 " Number of spaces to use for each step of (auto)indent
 set shiftwidth=2
 
+" Line length above which to break a line
+set textwidth=79
+
 " Enable ruby syntax based folding
 let ruby_fold = 1
