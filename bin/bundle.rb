@@ -38,76 +38,76 @@ class Bundle
     end
   end
 
-  class << self
-    # Sync all bundles
-    def sync
-      BUNDLES.each do |bundle|
-        dir = bundle.split('/')[1]
-        dir_disabled = dir + '~'
+  # Sync all bundles
+  def self.sync
+    BUNDLES.each do |bundle|
+      dir = bundle.split('/')[1]
+      dir_disabled = dir + '~'
 
-        # TODO: Print necessary information during and after syncing bundles,
-        # possibly using popen3. Also consider using the 'rugged' gem and the
-        # 'parallel' gem.
-        GIT_THREADS << Thread.new do
-          File.rename dir_disabled, dir if File.exist? dir_disabled
-          File.exist?(dir) ? update(bundle) : clone(bundle)
-        end
-      end
-
-      clean if OPTIONS.include? 'c'
-    end
-
-    # Clone a bundle
-    def clone(bundle)
-      `"git clone --depth 1 --quiet --recursive #{get_url bundle}"`
-    end
-
-    # Update a bundle
-    def update(bundle)
-      author, repo = bundle.split('/')
-      author_current = `cd #{repo} && git ls-remote --get-url`
-        .chomp.split(/\/|:/)[-2]
-
-      if author.casecmp(author_current) != 0
-        FileUtils.rm_rf repo
-        clone bundle
-      elsif OPTIONS.include? 'u'
-        update_branch repo
+      # TODO: Print necessary information during and after syncing bundles,
+      # possibly using popen3. Also consider using the 'rugged' gem and the
+      # 'parallel' gem.
+      GIT_THREADS << Thread.new do
+        File.rename dir_disabled, dir if File.exist? dir_disabled
+        File.exist?(dir) ? update(bundle) : clone(bundle)
       end
     end
 
-    # Clean obsolete bundles.
-    def clean
-      bundle_dirs = BUNDLES.map do |b|
-        b.split('/')[-1]
-      end
+    clean if OPTIONS.include? 'c'
+  end
 
-      Dir.glob('*/').each do |dir|
-        FileUtils.rm_rf(dir) unless bundle_dirs.include? dir.chomp('/')
-      end
+  # Clone a bundle
+  def self.clone(bundle)
+    `"git clone --depth 1 --quiet --recursive #{get_url bundle}"`
+  end
+
+  # Update a bundle
+  def self.update(bundle)
+    author, repo = bundle.split('/')
+    author_current = `cd #{repo} && git ls-remote --get-url`
+    .chomp.split(/\/|:/)[-2]
+
+    if author.casecmp(author_current) != 0
+      FileUtils.rm_rf repo
+      clone bundle
+    elsif OPTIONS.include? 'u'
+      update_branch repo
+    end
+  end
+
+  # Clean obsolete bundles.
+  def self.clean
+    bundle_dirs = BUNDLES.map do |b|
+      b.split('/')[-1]
     end
 
-    # Fetch updates and reset the current branch to the tracking remote branch
-    def update_branch(repo)
-      `cd #{repo} && git fetch && git reset --hard origin`
+    Dir.glob('*/').each do |dir|
+      FileUtils.rm_rf(dir) unless bundle_dirs.include? dir.chomp('/')
+    end
+  end
 
-      # Update submodules
-      if File.exist? "#{repo}/.gitmodules"
-        `cd #{repo} && git submodule sync \
+  private
+
+  # Fetch updates and reset the current branch to the tracking remote branch
+  def self.update_branch(repo)
+    `cd #{repo} && git fetch && git reset --hard origin`
+
+    # Update submodules
+    if File.exist? "#{repo}/.gitmodules"
+      `cd #{repo} && git submodule sync \
           && git submodule update --init --recursive`
-      end
     end
+  end
 
-    # Get the full git URL based on a partial URL like 'author/repo'.
-    def get_url(partial_url)
-      case partial_url
-      when  %r{^(\w+://|(.*?@)?[^.]+\.[^.]+:)}
-        partial_url
-      when %r{^[^/]+/[^/]+$}
-        "git://github.com/#{partial_url}.git"
-      else
-        abort "This partial git URL '#{partial_url}' is not recognised."
-      end
+  # Get the full git URL based on a partial URL like 'author/repo'.
+  def self.get_url(partial_url)
+    case partial_url
+    when  %r{^(\w+://|(.*?@)?[^.]+\.[^.]+:)}
+      partial_url
+    when %r{^[^/]+/[^/]+$}
+      "git://github.com/#{partial_url}.git"
+    else
+      abort "This partial git URL '#{partial_url}' is not recognised."
     end
   end
 end
