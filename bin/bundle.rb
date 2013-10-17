@@ -32,7 +32,6 @@ end.parse!
 VIM_DIR = File.expand_path('..', File.dirname(__FILE__))
 BUNDLE_DIR = "#{VIM_DIR}/bundle"
 BUNDLE_FILE = "#{VIM_DIR}/vimrc.bundle"
-GIT_THREADS = []
 
 # The bundle manager
 class Bundle
@@ -53,9 +52,14 @@ class Bundle
       # TODO: Print necessary information during and after syncing bundles,
       # possibly using popen3. Also consider using the 'rugged' gem and the
       # 'parallel' gem.
-      GIT_THREADS << Thread.new do
+      Thread.new do
         File.rename dir_disabled, dir if File.exist? dir_disabled
         File.exist?(dir) ? update(bundle) : clone(bundle)
+      end
+
+      # Limit the number of concurrent running processes.
+      while Thread.list.select { |th| th.status == 'run' }.count > 20
+        sleep 0.1
       end
     end
 
@@ -83,8 +87,8 @@ class Bundle
 
   # Clean obsolete bundles.
   def self.clean
-    bundle_dirs = BUNDLES.map do |b|
-      b.split('/')[-1]
+    bundle_dirs = BUNDLES.map do |bdl|
+      bdl.split('/')[-1]
     end
 
     Dir.glob('*/').each do |dir|
@@ -128,7 +132,7 @@ Dir.chdir BUNDLE_DIR
 Bundle.sync
 
 # Ensure all git operations have finished
-ThreadsWait.all_waits(*GIT_THREADS)
+ThreadsWait.all_waits(*Thread.list)
 
 # Generate Vim help tags
 cmd = %w{vim -Nesu NONE --cmd}
