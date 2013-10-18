@@ -18,7 +18,7 @@ let &rtp="$HOME/.vim," . s:rtp_prepends . "$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfil
 
 " Bundle configuration
 nmap cx <Plug>Coerce
-let g:EasyMotion_leader_key = '\'
+let g:EasyMotion_leader_key = ','
 let g:seek_enable_jumps = 1
 
 " Post configuration
