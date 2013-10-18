@@ -58,9 +58,7 @@ class Bundle
       end
 
       # Limit the number of concurrent running processes.
-      while Thread.list.select { |th| th.status == 'run' }.count > 20
-        sleep 0.1
-      end
+      sleep 0.1 while Thread.list.select { |th| th.status == 'run' }.count > 20
     end
 
     clean if OPTIONS[:clean]
@@ -68,14 +66,14 @@ class Bundle
 
   # Clone a bundle
   def self.clone(bundle)
-    `"git clone --depth 1 --quiet --recursive #{get_url bundle}"`
+    `git clone --depth 1 --quiet --recursive #{get_url bundle}`
   end
 
   # Update a bundle
   def self.update(bundle)
     author, repo = bundle.split('/')
     author_current = `cd #{repo} && git ls-remote --get-url`
-    .chomp.split(/\/|:/)[-2]
+      .chomp.split(/\/|:/)[-2]
 
     if author.casecmp(author_current) != 0
       FileUtils.rm_rf repo
@@ -135,9 +133,8 @@ Bundle.sync
 ThreadsWait.all_waits(*Thread.list)
 
 # Generate Vim help tags
-cmd = %w{vim -Nesu NONE --cmd}
-cmd << 'if &rtp !~# "\v[\/]\.vim[,|$]" | set rtp^=~/.vim | endif \
-        | call pathway#setout() | Helptags | qa'
-system(*cmd)
+system('vim', '-Nesu', 'NONE', '--cmd',
+       'if &rtp !~# "\v[\/]\.vim[,|$]" | set rtp^=~/.vim | endif' \
+       ' | call pathway#setout() | Helptags | qa')
 
 # vim:fdm=syntax:
