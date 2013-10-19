@@ -72,8 +72,8 @@ class Bundle
   # Update a bundle
   def self.update(bundle)
     author, repo = bundle.split('/')
-    author_current = `cd #{repo} && git ls-remote --get-url`
-      .chomp.split(/\/|:/)[-2]
+    author_current =
+      `cd #{repo} && git ls-remote --get-url`.chomp.split(/\/|:/)[-2]
 
     if author.casecmp(author_current) != 0
       FileUtils.rm_rf repo
