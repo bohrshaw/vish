@@ -205,10 +205,6 @@ noremap <A-k> <C-W>W
 " Be consistent with other operators
 nnoremap Y y$
 
-" Very magic search
-nnoremap / /\v
-nnoremap ? ?\v
-
 " Make repeating last substitution keep the flags
 NXnoremap & :&&<cr>
 
