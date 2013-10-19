@@ -239,6 +239,9 @@ cabbrev vsb vert sb
 " Edit a file in a new tab
 cabbrev te tabe
 
+" Close a tab
+cabbrev tc tabc
+
 " Edit a buffer in a new tab
 cabbrev tb tab sb
 
