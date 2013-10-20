@@ -52,8 +52,8 @@ cabbrev %% <C-R>=expand('%:h').'/'<cr>
 command! Scratch e __Scratch__ | set buftype=nofile bufhidden=hide
 noremap <leader>_ :Scratch<CR>
 
-" Create a directory under the current path
-command! -nargs=1 -complete=dir Mkdir :call mkdir(getcwd() . "/" . <q-args>, "p")
+" Create a path
+command! -nargs=? -complete=dir Mkdir call helpers#mkdir(<q-args>)
 
 " Diff with another file
 command! -nargs=? -complete=buffer DiffWith call helpers#diffwith(<f-args>)

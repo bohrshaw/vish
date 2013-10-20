@@ -2,6 +2,16 @@
 " Author: Bohr Shaw <pubohr@gmail.com>
 " Description: Small powerful tolls.
 
+" Create a path conveniently {{{1
+function! helpers#mkdir(...)
+  if a:1 =~ '\v^(/|(\~|\w:)[\/])'
+    let dir = expand(a:1)
+  else
+    let dir = getcwd() . "/" . (a:0 == 0 ? expand('%:h') : a:1)
+  endif
+  call mkdir(dir, 'p')
+endfunction
+
 " Calculate the time spending on executing commands {{{1
 function! helpers#time(commands)
   let time_start = reltime()
