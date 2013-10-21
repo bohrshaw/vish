@@ -340,10 +340,11 @@ else
     set t_Co=16
   endif
 
-  if &term == 'xterm' || &term == 'xterm-256color' || &term == 'screen'
-    " Enable 256 colors to stop the CSApprox warning
-    set t_Co=256
-    let g:solarized_termcolors=256
+  if &term =~ '256col'
+    " Disable Background Color Erase (BCE) so that color schemes
+    " render properly when inside 256-color tmux and GNU screen.
+    " See also http://snk.tuxfamily.org/log/vim-256color-bce.html
+    set t_ut=
   endif
 endif
 
