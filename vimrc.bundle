@@ -254,6 +254,7 @@ if &term =~ '256col'
 endif
 " Turn off menu integration
 let g:solarized_menu=0
+hi StatusLine guifg=black
 
 " Slogan: Base16 for Vim.
 Bundle 'chriskempson/base16-vim'
