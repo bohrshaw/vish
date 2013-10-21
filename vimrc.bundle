@@ -246,20 +246,26 @@ noremap <C-W>G :GoldenRatioResize<CR>
 
 " Appearance {{{1
 " Color Schemes {{{2
+" Slogan: precision colorscheme for the vim text editor.
+Bundle 'altercation/vim-colors-solarized'
+if &term =~ '256col'
+  " Use the 256 degraded color mode
+  let g:solarized_termcolors=256
+endif
+" Turn off menu integration
+let g:solarized_menu=0
+
 " Slogan: Base16 for Vim.
 Bundle 'chriskempson/base16-vim'
 
 " Slogan: one colorscheme pack to rule them all.
-Bundle 'flazz/vim-colorschemes'
+" Bundle 'flazz/vim-colorschemes'
 
 " Slogan: Sublime Text 2 Themes (textmate) created by Dayle Rees.
 " Bundle 'daylerees/colour-schemes', { 'rtp': 'vim-themes' }
 
 " Slogan: Make gvim-only colorschemes work transparently in terminal vim.
 " Bundle 'godlygeek/csapprox'
-
-" Slogan: precision colorscheme for the vim text editor.
-" Bundle 'altercation/vim-colors-solarized'
 
 " Slogan: Molokai color scheme for Vim.
 " Bundle 'tomasr/molokai'
