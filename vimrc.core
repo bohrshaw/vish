@@ -320,11 +320,6 @@ set statusline+=\ %{substitute(getcwd(),'.*[\\/]','','')}
 " Cursor position and line percentage (with a minimum width)
 set statusline+=\ %14(%c%V,%l/%L,%p%%%)
 
-" Apply the status line color after Vim started.
-autocmd VimEnter * hi statusline guifg=black
-" Reapply the status line color after switching a color scheme.
-autocmd ColorScheme * hi statusline guifg=black
-
 " GUI vs Terminal {{{1
 if has('gui_running')
   if has('win32')
