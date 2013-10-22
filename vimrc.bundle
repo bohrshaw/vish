@@ -365,6 +365,10 @@ Bundle 'tpope/vim-rake'
 Bundle 'kchmck/vim-coffee-script'
 
 " External interaction {{{1
+
+" Slogan: All 256 xterm colors with their RGB equivalents, right in Vim!
+Bundle 'guns/xterm-color-table.vim'
+
 " Slogan: a Git wrapper so awesome, it should be illegal.
 Bundle 'tpope/vim-fugitive'
 nnoremap <silent> <leader>gs :Gstatus<CR>
