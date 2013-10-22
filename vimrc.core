@@ -337,17 +337,16 @@ if has('gui_running')
   " Change the default working directory to HOME
   if 0 == argc() | cd $HOME | endif
 else
-  " Allow color schemes do bright colors without forcing bold.
-  if &t_Co == 8 && $TERM !~# '^linux'
-    set t_Co=16
-  endif
+  " Assume xterm supports 256 colors
+  if &term =~ 'xterm' | set term=xterm-256color | endif
 
-  if &term =~ '256col'
-    " Disable Background Color Erase (BCE) so that color schemes
-    " render properly when inside 256-color tmux and GNU screen.
-    " See also http://snk.tuxfamily.org/log/vim-256color-bce.html
-    set t_ut=
-  endif
+  " Disable Background Color Erase (BCE) so that color schemes
+  " render properly when inside 256-color tmux and GNU screen.
+  " See also http://snk.tuxfamily.org/log/vim-256color-bce.html
+  if &term =~ '256col' | set t_ut= | endif
+
+  " Allow color schemes do bright colors without forcing bold.
+  if &t_Co == 8 && &term !~ '^linux' | set t_Co=16 | endif
 endif
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
