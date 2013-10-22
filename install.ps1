@@ -1,4 +1,4 @@
-Param ( [Switch] $override=$false )
+Param ( [Switch] $Force=$false )
 
 # Supporting functions {{{
 function New-Link {
@@ -11,7 +11,7 @@ function New-Link {
 
     # What to do ifthe link existed.
     if(Test-Path $link) {
-        if($script:override) {
+        if($script:Force) {
             if(Test-Path -type container $link) {
                 [System.IO.Directory]::Delete($link)
             }
@@ -31,16 +31,19 @@ function Invoke-MKLink { cmd /c mklink $args }
 # }}}
 
 # Environment variables
-$vim_dir = Split-Path $script:MyInvocation.MyCommand.Path
+$VIM_DIR = Split-Path $script:MyInvocation.MyCommand.Path
 
-# Link this repository to ~/.vim
-New-Link $vim_dir $HOME\.vim
+# Link this repository if its path isn't ~/.vim
+if($VIM_DIR -ne (Convert-Path '~\.vim')) {
+    New-Link $VIM_DIR $HOME\.vim
+}
 
 # Link vimrc files
-$targets = @("vimrc", "vimrc.light", "vsvimrc")
-foreach( $target in $targets ) { New-Link "$vim_dir\$target" }
+New-Link "$VIM_DIR\vimrc.heavy" "$HOME\.vimrc"
+New-Link "$VIM_DIR\vimrc.light" "$HOME\.vimrc.light"
+New-Link "$VIM_DIR\vsvimrc"
 
 # Sync bundles
-Invoke-Expression "ruby $vim_dir\bin\bundle.rb"
+Invoke-Expression "ruby $VIM_DIR\bin\bundle.rb"
 
 # vim:tw=80 ts=4 sw=4 et fdm=marker:

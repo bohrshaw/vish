@@ -2,7 +2,7 @@
 " Author: Bohr Shaw <pubohr@gmail.com>
 
 " Core configuration
-silent! source ~/.vim/vimrc.core
+silent! source ~/.vim/vimrc
 " silent! source <sfile>:h/vimrc.core
 filetype plugin indent on
 syntax enable
