@@ -5,9 +5,6 @@ pushd `dirname $0` > /dev/null
 VIM_DIR=`pwd -P`
 popd > /dev/null
 
-echo "Start installation ..."
-
-echo "Back up and link files ..."
 today=`date +%Y%m%d`
 backup () {
   # Backup only non symbol link files.
@@ -17,16 +14,21 @@ backup () {
   fi
 }
 
-# Check whether the repository path is already ~/.vim
+echo "Start installation ..."
+echo "Back up and link files ..."
+
+# Link this repository if its path isn't ~/.vim
 if [[ $VIM_DIR != $HOME'/.vim' ]]; then
   backup $HOME'/.vim'
   ln -sfn $VIM_DIR $HOME/.vim
 fi
 
-for f in vimrc gvimrc vimrc.light; do
+# Link vimrc files
+for f in vimrc gvimrc; do
   backup $HOME/.$f
-  ln -sf $VIM_DIR/$f $HOME/.$f
 done
+ln -sf $VIM_DIR/vimrc.heavy $HOME/.vimrc
+ln -sf $VIM_DIR/vimrc.light $HOME/.vimrc.light
 
 echo "Clone bundles ..."
 $VIM_DIR/bin/bundle.rb
