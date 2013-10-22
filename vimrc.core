@@ -102,6 +102,8 @@ set smarttab " Make tab width equals shiftwidth
 " Indent at the same level of the previous line
 set autoindent
 
+set colorcolumn=+1 " highlight column after 'textwidth'
+
 " Timeout on key codes
 set ttimeout
 " Key code delay (can avoid the delay in entering normal mode after pressing ESC)
