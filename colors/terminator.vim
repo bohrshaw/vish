@@ -14,7 +14,7 @@ hi clear
 if exists("syntax_on")
   syntax reset
 endif
-let g:colors_name = "terminater"
+let g:colors_name = "terminator"
 
 set background=dark
 
