@@ -16,7 +16,6 @@ syntax enable
 set swapfile!
 set undofile!
 set viminfo=
-set spell!
 
 " Choose a color scheme
 if has('gui_running')
