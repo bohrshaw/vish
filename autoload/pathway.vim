@@ -1,34 +1,10 @@
 " pathway.vim - runtime path manager (based on 'pathogen')
 " Author: Bohr Shaw <pubohr@gmail.com>
 
-" Install in ~/.vim/autoload.
-"
-" For management of individually installed plugins in ~/.vim/bundle, adding
-" `call pathway#setout()` to the top of your .vimrc is the only other setup
-" necessary.
-
 if exists("g:loaded_pathway") || &cp
   finish
 endif
 let g:loaded_pathway = 1
-
-" The point of entry for basic default usage. Give a relative path(a single
-" folder) to invoke pathway#circle() (defaults to 'bundle/*'), or an absolute
-" path to invoke pathway#surround().
-function! pathway#setout(...) abort " {{{1
-  for path in a:0 ? reverse(copy(a:000)) : ['bundle/*']
-    " Remove a trailing slash if existing
-    let path = substitute(path, '[\/]$', '', '')
-    " A relative path
-    if path =~# '\v^[^\/]+([\/]\*)?$'
-      call pathway#circle(path)
-    " Assume a absolute path
-    else
-      call pathway#surround(path)
-    endif
-  endfor
-  return ''
-endfunction " }}}1
 
 " For each directory in the runtime path, add a second entry with the given
 " argument appended. If the argument ends in '/*', add a separate entry for
@@ -36,7 +12,7 @@ endfunction " }}}1
 " .vim/bundle/*, $VIM/vimfiles/bundle/*, $VIMRUNTIME/bundle/*,
 " $VIM/vimfiles/bundle/*/after, and .vim/bundle/*/after will be added (on
 " UNIX).
-function! pathway#circle(...) abort " {{{1
+function! pathway#inject(...) abort " {{{1
   let name = a:0 ? a:1 : 'bundle/*'
   let list = []
   for dir in pathway#split(&rtp)
@@ -54,7 +30,7 @@ function! pathway#circle(...) abort " {{{1
       endif
     endif
   endfor
-  let &rtp = pathway#join(pathway#uniq(list))
+  let &rtp = pathway#join(list)
   return 1
 endfunction
 " }}}1
@@ -146,23 +122,4 @@ function! pathway#join(...) abort " {{{1
   return substitute(path,'^,','','')
 endfunction " }}}1
 
-" Remove duplicates from a list.
-function! pathway#uniq(list) abort " {{{1
-  let i = 0
-  let seen = {}
-  while i < len(a:list)
-    if (a:list[i] ==# '' && exists('empty')) || has_key(seen,a:list[i])
-      call remove(a:list,i)
-    elseif a:list[i] ==# ''
-      let i += 1
-      let empty = 1
-    else
-      let seen[a:list[i]] = 1
-      let i += 1
-    endif
-  endwhile
-  return a:list
-endfunction " }}}1
-
 " vim:et sw=2 fdm=marker:
-
