@@ -2,13 +2,17 @@
 " Author: Bohr Shaw <pubohr@gmail.com>
 
 " Bundle management {{{1
+let g:bundle_dirs = []
+command! -nargs=1 Lundle let g:bundle_dirs += [split(<args>, '/')[1]]
+exe 'command! -nargs=1 Bundle ' . (exists('g:is_vim_light') ? ':' : 'Lundle <args>')
+
 " Vundle initialization
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+" set rtp+=~/.vim/bundle/vundle/
+" call vundle#rc()
 
 " Slogan: Vundle, the plug-in manager for Vim.
-Bundle 'gmarik/vundle'
-let g:vundle_default_git_proto = 'git'
+" Bundle 'gmarik/vundle'
+" let g:vundle_default_git_proto = 'git'
 
 " Slogan: A Vim plugin for Vim plugins.
 Bundle 'tpope/vim-scriptease'
@@ -23,11 +27,11 @@ aug END
 " Editing {{{1
 " Motion {{{2
 " Slogan: vim motions on speed.
-Bundle 'bohrshaw/vim-easymotion'
+Lundle 'bohrshaw/vim-easymotion'
 let g:EasyMotion_leader_key = ','
 
 " Slogan: Seek makes navigating long lines effortless, acting like f but taking two characters.
-Bundle 'goldfeld/vim-seek'
+Lundle 'goldfeld/vim-seek'
 let g:seek_enable_jumps = 1
 
 " Slogan: Extended f, F, t and T key mappings for Vim.
@@ -89,19 +93,19 @@ let g:snips_author='Bohr Shaw <pubohr@gmail.com>'
 
 " Change {{{2
 " Slogan: commentary.vim: comment stuff out.
-Bundle 'tpope/vim-commentary'
+Lundle 'tpope/vim-commentary'
 
 " Slogan: Vim plugin for intensely orgasmic commenting.
 " Bundle 'scrooloose/nerdcommenter'
 
 " Slogan: quoting/parenthesizing made simple.
-Bundle 'tpope/vim-surround'
+Lundle 'tpope/vim-surround'
 
 " Slogan: Vim script for text filtering and alignment.
 Bundle 'godlygeek/tabular'
 
 " Slogan: use CTRL-A/CTRL-X to increment dates, times, and more.
-Bundle 'tpope/vim-speeddating'
+Lundle 'tpope/vim-speeddating'
 
 " Slogan: Punctuation text objects: ci/ da; vi@ yiq da<space> ...
 Bundle 'kurkale6ka/vim-pairs'
@@ -110,7 +114,7 @@ Bundle 'kurkale6ka/vim-pairs'
 Bundle 'kurkale6ka/vim-swap'
 
 " Slogan: easily search for, substitute, and abbreviate multiple variants of a word.
-Bundle 'tpope/vim-abolish'
+Lundle 'tpope/vim-abolish'
 " More convenient to type than 'cr'
 nmap cx <Plug>Coerce
 
@@ -127,7 +131,7 @@ let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 Bundle 'sjl/gundo.vim'
 
 " Slogan: enable repeating supported plugin maps with ".".
-Bundle 'tpope/vim-repeat'
+Lundle 'tpope/vim-repeat'
 
 " Slogan: Maintains a history of previous yanks, changes and deletes.
 " Bundle 'vim-scripts/yankring.vim'
@@ -147,7 +151,7 @@ Bundle 'nelstrom/vim-visual-star-search'
 Bundle 'drmikehenry/vim-fixkey'
 
 " Slogan: pairs of handy bracket mappings.
-Bundle 'tpope/vim-unimpaired'
+Lundle 'tpope/vim-unimpaired'
 
 " File, Buffer, Pane, Window, Tab, Session {{{1
 " Slogan: A start screen for Vim.
@@ -247,7 +251,7 @@ noremap <C-W>G :GoldenRatioResize<CR>
 " Appearance {{{1
 " Color Schemes {{{2
 " Slogan: precision colorscheme for the vim text editor.
-Bundle 'altercation/vim-colors-solarized'
+Lundle 'altercation/vim-colors-solarized'
 if &term =~ '256col'
   " Use the 256 degraded color mode
   let g:solarized_termcolors=256
@@ -257,7 +261,7 @@ let g:solarized_menu=0
 hi StatusLine guifg=black
 
 " Slogan: Base16 for Vim.
-Bundle 'chriskempson/base16-vim'
+Lundle 'chriskempson/base16-vim'
 
 " Slogan: one colorscheme pack to rule them all.
 " Bundle 'flazz/vim-colorschemes'
@@ -340,7 +344,7 @@ Bundle 'PProvost/vim-ps1'
 Bundle 'tpope/vim-markdown'
 
 " Slogan: Vim Git runtime files.
-Bundle 'tpope/vim-git'
+Lundle 'tpope/vim-git'
 
 " Slogan: Syntax file for nginx.
 Bundle 'vim-scripts/nginx.vim'
@@ -447,5 +451,8 @@ let g:vimwiki_conceallevel = 0
 let g:vimwiki_list = [{'path': '~/vimwiki/',
       \ 'syntax': 'markdown',
       \ 'ext': '.md'}]
+
+" Bundle Finish {{{1
+call pathway#inject('bundle', g:bundle_dirs)
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:

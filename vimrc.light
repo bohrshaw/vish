@@ -3,26 +3,14 @@
 
 " Core configuration
 silent! source ~/.vim/vimrc
-" silent! source <sfile>:h/vimrc.core
-filetype plugin indent on
-syntax enable
-
-" Runtime path configuration
-let g:bundles = ['vim-surround', 'vim-commentary', 'vim-abolish',
-      \ 'vim-unimpaired', 'vim-speeddating', 'vim-repeat',
-      \ 'vim-easymotion', 'vim-seek',
-      \ 'vim-git', 'base16-vim', 'vim-colors-solarized']
-let s:rtp_prepends = fnameescape(join(map(copy(g:bundles),  '"~/.vim/bundle/" . v:val'), ','))
-let s:rtp_appends = fnameescape(join(map(copy(g:bundles), '"~/.vim/bundle/" . v:val . "/after"'), ','))
-let &rtp="$HOME/.vim," . s:rtp_prepends . ",$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after," . s:rtp_appends
 
 " Bundle configuration
-nmap cx <Plug>Coerce
-let g:EasyMotion_leader_key = ','
-let g:seek_enable_jumps = 1
-if &term =~ '256col' | let g:solarized_termcolors=256 | endif
-let g:solarized_menu=0
-hi StatusLine guifg=black
+let g:is_vim_light = 1
+source ~/.vim/vimrc.bundle
+
+" Set these after rtp setup, but as early as possible to reduce startup time.
+filetype plugin indent on
+syntax enable
 
 " Post configuration
 set swapfile!
@@ -30,6 +18,7 @@ set undofile!
 set viminfo=
 set spell!
 
+" Choose a color scheme
 if has('gui_running')
   color base16-solarized
 elseif has('unix')
