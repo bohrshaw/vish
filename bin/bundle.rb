@@ -38,8 +38,8 @@ class Bundle
   # Get the bundle list
   BUNDLES = [] # the format of a bundle is like "author/repo"
   File.foreach(BUNDLE_FILE) do |line|
-    if line =~ /^\s*Bundle '.*/
-      BUNDLES << line.gsub(/^\s*Bundle ['|"](.*?)['|"].*/, '\1').chomp
+    if line =~ /^\s*[BL]undle '.*/
+      BUNDLES << line.gsub(/^\s*[BL]undle ['|"](.*?)['|"].*/, '\1').chomp
     end
   end
 

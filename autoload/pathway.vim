@@ -8,29 +8,40 @@ let g:loaded_pathway = 1
 
 " For each directory in the runtime path, add a second entry with the given
 " argument appended. If the argument ends in '/*', add a separate entry for
-" each subdirectory. The default argument is 'bundle/*', which means that
-" .vim/bundle/*, $VIM/vimfiles/bundle/*, $VIMRUNTIME/bundle/*,
-" $VIM/vimfiles/bundle/*/after, and .vim/bundle/*/after will be added (on
-" UNIX).
+" each subdirectory. For example, an argument 'bundle/*' makes .vim/bundle/*,
+" $VIM/vimfiles/bundle/*, $VIMRUNTIME/bundle/*, $VIM/vimfiles/bundle/*/after,
+" and .vim/bundle/*/after be added (on UNIX).  If the second argument is a
+" list, add a separate entry for each item in the list.
 function! pathway#inject(...) abort " {{{1
-  let name = a:0 ? a:1 : 'bundle/*'
-  let list = []
+  let bundle_base = a:0 ? a:1 : 'bundle/*'
+  let dirs = []
   for dir in pathway#split(&rtp)
     if dir =~# '\<after$'
-      if name =~# '\*$'
-        let list += filter(pathway#glob_directories(substitute(dir,'after$',name[0:-2],'').'*/after'), '!pathway#is_disabled(v:val[0:-7])') + [dir]
+      if exists('a:2') && type(a:2) == 3
+        let base_dir = substitute(dir, 'after$', a:1, '')
+        if isdirectory(base_dir)
+          let subdirs = filter(map(copy(a:2), 'base_dir."/".v:val."/after"'), 'isdirectory(v:val)')
+        else
+          continue
+        endif
+      elseif bundle_base =~# '\*$'
+        let subdirs = filter(pathway#glob_directories(substitute(dir,'after$',bundle_base[0:-2],'').'*/after'), '!pathway#is_disabled(v:val[0:-7])')
       else
-        let list += [dir, substitute(dir, 'after$', '', '') . name . '/after']
+        let subdirs = [substitute(dir, 'after$', '', '') . bundle_base . '/after']
       endif
+      let dirs += subdirs + [dir]
     else
-      if name =~# '\*$'
-        let list += [dir] + filter(pathway#glob_directories(dir.'/'.name[0:-2].'*'), '!pathway#is_disabled(v:val)')
+      if exists('a:2') && type(a:2) == 3
+        let subdirs = isdirectory(dir.'/'.a:1) ? map(copy(a:2), 'dir."/".a:1."/".v:val') : []
+      elseif bundle_base =~# '\*$'
+        let subdirs = filter(pathway#glob_directories(dir.'/'.bundle_base[0:-2].'*'), '!pathway#is_disabled(v:val)')
       else
-        let list += [dir . '/' . name, dir]
+        let subdirs = [dir . '/' . bundle_base]
       endif
+      let dirs += [dir] + subdirs
     endif
   endfor
-  let &rtp = pathway#join(list)
+  let &rtp = pathway#join(dirs)
   return 1
 endfunction
 " }}}1
