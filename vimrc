@@ -337,6 +337,12 @@ if has('gui_running')
   " Change the default working directory to HOME
   if 0 == argc() | cd $HOME | endif
 else
+  " Make the Meta(Alt) key mappable in terminal. But some characters(h,j,k,l...)
+  " often typed after pressing <Esc> are not touched, so not mappable.
+  for c in split('qwertyasdfgzxcvbm', '\zs')
+    exe "set <M-".c.">=\e".c
+  endfor
+
   " Assume xterm supports 256 colors
   if &term =~ 'xterm' | set term=xterm-256color | endif
 
