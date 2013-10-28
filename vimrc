@@ -187,8 +187,10 @@ NXnoremap _ ,
 NXnoremap <S-CR> -
 
 " Switch tabs quickly
-noremap <A-l> gt
-noremap <A-h> gT
+noremap <C-l> gt
+noremap <C-h> gT
+noremap gl gt
+noremap gh gT
 for n in range(1, 9)
   exe 'noremap ' . '<A-' . n . '> ' . n . 'gt'
 endfor
@@ -201,8 +203,10 @@ cabbrev tmh tabm -1
 cabbrev tml tabm +1
 
 " Two maps enough for switching windows
-noremap <A-j> <C-W>w
-noremap <A-k> <C-W>W
+noremap <C-j> <C-W>w
+noremap <C-k> <C-W>W
+noremap gj <C-W>w
+noremap gk <C-W>W
 
 " Be consistent with other operators
 nnoremap Y y$
