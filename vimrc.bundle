@@ -368,8 +368,10 @@ Bundle 'tpope/vim-rake'
 " Slogan: CoffeeScript support for vim.
 Bundle 'kchmck/vim-coffee-script'
 
-" External interaction {{{1
+" Slogan: Github mirror of Go vimscripts, synced with main repository http://golang.org
+Bundle 'jnwhiteh/vim-golang'
 
+" External interaction {{{1
 " Slogan: All 256 xterm colors with their RGB equivalents, right in Vim!
 Bundle 'guns/xterm-color-table.vim'
 
