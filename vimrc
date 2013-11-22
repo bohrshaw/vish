@@ -241,6 +241,9 @@ cabbrev vh vert h
 cabbrev chs changes
 
 " Map! {{{2
+" Don't move the cursor when pressing `i` and `<Esc>`
+inoremap <Esc> <Esc>`^
+
 " Split a buffer vertically
 cabbrev vsb vert sb
 
