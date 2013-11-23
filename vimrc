@@ -150,7 +150,9 @@ set mouse=a " Enable mouse in all modes
 
 set spell " Check spell
 " Skip spell check for East Asian characters
-set spelllang=en,cjk
+if v:version == 704 && has('patch088') || v:version > 704
+  set spelllang=en,cjk
+endif
 
 " Save undo history to disk when write a buffer
 set undofile
