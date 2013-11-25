@@ -235,6 +235,7 @@ noremap zh zH
 
 " Open help in a new tab
 command! -nargs=? -complete=help H tab h <args>
+command! -nargs=? -complete=help Hv vert h <args>
 
 " Open help in a vertical window
 cabbrev vh vert h
