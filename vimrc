@@ -148,7 +148,7 @@ set hidden " Maybe set autowrite
 
 set mouse=a " Enable mouse in all modes
 
-set spell " Check spell
+" set spell " Check spell
 " Skip spell check for East Asian characters
 if v:version == 704 && has('patch088') || v:version > 704
   set spelllang=en,cjk
