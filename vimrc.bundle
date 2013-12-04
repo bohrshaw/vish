@@ -105,7 +105,7 @@ Lundle 'tpope/vim-surround'
 Bundle 'godlygeek/tabular'
 
 " Slogan: A simple alignment operator for Vim text editor.
-Bundle 'tommcdo/vim-lion'
+" Bundle 'tommcdo/vim-lion'
 
 " Slogan: use CTRL-A/CTRL-X to increment dates, times, and more.
 Lundle 'tpope/vim-speeddating'
