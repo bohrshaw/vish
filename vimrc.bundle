@@ -337,9 +337,6 @@ let g:user_emmet_mode='i'
 " Slogan: runtime files for Haml, Sass, and SCSS .
 Bundle 'tpope/vim-haml'
 
-" Slogan: Tern plugin for vim(provides Tern-based JavaScript editing support).
-Bundle 'marijnh/tern_for_vim'
-
 " Slogan: A Vim plugin for Windows PowerShell support.
 Bundle 'PProvost/vim-ps1'
 
@@ -367,6 +364,9 @@ Bundle 'tpope/vim-rake'
 
 " Slogan: My work on integration of Scala into Vim - not a ton here, but useful for me.
 " Bundle 'derekwyatt/vim-scala'
+
+" Slogan: Tern plugin for vim(provides Tern-based JavaScript editing support).
+" Bundle 'marijnh/tern_for_vim'
 
 " Slogan: CoffeeScript support for vim.
 Bundle 'kchmck/vim-coffee-script'
