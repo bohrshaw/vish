@@ -1,5 +1,4 @@
-# Build vim 32-bit version for windows.
-# You should better run this script from an empty directory.
+# Build Vim(32-bit) for windows.
 #
 # Reference:
 # INSTALLpc.txt, Make_mvc.mak
@@ -14,7 +13,7 @@
 
 # Set environment variables {{{1
 # Import visual studio environment variables
-pushd 'c:\Program Files\Microsoft Visual Studio 11.0\VC'
+pushd 'C:\Program Files\Microsoft Visual Studio 12.0\VC'
 cmd /c "vcvarsall.bat&set" |
 foreach {
   if ($_ -match "=") {
@@ -23,14 +22,13 @@ foreach {
 }
 popd
 
-$vim_src = "vim-src" # the directory name of Vim's source
-$python_src = "C:\Python27"
-$python3_src = "C:\Python33"
-$ruby_src = "C:\ruby200-mswin32"
-$lua_src = [System.IO.Path]::GetFullPath((Join-Path (pwd) "..\luajit-src\src"))
+$vim = "vim" # the directory name of Vim's source
+$python = "C:\Python27"
+$python3 = "C:\Python33"
+$ruby = "D:\Programs\Ruby"
+$lua = "D:\Workspaces\srcs\luajit\src"
 
-# Prepare the source {{{1
-# Vim
+# Prepare Vim source {{{1
 if((git config --get-regex remote.*url) -match '.*b4winckler/vim.*') {
   nmake clean
   git reset --hard; git clean -dxfq
@@ -41,16 +39,8 @@ elseif((hg paths default) -match '.*vim.*') {
   hg pull; hg update -C; hg purge --all
 }
 else {
-  git clone --depth 1 git://github.com/b4winckler/vim.git $vim_src
-  cd $vim_src
-}
-
-# Luajit
-if(!(Test-Path $lua_src)) {
-  git clone http://luajit.org/git/luajit-2.0.git $lua_src.TrimEnd('src').TrimEnd('\')
-  pushd $lua_src
-  .\msvcbuild.bat
-  popd
+  git clone --depth 1 git://github.com/b4winckler/vim.git $vim
+  cd $vim
 }
 
 # Compile {{{1
@@ -64,7 +54,7 @@ nmake -f Make_mvc.mak `
   CPUNR=i686 WINVER=0x0600 `
   FEATURES=BIG `
   MBYTE=yes IME=yes `
-  PYTHON3=$python3_src DYNAMIC_PYTHON3=yes PYTHON3_VER=33
+  PYTHON3=$python3 DYNAMIC_PYTHON3=yes PYTHON3_VER=33
 
 # Gvim
 nmake -f Make_mvc.mak `
@@ -74,16 +64,16 @@ nmake -f Make_mvc.mak `
   CPUNR=i686 WINVER=0x0600 `
   FEATURES=HUGE `
   GUI=yes MBYTE=yes IME=yes `
-  PYTHON3=$python3_src DYNAMIC_PYTHON3=yes PYTHON3_VER=33 `
-  RUBY=$ruby_src DYNAMIC_RUBY=yes RUBY_VER=20 RUBY_VER_LONG=2.0.0 RUBY_API_VER=200 RUBY_PLATFORM=i386-mswin32_110 `
-  LUA=$lua_src DYNAMIC_LUA=yes LUA_VER=51
-  # PYTHON=$python_src DYNAMIC_PYTHON=yes PYTHON_VER=27 `
+  PYTHON=$python DYNAMIC_PYTHON=yes PYTHON_VER=27 `
+  PYTHON3=$python3 DYNAMIC_PYTHON3=yes PYTHON3_VER=33 `
+  RUBY=$ruby DYNAMIC_RUBY=yes RUBY_VER=20 RUBY_VER_LONG=2.0.0 RUBY_API_VER=2.0.0 RUBY_PLATFORM=i386-mswin32_120 `
+  LUA=$lua DYNAMIC_LUA=yes LUA_VER=51
 
 popd
 
 # Package {{{1
 ls -r src | ? { $_ -match '.*\.(exe|dll)$' } | cp -Destination runtime
-cp $lua_src\*.dll runtime
+cp $lua\*.dll runtime
 
 mkdir vim
 mv runtime vim\vim74
