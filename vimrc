@@ -1,7 +1,7 @@
 " Description: Vim core configuration.
 " Author: Bohr Shaw <pubohr@gmail.com>
 
-" Options {{{1
+" Essential {{{1
 set nocompatible
 
 " A unified runtime path(Unix default)
@@ -21,8 +21,9 @@ source ~/.vim/vimrc.bundle
 filetype plugin indent on
 syntax enable
 
-" Set default path of temporary files {{{2
-let dir_list = { 'swap': 'directory', 'undo': 'undodir', 'backup': 'backupdir' }
+" Options {{{1
+" Set default paths of temporary files
+let dir_list = {'swap': 'directory', 'undo': 'undodir', 'backup': 'backupdir'}
 for [dir_name, set_name] in items(dir_list)
   let set_value = $HOME . '/.vim/tmp/' . dir_name
   if !isdirectory(set_value)
@@ -30,149 +31,88 @@ for [dir_name, set_name] in items(dir_list)
   endif
   exec "set " . set_name . "^=" . set_value
 endfor
-
-" These options accept a string.
 set viewdir=~/.vim/tmp/view
 set viminfo=!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo
+set undofile " save undo history to disk when write a buffer
 
-"}}}2
+set ttimeout " time out on key codes
+set ttimeoutlen=50 " key code delay (instant escape from Insert mode)
 
-set ruler " Show the cursor position
+set autoread " automatically read a file that has changed on disk
+set hidden " maybe set autowrite
+
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1 " help to determine a file encoding
+set fileformats=unix,dos " end-of-line format precedence
+
+set wildmenu wildmode=longest:full,full wildignorecase " command line completion
+set complete-=i " don't scan included files for keyword completion
+
+set incsearch " find as you type search
+set ignorecase " case insensitive search
+set smartcase " case sensitive when upper case characters present
+
+set autoindent " indent at the same level of the previous line
+set shiftwidth=4 " number of spaces to use for each step of (auto)indent
+set shiftround " use multiple of shiftwidth to round when indenting with '<' and '>'
+set tabstop=4 " number of spaces a tab displayed in
+set softtabstop=4 " number of spaces used when press <Tab> or <BS>
+set expandtab " expand a tab to spaces
+set smarttab " make tab width equals shiftwidth
+
+set ruler " show the cursor position (not effective when 'statusline' is set)
 set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)
 
-set showmode " Display the current mode
-
-" Show non-normal spaces, tabs etc
-set list
-if !has('win32') && (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8')
-  let &listchars = "tab:\u21e5 ,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u00b7"
-else
-  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-endif
-
-set winminheight=0 " Windows can be 0 line high
-
-set background=dark " Assume a dark background for colorschemes
-
-set showmatch " Show matching brackets/parenthesis
+set showmode " display the current mode
+set showcmd " show partial commands in status line and
+set showmatch " show matching brackets/parenthesis
 
 " Exclude options and mappings in saved sessions and views
 set sessionoptions=blank,buffers,curdir,folds,help,tabpages,winsize,slash,unix
 set viewoptions=folds,cursor,unix,slash
 
-" Acceptable encryption strength, also remember to set viminfo=
-" Swap and undo are all encrypted, but may set nowritebackup and nobackup(default)
-set cryptmethod=blowfish
+set scrolloff=1 " minimum lines to keep above and below cursor
+set sidescrolloff=5 " the minimal number of screen columns to keep around the cursor
 
-" Avoid all the hit-enter prompts caused by file messages
-set shortmess+=filmnrwxoOtTI
+set list " show non-normal spaces, tabs etc.
+if !has('win32') && (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8')
+  let &listchars = "tab:\u21e5 ,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u00b7"
+else
+  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+endif
+set linebreak " don't break a word when displaying wrapped lines
 
-" Disable error beep and screen flash
-au VimEnter * set vb t_vb=
-
-" Backspace through anything in insert mode
-set backspace=indent,eol,start
-
-set showcmd " Show partial commands in status line and
-
-set autoread " Automatically read a file that has changed on disk
-
-" Command line completion
-set wildmenu
-set wildmode=longest:full,full
-set wildignorecase
-
-set tabpagemax=50 " Allow more tabs
-
-set display+=lastline " Ensure the last line is properly displayed
-
-set scrolloff=1 " Minimum lines to keep above and below cursor
-set sidescrolloff=5 " The minimal number of screen columns to keep around the cursor
-
-set incsearch " Find as you type search
-set ignorecase " Case insensitive search
-set smartcase " Case sensitive when uc present
-
-" Number of spaces to use for each step of (auto)indent
-set shiftwidth=4
-" Use multiple of shiftwidth to round when indenting with '<' and '>'
-set shiftround
-
-" Number of spaces a tab displayed in
-set tabstop=4
-" Number of spaces used when press <Tab> or <BS>
-set softtabstop=4
-set expandtab " Expand a tab to spaces
-set smarttab " Make tab width equals shiftwidth
-
-" Indent at the same level of the previous line
-set autoindent
-
-set colorcolumn=+1 " highlight column after 'textwidth'
-
-" Timeout on key codes
-set ttimeout
-" Key code delay (can avoid the delay in entering normal mode after pressing ESC)
-set ttimeoutlen=50
-
-" Don't assume numbers start with zero are octal, affecting CTRL-A and CTRL-X
-set nrformats-=octal
-
-" Don't scan included files for keyword completion.
-set complete-=i
-
-" Avoid the problem occurred when you write to symbolic files on windows
-set nowritebackup
-
-" a larger history of commands and search patterns to keep
-set history=50
-
-" Confirm with a dialog instead of display an error message when certain operations fail
-set confirm
-
-" Extended matching with '%'
-runtime macros/matchit.vim
-
-" Options changeable {{{1
-" Look for(gf,:find) files in the same directory as the editing file,
-" the current working directory, and the home directory.
-set path=.,,~
-
-set cdpath=,,~/projects
-
-set fileformats=unix,dos " Affect new files
-set fileformat=unix " Local to buffer
-set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1
-
-" Lines to scroll when cursor leaves screen
-" set scrolljump=2
-
-" Link unnamed register and OS clipboard:
-" set clipboard=unnamed
-
-set hidden " Maybe set autowrite
-
-set mouse=a " Enable mouse in all modes
-
-" set spell " Check spell
-" Skip spell check for East Asian characters
+" set spell " check spell
 if v:version == 704 && has('patch088') || v:version > 704
-  set spelllang=en,cjk
+  set spelllang=en,cjk " skip spell check for East Asian characters
 endif
 
-" Save undo history to disk when write a buffer
-set undofile
+set path=.,,~ " directories to search by 'gf', ':find', etc.
+set cdpath=.,,~/workspaces " directories to search by ':cd', ':lcd'
 
-" set matchpairs+=<:> " For %
+set mouse=a " enable mouse in all modes
+" set clipboard=unnamed " link unnamed register and OS clipboard:
 
-" set number " Line numbers on
-" set relativenumber
+set matchpairs+=<:> " character pairs used by '%'
+runtime macros/matchit.vim " extended pair matching with '%'
 
-" Don't redraw the screen while executing macros etc.
-set nolazyredraw
+" set number " print the line number in front of each line
+" set relativenumber " show the line number relative to the current line
 
-" Wrap lines at a character in 'breakat', used to not break a word
-" set linebreak
+set history=50 " a larger number of commands and search patterns to remember
+set tabpagemax=50 " allow more tabs
+
+au VimEnter * set vb t_vb= " disable error beep and screen flash
+set nowritebackup " write to symbolic files safely on windows
+set confirm " prompt for an action instead of fail immediately
+set winminheight=0 " the minimal height of a window
+set colorcolumn=+1 " highlight column after 'textwidth'
+set background=dark " assume a dark background for color schemes
+set backspace=indent,eol,start " backspace through anything in insert mode
+set nrformats-=octal " exclude octal numbers when using C-A or C-X
+set nolazyredraw " don't redraw the screen while executing macros etc.
+set cryptmethod=blowfish " acceptable encryption strength, remember :set viminfo=
+set shortmess+=filmnrwxoOtTI " avoid all the hit-enter prompts caused by file messages
+set display+=lastline " ensure the last line is properly displayed
 
 " Mappings {{{1
 " Note:
@@ -311,7 +251,7 @@ cmap   <script> <C-T> <SID>transposition<SID>transpose
 " endif
 
 " Starline: A quiet Vim Status line
-set laststatus=2 " Always display statusline
+set laststatus=2 " always display statusline
 " File modified flag, read only flag, preview flag, quickfix flag
 set statusline=%m%r%w%q
 " File name (truncate if too long)
