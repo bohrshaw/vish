@@ -4,14 +4,14 @@
 # INSTALLpc.txt, Make_mvc.mak
 #
 # Requirements:
-# Visual Studio 2012, Git, 7z
-# Python-27, Python-33, Ruby win32 version
-# (You may compile ruby from source as the binary from "rubyinstaller.org" is built on mingw.)
+# Visual Studio, Git or Mercurial, 7-zip, Python27, Python33, Ruby, Luajit
+
+# You should compile ruby from source as the binary from "rubyinstaller.org" is built on mingw.
 #
 # Author: Bohr Shaw (mailto:pubohr@gmail.com)
 # License: Distributes under the same terms as vim
 
-# Set environment variables {{{1
+# Environments {{{1
 # Import visual studio environment variables
 pushd 'C:\Program Files\Microsoft Visual Studio 12.0\VC'
 cmd /c "vcvarsall.bat&set" |
@@ -28,7 +28,7 @@ $python3 = "C:\Python33"
 $ruby = "D:\Programs\Ruby"
 $lua = "D:\Workspaces\srcs\luajit\src"
 
-# Prepare Vim source {{{1
+# Source Code {{{1
 if((git config --get-regex remote.*url) -match '.*b4winckler/vim.*') {
   nmake clean
   git reset --hard; git clean -dxfq
@@ -43,44 +43,38 @@ else {
   cd $vim
 }
 
-# Compile {{{1
+# Building {{{1
 pushd src
-
-# Vim
-nmake -f Make_mvc.mak `
-  SDK_INCLUDE_DIR="C:\Program Files\Microsoft SDKs\Windows\v7.1A\Include" `
-  USERNAME=bohrshaw `
-  USERDOMAIN=gmail.com `
-  CPUNR=i686 WINVER=0x0600 `
-  FEATURES=BIG `
-  MBYTE=yes IME=yes `
-  PYTHON3=$python3 DYNAMIC_PYTHON3=yes PYTHON3_VER=33
 
 # Gvim
 nmake -f Make_mvc.mak `
   SDK_INCLUDE_DIR="C:\Program Files\Microsoft SDKs\Windows\v7.1A\Include" `
-  USERNAME=bohrshaw `
-  USERDOMAIN=gmail.com `
-  CPUNR=i686 WINVER=0x0600 `
-  FEATURES=HUGE `
-  GUI=yes MBYTE=yes IME=yes `
+  CPUNR=i686 WINVER=0x0500 `
+  FEATURES=HUGE GUI=yes OLE=no MBYTE=yes IME=yes `
   PYTHON=$python DYNAMIC_PYTHON=yes PYTHON_VER=27 `
   PYTHON3=$python3 DYNAMIC_PYTHON3=yes PYTHON3_VER=33 `
-  RUBY=$ruby DYNAMIC_RUBY=yes RUBY_VER=20 RUBY_VER_LONG=2.0.0 RUBY_API_VER=2.0.0 RUBY_PLATFORM=i386-mswin32_120 `
-  LUA=$lua DYNAMIC_LUA=yes LUA_VER=51
+  RUBY=$ruby DYNAMIC_RUBY=yes RUBY_VER=20 RUBY_VER_LONG=2.0.0 RUBY_PLATFORM=i386-mswin32_120 RUBY_INSTALL_NAME=msvcr120-ruby200 `
+  LUA=$lua DYNAMIC_LUA=yes LUA_VER=51 `
+  USERNAME=bohrshaw USERDOMAIN=gmail.com
+
+# Vim
+nmake -f Make_mvc.mak `
+  SDK_INCLUDE_DIR="C:\Program Files\Microsoft SDKs\Windows\v7.1A\Include" `
+  CPUNR=i686 WINVER=0x0500 `
+  FEATURES=BIG MBYTE=yes `
+  PYTHON3=$python3 DYNAMIC_PYTHON3=yes PYTHON3_VER=33 `
+  USERNAME=bohrshaw USERDOMAIN=gmail.com
 
 popd
 
-# Package {{{1
-ls -r src | ? { $_ -match '.*\.(exe|dll)$' } | cp -Destination runtime
+# Packaging {{{1
+cp src\*.exe,src\*.dll,src\xxd\xxd.exe,vimtutor.bat,README.txt runtime
+mkdir runtime\GvimExt 2>$null
+(ls .\src\GvimExt) -match '.*\.(dll|inf|reg|txt)$' | cp -Destination .\runtime\GvimExt
 cp $lua\*.dll runtime
 
-mkdir vim
-mv runtime vim\vim74
-
-& 7z a vim-bohr.7z vim
-
-mv vim\vim74 runtime
-rmdir vim
+mkdir vim; mv runtime vim\vim74
+& 7z a -mx=9 vim-bohr.7z vim
+mv vim\vim74 runtime; rmdir vim
 
 # vim:tw=0 ts=2 sw=2 et fdm=marker:
