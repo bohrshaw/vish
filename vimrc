@@ -2,7 +2,6 @@
 " Author: Bohr Shaw <pubohr@gmail.com>
 
 " Options {{{1
-" Options should set as early as possible {{{2
 set nocompatible
 
 " A unified runtime path(Unix default)
@@ -14,6 +13,13 @@ let maplocalleader = ','
 " The character encoding used inside Vim (Set early to allow mappings start
 " with the ALT key work properly.)
 set encoding=utf-8
+
+" Bundle configuration
+source ~/.vim/vimrc.bundle
+
+" Enable these after rtp setup, but as early as possible to reduce startup time.
+filetype plugin indent on
+syntax enable
 
 " Set default path of temporary files {{{2
 let dir_list = { 'swap': 'directory', 'undo': 'undodir', 'backup': 'backupdir' }
@@ -299,38 +305,31 @@ noremap! <expr> <SID>transposition getcmdpos()>strlen(getcmdline())?"\<Left>":ge
 noremap! <expr> <SID>transpose "\<BS>\<Right>".matchstr(getcmdline()[0 : getcmdpos()-2], '.$')
 cmap   <script> <C-T> <SID>transposition<SID>transpose
 
-" Statusline {{{1
+" Appearance {{{1
+" if has('multi_byte_ime')
+"   highlight CursorIM guifg=NONE guibg=Green
+" endif
+
 " Starline: A quiet Vim Status line
-
 set laststatus=2 " Always display statusline
-
 " File modified flag, read only flag, preview flag, quickfix flag
 set statusline=%m%r%w%q
-
 " File name (truncate if too long)
 set statusline+=%<%f
-
 " File encoding
 set statusline+=\ %{&fenc==''?'':','.&fenc}
-
 " File format
 set statusline+=%{&ff==''?'':','.&ff}
-
 " File type
 set statusline+=%{&ft==''?'':','.&ft}
-
 " Software caps lock status
 set statusline+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''}
-
 " Left/Right separator
 set statusline+=%=
-
 " Custom git branch status
 set statusline+=%{exists('*fugitive#head')&&fugitive#head(7)!=''?fugitive#head(7):''}
-
 " The current working directory
 set statusline+=\ %{substitute(getcwd(),'.*[\\/]','','')}
-
 " Cursor position and line percentage (with a minimum width)
 set statusline+=\ %14(%c%V,%l/%L,%p%%%)
 

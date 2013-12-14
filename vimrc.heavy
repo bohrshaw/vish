@@ -8,13 +8,6 @@
 " Core configuration
 source ~/.vim/vimrc
 
-" Bundle configuration
-source ~/.vim/vimrc.bundle
-
-" Set these after rtp setup, but as early as possible to reduce startup time.
-filetype plugin indent on
-syntax enable
-
 " Choose a color scheme
 if has('gui_running') || &t_Co == 256
   color solarized
