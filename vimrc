@@ -2,19 +2,19 @@
 " Author: Bohr Shaw <pubohr@gmail.com>
 
 " Essential {{{1
-set nocompatible
+set nocompatible " make Vim behave in a more useful way
 
 " A unified runtime path(Unix default)
 set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 
-let mapleader = ' '
-let maplocalleader = ','
+let mapleader = ' ' " replace <Leader> in a map
+let maplocalleader = ',' " replace <LocalLeader> in a map
 
 " The character encoding used inside Vim (Set early to allow mappings start
 " with the ALT key work properly.)
 set encoding=utf-8
 
-" Bundle configuration
+" Runtime path management and bundle configuration
 source ~/.vim/vimrc.bundle
 
 " Enable these after rtp setup, but as early as possible to reduce startup time.
@@ -115,15 +115,13 @@ set shortmess+=filmnrwxoOtTI " avoid all the hit-enter prompts caused by file me
 set display+=lastline " ensure the last line is properly displayed
 
 " Mappings {{{1
-" Note:
-" * See :help index, :help map-which-keys
-" * Always use low case letter for mappings containing the Alt key.
-"   Because <A-K> is not the same as <A-k> for the terminal vim.
+" See :h index, :h map-which-keys
+" Always use low case letter for mappings containing the Alt key. Because <A-K>
+" is not the same as <A-k> for terminal Vim.
 
-" Create a map in the normal and visual modes.
+" Create a map in both the normal and the visual mode.
 command! -nargs=1 NXnoremap nnoremap <args>| xnoremap <args>
 
-" Map {{{2
 " Map ';' to ':' to reduce keystrokes
 NXnoremap ; :
 NXnoremap z; q:
@@ -179,34 +177,12 @@ vnoremap > >gv
 noremap zl zL
 noremap zh zH
 
-" Open help in a new tab
-command! -nargs=? -complete=help H tab h <args>
-command! -nargs=? -complete=help Hv vert h <args>
-
-" Open help in a vertical window
-cabbrev vh vert h
-
-" Print the change list
-cabbrev chs changes
-
-" Map! {{{2
-" Don't move the cursor when pressing `i` and `<Esc>`
-" inoremap <Esc> <Esc>`^
-
-" Split a buffer vertically
-cabbrev vsb vert sb
-
-" Edit a file in a new tab
-cabbrev te tabe
-
-" Close a tab
-cabbrev tc tabc
-
-" Edit a buffer in a new tab
-cabbrev tb tab sb
-
+" Mappings! {{{1
 " Open the command-line window
 set cedit=<C-G>
+
+" Don't move the cursor when pressing `i` and `<Esc>`
+" inoremap <Esc> <Esc>`^
 
 " Break the undo sequence
 inoremap <c-u> <c-g>u<c-u>
@@ -244,6 +220,26 @@ cnoremap <expr> <C-D> getcmdpos()>strlen(getcmdline())?"\<Lt>C-D>":"\<Lt>Del>"
 noremap! <expr> <SID>transposition getcmdpos()>strlen(getcmdline())?"\<Left>":getcmdpos()>1?'':"\<Right>"
 noremap! <expr> <SID>transpose "\<BS>\<Right>".matchstr(getcmdline()[0 : getcmdpos()-2], '.$')
 cmap   <script> <C-T> <SID>transposition<SID>transpose
+
+" Commands & abbreviations {{{1
+" Open help in a new tab
+command! -nargs=? -complete=help H tab h <args>
+command! -nargs=? -complete=help Hv vert h <args>
+
+" Open help in a vertical window
+cabbrev vh vert h
+
+" Print the change list
+cabbrev chs changes
+
+" Split a buffer vertically
+cabbrev vsb vert sb
+" Edit a file in a new tab
+cabbrev te tabe
+" Edit a buffer in a new tab
+cabbrev tb tab sb
+" Close a tab
+cabbrev tc tabc
 
 " Appearance {{{1
 " if has('multi_byte_ime')
