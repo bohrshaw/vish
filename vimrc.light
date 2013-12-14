@@ -1,16 +1,10 @@
 " Description: Vim configuration for the light weight version.
 " Author: Bohr Shaw <pubohr@gmail.com>
 
-" Core configuration
-silent! source ~/.vim/vimrc
-
-" Bundle configuration
 let g:is_vim_light = 1
-source ~/.vim/vimrc.bundle
 
-" Set these after rtp setup, but as early as possible to reduce startup time.
-filetype plugin indent on
-syntax enable
+" Core configuration
+source ~/.vim/vimrc
 
 " Post configuration
 set swapfile!
