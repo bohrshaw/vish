@@ -8,10 +8,13 @@
 # License: Distributes under the same terms as vim
 
 # Pre-building {{{1
+# Restore the default PATH
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
+
 # Ensure all the pre-required packages are installed
 # Use `apt-get build-dep vim-gnome` to check what packages needed.
 # Choose the essential.
-pkgs=(libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev python python-dev python3 python3-dev ruby-dev mercurial checkinstall)
+pkgs=(libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev python python-dev python3 python3-dev ruby-dev lua5.2 liblua5.2-dev mercurial checkinstall)
 
 for p in $pkgs; do
   dpkg -s $p > /dev/null 2>&1 || sudo apt-get install -y $p
@@ -46,15 +49,16 @@ pushd src
   --prefix=/usr/local \
   --with-features=huge \
   --enable-gui=gnome2 \
-  --enable-rubyinterp \
   --enable-pythoninterp=yes \
   --enable-python3interp=yes \
+  --enable-rubyinterp=yes \
+  --enable-luainterp=yes \
   --enable-multibyte \
   --enable-cscope \
   --disable-netbeans \
   --with-compiledby="Bohr Shaw <pubohr@gmail.com>" \
   --quiet # do not print 'checking...' messages
-# --with-python-config-dir= \
+  # --with-python-config-dir= \
   # --with-python3-config-dir= \
   # --enable-perlinterp \
   # --with-global-runtime=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after \
