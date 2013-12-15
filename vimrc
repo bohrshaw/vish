@@ -63,23 +63,9 @@ set softtabstop=4 " number of spaces used when press <Tab> or <BS>
 set expandtab " expand a tab to spaces
 set smarttab " make tab width equals shiftwidth
 
-set ruler " show the cursor position (not effective when 'statusline' is set)
-set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)
-
-set showmode " display the current mode
-set showcmd " show partial commands in status line and
-set showmatch " show matching brackets/parenthesis
-
+set winminheight=0 " the minimal height of a window
 set scrolloff=1 " minimum lines to keep above and below cursor
 set sidescrolloff=5 " the minimal number of screen columns to keep around the cursor
-
-set list " show non-normal spaces, tabs etc.
-if !has('win32') && (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8')
-  let &listchars = "tab:\u21e5 ,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u00b7"
-else
-  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-endif
-set linebreak " don't break a word when displaying wrapped lines
 
 " set spell " check spell
 if v:version == 704 && has('patch088') || v:version > 704
@@ -95,18 +81,12 @@ set mouse=a " enable mouse in all modes
 set matchpairs+=<:> " character pairs used by '%'
 runtime macros/matchit.vim " extended pair matching with '%'
 
-" set number " print the line number in front of each line
-" set relativenumber " show the line number relative to the current line
-
 set history=50 " a larger number of commands and search patterns to remember
 set tabpagemax=50 " allow more tabs
 
 au VimEnter * set vb t_vb= " disable error beep and screen flash
 set nowritebackup " write to symbolic files safely on windows
 set confirm " prompt for an action instead of fail immediately
-set winminheight=0 " the minimal height of a window
-set colorcolumn=+1 " highlight column after 'textwidth'
-set background=dark " assume a dark background for color schemes
 set backspace=indent,eol,start " backspace through anything in insert mode
 set nrformats-=octal " exclude octal numbers when using C-A or C-X
 set nolazyredraw " don't redraw the screen while executing macros etc.
@@ -118,6 +98,14 @@ set display+=lastline " ensure the last line is properly displayed
 " See :h index, :h map-which-keys
 " Always use low case letter for mappings containing the Alt key. Because <A-K>
 " is not the same as <A-k> for terminal Vim.
+
+if !has('gui_running')
+  " Make the Meta(Alt) key mappable in terminal. But some characters(h,j,k,l...)
+  " often typed after pressing <Esc> are not touched, so not mappable.
+  for c in split('qwertyasdfgzxcvbm', '\zs')
+    exe "set <M-".c.">=\e".c
+  endfor
+endif
 
 " Create a map in both the normal and the visual mode.
 command! -nargs=1 NXnoremap nnoremap <args>| xnoremap <args>
@@ -245,9 +233,43 @@ cabbrev tb tab sb
 cabbrev tc tabc
 
 " Appearance {{{1
-" if has('multi_byte_ime')
-"   highlight CursorIM guifg=NONE guibg=Green
-" endif
+if has('gui_running')
+  if has('win32')
+    set guifont=Consolas:h10
+    au GUIEnter * simalt ~x " max window
+  else
+    set guifont=Consolas\ 10
+    set lines=250 columns=200
+  endif
+  set guioptions= " minimise visual distraction
+else
+  " Assume xterm supports 256 colors
+  if &term =~ 'xterm' | set term=xterm-256color | endif
+
+  " Disable Background Color Erase (BCE) so that color schemes
+  " render properly when inside 256-color tmux and GNU screen.
+  " See also http://snk.tuxfamily.org/log/vim-256color-bce.html
+  if &term =~ '256col' | set t_ut= | endif
+
+  " Allow color schemes do bright colors without forcing bold.
+  if &t_Co == 8 && &term !~ '^linux' | set t_Co=16 | endif
+endif
+
+" set number " print the line number in front of each line
+" set relativenumber " show the line number relative to the current line
+
+set linebreak " don't break a word when displaying wrapped lines
+" set showbreak=>\  " string to put at the start of wrapped lines
+
+set ruler " show the cursor position (not effective when 'statusline' is set)
+set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)
+
+set list " show non-normal spaces, tabs etc.
+if !has('win32') && (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8')
+  let &listchars = "tab:\u21e5 ,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u00b7"
+else
+  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+endif
 
 " Starline: A quiet Vim Status line
 set laststatus=2 " always display statusline
@@ -272,37 +294,13 @@ set statusline+=\ %{substitute(getcwd(),'.*[\\/]','','')}
 " Cursor position and line percentage (with a minimum width)
 set statusline+=\ %14(%c%V,%l/%L,%p%%%)
 
-" GUI vs Terminal {{{1
-if has('gui_running')
-  if has('win32')
-    set guifont=Consolas:h10
-    au GUIEnter * simalt ~x " max window
-  else
-    set guifont=Consolas\ 10
-    set lines=250 columns=200
-  endif
+set showcmd " show partial commands in status line and
+set showmatch " show matching brackets/parenthesis
+set colorcolumn=+1 " highlight column after 'textwidth'
+set background=dark " assume a dark background for color schemes
 
-  set guioptions=
-
-  " Change the default working directory to HOME
-  if 0 == argc() | cd $HOME | endif
-else
-  " Make the Meta(Alt) key mappable in terminal. But some characters(h,j,k,l...)
-  " often typed after pressing <Esc> are not touched, so not mappable.
-  for c in split('qwertyasdfgzxcvbm', '\zs')
-    exe "set <M-".c.">=\e".c
-  endfor
-
-  " Assume xterm supports 256 colors
-  if &term =~ 'xterm' | set term=xterm-256color | endif
-
-  " Disable Background Color Erase (BCE) so that color schemes
-  " render properly when inside 256-color tmux and GNU screen.
-  " See also http://snk.tuxfamily.org/log/vim-256color-bce.html
-  if &term =~ '256col' | set t_ut= | endif
-
-  " Allow color schemes do bright colors without forcing bold.
-  if &t_Co == 8 && &term !~ '^linux' | set t_Co=16 | endif
-endif
+" if has('multi_byte_ime')
+"   highlight CursorIM guifg=NONE guibg=Green
+" endif
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
