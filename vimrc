@@ -1,6 +1,9 @@
 " Description: Vim core configuration.
 " Author: Bohr Shaw <pubohr@gmail.com>
 
+" TIPS:
+" Troubleshooting long startup delay: vim --startuptime profiling
+
 " Essential {{{1
 set nocompatible " make Vim behave in a more useful way
 
@@ -32,8 +35,9 @@ for [dir_name, set_name] in items(dir_list)
   exec "set " . set_name . "^=" . set_value
 endfor
 set viewdir=~/.vim/tmp/view
-set undofile " save undo history to a file when writing a buffer
-set viminfo=!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo
+let &swapfile = exists('l') ? 0 : 1 " use a swapfile for the buffer
+let &undofile = exists('l') ? 0 : 1 " persistent undo
+let &viminfo = exists('l') ? '' : "!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo"
 " Exclude options and mappings in saved sessions and views
 set sessionoptions=blank,buffers,curdir,folds,help,tabpages,winsize,slash,unix
 set viewoptions=folds,cursor,unix,slash
@@ -303,5 +307,20 @@ set background=dark " assume a dark background for color schemes
 " if has('multi_byte_ime')
 "   highlight CursorIM guifg=NONE guibg=Green
 " endif
+
+" Choose a color scheme
+if exists('l')
+  if has('gui_running')
+    color base16-solarized
+  elseif has('unix')
+    color terminator " twilight256
+  endif
+else
+  if has('gui_running') || &t_Co == 256
+    color solarized
+  else
+    color terminator
+  endif
+endif
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
