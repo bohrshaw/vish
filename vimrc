@@ -32,14 +32,18 @@ for [dir_name, set_name] in items(dir_list)
   exec "set " . set_name . "^=" . set_value
 endfor
 set viewdir=~/.vim/tmp/view
+set undofile " save undo history to a file when writing a buffer
 set viminfo=!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo
-set undofile " save undo history to disk when write a buffer
+" Exclude options and mappings in saved sessions and views
+set sessionoptions=blank,buffers,curdir,folds,help,tabpages,winsize,slash,unix
+set viewoptions=folds,cursor,unix,slash
 
 set ttimeout " time out on key codes
 set ttimeoutlen=50 " key code delay (instant escape from Insert mode)
 
-set autoread " automatically read a file that has changed on disk
-set hidden " maybe set autowrite
+set autoread " auto-read a file changed outside of Vim
+" set autowrite " auto-write a modified file when switching buffers
+set hidden " hide a modified buffer without using '!' when it's abandoned
 
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1 " help to determine a file encoding
 set fileformats=unix,dos " end-of-line format precedence
@@ -65,10 +69,6 @@ set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)
 set showmode " display the current mode
 set showcmd " show partial commands in status line and
 set showmatch " show matching brackets/parenthesis
-
-" Exclude options and mappings in saved sessions and views
-set sessionoptions=blank,buffers,curdir,folds,help,tabpages,winsize,slash,unix
-set viewoptions=folds,cursor,unix,slash
 
 set scrolloff=1 " minimum lines to keep above and below cursor
 set sidescrolloff=5 " the minimal number of screen columns to keep around the cursor
@@ -133,6 +133,9 @@ NXnoremap _ ,
 
 " The counterpart to <CR>
 NXnoremap <S-CR> -
+
+" See the buffer list
+NXnoremap <Leader>ls :<C-U>ls<CR>
 
 " Switch tabs quickly
 noremap <C-l> gt
