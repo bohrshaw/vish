@@ -122,6 +122,9 @@ NXnoremap _ ,
 " The counterpart to <CR>
 NXnoremap <S-CR> -
 
+" Delete without affecting registers
+nnoremap R "_d
+
 " See the buffer list
 NXnoremap <Leader>ls :<C-U>ls<CR>
 
