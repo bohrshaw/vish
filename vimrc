@@ -216,22 +216,20 @@ noremap! <expr> <SID>transpose "\<BS>\<Right>".matchstr(getcmdline()[0 : getcmdp
 cmap   <script> <C-T> <SID>transposition<SID>transpose
 
 " Commands & abbreviations {{{1
-" Open help in a new tab
-command! -nargs=? -complete=help H tab h <args>
-command! -nargs=? -complete=help Hv vert h <args>
-
-" Open help in a vertical window
+" Open help in a vertical window or a new tab
 cabbrev vh vert h
+cabbrev th tab h
 
-" Print the change list
-cabbrev chs changes
-
-" Split a buffer vertically
-cabbrev vsb vert sb
 " Edit a file in a new tab
 cabbrev te tabe
-" Edit a buffer in a new tab
+" Split a buffer in a vertical window or a new tab
+cabbrev vsb vert sb
 cabbrev tb tab sb
+
+" Print the change list or mark list
+cabbrev chs changes
+cabbrev ms marks
+
 " Close a tab
 cabbrev tc tabc
 
