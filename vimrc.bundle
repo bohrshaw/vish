@@ -4,7 +4,7 @@
 " Bundle management {{{1
 let g:bundle_dirs = []
 command! -nargs=1 Lundle let g:bundle_dirs += [split(<args>, '/')[1]]
-exe 'command! -nargs=1 Bundle ' . (exists('g:is_vim_light') ? ':' : 'Lundle <args>')
+exe 'command! -nargs=1 Bundle ' . (exists('l') ? ':' : 'Lundle <args>')
 
 " Vundle initialization
 " set rtp+=~/.vim/bundle/vundle/

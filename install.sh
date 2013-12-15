@@ -27,8 +27,7 @@ fi
 for f in vimrc gvimrc; do
   backup $HOME/.$f
 done
-ln -sf $VIM_DIR/vimrc.heavy $HOME/.vimrc
-ln -sf $VIM_DIR/vimrc.light $HOME/.vimrc.light
+ln -sf $VIM_DIR/vimrc $HOME/.vimrc
 
 echo "Clone bundles ..."
 $VIM_DIR/bin/bundle.rb
