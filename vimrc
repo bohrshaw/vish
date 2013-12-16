@@ -18,12 +18,12 @@ let maplocalleader = ',' " replace <LocalLeader> in a map
 " with the ALT key work properly.)
 set encoding=utf-8
 
-" Runtime path management and bundle configuration
-source ~/.vim/vimrc.bundle
-
 " Remove all visual distraction and don't source "$VIMRUNTIME/menu.vim" to
 " reduce startup time. Must be before syntax or filetype setup.
 set guioptions=M
+
+" Runtime path management and bundle configuration
+source ~/.vim/vimrc.bundle
 
 " Enable these after rtp setup, but as early as possible to reduce startup time.
 filetype plugin indent on
@@ -96,6 +96,7 @@ au VimEnter * set vb t_vb= " disable error beep and screen flash
 set nowritebackup " write to symbolic files safely on windows
 set confirm " prompt for an action instead of fail immediately
 set backspace=indent,eol,start " backspace through anything in insert mode
+set formatoptions+=j " delete comment character when joining commented lines
 set nrformats-=octal " exclude octal numbers when using C-A or C-X
 set nolazyredraw " don't redraw the screen while executing macros etc.
 set cryptmethod=blowfish " acceptable encryption strength, remember :set viminfo=
