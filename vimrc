@@ -21,6 +21,10 @@ set encoding=utf-8
 " Runtime path management and bundle configuration
 source ~/.vim/vimrc.bundle
 
+" Remove all visual distraction and don't source "$VIMRUNTIME/menu.vim" to
+" reduce startup time. Must be before syntax or filetype setup.
+set guioptions=M
+
 " Enable these after rtp setup, but as early as possible to reduce startup time.
 filetype plugin indent on
 syntax enable
@@ -335,7 +339,6 @@ if has('gui_running')
     set guifont=Consolas\ 10
     set lines=250 columns=200
   endif
-  set guioptions= " minimise visual distraction
 else
   " Assume xterm supports 256 colors
   if &term =~ 'xterm' | set term=xterm-256color | endif
