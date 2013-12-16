@@ -257,6 +257,9 @@ hi StatusLine guifg=black
 " Slogan: Base16 for Vim.
 Lundle 'chriskempson/base16-vim'
 
+" Slogan: Molokai color scheme for Vim.
+Lundle 'tomasr/molokai'
+
 " Slogan: one colorscheme pack to rule them all.
 " Bundle 'flazz/vim-colorschemes'
 
@@ -265,9 +268,6 @@ Lundle 'chriskempson/base16-vim'
 
 " Slogan: Make gvim-only colorschemes work transparently in terminal vim.
 " Bundle 'godlygeek/csapprox'
-
-" Slogan: Molokai color scheme for Vim.
-" Bundle 'tomasr/molokai'
 
 " Slogan: a colorscheme strangely reminiscent of Vibrant Ink for a certain OS X editor.
 " Bundle 'tpope/vim-vividchalk'

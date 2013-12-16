@@ -91,7 +91,7 @@ end
 
 # Latest gvim
 pkg_name = 'vim_latest.7z'
-ensure_downloaded URL_LATEST, pkg_name, override=true
+ensure_downloaded URL_LATEST, pkg_name, true
 `7z x -y -o#{APP_NAME}/vim73 #{pkg_name}`
 
 # Official gvim
@@ -245,7 +245,7 @@ copy_other 'syntastic', 'syntax_checkers'
 
 # Reduce files' size {{{1
 # Delete commented or empty lines and save the file
-def shrink_file(path)
+def compact(path)
   # You can encode the whole file as compared to encoding per line
   # lines = File.read(path).encode!('UTF-8', 'UTF-8', :invalid => :replace).split("\n").each.reject do |line|
   lines = IO.readlines(path).reject do |line|
@@ -257,7 +257,7 @@ def shrink_file(path)
     line.encode!('UTF-8', 'UTF-16')
 
     # Ignore a commented and empty line
-    line =~ /^\s*(".*|\s*)$/
+    line =~ /^\s*(".*)?$/
   end
 
   write_file path, lines
@@ -267,7 +267,7 @@ end
 ( Dir["#{APP_NAME}/vim73/**/*"] + Dir["#{BUNDLE_PATH}/**/*"] ).select do |x|
   File.file? x and File.extname(x) == '.vim'
 end.each do |file|
-  shrink_file file
+  compact file
 end
 
 # Generate a vimrc file {{{1
@@ -305,7 +305,7 @@ VIMRC_PATH = File.join BUILD_PATH, APP_NAME, '.vimrc'
 write_file VIMRC_PATH, vimrc_content
 
 # Shrink vimrc
-shrink_file VIMRC_PATH
+compact VIMRC_PATH
 
 # Generate vim help tags {{{1
 # `vim -u #{VIMRC_PATH} +Helptags +qall`
