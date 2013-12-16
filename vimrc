@@ -2,7 +2,8 @@
 " Author: Bohr Shaw <pubohr@gmail.com>
 
 " TIPS:
-" Troubleshooting long startup delay: vim --startuptime profiling
+" View and set all options by :opt[ions]
+" Analyse startup performance by `vim --startuptime profiling`
 
 " Essential {{{1
 set nocompatible " make Vim behave in a more useful way
@@ -114,7 +115,7 @@ if !has('gui_running')
   endfor
 endif
 
-" Create a map in both the normal and the visual mode.
+" Create a map in both the normal and the visual mode
 command! -nargs=1 NXnoremap nnoremap <args>| xnoremap <args>
 
 " Map ';' to ':' to reduce keystrokes
@@ -178,6 +179,32 @@ vnoremap > >gv
 noremap zl zL
 noremap zh zH
 
+" Edit a file in the same directory of the current file
+NXnoremap <leader>ee :e %:h/
+NXnoremap <leader>es :sp %:h/
+NXnoremap <leader>ev :vs %:h/
+NXnoremap <leader>et :tabe %:h/
+
+" Source the current line of Vim scripts
+nnoremap <leader>S ^"zy$:@z<bar>echo "Current line sourced."<cr>
+" Source visual selection even including a line continuation symbol '\'
+vnoremap <leader>S "zy:let @z = substitute(@z, "\n *\\", "", "g")<bar>@z<bar>
+      \echo "Selection sourced."<cr>
+
+" Quit diff mode and close other diff buffers
+noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<cr>
+
+" Appends the current date or time after the cursor
+nnoremap <leader>at a<C-R>=strftime("%a %b %d %H:%M:%S %Y")<CR><Esc>
+
+" Reverse the selected text
+vnoremap <leader>rv c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
+
+" Search words under the cursor via the Web
+nnoremap gG :call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand("<cword>"),0)<cr>
+nnoremap gT :call netrw#NetrwBrowseX("http://translate.google.com.hk/#auto/zh-CN/".expand("<cword>"),0)<cr>
+nnoremap gW :call netrw#NetrwBrowseX("http://en.wikipedia.org/wiki/Special:Search?search=".expand("<cword>"),0)<cr>
+
 " Mappings! {{{1
 " Open the command-line window
 set cedit=<C-G>
@@ -222,7 +249,53 @@ noremap! <expr> <SID>transposition getcmdpos()>strlen(getcmdline())?"\<Left>":ge
 noremap! <expr> <SID>transpose "\<BS>\<Right>".matchstr(getcmdline()[0 : getcmdpos()-2], '.$')
 cmap   <script> <C-T> <SID>transposition<SID>transpose
 
-" Commands & abbreviations {{{1
+" Commands {{{1
+" Source a range of lines of Vim scripts
+command! -range Source <line1>,<line2>g/./exe getline('.')
+
+" Calculate the time spending on executing commands
+command! -nargs=1 -complete=command Time call vimrc#time(<q-args>)
+
+" Remove trailing white spaces
+command! Trim %s/\s\+$//
+
+" Remove duplicate, consecutive lines
+command! UniqConsecutive g/\v^(.*)\n\1$/d
+" command! UniqConsecutive sort /\M$^/ u
+" Remove duplicate, nonconsecutive and nonempty lines
+command! UniqNonconsecutiveNonempty g/^./if search('^\V'.escape(getline('.'),'\').'\$', 'bW') | delete | endif <NL> silent! normal! ``
+" This one is far slower than the above
+" command! UniqNonconsecutiveNonempty g/\v^(.+)$\_.{-}^\1$/d <NL> silent! normal! ``
+
+" Wipe out all unlisted buffers
+command! BwUnlisted call vimrc#bufffer_wipe_unlisted()
+
+" Create a path
+command! -nargs=? -complete=dir Mkdir call vimrc#mkdir(<q-args>)
+
+" Execute an external command silently
+command! -nargs=1 -complete=shellcmd Silent call system(<q-args>)
+
+" Diff with another file
+command! -nargs=? -complete=buffer DiffWith call vimrc#diffwith(<f-args>)
+
+" Append a mode line
+command! AppendModeline call vimrc#appendModeline()
+
+" Simple letter encoding with rot13
+command! Rot13 exe "normal ggg?G''"
+
+" Search via Google
+command! -nargs=1 Google call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand("<args>"),0)
+
+" Calculate words frequency
+command! -range=% WordFrequency <line1>,<line2>call vimrc#word_frequency()
+" Count anything in a range of lines
+command! -range=% -nargs=? Count echo vimrc#count(<q-args>, <line1>, <line2>) | normal ``
+" Calculate the total lines of source code minus blank lines and comment lines.
+command! -range=% SLOC echo vimrc#count('^[^' . &cms[0] . ']', <line1>, <line2>) | normal ``
+
+" Abbreviations {{{1
 " Open help in a vertical window or a new tab
 cabbrev vh vert h
 cabbrev th tab h
@@ -239,6 +312,16 @@ cabbrev ms marks
 
 " Close a tab
 cabbrev tc tabc
+
+" Get the relative path of the current file
+cabbrev %% <C-R>=expand('%:h').'/'<CR>
+
+" Auto-commands {{{1
+aug vimrc
+  au!
+  " Make the file '_' a scratch buffer
+  au vimrc BufNewFile,BufReadPost _ set buftype=nofile bufhidden=hide
+aug END
 
 " Appearance {{{1
 if has('gui_running')
@@ -279,28 +362,21 @@ else
   set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 endif
 
-" Starline: A quiet Vim Status line
+" A concise status line named "Starline"
 set laststatus=2 " always display statusline
-" File modified flag, read only flag, preview flag, quickfix flag
-set statusline=%m%r%w%q
-" File name (truncate if too long)
-set statusline+=%<%f
-" File encoding
-set statusline+=\ %{&fenc==''?'':','.&fenc}
-" File format
-set statusline+=%{&ff==''?'':','.&ff}
-" File type
-set statusline+=%{&ft==''?'':','.&ft}
+set statusline=%m%r%w%q " modified, read-only, preview, quickfix
+set stl+=%<%f " file name, truncated if too long
+set stl+=\ %{&fenc==''?'':','.&fenc} " file encoding
+set stl+=%{&ff==''?'':','.&ff} " file format
+set stl+=%{&ft==''?'':','.&ft} " file type
 " Software caps lock status
-set statusline+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''}
-" Left/Right separator
-set statusline+=%=
-" Custom git branch status
-set statusline+=%{exists('*fugitive#head')&&fugitive#head(7)!=''?fugitive#head(7):''}
-" The current working directory
-set statusline+=\ %{substitute(getcwd(),'.*[\\/]','','')}
-" Cursor position and line percentage (with a minimum width)
-set statusline+=\ %14(%c%V,%l/%L,%p%%%)
+set stl+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''}
+set stl+=%= " left/right separator
+" Git branch status
+set stl+=%{exists('*fugitive#head')&&fugitive#head(7)!=''?fugitive#head(7):''}
+set stl+=\ %{substitute(getcwd(),'.*[\\/]','','')} " CWD
+" Cursor position, line percentage (with a minimum width)
+set stl+=\ %14(%c%V,%l/%L,%p%%%)
 
 set showcmd " show partial commands in status line and
 set showmatch " show matching brackets/parenthesis

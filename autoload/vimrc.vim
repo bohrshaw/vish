@@ -1,9 +1,8 @@
-" File: helpers.vim
+" Description: Assistant scripts for vimrc
 " Author: Bohr Shaw <pubohr@gmail.com>
-" Description: Small powerful tolls.
 
 " Create a path conveniently {{{1
-function! helpers#mkdir(...)
+function! vimrc#mkdir(...)
   if a:1 =~ '\v^(/|(\~|\w:)[\/])'
     let dir = expand(a:1)
   else
@@ -13,7 +12,7 @@ function! helpers#mkdir(...)
 endfunction
 
 " Calculate the time spending on executing commands {{{1
-function! helpers#time(commands)
+function! vimrc#time(commands)
   let time_start = reltime()
   exe a:commands
   let time = reltime(time_start)
@@ -21,7 +20,7 @@ function! helpers#time(commands)
 endfunction
 
 " Count anything in a range of lines {{{1
-function! helpers#count(...)
+function! vimrc#count(...)
     if a:0 == 3
       let range = a:2 . ',' . a:3
     elseif a:0 == 2
@@ -40,7 +39,7 @@ endfunction
 
 " Calculate words frequency {{{1
 " http://vim.wikia.com/wiki/Word_frequency_statistics_for_a_file
-function! helpers#word_frequency() range
+function! vimrc#word_frequency() range
   let all = split(join(getline(a:firstline, a:lastline)), '\A\+')
   let frequencies = {}
   for word in all
@@ -55,7 +54,7 @@ function! helpers#word_frequency() range
 endfunction
 
 " Diff with another file {{{1
-function! helpers#diffwith(...)
+function! vimrc#diffwith(...)
   let filetype=&ft
   tab sp
   diffthis
@@ -72,7 +71,7 @@ function! helpers#diffwith(...)
 endfunction
 
 " Wipe out all unlisted buffers {{{1
-function! helpers#bufffer_wipe_unlisted()
+function! vimrc#bufffer_wipe_unlisted()
   for b in range(1, bufnr('$'))
     if bufexists(b) && ! buflisted(b)
       exe 'bw' . b
@@ -81,7 +80,7 @@ function! helpers#bufffer_wipe_unlisted()
 endfunction
 
 " Append a mode line {{{1
-function! helpers#appendModeline()
+function! vimrc#appendModeline()
   let modeline = printf(" vim:tw=%d ts=%d sw=%d et fdm=marker:", &textwidth, &shiftwidth, &tabstop)
   " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX Files.
   let modeline = substitute(&commentstring, "%s", modeline, "")
