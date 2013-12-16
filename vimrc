@@ -26,15 +26,14 @@ syntax enable
 
 " Options {{{1
 " Set default paths of temporary files
-let dir_list = {'swap': 'directory', 'undo': 'undodir', 'backup': 'backupdir'}
-for [dir_name, set_name] in items(dir_list)
-  let set_value = $HOME . '/.vim/tmp/' . dir_name
-  if !isdirectory(set_value)
-    silent! call mkdir(set_value)
-  endif
-  exec "set " . set_name . "^=" . set_value
+let opts = {'directory': 'swap', 'undodir': 'undo', 'backupdir': 'backup'}
+for [opt, dir] in items(opts)
+  let value = $HOME . '/.vim/tmp/' . dir
+  if !isdirectory(value) | silent! call mkdir(value) | endif
+  exec "set " . opt . "^=" . value
 endfor
 set viewdir=~/.vim/tmp/view
+
 let &swapfile = exists('l') ? 0 : 1 " use a swapfile for the buffer
 let &undofile = exists('l') ? 0 : 1 " persistent undo
 let &viminfo = exists('l') ? '' : "!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo"
@@ -97,6 +96,10 @@ set nolazyredraw " don't redraw the screen while executing macros etc.
 set cryptmethod=blowfish " acceptable encryption strength, remember :set viminfo=
 set shortmess+=filmnrwxoOtTI " avoid all the hit-enter prompts caused by file messages
 set display+=lastline " ensure the last line is properly displayed
+
+if 0 == argc() && has('gui_running') && !exists('l')
+  cd $HOME
+endif
 
 " Mappings {{{1
 " See :h index, :h map-which-keys
