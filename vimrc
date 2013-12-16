@@ -279,6 +279,9 @@ command! -nargs=1 -complete=shellcmd Silent call system(<q-args>)
 " Diff with another file
 command! -nargs=? -complete=buffer DiffWith call vimrc#diffwith(<f-args>)
 
+" Clear undo history (:w to clear the undo file if presented)
+command! -bar UndoClear exe "set ul=-1 | m-1 | let &ul=" . &ul
+
 " Append a mode line
 command! AppendModeline call vimrc#appendModeline()
 
