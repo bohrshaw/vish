@@ -24,6 +24,7 @@ aug Bundle
         \ substitute(getline('.'),'\v.*\s.(.*).$','http://github.com/\1','g'),0)<CR>
 aug END
 
+" ---------------------------------------------------------------------
 " Editing {{{1
 " Motion {{{2
 " Slogan: vim motions on speed.
@@ -143,6 +144,7 @@ Lundle 'tpope/vim-repeat'
 " Slogan: characterize.vim: Unicode character metadata.
 Bundle 'tpope/vim-characterize'
 
+" ---------------------------------------------------------------------
 " Search, Map, Option {{{1
 " Slogan: Start a * or # search from a visual block.
 Bundle 'nelstrom/vim-visual-star-search'
@@ -156,6 +158,7 @@ Bundle 'nelstrom/vim-visual-star-search'
 " Slogan: pairs of handy bracket mappings.
 Lundle 'tpope/vim-unimpaired'
 
+" ---------------------------------------------------------------------
 " File, Buffer, Pane, Window, Tab, Session {{{1
 " Slogan: A start screen for Vim.
 Bundle 'mhinz/vim-startify'
@@ -242,6 +245,7 @@ Bundle 'roman/golden-ratio'
 let g:golden_ratio_autocommand = 0
 noremap <C-W>G :GoldenRatioResize<CR>
 
+" ---------------------------------------------------------------------
 " Appearance {{{1
 " Color Schemes {{{2
 " Slogan: precision colorscheme for the vim text editor.
@@ -315,6 +319,7 @@ Bundle 'Yggdroot/indentLine'
 let g:indentLine_enabled = 0
 noremap <leader>it :IndentLinesToggle<CR>
 
+" ---------------------------------------------------------------------
 " File types {{{1
 " Slogan: Syntax checking hacks for vim.
 Bundle 'scrooloose/syntastic'
@@ -365,6 +370,7 @@ Bundle 'kchmck/vim-coffee-script'
 " Slogan: Github mirror of Go vimscripts, synced with main repository http://golang.org
 Bundle 'jnwhiteh/vim-golang'
 
+" ---------------------------------------------------------------------
 " External interaction {{{1
 " Slogan: All 256 xterm colors with their RGB equivalents, right in Vim!
 Bundle 'guns/xterm-color-table.vim'
@@ -424,6 +430,7 @@ Bundle 'bohrshaw/vim-rubocop'
 " Slogan: vim plugin to interact with the simplenote service.
 " Bundle 'mrtazz/simplenote.vim'
 
+" ---------------------------------------------------------------------
 " Alternative usages {{{1
 " Task managers {{{2
 " Slogan: Quicktask is a lightweight Vim task management plugin.
@@ -448,6 +455,7 @@ let g:vimwiki_list = [{'path': '~/vimwiki/',
       \ 'syntax': 'markdown',
       \ 'ext': '.md'}]
 
+" ---------------------------------------------------------------------
 " Bundle Finish {{{1
 call pathway#inject('bundle', g:bundle_dirs)
 
