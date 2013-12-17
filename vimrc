@@ -29,6 +29,7 @@ source ~/.vim/vimrc.bundle
 filetype plugin indent on
 syntax enable
 
+" ---------------------------------------------------------------------
 " Options {{{1
 " Set default paths of temporary files
 let opts = {'directory': 'swap', 'undodir': 'undo', 'backupdir': 'backup'}
@@ -100,13 +101,14 @@ set formatoptions+=j " delete comment character when joining commented lines
 set nrformats-=octal " exclude octal numbers when using C-A or C-X
 set nolazyredraw " don't redraw the screen while executing macros etc.
 set cryptmethod=blowfish " acceptable encryption strength, remember :set viminfo=
-set shortmess+=filmnrwxoOtTI " avoid all the hit-enter prompts caused by file messages
+set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
 set display+=lastline " ensure the last line is properly displayed
 
 if 0 == argc() && has('gui_running') && !exists('l')
   cd $HOME
 endif
 
+" ---------------------------------------------------------------------
 " Mappings {{{1
 " See :h index, :h map-which-keys
 " Always use low case letter for mappings containing the Alt key. Because <A-K>
@@ -210,6 +212,7 @@ nnoremap gG :call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand
 nnoremap gT :call netrw#NetrwBrowseX("http://translate.google.com.hk/#auto/zh-CN/".expand("<cword>"),0)<cr>
 nnoremap gW :call netrw#NetrwBrowseX("http://en.wikipedia.org/wiki/Special:Search?search=".expand("<cword>"),0)<cr>
 
+" ---------------------------------------------------------------------
 " Mappings! {{{1
 " Open the command-line window
 set cedit=<C-G>
@@ -254,6 +257,7 @@ noremap! <expr> <SID>transposition getcmdpos()>strlen(getcmdline())?"\<Left>":ge
 noremap! <expr> <SID>transpose "\<BS>\<Right>".matchstr(getcmdline()[0 : getcmdpos()-2], '.$')
 cmap   <script> <C-T> <SID>transposition<SID>transpose
 
+" ---------------------------------------------------------------------
 " Commands {{{1
 " Source a range of lines of Vim scripts
 command! -range Source <line1>,<line2>g/./exe getline('.')
@@ -303,6 +307,7 @@ command! -range=% -nargs=? Count echo vimrc#count(<q-args>, <line1>, <line2>) | 
 " Calculate the total lines of source code minus blank lines and comment lines.
 command! -range=% SLOC echo vimrc#count('^[^' . &cms[0] . ']', <line1>, <line2>) | normal ``
 
+" ---------------------------------------------------------------------
 " Abbreviations {{{1
 " Open help in a vertical window or a new tab
 cabbrev vh vert h
@@ -324,6 +329,7 @@ cabbrev tc tabc
 " Get the relative path of the current file
 cabbrev %% <C-R>=expand('%:h').'/'<CR>
 
+" ---------------------------------------------------------------------
 " Auto-commands {{{1
 aug vimrc
   au!
@@ -331,6 +337,7 @@ aug vimrc
   au vimrc BufNewFile,BufReadPost _ set buftype=nofile bufhidden=hide
 aug END
 
+" ---------------------------------------------------------------------
 " Appearance {{{1
 if has('gui_running')
   if has('win32')
@@ -356,45 +363,46 @@ endif
 " set number " print the line number in front of each line
 " set relativenumber " show the line number relative to the current line
 
+" set nowrap " only part of long lines will be displayed
 set linebreak " don't break a word when displaying wrapped lines
 " set showbreak=>\  " string to put at the start of wrapped lines
 
-set ruler " show the cursor position (not effective when 'statusline' is set)
-set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)
-
 set list " show non-normal spaces, tabs etc.
 if !has('win32') && (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8')
-  let &listchars = "tab:\u21e5 ,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u00b7"
+  let &listchars = "precedes:\u21c7,extends:\u21c9,tab:\u21e5 ,trail:\u2423,nbsp:\u00b7"
 else
-  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+  set listchars=precedes:<,extends:>,tab:>\ ,trail:-,nbsp:+
 endif
 
-" A concise status line named "Starline"
-set laststatus=2 " always display statusline
-set statusline=%m%r%w%q " modified, read-only, preview, quickfix
-set stl+=%<%f " file name, truncated if too long
-set stl+=\ %{&fenc==''?'':','.&fenc} " file encoding
-set stl+=%{&ff==''?'':','.&ff} " file format
-set stl+=%{&ft==''?'':','.&ft} " file type
-" Software caps lock status
-set stl+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''}
-set stl+=%= " left/right separator
-" Git branch status
-set stl+=%{exists('*fugitive#head')&&fugitive#head(7)!=''?fugitive#head(7):''}
-set stl+=\ %{substitute(getcwd(),'.*[\\/]','','')} " CWD
-" Cursor position, line percentage (with a minimum width)
-set stl+=\ %14(%c%V,%l/%L,%p%%%)
-
-set showcmd " show partial commands in status line and
-set showmatch " show matching brackets/parenthesis
+set showcmd " show partial commands in status line
+" set showmatch " show matching brackets/braces (redundant with matchparen.vim)
 set colorcolumn=+1 " highlight column after 'textwidth'
-set background=dark " assume a dark background for color schemes
+
+" set titlestring=
+
+" A concise status line named "Starline"
+set laststatus=2 " always display the status line
+set statusline=%<%f " file name, truncated if too long
+set stl+=%M%R%W%q " modified, read-only, preview, quickfix flag
+set stl+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''} " software caps lock status
+set stl+=%= " left/right separator
+set stl+=%Y " file type
+set stl+=\ %{substitute(getcwd(),'.*[\\/]','','')} " the working directory
+set stl+=,%{exists('*fugitive#head')?fugitive#head(7):''} " git branch status
+set stl+=\ %(%{&fenc},%)%{&ff} " file encoding, format
+set stl+=\ %l,%c\ %p%% " cursor position, line percentage
+
+" Use CTRL-G, G_CTRL-G to see file and cursor information manually
+set ruler " not effective when 'statusline' is set
+set rulerformat=%50(%=%m%r%<%f%Y\ %l,%c\ %p%%%)
+
+" set tabline=
 
 " if has('multi_byte_ime')
 "   highlight CursorIM guifg=NONE guibg=Green
 " endif
 
-" Choose a color scheme
+set background=dark " assume a dark background for color schemes
 if exists('l')
   if has('gui_running')
     color base16-solarized
@@ -409,4 +417,5 @@ else
   endif
 endif
 
+" ---------------------------------------------------------------------
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
