@@ -388,7 +388,7 @@ set stl+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''} " software c
 set stl+=%= " left/right separator
 set stl+=%Y " file type
 set stl+=\ %{substitute(getcwd(),'.*[\\/]','','')} " the working directory
-set stl+=,%{exists('*fugitive#head')?fugitive#head(7):''} " git branch status
+set stl+=%(,%{exists('*fugitive#head')?fugitive#head(7):''}%) " git branch status
 set stl+=\ %(%{&fenc},%)%{&ff} " file encoding, format
 set stl+=\ %l,%c\ %p%% " cursor position, line percentage
 
