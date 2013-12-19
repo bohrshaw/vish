@@ -36,16 +36,17 @@ BUNDLE_FILE = "#{VIM_DIR}/vimrc.bundle"
 # The bundle manager
 class Bundle
   # Get the bundle list
-  BUNDLES = [] # the format of a bundle is like "author/repo"
+  @@bundles = [] # the format of a bundle is like "author/repo"
   File.foreach(BUNDLE_FILE) do |line|
-    if line =~ /^\s*[BL]undle '.*/
-      BUNDLES << line.gsub(/^\s*[BL]undle ['|"](.*?)['|"].*/, '\1').chomp
+    if line =~ /^\s*[BL]undle\s+.*/
+      @@bundles += line.scan(/[^\s'"]+/)[1..-1]
     end
   end
+  @@bundles.uniq!
 
   # Sync all bundles
   def self.sync
-    BUNDLES.each do |bundle|
+    @@bundles.each do |bundle|
       dir = bundle.split('/')[1]
       dir_disabled = dir + '~'
 
@@ -85,7 +86,7 @@ class Bundle
 
   # Clean obsolete bundles.
   def self.clean
-    bundle_dirs = BUNDLES.map do |bdl|
+    bundle_dirs = @@bundles.map do |bdl|
       bdl.split('/')[-1]
     end
 
