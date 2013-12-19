@@ -3,8 +3,9 @@
 
 " Bundle management {{{1
 let g:bundle_dirs = []
-command! -nargs=1 Lundle let g:bundle_dirs += [split(<args>, '/')[1]]
-exe 'command! -nargs=1 Bundle ' . (exists('l') ? ':' : 'Lundle <args>')
+command! -nargs=+ Lundle let g:bundle_dirs +=
+      \ map(split(<q-args>, '\s\+'), 'split(v:val, "[/''\"]")[1]')
+exe 'command! -nargs=+ Bundle ' . (exists('l') ? ':' : 'Lundle <args>')
 
 " Vundle initialization
 " set rtp+=~/.vim/bundle/vundle/
@@ -87,8 +88,7 @@ let g:snips_author='Bohr Shaw <pubohr@gmail.com>'
 " Bundle 'Shougo/neosnippet'
 
 " Implements some of TextMate's snippets features in Vim
-" Depend on 'MarcWeber/vim-addon-mw-utils', 'tomtom/tlib_vim'.
-" Bundle 'garbas/vim-snipmate'
+" Bundle 'garbas/vim-snipmate' 'MarcWeber/vim-addon-mw-utils' 'tomtom/tlib_vim'
 
 " Vim-snipmate default snippets
 " Bundle 'honza/vim-snippets'
@@ -386,9 +386,7 @@ nnoremap <silent> <leader>gl :Glog<CR>
 nnoremap <silent> <leader>gp :Git push<CR>
 
 " Vimscript for gist
-Bundle 'mattn/gist-vim'
-" Dependencies: vim interface to Web API.
-Bundle 'mattn/webapi-vim'
+Bundle 'mattn/gist-vim' 'mattn/webapi-vim'
 
 " Helpers for UNIX(Windows)
 Bundle 'tpope/vim-eunuch'
