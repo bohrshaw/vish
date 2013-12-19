@@ -10,62 +10,63 @@ exe 'command! -nargs=1 Bundle ' . (exists('l') ? ':' : 'Lundle <args>')
 " set rtp+=~/.vim/bundle/vundle/
 " call vundle#rc()
 
-" Slogan: Vundle, the plug-in manager for Vim.
+" Vundle, the plug-in manager for Vim
 " Bundle 'gmarik/vundle'
 " let g:vundle_default_git_proto = 'git'
 
-" Slogan: A Vim plugin for Vim plugins.
+" A Vim plugin for Vim plugins
 Bundle 'tpope/vim-scriptease'
 
 aug Bundle
   au!
   " A buffer local map to open a bundle's URL in the browser
-  au Bundle BufReadPost {.,}vimrc.bundle nnoremap <buffer> gB :call netrw#NetrwBrowseX(
-        \ substitute(getline('.'),'\v.*\s.(.*).$','http://github.com/\1','g'),0)<CR>
+  au Bundle BufReadPost {.,}vimrc.bundle nnoremap <buffer> gB
+        \ :call netrw#NetrwBrowseX(substitute(getline('.')
+        \ ,'\v.*\s.(.*).$','http://github.com/\1','g'),0)<CR>
 aug END
 
 " ---------------------------------------------------------------------
 " Editing {{{1
 " Motion {{{2
-" Slogan: vim motions on speed.
+" Vim motions on speed
 Lundle 'bohrshaw/vim-easymotion'
 let g:EasyMotion_leader_key = ','
 
-" Slogan: Seek makes navigating long lines effortless, acting like f but taking two characters.
+" Acts like `f` but taking two characters
 Lundle 'goldfeld/vim-seek'
 let g:seek_enable_jumps = 1
 
-" Slogan: Extended f, F, t and T key mappings for Vim.
+" Extended f, F, t and T key mappings for Vim
 " Bundle 'rhysd/clever-f.vim'
 " let g:clever_f_across_no_line = 1
 
-" Slogan: Create your own text objects.
+" Create your own text objects
 Bundle 'kana/vim-textobj-user'
 
 " Insert {{{2
-" Slogan: Software caps lock
+" Software caps lock
 Bundle 'tpope/vim-capslock'
 imap <C-L> <Plug>CapsLockToggle
 
-" Slogan: Vim plugin, provides insert mode auto-completion for quotes, parens, brackets, etc.
+" Provides insert mode auto-completion for quotes, parens, brackets, etc.
 Bundle 'Raimondi/delimitMate'
 
-" Slogan: wisely add "end" in ruby, endfunction/endif/more in vim script, etc.
+" Wisely add "end" in ruby, endfunction/endif/more in vim script, etc
 Bundle 'tpope/vim-endwise'
 
 " Completion and snippets {{{3
-" Slogan: A code-completion engine for Vim.
+" A code-completion engine for Vim
 " Bundle 'Valloric/YouCompleteMe'
 " Bundle 'bohrshaw/YouCompleteMe'
 
-" Slogan: Perform all your vim insert mode completions with Tab.
+" Perform all your vim insert mode completions with Tab
 Bundle 'ervandew/supertab'
 
-" Slogan: This is an implementation of TextMates Snippets for the Vim Text Editor. It has all features of TextMates Snippets and then some.
+" TextMates snippets utility for Vim
 Bundle 'SirVer/ultisnips'
 " The default key <Tab> is mapped to something else.
 let g:UltiSnipsExpandTrigger='<C-J>'
-" The default key <C-K> is used to enter a digraph. Assign a non-function key to disable it.
+" The default key <C-K> is used to enter a digraph.
 let g:UltiSnipsJumpBackwardTrigger='<C-0>'
 " The default <C-Tab> doesn't work in terminal.
 let g:UltiSnipsListSnippets='<C-Q>'
@@ -78,89 +79,89 @@ let g:UltiSnipsSnippetsDir="~/.vim/snippet"
 " Specify the default author for created snippets
 let g:snips_author='Bohr Shaw <pubohr@gmail.com>'
 
-" Slogan: Ultimate auto-completion system for Vim.
+" Ultimate auto-completion system for Vim
 " Bundle 'Shougo/neocomplcache'
 " Bundle 'Shougo/neocomplete'
 
-" Slogan: neo-snippet plugin contains neocomplcache snippets source.
+" Neo-snippet plugin contains neocomplcache snippets source
 " Bundle 'Shougo/neosnippet'
 
-" Slogan: snipMate.vim aims to be a concise vim script that implements some of TextMate's snippets features in Vim.
-" Dependencies: 'MarcWeber/vim-addon-mw-utils' 'tomtom/tlib_vim'
+" Implements some of TextMate's snippets features in Vim
+" Depend on 'MarcWeber/vim-addon-mw-utils', 'tomtom/tlib_vim'.
 " Bundle 'garbas/vim-snipmate'
 
-" Slogan: vim-snipmate default snippets.
+" Vim-snipmate default snippets
 " Bundle 'honza/vim-snippets'
 
 " Change {{{2
-" Slogan: commentary.vim: comment stuff out.
+" Commentary.vim: comment stuff out
 Lundle 'tpope/vim-commentary'
 
-" Slogan: Vim plugin for intensely orgasmic commenting.
+" Vim plugin for intensely orgasmic commenting
 " Bundle 'scrooloose/nerdcommenter'
 
-" Slogan: quoting/parenthesizing made simple.
+" Quoting/parenthesizing made simple
 Lundle 'tpope/vim-surround'
 
-" Slogan: Vim script for text filtering and alignment.
+" Vim script for text filtering and alignment
 Bundle 'godlygeek/tabular'
 
-" Slogan: A simple alignment operator for Vim text editor.
+" A simple alignment operator for Vim text editor
 " Bundle 'tommcdo/vim-lion'
 
-" Slogan: use CTRL-A/CTRL-X to increment dates, times, and more.
+" Use CTRL-A/CTRL-X to increment dates, times, and more
 Lundle 'tpope/vim-speeddating'
 
-" Slogan: Punctuation text objects: ci/ da; vi@ yiq da<space> ...
+" Punctuation text objects: ci/ da; vi@ yiq da<space> ..
 Bundle 'kurkale6ka/vim-pairs'
 
-" Slogan: Easy swapping of text in Vim.
+" Easy swapping of text in Vim
 Bundle 'kurkale6ka/vim-swap'
 
-" Slogan: easily search for, substitute, and abbreviate multiple variants of a word.
+" Easily search for, substitute, and abbreviate multiple variants of a word
 Lundle 'tpope/vim-abolish'
 " More convenient to type than 'cr'
 nmap cx <Plug>Coerce
 
-" Slogan: True Sublime Text style multiple selections for Vim.
+" True Sublime Text style multiple selections for Vim
 Bundle 'terryma/vim-multiple-cursors'
 
 " History {{{2
-" Slogan: Display your undo history in a graph.
+" Display your undo history in a graph
 Bundle 'mbbill/undotree'
 nnoremap <leader>u :UndotreeToggle<CR>
 let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 
-" Slogan: Vim plugin to visualize your Vim undo tree.
+" Vim plugin to visualize your Vim undo tree
 Bundle 'sjl/gundo.vim'
 
-" Slogan: enable repeating supported plugin maps with ".".
+" Enable repeating supported plugin maps with "."
 Lundle 'tpope/vim-repeat'
 
-" Slogan: Maintains a history of previous yanks, changes and deletes.
+" Maintains a history of previous yanks, changes and deletes
 " Bundle 'vim-scripts/yankring.vim'
 
 " Various {{{2
-" Slogan: characterize.vim: Unicode character metadata.
+" Characterize.vim: Unicode character metadata
 Bundle 'tpope/vim-characterize'
 
 " ---------------------------------------------------------------------
 " Search, Map, Option {{{1
-" Slogan: Start a * or # search from a visual block.
+" Start a * or # search from a visual block
 Bundle 'nelstrom/vim-visual-star-search'
 
-" Slogan: Mappings for simultaneously pressed keys.
+" Mappings for simultaneously pressed keys
 " Bundle 'kana/vim-arpeggio'
 
-" Slogan: fixes key codes for console Vim.
+" Fixes key codes for console Vim
 " Bundle 'drmikehenry/vim-fixkey'
 
-" Slogan: pairs of handy bracket mappings.
+" Pairs of handy bracket mappings
 Lundle 'tpope/vim-unimpaired'
 
 " ---------------------------------------------------------------------
 " File, Buffer, Pane, Window, Tab, Session {{{1
-" Slogan: A start screen for Vim.
+" A start screen for Vim
 Bundle 'mhinz/vim-startify'
 let g:startify_session_dir = '~/.vim/tmp/session'
 let g:startify_list_order = ['sessions', 'bookmarks', 'files']
@@ -169,7 +170,7 @@ autocmd FileType startify setlocal nospell
 " Prevent CtrlP open a split
 autocmd FileType startify setlocal buftype=
 
-" Slogan: Vim session manager.
+" Vim session manager
 Bundle 'bohrshaw/vim-sessionman'
 let g:session_path = '~/.vim/tmp/session'
 " let g:session_save_on_exit = 1
@@ -178,10 +179,10 @@ nnoremap <leader>ss :SessionSave<CR>
 nnoremap <leader>sa :SessionSaveas<CR>
 nnoremap <leader>si :SessionInfo<CR>
 
-" Slogan: obsession.vim: continuously updated session files.
+" Obsession.vim: continuously updated session files
 Bundle 'tpope/vim-obsession'
 
-" Slogan: a tree explorer plugin for vim.
+" A tree explorer plugin for vim
 Bundle 'scrooloose/nerdtree'
 noremap <A-t> :NERDTreeToggle<CR>
 " Goto the current working directory
@@ -196,7 +197,7 @@ let NERDTreeShowBookmarks=1
 let NERDTreeQuitOnOpen=1
 let NERDTreeMouseMode=2
 
-" Slogan: Fuzzy file, buffer, mru, tag, etc finder.
+" Fuzzy file, buffer, mru, tag, etc finder
 Bundle 'kien/ctrlp.vim'
 let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/ctrlp'
 " Set the mode to determine the root searching directory.
@@ -226,21 +227,21 @@ noremap <leader>cc :CtrlPClearCache<cr>
 noremap <leader>cm :CtrlPBookmarkDir<cr>
 " Extentions
 let g:ctrlp_extensions = ['funky']
-" Slogan: a ctrlp.vim extension - Navigate and jump to function defs.
+" A ctrlp.vim extension - Navigate and jump to function defs
 Bundle 'tacahiroy/ctrlp-funky'
 nnoremap <Leader>fu :CtrlPFunky<CR>
 
-" Slogan: Vim plugin to list, select and switch between buffers.
+" Vim plugin to list, select and switch between buffers
 " Bundle 'jeetsukumaran/vim-buffergator'
 
-" Slogan: Buffer Explorer/Browser.
+" Buffer Explorer/Browser
 Bundle 'vim-scripts/bufexplorer.zip'
 
-" Slogan: Delete buffers in Vim without closing your windows or messing up your layout.
+" Delete buffers in Vim without closing your windows or messing up your layout
 Bundle 'moll/vim-bbye'
 nnoremap <Leader>bd :Bdelete<CR>
 
-" Slogan: Automatic resizing of Vim windows to the golden ratio.
+" Automatic resizing of Vim windows to the golden ratio
 Bundle 'roman/golden-ratio'
 let g:golden_ratio_autocommand = 0
 noremap <C-W>G :GoldenRatioResize<CR>
@@ -248,7 +249,7 @@ noremap <C-W>G :GoldenRatioResize<CR>
 " ---------------------------------------------------------------------
 " Appearance {{{1
 " Color Schemes {{{2
-" Slogan: precision colorscheme for the vim text editor.
+" Precision colorscheme for the vim text editor
 Lundle 'altercation/vim-colors-solarized'
 if &term =~ '256col'
   " Use the 256 degraded color mode
@@ -258,27 +259,27 @@ endif
 let g:solarized_menu=0
 hi StatusLine guifg=black
 
-" Slogan: Base16 for Vim.
+" Base16 for Vim
 Lundle 'chriskempson/base16-vim'
 
-" Slogan: Molokai color scheme for Vim.
+" Molokai color scheme for Vim
 Lundle 'tomasr/molokai'
 
-" Slogan: one colorscheme pack to rule them all.
+" One colorscheme pack to rule them all
 " Bundle 'flazz/vim-colorschemes'
 
-" Slogan: Sublime Text 2 Themes (textmate) created by Dayle Rees.
+" Sublime Text 2 Themes (textmate) created by Dayle Rees
 " Bundle 'daylerees/colour-schemes', { 'rtp': 'vim-themes' }
 
-" Slogan: Make gvim-only colorschemes work transparently in terminal vim.
+" Make gvim-only colorschemes work transparently in terminal vim
 " Bundle 'godlygeek/csapprox'
 
-" Slogan: a colorscheme strangely reminiscent of Vibrant Ink for a certain OS X editor.
+" A colorscheme strangely reminiscent of Vibrant Ink for a certain OS X editor
 " Bundle 'tpope/vim-vividchalk'
 
 " }}}2
 
-" Slogan: lean & mean statusline for vim that's light as air.
+" Lean & mean statusline for vim that's light as air
 " Bundle 'bling/vim-airline'
 " Remove separators, the different colors already make it easy to distinguish.
 " let [g:airline_left_sep, g:airline_right_sep] = ['', '']
@@ -298,84 +299,84 @@ Lundle 'tomasr/molokai'
 " Disable tagbar integration.
 " let g:airline#extensions#tagbar#enabled = 0
 
-" Slogan: super simple vim plugin to show the list of buffers in the command bar.
+" Super simple vim plugin to show the list of buffers in the command bar
 " Bundle 'bling/vim-bufferline'
 
-" Slogan: A plugin that shows a diff via Vim's sign column.
+" A plugin that shows a diff via Vim's sign column
 " Bundle 'mhinz/vim-signify'
 " let g:signify_disable_by_default = 1
 let g:signify_vcs_list = ['git']
 let g:signify_sign_delete = '-'
 
-" Slogan: A Vim plugin which shows a git diff in the gutter (sign column).
+" A Vim plugin which shows a git diff in the gutter (sign column)
 " Bundle 'airblade/vim-gitgutter'
 
-" Slogan: A Vim plugin for visually displaying indent levels in code.
+" A Vim plugin for visually displaying indent levels in code
 " Bundle 'nathanaelkane/vim-indent-guides'
 " let g:indent_guides_guide_size = 1
 
-" Slogan: A vim plugin to display the indention levels with thin vertical lines.
+" A vim plugin to display the indention levels with thin vertical lines
 Bundle 'Yggdroot/indentLine'
 let g:indentLine_enabled = 0
 noremap <leader>it :IndentLinesToggle<CR>
 
 " ---------------------------------------------------------------------
 " File types {{{1
-" Slogan: Syntax checking hacks for vim.
+" Syntax checking hacks for vim
 Bundle 'scrooloose/syntastic'
 
-" Slogan: emmet for vim: http://emmet.io
+" Emmet for vim: http://emmet.io
 Bundle 'mattn/emmet-vim'
 " Only enable insert mode functions
 let g:user_emmet_mode='i'
 " let g:user_emmet_leader_key = '<c-a>'
 
-" Slogan: runtime files for Haml, Sass, and SCSS .
+" Runtime files for Haml, Sass, and SCSS 
 Bundle 'tpope/vim-haml'
 
-" Slogan: A Vim plugin for Windows PowerShell support.
+" A Vim plugin for Windows PowerShell support
 Bundle 'PProvost/vim-ps1'
 
-" Slogan: Markdown runtime files.
+" Markdown runtime files
 Bundle 'tpope/vim-markdown'
 
-" Slogan: Vim Git runtime files.
+" Vim Git runtime files
 Lundle 'tpope/vim-git'
 
-" Slogan: Syntax file for nginx.
+" Syntax file for nginx
 Bundle 'vim-scripts/nginx.vim'
 
-" Slogan: A mirror to the official vimperator's syntax file.
+" A mirror to the official vimperator's syntax file
 Bundle 'bohrshaw/vim-vimperator-syntax'
 
-" Slogan: it's like rails.vim without the rails.
+" It's like rails.vim without the rails
 Bundle 'tpope/vim-rake'
 
-" Slogan: Vim plugin for debugging Ruby applications (using ruby-debug-ide gem).
+" Vim plugin for debugging Ruby applications (using ruby-debug-ide gem)
 " Bundle 'astashov/vim-ruby-debugger'
 
-" Slogan: Vim/Ruby Configuration Files.
+" Vim/Ruby Configuration Files
 " This plugin is now shipped by vim and fairly updated.
 " Bundle 'vim-ruby/vim-ruby'
 
-" Slogan: My work on integration of Scala into Vim - not a ton here, but useful for me.
+" My work on integration of Scala into Vim - not a ton here, but useful for me
 " Bundle 'derekwyatt/vim-scala'
 
-" Slogan: Tern plugin for vim(provides Tern-based JavaScript editing support).
+" Tern plugin for vim(provides Tern-based JavaScript editing support)
 " Bundle 'marijnh/tern_for_vim'
 
-" Slogan: CoffeeScript support for vim.
+" CoffeeScript support for vim
 Bundle 'kchmck/vim-coffee-script'
 
-" Slogan: Github mirror of Go vimscripts, synced with main repository http://golang.org
+" Github mirror of Go vimscripts, synced with main repository http://golang.org
 Bundle 'jnwhiteh/vim-golang'
 
 " ---------------------------------------------------------------------
 " External interaction {{{1
-" Slogan: All 256 xterm colors with their RGB equivalents, right in Vim!
+" All 256 xterm colors with their RGB equivalents, right in Vim!
 Bundle 'guns/xterm-color-table.vim'
 
-" Slogan: a Git wrapper so awesome, it should be illegal.
+" A Git wrapper so awesome, it should be illegal.
 Bundle 'tpope/vim-fugitive'
 nnoremap <silent> <leader>gs :Gstatus<CR>
 nnoremap <silent> <leader>gd :Gdiff<CR>
@@ -384,67 +385,75 @@ nnoremap <silent> <leader>gb :Gblame<CR>
 nnoremap <silent> <leader>gl :Glog<CR>
 nnoremap <silent> <leader>gp :Git push<CR>
 
-" Slogan: vimscript for gist.
+" Vimscript for gist
 Bundle 'mattn/gist-vim'
 " Dependencies: vim interface to Web API.
 Bundle 'mattn/webapi-vim'
 
-" Slogan: helpers for UNIX(Windows).
+" Helpers for UNIX(Windows)
 Bundle 'tpope/vim-eunuch'
 
-" Slogan: tmux basics.
+" Tmux basics
 if !has('win32')
   Bundle 'tpope/vim-tbone'
 endif
 
-" Slogan: Vim plugin for the Perl module / CLI script 'ack'.
+" Vim plugin for the Perl module / CLI script 'ack'
 if executable('ack-grep') || executable('ack')
   Bundle 'mileszs/ack.vim'
 endif
 
-" Slogan: Vim plugin for the_silver_searcher, 'ag', a replacement for the Perl module/CLI script 'ack'
+" A Vim plugin for the_silver_searcher(ag)
 if executable('ag')
   Bundle 'rking/ag.vim'
 endif
 
-" Slogan: dispatch.vim: asynchronous build and test dispatcher.
-Bundle 'tpope/vim-dispatch'
-
-" Slogan: This script implements transparent editing of gpg encrypted files. The filename must have a ".gpg", ".pgp" or ".asc" suffix. When opening such a file the content is decrypted, when opening a new file the script will ask for the recipients of the encrypted file. The file content will be encrypted to all recipients before it is written. The script turns off viminfo, swapfile, and undofile to increase security.
+" This script implements transparent editing of gpg encrypted files. The
+" filename must have a ".gpg", ".pgp" or ".asc" suffix. When opening such a file
+" the content is decrypted, when opening a new file the script will ask for the
+" recipients of the encrypted file. The file content will be encrypted to all
+" recipients before it is written. The script turns off viminfo, swapfile, and
+" undofile to increase security.
 Bundle 'jamessan/vim-gnupg'
 
-" Slogan: Vim plugin that displays tags in a window, ordered by class etc.
+" Vim plugin that displays tags in a window, ordered by class etc
 Bundle 'majutsushi/tagbar'
 " set tags=./tags;/,~/.vimtags
 " nnoremap <silent> <leader>tt :TagbarToggle<CR>
 
-" Slogan: A two-way integration between Vim and IPython 0.11+.
+" Dispatch.vim: asynchronous build and test dispatcher
+Bundle 'tpope/vim-dispatch'
+
+" A Vim plugin for looking up documentation
+Bundle 'Keithbsmiley/investigate.vim'
+
+" A two-way integration between Vim and IPython 0.11+
 Bundle 'ivanov/vim-ipython'
 
-" Slogan: runs RuboCop and displays the results in Vim.
+" Runs RuboCop and displays the results in Vim
 Bundle 'bohrshaw/vim-rubocop'
 
-" Slogan: vim, your markup language of choice, and your browser of choice.
+" Vim, your markup language of choice, and your browser of choice
 " Bundle 'matthias-guenther/hammer.vim'
 
-" Slogan: vim plugin to interact with the simplenote service.
+" Vim plugin to interact with the simplenote service
 " Bundle 'mrtazz/simplenote.vim'
 
 " ---------------------------------------------------------------------
 " Alternative usages {{{1
 " Task managers {{{2
-" Slogan: Quicktask is a lightweight Vim task management plugin.
+" Quicktask is a lightweight Vim task management plugin
 " Bundle 'aaronbieber/quicktask'
 
-" Slogan: Vim plugin for the TaskPaper application.
+" Vim plugin for the TaskPaper application
 " Bundle 'davidoc/taskpaper.vim'
 
-" Slogan: Vim Syntax for todo.txt (todotxt.com).
+" Vim Syntax for todo.txt (todotxt.com)
 " Bundle 'davidoc/todo.txt-vim'
 
 " }}}2
 
-" Slogan: Personal Wiki for Vim.
+" Personal Wiki for Vim
 Bundle 'vimwiki/vimwiki'
 " Restrict vimwiki's operation to only those paths listed in g:vimwiki_list.
 let g:vimwiki_global_ext = 0
