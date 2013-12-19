@@ -2,9 +2,8 @@
 " Author: Bohr Shaw <pubohr@gmail.com>
 
 " Bundle management {{{1
-let g:bundle_dirs = []
-command! -nargs=+ Lundle let g:bundle_dirs +=
-      \ map(split(<q-args>, '\s\+'), 'split(v:val, "[/''\"]")[1]')
+let g:bundles = []
+command! -nargs=+ Lundle let g:bundles += [<f-args>]
 exe 'command! -nargs=+ Bundle ' . (exists('l') ? ':' : 'Lundle <args>')
 
 " Vundle initialization
@@ -464,6 +463,7 @@ let g:vimwiki_list = [{'path': '~/vimwiki/',
 
 " ---------------------------------------------------------------------
 " Bundle Finish {{{1
+let g:bundle_dirs = map(g:bundles, 'split(v:val, "[/''\"]")[1]')
 call pathway#inject('bundle', g:bundle_dirs)
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
