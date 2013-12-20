@@ -5,11 +5,11 @@
 " View and set all options by :opt[ions]
 " Analyse startup performance by `vim --startuptime profiling`
 
-" Essential {{{1
+" Foundation {{{1
 set nocompatible " make Vim behave in a more useful way
 
 " Light weight Vim or not
-let l = exists('l') ? 1 : 0
+let l = exists('l') ? l : 0
 
 " A unified runtime path(Unix default)
 set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
@@ -25,8 +25,12 @@ set encoding=utf-8
 " reduce startup time. Must be before syntax or filetype setup.
 set guioptions=M
 
-" Runtime path management and bundle configuration
+" Bundle configuration and set the bundle list 'g:bundles'
 source ~/.vim/vimrc.bundle
+
+" Set runtime path
+let bundle_dirs = map(bundles, 'split(v:val, "[/''\"]")[1]')
+call pathway#inject('bundle', bundle_dirs)
 
 " Enable these after rtp setup, but as early as possible to reduce startup time.
 filetype plugin indent on
@@ -380,30 +384,6 @@ set showcmd " show partial commands in status line
 " set showmatch " show matching brackets/braces (redundant with matchparen.vim)
 set colorcolumn=+1 " highlight column after 'textwidth'
 
-" set titlestring=
-
-" A concise status line named "Starline"
-set laststatus=2 " always display the status line
-set statusline=%<%f " file name, truncated if too long
-set stl+=%M%R%W%q " modified, read-only, preview, quickfix flag
-set stl+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''} " software caps lock status
-set stl+=%= " left/right separator
-set stl+=%Y " file type
-set stl+=\ %{substitute(getcwd(),'.*[\\/]','','')} " the working directory
-set stl+=%(,%{exists('*fugitive#head')?fugitive#head(7):''}%) " git branch status
-set stl+=\ %(%{&fenc},%)%{&ff} " file encoding, format
-set stl+=\ %l,%c\ %p%% " cursor position, line percentage
-
-" Use CTRL-G, G_CTRL-G to see file and cursor information manually
-set ruler " not effective when 'statusline' is set
-set rulerformat=%50(%=%m%r%<%f%Y\ %l,%c\ %p%%%)
-
-" set tabline=
-
-" if has('multi_byte_ime')
-"   highlight CursorIM guifg=NONE guibg=Green
-" endif
-
 set background=dark " assume a dark background for color schemes
 if l
   if has('gui_running')
@@ -418,6 +398,33 @@ else
     color terminator
   endif
 endif
+
+" set titlestring=
+
+" A concise status line named "Starline"
+set laststatus=2 " always display the status line
+set statusline=[%n]%<%.40f " buffer number, file name(truncated if too long)
+set stl+=%H%W%q%R%m " help, preview, quickfix, read-only, modified flag
+set stl+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''} " software caps lock status
+set stl+=%= " left/right separator
+set stl+=%Y " file type
+set stl+=\ %{substitute(getcwd(),'.*[\\/]','','')} " the working directory
+set stl+=%(,%{exists('*fugitive#head')?fugitive#head(7):''}%) " git branch status
+set stl+=%(,%{(&fenc!='utf-8'&&&fenc!='')?&fenc:''}%) " file encoding
+set stl+=%(,%{&ff!='unix'?','.&ff:''}%) " file format
+set stl+=\ %l,%c\ %P " cursor position, line percentage
+hi StatusLine term=reverse cterm=reverse gui=reverse guifg=#657b83 guibg=#073642
+hi StatusLineNC term=reverse cterm=none ctermfg=8 ctermbg=10 gui=none guifg=#657b83 guibg=#073642
+
+" Use CTRL-G, G_CTRL-G to see file and cursor information manually
+set ruler " not effective when 'statusline' is set
+set rulerformat=%50(%=%m%r%<%f%Y\ %l,%c\ %p%%%)
+
+" set tabline=
+
+" if has('multi_byte_ime')
+"   highlight CursorIM guifg=NONE guibg=Green
+" endif
 
 " ---------------------------------------------------------------------
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:

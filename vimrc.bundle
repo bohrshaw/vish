@@ -4,15 +4,7 @@
 " Bundle management {{{1
 let g:bundles = []
 command! -nargs=+ Lundle let g:bundles += [<f-args>]
-exe 'command! -nargs=+ Bundle ' . (exists('l') ? ':' : 'Lundle <args>')
-
-" Vundle initialization
-" set rtp+=~/.vim/bundle/vundle/
-" call vundle#rc()
-
-" Vundle, the plug-in manager for Vim
-" Bundle 'gmarik/vundle'
-" let g:vundle_default_git_proto = 'git'
+exe 'command! -nargs=+ Bundle ' . (l ? ':' : 'Lundle <args>')
 
 " A Vim plugin for Vim plugins
 Bundle 'tpope/vim-scriptease'
@@ -38,7 +30,7 @@ let g:seek_enable_jumps = 1
 
 " Extended f, F, t and T key mappings for Vim
 " Bundle 'rhysd/clever-f.vim'
-" let g:clever_f_across_no_line = 1
+let g:clever_f_across_no_line = 1
 
 " Create your own text objects
 Bundle 'kana/vim-textobj-user'
@@ -226,6 +218,7 @@ noremap <leader>cc :CtrlPClearCache<cr>
 noremap <leader>cm :CtrlPBookmarkDir<cr>
 " Extentions
 let g:ctrlp_extensions = ['funky']
+
 " A ctrlp.vim extension - Navigate and jump to function defs
 Bundle 'tacahiroy/ctrlp-funky'
 nnoremap <Leader>fu :CtrlPFunky<CR>
@@ -250,13 +243,9 @@ noremap <C-W>G :GoldenRatioResize<CR>
 " Color Schemes {{{2
 " Precision colorscheme for the vim text editor
 Lundle 'altercation/vim-colors-solarized'
-if &term =~ '256col'
-  " Use the 256 degraded color mode
-  let g:solarized_termcolors=256
-endif
-" Turn off menu integration
+let g:solarized_italic = 0
+let g:solarized_termcolors = &term =~ '256col' ? 256 : 16
 let g:solarized_menu=0
-hi StatusLine guifg=black
 
 " Base16 for Vim
 Lundle 'chriskempson/base16-vim'
@@ -281,22 +270,21 @@ Lundle 'tomasr/molokai'
 " Lean & mean statusline for vim that's light as air
 " Bundle 'bling/vim-airline'
 " Remove separators, the different colors already make it easy to distinguish.
-" let [g:airline_left_sep, g:airline_right_sep] = ['', '']
+let [g:airline_left_sep, g:airline_right_sep] = ['', '']
 " let g:airline_paste_symbol = 'P'
-" let g:airline_section_z = '%v %l/%L %p%%' "right side section
-" set showmode! "don't show modes indicators below the status line
+let g:airline_section_z = '%l,%c %p%%' "right side section
 " Use shorter modes indicators
-" let g:airline_mode_map = { '__': '-', 'n': 'N', 'i': 'I', 'R': 'R', 'c': 'C',
-"       \ 'v': 'V', 'V': 'VL', '': 'VB', 's': 'S', 'S': 'SL', '': 'SB'}
+let g:airline_mode_map = { '__': '-', 'n': 'N', 'i': 'I', 'R': 'R', 'c': 'C',
+      \ 'v': 'V', 'V': 'VL', '': 'VB', 's': 'S', 'S': 'SL', '': 'SB'}
 " Extensions
 " Disable showing a summary of changed hunks under source control.
-" let g:airline#extensions#hunks#enabled = 0
+let g:airline#extensions#hunks#enabled = 0
 " Showing only non-zero hunks.
-" let g:airline#extensions#hunks#non_zero_only = 1
+let g:airline#extensions#hunks#non_zero_only = 1
 " Disable detection of whitespace errors.
-" let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#whitespace#enabled = 0
 " Disable tagbar integration.
-" let g:airline#extensions#tagbar#enabled = 0
+let g:airline#extensions#tagbar#enabled = 0
 
 " Super simple vim plugin to show the list of buffers in the command bar
 " Bundle 'bling/vim-bufferline'
@@ -312,7 +300,7 @@ let g:signify_sign_delete = '-'
 
 " A Vim plugin for visually displaying indent levels in code
 " Bundle 'nathanaelkane/vim-indent-guides'
-" let g:indent_guides_guide_size = 1
+let g:indent_guides_guide_size = 1
 
 " A vim plugin to display the indention levels with thin vertical lines
 Bundle 'Yggdroot/indentLine'
@@ -330,7 +318,7 @@ Bundle 'mattn/emmet-vim'
 let g:user_emmet_mode='i'
 " let g:user_emmet_leader_key = '<c-a>'
 
-" Runtime files for Haml, Sass, and SCSS 
+" Runtime files for Haml, Sass, and SCSS
 Bundle 'tpope/vim-haml'
 
 " A Vim plugin for Windows PowerShell support
@@ -460,10 +448,5 @@ let g:vimwiki_conceallevel = 0
 let g:vimwiki_list = [{'path': '~/vimwiki/',
       \ 'syntax': 'markdown',
       \ 'ext': '.md'}]
-
-" ---------------------------------------------------------------------
-" Bundle Finish {{{1
-let g:bundle_dirs = map(g:bundles, 'split(v:val, "[/''\"]")[1]')
-call pathway#inject('bundle', g:bundle_dirs)
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
