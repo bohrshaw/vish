@@ -35,13 +35,18 @@ BUNDLE_FILE = "#{VIM_DIR}/vimrc.bundle"
 
 # The bundle manager
 class Bundle
-  # Get the bundle list
-  @@bundles = [] # the format of a bundle is like "author/repo"
-  File.foreach(BUNDLE_FILE) do |line|
-    if line =~ /^\s*[BL]undle\s+.*/
-      @@bundles += line.scan(/[^\s'"]+/)[1..-1]
-    end
-  end
+  # Get the bundle list, a bundle is like "author/repo"
+  spawn 'vim -Nesu ~/.vim/vimrc.bundle --noplugin --servername tmppp'
+  sleep 0.1
+  @@bundles = `vim --servername tmppp --remote-expr bundles`.split
+  system('vim --servername tmppp --remote-send ":q!<CR>"')
+
+  # File.foreach(BUNDLE_FILE) do |line|
+  #   if line =~ /^\s*[BL]undle\s+.*/
+  #     @@bundles += line.scan(/[^\s'"]+/)[1..-1]
+  #   end
+  # end
+
   @@bundles.uniq!
 
   # Sync all bundles
