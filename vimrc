@@ -8,6 +8,9 @@
 " Essential {{{1
 set nocompatible " make Vim behave in a more useful way
 
+" Light weight Vim or not
+let l = exists('l') ? 1 : 0
+
 " A unified runtime path(Unix default)
 set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 
@@ -40,9 +43,9 @@ for [opt, dir] in items(opts)
 endfor
 set viewdir=~/.vim/tmp/view
 
-let &swapfile = exists('l') ? 0 : 1 " use a swapfile for the buffer
-let &undofile = exists('l') ? 0 : 1 " persistent undo
-let &viminfo = exists('l') ? '' : "!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo"
+let &swapfile = l ? 0 : 1 " use a swapfile for the buffer
+let &undofile = l ? 0 : 1 " persistent undo
+let &viminfo = l ? '' : "!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo"
 " Exclude options and mappings in saved sessions and views
 set sessionoptions=blank,buffers,curdir,folds,help,tabpages,winsize,slash,unix
 set viewoptions=folds,cursor,unix,slash
@@ -55,7 +58,7 @@ set autoread " auto-read a file changed outside of Vim
 set hidden " hide a modified buffer without using '!' when it's abandoned
 
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1 " help to determine a file encoding
-set fileformats=unix,dos " end-of-line format precedence
+set fileformats=unix,dos " end-of-line formats precedence
 
 set wildmenu wildmode=longest:full,full wildignorecase " command line completion
 set complete-=i " don't scan included files for keyword completion
@@ -104,7 +107,7 @@ set cryptmethod=blowfish " acceptable encryption strength, remember :set viminfo
 set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
 set display+=lastline " ensure the last line is properly displayed
 
-if 0 == argc() && has('gui_running') && !exists('l')
+if 0 == argc() && has('gui_running') && !l
   cd $HOME
 endif
 
@@ -209,7 +212,6 @@ vnoremap <leader>rv c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
 
 " Search words under the cursor via the Web
 nnoremap gG :call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand("<cword>"),0)<cr>
-nnoremap gT :call netrw#NetrwBrowseX("http://translate.google.com.hk/#auto/zh-CN/".expand("<cword>"),0)<cr>
 nnoremap gW :call netrw#NetrwBrowseX("http://en.wikipedia.org/wiki/Special:Search?search=".expand("<cword>"),0)<cr>
 
 " ---------------------------------------------------------------------
@@ -403,7 +405,7 @@ set rulerformat=%50(%=%m%r%<%f%Y\ %l,%c\ %p%%%)
 " endif
 
 set background=dark " assume a dark background for color schemes
-if exists('l')
+if l
   if has('gui_running')
     color base16-solarized
   elseif has('unix')
