@@ -63,6 +63,7 @@ set hidden " hide a modified buffer without using '!' when it's abandoned
 
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1 " help to determine a file encoding
 set fileformats=unix,dos " end-of-line formats precedence
+set fileformat=unix " only for the initial unnamed buffer
 
 set wildmenu wildmode=longest:full,full wildignorecase " command line completion
 set complete-=i " don't scan included files for keyword completion
