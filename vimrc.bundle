@@ -15,8 +15,8 @@ aug Bundle
   au!
   " A buffer local map to open a bundle's URL in the browser
   au Bundle BufReadPost {.,}vimrc.bundle nnoremap <buffer> gB
-        \ :call netrw#NetrwBrowseX(substitute(getline('.')
-        \ ,'\v.*\s.(.*).$','http://github.com/\1','g'),0)<CR>
+        \ :call netrw#NetrwBrowseX('https://github.com/'
+        \ . matchstr(getline('.'), 'Bundle([''"]\zs.\{-}\ze[''"]'), 0)<CR>
 aug END
 
 " A Vim plugin for Vim plugins
