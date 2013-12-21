@@ -136,6 +136,7 @@ command! -nargs=1 NXnoremap nnoremap <args>| xnoremap <args>
 
 " Map ';' to ':' to reduce keystrokes
 NXnoremap ; :
+" Don't use 'q;' as 'q' is often mapped to quit a window
 NXnoremap z; q:
 NXnoremap @; @:
 
@@ -408,12 +409,12 @@ set laststatus=2 " always display the status line
 set statusline=[%n]%<%.40f " buffer number, file name(truncated if too long)
 set stl+=%H%W%q%R%m " help, preview, quickfix, read-only, modified flag
 set stl+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''} " software caps lock status
-set stl+=%= " left/right separator
-set stl+=%Y " file type
 set stl+=\ %{substitute(getcwd(),'.*[\\/]','','')} " the working directory
 set stl+=%(,%{exists('*fugitive#head')?fugitive#head(7):''}%) " git branch status
-set stl+=%(,%{(&fenc!='utf-8'&&&fenc!='')?&fenc:''}%) " file encoding
-set stl+=%(,%{&ff!='unix'?','.&ff:''}%) " file format
+set stl+=%= " left/right separator
+set stl+=\ %Y " file type
+set stl+=%{(&fenc!='utf-8'&&&fenc!='')?','.&fenc:''} " file encoding
+set stl+=%{&ff!='unix'?','.&ff:''} " file format
 set stl+=\ %l,%c\ %P " cursor position, line percentage
 hi StatusLine term=reverse cterm=reverse gui=reverse guifg=#657b83 guibg=#073642
 hi StatusLineNC term=reverse cterm=none ctermfg=8 ctermbg=10 gui=none guifg=#657b83 guibg=#073642
