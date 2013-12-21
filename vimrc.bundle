@@ -31,7 +31,8 @@ let g:EasyMotion_leader_key = ','
 
 " Acts like `f` but taking two characters
 en|if Bundle('goldfeld/vim-seek', 1)
-let g:seek_enable_jumps = 1
+let g:SeekKey = 'f<CR>'
+" let g:seek_enable_jumps = 1
 
 " Extended f, F, t and T key mappings for Vim
 en|if Bundle('rhysd/clever-f.vim', 0)
