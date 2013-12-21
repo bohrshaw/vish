@@ -65,7 +65,8 @@ set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1 " help to determine a 
 set fileformats=unix,dos " end-of-line formats precedence
 set fileformat=unix " only for the initial unnamed buffer
 
-set wildmenu wildmode=longest:full,full wildignorecase " command line completion
+" Command line completion ('wildignorecase' is introduced in Vim 7.3.072)
+silent! set wildmenu wildmode=longest:full,full wildignorecase
 set complete-=i " don't scan included files for keyword completion
 
 set incsearch " find as you type search
@@ -105,7 +106,7 @@ au VimEnter * set vb t_vb= " disable error beep and screen flash
 set nowritebackup " write to symbolic files safely on windows
 set confirm " prompt for an action instead of fail immediately
 set backspace=indent,eol,start " backspace through anything in insert mode
-set formatoptions+=j " delete comment character when joining commented lines
+silent! set formatoptions+=j " remove comment characters when joining commented lines
 set nrformats-=octal " exclude octal numbers when using C-A or C-X
 set nolazyredraw " don't redraw the screen while executing macros etc.
 set cryptmethod=blowfish " acceptable encryption strength, remember :set viminfo=
