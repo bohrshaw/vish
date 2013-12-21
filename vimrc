@@ -186,11 +186,11 @@ nnoremap j gj
 nnoremap k gk
 
 " Allow the `.` to execute once for each line of a visual selection.
-vnoremap . :normal .<CR>
+xnoremap . :normal .<CR>
 
 " Visual shifting (does not exit Visual mode)
-vnoremap < <gv
-vnoremap > >gv
+xnoremap < <gv
+xnoremap > >gv
 
 " Easier horizontal scrolling
 noremap zl zL
@@ -203,10 +203,9 @@ NXnoremap <leader>ev :vs %:h/
 NXnoremap <leader>et :tabe %:h/
 
 " Source the current line of Vim scripts
-nnoremap <leader>S ^"zy$:@z<bar>echo "Current line sourced."<cr>
-" Source visual selection even including a line continuation symbol '\'
-vnoremap <leader>S "zy:let @z = substitute(@z, "\n *\\", "", "g")<bar>@z<bar>
-      \echo "Selection sourced."<cr>
+nnoremap <leader>S ^"zy$:@z<CR>
+" Source a visual selection (continued lines joined)
+xnoremap <leader>S "zy:let @z = substitute(@z, '\n\s*\\', '', 'g')<Bar>@z<CR>
 
 " Quit diff mode and close other diff buffers
 noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<cr>
@@ -215,7 +214,7 @@ noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<cr>
 nnoremap <leader>at a<C-R>=strftime("%a %b %d %H:%M:%S %Y")<CR><Esc>
 
 " Reverse the selected text
-vnoremap <leader>rv c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
+xnoremap <leader>rv c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
 
 " Search words under the cursor via the Web
 nnoremap gG :call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand("<cword>"),0)<cr>
@@ -268,9 +267,6 @@ cmap   <script> <C-T> <SID>transposition<SID>transpose
 
 " ---------------------------------------------------------------------
 " Commands {{{1
-" Source a range of lines of Vim scripts
-command! -range Source <line1>,<line2>g/./exe getline('.')
-
 " Calculate the time spending on executing commands
 command! -nargs=1 -complete=command Time call vimrc#time(<q-args>)
 
