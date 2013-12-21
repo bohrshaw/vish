@@ -23,6 +23,10 @@ OptionParser.new do |opts|
     OPTIONS[:update] = true
   end
 
+  opts.on('-r', '--reset', 'reset the current branch') do
+    OPTIONS[:reset] = true
+  end
+
   opts.on('-c', '--clean', 'clean bundles') do
     OPTIONS[:clean] = true
   end
@@ -36,17 +40,10 @@ BUNDLE_FILE = "#{VIM_DIR}/vimrc.bundle"
 # The bundle manager
 class Bundle
   # Get the bundle list, a bundle is like "author/repo"
-  spawn 'vim -Nesu ~/.vim/vimrc.bundle --noplugin --servername tmppp'
+  spawn 'vim -Nesu NONE --servername tmppp -c "so ~/.vim/vimrc.bundle"'
   sleep 0.1
   @@bundles = `vim --servername tmppp --remote-expr bundles`.split
   system('vim --servername tmppp --remote-send ":q!<CR>"')
-
-  # File.foreach(BUNDLE_FILE) do |line|
-  #   if line =~ /^\s*[BL]undle\s+.*/
-  #     @@bundles += line.scan(/[^\s'"]+/)[1..-1]
-  #   end
-  # end
-
   @@bundles.uniq!
 
   # Sync all bundles
@@ -102,9 +99,13 @@ class Bundle
 
   private
 
-  # Fetch updates and reset the current branch to the tracking remote branch
+  # Update the current branch according to its tracking remote branch
   def self.update_branch(repo)
-    `cd #{repo} && git fetch && git reset --hard origin`
+    if OPTIONS[:reset]
+      `git reset --hard origin`
+    end
+
+    `cd #{repo} && git pull`
 
     # Update submodules
     if File.exist? "#{repo}/.gitmodules"
