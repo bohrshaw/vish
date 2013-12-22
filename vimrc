@@ -273,6 +273,9 @@ command! -nargs=1 -complete=command Time call vimrc#time(<q-args>)
 " Remove trailing white spaces
 command! Trim %s/\s\+$//
 
+" Substitute in a visual area
+command! -nargs=1 SV s/\%V<args>
+
 " Remove duplicate, consecutive lines
 command! UniqConsecutive g/\v^(.*)\n\1$/d
 " command! UniqConsecutive sort /\M$^/ u
