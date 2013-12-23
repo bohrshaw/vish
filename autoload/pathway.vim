@@ -41,7 +41,7 @@ function! pathway#inject(...) abort " {{{1
       let dirs += [dir] + subdirs
     endif
   endfor
-  let &rtp = pathway#join(pathway#uniq(dirs))
+  let &rtp = pathway#join(dirs)
   return 1
 endfunction
 " }}}1
@@ -131,24 +131,6 @@ function! pathway#join(...) abort " {{{1
     let i += 1
   endwhile
   return substitute(path,'^,','','')
-endfunction " }}}1
-
-" Remove duplicates from a list.
-function! pathway#uniq(list) abort " {{{1
-  let i = 0
-  let seen = {}
-  while i < len(a:list)
-    if (a:list[i] ==# '' && exists('empty')) || has_key(seen,a:list[i])
-      call remove(a:list,i)
-    elseif a:list[i] ==# ''
-      let i += 1
-      let empty = 1
-    else
-      let seen[a:list[i]] = 1
-      let i += 1
-    endif
-  endwhile
-  return a:list
 endfunction " }}}1
 
 " vim:et sw=2 fdm=marker:
