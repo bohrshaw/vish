@@ -405,8 +405,8 @@ endif
 
 " A concise status line named "Starline"
 set laststatus=2 " always display the status line
-set statusline=[%n]%<%.40f " buffer number, file name(truncated if too long)
-set stl+=%H%W%q%R%m " help, preview, quickfix, read-only, modified flag
+set statusline=%m%<%.40f " modified flag, file name(truncated if too long)
+set stl+=%H%W%q%R " help, preview, quickfix, read-only flag
 set stl+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''} " software caps lock status
 set stl+=\ %{substitute(getcwd(),'.*[\\/]','','')} " the working directory
 set stl+=%(,%{exists('*fugitive#head')?fugitive#head(7):''}%) " git branch status
