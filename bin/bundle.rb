@@ -40,11 +40,12 @@ BUNDLE_FILE = "#{VIM_DIR}/vimrc.bundle"
 # The bundle manager
 class Bundle
   # Get the bundle list, a bundle is like "author/repo"
-  spawn 'vim -Nesu NONE --servername tmppp -c "so ~/.vim/vimrc.bundle"'
-  sleep 0.1
-  @@bundles = `vim --servername tmppp --remote-expr bundles`.split
-  system('vim --servername tmppp --remote-send ":q!<CR>"')
-  @@bundles.uniq!
+  # spawn 'vim -Nes --servername tmppp -S ~/.vim/vimrc.bundle'
+  # sleep 0.1
+  # @@bundles = `vim --servername tmppp --remote-expr bundles`.split
+  # @@bundles = @@bundles.uniq # uniq! returns nil when no duplicates found
+  # system('vim --servername tmppp --remote-send ":q!<CR>"')
+  @@bundles = `vim -Nes -S ~/.vim/vimrc.bundle "+put =bundles|2,p|q!"`.split
 
   # Sync all bundles
   def self.sync
