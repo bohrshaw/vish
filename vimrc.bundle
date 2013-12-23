@@ -6,7 +6,17 @@ let bundles = []
 let l = exists('l') ? l : 0
 function! Bundle(bundles, ...)
   if a:0 > 0 ? a:1 : !g:l
-    let g:bundles += type(a:bundles) == 1 ? [a:bundles] : a:bundles
+    if type(a:bundles) == 1
+      call add(g:bundles, a:bundles)
+    else
+      call add(g:bundles, a:bundles[0])
+      for b in a:bundles[1:]
+        if index(g:bundles, b) < 0
+          call add(g:bundles, b)
+        endif
+      endfor
+    endif
+
     return 1
   endif
 endfunction
