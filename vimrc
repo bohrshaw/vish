@@ -141,11 +141,11 @@ NXnoremap z; q:
 NXnoremap @; @:
 
 " The substitution to ';' and ','
-NXnoremap - ;
-NXnoremap _ ,
+" NXnoremap - ;
+" NXnoremap _ ,
 
 " The counterpart to <CR>
-NXnoremap <S-CR> -
+" NXnoremap <S-CR> -
 
 " Delete without affecting registers
 nnoremap R "_d
