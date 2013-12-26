@@ -38,7 +38,7 @@ if Bundle('tpope/vim-scriptease')
 " The missing motion for Vim
 en|if Bundle('justinmk/vim-sneak', 1)
 " let g:sneak#streak = 1
-nmap \s <Plug>SneakStreak
+nmap <LocalLeader>s <Plug>SneakStreak
 hi! link SneakPluginScope Comment
 
 " Vim motions on speed
@@ -461,7 +461,7 @@ en|if Bundle('bohrshaw/vim-rubocop')
 " }}}2
 
 " Personal Wiki for Vim
-en|if Bundle('vimwiki/vimwiki')
+en|if Bundle('vimwiki/vimwiki', 0)
 " Restrict vimwiki's operation to only those paths listed in g:vimwiki_list.
 let g:vimwiki_global_ext = 0
 " Don't conceal characters
