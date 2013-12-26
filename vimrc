@@ -135,7 +135,7 @@ endif
 command! -nargs=1 NXnoremap nnoremap <args>| xnoremap <args>
 
 " Map ';' to ':' to reduce keystrokes
-NXnoremap ; :
+" NXnoremap ; :
 " Don't use 'q;' as 'q' is often mapped to quit a window
 NXnoremap z; q:
 NXnoremap @; @:
