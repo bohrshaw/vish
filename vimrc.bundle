@@ -38,6 +38,7 @@ if Bundle('tpope/vim-scriptease')
 " The missing motion for Vim
 en|if Bundle('justinmk/vim-sneak', 1)
 " let g:sneak#streak = 1
+nmap \s <Plug>SneakStreak
 hi! link SneakPluginScope Comment
 
 " Vim motions on speed
