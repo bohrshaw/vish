@@ -15,7 +15,7 @@ let l = exists('l') ? l : 0
 set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 
 let mapleader = ' ' " replace <Leader> in a map
-let maplocalleader = ',' " replace <LocalLeader> in a map
+let maplocalleader = '\' " replace <LocalLeader> in a map
 
 " The character encoding used inside Vim (Set early to allow mappings start
 " with the ALT key work properly.)
