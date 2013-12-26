@@ -414,7 +414,7 @@ set stl+=%= " left/right separator
 set stl+=\ %Y " file type
 set stl+=%{(&fenc!='utf-8'&&&fenc!='')?','.&fenc:''} " file encoding
 set stl+=%{&ff!='unix'?','.&ff:''} " file format
-set stl+=\ %l,%c\ %P " cursor position, line percentage
+set stl+=\ %c,%l/%L\ %P " cursor position, line percentage
 hi StatusLine term=reverse cterm=reverse gui=reverse guifg=#657b83 guibg=#073642
 hi StatusLineNC term=reverse cterm=none ctermfg=8 ctermbg=10 gui=none guifg=#657b83 guibg=#073642
 
