@@ -51,7 +51,7 @@ let &swapfile = l ? 0 : 1 " use a swapfile for the buffer
 let &undofile = l ? 0 : 1 " persistent undo
 let &viminfo = l ? '' : "!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo"
 " Exclude options and mappings in saved sessions and views
-set sessionoptions=blank,buffers,curdir,folds,help,tabpages,winsize,slash,unix
+set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
 set viewoptions=folds,cursor,unix,slash
 
 set ttimeout " time out on key codes
