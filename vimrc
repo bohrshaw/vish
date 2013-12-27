@@ -274,7 +274,7 @@ command! -nargs=1 -complete=command Time call vimrc#time(<q-args>)
 command! Trim %s/\s\+$//
 
 " Substitute in a visual area
-command! -nargs=1 SV s/\%V<args>
+command! -range -nargs=1 SV s/\%V<args>
 
 " Remove duplicate, consecutive lines
 command! UniqConsecutive g/\v^(.*)\n\1$/d
@@ -304,6 +304,10 @@ command! AppendModeline call vimrc#appendModeline()
 
 " Simple letter encoding with rot13
 command! Rot13 exe "normal ggg?G''"
+
+" Restart Gvim
+command! -bang -nargs=? -complete=custom,SessionComplete Restart
+      \ call vimrc#restart(<bang>0, <q-args>)
 
 " Search via Google
 command! -nargs=1 Google call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand("<args>"),0)
