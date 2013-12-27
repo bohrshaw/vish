@@ -421,7 +421,7 @@ en|if executable('ag') && Bundle('rking/ag.vim')
 " recipients of the encrypted file. The file content will be encrypted to all
 " recipients before it is written. The script turns off viminfo, swapfile, and
 " undofile to increase security.
-en|if Bundle('jamessan/vim-gnupg')
+" en|if Bundle('jamessan/vim-gnupg')
 
 " Vim plugin that displays tags in a window, ordered by class etc
 en|if Bundle('majutsushi/tagbar')
