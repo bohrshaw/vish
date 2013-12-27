@@ -1,26 +1,26 @@
 " Description: Assistant scripts for vimrc
 " Author: Bohr Shaw <pubohr@gmail.com>
 
-" Create a path conveniently {{{1
-function! vimrc#mkdir(...)
+" Create a path conveniently
+function! vimrc#mkdir(...) " {{{1
   if a:1 =~ '\v^(/|(\~|\w:)[\/])'
     let dir = expand(a:1)
   else
     let dir = getcwd() . "/" . (a:0 == 0 ? expand('%:h') : a:1)
   endif
   call mkdir(dir, 'p')
-endfunction
+endfunction " }}}1
 
-" Calculate the time spending on executing commands {{{1
-function! vimrc#time(commands)
+" Calculate the time spending on executing commands
+function! vimrc#time(commands) " {{{1
   let time_start = reltime()
   exe a:commands
   let time = reltime(time_start)
   echo 'Total Seconds: ' . split(reltimestr(time))[0]
-endfunction
+endfunction " }}}1
 
-" Count anything in a range of lines {{{1
-function! vimrc#count(...)
+" Count anything in a range of lines
+function! vimrc#count(...) " {{{1
     if a:0 == 3
       let range = a:2 . ',' . a:3
     elseif a:0 == 2
@@ -35,11 +35,11 @@ function! vimrc#count(...)
 
     let result = matchstr(subscount, '\d\+')
     return result == "" ? 0 : result
-endfunction
+endfunction " }}}1
 
-" Calculate words frequency {{{1
+" Calculate words frequency
 " http://vim.wikia.com/wiki/Word_frequency_statistics_for_a_file
-function! vimrc#word_frequency() range
+function! vimrc#word_frequency() range " {{{1
   let all = split(join(getline(a:firstline, a:lastline)), '\A\+')
   let frequencies = {}
   for word in all
@@ -51,10 +51,10 @@ function! vimrc#word_frequency() range
     call append('$', key."\t".value)
   endfor
   sort i
-endfunction
+endfunction " }}}1
 
-" Diff with another file {{{1
-function! vimrc#diffwith(...)
+" Diff with another file
+function! vimrc#diffwith(...) " {{{1
   let filetype=&ft
   tab sp
   diffthis
@@ -68,24 +68,38 @@ function! vimrc#diffwith(...)
   endif
   diffthis
   wincmd p
-endfunction
+endfunction " }}}1
 
-" Wipe out all unlisted buffers {{{1
-function! vimrc#bufffer_wipe_unlisted()
+" Wipe out all unlisted buffers
+function! vimrc#bufffer_wipe_unlisted() " {{{1
   for b in range(1, bufnr('$'))
     if bufexists(b) && ! buflisted(b)
       exe 'bw' . b
     endif
   endfor
-endfunction
+endfunction " }}}1
 
-" Append a mode line {{{1
-function! vimrc#appendModeline()
+" Append a mode line
+function! vimrc#appendModeline() " {{{1
   let modeline = printf(" vim:tw=%d ts=%d sw=%d et fdm=marker:", &textwidth, &shiftwidth, &tabstop)
   " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX Files.
   let modeline = substitute(&commentstring, "%s", modeline, "")
   " Append a new line and a modeline at the end of file
   call append(line("$"), ["", modeline])
-endfunction
+endfunction " }}}1
+
+" Restart Gvim with a session optionally restored
+function! vimrc#restart(bang, ...) "{{{
+  if exists('a:1') && a:1 != ''
+    exe '!start ' . $VIMRUNTIME . '/gvim -S ' . expand(g:session_path . '/' . a:1) | qa
+  elseif !a:bang
+    if v:this_session == ''
+      exe 'mksession! ' . expand(g:session_path . '/tmp')
+    endif
+    exe '!start ' . $VIMRUNTIME . '/gvim -S ' . v:this_session | qa
+  else
+    exe '!start ' . $VIMRUNTIME . '/gvim' | qa!
+  endif
+endfunction " }}}1
 
 " vim:tw=78 ts=2 sw=2 et fdm=marker:
