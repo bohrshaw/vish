@@ -420,7 +420,7 @@ set stl+=%{(&fenc!='utf-8'&&&fenc!='')?','.&fenc:''} " file encoding
 set stl+=%{&ff!='unix'?','.&ff:''} " file format
 set stl+=\ %c,%l/%L\ %P " cursor position, line percentage
 hi StatusLine term=reverse cterm=reverse gui=reverse guifg=#657b83 guibg=#073642
-hi StatusLineNC term=reverse cterm=none ctermfg=8 ctermbg=10 gui=none guifg=#657b83 guibg=#073642
+hi StatusLineNC term=reverse cterm=reverse ctermfg=240 ctermbg=235 gui=none guifg=#657b83 guibg=#073642
 
 " Use CTRL-G, G_CTRL-G to see file and cursor information manually
 set ruler " not effective when 'statusline' is set
