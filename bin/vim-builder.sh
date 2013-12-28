@@ -47,15 +47,15 @@ pushd src
 
 conf_cmd="./configure \
   --with-features=huge \
-  --enable-pythoninterp \
-  --enable-python3interp \
-  --enable-rubyinterp \
-  --enable-luainterp \
+  --enable-pythoninterp=yes \
+  --enable-python3interp=yes \
+  --enable-rubyinterp=yes \
+  --enable-luainterp=yes \
   --enable-multibyte \
   --disable-netbeans \
   --enable-fail-if-missing \
   --prefix=/usr/local \
-  --with-compiledby='Bohr Shaw' \
+  --with-compiledby=pubohr@gmail.com \
   --quiet"
   # --with-python-config-dir= \
   # --with-python3-config-dir= \
@@ -64,9 +64,9 @@ conf_cmd="./configure \
   # --with-global-runtime=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after \
 
 if [ $X_SERVER ]; then
-  "$conf_cmd --enable-gui=gnome2"
+  eval "$conf_cmd --enable-gui=gnome2"
 else
-  $conf_cmd
+  eval $conf_cmd
 fi
 
 make
