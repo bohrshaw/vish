@@ -305,10 +305,6 @@ command! AppendModeline call vimrc#appendModeline()
 " Simple letter encoding with rot13
 command! Rot13 exe "normal ggg?G''"
 
-" Restart Gvim
-command! -bang -nargs=? -complete=custom,SessionComplete Restart
-      \ call vimrc#restart(<bang>0, <q-args>)
-
 " Search via Google
 command! -nargs=1 Google call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand("<args>"),0)
 
