@@ -90,16 +90,18 @@ endfunction " }}}1
 
 " Restart Gvim with a session optionally restored
 function! vimrc#restart(bang, ...) "{{{
-  if exists('a:1') && a:1 != ''
-    exe '!start ' . $VIMRUNTIME . '/gvim -S ' . expand(g:session_path . '/' . a:1) | qa
-  elseif !a:bang
-    if v:this_session == ''
-      exe 'mksession! ' . expand(g:session_path . '/tmp')
-    endif
-    exe '!start ' . $VIMRUNTIME . '/gvim -S ' . v:this_session | qa
+  if a:bang
+    let args = ''
   else
-    exe '!start ' . $VIMRUNTIME . '/gvim' | qa!
+    if v:this_session == ''
+        exe 'mksession! ' . expand(g:session_path . '/tmp')
+    endif
+    let session_path = exists('a:1') && a:1 != '' ?
+          \ expand(g:session_path . '/' . a:1) : v:this_session
+    let args = '-S ' . session_path
   endif
+  exe has('win32') ? '!start '.$VIMRUNTIME.'/gvim '.args : '!gvim '.args.' &'
+  exe 'qa' . (a:bang ? '!' : '')
 endfunction " }}}1
 
 " vim:tw=78 ts=2 sw=2 et fdm=marker:
