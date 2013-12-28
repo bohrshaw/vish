@@ -90,15 +90,16 @@ endfunction " }}}1
 
 " Restart Gvim with a session optionally restored
 function! vimrc#restart(bang, ...) "{{{
+  let is_session_given = exists('a:1') && a:1 != ''
+  let this_session = is_session_given ?
+        \ expand(g:session_path . '/' . a:1) : v:this_session
   if a:bang
-    let args = ''
+    let args = is_session_given ? '-S ' . this_session : ''
   else
     if v:this_session == ''
         exe 'mksession! ' . expand(g:session_path . '/tmp')
     endif
-    let session_path = exists('a:1') && a:1 != '' ?
-          \ expand(g:session_path . '/' . a:1) : v:this_session
-    let args = '-S ' . session_path
+    let args = '-S ' . (is_session_given ? this_session : v:this_session)
   endif
   exe has('win32') ? '!start '.$VIMRUNTIME.'/gvim '.args : '!gvim '.args.' &'
   exe 'qa' . (a:bang ? '!' : '')
