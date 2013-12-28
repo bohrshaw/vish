@@ -270,6 +270,9 @@ cmap   <script> <C-T> <SID>transposition<SID>transpose
 " Calculate the time spending on executing commands
 command! -nargs=1 -complete=command Time call vimrc#time(<q-args>)
 
+" Join lines with characters in between
+command! -range -nargs=? Join <line1>,<line2>-1s/\s*\n\s*/<args>/
+
 " Remove trailing white spaces
 command! Trim %s/\s\+$//
 
