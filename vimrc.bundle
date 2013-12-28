@@ -190,7 +190,8 @@ let g:session_path = '~/.vim/tmp/session'
 " let g:session_save_on_exit = 1
 nnoremap <leader>sl :SessionList<CR>
 nnoremap <leader>ss :SessionSave<CR>
-nnoremap <leader>sa :SessionSaveas<CR>
+nnoremap <leader>sa :exe 'SessionSave ' . input('Save session as: '
+      \ , substitute(v:this_session, '.*[/\\]', '', ''))<CR>
 nnoremap <leader>si :SessionInfo<CR>
 
 " Obsession.vim: continuously updated session files
