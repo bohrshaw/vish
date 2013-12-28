@@ -88,21 +88,4 @@ function! vimrc#appendModeline() " {{{1
   call append(line("$"), ["", modeline])
 endfunction " }}}1
 
-" Restart Gvim with a session optionally restored
-function! vimrc#restart(bang, ...) "{{{
-  let is_session_given = exists('a:1') && a:1 != ''
-  let this_session = is_session_given ?
-        \ expand(g:session_path . '/' . a:1) : v:this_session
-  if a:bang
-    let args = is_session_given ? '-S ' . this_session : ''
-  else
-    if v:this_session == ''
-        exe 'mksession! ' . expand(g:session_path . '/tmp')
-    endif
-    let args = '-S ' . (is_session_given ? this_session : v:this_session)
-  endif
-  exe has('win32') ? '!start '.$VIMRUNTIME.'/gvim '.args : '!gvim '.args.' &'
-  exe 'qa' . (a:bang ? '!' : '')
-endfunction " }}}1
-
-" vim:tw=78 ts=2 sw=2 et fdm=marker:
+" vim:tw=80 ts=2 sw=2 et fdm=marker:
