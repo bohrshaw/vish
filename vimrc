@@ -50,9 +50,9 @@ set viewdir=~/.vim/tmp/view
 let &swapfile = l ? 0 : 1 " use a swapfile for the buffer
 let &undofile = l ? 0 : 1 " persistent undo
 let &viminfo = l ? '' : "!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo"
-" Exclude options and mappings in saved sessions and views
+" Exclude options and mappings and be portable
 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
-set viewoptions=folds,cursor,unix,slash
+set viewoptions=folds,cursor,slash,unix
 
 set ttimeout " time out on key codes
 set ttimeoutlen=50 " key code delay (instant escape from Insert mode)
@@ -65,13 +65,15 @@ set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1 " help to determine a 
 set fileformats=unix,dos " end-of-line formats precedence
 set fileformat=unix " only for the initial unnamed buffer
 
-" Command line completion ('wildignorecase' is introduced in Vim 7.3.072)
-silent! set wildmenu wildmode=longest:full,full wildignorecase
+" Command line completion
+set wildmenu wildmode=longest:full,full
+" Ignore case when completing file names and directories (Vim 7.3.072)
+silent! set wildignorecase
 set complete-=i " don't scan included files for keyword completion
 
-set incsearch " find as you type search
-set ignorecase " case insensitive search
-set smartcase " case sensitive when upper case characters present
+set incsearch " show matches when typing the search pattern
+set ignorecase " case insensitive in search patterns and command completion
+set smartcase " case sensitive only when up case characters present
 
 set autoindent " indent at the same level of the previous line
 set shiftwidth=4 " number of spaces to use for each step of (auto)indent
@@ -409,14 +411,13 @@ endif
 " A concise status line named "Starline"
 set laststatus=2 " always display the status line
 set statusline=%m%<%.40f " modified flag, file name(truncated if too long)
-set stl+=%H%W%q%R " help, preview, quickfix, read-only flag
-set stl+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''} " software caps lock status
-set stl+=\ %{substitute(getcwd(),'.*[\\/]','','')} " the working directory
-set stl+=%(,%{exists('*fugitive#head')?fugitive#head(7):''}%) " git branch status
-set stl+=%= " left/right separator
-set stl+=\ %Y " file type
+set stl+=\ %H%W%q%R%Y " help, preview, quickfix, read-only flag, file type
 set stl+=%{(&fenc!='utf-8'&&&fenc!='')?','.&fenc:''} " file encoding
 set stl+=%{&ff!='unix'?','.&ff:''} " file format
+set stl+=%(,%{exists('*fugitive#head')?fugitive#head(7):''}%) " git branch status
+set stl+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''} " software caps lock status
+set stl+=%= " left/right separator
+set stl+=%{substitute(getcwd(),'.*[\\/]','','')} " the working directory
 set stl+=\ %c,%l/%L\ %P " cursor position, line percentage
 hi StatusLine term=reverse cterm=reverse gui=reverse guifg=#657b83 guibg=#073642
 hi StatusLineNC term=reverse cterm=reverse ctermfg=240 ctermbg=235 gui=none guifg=#657b83 guibg=#073642
