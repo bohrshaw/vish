@@ -68,13 +68,14 @@ nmake -f Make_mvc.mak `
 popd
 
 # Packaging {{{1
-cp src\*.exe,src\*.dll,src\xxd\xxd.exe,vimtutor.bat,README.txt runtime
+cp src\*.exe,src\*.dll,src\xxd\xxd.exe,vimtutor.bat,README.txt,$lua\*.dll runtime
 mkdir runtime\GvimExt 2>$null
-(ls .\src\GvimExt) -match '.*\.(dll|inf|reg|txt)$' | cp -Destination .\runtime\GvimExt
-cp $lua\*.dll runtime
+(ls .\src\GvimExt) -match '.*\.(dll|bat|inf|reg|txt)$' | cp -Destination .\runtime\GvimExt
+mkdir runtime\VisVim 2>$null
+(ls .\src\VisVim) -match '.*\.(dll|bat|inf|reg|txt)$' | cp -Destination .\runtime\VisVim
 
-mkdir vim; mv runtime vim\vim74
-& 7z a -mx=9 vim-bohr.7z vim
-mv vim\vim74 runtime; rmdir vim
+mkdir Vim; mv runtime Vim\vim74
+& 7z a -mx=9 vim-bohr.7z Vim
+mv Vim\vim74 runtime; rmdir Vim
 
 # vim:tw=0 ts=2 sw=2 et fdm=marker:
