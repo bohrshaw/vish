@@ -343,6 +343,12 @@ let g:user_emmet_mode='i'
 " Runtime files for Haml, Sass, and SCSS
 en|if Bundle('tpope/vim-haml')
 
+" Runtime files for LESS (dynamic CSS)
+en|if Bundle('groenewege/vim-less')
+
+" Vastly improved Javascript indentation and syntax support
+en|if Bundle('pangloss/vim-javascript')
+
 " A Vim plugin for Windows PowerShell support
 en|if Bundle('PProvost/vim-ps1')
 
@@ -425,11 +431,20 @@ en|if Bundle('majutsushi/tagbar')
 " Dispatch.vim: asynchronous build and test dispatcher
 en|if Bundle('tpope/vim-dispatch')
 
+" Integrated reference viewer
+" en|if Bundle('thinca/vim-ref')
+" let g:ref_no_default_key_mappings = 1
+
 " A Vim plugin for looking up documentation
 en|if Bundle('Keithbsmiley/investigate.vim')
 
 " A two-way integration between Vim and IPython 0.11+
 en|if Bundle('ivanov/vim-ipython')
+
+" Run commands quickly
+en|if Bundle('thinca/vim-quickrun')
+let g:quickrun_no_default_key_mappings = 1
+map <Leader>qr <Plug>(quickrun)
 
 " Runs RuboCop and displays the results in Vim
 en|if Bundle('bohrshaw/vim-rubocop')
