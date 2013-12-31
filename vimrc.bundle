@@ -187,8 +187,8 @@ autocmd FileType startify setlocal buftype=
 " Vim session manager
 en|if Bundle('bohrshaw/vim-mansion')
 let g:sessiondir = '~/.vim/tmp/session'
-" let g:session_no_auto_save = 1
-" let g:session_no_maps = 1
+" let g:mansion_no_auto_save = 1
+" let g:mansion_no_maps = 1
 
 " A tree explorer plugin for vim
 en|if Bundle('scrooloose/nerdtree')
