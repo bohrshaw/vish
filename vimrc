@@ -199,10 +199,10 @@ noremap zl zL
 noremap zh zH
 
 " Edit a file in the same directory of the current file
-NXnoremap <leader>ee :e %:h/
-NXnoremap <leader>es :sp %:h/
-NXnoremap <leader>ev :vs %:h/
-NXnoremap <leader>et :tabe %:h/
+NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/
+NXnoremap <leader>es :sp <C-R>=expand('%:h')<CR>/
+NXnoremap <leader>ev :vs <C-R>=expand('%:h')<CR>/
+NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/
 
 " Source the current line of Vim scripts
 nnoremap <leader>S mz^"zy$:@z<CR>`z
