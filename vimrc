@@ -205,9 +205,9 @@ NXnoremap <leader>ev :vs <C-R>=expand('%:h')<CR>/
 NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/
 
 " Source the current line of Vim scripts
-nnoremap <leader>S mz^"zy$:@z<CR>`z
+nnoremap <silent> <leader>S mz^"zy$:@z<CR>`z
 " Source a visual selection (continued lines joined)
-xnoremap <leader>S mz"zy:let @z = substitute(@z, '\n\s*\\', '', 'g')<Bar>@z<CR>`z
+xnoremap <silent> <leader>S mz:y z<Bar>let @z = substitute(@z, '\n\s*\\', '', 'g')<Bar>@z<CR>`z
 
 " Quit diff mode and close other diff buffers
 noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<cr>
