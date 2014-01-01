@@ -364,6 +364,13 @@ en|if Bundle('vim-scripts/nginx.vim')
 " A mirror to the official vimperator's syntax file
 en|if Bundle('bohrshaw/vim-vimperator-syntax')
 
+" A custom text object for selecting ruby blocks
+en|if Bundle('nelstrom/vim-textobj-rubyblock')
+
+" Provide more controls over the above
+en|if Bundle('rhysd/vim-textobj-ruby', 0)
+let g:textobj_ruby_more_mappings = 1
+
 " It's like rails.vim without the rails
 en|if Bundle('tpope/vim-rake')
 
