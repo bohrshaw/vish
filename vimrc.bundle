@@ -491,4 +491,4 @@ let g:vimwiki_list = [{'path': '~/vimwiki/',
       \ 'ext': '.md'}]
 endif
 
-" vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
+" vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap indentexpr=:
