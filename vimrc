@@ -115,6 +115,14 @@ set cryptmethod=blowfish " acceptable encryption strength, remember :set viminfo
 set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
 set display+=lastline " ensure the last line is properly displayed
 
+if executable('ag')
+  set grepprg=ag\ --nocolor\ --column
+  set grepformat^=%f:%l:%c:%m
+elseif executable('ack')
+  set grepprg=ack\ --nocolor\ --column
+  set grepformat^=%f:%l:%c:%m
+endif
+
 if 0 == argc() && has('gui_running') && !l
   cd $HOME
 endif
@@ -347,7 +355,10 @@ cabbrev %% <C-R>=expand('%:h').'/'<CR>
 aug vimrc
   au!
   " Make the file '_' a scratch buffer
-  au vimrc BufNewFile,BufReadPost _ set buftype=nofile bufhidden=hide noswapfile
+  au BufNewFile,BufReadPost _ set buftype=nofile bufhidden=hide noswapfile
+  " Mappings for a quickfix window
+  au BufNewFile,BufReadPost *{quickfix,location}*
+        \ if &buftype == 'quickfix' | nnoremap <buffer> q <C-W>c| endif
 aug END
 
 " ---------------------------------------------------------------------
