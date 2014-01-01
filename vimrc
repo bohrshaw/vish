@@ -81,7 +81,7 @@ set shiftround " use multiple of shiftwidth to round when indenting with '<' and
 set tabstop=4 " number of spaces a tab displayed in
 set softtabstop=4 " number of spaces used when press <Tab> or <BS>
 set expandtab " expand a tab to spaces
-set smarttab " make tab width equals shiftwidth
+set smarttab " a <Tab> in front of a line inserts blanks according to 'shiftwidth'
 
 set winminheight=0 " the minimal height of a window
 set scrolloff=1 " minimum lines to keep above and below cursor
