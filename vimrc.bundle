@@ -142,12 +142,13 @@ en|if Bundle('terryma/vim-multiple-cursors')
 
 " History {{{2
 " Display your undo history in a graph
-en|if Bundle('mbbill/undotree')
+en|if Bundle('mbbill/undotree', 0)
 nnoremap <leader>u :UndotreeToggle<CR>
 let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 
 " Vim plugin to visualize your Vim undo tree
 en|if Bundle('sjl/gundo.vim')
+nnoremap <leader>u :GundoToggle<CR>
 
 " Enable repeating supported plugin maps with "."
 en|if Bundle('tpope/vim-repeat', 1)
