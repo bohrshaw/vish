@@ -119,7 +119,7 @@ if executable('ag')
   set grepprg=ag\ --nocolor\ --column
   set grepformat^=%f:%l:%c:%m
 elseif executable('ack')
-  set grepprg=ack\ --nocolor\ --column
+  set grepprg=ack\ --nocolor\ --nobreak\ --column
   set grepformat^=%f:%l:%c:%m
 endif
 
@@ -320,6 +320,10 @@ command! Rot13 exe "normal ggg?G''"
 
 " Search via Google
 command! -nargs=1 Google call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand("<args>"),0)
+
+" Grep using 'ag' or 'ack' without affecting 'grepprg' and 'grepformat'
+command! -nargs=1 -complete=command Ag call grep#grep('ag', <q-args>)
+command! -nargs=1 -complete=command Ack call grep#grep('ack', <q-args>)
 
 " Calculate words frequency
 command! -range=% WordFrequency <line1>,<line2>call vimrc#word_frequency()

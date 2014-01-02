@@ -460,12 +460,6 @@ en|if Bundle('tpope/vim-eunuch')
 " Tmux basics
 en|if !has('win32') && Bundle('tpope/vim-tbone')
 
-" Vim plugin for the Perl module / CLI script 'ack'
-en|if (executable('ack-grep') || executable('ack')) && Bundle('mileszs/ack.vim')
-
-" A Vim plugin for the_silver_searcher(ag)
-en|if executable('ag') && Bundle('rking/ag.vim')
-
 " This script implements transparent editing of gpg encrypted files. The
 " filename must have a ".gpg", ".pgp" or ".asc" suffix. When opening such a file
 " the content is decrypted, when opening a new file the script will ask for the
