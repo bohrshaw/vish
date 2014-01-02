@@ -331,21 +331,55 @@ noremap <leader>it :IndentLinesToggle<CR>
 
 " ---------------------------------------------------------------------
 " File types {{{1
+" All {{{2
 " Syntax checking hacks for vim
 en|if Bundle('scrooloose/syntastic')
 
-" Emmet for vim: http://emmet.io
-en|if Bundle('mattn/emmet-vim')
-" Only enable insert mode functions
-let g:user_emmet_mode='i'
-" let g:user_emmet_leader_key = '<c-a>'
+" Vim plugin that displays tags in a window, ordered by class etc
+en|if Bundle('majutsushi/tagbar')
+" set tags=./tags;/,~/.vimtags
+" nnoremap <silent> <leader>tt :TagbarToggle<CR>
 
+" A Vim plugin for looking up documentation
+en|if Bundle('Keithbsmiley/investigate.vim')
+
+" Integrated reference viewer
+en|if Bundle('thinca/vim-ref', 0)
+let g:ref_no_default_key_mappings = 1
+nmap <silent> gK <Plug>(ref-keyword)
+vmap <silent> gK <Plug>(ref-keyword)
+
+" Dispatch.vim: asynchronous build and test dispatcher
+en|if Bundle('tpope/vim-dispatch')
+
+" Run commands quickly
+en|if Bundle('thinca/vim-quickrun')
+let g:quickrun_no_default_key_mappings = 1
+map <Leader>qr <Plug>(quickrun)
+
+" Markups {{{2
 " Runtime files for Haml, Sass, and SCSS
 en|if Bundle('tpope/vim-haml')
 
 " Runtime files for LESS (dynamic CSS)
 en|if Bundle('groenewege/vim-less')
 
+" Emmet for vim: http://emmet.io
+en|if Bundle('mattn/emmet-vim')
+" Only enable insert mode functions
+let g:user_emmet_mode='i'
+" let g:user_emmet_leader_key = '<C-Z>'
+" Enable just for certain file types
+" let g:user_emmet_install_global = 0
+" autocmd FileType html,css EmmetInstall
+
+" Markdown runtime files
+en|if Bundle('tpope/vim-markdown')
+
+" Vim, your markup language of choice, and your browser of choice
+" en|if Bundle('matthias-guenther/hammer.vim')
+
+" Javascript {{{2
 " Vastly improved Javascript indentation and syntax support
 en|if Bundle('pangloss/vim-javascript')
 
@@ -358,20 +392,9 @@ en|if Bundle('pangloss/vim-javascript')
 " CoffeeScript support for vim
 en|if Bundle('kchmck/vim-coffee-script')
 
-" A Vim plugin for Windows PowerShell support
-en|if Bundle('PProvost/vim-ps1')
-
-" Markdown runtime files
-en|if Bundle('tpope/vim-markdown')
-
-" Vim Git runtime files
-en|if Bundle('tpope/vim-git', 1)
-
-" Syntax file for nginx
-en|if Bundle('vim-scripts/nginx.vim')
-
-" A mirror to the official vimperator's syntax file
-en|if Bundle('bohrshaw/vim-vimperator-syntax')
+" Ruby {{{2
+" Ruby runtime files (shipped with Vim and fairly updated.)
+" en|if Bundle('vim-ruby/vim-ruby')
 
 " A custom text object for selecting ruby blocks
 en|if Bundle(['nelstrom/vim-textobj-rubyblock', 'kana/vim-textobj-user'])
@@ -380,21 +403,38 @@ en|if Bundle(['nelstrom/vim-textobj-rubyblock', 'kana/vim-textobj-user'])
 en|if Bundle(['rhysd/vim-textobj-ruby', 'kana/vim-textobj-user'], 0)
 let g:textobj_ruby_more_mappings = 1
 
-" It's like rails.vim without the rails
-en|if Bundle('tpope/vim-rake')
+" Runs RuboCop and displays the results in Vim
+en|if Bundle('ngmy/vim-rubocop')
 
 " Vim plugin for debugging Ruby applications (using ruby-debug-ide gem)
 " en|if Bundle('astashov/vim-ruby-debugger')
 
-" Vim/Ruby Configuration Files
-" This plugin is now shipped by vim and fairly updated.
-" en|if Bundle('vim-ruby/vim-ruby')
+" It's like rails.vim without the rails
+en|if Bundle('tpope/vim-rake')
 
+" Python {{{2
+" A two-way integration between Vim and IPython 0.11+
+en|if Bundle('ivanov/vim-ipython')
+
+" Java {{{2
 " My work on integration of Scala into Vim - not a ton here, but useful for me
 " en|if Bundle('derekwyatt/vim-scala')
 
+" Others {{{2
+" Vim Git runtime files
+en|if Bundle('tpope/vim-git', 1)
+
 " Github mirror of Go vimscripts, synced with main repository http://golang.org
 en|if Bundle('jnwhiteh/vim-golang')
+
+" A Vim plugin for Windows PowerShell support
+en|if Bundle('PProvost/vim-ps1')
+
+" Syntax file for nginx
+en|if Bundle('vim-scripts/nginx.vim')
+
+" A mirror to the official vimperator's syntax file
+en|if Bundle('bohrshaw/vim-vimperator-syntax')
 
 " ---------------------------------------------------------------------
 " External interaction {{{1
@@ -432,35 +472,6 @@ en|if executable('ag') && Bundle('rking/ag.vim')
 " recipients before it is written. The script turns off viminfo, swapfile, and
 " undofile to increase security.
 " en|if Bundle('jamessan/vim-gnupg')
-
-" Vim plugin that displays tags in a window, ordered by class etc
-en|if Bundle('majutsushi/tagbar')
-" set tags=./tags;/,~/.vimtags
-" nnoremap <silent> <leader>tt :TagbarToggle<CR>
-
-" Dispatch.vim: asynchronous build and test dispatcher
-en|if Bundle('tpope/vim-dispatch')
-
-" Integrated reference viewer
-" en|if Bundle('thinca/vim-ref')
-" let g:ref_no_default_key_mappings = 1
-
-" A Vim plugin for looking up documentation
-en|if Bundle('Keithbsmiley/investigate.vim')
-
-" A two-way integration between Vim and IPython 0.11+
-en|if Bundle('ivanov/vim-ipython')
-
-" Run commands quickly
-en|if Bundle('thinca/vim-quickrun')
-let g:quickrun_no_default_key_mappings = 1
-map <Leader>qr <Plug>(quickrun)
-
-" Runs RuboCop and displays the results in Vim
-en|if Bundle('bohrshaw/vim-rubocop')
-
-" Vim, your markup language of choice, and your browser of choice
-" en|if Bundle('matthias-guenther/hammer.vim')
 
 " Vim plugin to interact with the simplenote service
 " en|if Bundle('mrtazz/simplenote.vim')
