@@ -359,10 +359,11 @@ aug vimrc
   " Disable 'modeline' in git commit messages
   au FileType gitcommit setlocal modeline!
   " Make the file '_' a scratch buffer
-  au BufNewFile,BufReadPost _ set buftype=nofile bufhidden=hide noswapfile
-  " Mappings for a quickfix window
-  au BufNewFile,BufReadPost *{quickfix,location}*
-        \ if &buftype == 'quickfix' | nnoremap <buffer> q <C-W>c| endif
+  au BufNewFile _ set buftype=nofile bufhidden=hide noswapfile
+  " Mappings for a quickfix/location window
+  au FileType qf nnoremap <buffer> q <C-W>c |
+        \ nnoremap <buffer> <C-V> <C-W><CR><C-W>H |
+        \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T
 aug END
 
 " ---------------------------------------------------------------------
@@ -389,7 +390,7 @@ else
 endif
 
 " set number " print the line number in front of each line
-" set relativenumber " show the line number relative to the current line
+set relativenumber " show the line number relative to the current line
 
 " set nowrap " only part of long lines will be displayed
 set linebreak " don't break a word when displaying wrapped lines
