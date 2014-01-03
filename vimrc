@@ -364,7 +364,7 @@ aug vimrc
   " Disable 'modeline' in git commit messages
   au FileType gitcommit setlocal modeline!
   " Make the file '_' a scratch buffer
-  au BufNewFile _ set buftype=nofile bufhidden=hide noswapfile
+  au BufNewFile,BufReadPost _ set buftype=nofile bufhidden=hide noswapfile
   " Mappings for a quickfix/location window
   au FileType qf nnoremap <buffer> q <C-W>c |
         \ nnoremap <buffer> <C-V> <C-W><CR><C-W>H |
