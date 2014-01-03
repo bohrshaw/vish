@@ -367,7 +367,8 @@ aug vimrc
   " Mappings for a quickfix/location window
   au FileType qf nnoremap <buffer> q <C-W>c |
         \ nnoremap <buffer> <C-V> <C-W><CR><C-W>H |
-        \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T
+        \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T |
+        \ setlocal statusline=%t%{strpart('\ '.w:quickfix_title,0,66)}%=\ %11.(%c,%l/%L\ %P%)
 aug END
 
 " ---------------------------------------------------------------------
@@ -430,7 +431,7 @@ endif
 
 " A concise status line named "Starline"
 set laststatus=2 " always display the status line
-set statusline=%m%<%.40f " modified flag, file name(truncated if too long)
+set statusline=%m%<%.60f " modified flag, file name(truncated if too long)
 set stl+=\ %H%W%q%R%Y " help, preview, quickfix, read-only flag, file type
 set stl+=%{(&fenc!='utf-8'&&&fenc!='')?','.&fenc:''} " file encoding
 set stl+=%{&ff!='unix'?','.&ff:''} " file format
