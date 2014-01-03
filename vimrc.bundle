@@ -278,6 +278,9 @@ en|if Bundle('chriskempson/base16-vim', 1)
 " Molokai color scheme for Vim
 en|if Bundle('tomasr/molokai', 1)
 
+" Sublime Text 2 Themes (textmate)
+en|if Bundle('daylerees/colour-schemes/vim-themes', 1)
+
 " One colorscheme pack to rule them all
 " en|if Bundle('flazz/vim-colorschemes')
 
