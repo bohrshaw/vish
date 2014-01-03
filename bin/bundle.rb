@@ -58,7 +58,8 @@ class Bundle
       # 'parallel' gem.
       Thread.new do
         File.rename dir_disabled, dir if File.exist? dir_disabled
-        File.exist?(dir) ? update(bundle) : clone(bundle)
+        repo = bundle.partition(%r{.+?/[^/]+})[1]
+        File.exist?(dir) ? update(repo) : clone(repo)
       end
 
       # Limit the number of concurrent running processes.

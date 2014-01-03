@@ -29,7 +29,7 @@ set guioptions=M
 source ~/.vim/vimrc.bundle
 
 " Set runtime path
-let bundle_dirs = map(bundles, 'split(v:val, "[/''\"]")[1]')
+let bundle_dirs = map(bundles, 'v:val[stridx(v:val,"/")+1:]')
 call pathway#inject('bundle', bundle_dirs)
 
 " Enable these after rtp setup, but as early as possible to reduce startup time.
