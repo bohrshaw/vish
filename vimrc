@@ -116,10 +116,10 @@ set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
 set display+=lastline " ensure the last line is properly displayed
 
 if executable('ag')
-  set grepprg=ag\ --nocolor\ --column
-  set grepformat^=%f:%l:%c:%m
+  set grepprg=ag\ --column " --nocolor --nobreak implicitly
+  set grepformat^=%f:%l:%c:%m " the output format when not running interactively
 elseif executable('ack')
-  set grepprg=ack\ --nocolor\ --nobreak\ --column
+  set grepprg=ack\ --column
   set grepformat^=%f:%l:%c:%m
 endif
 
@@ -322,8 +322,9 @@ command! Rot13 exe "normal ggg?G''"
 command! -nargs=1 Google call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand("<args>"),0)
 
 " Grep using 'ag' or 'ack' without affecting 'grepprg' and 'grepformat'
-command! -nargs=1 -complete=command Ag call grep#grep('ag', <q-args>)
-command! -nargs=1 -complete=command Ack call grep#grep('ack', <q-args>)
+command! -bar -nargs=+ -complete=file Ag call grep#grep('ag', <q-args>)
+command! -bar -nargs=+ -complete=file Ack call grep#grep('ack', <q-args>)
+command! -nargs=+ -complete=command Help call grep#help(<q-args>)
 
 " Calculate words frequency
 command! -range=% WordFrequency <line1>,<line2>call vimrc#word_frequency()
