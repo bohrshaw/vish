@@ -184,6 +184,13 @@ let g:startify_skiplist = ['[Vv]im.*[\/]doc[\/][^\/]\+\.txt']
 autocmd FileType startify setlocal nospell
 " Prevent CtrlP open a split
 autocmd FileType startify setlocal buftype=
+let g:startify_custom_header = [
+      \ '   _   /|',
+      \ "   \\'o.O'",
+      \ '   =(___)=',
+      \ '      U    Vim --resembo!',
+      \ ''
+      \ ]
 
 " Vim session manager
 en|if Bundle('bohrshaw/vim-mansion')
