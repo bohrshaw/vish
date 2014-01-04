@@ -435,7 +435,7 @@ set statusline=%m%<%.60f " modified flag, file name(truncated if too long)
 set stl+=\ %H%W%q%R%Y " help, preview, quickfix, read-only flag, file type
 set stl+=%{(&fenc!='utf-8'&&&fenc!='')?','.&fenc:''} " file encoding
 set stl+=%{&ff!='unix'?','.&ff:''} " file format
-set stl+=%{exists('*fugitive#head')?','.fugitive#head(7):''} " git branch status
+set stl+=%(,%{exists('*fugitive#head')?fugitive#head(7):''}%) " git branch status
 set stl+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''} " software caps lock status
 set stl+=%= " left/right separator
 set stl+=%{substitute(getcwd(),'.*[\\/]','','')} " the working directory
