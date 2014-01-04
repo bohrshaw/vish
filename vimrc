@@ -362,8 +362,6 @@ aug vimrc
   au!
   " Enable spell checking in following file types
   au FileType gitcommit,markdown,txt setlocal spell
-  " Disable 'modeline' in git commit messages
-  au FileType gitcommit setlocal modeline!
   " Make the file '_' a scratch buffer
   au BufNewFile,BufReadPost _ set buftype=nofile bufhidden=hide noswapfile
   " Mappings/options for a quickfix/location window
