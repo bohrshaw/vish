@@ -143,12 +143,12 @@ en|if Bundle('terryma/vim-multiple-cursors')
 " History {{{2
 " Display your undo history in a graph
 en|if Bundle('mbbill/undotree', 0)
-nnoremap <leader>u :UndotreeToggle<CR>
+nnoremap tu :UndotreeToggle<CR>
 let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 
 " Vim plugin to visualize your Vim undo tree
 en|if Bundle('sjl/gundo.vim')
-nnoremap <leader>u :GundoToggle<CR>
+nnoremap tu :GundoToggle<CR>
 
 " Enable repeating supported plugin maps with "."
 en|if Bundle('tpope/vim-repeat', 1)
@@ -200,11 +200,11 @@ let g:sessiondir = '~/.vim/tmp/session'
 
 " A tree explorer plugin for vim
 en|if Bundle('scrooloose/nerdtree')
-noremap <A-t> :NERDTreeToggle<CR>
+noremap tn :NERDTreeToggle<CR>
 " Goto the current working directory
-noremap <leader>td :NERDTree<CR>
+noremap <leader>nn :NERDTree<CR>
 " Goto the current editing file
-noremap <leader>tf :NERDTreeFind<CR>
+noremap <leader>nf :NERDTreeFind<CR>
 " let NERDTreeHijackNetrw=0 # use :Explore to open Netrw instead
 let NERDTreeBookmarksFile=$HOME.'/.vim/tmp/NERDTreeBookmarks'
 let NERDTreeIgnore=['^\.$', '^\.\.$', '\~$', '\.pyc$', '\.swp$']
@@ -338,7 +338,7 @@ let g:indent_guides_guide_size = 1
 " A vim plugin to display the indention levels with thin vertical lines
 en|if Bundle('Yggdroot/indentLine')
 let g:indentLine_enabled = 0
-noremap <leader>it :IndentLinesToggle<CR>
+noremap ti :IndentLinesToggle<CR>
 
 " ---------------------------------------------------------------------
 " File types {{{1
@@ -348,8 +348,7 @@ en|if Bundle('scrooloose/syntastic')
 
 " Vim plugin that displays tags in a window, ordered by class etc
 en|if Bundle('majutsushi/tagbar')
-" set tags=./tags;/,~/.vimtags
-" nnoremap <silent> <leader>tt :TagbarToggle<CR>
+nnoremap tt :TagbarToggle<CR>
 
 " A Vim plugin for looking up documentation
 en|if Bundle('Keithbsmiley/investigate.vim')
