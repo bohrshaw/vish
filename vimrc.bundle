@@ -1,22 +1,19 @@
 " Description: Vim bundle configuration.
 " Author: Bohr Shaw <pubohr@gmail.com>
 
-" Bundle management {{{1
+" Bundle management {{{1 ==============================================
 let bundles = []
 let l = exists('l') ? l : 0
-function! Bundle(bundles, ...)
-  if a:0 > 0 ? a:1 : !g:l
-    if type(a:bundles) == 1
-      call add(g:bundles, a:bundles)
-    else
-      call add(g:bundles, a:bundles[0])
-      for b in a:bundles[1:]
-        if index(g:bundles, b) < 0
-          call add(g:bundles, b)
-        endif
-      endfor
-    endif
-
+function! Bundle(...)
+  if a:1[0] == '-'
+    return
+  elseif a:1[0] == '+' || !g:l
+    call add(g:bundles, a:1[0] == '+' ? a:1[1:] : a:1)
+    for b in a:000[1:]
+      if index(g:bundles, b) < 0
+        call add(g:bundles, b)
+      endif
+    endfor
     return 1
   endif
 endfunction
@@ -31,479 +28,482 @@ aug END
 
 " A Vim plugin for Vim plugins
 if Bundle('tpope/vim-scriptease')
+en
 
-" ---------------------------------------------------------------------
-" Editing {{{1
-" Motion {{{2
+" Editing {{{1 ========================================================
+" Motion {{{2 ---------------------------------------------------------
 " The missing motion for Vim
-en|if Bundle('justinmk/vim-sneak', 1)
-" let g:sneak#streak = 1
-nmap <LocalLeader>s <Plug>SneakStreak
-hi! link SneakPluginScope Comment
-
+if Bundle('+justinmk/vim-sneak')
+  " let g:sneak#streak = 1
+  nmap <LocalLeader>s <Plug>SneakStreak
+  hi! link SneakPluginScope Comment
+en
 " Vim motions on speed
-en|if Bundle('bohrshaw/vim-easymotion', 1)
-let g:EasyMotion_leader_key = '\'
-
+if Bundle('+bohrshaw/vim-easymotion')
+  let g:EasyMotion_leader_key = '\'
+en
 " Acts like `f` but taking two characters
-en|if Bundle('goldfeld/vim-seek', 0)
-let g:SeekKey = 'f<CR>'
-let g:SeekBackKey = 'F<CR>'
-" let g:seek_enable_jumps = 1
-
+if Bundle('-goldfeld/vim-seek')
+  let g:SeekKey = 'f<CR>'
+  let g:SeekBackKey = 'F<CR>'
+  " let g:seek_enable_jumps = 1
+en
 " Extended f, F, t and T key mappings for Vim
-en|if Bundle('rhysd/clever-f.vim', 0)
-let g:clever_f_across_no_line = 1
-
+if Bundle('-rhysd/clever-f.vim')
+  let g:clever_f_across_no_line = 1
+en
 " Create your own text objects
-en|if Bundle('kana/vim-textobj-user')
+if Bundle('kana/vim-textobj-user')
+en
 
-" Insert {{{2
+" Insert {{{2 ---------------------------------------------------------
 " Software caps lock
-en|if Bundle('tpope/vim-capslock')
-imap <C-L> <Plug>CapsLockToggle
-
+if Bundle('tpope/vim-capslock')
+  imap <C-L> <Plug>CapsLockToggle
+en
 " Provides insert mode auto-completion for quotes, parens, brackets, etc.
-en|if Bundle('Raimondi/delimitMate')
-
-" Wisely add "end" in ruby, endfunction/endif/more in vim script, etc
-en|if Bundle('tpope/vim-endwise')
-
+if Bundle('Raimondi/delimitMate')
+en
+" Wisely add 'end' in ruby, endfunction/endif/more in vim script, etc
+if Bundle('tpope/vim-endwise')
+en
 " Completion and snippets {{{3
 " A code-completion engine for Vim
-" en|if Bundle('Valloric/YouCompleteMe')
-" en|if Bundle('bohrshaw/YouCompleteMe')
-
+" if Bundle('Valloric/YouCompleteMe')
+" en
 " Perform all your vim insert mode completions with Tab
-en|if Bundle('ervandew/supertab')
-
+if Bundle('ervandew/supertab')
+en
 " TextMates snippets utility for Vim
-en|if Bundle('SirVer/ultisnips')
-" The default key <Tab> is mapped to something else.
-let g:UltiSnipsExpandTrigger='<C-J>'
-" The default key <C-K> is used to enter a digraph.
-let g:UltiSnipsJumpBackwardTrigger='<C-0>'
-" The default <C-Tab> doesn't work in terminal.
-let g:UltiSnipsListSnippets='<C-Q>'
-" Snippets search path(must be under vim's runtime path)
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippet"]
-" Personal snippets path
-let g:UltiSnipsSnippetsDir="~/.vim/snippet"
-" Don't check and reload snippets when a snippet expand is triggered
-" let g:UltiSnipsDoHash=0
-" Specify the default author for created snippets
-let g:snips_author='Bohr Shaw <pubohr@gmail.com>'
-
+if Bundle('SirVer/ultisnips')
+  " The default key <Tab> is mapped to something else.
+  let g:UltiSnipsExpandTrigger='<C-J>'
+  " The default key <C-K> is used to enter a digraph.
+  let g:UltiSnipsJumpBackwardTrigger='<C-0>'
+  " The default <C-Tab> doesn't work in terminal.
+  let g:UltiSnipsListSnippets='<C-Q>'
+  " Snippets search path(must be under vim's runtime path)
+  let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippet"]
+  " Personal snippets path
+  let g:UltiSnipsSnippetsDir="~/.vim/snippet"
+  " Don't check and reload snippets when a snippet expand is triggered
+  " let g:UltiSnipsDoHash=0
+  " Specify the default author for created snippets
+  let g:snips_author='Bohr Shaw <pubohr@gmail.com>'
+en
 " Ultimate auto-completion system for Vim
-" en|if Bundle('Shougo/neocomplcache')
-" en|if Bundle('Shougo/neocomplete')
-
+" " en if Bundle('Shougo/neocomplcache')
+" if Bundle('Shougo/neocomplete')
+" en
 " Neo-snippet plugin contains neocomplcache snippets source
-" en|if Bundle('Shougo/neosnippet')
-
+" if Bundle('Shougo/neosnippet')
+" en
 " Implements some of TextMate's snippets features in Vim
-" en|if Bundle(['garbas/vim-snipmate', 'MarcWeber/vim-addon-mw-utils', 'tomtom/tlib_vim'])
-
+" if Bundle('garbas/vim-snipmate', 'MarcWeber/vim-addon-mw-utils', 'tomtom/tlib_vim')
+" en
 " Vim-snipmate default snippets
-" en|if Bundle('honza/vim-snippets')
+" if Bundle('honza/vim-snippets')
+" en
 
-" Change {{{2
+" Change {{{2 ---------------------------------------------------------
 " Commentary.vim: comment stuff out
-en|if Bundle('tpope/vim-commentary', 1)
-
+if Bundle('+tpope/vim-commentary')
+en
 " Vim plugin for intensely orgasmic commenting
-" en|if Bundle('scrooloose/nerdcommenter')
-
+" if Bundle('scrooloose/nerdcommenter')
+" en
 " Quoting/parenthesizing made simple
-en|if Bundle('tpope/vim-surround', 1)
-
+if Bundle('+tpope/vim-surround')
+en
 " Vim script for text filtering and alignment
-en|if Bundle('godlygeek/tabular')
-
+if Bundle('godlygeek/tabular')
+en
 " A simple alignment operator for Vim text editor
-" en|if Bundle('tommcdo/vim-lion')
-
+" if Bundle('tommcdo/vim-lion')
+" en
 " Use CTRL-A/CTRL-X to increment dates, times, and more
-en|if Bundle('tpope/vim-speeddating', 1)
-
+if Bundle('+tpope/vim-speeddating')
+en
 " Punctuation text objects: ci/ da; vi@ yiq da<space> ..
-en|if Bundle('kurkale6ka/vim-pairs')
-
+if Bundle('kurkale6ka/vim-pairs')
+en
 " Easy swapping of text in Vim
-en|if Bundle('kurkale6ka/vim-swap')
-
+if Bundle('kurkale6ka/vim-swap')
+en
 " Easily search for, substitute, and abbreviate multiple variants of a word
-en|if Bundle('tpope/vim-abolish', 1)
-" More convenient to type than 'cr'
-nmap cx <Plug>Coerce
-
+if Bundle('+tpope/vim-abolish')
+  " More convenient to type than 'cr'
+  nmap cx <Plug>Coerce
+en
 " True Sublime Text style multiple selections for Vim
-en|if Bundle('terryma/vim-multiple-cursors')
+if Bundle('terryma/vim-multiple-cursors')
+en
 
-" History {{{2
+" History {{{2 --------------------------------------------------------
 " Display your undo history in a graph
-en|if Bundle('mbbill/undotree', 0)
-nnoremap tu :UndotreeToggle<CR>
-let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
-
+if Bundle('-mbbill/undotree')
+  nnoremap tu :UndotreeToggle<CR>
+  let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
+en
 " Vim plugin to visualize your Vim undo tree
-en|if Bundle('sjl/gundo.vim')
-nnoremap tu :GundoToggle<CR>
-
-" Enable repeating supported plugin maps with "."
-en|if Bundle('tpope/vim-repeat', 1)
-
+if Bundle('sjl/gundo.vim')
+  nnoremap tu :GundoToggle<CR>
+en
+" Enable repeating supported plugin maps with '.'
+if Bundle('+tpope/vim-repeat')
+en
 " Maintains a history of previous yanks, changes and deletes
-" en|if Bundle('vim-scripts/yankring.vim')
+" if Bundle('vim-scripts/yankring.vim')
+" en
 
-" Various {{{2
+" Various {{{2 --------------------------------------------------------
 " Characterize.vim: Unicode character metadata
-en|if Bundle('tpope/vim-characterize')
+if Bundle('tpope/vim-characterize')
+en
 
-" ---------------------------------------------------------------------
-" Search, Map, Option {{{1
+" Search, Map, Option {{{1 ============================================
 " Start a * or # search from a visual block
-en|if Bundle('nelstrom/vim-visual-star-search')
-
+if Bundle('nelstrom/vim-visual-star-search')
+en
 " Mappings for simultaneously pressed keys
-" en|if Bundle('kana/vim-arpeggio')
-
+" if Bundle('kana/vim-arpeggio')
+" en
 " Fixes key codes for console Vim
-" en|if Bundle('drmikehenry/vim-fixkey')
-
+" if Bundle('drmikehenry/vim-fixkey')
+" en
 " Pairs of handy bracket mappings
-en|if Bundle('tpope/vim-unimpaired', 1)
+if Bundle('+tpope/vim-unimpaired')
+en
 
-" ---------------------------------------------------------------------
-" File, Buffer, Pane, Window, Tab, Session {{{1
+" File, Buffer, Pane, Window, Tab, Session {{{1 =======================
 " A start screen for Vim
-en|if Bundle('mhinz/vim-startify')
-let g:startify_session_dir = '~/.vim/tmp/session'
-let g:startify_list_order = ['sessions', 'bookmarks', 'files']
-let g:startify_skiplist = ['[Vv]im.*[\/]doc[\/][^\/]\+\.txt']
-autocmd FileType startify setlocal nospell
-" Prevent CtrlP open a split
-autocmd FileType startify setlocal buftype=
-let g:startify_custom_header = [
-      \ '   _   /|',
-      \ "   \\'o.O'",
-      \ '   =(___)=',
-      \ '      U    Vim --resembo!',
-      \ ''
-      \ ]
-
+if Bundle('mhinz/vim-startify')
+  let g:startify_session_dir = '~/.vim/tmp/session'
+  let g:startify_list_order = ['sessions', 'bookmarks', 'files']
+  let g:startify_skiplist = ['[Vv]im.*[\/]doc[\/][^\/]\+\.txt']
+  autocmd FileType startify setlocal nospell
+  " Prevent CtrlP open a split
+  autocmd FileType startify setlocal buftype=
+  let g:startify_custom_header = [
+        \ '   _   /|',
+        \ "   \\'o.O'",
+        \ '   =(___)=',
+        \ '      U    Vim --resembo!',
+        \ ''
+        \ ]
+en
 " Vim session manager
-en|if Bundle('bohrshaw/vim-mansion')
-let g:sessiondir = '~/.vim/tmp/session'
-" let g:mansion_no_auto_save = 1
-" let g:mansion_no_maps = 1
-
+if Bundle('bohrshaw/vim-mansion')
+  let g:sessiondir = '~/.vim/tmp/session'
+  " let g:mansion_no_auto_save = 1
+  " let g:mansion_no_maps = 1
+en
 " A tree explorer plugin for vim
-en|if Bundle('scrooloose/nerdtree')
-noremap tn :NERDTreeToggle<CR>
-" Goto the current working directory
-noremap <leader>nn :NERDTree<CR>
-" Goto the current editing file
-noremap <leader>nf :NERDTreeFind<CR>
-" let NERDTreeHijackNetrw=0 # use :Explore to open Netrw instead
-let NERDTreeBookmarksFile=$HOME.'/.vim/tmp/NERDTreeBookmarks'
-let NERDTreeIgnore=['^\.$', '^\.\.$', '\~$', '\.pyc$', '\.swp$']
-let NERDTreeShowHidden=1
-let NERDTreeShowBookmarks=1
-let NERDTreeQuitOnOpen=1
-let NERDTreeMouseMode=2
-
+if Bundle('scrooloose/nerdtree')
+  noremap tn :NERDTreeToggle<CR>
+  " Goto the current working directory
+  noremap <leader>nn :NERDTree<CR>
+  " Goto the current editing file
+  noremap <leader>nf :NERDTreeFind<CR>
+  " let NERDTreeHijackNetrw=0 # use :Explore to open Netrw instead
+  let NERDTreeBookmarksFile=$HOME.'/.vim/tmp/NERDTreeBookmarks'
+  let NERDTreeIgnore=['^\.$', '^\.\.$', '\~$', '\.pyc$', '\.swp$']
+  let NERDTreeShowHidden=1
+  let NERDTreeShowBookmarks=1
+  let NERDTreeQuitOnOpen=1
+  let NERDTreeMouseMode=2
+en
 " Fuzzy file, buffer, mru, tag, etc finder
-en|if Bundle('kien/ctrlp.vim')
-let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/ctrlp'
-" Set the mode to determine the root searching directory.
-" let g:ctrlp_working_path_mode = 'ra'
-" let g:ctrlp_show_hidden = 1 " scan for dotfiles and dotdirs
-let g:ctrlp_by_filename = 1 " search by file name only
-let g:ctrlp_custom_ignore = {
-      \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-      \ 'file': '\v\.(exe|so|dll)$'
-      \ }
-" Specify an external tool to use for listing files.
-let g:ctrlp_user_command = {
-      \ 'types': {
-      \ 1: ['.git', 'cd %s && git ls-files && git ls-files -o --exclude-standard'],
-      \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-      \ },
-      \ }
-if has('win32')
-  let g:ctrlp_user_command['types'][1][1] = '(' . g:ctrlp_user_command['types'][1][1] . ')'
-endif
-if executable('ag')
-  let g:ctrlp_user_command['fallback'] = 'ag %s -l --nocolor -g ""'
-endif
-" Clear the cache of the current search path
-noremap <leader>cc :CtrlPClearCache<cr>
-" Open CtrlP bookmarked directories
-noremap <leader>cm :CtrlPBookmarkDir<cr>
-" Extentions
-let g:ctrlp_extensions = ['funky']
-
+if Bundle('kien/ctrlp.vim')
+  let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/ctrlp'
+  " Set the mode to determine the root searching directory.
+  " let g:ctrlp_working_path_mode = 'ra'
+  " let g:ctrlp_show_hidden = 1 " scan for dotfiles and dotdirs
+  let g:ctrlp_by_filename = 1 " search by file name only
+  let g:ctrlp_custom_ignore = {
+        \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+        \ 'file': '\v\.(exe|so|dll)$'
+        \ }
+  " Specify an external tool to use for listing files.
+  let g:ctrlp_user_command = {
+        \ 'types': {
+        \ 1: ['.git', 'cd %s && git ls-files && git ls-files -o --exclude-standard'],
+        \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+        \ },
+        \ }
+  if has('win32')
+    let g:ctrlp_user_command['types'][1][1] = '(' . g:ctrlp_user_command['types'][1][1] . ')'
+  endif
+  if executable('ag')
+    let g:ctrlp_user_command['fallback'] = 'ag %s -l --nocolor -g ""'
+  endif
+  " Clear the cache of the current search path
+  noremap <leader>cc :CtrlPClearCache<cr>
+  " Open CtrlP bookmarked directories
+  noremap <leader>cm :CtrlPBookmarkDir<cr>
+  " Extentions
+  let g:ctrlp_extensions = ['funky']
+en
 " A ctrlp.vim extension - Navigate and jump to function defs
-en|if Bundle('tacahiroy/ctrlp-funky')
-nnoremap <Leader>fu :CtrlPFunky<CR>
-
+if Bundle('tacahiroy/ctrlp-funky')
+  nnoremap <Leader>fu :CtrlPFunky<CR>
+en
 " Vim plugin to list, select and switch between buffers
-" en|if Bundle('jeetsukumaran/vim-buffergator')
-
+" if Bundle('jeetsukumaran/vim-buffergator')
+" en
 " Buffer Explorer/Browser
-en|if Bundle('vim-scripts/bufexplorer.zip')
-
+if Bundle('vim-scripts/bufexplorer.zip')
+en
 " Delete buffers in Vim without closing your windows or messing up your layout
-en|if Bundle('moll/vim-bbye')
-nnoremap <Leader>bd :Bdelete<CR>
-
+if Bundle('moll/vim-bbye')
+  nnoremap <Leader>bd :Bdelete<CR>
+en
 " Automatic resizing of Vim windows to the golden ratio
-en|if Bundle('roman/golden-ratio')
-let g:golden_ratio_autocommand = 0
-noremap <C-W>G :GoldenRatioResize<CR>
+if Bundle('roman/golden-ratio')
+  let g:golden_ratio_autocommand = 0
+  noremap <C-W>G :GoldenRatioResize<CR>
+en
 
-" ---------------------------------------------------------------------
-" Appearance {{{1
-" Color Schemes {{{2
+" Appearance {{{1 =====================================================
+" Color Schemes {{{2 --------------------------------------------------
 " Precision colorscheme for the vim text editor
-en|if Bundle('altercation/vim-colors-solarized', 1)
-let g:solarized_italic = 0
-let g:solarized_termcolors = &term =~ '256col' ? 256 : 16
-let g:solarized_menu=0
-
+if Bundle('+altercation/vim-colors-solarized')
+  let g:solarized_italic = 0
+  let g:solarized_termcolors = &term =~ '256col' ? 256 : 16
+  let g:solarized_menu=0
+en
 " Base16 for Vim
-en|if Bundle('chriskempson/base16-vim', 1)
-
+if Bundle('+chriskempson/base16-vim')
+en
 " Molokai color scheme for Vim
-en|if Bundle('tomasr/molokai', 1)
-
+if Bundle('+tomasr/molokai')
+en
 " Sublime Text 2 Themes (textmate)
-en|if Bundle('daylerees/colour-schemes/vim-themes', 1)
-
+if Bundle('+daylerees/colour-schemes/vim-themes')
+en
 " One colorscheme pack to rule them all
-" en|if Bundle('flazz/vim-colorschemes')
-
+" if Bundle('flazz/vim-colorschemes')
+" en
 " Sublime Text 2 Themes (textmate) created by Dayle Rees
-" en|if Bundle('daylerees/colour-schemes', { 'rtp': 'vim-themes' })
-
+" if Bundle('daylerees/colour-schemes', { 'rtp': 'vim-themes' })
+" en
 " Make gvim-only colorschemes work transparently in terminal vim
-" en|if Bundle('godlygeek/csapprox')
-
+" if Bundle('godlygeek/csapprox')
+" en
 " A colorscheme strangely reminiscent of Vibrant Ink for a certain OS X editor
-" en|if Bundle('tpope/vim-vividchalk')
+" if Bundle('tpope/vim-vividchalk')
+" en
 
-" }}}2
-
+" }}}2 ---------------------------------------------------------------
 " Lean & mean statusline for vim that's light as air
-en|if Bundle('bling/vim-airline', 0)
-" Remove separators, the different colors already make it easy to distinguish.
-let [g:airline_left_sep, g:airline_right_sep] = ['', '']
-" let g:airline_paste_symbol = 'P'
-let g:airline_section_z = '%l,%c %p%%' "right side section
-" Use shorter modes indicators
-let g:airline_mode_map = { '__': '-', 'n': 'N', 'i': 'I', 'R': 'R', 'c': 'C',
-      \ 'v': 'V', 'V': 'VL', '': 'VB', 's': 'S', 'S': 'SL', '': 'SB'}
-" Extensions
-" Disable showing a summary of changed hunks under source control.
-let g:airline#extensions#hunks#enabled = 0
-" Showing only non-zero hunks.
-let g:airline#extensions#hunks#non_zero_only = 1
-" Disable detection of whitespace errors.
-let g:airline#extensions#whitespace#enabled = 0
-" Disable tagbar integration.
-let g:airline#extensions#tagbar#enabled = 0
-
+if Bundle('-bling/vim-airline')
+  " Remove separators, the different colors already make it easy to distinguish.
+  let [g:airline_left_sep, g:airline_right_sep] = ['', '']
+  " let g:airline_paste_symbol = 'P'
+  let g:airline_section_z = '%l,%c %p%%' "right side section
+  " Use shorter modes indicators
+  let g:airline_mode_map = { '__': '-', 'n': 'N', 'i': 'I', 'R': 'R', 'c': 'C',
+        \ 'v': 'V', 'V': 'VL', '': 'VB', 's': 'S', 'S': 'SL', '': 'SB'}
+  " Extensions
+  " Disable showing a summary of changed hunks under source control.
+  let g:airline#extensions#hunks#enabled = 0
+  " Showing only non-zero hunks.
+  let g:airline#extensions#hunks#non_zero_only = 1
+  " Disable detection of whitespace errors.
+  let g:airline#extensions#whitespace#enabled = 0
+  " Disable tagbar integration.
+  let g:airline#extensions#tagbar#enabled = 0
+en
 " Super simple vim plugin to show the list of buffers in the command bar
-" en|if Bundle('bling/vim-bufferline')
-
+" if Bundle('bling/vim-bufferline')
+" en
 " Toggle, display and navigate marks
-en|if Bundle('kshenoy/vim-signature', 0)
-let g:SignatureEnabledAtStartup = 0
-let g:SignatureMenu = 0
-
+if Bundle('-kshenoy/vim-signature')
+  let g:SignatureEnabledAtStartup = 0
+  let g:SignatureMenu = 0
+en
 " A plugin that shows a diff via Vim's sign column
-en|if Bundle('mhinz/vim-signify', 0)
-" let g:signify_disable_by_default = 1
-let g:signify_vcs_list = ['git']
-let g:signify_sign_delete = '-'
-
+if Bundle('-mhinz/vim-signify')
+  " let g:signify_disable_by_default = 1
+  let g:signify_vcs_list = ['git']
+  let g:signify_sign_delete = '-'
+en
 " A Vim plugin which shows a git diff in the gutter (sign column)
-" en|if Bundle('airblade/vim-gitgutter')
-
+" if Bundle('airblade/vim-gitgutter')
+" en
 " A Vim plugin for visually displaying indent levels in code
-en|if Bundle('nathanaelkane/vim-indent-guides', 0)
-let g:indent_guides_guide_size = 1
-
+if Bundle('-nathanaelkane/vim-indent-guides')
+  let g:indent_guides_guide_size = 1
+en
 " A vim plugin to display the indention levels with thin vertical lines
-en|if Bundle('Yggdroot/indentLine')
-let g:indentLine_enabled = 0
-noremap ti :IndentLinesToggle<CR>
+if Bundle('Yggdroot/indentLine')
+  let g:indentLine_enabled = 0
+  noremap ti :IndentLinesToggle<CR>
+en
 
-" ---------------------------------------------------------------------
-" File types {{{1
-" All {{{2
+" File types {{{1 =====================================================
+" All {{{2 ------------------------------------------------------------
 " Syntax checking hacks for vim
-en|if Bundle('scrooloose/syntastic')
-
+if Bundle('scrooloose/syntastic')
+en
 " Vim plugin that displays tags in a window, ordered by class etc
-en|if Bundle('majutsushi/tagbar')
-nnoremap tt :TagbarToggle<CR>
-
+if Bundle('majutsushi/tagbar')
+  nnoremap tt :TagbarToggle<CR>
+en
 " A Vim plugin for looking up documentation
-en|if Bundle('Keithbsmiley/investigate.vim')
-
+if Bundle('Keithbsmiley/investigate.vim')
+en
 " Integrated reference viewer
-en|if Bundle('thinca/vim-ref', 0)
-let g:ref_no_default_key_mappings = 1
-nmap <silent> gK <Plug>(ref-keyword)
-vmap <silent> gK <Plug>(ref-keyword)
-
+if Bundle('-thinca/vim-ref')
+  let g:ref_no_default_key_mappings = 1
+  nmap <silent> gK <Plug>(ref-keyword)
+  vmap <silent> gK <Plug>(ref-keyword)
+en
 " Dispatch.vim: asynchronous build and test dispatcher
-en|if Bundle('tpope/vim-dispatch')
-
+if Bundle('tpope/vim-dispatch')
+en
 " Run commands quickly
-en|if Bundle('thinca/vim-quickrun')
-let g:quickrun_no_default_key_mappings = 1
-map <Leader>qr <Plug>(quickrun)
+if Bundle('thinca/vim-quickrun')
+  let g:quickrun_no_default_key_mappings = 1
+  map <Leader>qr <Plug>(quickrun)
+en
 
-" Markups {{{2
+" Markups {{{2 --------------------------------------------------------
 " Runtime files for Haml, Sass, and SCSS
-en|if Bundle('tpope/vim-haml')
-
+if Bundle('tpope/vim-haml')
+en
 " Runtime files for LESS (dynamic CSS)
-en|if Bundle('groenewege/vim-less')
-
+if Bundle('groenewege/vim-less')
+en
 " Emmet for vim: http://emmet.io
-en|if Bundle('mattn/emmet-vim')
-" Only enable insert mode functions
-let g:user_emmet_mode='i'
-" let g:user_emmet_leader_key = '<C-Z>'
-" Enable just for certain file types
-" let g:user_emmet_install_global = 0
-" autocmd FileType html,css EmmetInstall
-
+if Bundle('mattn/emmet-vim')
+  " Only enable insert mode functions
+  let g:user_emmet_mode='i'
+  " let g:user_emmet_leader_key = '<C-Z>'
+  " Enable just for certain file types
+  " let g:user_emmet_install_global = 0
+  " autocmd FileType html,css EmmetInstall
+en
 " Markdown runtime files
-en|if Bundle('tpope/vim-markdown')
-
+if Bundle('tpope/vim-markdown')
+en
 " Vim, your markup language of choice, and your browser of choice
-" en|if Bundle('matthias-guenther/hammer.vim')
+" if Bundle('matthias-guenther/hammer.vim')
+" en
 
-" Javascript {{{2
+" Javascript {{{2 -----------------------------------------------------
 " Vastly improved Javascript indentation and syntax support
-en|if Bundle('pangloss/vim-javascript')
-
+if Bundle('pangloss/vim-javascript')
+en
 " A plugin that integrates JSHint with Vim
-" en|if Bundle('walm/jshint.vim')
-
+" if Bundle('walm/jshint.vim')
+" en
 " Tern plugin for vim(provides Tern-based JavaScript editing support)
-" en|if Bundle('marijnh/tern_for_vim')
-
+" if Bundle('marijnh/tern_for_vim')
+" en
 " CoffeeScript support for vim
-en|if Bundle('kchmck/vim-coffee-script')
+if Bundle('kchmck/vim-coffee-script')
+en
 
-" Ruby {{{2
+" Ruby {{{2 -----------------------------------------------------------
 " Ruby runtime files (shipped with Vim and fairly updated.)
-" en|if Bundle('vim-ruby/vim-ruby')
-
+" if Bundle('vim-ruby/vim-ruby')
+" en
 " A custom text object for selecting ruby blocks
-en|if Bundle(['nelstrom/vim-textobj-rubyblock', 'kana/vim-textobj-user'])
-
+if Bundle('nelstrom/vim-textobj-rubyblock', 'kana/vim-textobj-user')
+en
 " Provide more controls over the above
-en|if Bundle(['rhysd/vim-textobj-ruby', 'kana/vim-textobj-user'], 0)
-let g:textobj_ruby_more_mappings = 1
-
+if Bundle('-rhysd/vim-textobj-ruby', 'kana/vim-textobj-user')
+  let g:textobj_ruby_more_mappings = 1
+en
 " Runs RuboCop and displays the results in Vim
-en|if Bundle('ngmy/vim-rubocop')
-
+if Bundle('ngmy/vim-rubocop')
+en
 " Vim plugin for debugging Ruby applications (using ruby-debug-ide gem)
-" en|if Bundle('astashov/vim-ruby-debugger')
-
+" if Bundle('astashov/vim-ruby-debugger')
+" en
 " It's like rails.vim without the rails
-en|if Bundle('tpope/vim-rake')
+if Bundle('tpope/vim-rake')
+en
 
-" Python {{{2
+" Python {{{2 ---------------------------------------------------------
 " A two-way integration between Vim and IPython 0.11+
-en|if Bundle('ivanov/vim-ipython')
+if Bundle('ivanov/vim-ipython')
+en
 
-" Java {{{2
+" Java {{{2 -----------------------------------------------------------
 " My work on integration of Scala into Vim - not a ton here, but useful for me
-" en|if Bundle('derekwyatt/vim-scala')
+" if Bundle('derekwyatt/vim-scala')
+" en
 
-" Others {{{2
+" Others {{{2 ---------------------------------------------------------
 " Vim Git runtime files
-en|if Bundle('tpope/vim-git', 1)
-
+if Bundle('+tpope/vim-git')
+en
 " Github mirror of Go vimscripts, synced with main repository http://golang.org
-en|if Bundle('jnwhiteh/vim-golang')
-
+if Bundle('jnwhiteh/vim-golang')
+en
 " A Vim plugin for Windows PowerShell support
-en|if Bundle('PProvost/vim-ps1')
-
+if Bundle('PProvost/vim-ps1')
+en
 " Syntax file for nginx
-en|if Bundle('vim-scripts/nginx.vim')
-
+if Bundle('vim-scripts/nginx.vim')
+en
 " A mirror to the official vimperator's syntax file
-en|if Bundle('bohrshaw/vim-vimperator-syntax')
+if Bundle('bohrshaw/vim-vimperator-syntax')
+en
 
-" ---------------------------------------------------------------------
-" External interaction {{{1
+" External interaction {{{1 ===========================================
 " All 256 xterm colors with their RGB equivalents, right in Vim!
-en|if Bundle('guns/xterm-color-table.vim')
-
+if Bundle('guns/xterm-color-table.vim')
+en
 " A Git wrapper so awesome, it should be illegal.
-en|if Bundle('tpope/vim-fugitive')
-nnoremap <silent> <leader>gs :Gstatus<CR>
-nnoremap <silent> <leader>gd :Gdiff<CR>
-nnoremap <silent> <leader>gc :Gcommit<CR>
-nnoremap <silent> <leader>gb :Gblame<CR>
-nnoremap <silent> <leader>gl :Glog<CR>
-nnoremap <silent> <leader>gp :Git push<CR>
-
+if Bundle('tpope/vim-fugitive')
+  nnoremap <silent> <leader>gs :Gstatus<CR>
+  nnoremap <silent> <leader>gd :Gdiff<CR>
+  nnoremap <silent> <leader>gc :Gcommit<CR>
+  nnoremap <silent> <leader>gb :Gblame<CR>
+  nnoremap <silent> <leader>gl :Glog<CR>
+  nnoremap <silent> <leader>gp :Git push<CR>
+en
 " Vimscript for gist
-en|if Bundle(['mattn/gist-vim', 'mattn/webapi-vim'])
-
+if Bundle('mattn/gist-vim', 'mattn/webapi-vim')
+en
 " Helpers for UNIX(Windows)
-en|if Bundle('tpope/vim-eunuch')
-
+if Bundle('tpope/vim-eunuch')
+en
 " Tmux basics
-en|if !has('win32') && Bundle('tpope/vim-tbone')
-
-" This script implements transparent editing of gpg encrypted files. The
-" filename must have a ".gpg", ".pgp" or ".asc" suffix. When opening such a file
-" the content is decrypted, when opening a new file the script will ask for the
-" recipients of the encrypted file. The file content will be encrypted to all
-" recipients before it is written. The script turns off viminfo, swapfile, and
-" undofile to increase security.
-" en|if Bundle('jamessan/vim-gnupg')
-
+if !has('win32') && Bundle('tpope/vim-tbone')
+en
+" This script implements transparent editing of gpg encrypted files.
+" if Bundle('jamessan/vim-gnupg')
+" en
 " Vim plugin to interact with the simplenote service
-" en|if Bundle('mrtazz/simplenote.vim')
+" if Bundle('mrtazz/simplenote.vim')
+" en
 
-" ---------------------------------------------------------------------
-" Alternative usages {{{1
-" Task managers {{{2
-" Quicktask is a lightweight Vim task management plugin
-" en|if Bundle('aaronbieber/quicktask')
-
-" Vim plugin for the TaskPaper application
-" en|if Bundle('davidoc/taskpaper.vim')
-
-" Vim Syntax for todo.txt (todotxt.com)
-" en|if Bundle('davidoc/todo.txt-vim')
-
-" }}}2
-
+" Alternative usages {{{1 =============================================
 " Personal Wiki for Vim
-en|if Bundle('vimwiki/vimwiki', 0)
-" Restrict vimwiki's operation to only those paths listed in g:vimwiki_list.
-let g:vimwiki_global_ext = 0
-" Don't conceal characters
-let g:vimwiki_conceallevel = 0
-" Register one or more wikis
-let g:vimwiki_list = [{'path': '~/vimwiki/',
-      \ 'syntax': 'markdown',
-      \ 'ext': '.md'}]
+if Bundle('-vimwiki/vimwiki')
+  " Restrict vimwiki's operation to only those paths listed in g:vimwiki_list.
+  let g:vimwiki_global_ext = 0
+  " Don't conceal characters
+  let g:vimwiki_conceallevel = 0
+  " Register one or more wikis
+  let g:vimwiki_list = [{'path': '~/vimwiki/',
+        \ 'syntax': 'markdown',
+        \ 'ext': '.md'}]
 endif
 
-" vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap indentexpr=:
+" Task managers {{{2 --------------------------------------------------
+" Quicktask is a lightweight Vim task management plugin
+" if Bundle('aaronbieber/quicktask')
+" en
+" Vim plugin for the TaskPaper application
+" if Bundle('davidoc/taskpaper.vim')
+" en
+" Vim Syntax for todo.txt (todotxt.com)
+" if Bundle('davidoc/todo.txt-vim')
+" en
+
+" vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
