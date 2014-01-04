@@ -325,6 +325,7 @@ command! -nargs=1 Google call netrw#NetrwBrowseX("http://www.google.com.hk/searc
 command! -bar -nargs=+ -complete=file Ag call grep#grep('ag', <q-args>)
 command! -bar -nargs=+ -complete=file Ack call grep#grep('ack', <q-args>)
 command! -nargs=+ -complete=command Help call grep#help(<q-args>)
+command! -nargs=+ -complete=command Helpgrep call grep#help('grep '.<q-args>)
 
 " Calculate words frequency
 command! -range=% WordFrequency <line1>,<line2>call vimrc#word_frequency()
