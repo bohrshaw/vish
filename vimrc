@@ -365,7 +365,7 @@ aug vimrc
   au FileType gitcommit setlocal modeline!
   " Make the file '_' a scratch buffer
   au BufNewFile,BufReadPost _ set buftype=nofile bufhidden=hide noswapfile
-  " Mappings for a quickfix/location window
+  " Mappings/options for a quickfix/location window
   au FileType qf nnoremap <buffer> q <C-W>c |
         \ nnoremap <buffer> <C-V> <C-W><CR><C-W>H |
         \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T |
