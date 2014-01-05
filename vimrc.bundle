@@ -419,6 +419,12 @@ en
 " Runs RuboCop and displays the results in Vim
 if Bundle('ngmy/vim-rubocop')
 en
+" Bindings for the gem recording the results of every line of code
+if Bundle('hwartig/vim-seeing-is-believing')
+autocmd FileType ruby |
+      \ NXInoremap <buffer> <F5> <Plug>(seeing-is-believing-run)|
+      \ NXInoremap <buffer> <F4> <Plug>(seeing-is-believing-mark)
+en
 " Vim plugin for debugging Ruby applications (using ruby-debug-ide gem)
 " if Bundle('astashov/vim-ruby-debugger')
 " en
