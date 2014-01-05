@@ -25,6 +25,11 @@ set encoding=utf-8
 " reduce startup time. Must be before syntax or filetype setup.
 set guioptions=M
 
+" Commands for defining mappings in several modes
+command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
+" Allow chained commands, but also checks for a " to start a comment
+command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar> inoremap <args>
+
 " Bundle configuration and set the bundle list 'g:bundles'
 source ~/.vim/vimrc.bundle
 
@@ -43,7 +48,7 @@ let opts = {'directory': 'swap', 'undodir': 'undo', 'backupdir': 'backup'}
 for [opt, dir] in items(opts)
   let value = $HOME . '/.vim/tmp/' . dir
   if !isdirectory(value) | silent! call mkdir(value) | endif
-  exec "set " . opt . "^=" . value
+  execute "set " . opt . "^=" . value
 endfor
 set viewdir=~/.vim/tmp/view
 
@@ -104,7 +109,6 @@ runtime macros/matchit.vim " extended pair matching with '%'
 set history=50 " a larger number of commands and search patterns to remember
 set tabpagemax=50 " allow more tabs
 
-au VimEnter * set vb t_vb= " disable error beep and screen flash
 set nowritebackup " write to symbolic files safely on windows
 set confirm " prompt for an action instead of fail immediately
 set backspace=indent,eol,start " backspace through anything in insert mode
@@ -137,12 +141,9 @@ if !has('gui_running')
   " Make the Meta(Alt) key mappable in terminal. But some characters(h,j,k,l...)
   " often typed after pressing <Esc> are not touched, so not mappable.
   for c in split('qwertyasdfgzxcvbm', '\zs')
-    exe "set <M-".c.">=\e".c
+    execute "set <M-".c.">=\e".c
   endfor
 endif
-
-" Create a map in both the normal and the visual mode
-command! -nargs=1 NXnoremap nnoremap <args>| xnoremap <args>
 
 " Map ';' to ':' to reduce keystrokes
 " NXnoremap ; :
@@ -158,7 +159,7 @@ NXnoremap @; @:
 " NXnoremap <S-CR> -
 
 " Delete without affecting registers
-nnoremap R "_d
+NXnoremap R "_d
 
 " See the buffer list
 NXnoremap <Leader>ls :<C-U>ls<CR>
@@ -169,7 +170,7 @@ noremap <C-h> gT
 noremap gl gt
 noremap gh gT
 for n in range(1, 9)
-  exe 'noremap ' . '<A-' . n . '> ' . n . 'gt'
+  execute 'noremap ' . '<A-' . n . '> ' . n . 'gt'
 endfor
 
 " Move tabs
@@ -192,8 +193,8 @@ nnoremap Y y$
 NXnoremap & :&&<cr>
 
 " Wrapped lines goes down/up to next row, rather than next line in file.
-nnoremap j gj
-nnoremap k gk
+" NXnoremap j gj
+" NXnoremap k gk
 
 " Allow the `.` to execute once for each line of a visual selection.
 xnoremap . :normal .<CR>
@@ -215,7 +216,7 @@ NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/
 " Source the current line of Vim scripts
 nnoremap <silent> <leader>S mz^"zy$:@z<CR>`z
 " Source a visual selection (continued lines joined)
-xnoremap <silent> <leader>S mz:y z<Bar>let @z = substitute(@z, '\n\s*\\', '', 'g')<Bar>@z<CR>`z
+xnoremap <silent> <leader>S mz:<C-U>silent '<,'>y z<Bar>let @z = substitute(@z, '\n\s*\\', '', 'g')<Bar>@z<CR>`z
 
 " Quit diff mode and close other diff buffers
 noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<cr>
@@ -239,32 +240,30 @@ set cedit=<C-G>
 " inoremap <Esc> <Esc>`^
 
 " Break the undo sequence
-inoremap <c-u> <c-g>u<c-u>
+inoremap <C-U> <C-G>u<C-U>
 
-" Recall older or more recent command-line from history, whose beginning matches
-" the current command-line.
-cnoremap        <C-P> <Up>
-cnoremap        <C-N> <Down>
+" Recall older or more recent command-line from history, but the command matches
+" the current command-line
+cnoremap <C-P> <Up>
+cnoremap <C-N> <Down>
 
 " Move the cursor around the line
-inoremap        <C-A> <C-O>^
-inoremap   <C-X><C-A> <C-A>
-cnoremap        <C-A> <Home>
-cnoremap   <C-X><C-A> <C-A>
-inoremap <expr> <C-E> col('.')>strlen(getline('.'))?"\<Lt>C-E>":"\<Lt>End>"
+inoremap <C-A> <C-O>^| inoremap <C-X><C-A> <C-A>
+cnoremap <C-A> <Home>| cnoremap <C-X><C-A> <C-A>
+inoremap <C-E> <End>
 
 " Move the cursor around one word
-noremap!        <M-f> <S-Right>
-noremap!        <M-b> <S-Left>
+noremap! <M-f> <S-Right>
+noremap! <M-b> <S-Left>
 
 " Move the cursor around one character
 inoremap <expr> <C-F> col('.')>strlen(getline('.'))?"\<Lt>C-F>":"\<Lt>Right>"
-cnoremap        <C-F> <Right>
-noremap!        <C-B> <Left>
+cnoremap <C-F> <Right>
+noremap! <C-B> <Left>
 
 " Delete one word after the cursor
-inoremap        <M-d> <C-O>dw
-cnoremap        <M-d> <S-Right><C-W>
+inoremap <M-d> <C-O>dw
+cnoremap <M-d> <S-Right><C-W>
 
 " Delete one character after the cursor
 inoremap <expr> <C-D> col('.')>strlen(getline('.'))?"\<Lt>C-D>":"\<Lt>Del>"
@@ -273,7 +272,7 @@ cnoremap <expr> <C-D> getcmdpos()>strlen(getcmdline())?"\<Lt>C-D>":"\<Lt>Del>"
 " Transpose two characters around the cursor
 noremap! <expr> <SID>transposition getcmdpos()>strlen(getcmdline())?"\<Left>":getcmdpos()>1?'':"\<Right>"
 noremap! <expr> <SID>transpose "\<BS>\<Right>".matchstr(getcmdline()[0 : getcmdpos()-2], '.$')
-cmap   <script> <C-T> <SID>transposition<SID>transpose
+cmap <script> <C-T> <SID>transposition<SID>transpose
 
 " ---------------------------------------------------------------------
 " Commands {{{1
@@ -310,13 +309,13 @@ command! -nargs=1 -complete=shellcmd Silent call system(<q-args>)
 command! -nargs=? -complete=buffer DiffWith call vimrc#diffwith(<f-args>)
 
 " Clear undo history (:w to clear the undo file if presented)
-command! -bar UndoClear exe "set ul=-1 | m-1 | let &ul=" . &ul
+command! -bar UndoClear execute "set ul=-1 | m-1 | let &ul=" . &ul
 
 " Append a mode line
 command! AppendModeline call vimrc#appendModeline()
 
 " Simple letter encoding with rot13
-command! Rot13 exe "normal ggg?G''"
+command! Rot13 execute "normal ggg?G''"
 
 " Search via Google
 command! -nargs=1 Google call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand("<args>"),0)
@@ -358,25 +357,35 @@ cabbrev %% <C-R>=expand('%:h').'/'<CR>
 
 " ---------------------------------------------------------------------
 " Auto-commands {{{1
-aug vimrc
-  au!
+augroup vimrc
+  autocmd!
+
+  " disable error beep and screen flash
+  autocmd VimEnter * set vb t_vb=
+
   " Enable spell checking in following file types
-  au FileType gitcommit,markdown,txt setlocal spell
+  autocmd FileType gitcommit,markdown,txt setlocal spell
+
   " Make the file '_' a scratch buffer
-  au BufNewFile,BufReadPost _ set buftype=nofile bufhidden=hide noswapfile
+  autocmd BufNewFile,BufReadPost _ set buftype=nofile bufhidden=hide
+
+  " Mappings for the cmdline window
+  autocmd CmdwinEnter * noremap <buffer> <F5> <CR>q:|
+        \ NXInoremap <buffer> <C-C> <C-C><C-C>
+
   " Mappings/options for a quickfix/location window
-  au FileType qf nnoremap <buffer> q <C-W>c |
-        \ nnoremap <buffer> <C-V> <C-W><CR><C-W>H |
-        \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T |
+  autocmd FileType qf nnoremap <buffer> q <C-W>c|
+        \ nnoremap <buffer> <C-V> <C-W><CR><C-W>H|
+        \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T|
         \ setlocal statusline=%t%{strpart('\ '.w:quickfix_title,0,66)}%=\ %11.(%c,%l/%L\ %P%)
-aug END
+augroup END
 
 " ---------------------------------------------------------------------
 " Appearance {{{1
 if has('gui_running')
   if has('win32')
     set guifont=Consolas:h10
-    au GUIEnter * simalt ~x " max window
+    autocmd GUIEnter * simalt ~x " max window
   else
     set guifont=Consolas\ 10
     set lines=250 columns=200
@@ -432,14 +441,14 @@ endif
 " A concise status line named "Starline"
 set laststatus=2 " always display the status line
 set statusline=%m%<%.60f " modified flag, file name(truncated if too long)
-set stl+=\ %H%W%q%R%Y " help, preview, quickfix, read-only flag, file type
-set stl+=%{(&fenc!='utf-8'&&&fenc!='')?','.&fenc:''} " file encoding
-set stl+=%{&ff!='unix'?','.&ff:''} " file format
-set stl+=%(,%{exists('*fugitive#head')?fugitive#head(7):''}%) " git branch status
-set stl+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''} " software caps lock status
-set stl+=%= " left/right separator
-set stl+=%{substitute(getcwd(),'.*[\\/]','','')} " the working directory
-set stl+=\ %c,%l/%L\ %P " cursor position, line percentage
+set statusline+=\ %H%W%q%R%Y " help, preview, quickfix, read-only flag, file type
+set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?','.&fenc:''} " file encoding
+set statusline+=%{&ff!='unix'?','.&ff:''} " file format
+set statusline+=%(,%{exists('*fugitive#head')?fugitive#head(7):''}%) " git branch status
+set statusline+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''} " software caps lock status
+set statusline+=%= " left/right separator
+set statusline+=%{substitute(getcwd(),'.*[\\/]','','')} " the working directory
+set statusline+=\ %c,%l/%L\ %P " cursor position, line percentage
 hi StatusLine term=reverse cterm=reverse gui=reverse guifg=#657b83 guibg=#073642
 hi StatusLineNC term=reverse cterm=reverse ctermfg=240 ctermbg=235 gui=none guifg=#657b83 guibg=#073642
 
