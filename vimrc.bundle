@@ -2,12 +2,11 @@
 " Author: Bohr Shaw <pubohr@gmail.com>
 
 " Bundle management {{{1 ==============================================
-let bundles = []
-let l = exists('l') ? l : 0
+let g:bundles = []
 function! Bundle(...)
   if a:1[0] == '-'
     return
-  elseif a:1[0] == '+' || !g:l
+  elseif a:1[0] == '+' || !get(g:, 'l')
     call add(g:bundles, a:1[0] == '+' ? a:1[1:] : a:1)
     for b in a:000[1:]
       if index(g:bundles, b) < 0
@@ -18,13 +17,13 @@ function! Bundle(...)
   endif
 endfunction
 
-aug Bundle
-  au!
-  " A buffer local map to open a bundle's URL in the browser
-  au Bundle BufReadPost {.,}vimrc.bundle nnoremap <buffer> gB
-        \ :call netrw#NetrwBrowseX('https://github.com/'
-        \ . matchstr(getline('.'), 'Bundle([''"]\zs.\{-}\ze[''"]'), 0)<CR>
-aug END
+augroup bundle
+autocmd!
+
+" A buffer local map to open a bundle's URL in the browser
+autocmd BufReadPost {.,}vimrc.bundle nnoremap <buffer> gB
+      \ :call netrw#NetrwBrowseX('https://github.com/'
+      \ . matchstr(getline('.'), 'Bundle([''"]\zs.\{-}\ze[''"]'), 0)<CR>
 
 " A Vim plugin for Vim plugins
 if Bundle('tpope/vim-scriptease')
@@ -511,5 +510,8 @@ endif
 " Vim Syntax for todo.txt (todotxt.com)
 " if Bundle('davidoc/todo.txt-vim')
 " en
+
+" Bundle management {{{1 ==============================================
+augroup END
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
