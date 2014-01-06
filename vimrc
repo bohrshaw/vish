@@ -6,41 +6,44 @@
 " Analyse startup performance by `vim --startuptime profiling`
 
 " Foundation {{{1
-set nocompatible " make Vim behave in a more useful way
+if !exists('g:loaded_vimrc')
+  set nocompatible " make Vim behave in a more useful way
 
-" Light weight Vim or not
-let l = exists('l') ? l : 0
+  " Light weight Vim or not
+  let l = exists('l') ? l : 0
 
-" A unified runtime path(Unix default)
-set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+  " A unified runtime path(Unix default)
+  set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 
-let mapleader = ' ' " replace <Leader> in a map
-let maplocalleader = '\' " replace <LocalLeader> in a map
+  let mapleader = ' ' " replace <Leader> in a map
+  let maplocalleader = '\' " replace <LocalLeader> in a map
 
-" The character encoding used inside Vim (Set early to allow mappings start
-" with the ALT key work properly.)
-set encoding=utf-8
+  " The character encoding used inside Vim (Set early to allow mappings start
+  " with the ALT key work properly.)
+  set encoding=utf-8
 
-" Remove all visual distraction and don't source "$VIMRUNTIME/menu.vim" to
-" reduce startup time. Must be before syntax or filetype setup.
-set guioptions=M
+  " Remove all visual distraction and don't source "$VIMRUNTIME/menu.vim" to
+  " reduce startup time. Must be before syntax or filetype setup.
+  set guioptions=M
 
-" Commands for defining mappings in several modes
-command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
-" Allow chained commands, but also checks for a " to start a comment
-command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar> inoremap <args>
+  " Commands for defining mappings in several modes
+  command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
+  " Allow chained commands, but also check for a " to start a comment
+  command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar> inoremap <args>
 
-" Bundle configuration and set the bundle list 'g:bundles'
-source ~/.vim/vimrc.bundle
+  " Bundle configuration and set the bundle list 'g:bundles'
+  source ~/.vim/vimrc.bundle
 
-" Set runtime path
-let bundle_dirs = map(bundles, 'v:val[stridx(v:val,"/")+1:]')
-call pathway#inject('bundle', bundle_dirs)
+  " Set runtime path
+  let bundle_dirs = map(bundles, 'v:val[stridx(v:val,"/")+1:]')
+  call pathway#inject('bundle', bundle_dirs)
 
-" Enable these after rtp setup, but as early as possible to reduce startup time.
-filetype plugin indent on
-syntax enable
+  " Enable these after rtp setup, but as early as possible to reduce startup time.
+  filetype plugin indent on
+  syntax enable
 
+  let g:loaded_vimrc = 1
+endif
 " ---------------------------------------------------------------------
 " Options {{{1
 " Set default paths of temporary files
@@ -193,8 +196,8 @@ nnoremap Y y$
 NXnoremap & :&&<cr>
 
 " Wrapped lines goes down/up to next row, rather than next line in file.
-" NXnoremap j gj
-" NXnoremap k gk
+NXnoremap j gj
+NXnoremap k gk
 
 " Allow the `.` to execute once for each line of a visual selection.
 xnoremap . :normal .<CR>
