@@ -363,7 +363,7 @@ cabbrev %% <C-R>=expand('%:h').'/'<CR>
 augroup vimrc
   autocmd!
 
-  " disable error beep and screen flash
+  " Disable error beep and screen flash
   autocmd VimEnter * set vb t_vb=
 
   " Enable spell checking in following file types
