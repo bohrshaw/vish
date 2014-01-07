@@ -33,7 +33,7 @@ en
 " Motion {{{2 ---------------------------------------------------------
 " The missing motion for Vim
 if Bundle('+justinmk/vim-sneak')
-  " let g:sneak#streak = 1
+  let g:sneak#streak = 1
   nmap <LocalLeader>s <Plug>SneakStreak
   hi! link SneakPluginScope Comment
 en
@@ -212,6 +212,9 @@ if Bundle('scrooloose/nerdtree')
   let NERDTreeQuitOnOpen=1
   let NERDTreeMouseMode=2
 en
+" Combine with netrw to create a delicious salad dressing
+if Bundle('-tpope/vim-vinegar')
+en
 " Fuzzy file, buffer, mru, tag, etc finder
 if Bundle('kien/ctrlp.vim')
   let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/ctrlp'
@@ -276,6 +279,10 @@ if Bundle('+chriskempson/base16-vim')
 en
 " Molokai color scheme for Vim
 if Bundle('+tomasr/molokai')
+en
+" A color scheme for high readability and optimal visibility of every element,
+" eye comfortable, supporting 256 color terminal
+if Bundle('+zeis/vim-kolor')
 en
 " Sublime Text 2 Themes (textmate)
 if Bundle('+daylerees/colour-schemes/vim-themes')
@@ -420,9 +427,9 @@ if Bundle('ngmy/vim-rubocop')
 en
 " Bindings for the gem recording the results of every line of code
 if Bundle('hwartig/vim-seeing-is-believing')
-autocmd FileType ruby |
-      \ NXInoremap <buffer> <F5> <Plug>(seeing-is-believing-run)|
-      \ NXInoremap <buffer> <F4> <Plug>(seeing-is-believing-mark)
+  autocmd FileType ruby |
+        \ NXInoremap <buffer> <F5> <Plug>(seeing-is-believing-run)|
+        \ NXInoremap <buffer> <F4> <Plug>(seeing-is-believing-mark)
 en
 " Vim plugin for debugging Ruby applications (using ruby-debug-ide gem)
 " if Bundle('astashov/vim-ruby-debugger')
