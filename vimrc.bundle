@@ -33,7 +33,7 @@ en
 " Motion {{{2 ---------------------------------------------------------
 " The missing motion for Vim
 if Bundle('+justinmk/vim-sneak')
-  let g:sneak#streak = 1
+  " let g:sneak#streak = 1
   nmap <LocalLeader>s <Plug>SneakStreak
   hi! link SneakPluginScope Comment
 en
@@ -273,6 +273,7 @@ if Bundle('+altercation/vim-colors-solarized')
   let g:solarized_italic = 0
   let g:solarized_termcolors = &term =~ '256col' ? 256 : 16
   let g:solarized_menu=0
+  autocmd ColorScheme solarized runtime colors/solarized_additional.vim
 en
 " Base16 for Vim
 if Bundle('+chriskempson/base16-vim')
