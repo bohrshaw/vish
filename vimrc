@@ -41,9 +41,11 @@ if !exists('g:loaded_vimrc')
   " Enable these after rtp setup, but as early as possible to reduce startup time.
   filetype plugin indent on
   syntax enable
-
-  let g:loaded_vimrc = 1
 endif
+
+" Define an autocmd group and empty it
+augroup vimrc | execute 'autocmd!' | augroup END
+
 " ---------------------------------------------------------------------
 " Options {{{1
 " Set default paths of temporary files
@@ -95,7 +97,8 @@ set winminheight=0 " the minimal height of a window
 set scrolloff=1 " minimum lines to keep above and below cursor
 set sidescrolloff=5 " the minimal number of screen columns to keep around the cursor
 
-" set spell " check spell
+" Enable spell checking for particular file types
+autocmd vimrc FileType gitcommit,markdown,txt setlocal spell
 if v:version == 704 && has('patch088') || v:version > 704
   set spelllang=en,cjk " skip spell check for East Asian characters
 endif
@@ -112,6 +115,7 @@ runtime macros/matchit.vim " extended pair matching with '%'
 set history=50 " a larger number of commands and search patterns to remember
 set tabpagemax=50 " allow more tabs
 
+autocmd GUIEnter * set vb t_vb= " disable error beep and screen flash
 set nowritebackup " write to symbolic files safely on windows
 set confirm " prompt for an action instead of fail immediately
 set backspace=indent,eol,start " backspace through anything in insert mode
@@ -133,6 +137,9 @@ endif
 if 0 == argc() && has('gui_running') && !l
   cd $HOME
 endif
+
+" Make the file '_' a scratch buffer
+autocmd vimrc BufNewFile,BufReadPost _ set buftype=nofile bufhidden=hide
 
 " ---------------------------------------------------------------------
 " Mappings {{{1
@@ -179,9 +186,6 @@ endfor
 " Move tabs
 noremap gH :tabm -1<cr>
 noremap gL :tabm +1<cr>
-cabbrev tm tabm
-cabbrev tmh tabm -1
-cabbrev tml tabm +1
 
 " Two maps enough for switching windows
 noremap <C-j> <C-W>w
@@ -209,6 +213,15 @@ xnoremap > >gv
 " Easier horizontal scrolling
 noremap zl zL
 noremap zh zH
+
+" Mappings for the cmdline window
+autocmd vimrc CmdwinEnter * noremap <buffer> <F5> <CR>q:|
+      \ NXInoremap <buffer> <C-C> <C-C><C-C>
+
+" Mappings/options for a quickfix/location window
+autocmd vimrc FileType qf nnoremap <buffer> q <C-W>c|
+      \ nnoremap <buffer> <C-V> <C-W><CR><C-W>H|
+      \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T
 
 " Edit a file in the same directory of the current file
 NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/
@@ -352,36 +365,14 @@ cabbrev tb tab sb
 cabbrev chs changes
 cabbrev ms marks
 
-" Close a tab
+" Tab related
+cabbrev tm tabm
+cabbrev tmh tabm -1
+cabbrev tml tabm +1
 cabbrev tc tabc
 
 " Get the relative path of the current file
 cabbrev %% <C-R>=expand('%:h').'/'<CR>
-
-" ---------------------------------------------------------------------
-" Auto-commands {{{1
-augroup vimrc
-  autocmd!
-
-  " Disable error beep and screen flash
-  autocmd VimEnter * set vb t_vb=
-
-  " Enable spell checking in following file types
-  autocmd FileType gitcommit,markdown,txt setlocal spell
-
-  " Make the file '_' a scratch buffer
-  autocmd BufNewFile,BufReadPost _ set buftype=nofile bufhidden=hide
-
-  " Mappings for the cmdline window
-  autocmd CmdwinEnter * noremap <buffer> <F5> <CR>q:|
-        \ NXInoremap <buffer> <C-C> <C-C><C-C>
-
-  " Mappings/options for a quickfix/location window
-  autocmd FileType qf nnoremap <buffer> q <C-W>c|
-        \ nnoremap <buffer> <C-V> <C-W><CR><C-W>H|
-        \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T|
-        \ setlocal statusline=%t%{strpart('\ '.w:quickfix_title,0,66)}%=\ %11.(%c,%l/%L\ %P%)
-augroup END
 
 " ---------------------------------------------------------------------
 " Appearance {{{1
@@ -406,7 +397,7 @@ else
   if &t_Co == 8 && &term !~ '^linux' | set t_Co=16 | endif
 endif
 
-" set number " print the line number in front of each line
+set number " print the line number in front of each line
 set relativenumber " show the line number relative to the current line
 
 " set nowrap " only part of long lines will be displayed
@@ -424,18 +415,20 @@ set showcmd " show partial commands in status line
 " set showmatch " show matching brackets/braces (redundant with matchparen.vim)
 set colorcolumn=+1 " highlight column after 'textwidth'
 
-set background=dark " assume a dark background for color schemes
-if l
-  if has('gui_running')
-    color base16-solarized
-  elseif has('unix')
-    color terminator " twilight256
-  endif
-else
-  if has('gui_running') || &t_Co == 256
-    color solarized
+if !exists('g:loaded_vimrc')
+  set background=dark " assume a dark background for color schemes
+  if l
+    if has('gui_running')
+      color base16-solarized
+    elseif has('unix')
+      color terminator " twilight256
+    endif
   else
-    color terminator
+    if has('gui_running') || &t_Co == 256
+      color solarized
+    else
+      color terminator
+    endif
   endif
 endif
 
@@ -452,6 +445,9 @@ set statusline+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''} " sof
 set statusline+=%= " left/right separator
 set statusline+=%{substitute(getcwd(),'.*[\\/]','','')} " the working directory
 set statusline+=\ %c,%l/%L\ %P " cursor position, line percentage
+" The status line for the quickfix window
+autocmd vimrc FileType qf setlocal statusline=%t
+      \%{strpart('\ '.get(w:,'quickfix_title',''),0,66)}%=\ %11.(%c,%l/%L\ %P%)
 
 " Use CTRL-G, G_CTRL-G to see file and cursor information manually
 set ruler " not effective when 'statusline' is set
@@ -463,5 +459,6 @@ set rulerformat=%50(%=%m%r%<%f%Y\ %l,%c\ %p%%%)
 "   highlight CursorIM guifg=NONE guibg=Green
 " endif
 
+let g:loaded_vimrc = 1
 " ---------------------------------------------------------------------
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
