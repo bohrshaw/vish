@@ -44,7 +44,8 @@ if !exists('g:loaded_vimrc')
 endif
 
 " Define an autocmd group and empty it
-augroup vimrc | execute 'autocmd!' | augroup END
+augroup vimrc | autocmd!
+augroup END
 
 " ---------------------------------------------------------------------
 " Options {{{1
@@ -396,15 +397,22 @@ set colorcolumn=+1 " highlight column after 'textwidth'
 
 " A concise status line named "Starline"
 set laststatus=2 " always display the status line
-set statusline=%m%<%.60f " modified flag, file name(truncated if too long)
-set statusline+=\ %H%W%q%R%Y " help, preview, quickfix, read-only flag, file type
-set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?','.&fenc:''} " file encoding
-set statusline+=%{&ff!='unix'?','.&ff:''} " file format
-set statusline+=%(,%{exists('*fugitive#head')?fugitive#head(7):''}%) " git branch status
-set statusline+=\ %{exists('*CapsLockSTATUSLINE')?CapsLockSTATUSLINE():''} " software caps lock status
-set statusline+=%= " left/right separator
-set statusline+=%{substitute(getcwd(),'.*[\\/]','','')} " the working directory
-set statusline+=\ %c,%l/%L\ %P " cursor position, line percentage
+function! s:statusline()
+  set statusline=%m%<%.60f " modified flag, file name(truncated if too long)
+  set statusline+=\ %H%W%q%R%Y " help, preview, quickfix, read-only flag, file type
+  set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?','.&fenc:''} " file encoding
+  set statusline+=%{&ff!='unix'?','.&ff:''} " file format
+  " Git branch status
+  let &statusline .= exists('*fugitive#head') ?
+        \ "%{exists('b:git_dir')?','.fugitive#head(7):''}" : ''
+  " Software caps lock status
+  let &statusline .= exists('*CapsLockSTATUSLINE') ? "%{CapsLockSTATUSLINE()}" : ''
+  set statusline+=%= " left/right separator
+  set statusline+=%{substitute(getcwd(),'.*[\\/]','','')} " the working directory
+  set statusline+=\ %c,%l/%L\ %P " cursor position, line percentage
+endfunction
+autocmd VimEnter * call s:statusline() " setup after all plugins are loaded
+
 " The status line for the quickfix window
 autocmd vimrc FileType qf setlocal statusline=%t
       \%{strpart('\ '.get(w:,'quickfix_title',''),0,66)}%=\ %11.(%c,%l/%L\ %P%)
@@ -417,41 +425,41 @@ set rulerformat=%50(%=%m%r%<%f%Y\ %l,%c\ %p%%%)
 " set titlestring=
 
 if !exists('g:loaded_vimrc')
+  if has('gui_running')
+    if has('win32')
+      set guifont=Consolas:h10
+      autocmd GUIEnter * simalt ~x " max window
+    else
+      set guifont=Consolas\ 10
+      set lines=250 columns=200
+    endif
+  else
+    " Assume xterm supports 256 colors
+    if &term =~ 'xterm' | set term=xterm-256color | endif
+
+    " Disable Background Color Erase (BCE) so that color schemes
+    " render properly when inside 256-color tmux and GNU screen.
+    " See also http://snk.tuxfamily.org/log/vim-256color-bce.html
+    if &term =~ '256col' | set t_ut= | endif
+
+    " Allow color schemes do bright colors without forcing bold.
+    if &t_Co == 8 && &term !~ '^linux' | set t_Co=16 | endif
+  endif
+
+  set background=dark " assume a dark background for color schemes
+  if l
     if has('gui_running')
-        if has('win32')
-            set guifont=Consolas:h10
-            autocmd GUIEnter * simalt ~x " max window
-        else
-            set guifont=Consolas\ 10
-            set lines=250 columns=200
-        endif
-    else
-        " Assume xterm supports 256 colors
-        if &term =~ 'xterm' | set term=xterm-256color | endif
-
-        " Disable Background Color Erase (BCE) so that color schemes
-        " render properly when inside 256-color tmux and GNU screen.
-        " See also http://snk.tuxfamily.org/log/vim-256color-bce.html
-        if &term =~ '256col' | set t_ut= | endif
-
-        " Allow color schemes do bright colors without forcing bold.
-        if &t_Co == 8 && &term !~ '^linux' | set t_Co=16 | endif
+      color base16-solarized
+    elseif has('unix')
+      color terminator " twilight256
     endif
-
-    set background=dark " assume a dark background for color schemes
-    if l
-        if has('gui_running')
-            color base16-solarized
-        elseif has('unix')
-            color terminator " twilight256
-        endif
+  else
+    if has('gui_running') || &t_Co == 256
+      color solarized
     else
-        if has('gui_running') || &t_Co == 256
-            color solarized
-        else
-            color terminator
-        endif
+      color terminator
     endif
+  endif
 endif
 
 " if has('multi_byte_ime')
