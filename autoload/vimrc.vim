@@ -3,12 +3,13 @@
 
 " Create a path conveniently
 function! vimrc#mkdir(...) " {{{1
-  if a:1 =~ '\v^(/|(\~|\w:)[\/])'
-    let dir = expand(a:1)
-  else
-    let dir = getcwd() . "/" . (a:0 == 0 ? expand('%:h') : a:1)
-  endif
-  call mkdir(dir, 'p')
+  let dir = fnamemodify(expand(a:0 || empty(a:1) ? '%:h' : a:1), ':p')
+  try
+    call mkdir(dir, 'p')
+    echo "Succeed in creating directory: " . dir
+  catch
+    echohl WarningMsg | echo "Fail in creating directory: " . dir | echohl NONE
+  endtry
 endfunction " }}}1
 
 " Calculate the time spending on executing commands
@@ -21,20 +22,20 @@ endfunction " }}}1
 
 " Count anything in a range of lines
 function! vimrc#count(...) " {{{1
-    if a:0 == 3
-      let range = a:2 . ',' . a:3
-    elseif a:0 == 2
-      let range = a:1 . ',' . a:2
-    else
-      let range = '%'
-    endif
+  if a:0 == 3
+    let range = a:2 . ',' . a:3
+  elseif a:0 == 2
+    let range = a:1 . ',' . a:2
+  else
+    let range = '%'
+  endif
 
-    redir => subscount
-    silent exe range . 's/' . (a:0 == 0 ? '' : a:1) . '//gne'
-    redir END
+  redir => subscount
+  silent exe range . 's/' . (a:0 == 0 ? '' : a:1) . '//gne'
+  redir END
 
-    let result = matchstr(subscount, '\d\+')
-    return result == "" ? 0 : result
+  let result = matchstr(subscount, '\d\+')
+  return result == "" ? 0 : result
 endfunction " }}}1
 
 " Calculate words frequency
