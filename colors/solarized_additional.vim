@@ -3,11 +3,12 @@
 hi Normal guifg=#77A5B1
 hi Comment guifg=#52737B
 hi Visual ctermbg=233
+hi CursorLine cterm=NONE gui=NONE
 hi LineNR guifg=#004C60 gui=bold guibg=#002B36 ctermfg=146
 hi CurSorLineNR guifg=#509CB0 gui=bold guibg=#002B36
-hi CursorLine cterm=NONE gui=NONE
-hi StatusLine term=reverse cterm=reverse gui=reverse guifg=#657b83 guibg=#073642
-hi StatusLineNC term=reverse cterm=reverse ctermfg=240 ctermbg=235 gui=none guifg=#657b83 guibg=#073642
+hi VertSplit NONE
+hi StatusLine gui=bold guifg=fg guibg=#22515D
+hi StatusLineNC ctermfg=240 ctermbg=235 guifg=#073642 guibg=#657b83
 
 hi! link rubyControl Statement
 hi! link rspecGroupMethods rubyControl

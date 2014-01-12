@@ -377,8 +377,9 @@ cabbrev %% <C-R>=expand('%:h').'/'<CR>
 
 " ---------------------------------------------------------------------
 " Appearance {{{1
-set number " print the line number in front of each line
+" set number " print the line number in front of each line
 set relativenumber " show the line number relative to the current line
+set numberwidth=3 " minimal number(2) of columns to use for the line number
 
 " set nowrap " only part of long lines will be displayed
 set linebreak " don't break a word when displaying wrapped lines
