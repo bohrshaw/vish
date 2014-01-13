@@ -7,8 +7,9 @@ hi CursorLine cterm=NONE gui=NONE
 hi LineNR guifg=#004C60 gui=bold guibg=#002B36 ctermfg=146
 hi CurSorLineNR guifg=#509CB0 gui=bold guibg=#002B36
 hi VertSplit NONE
-hi StatusLine gui=bold guifg=fg guibg=#22515D
+hi StatusLine gui=bold guifg=fg guibg=#2B5A66
 hi StatusLineNC ctermfg=240 ctermbg=235 guifg=#073642 guibg=#657b83
+hi! link TabLineSel StatusLine
 
 hi! link rubyControl Statement
 hi! link rspecGroupMethods rubyControl
