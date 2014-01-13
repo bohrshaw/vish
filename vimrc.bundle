@@ -212,6 +212,11 @@ if Bundle('kien/ctrlp.vim')
   " Extentions
   let g:ctrlp_extensions = ['funky']
 endif
+" Changes Vim working directory to project root
+if Bundle('airblade/vim-rooter')
+  let g:rooter_manual_only = 1
+  " let g:rooter_use_lcd = 1
+endif
 " A ctrlp.vim extension - Navigate and jump to function defs
 if Bundle('tacahiroy/ctrlp-funky')
   nnoremap <Leader>fu :CtrlPFunky<CR>
