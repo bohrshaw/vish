@@ -4,13 +4,13 @@
 " Bundle management {{{1 ==============================================
 let g:bundles = []
 function! Bundle(...)
-  for b in a:000
-    let b_str = type(b) == 3 ? b[0] : b
-    let is_enabled = b_str[0] == '+'
-    if b_str[0] != '-' && (!get(g:, 'l') || is_enabled)
-      call add(g:bundles, is_enabled ? b_str[1:] : b_str)
-      if type(b) == 3 " bundle dependencies
-        for d in b[1:]
+  for bd in a:000
+    let b = type(bd) == 3 ? bd[0] : bd
+    let is_enabled = b[0] == '+'
+    if b[0] != '-' && (!get(g:, 'l') || is_enabled)
+      call add(g:bundles, is_enabled ? b[1:] : b)
+      if type(bd) == 3 " bundle dependencies
+        for d in bd[1:]
           if index(g:bundles, d) < 0
             call add(g:bundles, d)
           endif
@@ -18,7 +18,7 @@ function! Bundle(...)
       endif
       let if_config = 1
     endif
-    unlet b " allow b to hold a different type at the next loop
+    unlet bd " allow bd to hold a different type at the next loop
   endfor
   return get(l:, 'if_config') ? 1 : 0
 endfunction

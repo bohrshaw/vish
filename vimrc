@@ -313,6 +313,9 @@ command! UniqNonconsecutiveNonempty g/^./if search('^\V'.escape(getline('.'),'\'
 " This one is far slower than the above
 " command! UniqNonconsecutiveNonempty g/\v^(.+)$\_.{-}^\1$/d <NL> silent! normal! ``
 
+" Source a range of lines
+command! -bar -range Source <line1>,<line2>y z<Bar>let @z = substitute(@z, '\n\s*\\', '', 'g')<Bar>@z<CR>
+
 " Wipe out all unlisted buffers
 command! BwUnlisted call vimrc#bufffer_wipe_unlisted()
 
