@@ -24,10 +24,12 @@ if [[ $VIM_DIR != $HOME'/.vim' ]]; then
 fi
 
 # Link vimrc files
-for f in vimrc gvimrc; do
+for f in vimrc gvimrc vimperatorrc vimperator; do
   backup $HOME/.$f
 done
 ln -sf $VIM_DIR/vimrc $HOME/.vimrc
+ln -sf $VIM_DIR/vimperatorrc $HOME/.vimperatorrc
+ln -sfn $VIM_DIR/vimperator $HOME/.vimperator
 
 echo "Clone bundles ..."
 $VIM_DIR/bin/bundle.rb
