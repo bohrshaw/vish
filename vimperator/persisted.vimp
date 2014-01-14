@@ -1,0 +1,42 @@
+" These settings will persist across firefox sessions.
+
+" Quick marks
+" Low-case letters for English sites, up-case letters for Chinese sites and site groups
+" SNS
+qmark p plus.google.com
+qmark f facebook.com
+qmark t twitter.com
+qmark P pengyou.com
+qmark Q qzone.com
+qmark W weibo.com
+" Jobs
+qmark l linkedin.com
+" E-commerce
+qmark T taobao.com
+" Videos
+qmark y youtube.com
+qmark L letv.com
+qmark I iqiyi.com
+" Q&A
+qmark q quora.com
+qmark Z zhihu.com
+" Technology
+qmark g github.com
+qmark b bitbucket.com
+qmark s stackoverflow.com
+qmark r readwrite.com
+qmark i infoq.com
+" Cloud storages
+qmark 1 115.com
+qmark 3 yunpan.360.cn/my
+qmark B pan.baidu.com/disk/home
+qmark K kuaipan.cn/home
+" Various
+qmark a play.google.com
+" Site groups
+
+" Ignored sites with all keys passed
+ignorekeys add ^https?:\/\/mail\.google\.com.*
+ignorekeys add ^https?:\/\/plus\.google\.com.*
+ignorekeys add ^https?:\/\/groups\.google\.com.*
+ignorekeys add ^https?:\/\/([^.]+\.)?mail\.live\.com.*

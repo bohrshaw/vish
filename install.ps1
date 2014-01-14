@@ -9,7 +9,7 @@ function New-Link {
         $link = "$HOME\." + $target.split('\')[-1]
     }
 
-    # What to do ifthe link existed.
+    # What to do if the link is existed.
     if(Test-Path $link) {
         if($script:Force) {
             if(Test-Path -type container $link) {
@@ -40,6 +40,8 @@ if($VIM_DIR -ne (Convert-Path '~\.vim')) {
 
 # Link vimrc files
 New-Link "$VIM_DIR\vimrc" "$HOME\.vimrc"
+New-Link "$VIM_DIR\vimperatorrc" "$HOME\.vimperatorrc"
+New-Link "$VIM_DIR\vimperator" "$HOME\.vimperator"
 New-Link "$VIM_DIR\vsvimrc"
 
 # Sync bundles
