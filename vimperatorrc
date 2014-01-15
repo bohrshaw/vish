@@ -9,7 +9,7 @@ au VimperatorEnter .* set! browser.link.open_newwindow=1
 
 " Options {{{1
 " A unified runtime path
-set rtp="~/.vimperator"
+set rtp=~/vimperator,~/.vimperator
 
 " Being in normal mode when opening any page
 " set focuscontent
