@@ -13,7 +13,7 @@ function New-Link {
     if(Test-Path $link) {
         if($script:Force) {
             if(Test-Path -type container $link) {
-                [System.IO.Directory]::Delete($link)
+                [System.IO.Directory]::Delete($link, 1)
             }
             else { remove-item $link }
         }
@@ -41,7 +41,7 @@ if($VIM_DIR -ne (Convert-Path '~\.vim')) {
 # Link vimrc files
 New-Link "$VIM_DIR\vimrc" "$HOME\.vimrc"
 New-Link "$VIM_DIR\vimperatorrc" "$HOME\.vimperatorrc"
-New-Link "$VIM_DIR\vimperator" "$HOME\.vimperator"
+New-Link "$VIM_DIR\vimperator" "$HOME\vimperator"
 New-Link "$VIM_DIR\vsvimrc"
 
 # Sync bundles
