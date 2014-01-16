@@ -76,11 +76,27 @@ set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1 " help to determine a 
 set fileformats=unix,dos " end-of-line formats precedence
 set fileformat=unix " only for the initial unnamed buffer
 
-" Command line completion
+" Command line completion mode
 set wildmenu wildmode=longest:full,full
 " Ignore case when completing file names and directories (Vim 7.3.072)
 silent! set wildignorecase
-set complete-=i " don't scan included files for keyword completion
+
+" Dictionary files for insert-completion
+let s:dictionaries = '~/.vim/spell/dictionary-oald.txt'
+if filereadable(expand(s:dictionaries))
+    let &dictionary = s:dictionaries
+elseif !has('win32')
+    set dictionary=/usr/share/dict/words
+else
+    set dictionary=spell " completion from spelling as an alternative
+endif
+set thesaurus=~/.vim/spell/thesaurus-mwcd.txt " thesaurus files for insert-completion
+
+" Enable spell checking for particular file types
+autocmd vimrc FileType gitcommit,markdown,txt setlocal spell
+if v:version == 704 && has('patch088') || v:version > 704
+  set spelllang+=cjk " skip spell check for East Asian characters
+endif
 
 set incsearch " show matches when typing the search pattern
 set ignorecase " case insensitive in search patterns and command completion
@@ -97,12 +113,6 @@ set smarttab " a <Tab> in front of a line inserts blanks according to 'shiftwidt
 set winminheight=0 " the minimal height of a window
 set scrolloff=1 " minimum lines to keep above and below cursor
 set sidescrolloff=5 " the minimal number of screen columns to keep around the cursor
-
-" Enable spell checking for particular file types
-autocmd vimrc FileType gitcommit,markdown,txt setlocal spell
-if v:version == 704 && has('patch088') || v:version > 704
-  set spelllang=en,cjk " skip spell check for East Asian characters
-endif
 
 set path=.,,~ " directories to search by 'gf', ':find', etc.
 set cdpath=.,,~/workspaces " directories to search by ':cd', ':lcd'
@@ -255,6 +265,9 @@ set cedit=<C-G>
 
 " Don't move the cursor when pressing `i` and `<Esc>`
 " inoremap <Esc> <Esc>`^
+
+" Completion by words in dictionaries
+inoremap <c-x>k <c-x><c-k>
 
 " Break the undo sequence
 inoremap <C-U> <C-G>u<C-U>
