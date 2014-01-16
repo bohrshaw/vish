@@ -135,7 +135,7 @@ elseif executable('ack')
   set grepformat^=%f:%l:%c:%m
 endif
 
-if 0 == argc() && has('gui_running') && !l
+if !exists('g:loaded_vimrc') && 0 == argc() && has('gui_running') && !l
   cd $HOME
 endif
 
@@ -412,10 +412,11 @@ function! s:statusline()
   " Software caps lock status
   let &statusline .= exists('*CapsLockSTATUSLINE') ? "%{CapsLockSTATUSLINE()}" : ''
   set statusline+=%= " left/right separator
-  set statusline+=%{substitute(getcwd(),'.*[\\/]','','')} " the working directory
+  set statusline+=%{matchstr(getcwd(),'.*[\\/]\\zs\\S*')} " the working directory
   set statusline+=\ %c,%l/%L\ %P " cursor position, line percentage
 endfunction
-autocmd VimEnter * call s:statusline() " setup after all plugins are loaded
+" Ensure all plugins are loaded before setting 'statusline'
+execute (exists('g:loaded_vimrc') ? '' : 'autocmd VimEnter * ') . 'call s:statusline()'
 
 " The status line for the quickfix window
 autocmd vimrc FileType qf setlocal statusline=%t
