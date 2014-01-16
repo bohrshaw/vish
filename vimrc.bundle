@@ -244,6 +244,7 @@ if Bundle('+altercation/vim-colors-solarized')
 endif
 call Bundle('+chriskempson/base16-vim', '+tomasr/molokai', '+zeis/vim-kolor',
       \ 'w0ng/vim-hybrid', 'sk1418/last256', 'nanotech/jellybeans.vim',
+      \ 'junegunn/seoul256.vim', 'reedes/vim-colors-pencil',
       \ '-tpope/vim-vividchalk')
 " Sublime Text 2 Themes (textmate)
 call Bundle('+daylerees/colour-schemes/vim-themes')
