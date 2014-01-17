@@ -33,50 +33,38 @@ silent cd ~
 color indigo
 
 " Mappings {{{1
-" Map {{{2
-noremap ; :
 noremap @; @:
-
-" Start the extended hint mode
-noremap , ;
-
-" Switch tabs
-noremap gj <c-n>
-noremap gk gT
-noremap l <c-n>
-noremap h gT
-
-" Move tabs
-noremap J :tabm +1<cr>
-noremap K :tabm -1<cr>
 
 " Active the search box
 noremap <c-e> i<c-e>
 
-" Delete tabs
-noremap x gtD
-noremap X gTd
-
 " Yank the URL of a link
 noremap e ;y
 
-" Toggle options {{{3
-" Tool bars
+" Go to {count} tab pages forward or back
+noremap l <c-n>
+noremap h gT
+" Move a tab around
+noremap J :tabm +1<cr>
+noremap K :tabm -1<cr>
+" Delete a adjacent tab
+noremap x gtD
+noremap X gTd
+
+" Toggle tool bars
 nnoremap sm :set gui=invmenu<cr>
 nnoremap st :set gui=invtabs<cr>
 nnoremap sn :set gui=invnavigation<cr>
 nnoremap sb :set gui=invbookmarks<cr>
 nnoremap sa :set gui=invaddons<cr>
 
+" Toggle options
 nnoremap soh :set hlsearch!<cr>
 nnoremap sol :set linksearch!<cr>
-
-" Show the current website with a minimal style sheet to make it easily accessible.
 nnoremap sou :set usermode!<cr>
 
-" Map! {{{2
-" Recall older or more recent command-line matching the current command-line
-" from history
+" Mappings! {{{1
+" Recall older or more recent commands matching the current command line
 cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
 
@@ -96,7 +84,7 @@ cnoremap <C-B> <Left>
 inoremap <A-d> <C-Del>
 cnoremap <A-d> <C-Del>
 
-" Abbreviations {{{2
+" Abbreviations {{{1
 ca tm tabm
 
 ca his hist -m 10
