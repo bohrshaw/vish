@@ -185,24 +185,20 @@ NXnoremap R "_d
 " See the buffer list
 NXnoremap <Leader>ls :<C-U>ls<CR>
 
-" Go to the next/previous tab page
-noremap <C-l> gt
-noremap <C-h> gT
-noremap gl gt
-noremap gh gT
-" Go to a specific tab page
+" Go to {count} tab pages forward or back
+noremap <c-l> :<c-u>execute repeat('tabn\|', v:count1-1).'tabn'<cr> | map gl <c-l>
+noremap <c-h> gT | noremap gh gT
+" Go to {count}th tab page
 for n in range(1, 9)
-  execute 'noremap ' . '<A-' . n . '> ' . n . 'gt'
+  execute 'noremap '.'<m-'.n.'> '.n.'gt'
 endfor
-" Move tabs
+" Move a tab around
 noremap gH :tabm -1<cr>
 noremap gL :tabm +1<cr>
 
 " Go to the next/previous window
-noremap <C-j> <C-W>w
-noremap <C-k> <C-W>W
-noremap gj <C-W>w
-noremap gk <C-W>W
+noremap <C-j> <C-W>w | noremap gj <C-W>w
+noremap <C-k> <C-W>W | noremap gk <C-W>W
 " Split window vertically and edit the alternate file
 noremap <c-w><c-^> :vsplit #<cr>
 
