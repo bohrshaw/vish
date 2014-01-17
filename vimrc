@@ -84,11 +84,11 @@ silent! set wildignorecase
 " Dictionary files for insert-completion
 let s:dictionaries = '~/.vim/spell/dictionary-oald.txt'
 if filereadable(expand(s:dictionaries))
-    let &dictionary = s:dictionaries
+  let &dictionary = s:dictionaries
 elseif !has('win32')
-    set dictionary=/usr/share/dict/words
+  set dictionary=/usr/share/dict/words
 else
-    set dictionary=spell " completion from spelling as an alternative
+  set dictionary=spell " completion from spelling as an alternative
 endif
 set thesaurus=~/.vim/spell/thesaurus-mwcd.txt " thesaurus files for insert-completion
 
@@ -185,24 +185,26 @@ NXnoremap R "_d
 " See the buffer list
 NXnoremap <Leader>ls :<C-U>ls<CR>
 
-" Switch tabs quickly
+" Go to the next/previous tab page
 noremap <C-l> gt
 noremap <C-h> gT
 noremap gl gt
 noremap gh gT
+" Go to a specific tab page
 for n in range(1, 9)
   execute 'noremap ' . '<A-' . n . '> ' . n . 'gt'
 endfor
-
 " Move tabs
 noremap gH :tabm -1<cr>
 noremap gL :tabm +1<cr>
 
-" Two maps enough for switching windows
+" Go to the next/previous window
 noremap <C-j> <C-W>w
 noremap <C-k> <C-W>W
 noremap gj <C-W>w
 noremap gk <C-W>W
+" Split window vertically and edit the alternate file
+noremap <c-w><c-^> :vsplit #<cr>
 
 " Be consistent with other operators
 nnoremap Y y$
