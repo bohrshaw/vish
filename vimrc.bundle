@@ -38,13 +38,18 @@ call Bundle('tpope/vim-scriptease')
 " Motion {{{2 ---------------------------------------------------------
 " The missing motion for Vim
 if Bundle('+justinmk/vim-sneak')
+  nmap f<CR> <Plug>SneakForward
+  xmap f<CR> <Plug>VSneakForward
+  nmap <CR>f <Plug>SneakBackward
+  xmap <CR>f <Plug>VSneakBackward
   " let g:sneak#streak = 1
-  nmap <LocalLeader>s <Plug>SneakStreak
+  nmap t<CR> <Plug>SneakStreak
+  nmap <CR>t <Plug>SneakStreakBackward
   hi! link SneakPluginScope Comment
 endif
 " Vim motions on speed
 if Bundle('+bohrshaw/vim-easymotion')
-  let g:EasyMotion_leader_key = '\'
+  let g:EasyMotion_leader_key = '<BS>'
 endif
 " Acts like `f` but taking two characters
 if Bundle('-goldfeld/vim-seek')
@@ -209,17 +214,16 @@ if Bundle('kien/ctrlp.vim')
   noremap <leader>cc :CtrlPClearCache<cr>
   " Open CtrlP bookmarked directories
   noremap <leader>cm :CtrlPBookmarkDir<cr>
-  " Extentions
+  " Extensions
   let g:ctrlp_extensions = ['funky']
+  " Navigate and jump to function defs
+  call Bundle('tacahiroy/ctrlp-funky')
+  nnoremap <Leader>cf :CtrlPFunky<CR>
 endif
 " Changes Vim working directory to project root
 if Bundle('airblade/vim-rooter')
   let g:rooter_manual_only = 1
   " let g:rooter_use_lcd = 1
-endif
-" A ctrlp.vim extension - Navigate and jump to function defs
-if Bundle('tacahiroy/ctrlp-funky')
-  nnoremap <Leader>fu :CtrlPFunky<CR>
 endif
 " Buffer Explorer/Browser
 call Bundle('vim-scripts/bufexplorer.zip', '-jeetsukumaran/vim-buffergator')
