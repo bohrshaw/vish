@@ -20,9 +20,10 @@ if !exists('g:loaded_vimrc')
   " with the ALT key work properly.)
   set encoding=utf-8
 
-  " Remove all visual distraction and don't source "$VIMRUNTIME/menu.vim" to
-  " reduce startup time. Must be before syntax or filetype setup.
-  set guioptions=M
+  " Remove all visual distraction, use console dialogs instead of pop-up
+  " dialogs, and don't source '$VIMRUNTIME/menu.vim', which must be done before
+  " filetype or syntax setup.
+  set guioptions=cM
 
   " Commands for defining mappings in several modes
   command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
@@ -51,7 +52,7 @@ augroup END
 " See https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim for
 " a minimal sensible default.
 
-set ttimeout " time out on key codes
+set timeoutlen=3000 " mapping delay
 set ttimeoutlen=50 " key code delay (instant escape from Insert mode)
 
 set autoindent " indent at the same level of the previous line
@@ -76,7 +77,7 @@ set confirm " prompt for an action instead of fail immediately
 set backspace=indent,eol,start " backspace through anything in insert mode
 silent! set formatoptions+=j " remove comment characters when joining commented lines
 set nrformats-=octal " exclude octal numbers when using C-A or C-X
-set nolazyredraw " don't redraw the screen while executing macros etc.
+set lazyredraw " don't redraw the screen while executing macros, etc.
 set cryptmethod=blowfish " acceptable encryption strength, remember :set viminfo=
 set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
 set display+=lastline " ensure the last line is properly displayed
@@ -113,6 +114,10 @@ set hidden " hide a modified buffer without using '!' when it's abandoned
 " set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1
 set fileformats=unix,dos,mac " end-of-line formats precedence
 set fileformat=unix " only for the initial unnamed buffer
+
+" Don't move the cursor to the line start when switching buffers
+autocmd BufLeave * set startofline! |
+      \ autocmd vimrc CursorMoved * set startofline | autocmd! vimrc CursorMoved
 
 let &swapfile = l ? 0 : 1 " use a swapfile for the buffer
 let &undofile = l ? 0 : 1 " persistent undo
@@ -373,13 +378,17 @@ set numberwidth=3 " minimal number(2) of columns to use for the line number
 set linebreak " don't break a word when displaying wrapped lines
 " set showbreak=>\  " string to put at the start of wrapped lines
 set list " show non-normal spaces, tabs etc.
-if !has('win32') && (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8')
+if has('win32')
+  let &listchars = "precedes:<,extends:>,tab:\u25b8 ,trail:\u25ab,nbsp:+"
+  " set showbreak=+++\  " characters preceding line wrap
+elseif &termencoding ==# 'utf-8' || &encoding ==# 'utf-8'
   let &listchars = "precedes:\u21c7,extends:\u21c9,tab:\u21e5 ,trail:\u2423,nbsp:\u00b7"
+  " let &showbreak = "\u21aa " " arrow_right_hook
 else
   set listchars=precedes:<,extends:>,tab:>\ ,trail:-,nbsp:+
 endif
 set showcmd " show partial commands in status line
-" set showmatch " show matching brackets/braces (redundant with matchparen.vim)
+" set showmatch matchtime=3 " show matching brackets (redundant with matchparen.vim)
 set colorcolumn=+1 " highlight column after 'textwidth'
 
 " A concise status line named "Starline"

@@ -38,11 +38,12 @@ call Bundle('tpope/vim-scriptease')
 " Motion {{{2 ---------------------------------------------------------
 " The missing motion for Vim
 if Bundle('+justinmk/vim-sneak')
+  " let g:sneak#streak = 1
+  " let g:sneak#use_ic_scs = 1 " 'ignorecase', 'smartcase'
   nmap f<CR> <Plug>SneakForward
   xmap f<CR> <Plug>VSneakForward
   nmap <CR>f <Plug>SneakBackward
   xmap <CR>f <Plug>VSneakBackward
-  " let g:sneak#streak = 1
   nmap t<CR> <Plug>SneakStreak
   nmap <CR>t <Plug>SneakStreakBackward
   hi! link SneakPluginScope Comment
