@@ -372,8 +372,12 @@ endif
 call Bundle('tpope/vim-rake')
 
 " Python {{{2 ---------------------------------------------------------
+" Vim python-mode. PyLint, Rope, Pydoc, breakpoints from box.
+call Bundle('-klen/python-mode')
+" Bindings for the python auto-completion library 'jedi'
+call Bundle('-davidhalter/jedi-vim')
 " A two-way integration between Vim and IPython 0.11+
-call Bundle('ivanov/vim-ipython')
+call Bundle('-ivanov/vim-ipython')
 
 " Java {{{2 -----------------------------------------------------------
 " My work on integration of Scala into Vim - not a ton here, but useful for me
