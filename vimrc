@@ -12,10 +12,8 @@ if !exists('g:loaded_vimrc')
   " Light weight Vim or not
   let l = exists('l') ? l : 0
 
-  " A unified runtime path(Unix default)
-  set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
-
-  let mapleader = ' ' " replace <Leader> in a map
+  " A special keys like <Tab> are not interpreted, assign it as printed
+  let mapleader = '' " replace <Leader> in a map
   let maplocalleader = '\' " replace <LocalLeader> in a map
 
   " The character encoding used inside Vim (Set early to allow mappings start
@@ -34,11 +32,12 @@ if !exists('g:loaded_vimrc')
   " Bundle configuration and set the bundle list 'g:bundles'
   source ~/.vim/vimrc.bundle
 
-  " Set runtime path
+  " Set runtime path based on the Unix default
+  set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
   let bundle_dirs = map(bundles, 'v:val[stridx(v:val,"/")+1:]')
   call pathway#inject('bundle', bundle_dirs)
 
-  " Enable these after rtp setup, but as early as possible to reduce startup time.
+  " Enable these after rtp setup, but as early as possible to reduce startup time
   filetype plugin indent on
   syntax enable
 endif
@@ -49,38 +48,45 @@ augroup END
 
 " ---------------------------------------------------------------------
 " Options {{{1
-" Set default paths of temporary files
-let opts = {'directory': 'swap', 'undodir': 'undo', 'backupdir': 'backup'}
-for [opt, dir] in items(opts)
-  let value = $HOME . '/.vim/tmp/' . dir
-  if !isdirectory(value) | silent! call mkdir(value) | endif
-  execute "set " . opt . "^=" . value
-endfor
-set viewdir=~/.vim/tmp/view
-
-let &swapfile = l ? 0 : 1 " use a swapfile for the buffer
-let &undofile = l ? 0 : 1 " persistent undo
-let &viminfo = "!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo"
-" Exclude options and mappings and be portable
-set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
-set viewoptions=folds,cursor,slash,unix
+" See https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim for
+" a minimal sensible default.
 
 set ttimeout " time out on key codes
 set ttimeoutlen=50 " key code delay (instant escape from Insert mode)
 
-set autoread " auto-read a file changed outside of Vim
-" set autowrite " auto-write a modified file when switching buffers
-set hidden " hide a modified buffer without using '!' when it's abandoned
+set autoindent " indent at the same level of the previous line
+set shiftwidth=4 " number of spaces to use for each step of (auto)indent
+set shiftround " round indent to multiple of 'shiftwidth'
+set tabstop=4 " number of spaces a tab displayed in
+set softtabstop=4 " number of spaces used when press <Tab> or <BS>
+set expandtab " expand a tab to spaces
+set smarttab " a <Tab> in front of a line inserts blanks according to 'shiftwidth'
 
-set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1 " help to determine a file encoding
-set fileformats=unix,dos " end-of-line formats precedence
-set fileformat=unix " only for the initial unnamed buffer
+set matchpairs+=<:> " character pairs matched by '%'
+runtime macros/matchit.vim " extended pair matching with '%'
+set incsearch " show matches when typing the search pattern
+set ignorecase " case insensitive in search patterns and command completion
+set smartcase " case sensitive only when up case characters present
+set winminheight=0 " the minimal height of a window
+set scrolloff=1 " minimum lines to keep above and below cursor
+set sidescrolloff=5 " the minimal number of screen columns to keep around the cursor
+set history=1000 " maximum number of commands and search patterns to keep
+" set tabpagemax=50 " maximum number of tab pages to be opened by some commands
+set confirm " prompt for an action instead of fail immediately
+set backspace=indent,eol,start " backspace through anything in insert mode
+silent! set formatoptions+=j " remove comment characters when joining commented lines
+set nrformats-=octal " exclude octal numbers when using C-A or C-X
+set nolazyredraw " don't redraw the screen while executing macros etc.
+set cryptmethod=blowfish " acceptable encryption strength, remember :set viminfo=
+set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
+set display+=lastline " ensure the last line is properly displayed
+" autocmd GUIEnter * set vb t_vb= " disable error beep and screen flash
+set mouse=a " enable mouse in all modes
+" set clipboard=unnamed " link unnamed register and OS clipboard:
 
-" Command line completion mode
-set wildmenu wildmode=longest:full,full
+set wildmenu wildmode=longest:full,full " command line completion mode
 " Ignore case when completing file names and directories (Vim 7.3.072)
 silent! set wildignorecase
-
 " Dictionary files for insert-completion
 let s:dictionaries = '~/.vim/spell/dictionary-oald.txt'
 if filereadable(expand(s:dictionaries))
@@ -90,52 +96,40 @@ elseif !has('win32')
 else
   set dictionary=spell " completion from spelling as an alternative
 endif
-set thesaurus=~/.vim/spell/thesaurus-mwcd.txt " thesaurus files for insert-completion
-
+" Thesaurus files for insert-completion
+set thesaurus=~/.vim/spell/thesaurus-mwcd.txt
 " Enable spell checking for particular file types
 autocmd vimrc FileType gitcommit,markdown,txt setlocal spell
 if v:version == 704 && has('patch088') || v:version > 704
   set spelllang+=cjk " skip spell check for East Asian characters
 endif
 
-set incsearch " show matches when typing the search pattern
-set ignorecase " case insensitive in search patterns and command completion
-set smartcase " case sensitive only when up case characters present
+set autoread " auto-read a file changed outside of Vim
+" set autowrite " auto-write a modified file when switching buffers
+set nowritebackup " write to symbolic files safely on windows
+set hidden " hide a modified buffer without using '!' when it's abandoned
+" Recognise a file's encoding in this order
+" set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1
+set fileformats=unix,dos,mac " end-of-line formats precedence
+set fileformat=unix " only for the initial unnamed buffer
 
-set autoindent " indent at the same level of the previous line
-set shiftwidth=4 " number of spaces to use for each step of (auto)indent
-set shiftround " use multiple of shiftwidth to round when indenting with '<' and '>'
-set tabstop=4 " number of spaces a tab displayed in
-set softtabstop=4 " number of spaces used when press <Tab> or <BS>
-set expandtab " expand a tab to spaces
-set smarttab " a <Tab> in front of a line inserts blanks according to 'shiftwidth'
-
-set winminheight=0 " the minimal height of a window
-set scrolloff=1 " minimum lines to keep above and below cursor
-set sidescrolloff=5 " the minimal number of screen columns to keep around the cursor
+let &swapfile = l ? 0 : 1 " use a swapfile for the buffer
+let &undofile = l ? 0 : 1 " persistent undo
+let &viminfo = "!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo"
+" Exclude options and mappings and be portable
+set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
+set viewoptions=folds,cursor,slash,unix
+" Set default paths of temporary files
+let opts = {'directory': 'swap', 'undodir': 'undo', 'backupdir': 'backup'}
+for [opt, dir] in items(opts)
+  let value = $HOME . '/.vim/tmp/' . dir
+  if !isdirectory(value) | silent! call mkdir(value) | endif
+  execute "set " . opt . "^=" . value
+endfor
+set viewdir=~/.vim/tmp/view
 
 set path=.,,~ " directories to search by 'gf', ':find', etc.
 set cdpath=.,,~/workspaces " directories to search by ':cd', ':lcd'
-
-set mouse=a " enable mouse in all modes
-" set clipboard=unnamed " link unnamed register and OS clipboard:
-
-set matchpairs+=<:> " character pairs used by '%'
-runtime macros/matchit.vim " extended pair matching with '%'
-
-set history=50 " a larger number of commands and search patterns to remember
-set tabpagemax=50 " allow more tabs
-
-autocmd GUIEnter * set vb t_vb= " disable error beep and screen flash
-set nowritebackup " write to symbolic files safely on windows
-set confirm " prompt for an action instead of fail immediately
-set backspace=indent,eol,start " backspace through anything in insert mode
-silent! set formatoptions+=j " remove comment characters when joining commented lines
-set nrformats-=octal " exclude octal numbers when using C-A or C-X
-set nolazyredraw " don't redraw the screen while executing macros etc.
-set cryptmethod=blowfish " acceptable encryption strength, remember :set viminfo=
-set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
-set display+=lastline " ensure the last line is properly displayed
 
 if executable('ag')
   set grepprg=ag\ --column " --nocolor --nobreak implicitly
@@ -154,9 +148,11 @@ autocmd vimrc BufNewFile,BufReadPost _ set buftype=nofile bufhidden=hide
 
 " ---------------------------------------------------------------------
 " Mappings {{{1
-" See :h index, :h map-which-keys
-" Always use low case letter for mappings containing the Alt key. Because <A-K>
-" is not the same as <A-k> for terminal Vim.
+" Mapping for saving key strokes or typing convenience, for consistency or
+" intuition(mnemonics), for accessible functionality.
+" Use capital letters in keys like <C-J> for readability, except for <A-j>,
+" which is different with <A-J>.
+" :help index, map-which-keys
 
 if !has('gui_running')
   " Make the Meta(Alt) key mappable in terminal. But some characters(h,j,k,l...)
@@ -166,62 +162,44 @@ if !has('gui_running')
   endfor
 endif
 
-" Map ';' to ':' to reduce keystrokes
-" NXnoremap ; :
+" Colon is relatively inefficient to press
+NXnoremap <Space> :
 " Don't use 'q;' as 'q' is often mapped to quit a window
 NXnoremap z; q:
 NXnoremap @; @:
-
-" The substitution to ';' and ','
-" NXnoremap - ;
-" NXnoremap _ ,
-
-" The counterpart to <CR>
-" NXnoremap <S-CR> -
-
-" Delete without affecting registers
+" Yank till the line end instead of the whole line
+nnoremap Y y$
+" Keep the flags when repeating last substitution
+NXnoremap & :&&<cr>
+" Deleting to the black hole register
 NXnoremap R "_d
-
-" See the buffer list
-NXnoremap <Leader>ls :<C-U>ls<CR>
+" Show the buffer list
+NXnoremap tl :<C-U>ls<CR>
 
 " Go to {count} tab pages forward or back
-noremap <c-l> :<c-u>execute repeat('tabn\|', v:count1-1).'tabn'<cr> | map gl <c-l>
-noremap <c-h> gT | noremap gh gT
+NXnoremap <silent> <Tab>l :<c-u>execute repeat('tabn\|', v:count1-1).'tabn'<cr>
+NXnoremap <Tab>h gT
 " Go to {count}th tab page
 for n in range(1, 9)
   execute 'noremap '.'<m-'.n.'> '.n.'gt'
 endfor
 " Move a tab around
-noremap gH :tabm -1<cr>
-noremap gL :tabm +1<cr>
+NXnoremap <Tab>H :tabm -1<cr>
+NXnoremap <Tab>L :tabm +1<cr>
 
 " Go to the next/previous window
-noremap <C-j> <C-W>w | noremap gj <C-W>w
-noremap <C-k> <C-W>W | noremap gk <C-W>W
+NXnoremap <Tab>j <C-W>w
+NXnoremap <Tab>k <C-W>W
+" Go to the previous window
+NXnoremap gl <C-W>p
 " Split window vertically and edit the alternate file
 noremap <c-w><c-^> :vsplit #<cr>
 
-" Be consistent with other operators
-nnoremap Y y$
-
-" Make repeating last substitution keep the flags
-NXnoremap & :&&<cr>
-
-" Wrapped lines goes down/up to next row, rather than next line in file.
-NXnoremap j gj
-NXnoremap k gk
-
-" Allow the `.` to execute once for each line of a visual selection.
-xnoremap . :normal .<CR>
-
-" Visual shifting (does not exit Visual mode)
-xnoremap < <gv
-xnoremap > >gv
-
-" Easier horizontal scrolling
-noremap zl zL
-noremap zh zH
+" Edit a file in the same directory of the current file
+NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/
+NXnoremap <leader>es :sp <C-R>=expand('%:h')<CR>/
+NXnoremap <leader>ev :vs <C-R>=expand('%:h')<CR>/
+NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/
 
 " Mappings for the cmdline window
 autocmd vimrc CmdwinEnter * noremap <buffer> <F5> <CR>q:|
@@ -231,12 +209,6 @@ autocmd vimrc CmdwinEnter * noremap <buffer> <F5> <CR>q:|
 autocmd vimrc FileType qf nnoremap <buffer> q <C-W>c|
       \ nnoremap <buffer> <C-V> <C-W><CR><C-W>H|
       \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T
-
-" Edit a file in the same directory of the current file
-NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/
-NXnoremap <leader>es :sp <C-R>=expand('%:h')<CR>/
-NXnoremap <leader>ev :vs <C-R>=expand('%:h')<CR>/
-NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/
 
 " Source the current line of Vim scripts
 nnoremap <silent> <leader>S mz^"zy$:@z<CR>`z
@@ -394,18 +366,15 @@ cabbrev %% <C-R>=expand('%:h').'/'<CR>
 " set number " print the line number in front of each line
 set relativenumber " show the line number relative to the current line
 set numberwidth=3 " minimal number(2) of columns to use for the line number
-
 " set nowrap " only part of long lines will be displayed
 set linebreak " don't break a word when displaying wrapped lines
 " set showbreak=>\  " string to put at the start of wrapped lines
-
 set list " show non-normal spaces, tabs etc.
 if !has('win32') && (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8')
   let &listchars = "precedes:\u21c7,extends:\u21c9,tab:\u21e5 ,trail:\u2423,nbsp:\u00b7"
 else
   set listchars=precedes:<,extends:>,tab:>\ ,trail:-,nbsp:+
 endif
-
 set showcmd " show partial commands in status line
 " set showmatch " show matching brackets/braces (redundant with matchparen.vim)
 set colorcolumn=+1 " highlight column after 'textwidth'
@@ -484,4 +453,4 @@ endif
 
 let g:loaded_vimrc = 1
 " ---------------------------------------------------------------------
-" vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
+" vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap spell:
