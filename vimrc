@@ -85,8 +85,9 @@ set mouse=a " enable mouse in all modes
 " set clipboard=unnamed " link unnamed register and OS clipboard:
 
 set wildmenu wildmode=longest:full,full " command line completion mode
-" Ignore case when completing file names and directories (Vim 7.3.072)
-silent! set wildignorecase
+silent! set wildignorecase " ignore case when completing file names and directories
+set completeopt=menu,longest " insert-completion mode
+set complete-=i " don't scan included files when insert-completing by <C-N/P>
 " Dictionary files for insert-completion
 let s:dictionaries = '~/.vim/spell/dictionary-oald.txt'
 if filereadable(expand(s:dictionaries))
@@ -237,7 +238,9 @@ set cedit=<C-G>
 " inoremap <Esc> <Esc>`^
 
 " Completion by words in dictionaries
-inoremap <c-x>k <c-x><c-k>
+inoremap <C-X>k <C-X><C-K>
+" Omni completion
+inoremap <C-X>o <C-X><C-O>
 
 " Break the undo sequence
 inoremap <C-U> <C-G>u<C-U>
