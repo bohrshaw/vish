@@ -34,10 +34,8 @@ color indigo
 
 " Mappings {{{1
 noremap @; @:
-
 " Active the search box
 noremap <c-e> i<c-e>
-
 " Yank the URL of a link
 noremap e ;y
 
@@ -62,6 +60,9 @@ nnoremap sa :set gui=invaddons<cr>
 nnoremap soh :set hlsearch!<cr>
 nnoremap sol :set linksearch!<cr>
 nnoremap sou :set usermode!<cr>
+
+" Source files
+nnoremap <leader>sp :source ~/.vim/vimperator/persisted.vimp<cr>
 
 " Mappings! {{{1
 " Recall older or more recent commands matching the current command line
