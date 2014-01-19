@@ -18,7 +18,9 @@ if !exists('g:loaded_vimrc')
 
   " The character encoding used inside Vim (Set early to allow mappings start
   " with the ALT key work properly.)
-  set encoding=utf-8
+  if has('gui_running') || $termencoding ==? 'utf-8'
+    set encoding=utf-8
+  endif
 
   " Remove all visual distraction, use console dialogs instead of pop-up
   " dialogs, and don't source '$VIMRUNTIME/menu.vim', which must be done before
@@ -379,7 +381,7 @@ set numberwidth=3 " minimal number(2) of columns to use for the line number
 set linebreak " don't break a word when displaying wrapped lines
 " set showbreak=>\  " string to put at the start of wrapped lines
 set list " show non-normal spaces, tabs etc.
-if has('win32')
+if has('win32') && has('gui_running')
   let &listchars = "precedes:<,extends:>,tab:\u25b8 ,trail:\u25ab,nbsp:+"
   " set showbreak=+++\  " characters preceding line wrap
 elseif &termencoding ==# 'utf-8' || &encoding ==# 'utf-8'
