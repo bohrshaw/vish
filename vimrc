@@ -311,7 +311,7 @@ command! -nargs=1 -complete=command Time call vimrc#time(<q-args>)
 command! -range -nargs=? Join <line1>,<line2>-1s/\s*\n\s*/<args>/
 
 " Remove trailing white spaces
-command! Trim keeppattern %s/\s\+$// | normal ``
+command! Trim let _p=getpos('.')| keepj keepp %s/\s\+$//| call setpos('.',_p)
 
 " Substitute in a visual area
 command! -range -nargs=1 SV s/\%V<args>
