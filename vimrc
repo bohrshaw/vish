@@ -154,11 +154,12 @@ autocmd vimrc BufNewFile,BufReadPost _ set buftype=nofile bufhidden=hide
 
 " ---------------------------------------------------------------------
 " Mappings {{{1
-" Mapping for saving key strokes or typing convenience, for consistency or
-" intuition(mnemonics), for accessible functionality.
-" Use capital letters in keys like <C-J> for readability, except for <A-j>,
-" which is different with <A-J>.
-" :help index, map-which-keys
+" Guides: Mapping for saving key strokes or typing convenience, for consistency
+" or intuition(mnemonics), for accessible functionality.
+" Notes: Use capital letters in keys like <C-J> for readability, except for
+" <A-j>, which is different with <A-J>. <Tab> and <C-I>, <CR> and <C-M>, <Esc>
+" and <C-[> are pairs of same keys.
+" Help: index, map-which-keys
 
 if !has('gui_running')
   " Make the Meta(Alt) key mappable in terminal. But some characters(h,j,k,l...)
@@ -183,19 +184,19 @@ NXnoremap R "_d
 NXnoremap tl :<C-U>ls<CR>
 
 " Go to {count} tab pages forward or back
-NXnoremap <silent> <Tab>l :<c-u>execute repeat('tabn\|', v:count1-1).'tabn'<cr>
-NXnoremap <Tab>h gT
+NXnoremap <silent> <Esc>l :<c-u>execute repeat('tabn\|', v:count1-1).'tabn'<cr>
+NXnoremap <Esc>h gT
 " Go to {count}th tab page
 for n in range(1, 9)
   execute 'noremap '.'<m-'.n.'> '.n.'gt'
 endfor
 " Move a tab around
-NXnoremap <Tab>H :tabm -1<cr>
-NXnoremap <Tab>L :tabm +1<cr>
+NXnoremap <Esc>H :tabm -1<cr>
+NXnoremap <Esc>L :tabm +1<cr>
 
 " Go to the next/previous window
-NXnoremap <Tab>j <C-W>w
-NXnoremap <Tab>k <C-W>W
+NXnoremap <Esc>j <C-W>w
+NXnoremap <Esc>k <C-W>W
 " Go to the previous window
 NXnoremap gl <C-W>p
 " Split window vertically and edit the alternate file
