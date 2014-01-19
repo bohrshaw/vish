@@ -30,17 +30,18 @@ if !exists('g:loaded_vimrc')
   " Commands for defining mappings in several modes
   command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
   " Allow chained commands, but also check for a " to start a comment
-  command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar> inoremap <args>
+  command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
+              \ inoremap <args>
 
   " Bundle configuration and set the bundle list 'g:bundles'
   source ~/.vim/vimrc.bundle
 
-  " Set runtime path based on the Unix default
-  set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+  " Set runtime path
+  set rtp^=$HOME/.vim rtp+=$HOME/.vim/after " be portable
   let bundle_dirs = map(bundles, 'v:val[stridx(v:val,"/")+1:]')
   call pathway#inject('bundle', bundle_dirs)
 
-  " Enable these after rtp setup, but as early as possible to reduce startup time
+  " Enable these early to reduce startup time (after 'rtp' setup)
   filetype plugin indent on
   syntax enable
 endif
@@ -64,7 +65,7 @@ set shiftround " round indent to multiple of 'shiftwidth'
 set tabstop=4 " number of spaces a tab displayed in
 set softtabstop=4 " number of spaces used when press <Tab> or <BS>
 set expandtab " expand a tab to spaces
-set smarttab " a <Tab> in front of a line inserts blanks according to 'shiftwidth'
+set smarttab " <Tab> in front of a line inserts blanks according to 'shiftwidth'
 
 set matchpairs+=<:> " character pairs matched by '%'
 runtime macros/matchit.vim " extended pair matching with '%'
@@ -73,16 +74,16 @@ set ignorecase " case insensitive in search patterns and command completion
 set smartcase " case sensitive only when up case characters present
 set winminheight=0 " the minimal height of a window
 set scrolloff=1 " minimum lines to keep above and below cursor
-set sidescrolloff=5 " the minimal number of screen columns to keep around the cursor
+set sidescrolloff=5 " minimal number of screen columns to keep around the cursor
 set history=1000 " maximum number of commands and search patterns to keep
 " set tabpagemax=50 " maximum number of tab pages to be opened by some commands
 set confirm " prompt for an action instead of fail immediately
 set backspace=indent,eol,start " backspace through anything in insert mode
-silent! set formatoptions+=j " remove comment characters when joining commented lines
+silent! set formatoptions+=j " remove a comment leader when joining lines
 set nrformats-=octal " exclude octal numbers when using C-A or C-X
 set lazyredraw " don't redraw the screen while executing macros, etc.
-set synmaxcol=999 " ignore syntax items beyond this column to avoid slow redrawing
-set cryptmethod=blowfish " acceptable encryption strength, remember :set viminfo=
+set synmaxcol=999 " ignore further syntax items to avoid slow redrawing
+set cryptmethod=blowfish " acceptable encryption strength
 set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
 set display+=lastline " ensure the last line is properly displayed
 " autocmd GUIEnter * set vb t_vb= " disable error beep and screen flash
@@ -90,7 +91,7 @@ set mouse=a " enable mouse in all modes
 " set clipboard=unnamed " link unnamed register and OS clipboard:
 
 set wildmenu wildmode=longest:full,full " command line completion mode
-silent! set wildignorecase " ignore case when completing file names and directories
+silent! set wildignorecase " ignore case when completing file names/directories
 set completeopt=menu,longest " insert-completion mode
 set complete-=i " don't scan included files when insert-completing by <C-N/P>
 " Dictionary files for insert-completion
@@ -295,8 +296,10 @@ inoremap <expr> <C-D> col('.')>strlen(getline('.'))?"\<Lt>C-D>":"\<Lt>Del>"
 cnoremap <expr> <C-D> getcmdpos()>strlen(getcmdline())?"\<Lt>C-D>":"\<Lt>Del>"
 
 " Transpose two characters around the cursor
-noremap! <expr> <SID>transposition getcmdpos()>strlen(getcmdline())?"\<Left>":getcmdpos()>1?'':"\<Right>"
-noremap! <expr> <SID>transpose "\<BS>\<Right>".matchstr(getcmdline()[0 : getcmdpos()-2], '.$')
+noremap! <expr> <SID>transposition getcmdpos() > strlen(getcmdline()) ?
+      \ "\<Left>" : getcmdpos()>1 ? '' : "\<Right>"
+noremap! <expr> <SID>transpose "\<BS>\<Right>"
+      \ . matchstr(getcmdline()[0 : getcmdpos()-2], '.$')
 cmap <script> <C-T> <SID>transposition<SID>transpose
 
 " ---------------------------------------------------------------------
@@ -313,16 +316,15 @@ command! Trim keeppattern %s/\s\+$// | normal ``
 " Substitute in a visual area
 command! -range -nargs=1 SV s/\%V<args>
 
-" Remove duplicate, consecutive lines
-command! UniqConsecutive g/\v^(.*)\n\1$/d
-" command! UniqConsecutive sort /\M$^/ u
-" Remove duplicate, nonconsecutive and nonempty lines
-command! UniqNonconsecutiveNonempty g/^./if search('^\V'.escape(getline('.'),'\').'\$', 'bW') | delete | endif <NL> silent! normal! ``
-" This one is far slower than the above
-" command! UniqNonconsecutiveNonempty g/\v^(.+)$\_.{-}^\1$/d <NL> silent! normal! ``
+" Remove duplicate, consecutive lines (:sort /.\_^/ u)
+command! Uniqc g/\v^(.*)\n\1$/d
+" Remove duplicate, nonconsecutive and nonempty lines (g/\v^(.+)$\_.{-}^\1$/d)
+command! Uniqn g/^./if search('^\V'.escape(getline('.'),'\').'\$', 'bW') |
+      \ delete | endif <NL> silent! normal! ``
 
 " Source a range of lines
-command! -bar -range Source <line1>,<line2>y z<Bar>let @z = substitute(@z, '\n\s*\\', '', 'g')<Bar>@z<CR>
+command! -bar -range Source <line1>,<line2>yank z<Bar>
+      \ let @z = substitute(@z, '\n\s*\\', '', 'g')<Bar>@z<CR>
 
 " Wipe out all unlisted buffers
 command! BwUnlisted call vimrc#bufffer_wipe_unlisted()
@@ -346,7 +348,8 @@ command! AppendModeline call vimrc#appendModeline()
 command! Rot13 execute "normal ggg?G''"
 
 " Search via Google
-command! -nargs=1 Google call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand("<args>"),0)
+command! -nargs=1 Google call netrw#NetrwBrowseX(
+      \ "http://www.google.com.hk/search?q=".expand("<args>"),0)
 
 " Grep using 'ag' or 'ack' without affecting 'grepprg' and 'grepformat'
 command! -bar -nargs=+ -complete=file Ag call grep#grep('ag', <q-args>)
@@ -357,9 +360,11 @@ command! -nargs=+ -complete=command Helpgrep call grep#help('grep '.<q-args>)
 " Calculate words frequency
 command! -range=% WordFrequency <line1>,<line2>call vimrc#word_frequency()
 " Count anything in a range of lines
-command! -range=% -nargs=? Count echo vimrc#count(<q-args>, <line1>, <line2>) | normal ``
+command! -range=% -nargs=? Count echo vimrc#count
+      \(<q-args>, <line1>, <line2>) | normal ``
 " Calculate the total lines of source code minus blank lines and comment lines.
-command! -range=% SLOC echo vimrc#count('^[^' . &cms[0] . ']', <line1>, <line2>) | normal ``
+command! -range=% SLOC echo vimrc#count
+      \('^[^' . &cms[0] . ']', <line1>, <line2>) | normal ``
 
 " ---------------------------------------------------------------------
 " Abbreviations {{{1
@@ -399,33 +404,34 @@ if has('win32') && has('gui_running')
   let &listchars = "precedes:<,extends:>,tab:\u25b8 ,trail:\u25ab,nbsp:+"
   " set showbreak=+++\  " characters preceding line wrap
 elseif &termencoding ==# 'utf-8' || &encoding ==# 'utf-8'
-  let &listchars = "precedes:\u21c7,extends:\u21c9,tab:\u21e5 ,trail:\u2423,nbsp:\u00b7"
+  let &listchars =
+        \"precedes:\u21c7,extends:\u21c9,tab:\u21e5 ,trail:\u2423,nbsp:\u00b7"
   " let &showbreak = "\u21aa " " arrow_right_hook
 else
   set listchars=precedes:<,extends:>,tab:>\ ,trail:-,nbsp:+
 endif
-set showcmd " show partial commands in status line
-" set showmatch matchtime=3 " show matching brackets (redundant with matchparen.vim)
+set showcmd "show partial commands in status line
+" set showmatch matchtime=3 "show matching brackets, better using matchparen.vim
 set colorcolumn=+1 " highlight column after 'textwidth'
 
 " A concise status line named "Starline"
 set laststatus=2 " always display the status line
-function! s:statusline()
+function! s:stl()
   set statusline=%m%<%.60f " modified flag, file name(truncated if too long)
-  set statusline+=\ %H%W%q%R%Y " help, preview, quickfix, read-only flag, file type
+  set statusline+=\ %H%W%q%R%Y " help, preview, quickfix, read-only, filetype
   set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?','.&fenc:''} " file encoding
   set statusline+=%{&ff!='unix'?','.&ff:''} " file format
   " Git branch status
   let &statusline .= exists('*fugitive#head') ?
         \ "%{exists('b:git_dir')?','.fugitive#head(7):''}" : ''
   " Software caps lock status
-  let &statusline .= exists('*CapsLockSTATUSLINE') ? "%{CapsLockSTATUSLINE()}" : ''
+  let &statusline .= exists('*CapsLockSTATUSLINE')?"%{CapsLockSTATUSLINE()}":''
   set statusline+=%= " left/right separator
-  set statusline+=%{matchstr(getcwd(),'.*[\\/]\\zs\\S*')} " the working directory
+  set statusline+=%{matchstr(getcwd(),'.*[\\/]\\zs\\S*')} " current directory
   set statusline+=\ %c,%l/%L\ %P " cursor position, line percentage
 endfunction
 " Ensure all plugins are loaded before setting 'statusline'
-execute (exists('g:loaded_vimrc') ? '' : 'autocmd VimEnter * ') . 'call s:statusline()'
+execute (exists('g:loaded_vimrc')?'':'autocmd VimEnter * ').'call s:stl()'
 
 " The status line for the quickfix window
 autocmd vimrc FileType qf setlocal statusline=%t

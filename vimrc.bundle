@@ -206,7 +206,7 @@ if Bundle('kien/ctrlp.vim')
         \ },
         \ }
   if has('win32')
-    let g:ctrlp_user_command['types'][1][1] = '(' . g:ctrlp_user_command['types'][1][1] . ')'
+    let g:ctrlp_user_command['types'][1][1] = '('.g:ctrlp_user_command['types'][1][1].')'
   endif
   if executable('ag')
     let g:ctrlp_user_command['fallback'] = 'ag %s -l --nocolor -g ""'
