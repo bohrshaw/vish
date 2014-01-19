@@ -2,8 +2,8 @@
 " Author: Bohr Shaw <pubohr@gmail.com>
 
 " TIPS:
-" View and set all options by :opt[ions]
-" Analyse startup performance by `vim --startuptime profiling`
+" Less is more!
+" Analyse startup performance by `vim --startuptime profile`
 
 " Foundation {{{1
 if !exists('g:loaded_vimrc')
@@ -51,10 +51,11 @@ augroup END
 
 " ---------------------------------------------------------------------
 " Options {{{1
+" View and set all options by :opt[ions]
 " See https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim for
 " a minimal sensible default.
 
-set timeoutlen=3000 " mapping delay
+" set timeoutlen=3000 " mapping delay
 set ttimeoutlen=50 " key code delay (instant escape from Insert mode)
 
 set autoindent " indent at the same level of the previous line
@@ -80,6 +81,7 @@ set backspace=indent,eol,start " backspace through anything in insert mode
 silent! set formatoptions+=j " remove comment characters when joining commented lines
 set nrformats-=octal " exclude octal numbers when using C-A or C-X
 set lazyredraw " don't redraw the screen while executing macros, etc.
+set synmaxcol=999 " ignore syntax items beyond this column to avoid slow redrawing
 set cryptmethod=blowfish " acceptable encryption strength, remember :set viminfo=
 set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
 set display+=lastline " ensure the last line is properly displayed
@@ -118,8 +120,10 @@ set fileformats=unix,dos,mac " end-of-line formats precedence
 set fileformat=unix " only for the initial unnamed buffer
 
 " Don't move the cursor to the line start when switching buffers
-autocmd BufLeave * set startofline! |
+autocmd vimrc BufLeave * set nostartofline |
       \ autocmd vimrc CursorMoved * set startofline | autocmd! vimrc CursorMoved
+" Jump to the last known position in a file just after opening it
+autocmd vimrc BufRead * silent! execute 'normal! g`"zv'
 
 let &swapfile = l ? 0 : 1 " use a swapfile for the buffer
 let &undofile = l ? 0 : 1 " persistent undo
@@ -178,14 +182,29 @@ NXnoremap z; q:
 NXnoremap @; @:
 " Yank till the line end instead of the whole line
 nnoremap Y y$
+" Copy to GUI-clipboard
+xnoremap Y "+y
+" Copy entire file contents (to GUI-clipboard if available)
+nnoremap yY :execute '1,$yank ' . (has('clipboard')?'+':'')<CR>
 " Keep the flags when repeating last substitution
 NXnoremap & :&&<cr>
+" Format lines without moving the cursor
+NXnoremap gq gw
 " Deleting to the black hole register
 NXnoremap R "_d
 " Show the buffer list
 NXnoremap tl :<C-U>ls<CR>
 
-" Go to {count} tab pages forward or back
+" The leader key of window related mappings
+NXnoremap gw <C-W>
+" Go to the next/previous window
+NXnoremap <Esc>j <C-W>w
+NXnoremap <Esc>k <C-W>W
+" Go to the previous window
+NXnoremap gl <C-W>p
+" Split a window vertically with the alternate file
+noremap gw<c-^> :vsplit #<cr>
+" Go to [count] tab pages forward or back
 NXnoremap <silent> <Esc>l :<c-u>execute repeat('tabn\|', v:count1-1).'tabn'<cr>
 NXnoremap <Esc>h gT
 " Go to {count}th tab page
@@ -195,14 +214,6 @@ endfor
 " Move a tab around
 NXnoremap <Esc>H :tabm -1<cr>
 NXnoremap <Esc>L :tabm +1<cr>
-
-" Go to the next/previous window
-NXnoremap <Esc>j <C-W>w
-NXnoremap <Esc>k <C-W>W
-" Go to the previous window
-NXnoremap gl <C-W>p
-" Split window vertically and edit the alternate file
-noremap <c-w><c-^> :vsplit #<cr>
 
 " Edit a file in the same directory of the current file
 NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/
@@ -222,7 +233,8 @@ autocmd vimrc FileType qf nnoremap <buffer> q <C-W>c|
 " Source the current line of Vim scripts
 nnoremap <silent> <leader>S mz^"zy$:@z<CR>`z
 " Source a visual selection (continued lines joined)
-xnoremap <silent> <leader>S mz:<C-U>silent '<,'>y z<Bar>let @z = substitute(@z, '\n\s*\\', '', 'g')<Bar>@z<CR>`z
+xnoremap <silent> <leader>S mz:<C-U>silent '<,'>y z<Bar>
+      \ let @z = substitute(@z, '\n\s*\\', '', 'g')<Bar>@z<CR>`z
 
 " Quit diff mode and close other diff buffers
 noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<cr>
@@ -234,8 +246,10 @@ nnoremap <leader>at a<C-R>=strftime("%a %b %d %H:%M:%S %Y")<CR><Esc>
 xnoremap <leader>rv c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
 
 " Search words under the cursor via the Web
-nnoremap gG :call netrw#NetrwBrowseX("http://www.google.com.hk/search?q=".expand("<cword>"),0)<cr>
-nnoremap gW :call netrw#NetrwBrowseX("http://en.wikipedia.org/wiki/Special:Search?search=".expand("<cword>"),0)<cr>
+nnoremap gG :call netrw#NetrwBrowseX("http://www.google.com.hk
+      \/search?q=".expand("<cword>"), 0)<cr>
+nnoremap gW :call netrw#NetrwBrowseX("http://en.wikipedia.org
+      \/wiki/Special:Search?search=".expand("<cword>"), 0)<cr>
 
 " ---------------------------------------------------------------------
 " Mappings! {{{1
@@ -294,7 +308,7 @@ command! -nargs=1 -complete=command Time call vimrc#time(<q-args>)
 command! -range -nargs=? Join <line1>,<line2>-1s/\s*\n\s*/<args>/
 
 " Remove trailing white spaces
-command! Trim %s/\s\+$//
+command! Trim keeppattern %s/\s\+$// | normal ``
 
 " Substitute in a visual area
 command! -range -nargs=1 SV s/\%V<args>
@@ -377,7 +391,7 @@ cabbrev %% <C-R>=expand('%:h').'/'<CR>
 " set number " print the line number in front of each line
 set relativenumber " show the line number relative to the current line
 set numberwidth=3 " minimal number(2) of columns to use for the line number
-" set nowrap " only part of long lines will be displayed
+set nowrap " only part of long lines will be displayed
 set linebreak " don't break a word when displaying wrapped lines
 " set showbreak=>\  " string to put at the start of wrapped lines
 set list " show non-normal spaces, tabs etc.
