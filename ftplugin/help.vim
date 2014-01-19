@@ -2,7 +2,7 @@
 noremap <buffer> q <C-W>c
 
 " Jump to a subject quickly
-nnoremap <buffer> <CR> <C-]>
+nnoremap <buffer> u <C-]>
 
 " Goto to an option.
 nnoremap <silent> <buffer> o :<C-U>call ftplugin#help_goto("'" . '\S\+' . "'")<CR>
