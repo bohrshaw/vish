@@ -199,22 +199,24 @@ NXnoremap tl :<C-U>ls<CR>
 " The leader key of window related mappings
 NXnoremap gw <C-W>
 " Go to the next/previous window
-NXnoremap <Esc>j <C-W>w
-NXnoremap <Esc>k <C-W>W
+NXnoremap gwj <C-W>w
+NXnoremap gwk <C-W>W
+NXnoremap <C-J> <C-W>w
+NXnoremap <C-K> <C-W>W
 " Go to the previous window
 NXnoremap gl <C-W>p
 " Split a window vertically with the alternate file
 noremap gw<c-^> :vsplit #<cr>
 " Go to [count] tab pages forward or back
-NXnoremap <silent> <Esc>l :<c-u>execute repeat('tabn\|', v:count1-1).'tabn'<cr>
-NXnoremap <Esc>h gT
+NXnoremap <silent> <C-L> :<c-u>execute repeat('tabn\|', v:count1-1).'tabn'<cr>
+NXnoremap <C-H> gT
 " Go to {count}th tab page
 for n in range(1, 9)
   execute 'noremap '.'<m-'.n.'> '.n.'gt'
 endfor
 " Move a tab around
-NXnoremap <Esc>H :tabm -1<cr>
-NXnoremap <Esc>L :tabm +1<cr>
+NXnoremap <C-S-H> :tabm -1<cr>
+NXnoremap <C-S-L> :tabm +1<cr>
 
 " Edit a file in the same directory of the current file
 NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/
@@ -224,6 +226,7 @@ NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/
 
 " Mappings for the cmdline window
 autocmd vimrc CmdwinEnter * noremap <buffer> <F5> <CR>q:|
+      \ NXnoremap <buffer> <nowait> <CR> <CR>|
       \ NXInoremap <buffer> <C-C> <C-C><C-C>
 
 " Mappings/options for a quickfix/location window
@@ -343,9 +346,6 @@ command! -bar UndoClear execute "set ul=-1 | m-1 | let &ul=" . &ul
 
 " Append a mode line
 command! AppendModeline call vimrc#appendModeline()
-
-" Simple letter encoding with rot13
-command! Rot13 execute "normal ggg?G''"
 
 " Search via Google
 command! -nargs=1 Google call netrw#NetrwBrowseX(
