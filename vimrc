@@ -249,6 +249,12 @@ nnoremap <leader>at a<C-R>=strftime("%a %b %d %H:%M:%S %Y")<CR><Esc>
 " Reverse the selected text
 xnoremap <leader>rv c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
 
+" Pseudo global marks for jumping to the last position in a file
+NXnoremap <silent> 'V :let _f = expand('~/.vim/vimrc')\|
+            \ execute (buflisted(_f)?'b ':'e ') . _f<CR>
+NXnoremap <silent> 'B :let _f = expand('~/.vim/vimrc.bundle')\|
+            \ execute (buflisted(_f)?'b ':'e ') . _f<CR>
+
 " Search words under the cursor via the Web
 nnoremap gG :call netrw#NetrwBrowseX("http://www.google.com.hk
       \/search?q=".expand("<cword>"), 0)<cr>
