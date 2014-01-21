@@ -4,25 +4,24 @@
 
 " Firefox options {{{1
 " Always open a link in the current tab
-au VimperatorEnter .* set! browser.link.open_newwindow=1
+" au VimperatorEnter .* set! browser.link.open_newwindow=1
 " set! browser.link.open_newwindow.restriction=0
 
 " Options {{{1
 " A unified runtime path
 set rtp=~/vimperator,~/.vimperator
-
+" Replace <Leader> in a map
+" let mapleader = ','
 " Being in normal mode when opening any page
 " set focuscontent
-
 " Defines how command-line completion works
-set wildmode=list:longest,full
-
+set noautocomplete wildmode=list:longest,full
 " Characters to generate hint labels (case-sensitive)
 set hintchars=asdfghjklweruio
-
 " The default search engine to use
 " set defsearch=google
-
+" The title of the browser window
+set titlestring=Firefox
 " The editor to open when pressing <C-I> in insert mode
 set editor='gvim -f --cmd "let l=1"'
 
@@ -37,17 +36,18 @@ noremap @; @:
 " Active the search box
 noremap <c-e> i<c-e>
 " Yank the URL of a link
-noremap e ;y
+nnoremap e ;y
 
 " Go to {count} tab pages forward or back
-noremap l <c-n>
-noremap h gT
+nnoremap l <c-n>
+nnoremap h gT
 " Move a tab around
-noremap J :tabm +1<cr>
-noremap K :tabm -1<cr>
-" Delete a adjacent tab
-noremap x gtD
-noremap X gTd
+nnoremap J :tabm +1<cr>
+nnoremap K :tabm -1<cr>
+" Delete the current tab
+nnoremap x d
+" Delete the left tab
+nnoremap X gTd
 
 " Toggle tool bars
 nnoremap sm :set gui=invmenu<cr>
@@ -59,9 +59,11 @@ nnoremap sa :set gui=invaddons<cr>
 " Toggle options
 nnoremap soh :set hlsearch!<cr>
 nnoremap sol :set linksearch!<cr>
+nnoremap son :set tabnumbers!<cr>
 nnoremap sou :set usermode!<cr>
 
 " Source files
+nnoremap <leader>sv :source ~/.vim/vimperatorrc<cr>
 nnoremap <leader>sp :source ~/.vim/vimperator/persisted.vimp<cr>
 
 " Mappings! {{{1
@@ -70,19 +72,19 @@ cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
 
 " Move the cursor around one word
-inoremap <A-f> <C-Right>
+" inoremap <A-f> <C-Right>
 cnoremap <A-f> <C-Right>
-inoremap <A-b> <C-Left>
+" inoremap <A-b> <C-Left>
 cnoremap <A-b> <C-Left>
 
 " Move the cursor around one character
-inoremap <C-F> <Right>
+" inoremap <C-F> <Right>
 cnoremap <C-F> <Right>
-inoremap <C-B> <Left>
+" inoremap <C-B> <Left>
 cnoremap <C-B> <Left>
 
 " Delete one word after the cursor
-inoremap <A-d> <C-Del>
+" inoremap <A-d> <C-Del>
 cnoremap <A-d> <C-Del>
 
 " Abbreviations {{{1
