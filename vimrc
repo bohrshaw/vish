@@ -350,7 +350,8 @@ command! -nargs=1 -complete=shellcmd Silent call system(<q-args>)
 command! -nargs=? -complete=buffer DiffWith call vimrc#diffwith(<f-args>)
 
 " Clear undo history (:w to clear the undo file if presented)
-command! -bar UndoClear execute "set ul=-1 | m-1 | let &ul=" . &ul
+command! -bar UndoClear execute "set undolevels=-1 | move -1 | let &modified="
+            \ . &modified . " | let &undolevels=" . &undolevels
 
 " Append a mode line
 command! AppendModeline call vimrc#appendModeline()
