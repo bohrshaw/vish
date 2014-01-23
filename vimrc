@@ -194,22 +194,22 @@ NXnoremap gq gw
 " Deleting to the black hole register
 NXnoremap R "_d
 " Show the buffer list
-NXnoremap tl :<C-U>ls<CR>
+NXnoremap <Leader>ls :<C-U>ls<CR>
 
 " The leader key of window related mappings
 NXnoremap gw <C-W>
 " Go to the next/previous window
 NXnoremap gwj <C-W>w
 NXnoremap gwk <C-W>W
-NXnoremap <C-J> <C-W>w
-NXnoremap <C-K> <C-W>W
+NXnoremap tj <C-W>w
+NXnoremap tk <C-W>W
 " Go to the previous window
 NXnoremap gl <C-W>p
 " Split a window vertically with the alternate file
 noremap gw<C-^> :vsplit #<CR> | noremap <C-W><C-^> :vsplit #<CR>
 " Go to [count] tab pages forward or back
-NXnoremap <silent> <C-L> :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
-NXnoremap <C-H> gT
+NXnoremap <silent> tl :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
+NXnoremap th gT
 " Go to {count}th tab page
 for n in range(1, 9)
   execute 'noremap '.'<M-'.n.'> '.n.'gt'
