@@ -78,7 +78,7 @@ call Bundle('tpope/vim-endwise')
 " A code-completion engine for Vim
 " call Bundle('Valloric/YouCompleteMe')
 " Perform all your vim insert mode completions with Tab
-call Bundle('ervandew/supertab')
+" call Bundle('ervandew/supertab')
 " TextMates snippets utility for Vim
 if Bundle('SirVer/ultisnips')
   " The default key <Tab> is mapped to something else.

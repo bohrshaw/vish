@@ -266,8 +266,9 @@ nnoremap gW :call netrw#NetrwBrowseX("http://en.wikipedia.org
 " Open the command-line window
 set cedit=<C-G>
 
-" Don't move the cursor when pressing `i` and `<Esc>`
-" inoremap <Esc> <Esc>`^
+" A smart <Tab> to do insert-completion ("lightab" instead of "supertab")
+inoremap <expr> <Tab> getline('.')[col('.')-2] =~ '^\s\?$' ? '<Tab>' : '<C-N>'
+inoremap <expr> <S-Tab> getline('.')[col('.')-2] =~ '^\s\?$' ? '<Tab>' : '<C-P>'
 
 " Completion by words in dictionaries
 inoremap <C-X>k <C-X><C-K>
