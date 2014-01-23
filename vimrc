@@ -206,7 +206,7 @@ NXnoremap <C-K> <C-W>W
 " Go to the previous window
 NXnoremap gl <C-W>p
 " Split a window vertically with the alternate file
-noremap gw<C-^> :vsplit #<CR>
+noremap gw<C-^> :vsplit #<CR> | noremap <C-W><C-^> :vsplit #<CR>
 " Go to [count] tab pages forward or back
 NXnoremap <silent> <C-L> :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
 NXnoremap <C-H> gT
@@ -314,7 +314,8 @@ cmap <script> <C-T> <SID>transposition<SID>transpose
 " ---------------------------------------------------------------------
 " Commands {{{1
 " Calculate the time spending on executing commands
-command! -nargs=1 -complete=command Time call vimrc#time(<q-args>)
+command! -nargs=1 -count=1 -complete=command Time
+            \ call vimrc#time(<q-args>, <count>)
 
 " Join lines with characters in between
 command! -range -nargs=? Join <line1>,<line2>-1s/\s*\n\s*/<args>/
