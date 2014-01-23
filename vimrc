@@ -335,6 +335,8 @@ command! Uniqn g/^./if search('^\V'.escape(getline('.'),'\').'\$', 'bW') |
 command! -bar -range Source <line1>,<line2>yank z<Bar>
       \ let @z = substitute(@z, '\n\s*\\', '', 'g')<Bar>@z<CR>
 
+" Delete all buffers in the buffer list
+command! BdAll execute '1,'.bufnr('$').'bdelete'
 " Wipe out all unlisted buffers
 command! BwUnlisted call vimrc#bufffer_wipe_unlisted()
 
