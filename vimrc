@@ -188,7 +188,7 @@ xnoremap Y "+y
 " Copy entire file contents (to GUI-clipboard if available)
 nnoremap yY :execute '1,$yank ' . (has('clipboard')?'+':'')<CR>
 " Keep the flags when repeating last substitution
-NXnoremap & :&&<cr>
+NXnoremap & :&&<CR>
 " Format lines without moving the cursor
 NXnoremap gq gw
 " Deleting to the black hole register
@@ -206,17 +206,17 @@ NXnoremap <C-K> <C-W>W
 " Go to the previous window
 NXnoremap gl <C-W>p
 " Split a window vertically with the alternate file
-noremap gw<c-^> :vsplit #<cr>
+noremap gw<C-^> :vsplit #<CR>
 " Go to [count] tab pages forward or back
-NXnoremap <silent> <C-L> :<c-u>execute repeat('tabn\|', v:count1-1).'tabn'<cr>
+NXnoremap <silent> <C-L> :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
 NXnoremap <C-H> gT
 " Go to {count}th tab page
 for n in range(1, 9)
-  execute 'noremap '.'<m-'.n.'> '.n.'gt'
+  execute 'noremap '.'<M-'.n.'> '.n.'gt'
 endfor
 " Move a tab around
-NXnoremap <C-S-H> :tabm -1<cr>
-NXnoremap <C-S-L> :tabm +1<cr>
+NXnoremap <C-S-H> :tabm -1<CR>
+NXnoremap <C-S-L> :tabm +1<CR>
 
 " Edit a file in the same directory of the current file
 NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/
@@ -241,7 +241,7 @@ xnoremap <silent> <leader>S mz:<C-U>silent '<,'>y z<Bar>
       \ let @z = substitute(@z, '\n\s*\\', '', 'g')<Bar>@z<CR>`z
 
 " Quit diff mode and close other diff buffers
-noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<cr>
+noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<CR>
 
 " Appends the current date or time after the cursor
 nnoremap <leader>at a<C-R>=strftime("%a %b %d %H:%M:%S %Y")<CR><Esc>
@@ -257,9 +257,9 @@ NXnoremap <silent> 'B :let _f = expand('~/.vim/vimrc.bundle')\|
 
 " Search words under the cursor via the Web
 nnoremap gG :call netrw#NetrwBrowseX("http://www.google.com.hk
-      \/search?q=".expand("<cword>"), 0)<cr>
+      \/search?q=".expand("<cword>"), 0)<CR>
 nnoremap gW :call netrw#NetrwBrowseX("http://en.wikipedia.org
-      \/wiki/Special:Search?search=".expand("<cword>"), 0)<cr>
+      \/wiki/Special:Search?search=".expand("<cword>"), 0)<CR>
 
 " ---------------------------------------------------------------------
 " Mappings! {{{1

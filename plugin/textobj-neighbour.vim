@@ -3,10 +3,10 @@
 
 command! -nargs=1 OXnoremap onoremap <silent> <args><Bar> xnoremap <silent> <args>
 
-OXnoremap an :<c-u>call <SID>neighbour('a')<cr>
-OXnoremap in :<c-u>call <SID>neighbour('i')<cr>
-OXnoremap al :<c-u>call <SID>neighbour('a', 1)<cr>
-OXnoremap il :<c-u>call <SID>neighbour('i', 1)<cr>
+OXnoremap an :<C-U>call <SID>neighbour('a')<CR>
+OXnoremap in :<C-U>call <SID>neighbour('i')<CR>
+OXnoremap al :<C-U>call <SID>neighbour('a', 1)<CR>
+OXnoremap il :<C-U>call <SID>neighbour('i', 1)<CR>
 
 function! s:neighbour(motion, ...)
   let char = getchar()

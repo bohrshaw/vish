@@ -1,5 +1,5 @@
 " Underline the current line with '='
-nnoremap <silent> <leader>ul :copy.\|s/./=/g\|nohls<cr>
+nnoremap <silent> <Leader>ul :copy.\|s/./=/g\|nohls<CR>
 
 " Preview the selected markdown text in the browser
 command! -range=% MarkdownPreview call ftplugin#markdown_preview(<line1>, <line2>)

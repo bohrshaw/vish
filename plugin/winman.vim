@@ -9,7 +9,7 @@
 " Switch/Exchange the current window with the target window(default is the first
 " window), which can be specified with a count. This does not change the window
 " layout.
-nnoremap <c-w><c-e> :call SwitchWindow()<cr>
+nnoremap <C-W><C-E> :call SwitchWindow()<CR>
 function! SwitchWindow()
   " set default target window number to v:count1(1 when not given)
   let target_win = v:count1
@@ -20,12 +20,12 @@ function! SwitchWindow()
 endfunction
 
 " Attach a window(default is the current window) bellow the last windows.
-" Thus making a window stack at the right of the screen. Unlike "<c-w>J" which
+" Thus making a window stack at the right of the screen. Unlike "<C-W>J" which
 " make the moved window take the whole width of screen, the moved window has the
 " same width with its above window.
 " Implementation notes: Append a count before a keystroke may cause mysterious
 " behaviour as the window layout will change during processing.
-nnoremap <c-w><c-a> :call StackWindow()<cr>
+nnoremap <C-W><C-A> :call StackWindow()<CR>
 command! -nargs=? StackWindow :call StackWindow(<f-args>)
 function! StackWindow(...)
   " set target window number, default to 0
