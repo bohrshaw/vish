@@ -124,7 +124,7 @@ set fileformat=unix " only for the initial unnamed buffer
 autocmd vimrc BufLeave * set nostartofline |
       \ autocmd vimrc CursorMoved * set startofline | autocmd! vimrc CursorMoved
 " Jump to the last known position in a file just after opening it
-autocmd vimrc BufRead * silent! execute 'normal! g`"zv'
+autocmd vimrc BufRead * silent! execute 'normal! g`"'
 
 let &swapfile = l ? 0 : 1 " use a swapfile for the buffer
 let &undofile = l ? 0 : 1 " persistent undo
