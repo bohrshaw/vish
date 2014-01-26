@@ -157,7 +157,9 @@ if !exists('g:loaded_vimrc') && 0 == argc() && has('gui_running') && !l
 endif
 
 " Make the file '_' a scratch buffer
-autocmd vimrc BufNewFile,BufReadPost _ set buftype=nofile bufhidden=hide
+autocmd vimrc BufNewFile,BufReadPost _
+      \ set buftype=nofile nobuflisted bufhidden=hide
+autocmd vimrc SessionLoadPost * silent! bwipeout! _
 
 " ---------------------------------------------------------------------
 " Mappings {{{1
