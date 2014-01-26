@@ -46,9 +46,8 @@ if !exists('g:loaded_vimrc')
   syntax enable
 endif
 
-" Define an autocmd group and empty it
-augroup vimrc | autocmd!
-augroup END
+" Define an empty auto-command group
+execute 'augroup vimrc| autocmd!'
 
 " ---------------------------------------------------------------------
 " Options {{{1
@@ -106,7 +105,7 @@ endif
 " Thesaurus files for insert-completion
 set thesaurus=~/.vim/spell/thesaurus-mwcd.txt
 " Enable spell checking for particular file types
-autocmd vimrc FileType gitcommit,markdown,txt setlocal spell
+autocmd FileType gitcommit,markdown,txt setlocal spell
 if v:version == 704 && has('patch088') || v:version > 704
   set spelllang+=cjk " skip spell check for East Asian characters
 endif
@@ -121,10 +120,10 @@ set fileformats=unix,dos,mac " end-of-line formats precedence
 set fileformat=unix " only for the initial unnamed buffer
 
 " Don't move the cursor to the line start when switching buffers
-autocmd vimrc BufLeave * set nostartofline |
+autocmd BufLeave * set nostartofline |
       \ autocmd vimrc CursorMoved * set startofline | autocmd! vimrc CursorMoved
 " Jump to the last known position in a file just after opening it
-autocmd vimrc BufRead * silent! execute 'normal! g`"'
+autocmd BufRead * silent! execute 'normal! g`"'
 
 let &swapfile = l ? 0 : 1 " use a swapfile for the buffer
 let &undofile = l ? 0 : 1 " persistent undo
@@ -157,9 +156,8 @@ if !exists('g:loaded_vimrc') && 0 == argc() && has('gui_running') && !l
 endif
 
 " Make the file '_' a scratch buffer
-autocmd vimrc BufNewFile,BufReadPost _
-      \ set buftype=nofile nobuflisted bufhidden=hide
-autocmd vimrc SessionLoadPost * silent! bwipeout! _
+autocmd BufNewFile,BufReadPost _ set buftype=nofile nobuflisted bufhidden=hide
+autocmd SessionLoadPost * silent! bwipeout! _
 
 " ---------------------------------------------------------------------
 " Mappings {{{1
@@ -227,12 +225,12 @@ NXnoremap <leader>ev :vs <C-R>=expand('%:h')<CR>/
 NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/
 
 " Mappings for the cmdline window
-autocmd vimrc CmdwinEnter * noremap <buffer> <F5> <CR>q:|
+autocmd CmdwinEnter * noremap <buffer> <F5> <CR>q:|
       \ NXnoremap <buffer> <nowait> <CR> <CR>|
       \ NXInoremap <buffer> <C-C> <C-C><C-C>
 
 " Mappings/options for a quickfix/location window
-autocmd vimrc FileType qf nnoremap <buffer> q <C-W>c|
+autocmd FileType qf nnoremap <buffer> q <C-W>c|
       \ nnoremap <buffer> <C-V> <C-W><CR><C-W>H|
       \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T
 
@@ -447,7 +445,7 @@ endfunction
 execute (exists('g:loaded_vimrc')?'':'autocmd VimEnter * ').'call s:stl()'
 
 " The status line for the quickfix window
-autocmd vimrc FileType qf setlocal statusline=%t
+autocmd FileType qf setlocal statusline=%t
       \%{strpart('\ '.get(w:,'quickfix_title',''),0,66)}%=\ %11.(%c,%l/%L\ %P%)
 
 " Use CTRL-G, G_CTRL-G to see file and cursor information manually
@@ -499,6 +497,9 @@ endif
 "   highlight CursorIM guifg=NONE guibg=#007500
 " endif
 
-let g:loaded_vimrc = 1
 " ---------------------------------------------------------------------
+" Footer {{{1
+execute 'augroup END'
+let g:loaded_vimrc = 1
+
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap spell:
