@@ -23,8 +23,8 @@ function! Bundle(...)
   return get(l:, 'if_config') ? 1 : 0
 endfunction
 
-augroup bundle
-autocmd!
+" Define an empty auto-command group
+execute 'augroup bundle| autocmd!'
 
 " A buffer local map to open a bundle's URL in the browser
 autocmd BufReadPost {.,}vimrc.bundle nnoremap <buffer> gB
@@ -445,7 +445,7 @@ endif
 " Vim Syntax for todo.txt (todotxt.com)
 " call Bundle('davidoc/todo.txt-vim')
 
-" Bundle management {{{1 ==============================================
-augroup END
+" Footer {{{1 =========================================================
+execute 'augroup END'
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
