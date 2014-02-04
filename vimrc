@@ -8,6 +8,7 @@
 " Foundation {{{1
 if !exists('g:loaded_vimrc')
   set nocompatible " make Vim behave in a more useful way
+  set rtp^=$HOME/.vim rtp+=$HOME/.vim/after " be portable
 
   " Light weight Vim or not
   let l = exists('l') ? l : 0
@@ -33,13 +34,8 @@ if !exists('g:loaded_vimrc')
   command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
               \ inoremap <args>
 
-  " Bundle configuration and set the bundle list 'g:bundles'
+  " Bundle configuration
   source ~/.vim/vimrc.bundle
-
-  " Set runtime path
-  set rtp^=$HOME/.vim rtp+=$HOME/.vim/after " be portable
-  let bundle_dirs = map(bundles, 'v:val[stridx(v:val,"/")+1:]')
-  call pathway#inject('bundle', bundle_dirs)
 
   " Enable these early to reduce startup time (after 'rtp' setup)
   filetype plugin indent on
@@ -212,7 +208,7 @@ NXnoremap <silent> tl :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
 NXnoremap th gT
 " Go to {count}th tab page
 for n in range(1, 9)
-  execute 'noremap '.'<M-'.n.'> '.n.'gt'
+  execute 'NXnoremap '.'<M-'.n.'> '.n.'gt'
 endfor
 " Move a tab around
 NXnoremap <C-S-H> :tabm -1<CR>
