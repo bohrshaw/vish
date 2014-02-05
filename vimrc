@@ -262,9 +262,11 @@ nnoremap gW :call netrw#NetrwBrowseX("http://en.wikipedia.org
 " Open the command-line window
 set cedit=<C-G>
 
-" A smart <Tab> to do insert-completion ("lightab" instead of "supertab")
-inoremap <expr> <Tab> getline('.')[col('.')-2] =~ '^\s\?$' ? '<Tab>' : '<C-N>'
-inoremap <expr> <S-Tab> getline('.')[col('.')-2] =~ '^\s\?$' ? '<Tab>' : '<C-P>'
+" A smart <Tab> to do insert-completion ('lightab' instead of 'supertab')
+inoremap <expr> <Tab> getline('.')[col('.')-2] !~ '^\s\?$' \|\| pumvisible()
+      \ ? '<C-N>' : '<Tab>'
+inoremap <expr> <S-Tab> getline('.')[col('.')-2] !~ '^\s\?$' \|\| pumvisible()
+      \ ? '<C-P>' : '<Tab>'
 
 " Completion by words in dictionaries
 inoremap <C-X>k <C-X><C-K>
