@@ -42,6 +42,18 @@ function! vimrc#count(...) " {{{1
   return result == "" ? 0 : result
 endfunction " }}}1
 
+" Do something for all files in the quickfix list or a location list
+function! vimrc#errdo(list, cmd)
+  let pre = -1
+  for e in a:list == 'q' ? getqflist() : getloclist()
+    let cur = e['bufnr']
+    if cur != pre
+      execute 'silent buffer '.cur.'|silent! '.a:cmd
+    endif
+    let pre = cur
+  endfor
+endfunction
+
 " Calculate words frequency
 " http://vim.wikia.com/wiki/Word_frequency_statistics_for_a_file
 function! vimrc#word_frequency() range " {{{1

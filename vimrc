@@ -335,6 +335,10 @@ command! Uniqn g/^./if search('^\V'.escape(getline('.'),'\').'\$', 'bW') |
 command! -bar -range Source <line1>,<line2>yank z<Bar>
       \ let @z = substitute(@z, '\n\s*\\', '', 'g')<Bar>@z<CR>
 
+" Execute a command in each buffer in the quickfix or location list
+command! -nargs=1 -complete=command Qdo call vimrc#errdo('q', <q-args>)
+command! -nargs=1 -complete=command Ldo call vimrc#errdo(<q-args>)
+
 " Delete all buffers in the buffer list
 command! BdAll execute '1,'.bufnr('$').'bdelete'
 " Wipe out all unlisted buffers
