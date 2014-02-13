@@ -11,7 +11,7 @@ if !exists('g:loaded_vimrc')
   set rtp^=$HOME/.vim rtp+=$HOME/.vim/after " be portable
 
   " Light weight Vim or not
-  let l = exists('l') ? l : 0
+  if !exists('l') |let l = 0 |endif
 
   " A special keys like <Tab> are not interpreted, assign it as printed
   let mapleader = '' " replace <Leader> in a map
@@ -167,9 +167,9 @@ autocmd SessionLoadPost * silent! bwipeout! _
 if !has('gui_running')
   " Make the Meta(Alt) key mappable in terminal. But some characters(h,j,k,l...)
   " often typed after pressing <Esc> are not touched, so not mappable.
-  for c in split('qwertyasdfgzxcvbm', '\zs')
-    execute "set <M-".c.">=\e".c
-  endfor
+  " for c in split('qwertyasdfgzxcvbm', '\zs')
+  "   execute "set <M-".c.">=\e".c
+  " endfor
 endif
 
 " Colon is relatively inefficient to press
