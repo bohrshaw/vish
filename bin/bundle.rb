@@ -45,7 +45,8 @@ class Bundle
   # @@bundles = `vim --servername tmppp --remote-expr bundles`.split
   # @@bundles = @@bundles.uniq # uniq! returns nil when no duplicates found
   # system('vim --servername tmppp --remote-send ":q!<CR>"')
-  @@bundles = `vim -Nes -S ~/.vim/vimrc.bundle "+put =bundles|2,p|q!"`.split
+  @@bundles = `vim -Nes "+so ~/.vim/autoload/bundle.vim |
+  so ~/.vim/vimrc.bundle |put =bundles |2,p |q!"`.split
 
   # Sync all bundles
   def self.sync
@@ -112,7 +113,7 @@ class Bundle
     # Update submodules
     if File.exist? "#{repo}/.gitmodules"
       `cd #{repo} && git submodule sync \
-       && git submodule update --init --recursive`
+      && git submodule update --init --recursive`
     end
   end
 
