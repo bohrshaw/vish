@@ -35,7 +35,9 @@ if !exists('g:loaded_vimrc')
               \ inoremap <args>
 
   " Bundle configuration
-  source ~/.vim/vimrc.bundle
+  runtime autoload/bundle.vim
+  runtime vimrc.bundle
+  BundleDone
 
   " Enable these early to reduce startup time (after 'rtp' setup)
   filetype plugin indent on

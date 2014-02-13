@@ -2,9 +2,6 @@
 " Author: Bohr Shaw <pubohr@gmail.com>
 
 " Bundle management {{{1 ==============================================
-" Source the bundle manager
-runtime autoload/bundle.vim
-
 " Define an empty auto-command group
 execute 'augroup bundle| autocmd!'
 
@@ -427,7 +424,6 @@ endif
 " call Bundles('davidoc/todo.txt-vim')
 
 " Bundle management {{{1 ==============================================
-BundleDone
 execute 'augroup END'
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
