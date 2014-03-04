@@ -90,6 +90,8 @@ call Bundles('godlygeek/tabular', '-tommcdo/vim-lion')
 call Bundles('+tpope/vim-speeddating')
 " Punctuation text objects: ci/ da; vi@ yiq da<space> ..
 call Bundles('kurkale6ka/vim-pairs')
+" Easy text exchange operator for Vim
+call Bundles('tommcdo/vim-exchange')
 " Easy swapping of text in Vim
 call Bundles('kurkale6ka/vim-swap')
 " Easily search for, substitute, and abbreviate multiple variants of a word
