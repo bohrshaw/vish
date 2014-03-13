@@ -343,6 +343,10 @@ command! -nargs=1 -complete=command Ldo call vimrc#errdo(<q-args>)
 
 " Delete all buffers in the buffer list
 command! BdAll execute '1,'.bufnr('$').'bdelete'
+" Delete all buffers in the buffer list except the current one
+command! BufOnly let nc = bufnr('%') |let nl = bufnr('$') |
+      \ silent! execute nc > 1 ? '1,'.(nc-1).'bdelete |' : ''
+      \ nl > nc ? (nc+1).','.nl.'bdelete' : ''
 " Wipe out all unlisted buffers
 command! BwUnlisted call vimrc#bufffer_wipe_unlisted()
 
