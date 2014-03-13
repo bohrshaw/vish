@@ -23,8 +23,8 @@ if Bundles('+justinmk/vim-sneak')
   xmap f<CR> <Plug>VSneakForward
   nmap <CR>f <Plug>SneakBackward
   xmap <CR>f <Plug>VSneakBackward
-  nmap t<CR> <Plug>SneakStreak
-  nmap <CR>t <Plug>SneakStreakBackward
+  nmap t<CR> <Plug>(SneakStreak)
+  nmap <CR>t <Plug>(SneakStreakBackward)
   hi! link SneakPluginScope Comment
 endif
 " Vim motions on speed
