@@ -172,6 +172,9 @@ if Bundles('kien/ctrlp.vim')
   " Set the mode to determine the root searching directory.
   " let g:ctrlp_working_path_mode = 'ra'
   " let g:ctrlp_show_hidden = 1 " scan for dotfiles and dotdirs
+  " let g:ctrlp_clear_cache_on_exit = 0
+  let g:ctrlp_max_files = 0
+  let g:ctrlp_lazy_update = 200 " update the match window lazily
   let g:ctrlp_by_filename = 1 " search by file name only
   let g:ctrlp_custom_ignore = {
         \ 'dir':  '\v[\/]\.(git|hg|svn)$',
@@ -196,9 +199,14 @@ if Bundles('kien/ctrlp.vim')
   noremap <leader>cm :CtrlPBookmarkDir<cr>
   " Extensions
   let g:ctrlp_extensions = ['funky']
+  " Fast vim CtrlP matcher based on python, for large projects
+  if Bundles('FelikZ/ctrlp-py-matcher') && has('python')
+    let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
+  endif
   " Navigate and jump to function defs
-  call Bundles('tacahiroy/ctrlp-funky')
-  nnoremap <Leader>cf :CtrlPFunky<CR>
+  if Bundles('tacahiroy/ctrlp-funky')
+    nnoremap <Leader>cf :CtrlPFunky<CR>
+  endif
 endif
 " Changes Vim working directory to project root
 if Bundles('airblade/vim-rooter')
