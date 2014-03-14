@@ -328,9 +328,10 @@ command! Trim let _p=getpos('.')| keepj keepp %s/\s\+$//| call setpos('.',_p)
 command! -range -nargs=1 SV s/\%V<args>
 
 " Remove duplicate, consecutive lines (:sort /.\_^/ u)
-command! Uniqc g/\v^(.*)\n\1$/d
+command! -range=% Uniqc <line1>,<line2>g/\v^(.*)\n\1$/d
 " Remove duplicate, nonconsecutive and nonempty lines (g/\v^(.+)$\_.{-}^\1$/d)
-command! Uniqn g/^./if search('^\V'.escape(getline('.'),'\').'\$', 'bW') |
+command! -range=% Uniqn <line1>,<line2>g/^./
+      \ if search('^\V'.escape(getline('.'),'\').'\$', 'bW') |
       \ delete | endif <NL> silent! normal! ``
 
 " Source a range of lines
