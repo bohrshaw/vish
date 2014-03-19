@@ -5,12 +5,13 @@
 augroup bundling
 augroup END
 
-" The bundle list
-let g:bundles = []
+let g:bundles = [] " on-Vim-startup bundles
+let g:dundles = [] " on-demand bundles
 
 function! Bundle(...)
   let for_light = a:1[0] == '+'
   if !get(g:, 'l') || for_light
+    call add(g:dundles, a:1)
     let dirs = map((has_key(a:2, 'd')?a:2['d']:[])+[for_light?a:1[1:]:a:1],
           \ 'matchstr(v:val, ''/\zs.*'')')
     let bundle_cmd = 'call call("BundleActivate",'.string(dirs).')'
