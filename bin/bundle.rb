@@ -46,7 +46,7 @@ class Bundle
   # @@bundles = @@bundles.uniq # uniq! returns nil when no duplicates found
   # system('vim --servername tmppp --remote-send ":q!<CR>"')
   @@bundles = `vim -Nes "+so ~/.vim/autoload/bundle.vim |
-  so ~/.vim/vimrc.bundle |put =bundles |2,p |q!"`.split
+  so ~/.vim/vimrc.bundle |put =bundles+dundles |2,p |q!"`.split
 
   # Sync all bundles
   def self.sync
