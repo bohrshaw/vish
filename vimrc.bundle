@@ -284,6 +284,13 @@ if Bundles('Yggdroot/indentLine', '-nathanaelkane/vim-indent-guides')
   noremap ti :IndentLinesToggle<CR>
   let g:indent_guides_guide_size = 1
 endif
+" Distraction-free writing
+if Bundle('junegunn/goyo.vim', {'m': ['noremap <Leader>df :Goyo<CR>']})
+  " let g:goyo_width = 100
+  let g:goyo_margin_top = 2
+  let g:goyo_margin_bottom = 2
+  " let g:goyo_linenr = 1
+endif
 
 " File types {{{1 =====================================================
 " All {{{2 ------------------------------------------------------------
