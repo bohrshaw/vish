@@ -10,6 +10,10 @@ autocmd BufReadPost {.,}vimrc.bundle nnoremap <buffer> gB
       \ :call netrw#NetrwBrowseX('https://github.com/'
       \ .matchstr(getline('.'), 'Bundles\?([''"][+-]\?\zs.\{-}\ze[''"]'), 0)<CR>
 
+" A minimal vimrc for test and reference
+if Bundles('tpope/vim-sensible')
+  let g:loaded_sensible = 1 " disable this bundle
+endif
 " A Vim plugin for Vim plugins
 call Bundles('tpope/vim-scriptease')
 
