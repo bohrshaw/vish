@@ -177,7 +177,7 @@ endif
 " Colon is relatively inefficient to press
 NXnoremap <Space> :
 " Don't use 'q;' as 'q' is often mapped to quit a window
-NXnoremap z; q:
+NXnoremap z<Space> q:
 NXnoremap @; @:
 " Yank till the line end instead of the whole line
 nnoremap Y y$
