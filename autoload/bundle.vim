@@ -33,9 +33,13 @@ function! Bundle(...)
           endif
         endif
       endfor
-    elseif has_key(a:2, 'f')
-      let condition = 'bundling FileType '.a:2['f']
-      execute 'autocmd '.condition.' '.bundle_cmd.'|autocmd! '.condition
+    end
+    if has_key(a:2, 'f')
+      let pat = a:2['f']
+      let event_pat = pat =~ '[*.]' ?
+            \ 'BufNewFile,BufReadPre '.pat : 'FileType '.pat
+      execute 'autocmd bundling '.event_pat.' '.bundle_cmd.
+            \ '|autocmd! bundling '.event_pat
     endif
     return 1
   endif
