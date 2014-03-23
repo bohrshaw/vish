@@ -1,14 +1,18 @@
 global !p
-import vim
+import vim, re
+
+author = 'Bohr Shaw <pubohr@gmail.com>'
 
 def cms():
-    return vim.eval('&cms').split('%s')
+    cms_parts = re.split("\s*%s\s*", vim.eval('&cms'))
+    return [cms_parts[0] + ' ',
+        ' ' + cms_parts[1] if cms_parts[1] != '' else '']
 cms = cms()
 
 endglobal
 
 snippet author "author information" b
-`!p snip.rv = cms[0]`Author: ${2:`!v g:snips_author`}`!p snip.rv = cms[1]`
+`!p snip.rv=cms[0]`Author: ${2:`!p snip.rv=author`}`!p snip.rv=cms[1]`
 $0
 endsnippet
 
