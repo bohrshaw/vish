@@ -62,7 +62,7 @@ call Bundles('tpope/vim-endwise')
 " Perform all your vim insert mode completions with Tab
 " call Bundles('ervandew/supertab')
 " The ultimate snippet solution
-if Bundle('SirVer/ultisnips', {'m': ['i <C-J>']}) &&
+if Bundle('SirVer/ultisnips', {'m': ['i <C-J>'], 'f': '*.snippets'}) &&
       \ Bundles('honza/vim-snippets')
   let g:UltiSnipsExpandTrigger='<C-J>'
   let g:UltiSnipsListSnippets='<C-Q>'
