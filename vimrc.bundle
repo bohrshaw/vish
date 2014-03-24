@@ -218,6 +218,7 @@ endif
 " Automatic resizing of Vim windows to the golden ratio
 if Bundles('roman/golden-ratio')
   let g:golden_ratio_autocommand = 0
+  noremap <C-W>G :GoldenRatioResize<CR>
   noremap gwg :GoldenRatioResize<CR>
 endif
 
@@ -291,7 +292,11 @@ endif
 " File types {{{1 =====================================================
 " All {{{2 ------------------------------------------------------------
 " Syntax checking hacks for vim
-call Bundles('scrooloose/syntastic')
+if Bundles('scrooloose/syntastic')
+  let g:syntastic_mode_map = { 'mode': 'active',
+        \ 'active_filetypes': [],
+        \ 'passive_filetypes': [] }
+endif
 " Vim plugin that displays tags in a window, ordered by class etc
 if Bundles('majutsushi/tagbar')
   nnoremap tt :TagbarToggle<CR>
@@ -351,7 +356,11 @@ if Bundles(['-rhysd/vim-textobj-ruby', 'kana/vim-textobj-user'])
   let g:textobj_ruby_more_mappings = 1
 endif
 " Runs RuboCop(A robust Ruby code analyzer) and displays the results in Vim
-call Bundles('ngmy/vim-rubocop')
+if Bundles('ngmy/vim-rubocop')
+  let g:vimrubocop_keymap = 0
+  autocmd FileType ruby nnoremap <silent> <buffer> <nowait>
+        \ <LocalLeader>r :RuboCop<CR>
+endif
 " Bindings for the gem recording the results of every line of code
 if Bundles('hwartig/vim-seeing-is-believing')
   autocmd FileType ruby
@@ -365,9 +374,26 @@ call Bundle('tpope/vim-rake', {'f':'ruby'})
 
 " Python {{{2 ---------------------------------------------------------
 " Vim python-mode. PyLint, Rope, Pydoc, breakpoints from box.
-call Bundles('-klen/python-mode')
+if Bundles('klen/python-mode')
+  let g:pymode_run_bind = '<LocalLeader>r'
+  let g:pymode_breakpoint_bind = '<LocalLeader>b'
+  let g:pymode_rope = 0
+  " Escape syntastic check for python
+  call add(g:syntastic_mode_map['passive_filetypes'], 'python')
+  let g:pymode_python = 'python3'
+endif
 " Bindings for the python auto-completion library 'jedi'
-call Bundles('-davidhalter/jedi-vim')
+if Bundles('davidhalter/jedi-vim')
+  let g:jedi#auto_vim_configuration = 0
+  autocmd FileType python setlocal completeopt=menuone,longest,preview
+  let g:jedi#goto_assignments_command = '<LocalLeader>gd'
+  let g:jedi#goto_definitions_command = '<LocalLeader>gD'
+  let g:jedi#rename_command = '<LocalLeader>R'
+  let g:jedi#usages_command = '<LocalLeader>U'
+  let g:jedi#use_tabs_not_buffers = 0 " show definition in the current window
+  let g:jedi#squelch_py_warning = 1 " suppress warning of -python
+  let g:jedi#force_py_version = 3
+endif
 " A two-way integration between Vim and IPython 0.11+
 call Bundles('-ivanov/vim-ipython')
 
