@@ -228,7 +228,8 @@ autocmd CmdwinEnter * noremap <buffer> <F5> <CR>q:|
       \ NXInoremap <buffer> <C-C> <C-C><C-C>
 
 " Mappings/options for a quickfix/location window
-autocmd FileType qf nnoremap <buffer> q <C-W>c|
+autocmd FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
+      \ nnoremap <buffer> q <C-W>c|
       \ nnoremap <buffer> <C-V> <C-W><CR><C-W>H|
       \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T
 
