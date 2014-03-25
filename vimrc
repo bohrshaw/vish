@@ -421,15 +421,17 @@ set nowrap " only part of long lines will be displayed
 set linebreak " don't break a word when displaying wrapped lines
 " set showbreak=>\  " string to put at the start of wrapped lines
 set list " show non-normal spaces, tabs etc.
-if has('win32') && has('gui_running')
-  let &listchars = "precedes:<,extends:>,tab:\u25b8 ,trail:\u25ab,nbsp:+"
-  " set showbreak=+++\  " characters preceding line wrap
-elseif &termencoding ==# 'utf-8' || &encoding ==# 'utf-8'
-  let &listchars =
-        \"precedes:\u21c7,extends:\u21c9,tab:\u21e5 ,trail:\u2423,nbsp:\u00b7"
-  " let &showbreak = "\u21aa " " arrow_right_hook
+if &encoding ==# 'utf-8' || &termencoding ==# 'utf-8'
+  " Special characters: ¬¶⏎↲↪ •·▫¤␣¨ ░▒ ▸⇥→←⇉⇇»«↓↑
+  if has('win32') && has('gui_running')
+    set listchars=tab:→\ ,trail:▫,extends:»,precedes:«,nbsp:▫
+    " set showbreak=+++\  " characters preceding line wrap
+  else
+    set listchars=tab:⇥\ ,trail:␣,extends:⇉,precedes:⇇,nbsp:▫
+    " set showbreak=↪
+  endif
 else
-  set listchars=precedes:<,extends:>,tab:>\ ,trail:-,nbsp:+
+  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 endif
 set showcmd "show partial commands in status line
 " set showmatch matchtime=3 "show matching brackets, better using matchparen.vim
@@ -469,7 +471,7 @@ if !exists('g:loaded_vimrc')
   if has('gui_running')
     if has('win32')
       set guifont=Consolas:h10
-      autocmd GUIEnter * simalt ~x " max window
+      autocmd GUIEnter * simalt ~x " maximize window
     else
       set guifont=Consolas\ 10
       set lines=250 columns=200
