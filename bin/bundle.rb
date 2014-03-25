@@ -48,6 +48,9 @@ class Bundle
   @@bundles = `vim -Nes "+so ~/.vim/autoload/bundle.vim |
   so ~/.vim/vimrc.bundle |put =bundles+dundles |2,p |q!"`.split
 
+  # Get git version
+  @@git_version = `git --version`
+
   # Sync all bundles
   def self.sync
     @@bundles.each do |bundle|
@@ -78,6 +81,10 @@ class Bundle
   # Update a bundle
   def self.update(bundle)
     author, repo = bundle.split('/')
+
+    # Skip a non-git repository
+    return unless Dir.exist? repo+'/.git'
+
     author_current =
       `cd #{repo} && git ls-remote --get-url`.chomp.split(/\/|:/)[-2]
 
