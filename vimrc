@@ -187,24 +187,20 @@ xnoremap Y "+y
 nnoremap yY :execute '1,$yank ' . (has('clipboard')?'+':'')<CR>
 " Keep the flags when repeating last substitution
 NXnoremap & :&&<CR>
-" Format lines without moving the cursor
-NXnoremap gq gw
 " Deleting to the black hole register
 NXnoremap R "_d
 " Show the buffer list
 NXnoremap <Leader>ls :<C-U>ls<CR>
 
 " The leader key of window related mappings
-NXnoremap gw <C-W>
-" Go to the next/previous window
-NXnoremap gwj <C-W>w
-NXnoremap gwk <C-W>W
+" NXnoremap S <C-W>
+" Go to the below/right or above/left window
 NXnoremap tj <C-W>w
 NXnoremap tk <C-W>W
 " Go to the previous window
 NXnoremap gl <C-W>p
 " Split a window vertically with the alternate file
-noremap gw<C-^> :vsplit #<CR> | noremap <C-W><C-^> :vsplit #<CR>
+NXnoremap <C-W><C-^> :vsplit #<CR>
 " Go to [count] tab pages forward or back
 NXnoremap <silent> tl :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
 NXnoremap th gT
