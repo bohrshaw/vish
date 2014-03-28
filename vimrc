@@ -174,11 +174,13 @@ if !has('gui_running')
   " endfor
 endif
 
-" Colon is relatively inefficient to press
+" Enter command line at the speed of light
 NXnoremap <Space> :
-" Don't use 'q;' as 'q' is often mapped to quit a window
+" Typing custom commands(leading uppercase letter) quickly
+NXnoremap <silent> c<Space> :<C-R>=toupper(nr2char(getchar()))<CR>
 NXnoremap z<Space> q:
-NXnoremap @; @:
+NXnoremap '<Space> @:
+
 " Yank till the line end instead of the whole line
 nnoremap Y y$
 " Copy to GUI-clipboard
