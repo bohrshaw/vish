@@ -187,6 +187,8 @@ nnoremap Y y$
 xnoremap Y "+y
 " Copy entire file contents (to GUI-clipboard if available)
 nnoremap yY :execute '1,$yank ' . (has('clipboard')?'+':'')<CR>
+" Mark a single line in character-wise visual mode
+nnoremap vv ^vg_
 " Keep the flags when repeating last substitution
 NXnoremap & :&&<CR>
 " Deleting to the black hole register
@@ -222,7 +224,7 @@ NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/
 
 " Mappings for the cmdline window
 autocmd CmdwinEnter * noremap <buffer> <F5> <CR>q:|
-      \ NXnoremap <buffer> <nowait> <CR> <CR>|
+      \ NXInoremap <buffer> <nowait> <CR> <CR>|
       \ NXInoremap <buffer> <C-C> <C-C><C-C>
 
 " Mappings/options for a quickfix/location window
@@ -422,7 +424,7 @@ set list " show non-normal spaces, tabs etc.
 if &encoding ==# 'utf-8' || &termencoding ==# 'utf-8'
   " Special characters: ¬¶⏎↲↪ •·▫¤␣¨ ░▒ ▸⇥→←⇉⇇»«↓↑
   if has('win32') && has('gui_running')
-    set listchars=tab:→\ ,trail:▫,extends:»,precedes:«,nbsp:▫
+    set listchars=tab:→\ ,trail:·,extends:»,precedes:«,nbsp:▫
     " set showbreak=+++\  " characters preceding line wrap
   else
     set listchars=tab:⇥\ ,trail:␣,extends:⇉,precedes:⇇,nbsp:▫
