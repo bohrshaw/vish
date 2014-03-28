@@ -145,7 +145,7 @@ if Bundles('bohrshaw/vim-mansion')
 endif
 " A tree explorer plugin for vim
 if Bundle('scrooloose/nerdtree', {'m': [
-      \ 'noremap tn :NERDTreeToggle<CR>',
+      \ 'nnoremap tn :NERDTreeToggle<CR>',
       \ 'noremap <leader>nn :NERDTree<CR>',
       \ 'noremap <leader>nf :NERDTreeFind<CR>']})
   let NERDTreeHijackNetrw=0 " don't replace netrw
@@ -274,7 +274,7 @@ endif
 " Displaying indent levels visually
 if Bundles('Yggdroot/indentLine', '-nathanaelkane/vim-indent-guides')
   let g:indentLine_enabled = 0
-  noremap ti :IndentLinesToggle<CR>
+  nnoremap ti :IndentLinesToggle<CR>
   let g:indent_guides_guide_size = 1
 endif
 " Distraction-free writing
