@@ -183,7 +183,7 @@ function! s:capital_command()
   return n == 27 ? '' : ':'.toupper(nr2char(n)) " <Esc> to cancel keys
 endfunction
 NXnoremap z<Space> q:
-NXnoremap '<Space> @:
+NXnoremap 2<Space> @:
 
 " Yank till the line end instead of the whole line
 nnoremap Y y$
