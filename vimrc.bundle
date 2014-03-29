@@ -5,6 +5,11 @@
 " Define an empty auto-command group
 execute 'augroup bundle| autocmd!'
 
+" Move between bundles, or open a bundle's URL in the browser
+autocmd BufReadPost {.,}vimrc.bundle
+      \ nnoremap <buffer> <silent> g] :call search('Bundles\=(.\zs\C')<CR>|
+      \ nnoremap <buffer> <silent> g[ :call search('Bundles\=(.\zs\C', 'b')<CR>
+
 " A minimal vimrc for test and reference
 if Bundles('tpope/vim-sensible')
   let g:loaded_sensible = 1 " disable this bundle
