@@ -177,7 +177,11 @@ endif
 " Enter command line at the speed of light
 NXnoremap <Space> :
 " Typing custom commands(leading uppercase letter) quickly
-NXnoremap <silent> c<Space> :<C-R>=toupper(nr2char(getchar()))<CR>
+NXnoremap <expr> c<Space> <SID>capital_command()
+function! s:capital_command()
+  let n = getchar()
+  return n == 27 ? '' : ':'.toupper(nr2char(n)) " <Esc> to cancel keys
+endfunction
 NXnoremap z<Space> q:
 NXnoremap '<Space> @:
 
