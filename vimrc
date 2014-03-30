@@ -13,7 +13,7 @@ if !exists('g:loaded_vimrc')
   " Light weight Vim or not
   if !exists('l') |let l = 0 |endif
 
-  " A special keys like <Tab> are not interpreted, assign it as printed
+  " A special keys like <CR> are not interpreted, assign it as printed
   let mapleader = '' " replace <Leader> in a map
   let maplocalleader = '\' " replace <LocalLeader> in a map
 
@@ -44,7 +44,7 @@ if !exists('g:loaded_vimrc')
   syntax enable
 endif
 
-" Define an empty auto-command group
+" Define or switch to an auto-command group and clean it
 execute 'augroup vimrc| autocmd!'
 
 " ---------------------------------------------------------------------
@@ -193,6 +193,9 @@ xnoremap Y "+y
 nnoremap yY :execute '1,$yank ' . (has('clipboard')?'+':'')<CR>
 " Mark a single line in character-wise visual mode
 nnoremap vv ^vg_
+" Visual line repeat
+xnoremap . :normal .<CR>
+xnoremap @ :<C-u>execute ":'<,'>normal @".nr2char(getchar())<CR>
 " Keep the flags when repeating last substitution
 NXnoremap & :&&<CR>
 " Deleting to the black hole register
