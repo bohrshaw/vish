@@ -400,6 +400,12 @@ if Bundles('AndrewRadev/splitjoin.vim')
   " let g:splitjoin_join_mapping  = 'gJ'
 endif
 
+" Switch segments of text with predefined replacements
+if Bundles('AndrewRadev/switch.vim')
+  nnoremap cS :Switch<CR>
+  " let g:switch_custom_definitions = []
+endif
+
 " Markups {{{2
 
 " HTML5 omnicomplete and syntax
