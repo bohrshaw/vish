@@ -450,6 +450,8 @@ if Bundles('tpope/vim-fugitive')
 endif
 " Vimscript for gist
 call Bundles(['mattn/gist-vim', 'mattn/webapi-vim'])
+" Run code on codepad.org
+call Bundles(['mattn/codepad-vim', 'mattn/webapi-vim'])
 " Helpers for UNIX(Windows)
 call Bundles('tpope/vim-eunuch')
 " Tmux basics
