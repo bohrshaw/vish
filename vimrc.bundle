@@ -23,22 +23,23 @@ call Bundles('tpope/vim-scriptease')
 if Bundles('+justinmk/vim-sneak')
   " let g:sneak#streak = 1
   " let g:sneak#use_ic_scs = 1 " 'ignorecase', 'smartcase'
+  " Alternative mappings: z; z,
   nmap f<CR> <Plug>SneakForward
   xmap f<CR> <Plug>VSneakForward
-  nmap <CR>f <Plug>SneakBackward
-  xmap <CR>f <Plug>VSneakBackward
+  nmap f<BS> <Plug>SneakBackward
+  xmap f<BS> <Plug>VSneakBackward
   nmap t<CR> <Plug>(SneakStreak)
-  nmap <CR>t <Plug>(SneakStreakBackward)
+  nmap t<BS> <Plug>(SneakStreakBackward)
   hi! link SneakPluginScope Comment
 endif
 " Vim motions on speed
-if Bundles('+bohrshaw/vim-easymotion')
-  let g:EasyMotion_leader_key = '<BS>'
+if Bundles('-bohrshaw/vim-easymotion')
+  let g:EasyMotion_leader_key = 'm<Tab>'
 endif
 " Acts like `f` but taking two characters
 if Bundles('-goldfeld/vim-seek')
   let g:SeekKey = 'f<CR>'
-  let g:SeekBackKey = 'F<CR>'
+  let g:SeekBackKey = 'f<BS>'
   " let g:seek_enable_jumps = 1
 endif
 " Extended f, F, t and T key mappings for Vim
@@ -76,9 +77,11 @@ endif
 "       \ 'tomtom/tlib_vim', 'honza/vim-snippets'])
 
 " Change {{{2 ---------------------------------------------------------
-" Comments
-call Bundles('+tpope/vim-commentary',
-      \ '-scrooloose/nerdcommenter', '-tomtom/tcomment_vim')
+" Commenting
+if Bundles('+tpope/vim-commentary')
+  let commentary_map_backslash = 0
+endif
+call Bundles('-scrooloose/nerdcommenter', '-tomtom/tcomment_vim')
 " Quoting/parenthesizing made simple
 call Bundles('+tpope/vim-surround')
 " Text filtering and alignment
@@ -87,10 +90,21 @@ call Bundles('godlygeek/tabular', '-tommcdo/vim-lion')
 call Bundles('+tpope/vim-speeddating')
 " Punctuation text objects: ci/ da; vi@ yiq da<space> ..
 call Bundles('kurkale6ka/vim-pairs')
-" Easy text exchange operator for Vim
-call Bundles('tommcdo/vim-exchange')
-" Easy swapping of text in Vim
-call Bundles('kurkale6ka/vim-swap')
+" Exchange text flexibly with a text exchange operator
+if Bundles('+tommcdo/vim-exchange')
+  " nmap cx <Plug>(Exchange)
+  vmap cx <Plug>(Exchange)
+  " nmap cxc <Plug>(ExchangeClear)
+  " nmap cxx <Plug>(ExchangeLine)
+endif
+" Exchange(swap) text directly/quickly with mappings
+if Bundles('+kurkale6ka/vim-swap')
+  " let g:swap_custom_ops = []
+  vmap cq  <plug>SwapSwapOperands
+  vmap cp <plug>SwapSwapPivotOperands
+  nmap cq  <plug>SwapSwapWithR_WORD
+  nmap cQ  <plug>SwapSwapWithL_WORD
+endif
 " Easily search for, substitute, and abbreviate multiple variants of a word
 call Bundles('+tpope/vim-abolish')
 " True Sublime Text style multiple selections for Vim
@@ -99,12 +113,12 @@ call Bundles('terryma/vim-multiple-cursors')
 " History {{{2 --------------------------------------------------------
 " Display your undo history in a graph
 if Bundles('-mbbill/undotree')
-  nnoremap tu :UndotreeToggle<CR>
+  nnoremap <BS>u :UndotreeToggle<CR>
   let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 endif
 " Vim plugin to visualize your Vim undo tree
 if Bundles('sjl/gundo.vim')
-  nnoremap tu :GundoToggle<CR>
+  nnoremap <BS>u :GundoToggle<CR>
 endif
 " Enable repeating supported plugin maps with '.'
 call Bundles('+tpope/vim-repeat')
@@ -150,9 +164,9 @@ if Bundles('bohrshaw/vim-mansion')
 endif
 " A tree explorer plugin for vim
 if Bundle('scrooloose/nerdtree', {'m': [
-      \ 'nnoremap tn :NERDTreeToggle<CR>',
-      \ 'noremap <leader>nn :NERDTree<CR>',
-      \ 'noremap <leader>nf :NERDTreeFind<CR>']})
+      \ 'nnoremap <BS>d :NERDTreeToggle<CR>',
+      \ 'noremap <leader>dd :NERDTree<CR>',
+      \ 'noremap <leader>df :NERDTreeFind<CR>']})
   let NERDTreeHijackNetrw=0 " don't replace netrw
   let NERDTreeBookmarksFile=$HOME.'/.vim/tmp/NERDTreeBookmarks'
   let NERDTreeIgnore=['^\.$', '^\.\.$', '\~$', '\.pyc$', '\.swp$']
@@ -162,7 +176,12 @@ if Bundle('scrooloose/nerdtree', {'m': [
   let NERDTreeMouseMode=2
 endif
 " Combine with netrw to create a delicious salad dressing
-" call Bundles('tpope/vim-vinegar')
+if Bundles('tpope/vim-vinegar')
+  " Change the default mapping
+  nnoremap - -
+  autocmd VimEnter * nunmap -
+  nmap d<Space> <Plug>VinegarUp
+endif
 " Fuzzy file, buffer, mru, tag, etc finder
 if Bundles('kien/ctrlp.vim')
   let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/ctrlp'
@@ -190,10 +209,12 @@ if Bundles('kien/ctrlp.vim')
   if executable('ag')
     let g:ctrlp_user_command['fallback'] = 'ag %s -l --nocolor -g ""'
   endif
+  " Bring up this finder
+  let g:ctrlp_map = '<BS>f'
   " Clear the cache of the current search path
-  noremap <leader>cc :CtrlPClearCache<cr>
+  noremap <leader>fc :CtrlPClearCache<cr>
   " Open CtrlP bookmarked directories
-  noremap <leader>cm :CtrlPBookmarkDir<cr>
+  noremap <leader>fm :CtrlPBookmarkDir<cr>
   " Extensions
   let g:ctrlp_extensions = ['funky']
   " Fast vim CtrlP matcher based on python, for large projects
@@ -202,7 +223,7 @@ if Bundles('kien/ctrlp.vim')
   endif
   " Navigate and jump to function defs
   if Bundles('tacahiroy/ctrlp-funky')
-    nnoremap <Leader>cf :CtrlPFunky<CR>
+    nnoremap <Leader>ff :CtrlPFunky<CR>
   endif
 endif
 " Changes Vim working directory to project root
@@ -220,7 +241,6 @@ endif
 if Bundles('roman/golden-ratio')
   let g:golden_ratio_autocommand = 0
   noremap <C-W>G :GoldenRatioResize<CR>
-  noremap gwg :GoldenRatioResize<CR>
 endif
 
 " Appearance {{{1 =====================================================
@@ -279,11 +299,11 @@ endif
 " Displaying indent levels visually
 if Bundles('Yggdroot/indentLine', '-nathanaelkane/vim-indent-guides')
   let g:indentLine_enabled = 0
-  nnoremap ti :IndentLinesToggle<CR>
+  nnoremap <BS>i :IndentLinesToggle<CR>
   let g:indent_guides_guide_size = 1
 endif
 " Distraction-free writing
-if Bundle('junegunn/goyo.vim', {'m': ['noremap <Leader>df :Goyo<CR>']})
+if Bundle('junegunn/goyo.vim', {'m': ['noremap <C-W>O :Goyo<CR>']})
   " let g:goyo_width = 100
   let g:goyo_margin_top = 2
   let g:goyo_margin_bottom = 2
@@ -300,7 +320,7 @@ if Bundles('scrooloose/syntastic')
 endif
 " Vim plugin that displays tags in a window, ordered by class etc
 if Bundles('majutsushi/tagbar')
-  nnoremap tt :TagbarToggle<CR>
+  nnoremap <BS>t :TagbarToggle<CR>
 endif
 " Documentation/reference viewer
 call Bundles('Keithbsmiley/investigate.vim')
@@ -314,7 +334,7 @@ call Bundles('tpope/vim-dispatch')
 " Run commands quickly
 if Bundles('thinca/vim-quickrun')
   let g:quickrun_no_default_key_mappings = 1
-  map <Leader>qr <Plug>(quickrun)
+  map <BS>r <Plug>(quickrun)
 endif
 
 " Markups {{{2 --------------------------------------------------------
@@ -389,8 +409,8 @@ endif
 if Bundles('davidhalter/jedi-vim')
   let g:jedi#auto_vim_configuration = 0
   autocmd FileType python setlocal completeopt=menuone,longest,preview
-  let g:jedi#goto_assignments_command = '<LocalLeader>gd'
-  let g:jedi#goto_definitions_command = '<LocalLeader>gD'
+  let g:jedi#goto_assignments_command = '<LocalLeader>d'
+  let g:jedi#goto_definitions_command = '<LocalLeader>D'
   let g:jedi#rename_command = '<LocalLeader>R'
   let g:jedi#usages_command = '<LocalLeader>U'
   let g:jedi#use_tabs_not_buffers = 0 " show definition in the current window
@@ -421,12 +441,12 @@ call Bundles('bohrshaw/vim-vimperator-syntax')
 call Bundles('guns/xterm-color-table.vim')
 " A Git wrapper so awesome, it should be illegal.
 if Bundles('tpope/vim-fugitive')
-  nnoremap <silent> <leader>gs :Gstatus<CR>
-  nnoremap <silent> <leader>gd :Gdiff<CR>
-  nnoremap <silent> <leader>gc :Gcommit<CR>
-  nnoremap <silent> <leader>gb :Gblame<CR>
-  nnoremap <silent> <leader>gl :Glog<CR>
-  nnoremap <silent> <leader>gp :Git push<CR>
+  nnoremap <silent> <Leader>gs :Gstatus<CR>
+  nnoremap <silent> <Leader>gd :Gdiff<CR>
+  nnoremap <silent> <Leader>gc :Gcommit<CR>
+  nnoremap <silent> <Leader>gb :Gblame<CR>
+  nnoremap <silent> <Leader>gl :Glog<CR>
+  nnoremap <silent> <Leader>gp :Git push<CR>
 endif
 " Vimscript for gist
 call Bundles(['mattn/gist-vim', 'mattn/webapi-vim'])
