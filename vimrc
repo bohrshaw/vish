@@ -14,8 +14,8 @@ if !exists('g:loaded_vimrc')
   if !exists('l') |let l = 0 |endif
 
   " A special keys like <CR> are not interpreted, assign it as printed
-  let mapleader = '' " replace <Leader> in a map
-  let maplocalleader = '\' " replace <LocalLeader> in a map
+  " let mapleader = '' " replace <Leader> in a map
+  let maplocalleader = '\	' " replace <LocalLeader> in a map
 
   " The character encoding used inside Vim (Set early to allow mappings start
   " with the ALT key work properly.)
@@ -159,12 +159,22 @@ autocmd SessionLoadPost * silent! bwipeout! _
 
 " ---------------------------------------------------------------------
 " Mappings {{{1
-" Guides: Mapping for saving key strokes or typing convenience, for consistency
-" or intuition(mnemonics), for accessible functionality.
-" Notes: Use capital letters in keys like <C-J> for readability, except for
-" <A-j>, which is different with <A-J>. <Tab> and <C-I>, <CR> and <C-M>, <Esc>
-" and <C-[> are pairs of same keys.
-" Help: index, map-which-keys
+" A single mapping is easy to define, while the whole mapping scheme should be
+" considered carefully to be consistent, intuitive, convenient and accessible!
+"
+" Potentially unused keys:
+" "\ <Space> <BS> Z Q R S X _ !"
+" Keys waiting for a second key could also be used to start a mapping:
+" "f t d c g z v y m ' [ ]"
+"
+" Facts and Notes:
+" <Tab>/<C-I>, <CR>/<C-M>, <Esc>/<C-[> are pairs of exactly same keys.
+" <A-x> is <Esc>x in console Vim.
+" Caps Lock, <C-1>, <C-S-1> etc. are not mappable.
+" 'q' is often mapped to quit a window.
+" <CR> is mapped in command-window, quickfix-window, netrw, fugitive, etc.
+" Use capital letters in keys like <C-J> for readability.
+" See related help topics: index, map-which-keys
 
 if !has('gui_running')
   " Make the Meta(Alt) key mappable in terminal. But some characters(h,j,k,l...)
@@ -173,6 +183,12 @@ if !has('gui_running')
   "   execute "set <M-".c.">=\e".c
   " endfor
 endif
+
+" Free a somewhat-excess home-row key to act as a mapping leader. But don't
+" disable it to be able to use {count}s.
+" NXnoremap s <Nop>
+" Avoid entering the crappy Ex mode
+NXnoremap Q <Nop>
 
 " Enter command line at the speed of light
 NXnoremap <Space> :
@@ -183,7 +199,7 @@ function! s:capital_command()
   return n == 27 ? '' : ':'.toupper(nr2char(n)) " <Esc> to cancel keys
 endfunction
 NXnoremap z<Space> q:
-NXnoremap 2<Space> @:
+NXnoremap @<Space> @:
 
 " Yank till the line end instead of the whole line
 nnoremap Y y$
@@ -241,9 +257,9 @@ autocmd FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
       \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T
 
 " Source the current line of Vim scripts
-nnoremap <silent> <leader>S mz^"zy$:@z<CR>`z
+nnoremap <silent> <LocalLeader>s mz^"zy$:@z<CR>`z
 " Source a visual selection (continued lines joined)
-xnoremap <silent> <leader>S mz:<C-U>silent '<,'>y z<Bar>
+xnoremap <silent> <LocalLeader>s mz:<C-U>silent '<,'>y z<Bar>
       \ let @z = substitute(@z, '\n\s*\\', '', 'g')<Bar>@z<CR>`z
 
 " Quit diff mode and close other diff buffers
