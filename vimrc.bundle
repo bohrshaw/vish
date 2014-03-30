@@ -55,9 +55,6 @@ endif
 " Create your own text objects
 call Bundles('kana/vim-textobj-user')
 
-" Start a * or # search from a visual block
-call Bundles('nelstrom/vim-visual-star-search')
-
 " Insert: {{{1
 
 " Software caps lock
