@@ -5,7 +5,8 @@
 " Less is more!
 " Analyse startup performance by `vim --startuptime profile`
 
-" Foundation {{{1
+" Foundation: {{{1
+
 if !exists('g:loaded_vimrc')
   set nocompatible " make Vim behave in a more useful way
   set rtp^=$HOME/.vim rtp+=$HOME/.vim/after " be portable
@@ -48,7 +49,8 @@ endif
 execute 'augroup vimrc| autocmd!'
 
 " ---------------------------------------------------------------------
-" Options {{{1
+" Options: {{{1
+
 " View and set all options by :opt[ions]
 " See https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim for
 " a minimal sensible default.
@@ -158,7 +160,8 @@ autocmd BufNewFile,BufReadPost _ set buftype=nofile nobuflisted bufhidden=hide
 autocmd SessionLoadPost * silent! bwipeout! _
 
 " ---------------------------------------------------------------------
-" Mappings {{{1
+" Mappings: {{{1
+
 " A single mapping is easy to define, while the whole mapping scheme should be
 " considered carefully to be consistent, intuitive, convenient and accessible!
 "
@@ -284,7 +287,8 @@ nnoremap gW :call netrw#NetrwBrowseX("http://en.wikipedia.org
       \/wiki/Special:Search?search=".expand("<cword>"), 0)<CR>
 
 " ---------------------------------------------------------------------
-" Mappings! {{{1
+" Mappings!: {{{1
+
 " Open the command-line window
 set cedit=<C-G>
 
@@ -337,7 +341,8 @@ noremap! <expr> <SID>transpose "\<BS>\<Right>"
 cmap <script> <C-T> <SID>transposition<SID>transpose
 
 " ---------------------------------------------------------------------
-" Commands {{{1
+" Commands: {{{1
+
 " Calculate the time spending on executing commands
 command! -nargs=1 -count=1 -complete=command Time
             \ call vimrc#time(<q-args>, <count>)
@@ -411,7 +416,8 @@ command! -range=% SLOC echo vimrc#count
       \('^[^' . &cms[0] . ']', <line1>, <line2>) | normal ``
 
 " ---------------------------------------------------------------------
-" Abbreviations {{{1
+" Abbreviations: {{{1
+
 " Open help in a vertical window or a new tab
 cabbrev vh vert h
 cabbrev th tab h
@@ -436,7 +442,8 @@ cabbrev tc tabc
 cabbrev %% <C-R>=expand('%:h').'/'<CR>
 
 " ---------------------------------------------------------------------
-" Appearance {{{1
+" Appearance: {{{1
+
 " set number " print the line number in front of each line
 set relativenumber " show the line number relative to the current line
 set numberwidth=3 " minimal number(2) of columns to use for the line number
@@ -533,7 +540,8 @@ endif
 " endif
 
 " ---------------------------------------------------------------------
-" Footer {{{1
+" Footer: {{{1
+
 execute 'augroup END'
 let g:loaded_vimrc = 1
 
