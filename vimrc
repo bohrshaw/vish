@@ -215,6 +215,15 @@ nnoremap vv ^vg_
 " Visual line repeat
 xnoremap . :normal .<CR>
 xnoremap @ :<C-u>execute ":'<,'>normal @".nr2char(getchar())<CR>
+" Search the literal text of a visual selection
+xnoremap * :<C-u>call <SID>v_search('/')<CR>/<C-R>=@/<CR><CR>
+xnoremap # :<C-u>call <SID>v_search('?')<CR>?<C-R>=@/<CR><CR>
+function! s:v_search(dir)
+  let temp = @s
+  normal! gv"sy
+  let @/ = '\V' . substitute(escape(@s, a:dir.'\'), '\n', '\\n', 'g')
+  let @s = temp
+endfunction
 " Keep the flags when repeating last substitution
 NXnoremap & :&&<CR>
 " Deleting to the black hole register
