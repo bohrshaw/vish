@@ -396,6 +396,12 @@ if Bundles('thinca/vim-quickrun')
   map <BS>r <Plug>(quickrun)
 endif
 
+" Transition between multiline and single-line code
+if Bundles('AndrewRadev/splitjoin.vim')
+  " let g:splitjoin_split_mapping = 'gS'
+  " let g:splitjoin_join_mapping  = 'gJ'
+endif
+
 " Markups {{{2
 
 " HTML5 omnicomplete and syntax
