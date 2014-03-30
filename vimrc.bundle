@@ -8,8 +8,8 @@ execute 'augroup bundle| autocmd!'
 
 " Move between bundles, or open a bundle's URL in the browser
 autocmd BufReadPost {.,}vimrc.bundle
-      \ nnoremap <buffer> <silent> g] :call search('Bundles\=(.\zs\C')<CR>|
-      \ nnoremap <buffer> <silent> g[ :call search('Bundles\=(.\zs\C', 'b')<CR>
+      \ nnoremap <buffer> <silent> ]g :call search('Bundles\=(.\zs\C')<CR>|
+      \ nnoremap <buffer> <silent> [g :call search('Bundles\=(.\zs\C', 'b')<CR>
 
 " A minimal vimrc for test and reference
 if Bundles('tpope/vim-sensible')
@@ -243,6 +243,7 @@ endif
 if Bundles('airblade/vim-rooter')
   let g:rooter_manual_only = 1
   " let g:rooter_use_lcd = 1
+  nmap <silent> <Leader>dc <Plug>RooterChangeToRootDirectory
 endif
 
 " Buffer Explorer/Browser
@@ -364,7 +365,7 @@ endif
 
 " FileTypes: {{{1
 
-" All {{{2
+" Mixed {{{2
 
 " Syntax checking hacks for vim
 if Bundles('scrooloose/syntastic')
@@ -532,8 +533,8 @@ call Bundles('bohrshaw/vim-vimperator-syntax')
 " A Git wrapper so awesome, it should be illegal.
 if Bundles('tpope/vim-fugitive')
   nnoremap <silent> <Leader>gs :Gstatus<CR>
-  nnoremap <silent> <Leader>gd :Gdiff<CR>
-  nnoremap <silent> <Leader>gc :Gcommit<CR>
+  nnoremap <silent> <Leader>gd <C-W>o:Gdiff<CR>
+  nnoremap <silent> <Leader>gc :Gcommit -v<CR>
   nnoremap <silent> <Leader>gb :Gblame<CR>
   nnoremap <silent> <Leader>gl :Glog<CR>
   nnoremap <silent> <Leader>gp :Git push<CR>
