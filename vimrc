@@ -220,7 +220,7 @@ NXnoremap & :&&<CR>
 " Deleting to the black hole register
 NXnoremap R "_d
 " Show the buffer list
-NXnoremap <Leader>ls :<C-U>ls<CR>
+NXnoremap <BS>b :<C-U>ls<CR>:b
 
 " The leader key of window related mappings
 " NXnoremap S <C-W>
@@ -238,9 +238,6 @@ NXnoremap th gT
 for n in range(1, 9)
   execute 'NXnoremap '.'<M-'.n.'> '.n.'gt'
 endfor
-" Move a tab around
-NXnoremap <C-S-H> :tabm -1<CR>
-NXnoremap <C-S-L> :tabm +1<CR>
 
 " Edit a file in the same directory of the current file
 NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/
