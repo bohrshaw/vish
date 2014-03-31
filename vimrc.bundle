@@ -560,6 +560,18 @@ if Bundles('tyru/open-browser.vim')
         \ .matchstr(getline('.'), 'Bundles\?([''"][+-]\?\zs.\{-}\ze[''"]')<CR>
 endif
 
+" Google translate
+if Bundle('maksimr/vim-translator', {
+      \ 'm': [
+      \ "xnoreamp <Leader>T",
+      \ "nnoremap <Leader>T :execute 'Translate '.expand('<cword>')<CR>",
+      \ ]})
+  let g:goog_user_conf = {
+        \ 'langpair': 'en|zh',
+        \ 'v_key': '<Leader>T',
+        \ }
+endif
+
 " Vimscript for gist
 call Bundles(['mattn/gist-vim', 'mattn/webapi-vim'])
 
@@ -586,21 +598,15 @@ if Bundles('-vimwiki/vimwiki')
         \ 'ext': '.md'}]
 endif
 
+" A calendar application
 if Bundles('itchyny/calendar.vim')
   " let g:calendar_google_calendar = 1
   " let g:calendar_google_task = 1
 endif
 
-" Task managers {{{2
-
-" Quicktask is a lightweight Vim task management plugin
-" call Bundles('aaronbieber/quicktask')
-
-" Vim plugin for the TaskPaper application
-" call Bundles('davidoc/taskpaper.vim')
-
-" Vim Syntax for todo.txt (todotxt.com)
-" call Bundles('davidoc/todo.txt-vim')
+" Task managers
+" call Bundles('aaronbieber/quicktask', 'davidoc/taskpaper.vim',
+"       \ 'davidoc/todo.txt-vim')
 
 " BundleManagement: {{{1
 
