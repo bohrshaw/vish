@@ -43,7 +43,7 @@ function! vimrc#count(...) " {{{1
 endfunction " }}}1
 
 " Do something for all files in the quickfix list or a location list
-function! vimrc#errdo(list, cmd)
+function! vimrc#errdo(list, cmd) " {{{1
   let pre = -1
   for e in a:list == 'q' ? getqflist() : getloclist()
     let cur = e['bufnr']
@@ -52,7 +52,7 @@ function! vimrc#errdo(list, cmd)
     endif
     let pre = cur
   endfor
-endfunction
+endfunction " }}}1
 
 " Calculate words frequency
 " http://vim.wikia.com/wiki/Word_frequency_statistics_for_a_file
