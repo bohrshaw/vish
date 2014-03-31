@@ -59,11 +59,12 @@ call Bundles('kana/vim-textobj-user')
 
 " Software caps lock
 if Bundles('tpope/vim-capslock')
-  imap <C-L> <Plug>CapsLockToggle
+  " imap <C-L> <Plug>CapsLockToggle
 endif
 
 " Provides insert mode auto-completion for quotes, parens, brackets, etc.
-call Bundles('Raimondi/delimitMate')
+" Currently all breaks repeating.
+call Bundles('-Raimondi/delimitMate', '-jiangmiao/auto-pairs')
 
 " Wisely add 'end' in ruby, endfunction/endif/more in vim script, etc
 call Bundles('tpope/vim-endwise')
@@ -576,7 +577,9 @@ endif
 call Bundles(['mattn/gist-vim', 'mattn/webapi-vim'])
 
 " Run code on codepad.org
-call Bundles(['mattn/codepad-vim', 'mattn/webapi-vim'])
+if Bundles(['mattn/codepad-vim', 'mattn/webapi-vim'])
+  NXnoremap <Leader>R :CodePadRun<CR>
+endif
 
 " Interact with the simplenote service
 " call Bundles('mrtazz/simplenote.vim')
