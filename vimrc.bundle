@@ -555,9 +555,28 @@ endif
 " call Bundles('jamessan/vim-gnupg')
 
 " Open URI with your favorite browser
+" Other ways:
+" - The builtin function 'netrw#NetrwBrowseX()' (not working currently)
+" - Python helpers: :py import webbrowser; webbrowser.open()
 if Bundles('tyru/open-browser.vim')
+  " Add or override search engines
+  let g:openbrowser_search_engines = {
+        \ 'google_hk': 'http://google.com.hk/search?q={query}',
+        \ 'baidu': 'http://www.baidu.com/s?wd={query}',
+        \ 'so': 'http://www.so.com/s?q={query}',
+        \ 'translate': 'http://translate.google.com.hk/#auto/zh-CN/{query}',
+        \ 'stackoverflow': 'http://stackoverflow.com/search?q={query}',
+        \ }
+  let g:openbrowser_default_search = 'google_hk'
+  let g:netrw_nogx = 1 " disable netrw's gx mapping
+  " Search the focused word or the selection via the Web
+  nmap gx <Plug>(openbrowser-smart-search)
+  xmap gx <Plug>(openbrowser-smart-search)
+  " Remove unused commands
+  autocmd VimEnter * delcommand OpenBrowser | delcommand OpenBrowserSearch
+  " A buffer local mapping to open a bundle URL quickly
   autocmd BufReadPost {.,}vimrc.bundle nnoremap <buffer> <silent> gB
-        \ :execute 'silent OpenBrowser https://github.com/'
+        \ :execute 'silent OpenBrowserSmartSearch https://github.com/'
         \ .matchstr(getline('.'), 'Bundles\?([''"][+-]\?\zs.\{-}\ze[''"]')<CR>
 endif
 

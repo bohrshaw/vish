@@ -286,12 +286,6 @@ NXnoremap <silent> 'V :let _f = expand('~/.vim/vimrc')\|
 NXnoremap <silent> 'B :let _f = expand('~/.vim/vimrc.bundle')\|
             \ execute (buflisted(_f)?'b ':'e ') . _f<CR>
 
-" Search words under the cursor via the Web
-nnoremap gG :call netrw#NetrwBrowseX("http://www.google.com.hk
-      \/search?q=".expand("<cword>"), 0)<CR>
-nnoremap gW :call netrw#NetrwBrowseX("http://en.wikipedia.org
-      \/wiki/Special:Search?search=".expand("<cword>"), 0)<CR>
-
 " ---------------------------------------------------------------------
 " Mappings!: {{{1
 
