@@ -238,10 +238,12 @@ if Bundles('tpope/vim-vinegar')
 endif
 
 " Changes Vim working directory to project root
-if Bundles('airblade/vim-rooter')
+if Bundle('airblade/vim-rooter',
+      \ {'m': ['nmap <Leader>dc <Plug>RooterChangeToRootDirectory']})
   let g:rooter_manual_only = 1
   " let g:rooter_use_lcd = 1
-  nmap <silent> <Leader>dc <Plug>RooterChangeToRootDirectory
+  " Make an unused mapping to disable the default one
+  nmap <Leader>dc <Plug>RooterChangeToRootDirectory
 endif
 
 " Buffer Explorer/Browser
