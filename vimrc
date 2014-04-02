@@ -265,12 +265,6 @@ autocmd FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
       \ nnoremap <buffer> <C-V> <C-W><CR><C-W>H|
       \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T
 
-" Source the current line of Vim scripts
-nnoremap <silent> <LocalLeader>s mz^"zy$:@z<CR>`z
-" Source a visual selection (continued lines joined)
-xnoremap <silent> <LocalLeader>s mz:<C-U>silent '<,'>y z<Bar>
-      \ let @z = substitute(@z, '\n\s*\\', '', 'g')<Bar>@z<CR>`z
-
 " Quit diff mode and close other diff buffers
 noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<CR>
 
