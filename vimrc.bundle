@@ -37,7 +37,7 @@ endif
 
 " Vim motions on speed
 if Bundles('-bohrshaw/vim-easymotion')
-  let g:EasyMotion_leader_key = 'm<Tab>'
+  let g:EasyMotion_leader_key = 'g<CR>'
 endif
 
 " Acts like `f` but taking two characters

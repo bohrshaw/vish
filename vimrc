@@ -16,7 +16,7 @@ if !exists('g:loaded_vimrc')
 
   " A special keys like <CR> are not interpreted, assign it as printed
   " let mapleader = '' " replace <Leader> in a map
-  let maplocalleader = '\	' " replace <LocalLeader> in a map
+  let maplocalleader = 'm	' " replace <LocalLeader> in a map
 
   " The character encoding used inside Vim (Set early to allow mappings start
   " with the ALT key work properly.)
@@ -285,7 +285,7 @@ nnoremap dO :diffoff \| windo if &diff \| hide \| endif<CR>
 nnoremap <leader>at a<C-R>=strftime("%a %b %d %H:%M:%S %Y")<CR><Esc>
 
 " Reverse the selected text
-xnoremap <leader>rv c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
+xnoremap cR c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
 
 " Pseudo global marks for jumping to the last position in a file
 NXnoremap <silent> 'V :let _f = expand('~/.vim/vimrc')\|
