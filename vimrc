@@ -443,20 +443,21 @@ set relativenumber " show the line number relative to the current line
 set numberwidth=3 " minimal number(2) of columns to use for the line number
 set nowrap " only part of long lines will be displayed
 set linebreak " don't break a word when displaying wrapped lines
-" set showbreak=>\  " string to put at the start of wrapped lines
+
 set list " show non-normal spaces, tabs etc.
+" Special characters: ¬¶⏎↲↪ •·▫¤␣¨ ░▒ ▸⇥→←⇉⇇»«↓↑
 if &encoding ==# 'utf-8' || &termencoding ==# 'utf-8'
-  " Special characters: ¬¶⏎↲↪ •·▫¤␣¨ ░▒ ▸⇥→←⇉⇇»«↓↑
-  if has('win32') && has('gui_running')
-    set listchars=tab:→\ ,trail:·,extends:»,precedes:«,nbsp:▫
-    " set showbreak=+++\  " characters preceding line wrap
-  else
-    set listchars=tab:⇥\ ,trail:␣,extends:⇉,precedes:⇇,nbsp:▫
-    " set showbreak=↪
-  endif
+  let s:lcs = has('win32') ?
+        \ ['→\ ', '·', '»', '«', '▫'] : ['⇥\ ', '␣', '⇉', '⇇', '▫']
 else
-  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+  let s:lcs = ['>\ ', '-', '>', '<', '+']
 endif
+execute 'set listchars=tab:'.s:lcs[0].',trail:'.s:lcs[1]
+      \ .',extends:'.s:lcs[2].',precedes:'.s:lcs[3].',nbsp:'.s:lcs[4]
+" Avoid showing trailing whitespace when in insert mode
+execute 'autocmd InsertEnter * set listchars-=trail:'.s:lcs[1]
+execute 'autocmd InsertLeave * set listchars+=trail:'.s:lcs[1]
+
 set showcmd "show partial commands in status line
 " set showmatch matchtime=3 "show matching brackets, better using matchparen.vim
 set colorcolumn=+1 " highlight column after 'textwidth'
