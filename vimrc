@@ -265,8 +265,12 @@ autocmd FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
       \ nnoremap <buffer> <C-V> <C-W><CR><C-W>H|
       \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T
 
-" Quit diff mode and close other diff buffers
-noremap <leader>do :diffoff \| windo if &diff \| hide \| endif<CR>
+" Mappings for diff mode
+xnoremap <silent> do :execute &diff ? "'<,'>diffget" : ''<CR>
+xnoremap <silent> dp :execute &diff ? "'<,'>diffput" : ''<CR>
+nnoremap <silent> du :execute &diff ? 'diffupdate' : ''<CR>
+" Switch off diff mode and close other diff panes
+nnoremap dO :diffoff \| windo if &diff \| hide \| endif<CR>
 
 " Appends the current date or time after the cursor
 nnoremap <leader>at a<C-R>=strftime("%a %b %d %H:%M:%S %Y")<CR><Esc>
