@@ -210,11 +210,17 @@ nnoremap Y y$
 xnoremap Y "+y
 " Copy entire file contents (to GUI-clipboard if available)
 nnoremap yY :execute '1,$yank ' . (has('clipboard')?'+':'')<CR>
-" Mark a single line in character-wise visual mode
-nnoremap vv ^vg_
-" Visual line repeat
-xnoremap . :normal .<CR>
-xnoremap @ :<C-u>execute ":'<,'>normal @".nr2char(getchar())<CR>
+
+" Repeat last change on each line in a visual selection
+xnoremap . :normal! .<CR>
+" Execute a macro on each one in {count} lines
+nnoremap <silent> @. :call <SID>macro()<CR>
+function! s:macro() range
+  execute a:firstline.','.a:lastline.'normal! @'.nr2char(getchar())
+endfunction
+" Execute a macro on each line in a visual selection
+xnoremap <silent> @ :<C-u>execute ":'<,'>normal! @".nr2char(getchar())<CR>
+
 " Search the literal text of a visual selection
 xnoremap * :<C-u>call <SID>v_search('/')<CR>/<C-R>=@/<CR><CR>
 xnoremap # :<C-u>call <SID>v_search('?')<CR>?<C-R>=@/<CR><CR>
@@ -224,6 +230,9 @@ function! s:v_search(dir)
   let @/ = '\V' . substitute(escape(@s, a:dir.'\'), '\n', '\\n', 'g')
   let @s = temp
 endfunction
+
+" Mark a single line in character-wise visual mode
+nnoremap vv ^vg_
 " Keep the flags when repeating last substitution
 NXnoremap & :&&<CR>
 " Deleting to the black hole register
