@@ -1,7 +1,7 @@
 # Build Vim(32-bit) for windows.
 #
 # Reference:
-# INSTALLpc.txt, Make_mvc.mak
+# src/INSTALLpc.txt, src/Make_mvc.mak
 #
 # Requirements:
 # Visual Studio, Git or Mercurial, 7-zip, Python27, Python33, Ruby, Luajit
@@ -25,8 +25,8 @@ popd
 $vim = "vim" # the directory name of Vim's source
 $python = "C:\Python27"
 $python3 = "C:\Python33"
-$ruby = "D:\Programs\Ruby"
-$lua = "D:\Workspaces\srcs\luajit\src"
+$ruby = "D:\Programs\Ruby20"
+$lua = "D:\Workspaces\builds\luajit\src"
 
 # Source Code {{{1
 if((git config --get-regex remote.*url) -match '.*b4winckler/vim.*') {
