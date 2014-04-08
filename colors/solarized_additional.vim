@@ -10,6 +10,7 @@ hi VertSplit NONE
 hi StatusLine gui=bold guifg=fg guibg=#2B5A66
 hi StatusLineNC ctermfg=240 ctermbg=235 guifg=#073642 guibg=#657b83
 hi! link TabLineSel StatusLine
+hi! link SignColumn LineNr
 
 hi! link rubyControl Statement
 hi! link rspecGroupMethods rubyControl

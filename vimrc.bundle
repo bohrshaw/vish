@@ -349,13 +349,6 @@ if Bundles('-kshenoy/vim-signature')
   let g:SignatureMenu = 0
 endif
 
-" A plugin that shows a (git)diff via Vim's sign column
-if Bundles('-mhinz/vim-signify', '-airblade/vim-gitgutter')
-  " let g:signify_disable_by_default = 1
-  let g:signify_vcs_list = ['git']
-  let g:signify_sign_delete = '-'
-endif
-
 " Displaying indent levels visually
 if Bundles('Yggdroot/indentLine', '-nathanaelkane/vim-indent-guides')
   let g:indentLine_enabled = 0
@@ -538,12 +531,44 @@ call Bundles('bohrshaw/vim-vimperator-syntax')
 
 " A Git wrapper so awesome, it should be illegal.
 if Bundles('tpope/vim-fugitive')
-  nnoremap <silent> <Leader>gs :Gstatus<CR>
-  nnoremap <silent> <Leader>gd <C-W>o:Gdiff<CR>
-  nnoremap <silent> <Leader>gc :Gcommit -v<CR>
-  nnoremap <silent> <Leader>gb :Gblame<CR>
-  nnoremap <silent> <Leader>gl :Glog<CR>
-  nnoremap <silent> <Leader>gp :Git push<CR>
+  " Git deserves a convenient leader key for mappings
+  nnoremap g<Space>s :Gstatus<CR>
+  nnoremap g<Space>cc :Gcommit<CR>
+  nnoremap g<Space>ca :Gcommit --amend<CR>
+  nnoremap g<Space>cvc :Gcommit -v<CR>
+  nnoremap g<Space>cva :Gcommit --amend -v<CR>
+  nnoremap g<Space>D <C-W>o:Gdiff<CR>
+  nnoremap g<Space>b :Gblame<CR>
+  nnoremap g<Space>l :Glog<CR>
+  nnoremap g<Space>p :Git push<CR>
+endif
+
+" Shows a git diff in the sign column and stages/reverts hunks
+if Bundles('airblade/vim-gitgutter')
+  let g:gitgutter_enabled = 0
+  " let g:gitgutter_signs = 0
+  let g:gitgutter_realtime = 0
+  let g:gitgutter_eager = 0
+  " let g:gitgutter_diff_args = '-w'
+  " let g:gitgutter_highlight_lines = 1
+  let g:gitgutter_sign_removed = '-'
+  let g:gitgutter_sign_modified_removed = '='
+  let g:gitgutter_map_keys = 0
+  nnoremap g<Space>d :call gitgutter#toggle()<CR>
+  nnoremap g<Space>u :GitGutter<CR>
+  nnoremap g<Space>U :GitGutterAll<CR>
+  nmap [c <Plug>GitGutterPrevHunk
+  nmap ]c <Plug>GitGutterNextHunk
+  nmap <silent> dp :execute &diff ? 'diffput' : 'GitGutterStageHunk'<CR>
+  nmap <silent> do :execute &diff ? 'diffget' : 'GitGutterRevertHunk'<CR>
+  nmap dP :GitGutterPreviewHunk<CR>
+endif
+
+" Show a VCS diff using Vim's sign column
+if Bundles('-mhinz/vim-signify')
+  " let g:signify_disable_by_default = 1
+  let g:signify_vcs_list = ['git']
+  let g:signify_sign_delete = '-'
 endif
 
 " Helpers for UNIX(Windows)
