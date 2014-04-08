@@ -574,6 +574,13 @@ if Bundles('-mhinz/vim-signify')
   let g:signify_sign_delete = '-'
 endif
 
+" Browse GitHub events
+if Bundles('junegunn/vim-github-dashboard')
+  let g:github_dashboard = {'username': 'bohrshaw'}
+  nnoremap g<Space>G :GHDashboard!<CR>
+  nnoremap g<Space>A :GHActivity!<CR>
+endif
+
 " Helpers for UNIX(Windows)
 call Bundles('tpope/vim-eunuch')
 
