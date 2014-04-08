@@ -62,7 +62,8 @@ call Bundles('kana/vim-textobj-user')
 
 " Software caps lock
 if Bundles('tpope/vim-capslock')
-  " imap <C-L> <Plug>CapsLockToggle
+  imap <C-G>c <Plug>CapsLockToggle
+  imap <C-L> <Plug>CapsLockToggle
 endif
 
 " Provides insert mode auto-completion for quotes, parens, brackets, etc.
