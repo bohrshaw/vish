@@ -281,9 +281,6 @@ nnoremap <silent> du :execute &diff ? 'diffupdate' : ''<CR>
 " Switch off diff mode and close other diff panes
 nnoremap dO :diffoff \| windo if &diff \| hide \| endif<CR>
 
-" Appends the current date or time after the cursor
-nnoremap <leader>at a<C-R>=strftime("%a %b %d %H:%M:%S %Y")<CR><Esc>
-
 " Reverse the selected text
 xnoremap cR c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
 
