@@ -449,7 +449,7 @@ call Bundles('kchmck/vim-coffee-script')
 " Ruby {{{2
 
 " Ruby runtime files (shipped with Vim and fairly updated.)
-" call Bundles('vim-ruby/vim-ruby')
+call Bundles('vim-ruby/vim-ruby')
 
 " A custom text object for selecting ruby blocks
 call Bundle('nelstrom/vim-textobj-rubyblock',
