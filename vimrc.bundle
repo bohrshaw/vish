@@ -40,6 +40,9 @@ if Bundles('-bohrshaw/vim-easymotion')
   let g:EasyMotion_leader_key = 'g<CR>'
 endif
 
+" Move cursor between text patterns
+call Bundles('machakann/vim-patternjump')
+
 " Acts like `f` but taking two characters
 if Bundles('-goldfeld/vim-seek')
   let g:SeekKey = 'f<CR>'
