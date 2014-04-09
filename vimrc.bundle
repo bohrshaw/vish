@@ -491,6 +491,7 @@ if Bundles('klen/python-mode')
   " Escape syntastic check for python
   call add(g:syntastic_mode_map['passive_filetypes'], 'python')
   let g:pymode_python = 'python3'
+  autocmd VimEnter * set shellslash&
 endif
 
 " Bindings for the python auto-completion library 'jedi'
