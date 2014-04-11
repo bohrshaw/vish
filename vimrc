@@ -458,8 +458,7 @@ set linebreak " don't break a word when displaying wrapped lines
 set list " show non-normal spaces, tabs etc.
 " Special characters: ¬¶⏎↲↪ •·▫¤␣¨ ░▒ ▸⇥→←⇉⇇»«↓↑
 if &encoding ==# 'utf-8' || &termencoding ==# 'utf-8'
-  let s:lcs = has('win32') ?
-        \ ['→\ ', '·', '»', '«', '▫'] : ['⇥\ ', '␣', '⇉', '⇇', '▫']
+  let s:lcs = ['→\ ', '·', '»', '«', '▫'] " ['⇥\ ', '␣', '⇉', '⇇', '▫']
 else
   let s:lcs = ['>\ ', '-', '>', '<', '+']
 endif
