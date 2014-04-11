@@ -306,6 +306,7 @@ inoremap <expr> <S-Tab> getline('.')[col('.')-2] !~ '^\s\?$' \|\| pumvisible()
 inoremap <C-X>k <C-X><C-K>
 " Omni completion
 inoremap <C-X>o <C-X><C-O>
+inoremap <C-Z> <C-X><C-O>
 
 " Break the undo sequence
 inoremap <C-U> <C-G>u<C-U>
