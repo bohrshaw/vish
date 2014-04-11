@@ -373,6 +373,19 @@ endif
 
 " Vim plugin that displays tags in a window, ordered by class etc
 if Bundles('majutsushi/tagbar')
+  let g:tagbar_type_go = {
+        \ 'ctagstype' : 'go',
+        \ 'kinds' : [
+        \ 'p:package', 'i:imports:1', 'c:constants', 'v:variables',
+        \ 't:types', 'n:interfaces', 'w:fields', 'e:embedded',
+        \ 'm:methods', 'r:constructor', 'f:functions'
+        \ ],
+        \ 'sro' : '.',
+        \ 'kind2scope' : { 't' : 'ctype', 'n' : 'ntype' },
+        \ 'scope2kind' : { 'ctype' : 't', 'ntype' : 'n' },
+        \ 'ctagsbin' : 'gotags',
+        \ 'ctagsargs' : '-sort -silent'
+        \ }
   nnoremap <BS>t :TagbarToggle<CR>
 endif
 
@@ -447,6 +460,20 @@ call Bundles('pangloss/vim-javascript')
 " CoffeeScript support for vim
 call Bundles('kchmck/vim-coffee-script')
 
+" Golang {{{2
+
+if Bundles('fatih/vim-go', '-Blackrush/vim-gocode', '-jnwhiteh/vim-golang')
+  " let g:go_disable_autoinstall = 1
+  let g:go_bin_path = expand("$GOPATH/bin/")
+  " let g:go_fmt_autosave = 0
+  " call add(g:syntastic_mode_map['passive_filetypes'], 'go')
+  autocmd FileType go nnoremap <buffer> gd :GoDef<CR>|
+        \ nnoremap <buffer> K :GoDoc<CR>|
+        \ nnoremap <buffer> <LocalLeader>r :GoRun %<CR>|
+        \ nnoremap <buffer> <LocalLeader>R :GoRun<CR>
+  autocmd FileType godoc nnoremap <buffer> q <C-W>q
+endif
+
 " Ruby {{{2
 
 " Ruby runtime files (shipped with Vim and fairly updated.)
@@ -519,9 +546,6 @@ call Bundles('-ivanov/vim-ipython')
 
 " Vim Git runtime files
 call Bundles('+tpope/vim-git')
-
-" Github mirror of Go vimscripts, synced with main repository http://golang.org
-call Bundles('jnwhiteh/vim-golang')
 
 " A Vim plugin for Windows PowerShell support
 call Bundles('PProvost/vim-ps1')
