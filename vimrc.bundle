@@ -565,8 +565,10 @@ if Bundles('tpope/vim-fugitive')
   nnoremap g<Space>s :Gstatus<CR>
   nnoremap g<Space>cc :Gcommit<CR>
   nnoremap g<Space>ca :Gcommit --amend<CR>
+  nnoremap g<Space>cA :Gcommit --all<CR>
   nnoremap g<Space>cvc :Gcommit -v<CR>
   nnoremap g<Space>cva :Gcommit --amend -v<CR>
+  nnoremap g<Space>cvA :Gcommit --all -v<CR>
   nnoremap g<Space>D <C-W>o:Gdiff<CR>
   nnoremap g<Space>b :Gblame<CR>
   nnoremap g<Space>l :Glog<CR>
