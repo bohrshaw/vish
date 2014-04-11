@@ -369,6 +369,7 @@ if Bundles('scrooloose/syntastic')
   let g:syntastic_mode_map = { 'mode': 'active',
         \ 'active_filetypes': [],
         \ 'passive_filetypes': [] }
+  let g:syntastic_auto_jump = 2 " auto-jump to the first error
 endif
 
 " Vim plugin that displays tags in a window, ordered by class etc
