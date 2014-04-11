@@ -570,8 +570,8 @@ if Bundles('tpope/vim-fugitive')
   nnoremap g<Space>D <C-W>o:Gdiff<CR>
   nnoremap g<Space>b :Gblame<CR>
   nnoremap g<Space>l :Glog<CR>
-  nnoremap g<Space>ps :Dispatch! git push<CR>
-  nnoremap g<Space>pl :Dispatch! git pull<CR>
+  nnoremap g<Space>ps :Start! git push<CR>
+  nnoremap g<Space>pl :Start! git pull<CR>
 endif
 
 " Shows a git diff in the sign column and stages/reverts hunks
