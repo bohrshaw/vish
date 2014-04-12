@@ -58,6 +58,12 @@ endif
 " Create your own text objects
 call Bundles('kana/vim-textobj-user')
 
+" Text objects extended
+if Bundles('wellle/targets.vim', 'kana/vim-textobj-indent',
+      \ 'gaving/vim-textobj-argument', 'tommcdo/vim-ninja-feet')
+  let g:targets_nlNL = '  nl'
+endif
+
 " Insert: {{{1
 
 " Software caps lock
@@ -101,7 +107,6 @@ endif
 if Bundles('+tpope/vim-commentary')
   let commentary_map_backslash = 0
 endif
-
 call Bundles('-scrooloose/nerdcommenter', '-tomtom/tcomment_vim')
 
 " Quoting/parenthesizing made simple
@@ -112,9 +117,6 @@ call Bundles('godlygeek/tabular', '-tommcdo/vim-lion')
 
 " Use CTRL-A/CTRL-X to increment dates, times, and more
 call Bundles('+tpope/vim-speeddating')
-
-" Punctuation text objects: ci/ da; vi@ yiq da<space> ..
-call Bundles('kurkale6ka/vim-pairs')
 
 " Exchange text flexibly with a text exchange operator
 if Bundles('+tommcdo/vim-exchange')
