@@ -356,8 +356,12 @@ endif
 " Displaying indent levels visually
 if Bundles('Yggdroot/indentLine', '-nathanaelkane/vim-indent-guides')
   let g:indentLine_enabled = 0
+  " let g:indentLine_fileType = ['rb']
+  " let g:indentLine_faster = 1
+  " let g:indentLine_char = '┊' " |│¦┆┊
+  " A temporary solution to disable indents in HELP docs
+  autocmd VimEnter * autocmd! indentLine Syntax
   nnoremap <BS>i :IndentLinesToggle<CR>
-  let g:indent_guides_guide_size = 1
 endif
 
 " FileTypes: {{{1
