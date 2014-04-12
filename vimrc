@@ -243,12 +243,16 @@ NXnoremap <BS>b :<C-U>ls<CR>:b
 " The leader key of window related mappings
 " NXnoremap S <C-W>
 " Go to the below/right or above/left window
-NXnoremap tj <C-W>w
-NXnoremap tk <C-W>W
-" Go to the previous window
-NXnoremap gl <C-W>p
+NXnoremap gj <C-W>w
+NXnoremap gk <C-W>W
+NXnoremap gl <C-W>l
+NXnoremap gh <C-W>h
+" Move through display lines
+NXnoremap tj gj
+NXnoremap tk gk
 " Split a window vertically with the alternate file
 NXnoremap <C-W><C-^> :vsplit #<CR>
+
 " Go to [count] tab pages forward or back
 NXnoremap <silent> tl :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
 NXnoremap th gT
