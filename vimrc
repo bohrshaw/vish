@@ -302,9 +302,17 @@ inoremap <expr> <Tab> getline('.')[col('.')-2] !~ '^\s\?$' \|\| pumvisible()
 inoremap <expr> <S-Tab> getline('.')[col('.')-2] !~ '^\s\?$' \|\| pumvisible()
       \ ? '<C-P>' : '<Tab>'
 
-" Completion by words in dictionaries
+" Shortcuts of insert-completion in CTRL-X mode
+inoremap <C-X>l <C-X><C-L>
+inoremap <C-X>n <C-X><C-N>
 inoremap <C-X>k <C-X><C-K>
-" Omni completion
+inoremap <C-X>t <C-X><C-T>
+inoremap <C-X>i <C-X><C-I>
+inoremap <C-X>] <C-X><C-]>
+inoremap <C-X>f <C-X><C-F>
+inoremap <C-X>d <C-X><C-D>
+inoremap <C-X>v <C-X><C-V>
+inoremap <C-X>u <C-X><C-U>
 inoremap <C-X>o <C-X><C-O>
 inoremap <C-Z> <C-X><C-O>
 
