@@ -573,7 +573,8 @@ if Bundles('tpope/vim-fugitive')
   nnoremap g<Space>cC :execute &modified ? 'w' : '' \| Gcommit % -v<CR>
   nnoremap g<Space>ca :Gcommit --amend -v<CR>
   nnoremap g<Space>cA :Gcommit --all -v<CR>
-  nnoremap g<Space>D <C-W>o:Gdiff<CR>
+  nnoremap g<Space>dd :Git diff<CR>
+  nnoremap g<Space>dc <C-W>o:Gdiff<CR>
   nnoremap g<Space>b :Gblame<CR>
   nnoremap g<Space>l :Glog<CR>
   nnoremap g<Space>ps :Start! git push<CR>
@@ -591,7 +592,7 @@ if Bundles('airblade/vim-gitgutter')
   let g:gitgutter_sign_removed = '-'
   let g:gitgutter_sign_modified_removed = '='
   let g:gitgutter_map_keys = 0
-  nnoremap g<Space>d :call gitgutter#toggle()<CR>
+  nnoremap g<Space>ds :call gitgutter#toggle()<CR>
   nnoremap g<Space>u :GitGutter<CR>
   nnoremap g<Space>U :GitGutterAll<CR>
   nmap [c <Plug>GitGutterPrevHunk
