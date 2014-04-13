@@ -86,7 +86,10 @@ call Bundles('tpope/vim-endwise')
 " call Bundles('ervandew/supertab')
 
 " The ultimate snippet solution
-if Bundle('SirVer/ultisnips', {'m': ['i <C-J>'], 'f': '*.snippets'}) &&
+if Bundle('SirVer/ultisnips', {
+      \ 'm': ['i <C-J>'],
+      \ 'c': 'UltiSnipsEdit',
+      \ 'f': '*.snippets'}) &&
       \ Bundles('honza/vim-snippets')
   let g:UltiSnipsExpandTrigger='<C-J>'
   let g:UltiSnipsListSnippets='<C-Q>'
@@ -97,9 +100,8 @@ if Bundle('SirVer/ultisnips', {'m': ['i <C-J>'], 'f': '*.snippets'}) &&
   " let g:UltiSnipsEditSplit="vertical"
 endif
 
-" call Bundles(['garbas/vim-snipmate', 'MarcWeber/vim-addon-mw-utils',
-
-"       \ 'tomtom/tlib_vim', 'honza/vim-snippets'])
+" call Bundles('garbas/vim-snipmate', 'MarcWeber/vim-addon-mw-utils',
+"       \ 'tomtom/tlib_vim', 'honza/vim-snippets')
 
 " Change: {{{1
 
@@ -499,7 +501,7 @@ call Bundle('nelstrom/vim-textobj-rubyblock',
       \ {'f':'ruby', 'd':['kana/vim-textobj-user']})
 
 " Provide more controls over the above
-if Bundles(['-rhysd/vim-textobj-ruby', 'kana/vim-textobj-user'])
+if Bundles('-rhysd/vim-textobj-ruby', '-kana/vim-textobj-user')
   let g:textobj_ruby_more_mappings = 1
 endif
 
@@ -591,7 +593,8 @@ if Bundles('tpope/vim-fugitive')
 endif
 
 " A git repository viewer(a gitk clone)
-call Bundle('gregsexton/gitv', {'c': 'Gitv'})
+if Bundle('gregsexton/gitv', {'c': 'Gitv'}) && Bundles('tpope/vim-fugitive')
+endif
 
 " Shows a git diff in the sign column and stages/reverts hunks
 if Bundles('airblade/vim-gitgutter')
@@ -677,10 +680,10 @@ if Bundle('maksimr/vim-translator', {
 endif
 
 " Vimscript for gist
-call Bundles(['mattn/gist-vim', 'mattn/webapi-vim'])
+call Bundles('mattn/gist-vim', 'mattn/webapi-vim')
 
 " Run code on codepad.org
-if Bundles(['mattn/codepad-vim', 'mattn/webapi-vim'])
+if Bundles('mattn/codepad-vim', 'mattn/webapi-vim')
   NXnoremap <Leader>R :CodePadRun<CR>
 endif
 

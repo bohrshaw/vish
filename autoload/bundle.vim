@@ -65,21 +65,17 @@ function! BundleActivate(...)
 endfunction
 
 function! Bundles(...)
-  for bd in a:000
-    let b = type(bd) == 3 ? bd[0] : bd
+  for b in a:000
     let is_enabled = b[0] == '+'
-    if b[0] != '-' && (!get(g:, 'l') || is_enabled)
-      call add(g:bundles, is_enabled ? b[1:] : b)
-      if type(bd) == 3 " bundle dependencies
-        for d in bd[1:]
-          if index(g:bundles, d) < 0
-            call add(g:bundles, d)
-          endif
-        endfor
+    if is_enabled
+      let b = b[1:]
+    endif
+    if !get(g:, 'l') && b[0] != '-' || is_enabled
+      if index(g:bundles, b) < 0
+        call add(g:bundles, b)
       endif
       let if_config = 1
     endif
-    unlet bd " allow bd to hold a different type at the next loop
   endfor
   return get(l:, 'if_config') ? 1 : 0
 endfunction
