@@ -144,6 +144,9 @@ call Bundles('terryma/vim-multiple-cursors')
 " Characterize.vim: Unicode character metadata
 call Bundles('tpope/vim-characterize')
 
+" Transpose matrices of text (swap lines with columns)
+call Bundles('salsifis/vim-transpose')
+
 " History: {{{1
 
 " Display your undo history in a graph
@@ -243,13 +246,10 @@ if Bundles('tpope/vim-vinegar')
   nmap d<Space> <Plug>VinegarUp
 endif
 
-" Changes Vim working directory to project root
-if Bundle('airblade/vim-rooter',
-      \ {'m': ['nmap <Leader>dc <Plug>RooterChangeToRootDirectory']})
-  let g:rooter_manual_only = 1
-  " let g:rooter_use_lcd = 1
-  " Make an unused mapping to disable the default one
-  nmap \_ <Plug>RooterChangeToRootDirectory
+" Project configuration
+if Bundles('tpope/vim-projectile')
+  nnoremap <Leader>dc :Lcd<CR>
+  nnoremap <Leader>dC :Cd<CR>
 endif
 
 " Buffer Explorer/Browser
@@ -365,6 +365,12 @@ if Bundles('Yggdroot/indentLine', '-nathanaelkane/vim-indent-guides')
   autocmd VimEnter * autocmd! indentLine Syntax
   nnoremap <BS>i :IndentLinesToggle<CR>
 endif
+
+" A powerful color tool
+call Bundles('-Rykka/colorv.vim')
+
+" All 256 xterm colors with their RGB equivalents, right in Vim!
+call Bundle('guns/xterm-color-table.vim', {'c': 'XtermColorTable'})
 
 " FileTypes: {{{1
 
@@ -581,6 +587,9 @@ if Bundles('tpope/vim-fugitive')
   nnoremap g<Space>pl :Start! git pull<CR>
 endif
 
+" A git repository viewer(a gitk clone)
+call Bundle('gregsexton/gitv', {'c': 'Gitv'})
+
 " Shows a git diff in the sign column and stages/reverts hunks
 if Bundles('airblade/vim-gitgutter')
   let g:gitgutter_enabled = 0
@@ -675,9 +684,6 @@ endif
 " Interact with the simplenote service
 " call Bundles('mrtazz/simplenote.vim')
 
-" All 256 xterm colors with their RGB equivalents, right in Vim!
-call Bundles('guns/xterm-color-table.vim')
-
 " AlternativeUsages: {{{1
 
 " Personal Wiki for Vim
@@ -697,6 +703,9 @@ if Bundles('itchyny/calendar.vim')
   " let g:calendar_google_calendar = 1
   " let g:calendar_google_task = 1
 endif
+
+" A convenient interactive calculator inside a buffer
+call Bundle('gregsexton/VimCalc', {'c': 'Calc'})
 
 " Task managers
 " call Bundles('aaronbieber/quicktask', 'davidoc/taskpaper.vim',
