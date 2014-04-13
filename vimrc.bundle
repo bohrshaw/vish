@@ -170,6 +170,8 @@ call Bundles('+tpope/vim-repeat')
 
 " Pairs of handy bracket mappings
 call Bundles('+tpope/vim-unimpaired')
+nnoremap <silent> ]O :call search('to-\?do:\c', 'sW')<CR>
+nnoremap <silent> [O :call search('to-\?do:\c', 'sWb')<CR>
 
 " Mappings for simultaneously pressed keys
 " call Bundles('kana/vim-arpeggio')
@@ -576,11 +578,12 @@ if Bundles('tpope/vim-fugitive')
   " Git deserves a convenient leader key for mappings
   nnoremap g<Space>s :Gstatus<CR>
   nnoremap g<Space>cc :Gcommit -v<CR>
+  nnoremap g<Space>cd :wq \| Gcommit -v<CR>
   nnoremap g<Space>cC :execute &modified ? 'w' : '' \| Gcommit % -v<CR>
   nnoremap g<Space>ca :Gcommit --amend -v<CR>
   nnoremap g<Space>cA :Gcommit --all -v<CR>
-  nnoremap g<Space>dd :Git diff<CR>
-  nnoremap g<Space>dc <C-W>o:Gdiff<CR>
+  nnoremap g<Space>dd <C-W>o:Gdiff<CR>
+  nnoremap g<Space>da :Git diff<CR>
   nnoremap g<Space>b :Gblame<CR>
   nnoremap g<Space>l :Glog<CR>
   nnoremap g<Space>ps :Start! git push<CR>
