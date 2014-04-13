@@ -261,7 +261,7 @@ if Bundles('moll/vim-bbye')
 endif
 
 " Distraction-free writing
-if Bundle('junegunn/goyo.vim', {'m': ['noremap <C-W>O :Goyo<CR>']})
+if Bundle('junegunn/goyo.vim', {'m': ['nnoremap <C-W>O :Goyo<CR>']})
   " let g:goyo_width = 100
   let g:goyo_margin_top = 2
   let g:goyo_margin_bottom = 2

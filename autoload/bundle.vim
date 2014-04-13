@@ -19,7 +19,7 @@ function! Bundle(...)
       " Get all user-defined mapping commands
       let map_cmds = substitute(
             \ join(filter(copy(a:2['m']), 'v:val =~ ''\s\S\+\s'''), '\|'),
-            \ '<\ze\w[^-]', '<lt>', 'g')
+            \ '<', '<lt>', 'g')
       for map in a:2['m']
         let key = split(map)[1]
         let map_key = map[0].'map <silent> '.key.' '
