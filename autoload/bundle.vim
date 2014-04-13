@@ -34,6 +34,10 @@ function! Bundle(...)
         endif
       endfor
     end
+    if has_key(a:2, 'c')
+      let cmd = a:2['c']
+      execute 'command! '.cmd.' '.bundle_cmd.'|'.cmd
+    endif
     if has_key(a:2, 'f')
       let pat = a:2['f']
       let event_pat = pat =~ '[*.]' ?
