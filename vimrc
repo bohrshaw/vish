@@ -309,6 +309,7 @@ inoremap <expr> <S-Tab> getline('.')[col('.')-2] !~ '^\s\?$' \|\| pumvisible()
 " Shortcuts of insert-completion in CTRL-X mode
 inoremap <C-X>l <C-X><C-L>
 inoremap <C-X>n <C-X><C-N>
+inoremap <C-X>p <C-X><C-P>
 inoremap <C-X>k <C-X><C-K>
 inoremap <C-X>t <C-X><C-T>
 inoremap <C-X>i <C-X><C-I>
@@ -321,7 +322,7 @@ inoremap <C-X>o <C-X><C-O>
 inoremap <C-Z> <C-X><C-O>
 
 " Break the undo sequence
-inoremap <C-U> <C-G>u<C-U>
+" inoremap <C-U> <C-G>u<C-U>
 
 " Recall older or more recent command-line from history, but the command matches
 " the current command-line
