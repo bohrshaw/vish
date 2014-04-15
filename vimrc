@@ -300,11 +300,14 @@ NXnoremap <silent> 'B :let _f = expand('~/.vim/vimrc.bundle')\|
 " Open the command-line window
 set cedit=<C-G>
 
-" A smart <Tab> to do insert-completion ('lightab' instead of 'supertab')
+" A smart and light <Tab> to do insert-completion
 inoremap <expr> <Tab> getline('.')[col('.')-2] !~ '^\s\?$' \|\| pumvisible()
       \ ? '<C-N>' : '<Tab>'
-inoremap <expr> <S-Tab> getline('.')[col('.')-2] !~ '^\s\?$' \|\| pumvisible()
+inoremap <expr> <S-Tab> pumvisible() \|\| getline('.')[col('.')-2] !~ '^\s\?$'
       \ ? '<C-P>' : '<Tab>'
+autocmd CmdwinEnter * inoremap <expr> <buffer> <Tab>
+      \ getline('.')[col('.')-2] !~ '^\s\?$' \|\| pumvisible()
+      \ ? '<C-X><C-V>' : '<Tab>'
 
 " Shortcuts of insert-completion in CTRL-X mode
 inoremap <C-X>l <C-X><C-L>
