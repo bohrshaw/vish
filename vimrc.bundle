@@ -581,7 +581,10 @@ if Bundles('tpope/vim-fugitive')
   nnoremap g<Space>s :Gstatus<CR>
   nnoremap g<Space>cc :Gcommit -v<CR>
   nnoremap g<Space>cd :wq \| Gcommit -v<CR>
-  nnoremap g<Space>cC :execute &modified ? 'w' : '' \| Gcommit % -v<CR>
+  nnoremap g<Space>cC :execute &modified ? 'w' : '' \|
+        \ execute 'Gcommit -v '.join(
+        \ split(expand('%:p'), '[\/]', 1)[len(split(b:git_dir, '[\/]', 1))-1:],
+        \ '/')<CR>
   nnoremap g<Space>ca :Gcommit --amend -v<CR>
   nnoremap g<Space>cA :Gcommit --all -v<CR>
   nnoremap g<Space>dd <C-W>o:Gdiff<CR>
