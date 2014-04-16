@@ -251,10 +251,7 @@ if Bundles('tpope/vim-vinegar')
 endif
 
 " Project configuration
-if Bundles('tpope/vim-projectile')
-  nnoremap <Leader>dc :Lcd<CR>
-  nnoremap <Leader>dC :Cd<CR>
-endif
+" call Bundles('tpope/vim-projectile')
 
 " Buffer Explorer/Browser
 call Bundles('vim-scripts/bufexplorer.zip', '-jeetsukumaran/vim-buffergator')
@@ -593,6 +590,8 @@ if Bundles('tpope/vim-fugitive')
   nnoremap g<Space>l :Glog<CR>
   nnoremap g<Space>ps :execute 'Start! git --git-dir='.b:git_dir.' push'<CR>
   nnoremap g<Space>pl :execute 'Start! git --git-dir='.b:git_dir.' pull'<CR>
+  nnoremap <silent> <Leader>dr :execute 'lcd '.b:git_dir[:-6]<CR>
+  nnoremap <silent> <Leader>dR :execute 'cd '.b:git_dir[:-6]<CR>
 endif
 
 " A git repository viewer(a gitk clone)
