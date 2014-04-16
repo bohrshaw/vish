@@ -591,8 +591,8 @@ if Bundles('tpope/vim-fugitive')
   nnoremap g<Space>da :Git diff<CR>
   nnoremap g<Space>b :Gblame<CR>
   nnoremap g<Space>l :Glog<CR>
-  nnoremap g<Space>ps :Start! git push<CR>
-  nnoremap g<Space>pl :Start! git pull<CR>
+  nnoremap g<Space>ps :execute 'Start! git --git-dir='.b:git_dir.' push'<CR>
+  nnoremap g<Space>pl :execute 'Start! git --git-dir='.b:git_dir.' pull'<CR>
 endif
 
 " A git repository viewer(a gitk clone)
