@@ -32,6 +32,6 @@ ln -sf $VIM_DIR/vimperatorrc $HOME/.vimperatorrc
 ln -sfn $VIM_DIR/vimperator $HOME/.vimperator
 
 echo "Clone bundles ..."
-$VIM_DIR/bin/bundle.rb
+$VIM_DIR/bin/vundle.rb
 
 echo "Installation done."
