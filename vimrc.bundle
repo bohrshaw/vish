@@ -580,18 +580,22 @@ if Bundles('tpope/vim-fugitive')
   " Git deserves a convenient leader key for mappings
   nnoremap g<Space>s :Gstatus<CR>
   nnoremap g<Space>cc :Gcommit -v<CR>
-  nnoremap g<Space>cd :wq \| Gcommit -v<CR>
+  nnoremap g<Space>ca :Gcommit --amend -v<CR>
   nnoremap g<Space>cC :execute &modified ? 'w' : '' \|
         \ execute 'Gcommit -v '.join(
         \ split(expand('%:p'), '[\/]', 1)[len(split(b:git_dir, '[\/]', 1))-1:],
         \ '/')<CR>
-  nnoremap g<Space>ca :Gcommit --amend -v<CR>
-  nnoremap g<Space>cA :Gcommit --all -v<CR>
+  nnoremap g<Space>cA :execute &modified ? 'w' : '' \|
+        \ execute 'Gcommit --amend -v '.join(
+        \ split(expand('%:p'), '[\/]', 1)[len(split(b:git_dir, '[\/]', 1))-1:],
+        \ '/')<CR>
+  nnoremap g<Space>cd :wq \| Gcommit -v<CR>
   nnoremap g<Space>dd <C-W>o:Gdiff<CR>
   nnoremap g<Space>da :Git diff<CR>
   nnoremap g<Space>b :Gblame<CR>
   nnoremap g<Space>l :Glog<CR>
   nnoremap g<Space>ps :execute 'Start! git --git-dir='.b:git_dir.' push'<CR>
+  nnoremap g<Space>pS :execute 'Start! git --git-dir='.b:git_dir.' push -f'<CR>
   nnoremap g<Space>pl :execute 'Start! git --git-dir='.b:git_dir.' pull'<CR>
   nnoremap <silent> <Leader>dr :execute 'lcd '.b:git_dir[:-6]<CR>
   nnoremap <silent> <Leader>dR :execute 'cd '.b:git_dir[:-6]<CR>
