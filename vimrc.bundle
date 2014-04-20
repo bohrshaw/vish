@@ -98,6 +98,9 @@ if Bundle('SirVer/ultisnips', {
   let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippet"]
   let g:UltiSnipsSnippetsDir="~/.vim/snippet" " personal snippets path
   " let g:UltiSnipsEditSplit="vertical"
+  " Avoid python mis-detection during startup in Vim 7.4.52
+  autocmd VimEnter * if !has('python3') |
+        \ let g:UltiSnipsUsePythonVersion = 2 | endif
 endif
 
 " call Bundles('garbas/vim-snipmate', 'MarcWeber/vim-addon-mw-utils',
