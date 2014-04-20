@@ -436,6 +436,9 @@ command! -range=% -nargs=? Count echo vimrc#count
 command! -range=% SLOC echo vimrc#count
       \('^[^' . &cms[0] . ']', <line1>, <line2>) | normal ``
 
+" Mystify texts
+command! Mystify call misc#mystify()
+
 " ---------------------------------------------------------------------
 " Abbreviations: {{{1
 
