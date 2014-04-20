@@ -86,7 +86,7 @@ set cryptmethod=blowfish " acceptable encryption strength
 set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
 set display+=lastline " ensure the last line is properly displayed
 " autocmd GUIEnter * set vb t_vb= " disable error beep and screen flash
-set mouse=a " enable mouse in all modes
+" set mouse=a " enable mouse in all modes, but you may mis-touch the Touchpad
 " set clipboard=unnamed " link unnamed register and OS clipboard:
 
 set wildmenu wildmode=longest:full,full " command line completion mode
