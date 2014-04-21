@@ -689,7 +689,9 @@ if Bundle('maksimr/vim-translator', {
 endif
 
 " Vimscript for gist
-call Bundles('mattn/gist-vim', 'mattn/webapi-vim')
+if Bundles('mattn/gist-vim', 'mattn/webapi-vim')
+  let g:gist_post_private = 1
+endif
 
 " Run code on codepad.org
 if Bundles('mattn/codepad-vim', 'mattn/webapi-vim')
