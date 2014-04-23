@@ -192,6 +192,7 @@ if Bundles('kien/ctrlp.vim')
   " Set the mode to determine the root searching directory.
   " let g:ctrlp_working_path_mode = 'ra'
   " let g:ctrlp_show_hidden = 1 " scan for dotfiles and dotdirs
+  let g:ctrlp_follow_symlinks = 1
   " let g:ctrlp_clear_cache_on_exit = 0
   let g:ctrlp_max_files = 0
   let g:ctrlp_lazy_update = 200 " update the match window lazily
@@ -219,14 +220,17 @@ if Bundles('kien/ctrlp.vim')
   noremap <leader>fc :CtrlPClearCache<cr>
   " Open CtrlP bookmarked directories
   noremap <leader>fm :CtrlPBookmarkDir<cr>
-  " Extensions
-  let g:ctrlp_extensions = ['funky']
+  " Switch between similar files
+  nmap <expr> <Leader>fs ':CtrlP<CR>'.expand('%:t:r')
   " Fast vim CtrlP matcher based on python, for large projects
-  if Bundles('FelikZ/ctrlp-py-matcher') && has('python')
+  if has('python') && Bundles('FelikZ/ctrlp-py-matcher')
     let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
   endif
+  " Extensions
+  let g:ctrlp_extensions = []
   " Navigate and jump to function defs
   if Bundles('tacahiroy/ctrlp-funky')
+    call add(g:ctrlp_extensions, 'funky')
     nnoremap <Leader>ff :CtrlPFunky<CR>
   endif
 endif
