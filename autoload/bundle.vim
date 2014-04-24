@@ -64,6 +64,15 @@ function! BundleActivate(...)
   endfor
 endfunction
 
+function! BundleNow(b)
+  let is_enabled = a:b[0] == '+'
+  let b = is_enabled ? a:b[1:] : a:b
+  if !get(g:, 'l') && a:b[0] != '-' || is_enabled
+    call path#add(b[stridx(b,"/")+1:])
+    return 1
+  endif
+endfunction
+
 function! Bundles(...)
   for b in a:000
     let is_enabled = b[0] == '+'
