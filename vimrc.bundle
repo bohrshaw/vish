@@ -658,6 +658,9 @@ call Bundles('tpope/vim-eunuch')
 if !has('win32') && Bundles('tpope/vim-tbone')
 endif
 
+" Insert mode completion of words in adjacent tmux panes
+call Bundles('wellle/tmux-complete.vim')
+
 " Implement transparent editing of gpg encrypted files
 " call Bundles('jamessan/vim-gnupg')
 
