@@ -56,7 +56,13 @@ if Bundles('-rhysd/clever-f.vim')
 endif
 
 " Create your own text objects
-call Bundles('kana/vim-textobj-user')
+if BundleNow('kana/vim-textobj-user')
+  call textobj#user#plugin('file', {
+        \ 'file': {
+        \ 'pattern': '\f\+', 'select': ['af', 'if']
+        \ }
+        \ })
+endif
 
 " Text objects extended
 if Bundles('wellle/targets.vim', 'kana/vim-textobj-indent',
