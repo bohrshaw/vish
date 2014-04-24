@@ -1,3 +1,6 @@
+" Turn on relative number
+setlocal relativenumber
+
 " Use 'q' to close the help window
 noremap <buffer> q <C-W>c
 
