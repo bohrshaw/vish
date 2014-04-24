@@ -590,6 +590,7 @@ if Bundles('tpope/vim-fugitive')
   " Git deserves a convenient leader key for mappings
   nnoremap g<Space>s :Gstatus<CR>
   nnoremap g<Space>cc :Gcommit -v<CR>
+  nnoremap g<Space>CC :Gcommit --all -v<CR>
   nnoremap g<Space>ca :Gcommit --amend -v<CR>
   nnoremap g<Space>cC :execute &modified ? 'w' : '' \|
         \ execute 'Gcommit -v '.join(
