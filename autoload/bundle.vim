@@ -69,6 +69,7 @@ function! BundleNow(b)
   let b = is_enabled ? a:b[1:] : a:b
   if !get(g:, 'l') && a:b[0] != '-' || is_enabled
     call path#add(b[stridx(b,"/")+1:])
+    call add(g:dundles, b)
     return 1
   endif
 endfunction

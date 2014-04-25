@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"os/user"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"sync"
 )
@@ -133,7 +134,20 @@ func getBundles() []string {
 	}
 
 	bundles, _ := exec.Command("vim", args...).Output()
-	return strings.Fields(string(bundles))
+
+	// Extract the partial URL if a bundle includes additional directories
+	extract := func(items []string) []string {
+		matcher := regexp.MustCompile(`/.+?/`)
+		extractor := regexp.MustCompile(`[^/]+?/[^/]+`)
+		for i, v := range items {
+			if matcher.MatchString(v) {
+				items[i] = extractor.FindString(v)
+			}
+		}
+		return items
+	}
+
+	return extract(strings.Fields(string(bundles)))
 }
 
 // Generate help tags
