@@ -330,7 +330,7 @@ call Bundles('+chriskempson/base16-vim', '+tomasr/molokai', '+zeis/vim-kolor',
       \ '-tpope/vim-vividchalk')
 
 " Sublime Text 2 Themes (textmate)
-call Bundles('+daylerees/colour-schemes/vim-themes')
+call Bundles('+daylerees/colour-schemes/vim')
 
 " One colorscheme pack to rule them all
 " call Bundles('flazz/vim-colorschemes')
