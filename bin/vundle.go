@@ -16,6 +16,7 @@ import (
 var (
 	update   = flag.Bool("u", false, "update bundles")
 	clear    = flag.Bool("c", false, "clear bundles")
+	routines = flag.Int("r", 20, "number of routines")
 	cuser, _ = user.Current()
 	sep      = string(os.PathSeparator)
 	root     = cuser.HomeDir + sep + ".vim" + sep + "bundle"
@@ -36,7 +37,7 @@ func main() {
 	var wg sync.WaitGroup
 
 	// Spawn some worker goroutines
-	for i := 0; i < 30; i++ {
+	for i := 0; i < *routines; i++ {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
