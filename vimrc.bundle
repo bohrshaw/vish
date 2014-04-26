@@ -22,7 +22,7 @@ call Bundles('tpope/vim-scriptease')
 " MotionSearch: {{{1
 
 " The missing motion for Vim
-if Bundles('+justinmk/vim-sneak')
+if Bundles('Justinmk/vim-sneak')
   " let g:sneak#streak = 1
   " let g:sneak#use_ic_scs = 1 " 'ignorecase', 'smartcase'
   " Alternative mappings: z; z,
@@ -80,19 +80,19 @@ endif
 
 " Provides insert mode auto-completion for quotes, parens, brackets, etc.
 " Currently all breaks repeating.
-call Bundles('-Raimondi/delimitMate', '-jiangmiao/auto-pairs')
+call Bundles('-raimondi/delimitmate', '-jiangmiao/auto-pairs')
 
 " Wisely add 'end' in ruby, endfunction/endif/more in vim script, etc
 call Bundles('tpope/vim-endwise')
 
 " A code-completion engine for Vim
-" call Bundles('Valloric/YouCompleteMe')
+" call Bundles('valloric/youcompleteme')
 
 " Perform all your vim insert mode completions with Tab
 " call Bundles('ervandew/supertab')
 
 " The ultimate snippet solution
-if Bundle('SirVer/ultisnips', {
+if Bundle('sirver/ultisnips', {
       \ 'm': ['i <C-J>'],
       \ 'c': 'UltiSnipsEdit',
       \ 'f': '*.snippets'}) &&
@@ -109,28 +109,28 @@ if Bundle('SirVer/ultisnips', {
         \ let g:UltiSnipsUsePythonVersion = 2 | endif
 endif
 
-" call Bundles('garbas/vim-snipmate', 'MarcWeber/vim-addon-mw-utils',
+" call Bundles('garbas/vim-snipmate', 'marcweber/vim-addon-mw-utils',
 "       \ 'tomtom/tlib_vim', 'honza/vim-snippets')
 
 " Change: {{{1
 
 " Commenting
-if Bundles('+tpope/vim-commentary')
+if Bundles('Tpope/vim-commentary')
   let commentary_map_backslash = 0
 endif
 call Bundles('-scrooloose/nerdcommenter', '-tomtom/tcomment_vim')
 
 " Quoting/parenthesizing made simple
-call Bundles('+tpope/vim-surround')
+call Bundles('Tpope/vim-surround')
 
 " Text filtering and alignment
 call Bundles('godlygeek/tabular', '-tommcdo/vim-lion')
 
 " Use CTRL-A/CTRL-X to increment dates, times, and more
-call Bundles('+tpope/vim-speeddating')
+call Bundles('Tpope/vim-speeddating')
 
 " Exchange text flexibly with a text exchange operator
-if Bundles('+tommcdo/vim-exchange')
+if Bundles('Tommcdo/vim-exchange')
   " nmap cx <Plug>(Exchange)
   vmap cx <Plug>(Exchange)
   " nmap cxc <Plug>(ExchangeClear)
@@ -138,7 +138,7 @@ if Bundles('+tommcdo/vim-exchange')
 endif
 
 " Exchange(swap) text directly/quickly with mappings
-if Bundles('+kurkale6ka/vim-swap')
+if Bundles('Kurkale6ka/vim-swap')
   " let g:swap_custom_ops = []
   vmap cq  <plug>SwapSwapOperands
   vmap cp <plug>SwapSwapPivotOperands
@@ -147,7 +147,7 @@ if Bundles('+kurkale6ka/vim-swap')
 endif
 
 " Easily search for, substitute, and abbreviate multiple variants of a word
-call Bundles('+tpope/vim-abolish')
+call Bundles('Tpope/vim-abolish')
 
 " True Sublime Text style multiple selections for Vim
 call Bundles('terryma/vim-multiple-cursors')
@@ -172,7 +172,7 @@ if Bundles('sjl/gundo.vim')
 endif
 
 " Enable repeating supported plugin maps with '.'
-call Bundles('+tpope/vim-repeat')
+call Bundles('Tpope/vim-repeat')
 
 " Maintains a history of previous yanks, changes and deletes
 " call Bundles('vim-scripts/yankring.vim')
@@ -180,7 +180,7 @@ call Bundles('+tpope/vim-repeat')
 " Mapping: {{{1
 
 " Pairs of handy bracket mappings
-call Bundles('+tpope/vim-unimpaired')
+call Bundles('Tpope/vim-unimpaired')
 nnoremap <silent> ]O :call search('to-\?do:\c', 'sW')<CR>
 nnoremap <silent> [O :call search('to-\?do:\c', 'sWb')<CR>
 
@@ -229,7 +229,7 @@ if Bundles('kien/ctrlp.vim')
   " Switch between similar files
   nmap <expr> <Leader>fs ':CtrlP<CR>'.expand('%:t:r')
   " Fast vim CtrlP matcher based on python, for large projects
-  if has('python') && Bundles('FelikZ/ctrlp-py-matcher')
+  if has('python') && Bundles('felikz/ctrlp-py-matcher')
     let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
   endif
   " Extensions
@@ -370,7 +370,7 @@ if Bundles('-kshenoy/vim-signature')
 endif
 
 " Displaying indent levels visually
-if Bundles('Yggdroot/indentLine', '-nathanaelkane/vim-indent-guides')
+if Bundles('yggdroot/indentline', '-nathanaelkane/vim-indent-guides')
   let g:indentLine_enabled = 0
   " let g:indentLine_fileType = ['rb']
   " let g:indentLine_faster = 1
@@ -381,7 +381,7 @@ if Bundles('Yggdroot/indentLine', '-nathanaelkane/vim-indent-guides')
 endif
 
 " A powerful color tool
-call Bundles('-Rykka/colorv.vim')
+call Bundles('-rykka/colorv.vim')
 
 " All 256 xterm colors with their RGB equivalents, right in Vim!
 call Bundle('guns/xterm-color-table.vim', {'c': 'XtermColorTable'})
@@ -417,7 +417,7 @@ if Bundles('majutsushi/tagbar')
 endif
 
 " Documentation/reference viewer
-call Bundles('Keithbsmiley/investigate.vim')
+call Bundles('keithbsmiley/investigate.vim')
 
 if Bundles('-thinca/vim-ref')
   let g:ref_no_default_key_mappings = 1
@@ -435,13 +435,13 @@ if Bundles('thinca/vim-quickrun')
 endif
 
 " Transition between multiline and single-line code
-if Bundles('AndrewRadev/splitjoin.vim')
+if Bundles('andrewradev/splitjoin.vim')
   " let g:splitjoin_split_mapping = 'gS'
   " let g:splitjoin_join_mapping  = 'gJ'
 endif
 
 " Switch segments of text with predefined replacements
-if Bundles('AndrewRadev/switch.vim')
+if Bundles('andrewradev/switch.vim')
   nnoremap cS :Switch<CR>
   " let g:switch_custom_definitions = []
 endif
@@ -489,7 +489,7 @@ call Bundles('kchmck/vim-coffee-script')
 
 " Golang {{{2
 
-if Bundles('fatih/vim-go', '-Blackrush/vim-gocode', '-jnwhiteh/vim-golang')
+if Bundles('fatih/vim-go', '-blackrush/vim-gocode', '-jnwhiteh/vim-golang')
   " let g:go_disable_autoinstall = 1
   let g:go_bin_path = expand("$GOPATH/bin/")
   " let g:go_fmt_autosave = 0
@@ -572,10 +572,10 @@ call Bundles('-ivanov/vim-ipython')
 " Others {{{2
 
 " Vim Git runtime files
-call Bundles('+tpope/vim-git')
+call Bundles('Tpope/vim-git')
 
 " A Vim plugin for Windows PowerShell support
-call Bundles('PProvost/vim-ps1')
+call Bundles('pprovost/vim-ps1')
 
 " Syntax file for nginx
 call Bundles('vim-scripts/nginx.vim')

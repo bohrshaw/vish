@@ -5,14 +5,13 @@
 augroup bundling
 augroup END
 
-let g:bundles = [] " on-Vim-startup bundles
-let g:dundles = [] " on-demand bundles
+let g:bundles = [] " bundles activated on startup
+let g:dundles = [] " bundles to be downloaded
 
 function! Bundle(...)
-  let for_light = a:1[0] == '+'
-  if !get(g:, 'l') || for_light
-    call add(g:dundles, a:1)
-    let dirs = map((has_key(a:2, 'd')?a:2['d']:[])+[for_light?a:1[1:]:a:1],
+  call s:dundle_add(a:1)
+  if s:bundle_enabled(a:1)
+    let dirs = map(add((has_key(a:2, 'd') ? a:2['d'] : []), a:1),
           \ 'matchstr(v:val, ''/\zs.*'')')
     let bundle_cmd = 'call call("BundleActivate",'.string(dirs).')'
     if has_key(a:2, 'm')
@@ -65,22 +64,17 @@ function! BundleActivate(...)
 endfunction
 
 function! BundleNow(b)
-  let is_enabled = a:b[0] == '+'
-  let b = is_enabled ? a:b[1:] : a:b
-  if !get(g:, 'l') && a:b[0] != '-' || is_enabled
-    call path#add(b[stridx(b,"/")+1:])
-    call add(g:dundles, b)
+  call s:dundle_add(a:b)
+  if s:bundle_enabled(a:b)
+    call path#add(a:b[stridx(a:b,"/")+1:])
     return 1
   endif
 endfunction
 
 function! Bundles(...)
   for b in a:000
-    let is_enabled = b[0] == '+'
-    if is_enabled
-      let b = b[1:]
-    endif
-    if !get(g:, 'l') && b[0] != '-' || is_enabled
+    call s:dundle_add(b)
+    if s:bundle_enabled(b)
       if index(g:bundles, b) < 0
         call add(g:bundles, b)
       endif
@@ -88,6 +82,19 @@ function! Bundles(...)
     endif
   endfor
   return get(l:, 'if_config') ? 1 : 0
+endfunction
+
+function! s:dundle_add(b)
+  if a:b[0] != '-'
+    call add(g:dundles, a:b)
+  endif
+endfunction
+
+function! s:bundle_enabled(b)
+  if (!$VIML && !get(g:, 'l') || get(g:, 'h')) && a:b[0] != '-'
+        \ || a:b[0] =~# '\u'
+    return 1
+  endif
 endfunction
 
 " Inject bundle paths to 'rtp'
