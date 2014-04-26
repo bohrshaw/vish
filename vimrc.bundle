@@ -317,23 +317,32 @@ endif
 " Color Schemes {{{2
 
 " Precision colorscheme for the vim text editor
-if Bundles('+altercation/vim-colors-solarized')
+if Bundles('Altercation/vim-colors-solarized')
   let g:solarized_italic = 0
   let g:solarized_termcolors = &term =~ '256col' ? 256 : 16
   let g:solarized_menu=0
   autocmd ColorScheme solarized runtime colors/solarized_additional.vim
 endif
 
-call Bundles('+chriskempson/base16-vim', '+tomasr/molokai', '+zeis/vim-kolor',
-      \ 'w0ng/vim-hybrid', 'sk1418/last256', 'nanotech/jellybeans.vim',
-      \ 'junegunn/seoul256.vim', 'reedes/vim-colors-pencil',
-      \ '-tpope/vim-vividchalk')
+" Dark themes
+call Bundles('Nanotech/jellybeans.vim', 'Zeis/vim-kolor',
+      \ 'jnurmine/zenburn', 'sjl/badwolf',
+      \ 'goatslacker/mango.vim', 'Sk1418/last256',
+      \ 'Rking/vim-detailed', 'Lokaltog/vim-distinguished',
+      \ 'Tomasr/molokai', 'sickill/vim-monokai',
+      \ 'tpope/vim-vividchalk', 'Vim-scripts/twilight')
 
-" Sublime Text 2 Themes (textmate)
-call Bundles('+daylerees/colour-schemes/vim')
+" Light themes
+call Bundles('endel/vim-github-colorscheme', 'jonathanfilip/vim-lucius',
+      \ 'noahfrederick/vim-hemisu', 'morhetz/gruvbox')
 
-" One colorscheme pack to rule them all
-" call Bundles('flazz/vim-colorschemes')
+" Two-faced themes
+call Bundles('W0ng/vim-hybrid', 'Junegunn/seoul256.vim',
+      \ 'Reedes/vim-colors-pencil')
+
+" Multiple themes
+call Bundles('-flazz/vim-colorschemes', '-daylerees/colour-schemes/vim',
+      \ 'chriskempson/vim-tomorrow-theme', 'chriskempson/base16-vim')
 
 " Make gvim-only colorschemes work transparently in terminal vim
 " call Bundles('godlygeek/csapprox')

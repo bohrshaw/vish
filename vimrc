@@ -544,18 +544,14 @@ if !exists('g:loaded_vimrc')
   endif
 
   set background=dark " assume a dark background for color schemes
-  if l
-    if has('gui_running')
-      color base16-solarized
-    elseif has('unix')
-      color terminator " twilight256
-    endif
-  else
-    if has('gui_running') || &t_Co == 256
+  if has('gui_running') || &t_Co == 256
+    if (!$VIML && !get(g:, 'l') || get(g:, 'h'))
       color solarized
     else
-      color terminator
+      color last256
     endif
+  else
+    color kolor
   endif
 endif
 
