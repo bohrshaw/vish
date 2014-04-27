@@ -91,10 +91,12 @@ func syncBundle(bundle *string) {
 		out, _ := cmd.Output()
 
 		// Update submodules
-		cmd.Args = strings.Fields("git submodule sync")
-		cmd.Run()
-		cmd.Args = strings.Fields("git submodule update --init --recursive")
-		cmd.Run()
+		if _, err := os.Stat(path + sep + ".gitmodules"); !os.IsNotExist(err) {
+			cmd.Args = strings.Fields("git submodule sync")
+			cmd.Run()
+			cmd.Args = strings.Fields("git submodule update --init --recursive")
+			cmd.Run()
+		}
 
 		if string(out)[0] != 'A' {
 			fmt.Println(urlHTTP, "updated")
