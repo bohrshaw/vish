@@ -85,7 +85,7 @@ function! Bundles(...)
 endfunction
 
 function! s:dundle_add(b)
-  if a:b[0] != '-'
+  if a:b[0] != '-' && index(g:dundles, a:b) < 0
     call add(g:dundles, a:b)
   endif
 endfunction
