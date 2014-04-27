@@ -131,7 +131,7 @@ func getBundles() []string {
 	args := []string{
 		"-Nesc",
 		"so ~/.vim/autoload/bundle.vim | so ~/.vim/vimrc.bundle | " +
-			"put =bundles+dundles | 2,p | undo | q!",
+			"put =dundles | 2,p | undo | q!",
 	}
 
 	bundles, _ := exec.Command("vim", args...).Output()
