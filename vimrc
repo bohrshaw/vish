@@ -8,6 +8,8 @@
 " Foundation: {{{1
 
 if !exists('g:loaded_vimrc')
+  silent! source ~/.vim/tmp/vimrc " override system vimrc
+
   set nocompatible " make Vim behave in a more useful way
   set rtp^=$HOME/.vim rtp+=$HOME/.vim/after " be portable
 
