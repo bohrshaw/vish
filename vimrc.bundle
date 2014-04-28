@@ -124,7 +124,8 @@ call Bundles('-scrooloose/nerdcommenter', '-tomtom/tcomment_vim')
 call Bundles('Tpope/vim-surround')
 
 " Text filtering and alignment
-call Bundles('godlygeek/tabular', '-tommcdo/vim-lion')
+call Bundles('godlygeek/tabular', '-junegunn/vim-easy-align',
+      \ '-tommcdo/vim-lion')
 
 " Use CTRL-A/CTRL-X to increment dates, times, and more
 call Bundles('Tpope/vim-speeddating')
@@ -337,8 +338,10 @@ call Bundles('endel/vim-github-colorscheme', 'jonathanfilip/vim-lucius',
       \ 'noahfrederick/vim-hemisu', 'morhetz/gruvbox')
 
 " Two-faced themes
-call Bundles('W0ng/vim-hybrid', 'Junegunn/seoul256.vim',
+if Bundles('W0ng/vim-hybrid', 'Junegunn/seoul256.vim',
       \ 'Reedes/vim-colors-pencil')
+  let g:seoul256_background = 234
+endif
 
 " Multiple themes
 call Bundles('-flazz/vim-colorschemes', '-daylerees/colour-schemes/vim',
