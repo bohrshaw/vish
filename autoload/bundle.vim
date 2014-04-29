@@ -86,6 +86,7 @@ function! Bundles(...)
   return get(l:, 'if_config') ? 1 : 0
 endfunction
 
+" Add a bundle to the bundle downloading list
 function! s:dundle_add(b)
   if a:b[0] != '-' && index(g:dundles, a:b) < 0
     call add(g:dundles, a:b)
