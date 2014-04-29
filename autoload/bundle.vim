@@ -22,7 +22,8 @@ function! Bundle(...)
       for map in a:2['m']
         let key = split(map)[1]
         let map_key = map[0].'map <silent> '.key.' '
-        let map_activate = ':<C-U>'.bundle_cmd.'\|'.map_cmds.'<CR>'
+        let map_activate = ':<C-U>'.bundle_cmd.
+              \ '\|doautocmd FileType\|'.map_cmds.'<CR>'
         if map =~# '^[ic]\|^\a\{-}!'
           execute map_key.'<Esc>'.map_activate.'a'.key
         else
@@ -41,6 +42,7 @@ function! Bundle(...)
       let pat = a:2['f']
       let event_pat = pat =~ '[*.]' ?
             \ 'BufNewFile,BufReadPre '.pat : 'FileType '.pat
+      " One time autocmd
       execute 'autocmd bundling '.event_pat.' '.bundle_cmd.
             \ '|autocmd! bundling '.event_pat
     endif
