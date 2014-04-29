@@ -666,7 +666,7 @@ endif
 call Bundles('tpope/vim-eunuch')
 
 " Tmux basics
-if !has('win32') && Bundles('tpope/vim-tbone')
+if !has('win32') && Bundles('Tpope/vim-tbone')
 endif
 
 " Insert mode completion of words in adjacent tmux panes
