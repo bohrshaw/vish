@@ -663,7 +663,7 @@ if Bundles('junegunn/vim-github-dashboard')
 endif
 
 " Helpers for UNIX(Windows)
-call Bundles('tpope/vim-eunuch')
+call Bundles('Tpope/vim-eunuch')
 
 " Tmux basics
 if !has('win32') && Bundles('Tpope/vim-tbone')
