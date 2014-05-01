@@ -132,7 +132,7 @@ func clearBundle(bundles *[]string) {
 func getBundles() []string {
 	args := []string{
 		"-Nesc",
-		"let h=1 | so ~/.vim/autoload/bundle.vim | so ~/.vim/vimrc.bundle | " +
+		"so ~/.vim/autoload/bundle.vim | so ~/.vim/vimrc.bundle | " +
 			"put =dundles | 2,p | q!",
 	}
 
