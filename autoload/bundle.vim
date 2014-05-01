@@ -94,8 +94,7 @@ function! s:dundle_add(b)
 endfunction
 
 function! s:bundle_enabled(b)
-  if (!$VIML && !get(g:, 'l') || get(g:, 'h')) && a:b[0] != '-'
-        \ || a:b[0] =~# '\u'
+  if !get(g:, 'l') && a:b[0] != '-' || a:b[0] =~# '\u'
     return 1
   endif
 endfunction

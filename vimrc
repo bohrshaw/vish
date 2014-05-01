@@ -10,11 +10,10 @@
 if !exists('g:loaded_vimrc')
   silent! source ~/.vim/tmp/vimrc " override system vimrc
 
+  let g:l = $VIML && !get(g:, 'h') || get(g:, 'l') " lightweight Vim or not
+
   set nocompatible " make Vim behave in a more useful way
   set rtp^=$HOME/.vim rtp+=$HOME/.vim/after " be portable
-
-  " Light weight Vim or not
-  if !exists('l') |let l = 0 |endif
 
   " A special keys like <CR> are not interpreted, assign it as printed
   " let mapleader = '' " replace <Leader> in a map
