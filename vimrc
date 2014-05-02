@@ -15,9 +15,8 @@ if !exists('g:loaded_vimrc')
   set nocompatible " make Vim behave in a more useful way
   set rtp^=$HOME/.vim rtp+=$HOME/.vim/after " be portable
 
-  " A special keys like <CR> are not interpreted, assign it as printed
-  " let mapleader = '' " replace <Leader> in a map
-  let maplocalleader = 'm	' " replace <LocalLeader> in a map
+  " let mapleader = "\r" " replace <Leader> in a map
+  let maplocalleader = "m\t" " replace <LocalLeader> in a map
 
   " The character encoding used inside Vim (Set early to allow mappings start
   " with the ALT key work properly.)
