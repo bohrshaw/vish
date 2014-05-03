@@ -98,7 +98,7 @@ func syncBundle(bundle *string) {
 			cmd.Run()
 		}
 
-		if string(out)[0] != 'A' {
+		if len(out) != 0 && out[0] != 'A' {
 			fmt.Println(urlHTTP, "updated")
 		}
 	} else {
