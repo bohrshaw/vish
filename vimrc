@@ -8,7 +8,7 @@
 " Foundation: {{{1
 
 if !exists('g:loaded_vimrc')
-  silent! source ~/.vim/tmp/vimrc " override system vimrc
+  silent! source ~/.vimrc.local " override system vimrc
 
   let g:l = $VIML && !get(g:, 'h') || get(g:, 'l') " lightweight Vim or not
 
