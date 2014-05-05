@@ -28,6 +28,7 @@ for f in vimrc gvimrc vimperatorrc vimperator; do
   backup $HOME/.$f
 done
 ln -sf $VIM_DIR/vimrc $HOME/.vimrc
+ln -sf $VIM_DIR/gvimrc $HOME/.gvimrc
 ln -sf $VIM_DIR/vimperatorrc $HOME/.vimperatorrc
 ln -sfn $VIM_DIR/vimperator $HOME/.vimperator
 

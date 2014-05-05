@@ -40,6 +40,7 @@ if($VIM_DIR -ne (Convert-Path '~\.vim')) {
 
 # Link vimrc files
 New-Link "$VIM_DIR\vimrc" "$HOME\.vimrc"
+New-Link "$VIM_DIR\gvimrc" "$HOME\.gvimrc"
 New-Link "$VIM_DIR\vimperatorrc" "$HOME\.vimperatorrc"
 New-Link "$VIM_DIR\vimperator" "$HOME\vimperator"
 New-Link "$VIM_DIR\vsvimrc"

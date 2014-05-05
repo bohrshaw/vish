@@ -6,7 +6,7 @@ echo "Starting uninstallation..."
 pushd $HOME
 
 echo "Remove files..."
-rm -rf .vim .vimrc .gvimrc .vimrc.light
+rm -rf .vim .vimrc .gvimrc
 
 echo "Restore backups..."
 for i in .vim .vimrc* .gvimrc; do
