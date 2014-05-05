@@ -548,11 +548,7 @@ if !exists('g:loaded_vimrc')
 
   set background=dark " assume a dark background for color schemes
   if has('gui_running') || &t_Co == 256
-    if (!$VIML && !get(g:, 'l') || get(g:, 'h'))
-      color solarized
-    else
-      color last256
-    endif
+    execute 'color '.(g:l ? 'last256' : 'solarized')
   else
     color kolor
   endif
