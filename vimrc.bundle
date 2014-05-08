@@ -137,15 +137,19 @@ if Bundles('Tommcdo/vim-exchange')
   vmap cx <Plug>(Exchange)
   " nmap cxc <Plug>(ExchangeClear)
   " nmap cxx <Plug>(ExchangeLine)
+  nmap cdw cxiwwcxiw
+  nmap cdW cxiWWcxiW
+  nmap cdb cxiwbcxiw
+  nmap cdB cxiWBcxiW
 endif
 
 " Exchange(swap) text directly/quickly with mappings
 if Bundles('Kurkale6ka/vim-swap')
   " let g:swap_custom_ops = []
-  vmap cq  <plug>SwapSwapOperands
-  vmap cp <plug>SwapSwapPivotOperands
-  nmap cq  <plug>SwapSwapWithR_WORD
-  nmap cQ  <plug>SwapSwapWithL_WORD
+  vmap cd <plug>SwapSwapOperands
+  vmap cD <plug>SwapSwapPivotOperands
+  " nmap cdW  <plug>SwapSwapWithR_WORD
+  " nmap cdB  <plug>SwapSwapWithL_WORD
 endif
 
 " Easily search for, substitute, and abbreviate multiple variants of a word
