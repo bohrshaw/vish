@@ -211,9 +211,6 @@ xnoremap Y "+y
 " Copy entire file contents (to GUI-clipboard if available)
 nnoremap yY :execute '1,$yank ' . (has('clipboard')?'+':'')<CR>
 
-" Make 'cw' consistent with 'dw'
-onoremap <silent> w :execute 'normal! '.v:count1.'w'<CR>
-
 " Repeat last change on each line in a visual selection
 xnoremap . :normal! .<CR>
 " Execute a macro on each one in {count} lines
@@ -234,8 +231,12 @@ function! s:v_search(dir)
   let @s = temp
 endfunction
 
+" Make 'cw' consistent with 'dw'
+onoremap <silent> w :execute 'normal! '.v:count1.'w'<CR>
 " Mark a single line in character-wise visual mode
 nnoremap vv ^vg_
+" Substitute in an visual area
+xnoremap cs :s/\%V
 " Keep the flags when repeating last substitution
 NXnoremap & :&&<CR>
 " Deleting to the black hole register
