@@ -269,6 +269,23 @@ if Bundles('tpope/vim-vinegar')
   nmap d<Space> <Plug>VinegarUp
 endif
 
+" Bookmarks independent from Vim marks
+if Bundles('-mattesGroeger/vim-bookmarks')
+  let g:bookmark_sign = 'm'
+  let g:bookmark_annotation_sign = 'ma'
+  " let g:bookmark_auto_save = 0
+  let g:bookmark_auto_save_file = $HOME.'/.vim/tmp/bookmark'
+  " let g:bookmark_highlight_lines = 1
+  " let g:bookmark_center = 1
+  nmap mt <Plug>ToggleBookmark
+  nmap ma <Plug>Annotate
+  nmap ]m <Plug>NextBookmark
+  nmap [m <Plug>PrevBookmark
+  nmap <Leader>ml <Plug>ShowAllBookmarks
+  nmap <Leader>mc <Plug>ClearBookmarks
+  nmap <Leader>mC <Plug>ClearAllBookmarks
+endif
+
 " Project configuration
 " call Bundles('tpope/vim-projectile')
 
