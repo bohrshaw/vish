@@ -425,6 +425,13 @@ command! AppendModeline call vimrc#appendModeline()
 command! -nargs=1 Google call netrw#NetrwBrowseX(
       \ "http://www.google.com.hk/search?q=".expand("<args>"),0)
 
+" Clear the current quickfix list
+command! -bar Cclear call setqflist([])
+" Grep through all buffers
+command! -nargs=1 BufGrep cexpr [] | bufdo vimgrepadd <args> %
+" command! -nargs=1 BufGrep cexpr [] | mark Z |
+"       \ execute "bufdo silent! g/<args>/caddexpr
+"       \ expand('%').':'.line('.').':'.getline('.')" | normal `Z
 " Grep using 'ag' or 'ack' without affecting 'grepprg' and 'grepformat'
 command! -bar -nargs=+ -complete=file Ag call grep#grep('ag', <q-args>)
 command! -bar -nargs=+ -complete=file Ack call grep#grep('ack', <q-args>)
