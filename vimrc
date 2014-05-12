@@ -447,8 +447,8 @@ command! Mystify call misc#mystify()
 " Abbreviations: {{{1
 
 " Open help in a vertical window or a new tab
-cabbrev vh vert h
-cabbrev th tab h
+cabbrev hv vert h
+cabbrev ht tab h
 
 " Edit a file in a new tab
 cabbrev te tabe
