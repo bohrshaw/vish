@@ -25,13 +25,13 @@ call Bundles('tpope/vim-scriptease')
 if Bundles('Justinmk/vim-sneak')
   " let g:sneak#streak = 1
   " let g:sneak#use_ic_scs = 1 " 'ignorecase', 'smartcase'
-  " Alternative mappings: z; z,
-  nmap f<CR> <Plug>SneakForward
-  xmap f<CR> <Plug>VSneakForward
-  nmap f<BS> <Plug>SneakBackward
-  xmap f<BS> <Plug>VSneakBackward
-  nmap t<CR> <Plug>(SneakStreak)
-  nmap t<BS> <Plug>(SneakStreakBackward)
+  let sneak#textobject_z = 0
+  " Alternative mappings keys: z; z,
+  command! -nargs=1 NXOmap nmap <args><Bar>xmap <args><Bar>omap <args>
+  NXOmap f<CR> <Plug>Sneak_s
+  NXOmap f<BS> <Plug>Sneak_S
+  NXOmap t<CR> <Plug>(SneakStreak)
+  NXOmap t<BS> <Plug>(SneakStreakBackward)
   hi! link SneakPluginScope Comment
 endif
 
