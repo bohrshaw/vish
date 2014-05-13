@@ -8,8 +8,8 @@ execute 'augroup bundle| autocmd!'
 
 " Move between bundles, or open a bundle's URL in the browser
 autocmd BufReadPost {.,}vimrc.bundle
-      \ nnoremap <buffer> <silent> ]g :call search('Bundles\=(.\zs\C')<CR>|
-      \ nnoremap <buffer> <silent> [g :call search('Bundles\=(.\zs\C', 'b')<CR>
+      \ nnoremap <buffer> <silent> ]g :call search('Bundle\a*(.\zs\C')<CR>|
+      \ nnoremap <buffer> <silent> [g :call search('Bundle\a*(.\zs\C', 'b')<CR>
 
 " A minimal vimrc for test and reference
 if Bundles('tpope/vim-sensible')
@@ -190,6 +190,9 @@ call Bundles('Tpope/vim-repeat')
 call Bundles('Tpope/vim-unimpaired')
 nnoremap <silent> ]O :call search('to-\?do:\c', 'sW')<CR>
 nnoremap <silent> [O :call search('to-\?do:\c', 'sWb')<CR>
+
+" Create your own submodes (e.g, g--- instead of g-g-g-)
+" call BundleNow('kana/vim-submode')
 
 " Mappings for simultaneously pressed keys
 " call Bundles('kana/vim-arpeggio')
@@ -720,7 +723,7 @@ if Bundles('tyru/open-browser.vim')
   " A buffer local mapping to open a bundle URL quickly
   autocmd BufReadPost {.,}vimrc.bundle nnoremap <buffer> <silent> gB
         \ :execute 'silent OpenBrowserSmartSearch https://github.com/'
-        \ .matchstr(getline('.'), 'Bundles\?([''"][+-]\?\zs.\{-}\ze[''"]')<CR>
+        \ .matchstr(getline('.'), 'Bundle\a*([''"][+-]\?\zs.\{-}\ze[''"]')<CR>
 endif
 
 " Google translate
