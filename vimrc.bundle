@@ -68,7 +68,6 @@ endif
 if Bundles('wellle/targets.vim', 'kana/vim-textobj-indent',
       \ 'gaving/vim-textobj-argument', 'coderifous/textobj-word-column.vim',
       \ '-qstrahl/vim-dentures', 'tommcdo/vim-ninja-feet')
-  let g:targets_nlNL = '  nl'
 endif
 
 " Insert: {{{1
