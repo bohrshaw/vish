@@ -132,8 +132,7 @@ func clearBundle(bundles *[]string) {
 func getBundles() []string {
 	args := []string{
 		"-Nesc",
-		"so ~/.vim/autoload/bundle.vim | so ~/.vim/vimrc.bundle | " +
-			"put =dundles | 2,p | q!",
+		"set rtp+=~/.vim | runtime vimrc.bundle | put =dundles | 2,p | q!",
 	}
 
 	bundles, _ := exec.Command("vim", args...).Output()

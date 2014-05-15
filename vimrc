@@ -33,10 +33,8 @@ if !exists('g:loaded_vimrc')
   command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
               \ inoremap <args>
 
-  " Bundle configuration
-  runtime autoload/bundle.vim
-  runtime vimrc.bundle
-  BundleDone
+  runtime vimrc.bundle " bundle configuration
+  BundleInject " inject bundle paths to 'rtp'
 
   " Enable these early to reduce startup time (after 'rtp' setup)
   filetype plugin indent on

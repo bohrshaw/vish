@@ -3,6 +3,8 @@
 
 " BundleManagement: {{{1
 
+call bundle#init() " bundle initialization
+
 " Define an empty auto-command group
 execute 'augroup bundle| autocmd!'
 

@@ -45,8 +45,8 @@ class Bundle
   # @@bundles = `vim --servername tmppp --remote-expr bundles`.split
   # @@bundles = @@bundles.uniq # uniq! returns nil when no duplicates found
   # system('vim --servername tmppp --remote-send ":q!<CR>"')
-  @@bundles = `vim -Nesc "so ~/.vim/autoload/bundle.vim |
-  so ~/.vim/vimrc.bundle | put =dundles | 2,p | q!"`.split
+  @@bundles = `vim -Nesc "set rtp+=~/.vim | runtime vimrc.bundle |
+  put =dundles | 2,p | q!"`.split
 
   # Get git version
   @@git_version = `git --version`
