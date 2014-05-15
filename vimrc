@@ -24,10 +24,8 @@ if !exists('g:loaded_vimrc')
     set encoding=utf-8
   endif
 
-  " Remove all visual distraction, use console dialogs instead of pop-up
-  " dialogs, and don't source '$VIMRUNTIME/menu.vim', which must be done before
-  " filetype or syntax setup.
-  set guioptions=cM
+  " Skip sourcing '$VIMRUNTIME/menu.vim'. (before filetype/syntax setup)
+  set guioptions=M
 
   " Commands for defining mappings in several modes
   command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
@@ -86,8 +84,11 @@ set cryptmethod=blowfish " acceptable encryption strength
 set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
 set display+=lastline " ensure the last line is properly displayed
 " autocmd GUIEnter * set vb t_vb= " disable error beep and screen flash
-" set mouse=a " enable mouse in all modes, but you may mis-touch the Touchpad
-" set clipboard=unnamed " link unnamed register and OS clipboard:
+" set mouse= " disable mouse in all modes to tolerate Touchpad mis-touch
+set guioptions+=c " use a console dialog for confirmation instead of a pop-up
+" Sync visual mode selection with the selection register(*) in supported GUI
+execute has('gui_gtk')||has('gui_motif')||has('gui_athena') ? 'set go+=a' : ''
+" set clipboard+=unnamed " sync the selection register with the unnamed register
 
 set wildmenu wildmode=longest:full,full " command line completion mode
 silent! set wildignorecase " ignore case when completing file names/directories
@@ -204,13 +205,6 @@ endfunction
 NXnoremap z<Space> q:
 NXnoremap @<Space> @:
 
-" Yank till the line end instead of the whole line
-nnoremap Y y$
-" Copy to GUI-clipboard
-xnoremap Y "+y
-" Copy entire file contents (to GUI-clipboard if available)
-nnoremap yY :execute '1,$yank ' . (has('clipboard')?'+':'')<CR>
-
 " Repeat last change on each line in a visual selection
 xnoremap . :normal! .<CR>
 " Execute a macro on each one in {count} lines
@@ -231,6 +225,10 @@ function! s:v_search(dir)
   let @s = temp
 endfunction
 
+" Yank till the line end instead of the whole line
+nnoremap Y y$
+" Yank to GUI/system clipboard
+NXnoremap gy "+y
 " Make 'cw' consistent with 'dw'
 onoremap <silent> w :execute 'normal! '.v:count1.'w'<CR>
 " Mark a single line in character-wise visual mode
