@@ -1,12 +1,12 @@
 " bundle.vim - a Vim bundle manager
 " Author: Bohr Shaw <pubohr@gmail.com>
 
-" Define an auto-group for bundle activation
-augroup bundling
-augroup END
-
-let g:bundles = [] " bundles activated on startup
-let g:dundles = [] " bundles to be downloaded
+function! bundle#init()
+  " Define an auto-group for bundle activation
+  execute 'augroup bundling | augroup END'
+  let g:bundles = [] " bundles activated on startup
+  let g:dundles = [] " bundles to be downloaded
+endfunction
 
 function! Bundle(...)
   call s:dundle_add(a:1)
@@ -100,5 +100,5 @@ function! s:bundle_enabled(b)
 endfunction
 
 " Inject bundle paths to 'rtp'
-command! BundleDone call path#inject('bundle',
+command! BundleInject call path#inject('bundle',
       \ map(g:bundles, 'v:val[stridx(v:val,"/")+1:]'))
