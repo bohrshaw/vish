@@ -9,7 +9,6 @@ function! bundle#init()
 endfunction
 
 function! Bundle(...)
-  call s:dundle_add(a:1)
   if s:bundle_enabled(a:1)
     let dirs = map(add((has_key(a:2, 'd') ? a:2['d'] : []), a:1),
           \ 'matchstr(v:val, ''/\zs.*'')')
@@ -66,7 +65,6 @@ function! BundleActivate(...)
 endfunction
 
 function! BundleNow(b)
-  call s:dundle_add(a:b)
   if s:bundle_enabled(a:b)
     call path#add(a:b[stridx(a:b,"/")+1:])
     return 1
@@ -75,7 +73,6 @@ endfunction
 
 function! Bundles(...)
   for b in a:000
-    call s:dundle_add(b)
     if s:bundle_enabled(b)
       if index(g:bundles, b) < 0
         call add(g:bundles, b)
@@ -86,15 +83,13 @@ function! Bundles(...)
   return get(l:, 'if_config') ? 1 : 0
 endfunction
 
-" Add a bundle to the bundle downloading list
-function! s:dundle_add(b)
-  if a:b[0] != '-' && index(g:dundles, a:b) < 0
-    call add(g:dundles, a:b)
-  endif
-endfunction
-
 function! s:bundle_enabled(b)
-  if !get(g:, 'l') && a:b[0] != '-' || a:b[0] =~# '\u'
+  if a:b[0] == '-'
+    return
+  elseif index(g:dundles, a:b) < 0
+    call add(g:dundles, a:b) " add a bundle to the bundle downloading list
+  endif
+  if !get(g:, 'l') || a:b[0] =~# '\u'
     return 1
   endif
 endfunction
