@@ -501,29 +501,30 @@ set colorcolumn=+1 " highlight column after 'textwidth'
 " A concise status line named "Starline"
 set laststatus=2 " always display the status line
 function! s:stl()
-  set statusline=%m%<%.60f " modified flag, file name(truncated if too long)
+  set statusline=%m%.30f " modified flag, file name(truncated if length > 30)
   set statusline+=\ %H%W%q%R%Y " help, preview, quickfix, read-only, filetype
   set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?','.&fenc:''} " file encoding
   set statusline+=%{&ff!='unix'?','.&ff:''} " file format
-  " Git branch status
+  " Git branch name
   let &statusline .= exists('*fugitive#head') ?
         \ "%{exists('b:git_dir')?','.fugitive#head(7):''}" : ''
-  " Software caps lock status
+  " set statusline+=%{','.matchstr(getcwd(),'.*[\\/]\\zs\\S*')}
+  " Software caps lock
   let &statusline .= exists('*CapsLockSTATUSLINE')?"%{CapsLockSTATUSLINE()}":''
+  let &statusline .= ' %<'.repeat('=', 200).' ' " filler
   set statusline+=%= " left/right separator
-  set statusline+=%{matchstr(getcwd(),'.*[\\/]\\zs\\S*')} " current directory
-  set statusline+=\ %c,%l/%L\ %P " cursor position, line percentage
+  set statusline+=%c,%l/%L,%P " cursor position, line percentage
 endfunction
 " Ensure all plugins are loaded before setting 'statusline'
 execute (exists('g:loaded_vimrc')?'':'autocmd VimEnter * ').'call s:stl()'
 
 " The status line for the quickfix window
 autocmd FileType qf setlocal statusline=%t
-      \%{strpart('\ '.get(w:,'quickfix_title',''),0,66)}%=\ %11.(%c,%l/%L\ %P%)
+      \%{strpart('\ '.get(w:,'quickfix_title',''),0,66)}%=\ %11.(%c,%l/%L,%P%)
 
 " Use CTRL-G, G_CTRL-G to see file and cursor information manually
 set ruler " not effective when 'statusline' is set
-set rulerformat=%50(%=%m%r%<%f%Y\ %l,%c\ %p%%%)
+set rulerformat=%50(%=%m%r%<%f%Y\ %c,%l/%L,%P%)
 
 " set tabline=
 " set titlestring=
