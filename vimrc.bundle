@@ -287,7 +287,7 @@ if Bundles('-mattesGroeger/vim-bookmarks')
 endif
 
 " Project configuration
-" call Bundles('tpope/vim-projectile')
+" call Bundles('tpope/vim-projectionist')
 
 " Buffer Explorer/Browser
 call Bundles('vim-scripts/bufexplorer.zip', '-jeetsukumaran/vim-buffergator')
@@ -596,10 +596,32 @@ endif
 " A two-way integration between Vim and IPython 0.11+
 call Bundles('-ivanov/vim-ipython')
 
-" Java {{{2
+" Java(JVM) {{{2
+
+" Set 'path' from the Java class path
+call Bundles('tpope/vim-classpath')
 
 " My work on integration of Scala into Vim - not a ton here, but useful for me
 " call Bundles('derekwyatt/vim-scala')
+
+" Clojure {{{2
+
+" Clojure runtime files (shipped with Vim versions 7.3.803+)
+call Bundles('guns/vim-clojure-static')
+" let g:clojure_fold = 1 " Fold list/vector/map that extends over multi-lines
+
+" Clojure REPL tease
+call Bundles('tpope/vim-fireplace')
+
+" Static support for Leiningen
+call Bundles('tpope/vim-leiningen')
+
+" Precision Editing for S-expressions
+call Bundles('guns/vim-sexp', 'tpope/vim-sexp-mappings-for-regular-people')
+
+" Extend builtin syntax highlighting to referred and aliased vars
+" call Bundles('guns/vim-clojure-highlight',
+"       \ 'guns/vim-clojure-static', 'tpope/vim-fireplace')
 
 " Others {{{2
 
