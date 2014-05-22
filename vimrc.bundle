@@ -88,16 +88,14 @@ call Bundles('tpope/vim-endwise')
 " Perform all your vim insert mode completions with Tab
 " call Bundles('ervandew/supertab')
 
-" The ultimate snippet solution
-if Bundle('sirver/ultisnips', {
-      \ 'm': ['i <C-J>'],
-      \ 'c': 'UltiSnipsEdit',
-      \ 'f': '*.snippets'}) &&
+" Snippet solutions
+if (has('python') || has('python3')) && Bundle('sirver/ultisnips',
+      \ {'m':['i <C-J>'], 'c':'UltiSnipsEdit', 'f':'*.snippets'}) &&
       \ Bundles('honza/vim-snippets')
   let g:UltiSnipsExpandTrigger='<C-J>'
   let g:UltiSnipsListSnippets='<C-Q>'
   let g:UltiSnipsJumpForwardTrigger="<C-J>"
-  let g:UltiSnipsJumpBackwardTrigger="<C-Z>"
+  let g:UltiSnipsJumpBackwardTrigger="<C-K>"
   let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippet"]
   let g:UltiSnipsSnippetsDir="~/.vim/snippet" " personal snippets path
   " let g:UltiSnipsEditSplit="vertical"
@@ -105,10 +103,17 @@ if Bundle('sirver/ultisnips', {
   " Avoid python mis-detection during startup in Vim 7.4.52
   autocmd VimEnter * if !has('python3') |
         \ let g:UltiSnipsUsePythonVersion = 2 | endif
+elseif Bundles('garbas/vim-snipmate', 'marcweber/vim-addon-mw-utils',
+      \ 'tomtom/tlib_vim', 'honza/vim-snippets')
+  command! -nargs=1 SImap imap <args>|smap <args>
+  SImap <C-J> <Plug>snipMateNextOrTrigger
+  xmap <C-J> <Plug>snipMateVisual
+  SImap <C-K> <Plug>snipMateBack
+  inoremap <C-\> <C-K>
+  SImap <C-Q> <Plug>snipMateShow
 endif
-
-" call Bundles('garbas/vim-snipmate', 'marcweber/vim-addon-mw-utils',
-"       \ 'tomtom/tlib_vim', 'honza/vim-snippets')
+let g:snips_author = 'Bohr Shaw'
+let g:snips_author_email = 'pubohr@gmail.com'
 
 " Change: {{{1
 

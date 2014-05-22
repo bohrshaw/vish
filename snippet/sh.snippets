@@ -2,34 +2,31 @@ snippet #!
 #!/usr/bin/env bash`!v "\n\n"`
 endsnippet
 
-snippet xep "Ensure packages are installed." b
-# Ensure all the pre-required packages are installed.
+snippet package "Ensure Ubuntu packages are installed" b
+# Ensure these packages are installed.
 pkgs=(${1:packages})
 for p in \${pkgs[@]}; do
 	dpkg -s $p > /dev/null 2>&1 || sudo apt-get install -y $p
 done
-
 $0
 endsnippet
 
-snippet xssd "Set the running script's directory." b
-# Get the running script's directory.
+snippet dir "Get the directory path of the current file" b
+# Get the directory path of the current file
 pushd \`dirname \$0\` > /dev/null
-script_path=\`pwd -P\`
+${1:file_path}=\`pwd -P\`
 popd > /dev/null
-
 $0
 endsnippet
 
-snippet xshv "Assign a HERE document to a variable." b
+snippet here "Assign a HERE string to a variable" b
 read -d '' ${1:variable} <<"HERE"
 	$2
 HERE
-
 $0
 endsnippet
 
-snippet xpyn "Prompt to choose if continue." b
+snippet prompt "Prompt for user choice" b
 read -p "${1:question}? (y/N)" -n 1 -r
 if [[ \$REPLY =~ ^[Yy]\$ ]]; then
 	$2
