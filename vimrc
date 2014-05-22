@@ -164,17 +164,13 @@ autocmd SessionLoadPost * silent! bwipeout! _
 " A single mapping is easy to define, while the whole mapping scheme should be
 " considered carefully to be consistent, intuitive, convenient and accessible!
 "
-" Potentially unused keys:
-" "\ <Space> <BS> Z Q R S X _ !"
-" Keys waiting for a second key could also be used to start a mapping:
-" "f t d c g z v y m ' [ ]"
-"
-" Facts and Notes:
+" Potentially unused keys: "\ <Space> <CR> <BS> Z Q R S X _ !"
+" Keys waiting for a second key: "f t d c g z v y m q ' [ ]"
+" Special keys like <CR>, <BS> are often mapped solely, as well as 'q' which is
+" often mapped to quit a window.
 " <Tab>/<C-I>, <CR>/<C-M>, <Esc>/<C-[> are pairs of exactly same keys.
 " <A-x> is <Esc>x in console Vim.
 " Caps Lock, <C-1>, <C-S-1> etc. are not mappable.
-" 'q' is often mapped to quit a window.
-" <CR> is mapped in command-window, quickfix-window, netrw, fugitive, etc.
 " Use capital letters in keys like <C-J> for readability.
 " See related help topics: index, map-which-keys
 
@@ -238,8 +234,6 @@ xnoremap cs :s/\%V
 NXnoremap & :&&<CR>
 " Deleting to the black hole register
 NXnoremap R "_d
-" Show the buffer list
-NXnoremap <BS>b :<C-U>ls<CR>:b
 
 " The leader key of window related mappings
 " NXnoremap S <C-W>
