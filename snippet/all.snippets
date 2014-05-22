@@ -1,25 +1,19 @@
+priority -55
+
 global !p
 import vim, re
 
-author = 'Bohr Shaw <pubohr@gmail.com>'
-
 def cms():
     cms_parts = re.split("\s*%s\s*", vim.eval('&cms'))
-    return [cms_parts[0] + ' ',
-        ' ' + cms_parts[1] if cms_parts[1] != '' else '']
+    return [cms_parts[0]+' ', ' '+cms_parts[1] if cms_parts[1] != '' else '']
 cms = cms()
 
 endglobal
 
-snippet author "author information" b
-`!p snip.rv=cms[0]`Author: ${2:`!p snip.rv=author`}`!p snip.rv=cms[1]`
-$0
+snippet author "author name and email" b
+`!p snip.rv=cms[0]`Author: ${1:`!v g:snips_author`} <${2:`!v g:snips_author_email`}>`!p snip.rv=cms[1]`
 endsnippet
 
-snippet time "current time" w
-`!v strftime("%a %b %d %H:%M:%S %Y")`
-endsnippet
-
-snippet tqbf "The quick brown fox ..." w
-The quick brown fox jumps over the lazy dog
+snippet fox "The quick brown fox ..." w
+The quick brown fox jumps over the lazy dog.
 endsnippet

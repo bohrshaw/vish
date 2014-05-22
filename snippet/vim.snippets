@@ -1,3 +1,16 @@
+snippet fun "function with auto-prefixed name" b
+function! ${1:`!v expand('%') =~# 'autoload' ? matchstr(expand('%:p'), 'autoload[/\\]\zs.*\ze\.vim').'#' : ''`${2:function_name}}(${3:args})
+	$4
+endfunction
+endsnippet
+
+snippet aug "autocmd group" b
+augroup ${1:group_name}
+	autocmd!
+	${2}
+augroup END
+endsnippet
+
 snippet "- "---line-separator---"
 " --------------------------------------------------------------------
 $0
