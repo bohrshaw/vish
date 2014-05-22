@@ -165,13 +165,13 @@ call Bundles('salsifis/vim-transpose')
 
 " Display your undo history in a graph
 if Bundles('-mbbill/undotree')
-  nnoremap <BS>u :UndotreeToggle<CR>
+  nnoremap <Leader><Leader>u :UndotreeToggle<CR>
   let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 endif
 
 " Vim plugin to visualize your Vim undo tree
 if Bundles('sjl/gundo.vim')
-  nnoremap <BS>u :GundoToggle<CR>
+  nnoremap <Leader><Leader>u :GundoToggle<CR>
 endif
 
 " Enable repeating supported plugin maps with '.'
@@ -227,7 +227,7 @@ if Bundles('kien/ctrlp.vim')
     let g:ctrlp_user_command['fallback'] = 'ag %s -l --nocolor -g ""'
   endif
   " Bring up this finder
-  let g:ctrlp_map = '<BS>f'
+  let g:ctrlp_map = '<Leader><Leader>f'
   " Clear the cache of the current search path
   noremap <leader>fc :CtrlPClearCache<cr>
   " Open CtrlP bookmarked directories
@@ -249,7 +249,7 @@ endif
 
 " A tree explorer plugin for vim
 if Bundle('scrooloose/nerdtree', {'m': [
-      \ 'nnoremap <BS>d :NERDTreeToggle<CR>',
+      \ 'nnoremap <Leader><Leader>d :NERDTreeToggle<CR>',
       \ 'noremap <leader>dd :NERDTree<CR>',
       \ 'noremap <leader>df :NERDTreeFind<CR>']})
   let NERDTreeHijackNetrw=0 " don't replace netrw
@@ -409,7 +409,7 @@ if Bundles('yggdroot/indentline', '-nathanaelkane/vim-indent-guides')
   " let g:indentLine_fileType = ['rb']
   " let g:indentLine_faster = 1
   " let g:indentLine_char = '┊' " |│¦┆┊
-  nnoremap <BS>i :IndentLinesToggle<CR>
+  nnoremap <Leader><Leader>i :IndentLinesToggle<CR>
 endif
 
 " A powerful color tool
@@ -445,7 +445,7 @@ if Bundles('majutsushi/tagbar')
         \ 'ctagsbin' : 'gotags',
         \ 'ctagsargs' : '-sort -silent'
         \ }
-  nnoremap <BS>t :TagbarToggle<CR>
+  nnoremap <Leader><Leader>t :TagbarToggle<CR>
 endif
 
 " Documentation/reference viewer
@@ -463,7 +463,7 @@ call Bundles('tpope/vim-dispatch')
 " Run commands quickly
 if Bundles('thinca/vim-quickrun')
   let g:quickrun_no_default_key_mappings = 1
-  map <BS>r <Plug>(quickrun)
+  map <Leader>r <Plug>(quickrun)
 endif
 
 " Transition between multiline and single-line code
