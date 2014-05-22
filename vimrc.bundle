@@ -628,6 +628,14 @@ call Bundles('guns/vim-sexp', 'tpope/vim-sexp-mappings-for-regular-people')
 " call Bundles('guns/vim-clojure-highlight',
 "       \ 'guns/vim-clojure-static', 'tpope/vim-fireplace')
 
+" Better Rainbow Parentheses
+if Bundles('jbnicolai/rainbow_parentheses.vim')
+  let g:rbpt_loadcmd_toggle = 1
+  autocmd VimEnter * call rainbow_parentheses#toggle() |
+        \ autocmd bundle Syntax clojure call rainbow_parentheses#load(0)
+  nnoremap <Leader><Leader>p :call rainbow_parentheses#toggle()<CR>
+endif
+
 " Others {{{2
 
 " Vim Git runtime files
