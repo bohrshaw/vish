@@ -201,6 +201,7 @@ function! s:capital_command()
   return n == 27 ? '' : ':'.toupper(nr2char(n)) " <Esc> to cancel keys
 endfunction
 NXnoremap z<Space> q:
+NXnoremap z/ q/
 NXnoremap @<Space> @:
 
 " Repeat last change on each line in a visual selection
