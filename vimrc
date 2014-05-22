@@ -36,7 +36,8 @@ if !exists('g:loaded_vimrc')
   runtime vimrc.bundle " bundle configuration
   BundleInject " inject bundle paths to 'rtp'
 
-  " Enable these early to reduce startup time (after 'rtp' setup)
+  " Enable these immediately after setting 'rtp' to avoid problems and reduce
+  " startup time. (The Syntax event would be unavailable if syntax is off.)
   filetype plugin indent on
   syntax enable
 endif
