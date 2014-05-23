@@ -530,7 +530,9 @@ call Bundles('kchmck/vim-coffee-script')
 
 if Bundles('fatih/vim-go', '-blackrush/vim-gocode', '-jnwhiteh/vim-golang')
   " let g:go_disable_autoinstall = 1
-  let g:go_bin_path = expand("$GOPATH/bin/")
+  let g:go_bin_path = has('win32unix') ?
+        \ '/cygdrive/'.tolower($GOPATH[0]).substitute($GOPATH[2:], '\\', '/', 'g').'/bin/' :
+        \ expand("$GOPATH/bin/")
   " let g:go_fmt_autosave = 0
   " call add(g:syntastic_mode_map['passive_filetypes'], 'go')
   autocmd FileType go nnoremap <buffer> gd :GoDef<CR>|
