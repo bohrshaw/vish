@@ -656,6 +656,12 @@ call Bundles('bohrshaw/vim-vimperator-syntax')
 
 " ExternalInteraction: {{{1
 
+" An asynchronous execution library
+if Bundles('Bohrshaw/vimproc.vim')
+  command! -nargs=+ -complete=shellcmd B VimProcBang <args>
+  command! -nargs=+ -complete=shellcmd R VimProcRead <args>
+endif
+
 " A Git wrapper so awesome, it should be illegal.
 if Bundles('tpope/vim-fugitive')
   " Git deserves a convenient leader key for mappings
