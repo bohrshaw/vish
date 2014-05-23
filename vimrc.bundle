@@ -358,7 +358,9 @@ call Bundles('Nanotech/jellybeans.vim', 'Zeis/vim-kolor',
       \ 'goatslacker/mango.vim', 'Sk1418/last256',
       \ 'Rking/vim-detailed', 'Lokaltog/vim-distinguished',
       \ 'Tomasr/molokai', 'sickill/vim-monokai',
-      \ 'tpope/vim-vividchalk', 'Vim-scripts/twilight')
+      \ 'tpope/vim-vividchalk', 'Vim-scripts/twilight',
+      \ 'Twerth/ir_black',
+      \ )
 
 " Light themes
 call Bundles('endel/vim-github-colorscheme', 'jonathanfilip/vim-lucius',
