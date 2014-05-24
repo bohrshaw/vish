@@ -126,7 +126,7 @@ autocmd BufLeave * set nostartofline |
 autocmd BufRead * silent! execute 'normal! g`"'
 
 let &swapfile = l ? 0 : 1 " use a swapfile for the buffer
-let &undofile = l ? 0 : 1 " persistent undo
+set undofile
 let &viminfo = "!,'50,<50,s10,h,n$HOME/.vim/tmp/viminfo"
 " Exclude options and mappings and be portable
 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
