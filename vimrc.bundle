@@ -66,6 +66,11 @@ if Bundles('wellle/targets.vim', 'kana/vim-textobj-indent',
       \ 'gaving/vim-textobj-argument', 'coderifous/textobj-word-column.vim',
       \ '-qstrahl/vim-dentures', 'tommcdo/vim-ninja-feet')
 endif
+if g:l " delay activating this bundle to reduce startup time
+  set updatetime=10
+  autocmd CursorHold * call BundleActivate("targets.vim") |
+        \ set updatetime& | autocmd! bundle CursorHold
+endif
 
 " Insert: {{{1
 
