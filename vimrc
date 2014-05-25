@@ -507,6 +507,14 @@ function! s:stl()
 endfunction
 " Ensure all plugins are loaded before setting 'statusline'
 execute (exists('g:loaded_vimrc')?'':'autocmd VimEnter * ').'call s:stl()'
+" Ensure the same statusline/tabline highlighting in any color scheme
+autocmd ColorScheme * hi StatusLine term=NONE cterm=NONE ctermfg=64 ctermbg=NONE
+      \ gui=bold guifg=#5faf5f guibg=NONE |
+      \ hi StatusLineNC term=NONE cterm=NONE ctermfg=NONE ctermbg=NONE
+      \ gui=NONE guifg=fg guibg=NONE |
+      \ hi! link TabLineSel StatusLine |
+      \ hi! link TabLine StatusLineNC |
+      \ hi! link TabLineFill StatusLineNC
 
 " The status line for the quickfix window
 autocmd FileType qf setlocal statusline=%t
