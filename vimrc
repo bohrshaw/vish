@@ -33,13 +33,13 @@ if !exists('g:loaded_vimrc')
   command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
               \ inoremap <args>
 
+  syntax enable " the Syntax event would be unavailable if syntax is off.
+
   runtime vimrc.bundle " bundle configuration
   BundleInject " inject bundle paths to 'rtp'
 
-  " Enable these immediately after setting 'rtp' to avoid problems and reduce
-  " startup time. (The Syntax event would be unavailable if syntax is off.)
+  " Immediately after setting 'rtp' to avoid problems and reduce startup time.
   filetype plugin indent on
-  syntax enable
 endif
 
 " Define or switch to an auto-command group and clean it
