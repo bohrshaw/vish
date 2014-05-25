@@ -7,9 +7,6 @@ hi CursorLine cterm=NONE gui=NONE
 hi LineNR guifg=#004C60 gui=bold guibg=#002B36 ctermfg=146
 hi CurSorLineNR guifg=#509CB0 gui=bold guibg=#002B36
 hi VertSplit NONE
-hi StatusLine term=NONE cterm=NONE ctermfg=64 ctermbg=NONE gui=bold guifg=#5faf5f guibg=NONE
-hi StatusLineNC term=NONE cterm=NONE ctermfg=NONE ctermbg=NONE gui=NONE guifg=fg guibg=NONE
-hi! link TabLineSel StatusLine
 hi! link SignColumn LineNr
 
 hi! link rubyControl Statement
