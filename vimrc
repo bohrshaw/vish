@@ -9,31 +9,23 @@
 
 if !exists('g:loaded_vimrc')
   silent! source ~/.vimrc.local " override system vimrc
-
   let g:l = $VIML && !get(g:, 'h') || get(g:, 'l') " lightweight Vim or not
 
   set nocompatible " make Vim behave in a more useful way
   set rtp^=$HOME/.vim rtp+=$HOME/.vim/after " be portable
+  if has('gui_running') || $termencoding ==? 'utf-8'
+    set encoding=utf-8 " used inside Vim, allow mapping with the ALT key
+  endif
+  set guioptions=M " skip sourcing menu.vim, before enabling filetype/syntax
+  syntax enable " as early as possible
 
   " let mapleader = "\r" " replace <Leader> in a map
   let maplocalleader = 'g\' " replace <LocalLeader> in a map
-
-  " The character encoding used inside Vim (Set early to allow mappings start
-  " with the ALT key work properly.)
-  if has('gui_running') || $termencoding ==? 'utf-8'
-    set encoding=utf-8
-  endif
-
-  " Skip sourcing '$VIMRUNTIME/menu.vim'. (before filetype/syntax setup)
-  set guioptions=M
-
   " Commands for defining mappings in several modes
   command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
   " Allow chained commands, but also check for a " to start a comment
   command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
               \ inoremap <args>
-
-  syntax enable " the Syntax event would be unavailable if syntax is off.
 
   runtime vimrc.bundle " bundle configuration
   BundleInject " inject bundle paths to 'rtp'
