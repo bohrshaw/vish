@@ -668,7 +668,7 @@ if Bundles('Bohrshaw/vimproc.vim')
 endif
 
 " A Git wrapper so awesome, it should be illegal.
-if Bundles('tpope/vim-fugitive')
+if Bundles('Tpope/vim-fugitive')
   " Git deserves a convenient leader key for mappings
   nnoremap g<Space>s :Gstatus<CR>
   nnoremap g<Space>cc :Gcommit -v<CR>
