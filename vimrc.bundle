@@ -735,7 +735,9 @@ if Bundles('junegunn/vim-github-dashboard')
 endif
 
 " Helpers for UNIX(Windows)
-call Bundles('Tpope/vim-eunuch')
+if Bundles('Tpope/vim-eunuch')
+  autocmd VimEnter * command! W SudoWrite
+endif
 
 " Tmux basics
 if !has('win32') && Bundles('Tpope/vim-tbone')
