@@ -5,7 +5,11 @@
 " Less is more!
 " Analyse startup performance by `vim --startuptime profile`
 
-" Foundation: {{{1
+" Options: {{{1
+
+" View and set all options by :opt[ions]
+" See https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim for
+" a minimal sensible default.
 
 if !exists('g:loaded_vimrc')
   silent! source ~/.vimrc.local " override system vimrc
@@ -18,31 +22,10 @@ if !exists('g:loaded_vimrc')
   endif
   set guioptions=M " skip sourcing menu.vim, before enabling filetype/syntax
   syntax enable " as early as possible
-
-  " let mapleader = "\r" " replace <Leader> in a map
-  let maplocalleader = 'g\' " replace <LocalLeader> in a map
-  " Commands for defining mappings in several modes
-  command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
-  " Allow chained commands, but also check for a " to start a comment
-  command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
-              \ inoremap <args>
-
-  runtime vimrc.bundle " bundle configuration
-  BundleInject " inject bundle paths to 'rtp'
-
-  " Immediately after setting 'rtp' to avoid problems and reduce startup time.
-  filetype plugin indent on
 endif
 
 " Define or switch to an auto-command group and clean it
 execute 'augroup vimrc| autocmd!'
-
-" ---------------------------------------------------------------------
-" Options: {{{1
-
-" View and set all options by :opt[ions]
-" See https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim for
-" a minimal sensible default.
 
 " set timeoutlen=3000 " mapping delay
 set ttimeoutlen=50 " key code delay (instant escape from Insert mode)
@@ -167,13 +150,14 @@ autocmd SessionLoadPost * silent! bwipeout! _
 " Use capital letters in keys like <C-J> for readability.
 " See related help topics: index, map-which-keys
 
-if !has('gui_running')
-  " Make the Meta(Alt) key mappable in terminal. But some characters(h,j,k,l...)
-  " often typed after pressing <Esc> are not touched, so not mappable.
-  " for c in split('qwertyasdfgzxcvbm', '\zs')
-  "   execute "set <M-".c.">=\e".c
-  " endfor
-endif
+" let mapleader = "\r" " replace <Leader> in a map
+let maplocalleader = 'g\' " replace <LocalLeader> in a map
+
+" Commands for defining mappings in several modes
+command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
+" Allow chained commands, but also check for a " to start a comment
+command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
+      \ inoremap <args>
 
 " Free a somewhat-excess home-row key to act as a mapping leader. But don't
 " disable it to be able to use {count}s.
@@ -238,10 +222,6 @@ NXnoremap <C-W><C-^> :vsplit #<CR>
 " Go to [count] tab pages forward or back
 NXnoremap <silent> tl :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
 NXnoremap th gT
-" Go to {count}th tab page
-for n in range(1, 9)
-  execute 'NXnoremap '.'<M-'.n.'> '.n.'gt'
-endfor
 
 " Edit a file in the same directory of the current file
 NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/
@@ -348,7 +328,7 @@ cmap <script> <C-T> <SID>transposition<SID>transpose
 
 " Calculate the time spending on executing commands
 command! -nargs=1 -count=1 -complete=command Time
-            \ call vimrc#time(<q-args>, <count>)
+      \ call vimrc#time(<q-args>, <count>)
 
 " Join lines with characters in between
 command! -range -nargs=? Join <line1>,<line2>-1s/\s*\n\s*/<args>/
@@ -453,6 +433,16 @@ cabbrev tc tabc
 
 " Get the relative path of the current file
 cabbrev %% <C-R>=expand('%:h').'/'<CR>
+
+" ---------------------------------------------------------------------
+" Bundles: {{{1
+
+if !exists('g:loaded_vimrc')
+  runtime vimrc.bundle " bundle configuration
+  BundleInject " inject bundle paths to 'rtp'
+
+  filetype plugin indent on " after setting 'rtp'
+endif
 
 " ---------------------------------------------------------------------
 " Appearance: {{{1
