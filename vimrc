@@ -159,6 +159,34 @@ command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
 command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
       \ inoremap <args>
 
+" Bind the meta key in terminals
+command! -nargs=1 Meta <args>| if !has('gui_running') |
+      \ call Metamap(<q-args>) | endif
+function! Metamap(cmd)
+  let c = matchstr(a:cmd, '<[mM]-\zs.')
+  " Unused keys: <F13>..<F37>, <M-A>..<M-Z>
+  if c =~# '\l'
+    if c ==# 'f'
+      let key = '<S-Right>'
+    elseif c ==# 'b'
+      let key = '<S-Left>'
+    else
+      let key = '<F'.(char2nr(c)-84).'>' " <M-z> is left out
+    endif
+    let key_mapped = '<M-'.c.'>'
+    " Map the unused key to the mapped key
+    execute 'map '.key.' '.key_mapped.'|map! '.key.' '.key_mapped
+    " Eliminate even the tiny delay when escaping insert mode
+    if a:cmd[0] == 'c' && empty(maparg(key_mapped, 'i'))
+      execute 'inoremap '.key_mapped.' <Esc>'.c
+    endif
+  elseif c =~# '\u'
+    let key = '<M-'.c.'>'
+  endif
+  " Define the key which times out sooner than mapping
+  silent! execute 'set '.key."=\<Esc>".c
+endfunction
+
 " Free a somewhat-excess home-row key to act as a mapping leader. But don't
 " disable it to be able to use {count}s.
 " NXnoremap s <Nop>
@@ -291,8 +319,8 @@ inoremap <C-Z> <C-X><C-O>
 
 " Recall older or more recent command-line from history, but the command matches
 " the current command-line
-cnoremap <C-P> <Up>
-cnoremap <C-N> <Down>
+Meta cnoremap <M-p> <Up>
+Meta cnoremap <M-n> <Down>
 
 " Move the cursor around the line
 inoremap <C-A> <C-O>^| inoremap <C-X><C-A> <C-A>
@@ -300,8 +328,8 @@ cnoremap <C-A> <Home>| cnoremap <C-X><C-A> <C-A>
 inoremap <C-E> <End>
 
 " Move the cursor around one word
-noremap! <M-f> <S-Right>
-noremap! <M-b> <S-Left>
+Meta noremap! <M-f> <S-Right>
+Meta noremap! <M-b> <S-Left>
 
 " Move the cursor around one character
 inoremap <expr> <C-F> col('.')>strlen(getline('.'))?"\<Lt>C-F>":"\<Lt>Right>"
@@ -309,8 +337,8 @@ cnoremap <C-F> <Right>
 noremap! <C-B> <Left>
 
 " Delete one word after the cursor
-inoremap <M-d> <C-O>dw
-cnoremap <M-d> <S-Right><C-W>
+Meta inoremap <M-d> <C-O>dw
+Meta cnoremap <M-d> <S-Right><C-W>
 
 " Delete one character after the cursor
 inoremap <expr> <C-D> col('.')>strlen(getline('.'))?"\<Lt>C-D>":"\<Lt>Del>"
