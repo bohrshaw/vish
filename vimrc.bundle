@@ -25,6 +25,10 @@ if Bundles('Justinmk/vim-sneak')
   let sneak#textobject_z = 0
   " Alternative mappings keys: z; z,
   command! -nargs=1 NXOmap nmap <args><Bar>xmap <args><Bar>omap <args>
+  Meta NXOmap <M-f> <Plug>Sneak_s
+  Meta NXOmap <M-F> <Plug>Sneak_S
+  Meta NXOmap <M-t> <Plug>(SneakStreak)
+  Meta NXOmap <M-T> <Plug>(SneakStreakBackward)
   NXOmap f<CR> <Plug>Sneak_s
   NXOmap f<BS> <Plug>Sneak_S
   NXOmap t<CR> <Plug>(SneakStreak)
