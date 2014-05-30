@@ -273,10 +273,8 @@ endif
 
 " Combine with netrw to create a delicious salad dressing
 if Bundles('tpope/vim-vinegar')
-  " Change the default mapping
-  nnoremap - -
-  autocmd VimEnter * nunmap -
   nmap d<Space> <Plug>VinegarUp
+  autocmd VimEnter * nunmap -
 endif
 
 " Bookmarks independent from Vim marks
