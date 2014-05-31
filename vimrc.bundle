@@ -29,10 +29,6 @@ if Bundles('Justinmk/vim-sneak')
   Meta NXOmap <M-F> <Plug>Sneak_S
   Meta NXOmap <M-t> <Plug>(SneakStreak)
   Meta NXOmap <M-T> <Plug>(SneakStreakBackward)
-  NXOmap f<CR> <Plug>Sneak_s
-  NXOmap f<BS> <Plug>Sneak_S
-  NXOmap t<CR> <Plug>(SneakStreak)
-  NXOmap t<BS> <Plug>(SneakStreakBackward)
   hi! link SneakPluginScope Comment
 endif
 
@@ -42,7 +38,9 @@ if Bundles('-bohrshaw/vim-easymotion')
 endif
 
 " Move cursor between text patterns
-call Bundles('machakann/vim-patternjump')
+if Bundles('machakann/vim-patternjump')
+  let g:patternjump_no_default_key_mappings = 1
+endif
 
 " Acts like `f` but taking two characters
 if Bundles('-goldfeld/vim-seek')
@@ -179,13 +177,13 @@ call Bundles('salsifis/vim-transpose')
 
 " Display your undo history in a graph
 if Bundles('-mbbill/undotree')
-  nnoremap <Leader><Leader>u :UndotreeToggle<CR>
+  nnoremap t<CR>u :UndotreeToggle<CR>
   let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 endif
 
 " Vim plugin to visualize your Vim undo tree
 if Bundles('sjl/gundo.vim')
-  nnoremap <Leader><Leader>u :GundoToggle<CR>
+  nnoremap t<CR>u :GundoToggle<CR>
 endif
 
 " Enable repeating supported plugin maps with '.'
@@ -213,7 +211,7 @@ nnoremap <silent> [O :call search('to-\?do:\c', 'sWb')<CR>
 " FileBufferPaneWindowTabSession: {{{1
 
 " Fuzzy file, buffer, mru, tag, etc finder
-if Bundles('kien/ctrlp.vim')
+if Bundles('Kien/ctrlp.vim')
   let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/ctrlp'
   " Set the mode to determine the root searching directory.
   " let g:ctrlp_working_path_mode = 'ra'
@@ -221,7 +219,7 @@ if Bundles('kien/ctrlp.vim')
   let g:ctrlp_follow_symlinks = 1
   " let g:ctrlp_clear_cache_on_exit = 0
   let g:ctrlp_max_files = 0
-  let g:ctrlp_lazy_update = 200 " update the match window lazily
+  let g:ctrlp_lazy_update = 99 " update the match window lazily
   let g:ctrlp_by_filename = 1 " search by file name only
   let g:ctrlp_custom_ignore = {
         \ 'dir':  '\v[\/]\.(git|hg|svn)$',
@@ -240,14 +238,20 @@ if Bundles('kien/ctrlp.vim')
   if executable('ag')
     let g:ctrlp_user_command['fallback'] = 'ag %s -l --nocolor -g ""'
   endif
-  " Bring up this finder
-  let g:ctrlp_map = '<Leader><Leader>f'
-  " Clear the cache of the current search path
-  noremap <leader>fc :CtrlPClearCache<cr>
-  " Open CtrlP bookmarked directories
-  noremap <leader>fm :CtrlPBookmarkDir<cr>
-  " Switch between similar files
+  " Bring up this finder in find file mode
+  Meta nnoremap <M-p> :<C-U>CtrlP<CR>
+  " Most recent used files
+  nnoremap <Leader>fr :CtrlPMRU<CR>
+  " Files with similar names
   nmap <expr> <Leader>fs ':CtrlP<CR>'.expand('%:t:r')
+  " Buffers
+  nnoremap <Leader>fb :CtrlPBuffer<CR>
+  " Files, buffers and MRU files at the same time
+  nnoremap <Leader>fa :CtrlPMixed<CR>
+  " Bookmarked directories
+  nnoremap <leader>fm :CtrlPBookmarkDir<CR>
+  " Clear the cache for the current search path
+  nnoremap <leader>fc :CtrlPClearCache<CR>
   " Fast vim CtrlP matcher based on python, for large projects
   if has('python') && Bundles('felikz/ctrlp-py-matcher')
     let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
@@ -263,7 +267,7 @@ endif
 
 " A tree explorer plugin for vim
 if Bundle('scrooloose/nerdtree', {'m': [
-      \ 'nnoremap <Leader><Leader>d :NERDTreeToggle<CR>',
+      \ 'nnoremap t<CR>d :NERDTreeToggle<CR>',
       \ 'noremap <leader>dd :NERDTree<CR>',
       \ 'noremap <leader>df :NERDTreeFind<CR>']})
   let NERDTreeHijackNetrw=0 " don't replace netrw
@@ -276,8 +280,8 @@ if Bundle('scrooloose/nerdtree', {'m': [
 endif
 
 " Combine with netrw to create a delicious salad dressing
-if Bundles('tpope/vim-vinegar')
-  nmap d<Space> <Plug>VinegarUp
+if Bundles('Tpope/vim-vinegar')
+  nmap <M-d> <Plug>VinegarUp
   autocmd VimEnter * nunmap -
 endif
 
@@ -302,12 +306,7 @@ endif
 " call Bundles('tpope/vim-projectionist')
 
 " Buffer Explorer/Browser
-call Bundles('vim-scripts/bufexplorer.zip', '-jeetsukumaran/vim-buffergator')
-
-" Delete buffers in Vim without closing your windows or messing up your layout
-if Bundles('moll/vim-bbye')
-  nnoremap <Leader>bd :Bdelete<CR>
-endif
+call Bundles('-vim-scripts/bufexplorer.zip', '-jeetsukumaran/vim-buffergator')
 
 " Distraction-free writing
 if Bundle('junegunn/goyo.vim', {'m': ['nnoremap <C-W>O :Goyo<CR>']})
@@ -423,7 +422,7 @@ if Bundles('yggdroot/indentline', '-nathanaelkane/vim-indent-guides')
   " let g:indentLine_fileType = ['rb']
   " let g:indentLine_faster = 1
   " let g:indentLine_char = '┊' " |│¦┆┊
-  nnoremap <Leader><Leader>i :IndentLinesToggle<CR>
+  nnoremap t<CR>i :IndentLinesToggle<CR>
 endif
 
 " A powerful color tool
@@ -459,7 +458,7 @@ if Bundles('majutsushi/tagbar')
         \ 'ctagsbin' : 'gotags',
         \ 'ctagsargs' : '-sort -silent'
         \ }
-  nnoremap <Leader><Leader>t :TagbarToggle<CR>
+  nnoremap t<CR>t :TagbarToggle<CR>
 endif
 
 " Documentation/reference viewer
@@ -644,7 +643,7 @@ if Bundles('jbnicolai/rainbow_parentheses.vim')
   let g:rbpt_loadcmd_toggle = 1
   autocmd Syntax clojure call rainbow_parentheses#load(0)
   autocmd ColorScheme * call rainbow_parentheses#activate()
-  nnoremap <Leader><Leader>p :call rainbow_parentheses#toggle()<CR>
+  nnoremap t<CR>p :call rainbow_parentheses#toggle()<CR>
 endif
 
 " Others {{{2
@@ -672,27 +671,28 @@ endif
 " A Git wrapper so awesome, it should be illegal.
 if Bundles('Tpope/vim-fugitive')
   " Git deserves a convenient leader key for mappings
-  nnoremap g<Space>s :Gstatus<CR>
-  nnoremap g<Space>cc :Gcommit -v<CR>
-  nnoremap g<Space>ca :Gcommit --amend -v<CR>
-  nnoremap g<Space>cC :execute &modified ? 'w' : '' \|
+  call Metabind('<M-g>')
+  nnoremap <M-g>s :Gstatus<CR>
+  nnoremap <M-g>cc :Gcommit -v<CR>
+  nnoremap <M-g>ca :Gcommit --amend -v<CR>
+  nnoremap <M-g>cC :execute &modified ? 'w' : '' \|
         \ execute 'Gcommit -v '.join(
         \ split(expand('%:p'), '[\/]', 1)[len(split(b:git_dir, '[\/]', 1))-1:],
         \ '/')<CR>
-  nnoremap g<Space>cA :execute &modified ? 'w' : '' \|
+  nnoremap <M-g>cA :execute &modified ? 'w' : '' \|
         \ execute 'Gcommit --amend -v '.join(
         \ split(expand('%:p'), '[\/]', 1)[len(split(b:git_dir, '[\/]', 1))-1:],
         \ '/')<CR>
-  nnoremap g<Space>CC :Gcommit --all -v<CR>
-  nnoremap g<Space>CA :Gcommit --all --amend -v<CR>
-  nnoremap g<Space>cd :wq \| Gcommit -v<CR>
-  nnoremap g<Space>dd <C-W>o:Gdiff<CR>
-  nnoremap g<Space>da :Git diff<CR>
-  nnoremap g<Space>b :Gblame<CR>
-  nnoremap g<Space>l :Glog<CR>
-  nnoremap g<Space>ps :execute 'Start! git --git-dir='.b:git_dir.' push'<CR>
-  nnoremap g<Space>pS :execute 'Start! git --git-dir='.b:git_dir.' push -f'<CR>
-  nnoremap g<Space>pl :execute 'Start! git --git-dir='.b:git_dir.' pull'<CR>
+  nnoremap <M-g>CC :Gcommit --all -v<CR>
+  nnoremap <M-g>CA :Gcommit --all --amend -v<CR>
+  nnoremap <M-g>cd :wq \| Gcommit -v<CR>
+  nnoremap <M-g>dd <C-W>o:Gdiff<CR>
+  nnoremap <M-g>da :Git diff<CR>
+  nnoremap <M-g>b :Gblame<CR>
+  nnoremap <M-g>l :Glog<CR>
+  nnoremap <M-g>ps :execute 'Start! git --git-dir='.b:git_dir.' push'<CR>
+  nnoremap <M-g>pS :execute 'Start! git --git-dir='.b:git_dir.' push -f'<CR>
+  nnoremap <M-g>pl :execute 'Start! git --git-dir='.b:git_dir.' pull'<CR>
   nnoremap <silent> <Leader>dr :execute 'lcd '.b:git_dir[:-6]<CR>
   nnoremap <silent> <Leader>dR :execute 'cd '.b:git_dir[:-6]<CR>
 endif
@@ -712,9 +712,9 @@ if Bundles('airblade/vim-gitgutter')
   let g:gitgutter_sign_removed = '-'
   let g:gitgutter_sign_modified_removed = '='
   let g:gitgutter_map_keys = 0
-  nnoremap g<Space>ds :call gitgutter#toggle()<CR>
-  nnoremap g<Space>u :GitGutter<CR>
-  nnoremap g<Space>U :GitGutterAll<CR>
+  nnoremap <M-g>ds :call gitgutter#toggle()<CR>
+  nnoremap <M-g>u :GitGutter<CR>
+  nnoremap <M-g>U :GitGutterAll<CR>
   nmap [c <Plug>GitGutterPrevHunk
   nmap ]c <Plug>GitGutterNextHunk
   nmap <silent> dp :execute &diff ? 'diffput' : 'GitGutterStageHunk'<CR>
@@ -732,8 +732,8 @@ endif
 " Browse GitHub events
 if Bundles('junegunn/vim-github-dashboard')
   let g:github_dashboard = {'username': 'bohrshaw'}
-  nnoremap g<Space>G :GHDashboard!<CR>
-  nnoremap g<Space>A :GHActivity!<CR>
+  nnoremap <M-g>G :GHDashboard!<CR>
+  nnoremap <M-g>A :GHActivity!<CR>
 endif
 
 " Helpers for UNIX(Windows)
