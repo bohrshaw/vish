@@ -65,6 +65,7 @@ execute has('gui_gtk')||has('gui_motif')||has('gui_athena') ? 'set go+=a' : ''
 " set clipboard+=unnamed " sync the selection register with the unnamed register
 
 set wildmenu wildmode=longest:full,full " command line completion mode
+set wildcharm=<Tab> " the key to trigger wildmode expansion in mappings
 silent! set wildignorecase " ignore case when completing file names/directories
 set completeopt=menu,longest " insert-completion mode
 set complete-=i " don't scan included files when insert-completing by <C-N/P>
@@ -160,10 +161,21 @@ command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
       \ inoremap <args>
 
 " Bind the meta key in terminals
-command! -nargs=1 Meta <args>| if !has('gui_running') |
-      \ call Metamap(<q-args>) | endif
-function! Metamap(cmd)
-  let c = matchstr(a:cmd, '<[mM]-\zs.')
+command! -nargs=1 Meta <args>| call Metabind(<q-args>)
+if !exists('g:_meta_chars')
+  let g:_meta_chars = []
+endif
+function! Metabind(cmd)
+  if has('gui_running')
+    return
+  endif
+  let c = matchstr(a:cmd, '\c<[ma]-\zs.')
+  if index(g:_meta_chars, c) >= 0
+    return
+  else
+    call add(g:_meta_chars, c)
+  endif
+  let key_mapped = '<M-'.c.'>'
   " Unused keys: <F13>..<F37>, <M-A>..<M-Z>
   if c =~# '\l'
     if c ==# 'f'
@@ -173,23 +185,19 @@ function! Metamap(cmd)
     else
       let key = '<F'.(char2nr(c)-84).'>' " <M-z> is left out
     endif
-    let key_mapped = '<M-'.c.'>'
     " Map the unused key to the mapped key
     execute 'map '.key.' '.key_mapped.'|map! '.key.' '.key_mapped
     " Eliminate even the tiny delay when escaping insert mode
-    if a:cmd[0] == 'c' && empty(maparg(key_mapped, 'i'))
+    if empty(maparg(key_mapped, 'i'))
       execute 'inoremap '.key_mapped.' <Esc>'.c
     endif
   elseif c =~# '\u'
-    let key = '<M-'.c.'>'
+    let key = key_mapped
   endif
   " Define the key which times out sooner than mapping
   silent! execute 'set '.key."=\<Esc>".c
 endfunction
 
-" Free a somewhat-excess home-row key to act as a mapping leader. But don't
-" disable it to be able to use {count}s.
-" NXnoremap s <Nop>
 " Avoid entering the crappy Ex mode
 NXnoremap Q <Nop>
 
@@ -234,28 +242,26 @@ NXnoremap & :&&<CR>
 " Deleting to the black hole register
 NXnoremap R "_d
 
-" The leader key of window related mappings
-" NXnoremap S <C-W>
+" Manage buffers quickly
+Meta NXnoremap <M-b> :<C-U>ls<CR>:b
+
+" Edit a file in the same directory of the current file
+NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/<Tab>
+NXnoremap <leader>es :sp <C-R>=expand('%:h')<CR>/<Tab>
+NXnoremap <leader>ev :vs <C-R>=expand('%:h')<CR>/<Tab>
+NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/<Tab>
+
 " Go to the below/right or above/left window
-NXnoremap gj <C-W>w
-NXnoremap gk <C-W>W
-NXnoremap gl <C-W>l
-NXnoremap gh <C-W>h
-" Move through display lines
-NXnoremap tj gj
-NXnoremap tk gk
+Meta NXnoremap <M-j> <C-W>w
+Meta NXnoremap <M-k> <C-W>W
+Meta NXnoremap <M-l> <C-W>l
+Meta NXnoremap <M-h> <C-W>h
 " Split a window vertically with the alternate file
 NXnoremap <C-W><C-^> :vsplit #<CR>
 
 " Go to [count] tab pages forward or back
 NXnoremap <silent> tl :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
 NXnoremap th gT
-
-" Edit a file in the same directory of the current file
-NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/
-NXnoremap <leader>es :sp <C-R>=expand('%:h')<CR>/
-NXnoremap <leader>ev :vs <C-R>=expand('%:h')<CR>/
-NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/
 
 " Mappings for the cmdline window
 autocmd CmdwinEnter * noremap <buffer> <F5> <CR>q:|
