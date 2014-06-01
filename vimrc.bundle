@@ -8,10 +8,20 @@ call bundle#init() " bundle initialization
 " Define an empty auto-command group
 execute 'augroup bundle| autocmd!'
 
-" Move between bundles, or open a bundle's URL in the browser
-autocmd BufReadPost {.,}vimrc.bundle
-      \ nnoremap <buffer> <silent> ]g :call search('Bundle\a*(.\zs\C')<CR>|
-      \ nnoremap <buffer> <silent> [g :call search('Bundle\a*(.\zs\C', 'b')<CR>
+" Mappings for managing bundles
+autocmd BufReadPost {.,}vimrc.bundle call s:bundle_map()
+function! s:bundle_map()
+  " Move between bundles
+  nnoremap <buffer> <silent> ]g :call search('Bundle\a*(.\zs\C')<CR>
+  nnoremap <buffer> <silent> [g :call search('Bundle\a*(.\zs\C', 'b')<CR>
+  " Open a bundle's URL in the browser
+  nnoremap <buffer> <silent> gB
+        \ :execute 'silent OpenBrowserSmartSearch https://github.com/'
+        \ .matchstr(getline('.'), 'Bundle\a*([''"][+-]\?\zs.\{-}\ze[''"]')<CR>
+  " Activate the bundle under the cursor line
+  nnoremap <buffer> <expr> <LocalLeader>b BundleActivate(
+        \ matchstr(getline('.'), 'Bundle.\{-}/\zs.\{-}\ze[''"]'))
+endfunction
 
 " A Vim plugin for Vim plugins
 call Bundles('tpope/vim-scriptease')
@@ -756,7 +766,7 @@ call Bundles('wellle/tmux-complete.vim')
 " Other ways:
 " - The builtin function 'netrw#NetrwBrowseX()' (not working currently)
 " - Python helpers: :py import webbrowser; webbrowser.open()
-if Bundles('tyru/open-browser.vim')
+if Bundles('Tyru/open-browser.vim')
   " Add or override search engines
   let g:openbrowser_search_engines = {
         \ 'google_hk': 'http://google.com.hk/search?q={query}',
@@ -772,10 +782,6 @@ if Bundles('tyru/open-browser.vim')
   xmap gx <Plug>(openbrowser-smart-search)
   " Remove unused commands
   autocmd VimEnter * delcommand OpenBrowser | delcommand OpenBrowserSearch
-  " A buffer local mapping to open a bundle URL quickly
-  autocmd BufReadPost {.,}vimrc.bundle nnoremap <buffer> <silent> gB
-        \ :execute 'silent OpenBrowserSmartSearch https://github.com/'
-        \ .matchstr(getline('.'), 'Bundle\a*([''"][+-]\?\zs.\{-}\ze[''"]')<CR>
 endif
 
 " Google translate
