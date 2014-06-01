@@ -641,7 +641,8 @@ call Bundles('guns/vim-sexp', 'tpope/vim-sexp-mappings-for-regular-people')
 " Better Rainbow Parentheses
 if Bundles('jbnicolai/rainbow_parentheses.vim')
   let g:rbpt_loadcmd_toggle = 1
-  autocmd Syntax clojure call rainbow_parentheses#load(0)
+  autocmd VimEnter * call rainbow_parentheses#load(0) |
+        \ autocmd Syntax clojure call rainbow_parentheses#load(0)
   autocmd ColorScheme * call rainbow_parentheses#activate()
   nnoremap t<CR>p :call rainbow_parentheses#toggle()<CR>
 endif
