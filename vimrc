@@ -20,8 +20,6 @@ if !exists('g:loaded_vimrc')
   if has('gui_running') || $termencoding ==? 'utf-8'
     set encoding=utf-8 " used inside Vim, allow mapping with the ALT key
   endif
-  set guioptions=M " skip sourcing menu.vim, before enabling filetype/syntax
-  syntax enable " as early as possible
 endif
 
 " Define or switch to an auto-command group and clean it
@@ -59,6 +57,7 @@ set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
 set display+=lastline " ensure the last line is properly displayed
 " autocmd GUIEnter * set vb t_vb= " disable error beep and screen flash
 " set mouse= " disable mouse in all modes to tolerate Touchpad mis-touch
+set guioptions=M " skip sourcing menu.vim, before enabling filetype/syntax
 set guioptions+=c " use a console dialog for confirmation instead of a pop-up
 " Sync visual mode selection with the selection register(*) in supported GUI
 execute has('gui_gtk')||has('gui_motif')||has('gui_athena') ? 'set go+=a' : ''
@@ -475,7 +474,9 @@ if !exists('g:loaded_vimrc')
   runtime vimrc.bundle " bundle configuration
   BundleInject " inject bundle paths to 'rtp'
 
-  filetype plugin indent on " after setting 'rtp'
+  " Must be after setting 'rtp'
+  filetype plugin indent on
+  syntax enable
 endif
 
 " ---------------------------------------------------------------------
