@@ -289,8 +289,8 @@ if Bundle('scrooloose/nerdtree', {'m': [
   let NERDTreeMouseMode=2
 endif
 
-" Combine with netrw to create a delicious salad dressing
-if Bundles('Tpope/vim-vinegar')
+" Convenient directory listing and file selection
+if Bundles('Tpope/vim-vinegar', '-jeetsukumaran/vim-filebeagle')
   nmap <M-d> <Plug>VinegarUp
   autocmd VimEnter * nunmap -
 endif
