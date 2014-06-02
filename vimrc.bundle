@@ -662,7 +662,9 @@ endif
 
 " Vim Git runtime files
 " JSON runtime files
-call Bundles('Elzr/vim-json')
+if Bundles('Elzr/vim-json')
+  autocmd FileType json setlocal foldmethod=syntax
+endif
 
 " JSON manipulation and pretty printing
 call Bundles('Tpope/vim-jdaddy')
