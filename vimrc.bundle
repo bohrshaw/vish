@@ -482,7 +482,7 @@ if Bundles('-thinca/vim-ref')
 endif
 
 " Dispatch.vim: asynchronous build and test dispatcher
-call Bundles('tpope/vim-dispatch')
+call Bundles('Tpope/vim-dispatch')
 
 " Run commands quickly
 if Bundles('thinca/vim-quickrun')
