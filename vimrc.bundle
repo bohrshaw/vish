@@ -689,6 +689,11 @@ if Bundles('Bohrshaw/vimproc.vim')
   command! -nargs=+ -complete=shellcmd R VimProcRead <args>
 endif
 
+" The interface to Web API
+if Bundles('Mattn/webapi-vim')
+  let g:webapi#system_function = 'vimproc#system'
+endif
+
 " A Git wrapper so awesome, it should be illegal.
 if Bundles('Tpope/vim-fugitive')
   " Git deserves a convenient leader key for mappings
@@ -772,6 +777,17 @@ call Bundles('wellle/tmux-complete.vim')
 " Implement transparent editing of gpg encrypted files
 " call Bundles('jamessan/vim-gnupg')
 
+" Translation
+if Bundles('Bohrshaw/vim-trance', 'Mattn/webapi-vim')
+  " let g:trance_default = 'baidu'
+  let g:trance = {} " translation services
+  let g:trance.youdao = 'key=1387543717&keyfrom=vim-translate'
+  let g:trance.baidu = 'client_id=QBaUmGf99DZAUUxz2WqvFpxg'
+  " let g:trance_youdao_target = 'dict' " 'translate', 'dict' or ''(both)
+  " let g:trance_truncate = 0 " truncate long output to be unobtrusive
+  nnoremap <Leader>t :call trance#translate(expand('<cword>'))<CR>
+endif
+
 " Open URI with your favorite browser
 " Other ways:
 " - The builtin function 'netrw#NetrwBrowseX()' (not working currently)
@@ -792,18 +808,6 @@ if Bundles('Tyru/open-browser.vim')
   xmap gx <Plug>(openbrowser-smart-search)
   " Remove unused commands
   autocmd VimEnter * delcommand OpenBrowser | delcommand OpenBrowserSearch
-endif
-
-" Google translate
-if Bundle('maksimr/vim-translator', {
-      \ 'm': [
-      \ "xnoreamp <Leader>T",
-      \ "nnoremap <Leader>T :execute 'Translate '.expand('<cword>')<CR>",
-      \ ]})
-  let g:goog_user_conf = {
-        \ 'langpair': 'en|zh',
-        \ 'v_key': '<Leader>T',
-        \ }
 endif
 
 " Vimscript for gist
