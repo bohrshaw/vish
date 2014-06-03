@@ -181,7 +181,7 @@ call Bundles('terryma/vim-multiple-cursors')
 call Bundles('tpope/vim-characterize')
 
 " Transpose matrices of text (swap lines with columns)
-call Bundles('salsifis/vim-transpose')
+" call Bundles('salsifis/vim-transpose')
 
 " History: {{{1
 
@@ -360,23 +360,22 @@ endif
 
 " Color Schemes {{{2
 
-" Precision colorscheme for the vim text editor
-if Bundles('Altercation/vim-colors-solarized')
-  let g:solarized_italic = 0
-  let g:solarized_termcolors = &term =~ '256col' ? 256 : 16
-  let g:solarized_menu=0
-  autocmd ColorScheme solarized runtime colors/solarized_additional.vim
-endif
-
 " Dark themes
-call Bundles('Nanotech/jellybeans.vim', 'Zeis/vim-kolor',
+if Bundles('Altercation/vim-colors-solarized', 'twerth/ir_black',
+      \ 'Nanotech/jellybeans.vim', 'Zeis/vim-kolor',
       \ 'jnurmine/zenburn', 'sjl/badwolf',
       \ 'goatslacker/mango.vim', 'Sk1418/last256',
       \ 'Rking/vim-detailed', 'Lokaltog/vim-distinguished',
       \ 'Tomasr/molokai', 'sickill/vim-monokai',
       \ 'tpope/vim-vividchalk', 'Vim-scripts/twilight',
-      \ 'Twerth/ir_black',
       \ )
+  autocmd VimEnter * nested execute 'color '.
+        \ (has('gui_running') ? 'solarized' : 'last256')
+  let g:solarized_italic = 0
+  let g:solarized_termcolors = &term =~ '256col' ? 256 : 16
+  let g:solarized_menu=0
+  autocmd ColorScheme solarized runtime colors/solarized_additional.vim
+endif
 
 " Light themes
 call Bundles('endel/vim-github-colorscheme', 'jonathanfilip/vim-lucius',
@@ -660,7 +659,6 @@ endif
 
 " Others {{{2
 
-" Vim Git runtime files
 " JSON runtime files
 if Bundles('Elzr/vim-json')
   autocmd FileType json setlocal foldmethod=syntax

@@ -567,7 +567,6 @@ if !exists('g:loaded_vimrc')
   endif
 
   set background=dark " assume a dark background for color schemes
-  execute 'color '.(has('gui_running') ? 'solarized' : 'last256')
 endif
 
 " if has('multi_byte_ime')
