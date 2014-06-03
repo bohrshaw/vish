@@ -387,6 +387,8 @@ command! -bar -range Source <line1>,<line2>yank z<Bar>
 command! -nargs=1 -complete=command Qdo call vimrc#errdo('q', <q-args>)
 command! -nargs=1 -complete=command Ldo call vimrc#errdo(<q-args>)
 
+" Delete the current without closing its window
+command! -bang Bdelete :b# |silent! bd<bang>#
 " Delete all buffers in the buffer list
 command! BdAll execute '1,'.bufnr('$').'bdelete'
 " Delete all buffers in the buffer list except the current one
