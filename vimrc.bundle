@@ -257,7 +257,7 @@ if Bundles('Kien/ctrlp.vim')
   " Files with similar names
   nmap <expr> <Leader>fs ':CtrlP<CR>'.expand('%:t:r')
   " Buffers
-  nnoremap <Leader>fb :CtrlPBuffer<CR>
+  nnoremap <M-b> :CtrlPBuffer<CR>
   " Files, buffers and MRU files at the same time
   nnoremap <Leader>fa :CtrlPMixed<CR>
   " Bookmarked directories
@@ -783,12 +783,12 @@ call Bundles('wellle/tmux-complete.vim')
 
 " Translation
 if Bundles('Bohrshaw/vim-trance', 'Mattn/webapi-vim')
-  " let g:trance_default = 'baidu'
+  " let g:trance#default = 'baidu'
   let g:trance = {} " translation services
   let g:trance.youdao = 'key=1387543717&keyfrom=vim-translate'
   let g:trance.baidu = 'client_id=QBaUmGf99DZAUUxz2WqvFpxg'
-  " let g:trance_youdao_target = 'dict' " 'translate', 'dict' or ''(both)
-  " let g:trance_truncate = 0 " truncate long output to be unobtrusive
+  " let g:trance#youdao_target = 'dict' " 'translate', 'dict' or ''(both)
+  " let g:trance#truncate = 0 " truncate long output to be unobtrusive
   nnoremap <Leader>t :call trance#translate(expand('<cword>'))<CR>
 endif
 

@@ -241,9 +241,6 @@ NXnoremap & :&&<CR>
 " Deleting to the black hole register
 NXnoremap R "_d
 
-" Manage buffers quickly
-Meta NXnoremap <M-b> :<C-U>ls<CR>:b
-
 " Edit a file in the same directory of the current file
 NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/<Tab>
 NXnoremap <leader>es :sp <C-R>=expand('%:h')<CR>/<Tab>
