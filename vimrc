@@ -188,7 +188,7 @@ function! Metabind(cmd)
     " Map the unused key to the mapped key
     execute 'map '.key.' '.key_mapped.'|map! '.key.' '.key_mapped
     " Eliminate even the tiny delay when escaping insert mode
-    if empty(maparg(key_mapped, 'i'))
+    if empty(mapcheck(key_mapped, 'i'))
       execute 'inoremap '.key_mapped.' <Esc>'.c
     endif
   elseif c =~# '\u'
@@ -242,6 +242,8 @@ NXnoremap & :&&<CR>
 " Deleting to the black hole register
 NXnoremap R "_d
 
+" Switch to the alternative file more conveniently
+NXnoremap g3 :<C-U>b#<CR>
 " Edit a file in the same directory of the current file
 NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/<Tab>
 NXnoremap <leader>es :sp <C-R>=expand('%:h')<CR>/<Tab>
