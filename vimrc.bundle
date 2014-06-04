@@ -687,19 +687,27 @@ call Bundles('bohrshaw/vim-vimperator-syntax')
 
 " An asynchronous execution library
 if Bundles('Bohrshaw/vimproc.vim')
-  command! -nargs=+ -complete=shellcmd B VimProcBang <args>
+  command! -nargs=+ -bang -complete=shellcmd B execute <bang>0 ?
+        \ 'call vimproc#system_bg(<q-args>)' : 'VimProcBang <args>'
   command! -nargs=+ -complete=shellcmd R VimProcRead <args>
+endif
+
+" A powerful shell implemented in Vim Script
+if Bundles('shougo/vimshell.vim', 'bohrshaw/vimproc.vim')
+  Meta NXnoremap <M-s> :<C-U>VimShell<CR>
+  autocmd FileType vimshell NXInoremap <buffer> <silent> <M-s> <Esc>:sil b#<CR>
 endif
 
 " The interface to Web API
 if Bundles('Mattn/webapi-vim')
-  let g:webapi#system_function = 'vimproc#system'
+  let g:webapi#system_function = has('win32') ?
+        \ 'vimproc#cmd#system' : 'vimproc#system'
 endif
 
 " A Git wrapper so awesome, it should be illegal.
 if Bundles('Tpope/vim-fugitive')
   " Asynchronous execution
-  command! -nargs=1 GGit execute 'Start! git --git-dir='.b:git_dir.' <args>'
+  command! -nargs=1 GGit call vimproc#system_bg('git --git-dir='.b:git_dir.' <args>')
   " Git deserves a convenient leader key for mappings
   call Metabind('<M-g>')
   nnoremap <M-g>s :Gstatus<CR>
