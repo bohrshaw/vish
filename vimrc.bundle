@@ -205,7 +205,9 @@ call Bundles('Tpope/vim-repeat')
 " Mapping: {{{1
 
 " Pairs of handy bracket mappings
-call Bundles('Tpope/vim-unimpaired')
+if Bundles('Tpope/vim-unimpaired')
+  nmap gP <Plug>unimpairedPaste
+endif
 nnoremap <silent> ]O :call search('to-\?do:\c', 'sW')<CR>
 nnoremap <silent> [O :call search('to-\?do:\c', 'sWb')<CR>
 
