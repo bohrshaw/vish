@@ -305,19 +305,18 @@ autocmd CmdwinEnter * inoremap <expr> <buffer> <Tab>
       \ ? '<C-X><C-V>' : '<Tab>'
 
 " Shortcuts of insert-completion in CTRL-X mode
-inoremap <C-X>l <C-X><C-L>
-inoremap <C-X>n <C-X><C-N>
-inoremap <C-X>p <C-X><C-P>
-inoremap <C-X>k <C-X><C-K>
-inoremap <C-X>t <C-X><C-T>
-inoremap <C-X>i <C-X><C-I>
-inoremap <C-X>] <C-X><C-]>
-inoremap <C-X>f <C-X><C-F>
-inoremap <C-X>d <C-X><C-D>
-inoremap <C-X>v <C-X><C-V>
-inoremap <C-X>u <C-X><C-U>
-inoremap <C-X>o <C-X><C-O>
-inoremap <C-Z> <C-X><C-O>
+Meta inoremap <M-x>l <C-X><C-L>
+inoremap <M-x>n <C-X><C-N>
+inoremap <M-x>p <C-X><C-P>
+inoremap <M-x>k <C-X><C-K>
+inoremap <M-x>t <C-X><C-T>
+inoremap <M-x>i <C-X><C-I>
+inoremap <M-x>] <C-X><C-]>
+inoremap <M-x>f <C-X><C-F>
+inoremap <M-x>d <C-X><C-D>
+inoremap <M-x>v <C-X><C-V>
+inoremap <M-x>u <C-X><C-U>
+inoremap <M-x>o <C-X><C-O>
 
 " Break the undo sequence
 " inoremap <C-U> <C-G>u<C-U>
