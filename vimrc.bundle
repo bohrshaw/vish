@@ -696,6 +696,8 @@ endif
 
 " A Git wrapper so awesome, it should be illegal.
 if Bundles('Tpope/vim-fugitive')
+  " Asynchronous execution
+  command! -nargs=1 GGit execute 'Start! git --git-dir='.b:git_dir.' <args>'
   " Git deserves a convenient leader key for mappings
   call Metabind('<M-g>')
   nnoremap <M-g>s :Gstatus<CR>
@@ -716,9 +718,9 @@ if Bundles('Tpope/vim-fugitive')
   nnoremap <M-g>da :Git diff<CR>
   nnoremap <M-g>b :Gblame<CR>
   nnoremap <M-g>l :Glog<CR>
-  nnoremap <M-g>ps :execute 'Start! git --git-dir='.b:git_dir.' push'<CR>
-  nnoremap <M-g>pS :execute 'Start! git --git-dir='.b:git_dir.' push -f'<CR>
-  nnoremap <M-g>pl :execute 'Start! git --git-dir='.b:git_dir.' pull'<CR>
+  nnoremap <M-g>ps :GGit push<CR>
+  nnoremap <M-g>pS :GGit push -f<CR>
+  nnoremap <M-g>pl :GGit pull<CR>
   nnoremap <silent> <Leader>dr :execute 'lcd '.b:git_dir[:-6]<CR>
   nnoremap <silent> <Leader>dR :execute 'cd '.b:git_dir[:-6]<CR>
 endif
