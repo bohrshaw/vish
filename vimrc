@@ -226,7 +226,7 @@ function! s:v_search(dir)
 endfunction
 
 " Jump to the middle of the current written line as opposed to the window width
-nnoremap gm :call cursor(0, virtcol('$')/2)<CR>|nnoremap gM gm
+nnoremap <silent> gm :call cursor(0, virtcol('$')/2)<CR>|nnoremap gM gm
 " Yank till the line end instead of the whole line
 nnoremap Y y$
 " Yank to GUI/system clipboard
