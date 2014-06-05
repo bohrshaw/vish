@@ -162,18 +162,16 @@ command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
 
 " Bind the meta key in terminals
 command! -nargs=1 Meta <args>| call Metabind(<q-args>)
-if !exists('g:_meta_chars')
-  let g:_meta_chars = []
-endif
+let s:meta_chars = []
 function! Metabind(cmd)
   if has('gui_running')
     return
   endif
   let c = matchstr(a:cmd, '\c<[ma]-\zs.')
-  if index(g:_meta_chars, c) >= 0
+  if index(s:meta_chars, c) >= 0
     return
   else
-    call add(g:_meta_chars, c)
+    call add(s:meta_chars, c)
   endif
   let key_mapped = '<M-'.c.'>'
   " Unused keys: <F13>..<F37>, <M-A>..<M-Z>
