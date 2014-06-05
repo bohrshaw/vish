@@ -305,18 +305,10 @@ autocmd CmdwinEnter * inoremap <expr> <buffer> <Tab>
       \ ? '<C-X><C-V>' : '<Tab>'
 
 " Shortcuts of insert-completion in CTRL-X mode
-Meta inoremap <M-x>l <C-X><C-L>
-inoremap <M-x>n <C-X><C-N>
-inoremap <M-x>p <C-X><C-P>
-inoremap <M-x>k <C-X><C-K>
-inoremap <M-x>t <C-X><C-T>
-inoremap <M-x>i <C-X><C-I>
-inoremap <M-x>] <C-X><C-]>
-inoremap <M-x>f <C-X><C-F>
-inoremap <M-x>d <C-X><C-D>
-inoremap <M-x>v <C-X><C-V>
-inoremap <M-x>u <C-X><C-U>
-inoremap <M-x>o <C-X><C-O>
+call Metabind('<M-x>')
+for s:c in split('lnpkti]fdvuo', '\zs')
+  execute 'inoremap <M-x>'.s:c.' <C-X><C-'.s:c.'>'
+endfor
 
 " Break the undo sequence
 " inoremap <C-U> <C-G>u<C-U>
