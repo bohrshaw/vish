@@ -74,9 +74,7 @@ endfunction
 function! Bundles(...)
   for b in a:000
     if s:bundle_enabled(b)
-      if index(g:bundles, b) < 0
-        call add(g:bundles, b)
-      endif
+      call s:uniqadd(g:bundles, b)
       let if_config = 1
     endif
   endfor
@@ -86,11 +84,17 @@ endfunction
 function! s:bundle_enabled(b)
   if a:b[0] == '-'
     return
-  elseif index(g:dundles, a:b) < 0
-    call add(g:dundles, a:b) " add a bundle to the bundle downloading list
+  else
+    call s:uniqadd(g:dundles, a:b) " add a bundle to the bundle downloading list
   endif
   if !get(g:, 'l') || a:b[0] =~# '\u'
     return 1
+  endif
+endfunction
+
+function! s:uniqadd(list, item)
+  if index(a:list, a:item) < 0
+    call add(a:list, a:item)
   endif
 endfunction
 
