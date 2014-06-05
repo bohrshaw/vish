@@ -231,8 +231,9 @@ endfunction
 nnoremap Y y$
 " Yank to GUI/system clipboard
 NXnoremap gy "+y
-" Make 'cw' consistent with 'dw'
-onoremap <silent> w :execute 'normal! '.v:count1.'w'<CR>
+" Make 'cw' consistent with 'dw', but 'cw' behaving like 'ce' could be more
+" convenient as it's quicker to type and 'ce' is used more often.
+" onoremap <silent> w :execute 'normal! '.v:count1.'w'<CR>
 " Mark a single line in character-wise visual mode
 nnoremap vv ^vg_
 " Substitute in an visual area
