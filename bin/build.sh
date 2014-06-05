@@ -12,15 +12,15 @@
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
 
 # Determine if X server(GUI) is running
-pidof 'X' &>/dev/null && X_SERVER=1
+pidof 'X' &>/dev/null && X=1
 
-# Use `apt-get build-dep vim-gnome` to check which packages are needed
 sudo apt-get install -y python python-dev python3 python3-dev ruby1.9.1 \
   ruby1.9.1-dev lua5.2 liblua5.2-dev mercurial
-if [ $X_SERVER ]; then
-  sudo apt-get install -y libncurses5-dev libgnome2-dev libgnomeui-dev \
-    libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev \
-    libxpm-dev libxt-dev
+if [ $X ]; then
+  sudo apt-get build-dep -y vim-gnome
+  # sudo apt-get install -y libncurses5-dev libgnome2-dev libgnomeui-dev \
+  #   libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev \
+  #   libxpm-dev libxt-dev
 fi
 
 # Purge system Vim (unnecessary if install to /usr/local/)
@@ -63,7 +63,7 @@ conf_cmd="./configure \
   # --enable-cscope \
   # --with-global-runtime=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after \
 
-if [ $X_SERVER ]; then
+if [ $X ]; then
   eval "$conf_cmd --enable-gui=gnome2"
 else
   eval $conf_cmd
