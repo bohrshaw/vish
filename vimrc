@@ -295,8 +295,13 @@ NXnoremap <silent> 'B :let _f = expand('~/.vim/vimrc.bundle')\|
 " ---------------------------------------------------------------------
 " Mappings!: {{{1
 
+" Quick escape
+Meta inoremap <M-i> <Esc>
+" Meta inoremap <M-o> <C-O>
+
 " Open the command-line window
 set cedit=<C-G>
+Meta cnoremap <M-g> <C-G>
 
 " A smart and light <Tab> to do insert-completion
 inoremap <expr> <Tab> getline('.')[col('.')-2] !~ '^\s\?$' \|\| pumvisible()
