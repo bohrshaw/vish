@@ -356,10 +356,6 @@ cmap <script> <C-T> <SID>transposition<SID>transpose
 " ---------------------------------------------------------------------
 " Commands: {{{1
 
-" Calculate the time spending on executing commands
-command! -nargs=1 -count=1 -complete=command Time
-      \ call vimrc#time(<q-args>, <count>)
-
 " Join lines with characters in between
 command! -range -nargs=? Join <line1>,<line2>-1s/\s*\n\s*/<args>/
 
