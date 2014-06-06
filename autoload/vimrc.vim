@@ -12,18 +12,6 @@ function! vimrc#mkdir(...) " {{{1
   endtry
 endfunction " }}}1
 
-" Calculate the time spending on executing commands
-function! vimrc#time(commands, count) " {{{1
-  let time_start = reltime()
-  let l:count = a:count
-  while l:count > 0
-    execute a:commands
-    let l:count -= 1
-  endwhile
-  let time = reltime(time_start)
-  echo 'Total Seconds: ' . split(reltimestr(time))[0]
-endfunction " }}}1
-
 " Count anything in a range of lines
 function! vimrc#count(...) " {{{1
   if a:0 == 3
