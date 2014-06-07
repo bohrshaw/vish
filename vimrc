@@ -11,7 +11,7 @@
 " See https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim for
 " a minimal sensible default.
 
-if !exists('g:loaded_vimrc')
+if has('vim_starting')
   silent! source ~/.vimrc.local " override system vimrc
   let g:l = $VIML && !get(g:, 'h') || get(g:, 'l') " lightweight Vim or not
 
@@ -127,7 +127,7 @@ elseif executable('ack')
   set grepformat^=%f:%l:%c:%m
 endif
 
-if !exists('g:loaded_vimrc') && 0 == argc() && has('gui_running') && !l
+if has('vim_starting') && 0 == argc() && has('gui_running') && !l
   cd $HOME
 endif
 
@@ -465,7 +465,7 @@ cabbrev %% <C-R>=expand('%:h').'/'<CR>
 " ---------------------------------------------------------------------
 " Bundles: {{{1
 
-if !exists('g:loaded_vimrc')
+if has('vim_starting')
   runtime vimrc.bundle " bundle configuration
   BundleInject " inject bundle paths to 'rtp'
 
@@ -518,7 +518,7 @@ function! s:stl()
   set statusline+=%c,%l/%L,%P " cursor position, line percentage
 endfunction
 " Ensure all plugins are loaded before setting 'statusline'
-execute (exists('g:loaded_vimrc')?'':'autocmd VimEnter * ').'call s:stl()'
+execute (has('vim_starting')?'autocmd VimEnter * ':'').'call s:stl()'
 " Ensure the same statusline/tabline highlighting in any color scheme
 autocmd ColorScheme * hi StatusLine term=NONE cterm=NONE ctermfg=64 ctermbg=NONE
       \ gui=bold guifg=#5faf5f guibg=NONE |
@@ -539,7 +539,7 @@ set rulerformat=%50(%=%m%r%<%f%Y\ %c,%l/%L,%P%)
 " set tabline=
 " set titlestring=
 
-if !exists('g:loaded_vimrc')
+if has('vim_starting')
   if has('gui_running')
     if has('win32')
       set guifont=Consolas:h10
@@ -572,6 +572,5 @@ endif
 " Footer: {{{1
 
 execute 'augroup END'
-let g:loaded_vimrc = 1
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap spell:
