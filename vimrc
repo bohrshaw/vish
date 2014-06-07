@@ -312,7 +312,7 @@ autocmd CmdwinEnter * inoremap <expr> <buffer> <Tab>
 
 " Shortcuts of insert-completion in CTRL-X mode
 call Metabind('<M-x>')
-for s:c in split('lnpkti]fdvuo', '\zs')
+for s:c in split('lnpkti]fdvuos', '\zs')
   execute 'inoremap <M-x>'.s:c.' <C-X><C-'.s:c.'>'
 endfor
 
