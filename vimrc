@@ -161,27 +161,34 @@ command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
       \ inoremap <args>
 
 " Bind the meta key in terminals
+" http://vim.wikia.com/wiki/Mapping_fast_keycodes_in_terminal_Vim
 command! -nargs=1 Meta <args>| call Metabind(<q-args>)
-let s:meta_chars = []
+let [s:map_chars, s:key_idx] = [[], 0]
 function! Metabind(cmd)
   if has('gui_running')
     return
   endif
   let c = matchstr(a:cmd, '\c<[ma]-\zs.')
-  if index(s:meta_chars, c) >= 0
+  if index(s:map_chars, c) >= 0
     return
-  else
-    call add(s:meta_chars, c)
   endif
+  call add(s:map_chars, c)
   let key_mapped = '<M-'.c.'>'
-  " Unused keys: <F13>..<F37>, <M-A>..<M-Z>
-  if c =~# '\l'
+  if c =~# '\u'
+    let key = key_mapped
+  else
     if c ==# 'f'
       let key = '<S-Right>'
     elseif c ==# 'b'
       let key = '<S-Left>'
     else
-      let key = '<F'.(char2nr(c)-84).'>' " <M-z> is left out
+      if s:key_idx >= 50
+        echohl WarningMsg | echomsg "Out of spare keys!" | echohl None
+        return
+      endif
+      let s:key_idx += 1
+      " Unused keys: <[S-]F13>..<[S-]F37>, <[S-]xF1>..<[S-]xF4>
+      let key = '<'.(s:key_idx<25 ? '' : 'S-').'F'.(13+s:key_idx%25).'>'
     endif
     " Map the unused key to the mapped key
     execute 'map '.key.' '.key_mapped.'|map! '.key.' '.key_mapped
@@ -189,8 +196,6 @@ function! Metabind(cmd)
     if empty(mapcheck(key_mapped, 'i'))
       execute 'inoremap '.key_mapped.' <Esc>'.c
     endif
-  elseif c =~# '\u'
-    let key = key_mapped
   endif
   " Define the key which times out sooner than mapping
   silent! execute 'set '.key."=\<Esc>".c
@@ -573,4 +578,4 @@ endif
 
 execute 'augroup END'
 
-" vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap spell:
+" vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
