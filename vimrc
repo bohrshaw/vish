@@ -247,6 +247,10 @@ xnoremap cs :s/\%V
 NXnoremap & :&&<CR>
 " Deleting to the black hole register
 NXnoremap R "_d
+" Toggle fold methods
+nnoremap <silent> zfm :<C-U>let &l:foldmethod = matchstr(
+      \ ':manual:marker:indent:syntax:expr:diff',
+      \ ':\zs\w\{-}'.nr2char(getchar()).'\w*')<CR>
 
 " Switch to the alternative file more conveniently
 NXnoremap g3 :<C-U>b#<CR>
