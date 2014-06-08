@@ -256,17 +256,17 @@ NXnoremap <leader>es :sp <C-R>=expand('%:h')<CR>/<Tab>
 NXnoremap <leader>ev :vs <C-R>=expand('%:h')<CR>/<Tab>
 NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/<Tab>
 
+" Window management leader key
+Meta NXnoremap <M-w> <C-W>
 " Go to the below/right or above/left window
 Meta NXnoremap <M-j> <C-W>w
 Meta NXnoremap <M-k> <C-W>W
-Meta NXnoremap <M-l> <C-W>l
-Meta NXnoremap <M-h> <C-W>h
 " Split a window vertically with the alternate file
 NXnoremap <C-W><C-^> :vsplit #<CR>
 
 " Go to [count] tab pages forward or back
-NXnoremap <silent> tl :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
-NXnoremap th gT
+Meta NXnoremap <silent> <M-l> :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
+Meta NXnoremap <M-h> gT
 
 " Mappings for the cmdline window
 autocmd CmdwinEnter * noremap <buffer> <F5> <CR>q:|
