@@ -26,21 +26,24 @@ endif
 execute 'augroup vimrc| autocmd!'
 
 " set timeoutlen=3000 " mapping delay
-set ttimeoutlen=50 " key code delay (instant escape from Insert mode)
+set ttimeoutlen=10 " key code delay (instant escape from Insert mode)
 
-set autoindent " indent at the same level of the previous line
-set shiftwidth=4 " number of spaces to use for each step of (auto)indent
-set shiftround " round indent to multiple of 'shiftwidth'
-set tabstop=4 " number of spaces a tab displayed in
-set softtabstop=4 " number of spaces used when press <Tab> or <BS>
-set expandtab " expand a tab to spaces
-set smarttab " <Tab> in front of a line inserts blanks according to 'shiftwidth'
+if has('vim_starting')
+  set autoindent " indent at the same level of the previous line
+  set shiftwidth=4 " number of spaces to use for each step of (auto)indent
+  set shiftround " round indent to multiple of 'shiftwidth'
+  set tabstop=4 " number of spaces a tab displayed in
+  set softtabstop=4 " number of spaces used when press <Tab> or <BS>
+  set expandtab " expand a tab to spaces
+  set smarttab " <Tab> in front of a line inserts blanks according to 'shiftwidth'
+endif
 
 set matchpairs+=<:> " character pairs matched by '%'
 runtime macros/matchit.vim " extended pair matching with '%'
 set incsearch " show matches when typing the search pattern
 set ignorecase " case insensitive in search patterns and command completion
 set smartcase " case sensitive only when up case characters present
+set pumheight=15 " limit completion menu height
 set winminheight=0 " the minimal height of a window
 set scrolloff=1 " minimum lines to keep above and below cursor
 set sidescrolloff=5 " minimal number of screen columns to keep around the cursor
@@ -493,13 +496,15 @@ set nowrap " only part of long lines will be displayed
 set linebreak " don't break a word when displaying wrapped lines
 
 set list " show non-normal spaces, tabs etc.
-" Special characters: ¬¶⏎↲↪ •·▫¤␣¨ ░▒ ▸⇥→←⇉⇇»«↓↑
 if &encoding ==# 'utf-8' || &termencoding ==# 'utf-8'
-  let s:lcs = ['→\ ', '·', '»', '«', '▫'] " ['⇥\ ', '␣', '⇉', '⇇', '▫']
+  " ¬ ¶ ⏎ ↲ ↪ • · ▫ ¤ ␣ ¨ ⣿ │ ░ ▒ ▸ ⇥ → ← ⇉ ⇇ ❯ ❮ » « ↓ ↑
+  let s:lcs = split(has('win32') ? '→ · » « ▫' : '▸ ␣ ❯ ❮ ▫')
+  let &showbreak = has('win32') ? '' : '↪ '
+  set fillchars=stl:=,stlnc:=,vert:│,fold:-,diff:-
 else
-  let s:lcs = ['>\ ', '-', '>', '<', '+']
+  let s:lcs = ['>', '-', '>', '<', '+']
 endif
-execute 'set listchars=tab:'.s:lcs[0].',trail:'.s:lcs[1]
+execute 'set listchars=tab:'.s:lcs[0].'\ ,trail:'.s:lcs[1]
       \ .',extends:'.s:lcs[2].',precedes:'.s:lcs[3].',nbsp:'.s:lcs[4]
 " Avoid showing trailing whitespace when in insert mode
 execute 'autocmd InsertEnter * set listchars-=trail:'.s:lcs[1]
@@ -513,18 +518,16 @@ set colorcolumn=+1 " highlight column after 'textwidth'
 set laststatus=2 " always display the status line
 function! s:stl()
   set statusline=%m%.30f " modified flag, file name(truncated if length > 30)
-  set statusline+=\ %H%W%q%R%Y " help, preview, quickfix, read-only, filetype
+  set statusline+===%R%Y%W%q " read-only, filetype, preview, quickfix
   set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?','.&fenc:''} " file encoding
   set statusline+=%{&ff!='unix'?','.&ff:''} " file format
   " Git branch name
   let &statusline .= exists('*fugitive#head') ?
         \ "%{exists('b:git_dir')?','.fugitive#head(7):''}" : ''
   " set statusline+=%{','.matchstr(getcwd(),'.*[\\/]\\zs\\S*')}
-  " Software caps lock
-  let &statusline .= exists('*CapsLockSTATUSLINE')?"%{CapsLockSTATUSLINE()}":''
-  let &statusline .= ' %<'.repeat('=', 200).' ' " filler
+  set statusline+=%{get(b:,'capslock',0)?',CAPS':''} " software caps lock
   set statusline+=%= " left/right separator
-  set statusline+=%c,%l/%L,%P " cursor position, line percentage
+  set statusline+=%c=%l/%L=%P " cursor position, line percentage
 endfunction
 " Ensure all plugins are loaded before setting 'statusline'
 execute (has('vim_starting')?'autocmd VimEnter * ':'').'call s:stl()'
