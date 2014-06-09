@@ -318,9 +318,8 @@ inoremap <expr> <Tab> getline('.')[col('.')-2] !~ '^\s\?$' \|\| pumvisible()
       \ ? '<C-N>' : '<Tab>'
 inoremap <expr> <S-Tab> pumvisible() \|\| getline('.')[col('.')-2] !~ '^\s\?$'
       \ ? '<C-P>' : '<Tab>'
-autocmd CmdwinEnter * inoremap <expr> <buffer> <Tab>
-      \ getline('.')[col('.')-2] !~ '^\s\?$' \|\| pumvisible()
-      \ ? '<C-X><C-V>' : '<Tab>'
+" Remove auto-definded mappings
+autocmd CmdwinEnter * iunmap <buffer> <Tab>|nunmap <buffer> <Tab>
 
 " Shortcuts of insert-completion in CTRL-X mode
 call Metabind('<M-x>')
