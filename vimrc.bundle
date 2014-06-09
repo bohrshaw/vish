@@ -100,10 +100,22 @@ call Bundles('-raimondi/delimitmate', '-jiangmiao/auto-pairs')
 " Wisely add 'end' in ruby, endfunction/endif/more in vim script, etc
 call Bundles('tpope/vim-endwise')
 
-" A code-completion engine for Vim
-" call Bundles('valloric/youcompleteme')
-
-" Perform all your vim insert mode completions with Tab
+" Completions
+if Bundles('-valloric/youcompleteme')
+elseif Bundles('Shougo/neocomplete.vim', 'Bohrshaw/vimproc.vim')
+  let g:neocomplete#enable_at_startup = 1
+  let g:neocomplete#max_list = 50
+  " let g:neocomplete#auto_completion_start_length = 3
+  let g:neocomplete#manual_completion_start_length = 1
+  let g:neocomplete#enable_smart_case = &smartcase
+  let g:neocomplete#enable_cursor_hold_i = 1
+  " let g:neocomplete#cursor_hold_i_time = 400 " same as swap saving interval
+  " let g:neocomplete#enable_prefetch = 1
+  let g:neocomplete#data_directory = '~/.vim/tmp/neocomplete'
+  " let g:neocomplete#release_cache_time = 1800 " seconds
+  Meta nnoremap <M-x>U :NeoCompleteToggle<CR>
+  inoremap <M-x>U <Esc>:NeoCompleteToggle<CR>a
+endif
 " call Bundles('ervandew/supertab')
 
 " Snippet solutions
@@ -780,12 +792,10 @@ if Bundles('Tpope/vim-eunuch')
   autocmd VimEnter * command! W SudoWrite
 endif
 
-" Tmux basics
-if !has('win32') && Bundles('Tpope/vim-tbone')
+" Tmux basics, insert mode completion of words in adjacent tmux panes
+if !has('win32') && Bundles('Tpope/vim-tbone', 'wellle/tmux-complete.vim')
+  let g:tmuxcomplete#trigger = '' " completefunc, omnifunc, or empty
 endif
-
-" Insert mode completion of words in adjacent tmux panes
-call Bundles('wellle/tmux-complete.vim')
 
 " Implement transparent editing of gpg encrypted files
 " call Bundles('jamessan/vim-gnupg')
