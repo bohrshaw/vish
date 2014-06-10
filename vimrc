@@ -370,14 +370,14 @@ inoremap <M-l> <C-R>=<SID>toggle(1)<CR>
 call Metabind('<M-L>')
 inoremap <M-L> <C-R>=<SID>toggle(2)<CR>
 function! s:toggle(arg)
-  let b:case_reverse = b:case_reverse ? 0 : a:arg
+  let b:case_reverse = get(b:, 'case_reverse') ? 0 : a:arg
   return ''
 endfunction
-autocmd VimEnter,BufNewFile,BufReadPost * let b:case_reverse = 0
-autocmd InsertCharPre * if b:case_reverse|
+autocmd InsertCharPre * if get(b:, 'case_reverse')|
       \ let v:char = v:char =~# '\l' ? toupper(v:char) : tolower(v:char)|
       \ endif
-autocmd InsertLeave * if b:case_reverse == 1| let b:case_reverse = 0| endif
+autocmd InsertLeave * if get(b:, 'case_reverse') == 1|
+      \ let b:case_reverse = 0| endif
 
 " ---------------------------------------------------------------------
 " Commands: {{{1
