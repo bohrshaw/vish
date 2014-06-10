@@ -867,7 +867,7 @@ if Bundles('itchyny/calendar.vim')
 endif
 
 " A convenient interactive calculator inside a buffer
-call Bundle('gregsexton/VimCalc', {'c': 'Calc'})
+call Bundle('gregsexton/vimcalc', {'c': 'Calc'})
 
 " Task managers
 " call Bundles('aaronbieber/quicktask', 'davidoc/taskpaper.vim',
