@@ -364,6 +364,21 @@ noremap! <expr> <SID>transpose "\<BS>\<Right>"
       \ . matchstr(getcmdline()[0 : getcmdpos()-2], '.$')
 cmap <script> <C-T> <SID>transposition<SID>transpose
 
+" Reverse letter case in insert mode
+call Metabind('<M-l>') " <SID> must be binded in the script context
+inoremap <M-l> <C-R>=<SID>toggle(1)<CR>
+call Metabind('<M-L>')
+inoremap <M-L> <C-R>=<SID>toggle(2)<CR>
+function! s:toggle(arg)
+  let b:case_reverse = b:case_reverse ? 0 : a:arg
+  return ''
+endfunction
+autocmd VimEnter,BufNewFile,BufReadPost * let b:case_reverse = 0
+autocmd InsertCharPre * if b:case_reverse|
+      \ let v:char = v:char =~# '\l' ? toupper(v:char) : tolower(v:char)|
+      \ endif
+autocmd InsertLeave * if b:case_reverse == 1| let b:case_reverse = 0| endif
+
 " ---------------------------------------------------------------------
 " Commands: {{{1
 
@@ -524,7 +539,7 @@ function! s:stl()
   let &statusline .= exists('*fugitive#head') ?
         \ "%{exists('b:git_dir')?','.fugitive#head(7):''}" : ''
   " set statusline+=%{','.matchstr(getcwd(),'.*[\\/]\\zs\\S*')}
-  set statusline+=%{get(b:,'capslock',0)?',CAPS':''} " software caps lock
+  set statusline+=%{get(b:,'case_reverse',0)?',CASE':''} " software caps lock
   set statusline+=%= " left/right separator
   set statusline+=%c=%l/%L=%P " cursor position, line percentage
 endfunction

@@ -87,12 +87,6 @@ endif
 
 " Insert: {{{1
 
-" Software caps lock
-if Bundles('tpope/vim-capslock')
-  imap <C-G>c <Plug>CapsLockToggle
-  imap <C-L> <Plug>CapsLockToggle
-endif
-
 " Provides insert mode auto-completion for quotes, parens, brackets, etc.
 " Currently all breaks repeating.
 call Bundles('-raimondi/delimitmate', '-jiangmiao/auto-pairs')
