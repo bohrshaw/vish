@@ -721,13 +721,11 @@ if Bundles('Tpope/vim-fugitive')
   nnoremap <M-g>cc :Gcommit -v<CR>
   nnoremap <M-g>ca :Gcommit --amend -v<CR>
   nnoremap <M-g>cC :execute &modified ? 'w' : '' \|
-        \ call vimproc#system('git add '.join(
-        \ split(expand('%:p'), '[\/]', 1)[len(split(b:git_dir, '[\/]', 1))-1:],
-        \ '/')) \| Gcommit -v<CR>
+        \ call fugitive#repo().git_chomp_in_tree('add', expand('%')) \|
+        \ Gcommit -v<CR>
   nnoremap <M-g>cA :execute &modified ? 'w' : '' \|
-        \ call vimproc#system('git add '.join(
-        \ split(expand('%:p'), '[\/]', 1)[len(split(b:git_dir, '[\/]', 1))-1:],
-        \ '/')) \| Gcommit --amend -v<CR>
+        \ call fugitive#repo().git_chomp_in_tree('add', expand('%')) \|
+        \ Gcommit --amend -v<CR>
   nnoremap <M-g>CC :Gcommit --all -v<CR>
   nnoremap <M-g>CA :Gcommit --all --amend -v<CR>
   nnoremap <M-g>cd :wq \| Gcommit -v<CR>
