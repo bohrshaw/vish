@@ -213,7 +213,7 @@ call Bundles('Tpope/vim-repeat')
 
 " Pairs of handy bracket mappings
 if Bundles('Tpope/vim-unimpaired')
-  nmap gP <Plug>unimpairedPaste
+  nmap coP <Plug>unimpairedPaste
 endif
 nnoremap <silent> ]O :call search('to-\?do:\c', 'sW')<CR>
 nnoremap <silent> [O :call search('to-\?do:\c', 'sWb')<CR>
