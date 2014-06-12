@@ -262,7 +262,8 @@ if Bundles('Kien/ctrlp.vim')
   " Most recent used files
   nnoremap <Leader>fr :CtrlPMRU<CR>
   " Files with similar names
-  nmap <expr> <Leader>fs ':CtrlP<CR>'.expand('%:t:r')
+  nmap <Leader>fs :let g:ctrlp_default_input = expand('%:t:r') \|
+        \ call ctrlp#init(0) \| unlet g:ctrlp_default_input<CR>
   " Buffers
   nnoremap <M-b> :CtrlPBuffer<CR>
   " Files, buffers and MRU files at the same time
