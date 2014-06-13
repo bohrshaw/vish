@@ -159,6 +159,8 @@ let maplocalleader = 'g\' " replace <LocalLeader> in a map
 
 " Commands for defining mappings in several modes
 command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
+command! -nargs=1 NXmap nmap <args><Bar>xmap <args>
+command! -nargs=1 NXOmap nmap <args><Bar>xmap <args><Bar>omap <args>
 " Allow chained commands, but also check for a " to start a comment
 command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
       \ inoremap <args>
