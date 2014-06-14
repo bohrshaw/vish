@@ -373,13 +373,20 @@ call Metabind('<M-L>')
 inoremap <M-L> <C-R>=<SID>toggle(2)<CR>
 function! s:toggle(arg)
   let b:case_reverse = get(b:, 'case_reverse') ? 0 : a:arg
+  if !exists('#case_reverse#InsertCharPre#<buffer>')
+    augroup case_reverse
+      autocmd InsertCharPre <buffer> if b:case_reverse|
+            \ let v:char = v:char =~# '\l' ? toupper(v:char) : tolower(v:char)|
+            \ endif|
+            \ if b:case_reverse == 1 && v:char !~ '\h'|
+            \ let b:case_reverse = 0|
+            \ endif
+      " Wouldn't be triggered if leaving insert mode with <C-C>
+      autocmd InsertLeave <buffer> let b:case_reverse = 0| autocmd! case_reverse
+    augroup END
+  endif
   return ''
 endfunction
-autocmd InsertCharPre * if get(b:, 'case_reverse')|
-      \ let v:char = v:char =~# '\l' ? toupper(v:char) : tolower(v:char)|
-      \ endif
-autocmd InsertLeave * if get(b:, 'case_reverse') == 1|
-      \ let b:case_reverse = 0| endif
 
 " ---------------------------------------------------------------------
 " Commands: {{{1
