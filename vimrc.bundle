@@ -258,7 +258,7 @@ if Bundles('Kien/ctrlp.vim')
     let g:ctrlp_user_command['fallback'] = 'ag %s -l --nocolor -g ""'
   endif
   " Bring up this finder in find file mode
-  Meta nnoremap <M-p> :<C-U>CtrlP<CR>
+  Meta nnoremap <silent> <M-p> :<C-U>CtrlP<CR>
   " Most recent used files
   nnoremap <Leader>fr :CtrlPMRU<CR>
   " Files with similar names
