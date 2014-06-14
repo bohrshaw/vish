@@ -199,7 +199,7 @@ function! Metabind(cmd)
     execute 'map '.key.' '.key_mapped.'|map! '.key.' '.key_mapped
     " Eliminate even the tiny delay when escaping insert mode
     if empty(mapcheck(key_mapped, 'i'))
-      execute 'inoremap '.key_mapped.' <Esc>'.c
+      execute 'imap '.key_mapped.' <Esc>'.c
     endif
   endif
   " Define the key which times out sooner than mapping
