@@ -217,6 +217,11 @@ NXnoremap R "_d
 nnoremap <silent> zfm :<C-U>let &l:foldmethod = matchstr(
       \ ':manual:marker:indent:syntax:expr:diff',
       \ ':\zs\w\{-}'.nr2char(getchar()).'\w*')<CR>
+" Get syntax and highlighting infomation of the text under the curosr
+nnoremap <silent> <Leader>S :echo map(synstack(line('.'), col('.')),
+      \ 'synIDattr(v:val, "name")')<CR>
+nnoremap <silent> <Leader>H :execute 'hi '.
+      \ synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
 
 " Switch to the alternative file more conveniently
 NXnoremap g3 :<C-U>b#<CR>
