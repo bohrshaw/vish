@@ -29,7 +29,7 @@ function! s:bind(c)
     " Map the unused key to the mapped key
     execute 'map '.key.' '.key_mapped.'|map! '.key.' '.key_mapped
     " Eliminate even the tiny delay when escaping insert mode
-    execute 'imap '.key_mapped.' <Esc>'.a:c
+    execute 'inoremap '.key_mapped.' <Esc>'.a:c
   endif
   " Define the key which times out sooner than mapping
   silent! execute 'set '.key."=\<Esc>".a:c
