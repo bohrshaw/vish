@@ -154,6 +154,8 @@ autocmd SessionLoadPost * silent! bwipeout! _
 " Use capital letters in keys like <C-J> for readability.
 " See related help topics: index, map-which-keys
 
+runtime autoload/key.vim " mappable meta key in terminals
+
 " let mapleader = "\r" " replace <Leader> in a map
 let maplocalleader = 'g\' " replace <LocalLeader> in a map
 
@@ -164,47 +166,6 @@ command! -nargs=1 NXOmap nmap <args><Bar>xmap <args><Bar>omap <args>
 " Allow chained commands, but also check for a " to start a comment
 command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
       \ inoremap <args>
-
-" Bind the meta key in terminals
-" http://vim.wikia.com/wiki/Mapping_fast_keycodes_in_terminal_Vim
-command! -nargs=1 Meta <args>| call Metabind(<q-args>)
-let [s:map_chars, s:key_idx] = [[], 0]
-function! Metabind(cmd)
-  if has('gui_running')
-    return
-  endif
-  let c = matchstr(a:cmd, '\c<[ma]-\zs.')
-  if index(s:map_chars, c) >= 0
-    return
-  endif
-  call add(s:map_chars, c)
-  let key_mapped = '<M-'.c.'>'
-  if c =~# '\u'
-    let key = key_mapped
-  else
-    if c ==# 'f'
-      let key = '<S-Right>'
-    elseif c ==# 'b'
-      let key = '<S-Left>'
-    else
-      if s:key_idx >= 50
-        echohl WarningMsg | echomsg "Out of spare keys!" | echohl None
-        return
-      endif
-      let s:key_idx += 1
-      " Unused keys: <[S-]F13>..<[S-]F37>, <[S-]xF1>..<[S-]xF4>
-      let key = '<'.(s:key_idx<25 ? '' : 'S-').'F'.(13+s:key_idx%25).'>'
-    endif
-    " Map the unused key to the mapped key
-    execute 'map '.key.' '.key_mapped.'|map! '.key.' '.key_mapped
-    " Eliminate even the tiny delay when escaping insert mode
-    if empty(mapcheck(key_mapped, 'i'))
-      execute 'imap '.key_mapped.' <Esc>'.c
-    endif
-  endif
-  " Define the key which times out sooner than mapping
-  silent! execute 'set '.key."=\<Esc>".c
-endfunction
 
 " Avoid entering the crappy Ex mode
 NXnoremap Q <Nop>
@@ -266,16 +227,16 @@ NXnoremap <leader>ev :vs <C-R>=expand('%:h')<CR>/<Tab>
 NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/<Tab>
 
 " Window management leader key
-Meta NXmap <M-w> <C-W>
+NXmap <M-w> <C-W>
 " Go to the below/right or above/left window
-Meta NXnoremap <M-j> <C-W>w
-Meta NXnoremap <M-k> <C-W>W
+NXnoremap <M-j> <C-W>w
+NXnoremap <M-k> <C-W>W
 " Split a window vertically with the alternate file
 NXnoremap <C-W><C-^> :vsplit #<CR>
 
 " Go to [count] tab pages forward or back
-Meta NXnoremap <silent> <M-l> :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
-Meta NXnoremap <M-h> gT
+NXnoremap <silent> <M-l> :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
+NXnoremap <M-h> gT
 
 " Mappings for the cmdline window
 autocmd CmdwinEnter * noremap <buffer> <F5> <CR>q:|
@@ -308,12 +269,12 @@ NXnoremap <silent> 'B :let _f = expand('~/.vim/vimrc.bundle')\|
 " Mappings!: {{{1
 
 " Quick escape
-Meta inoremap <M-i> <Esc>
-" Meta inoremap <M-o> <C-O>
+inoremap <M-i> <Esc>
+" inoremap <M-o> <C-O>
 
 " Open the command-line window
 set cedit=<C-G>
-Meta cnoremap <M-g> <C-G>
+cnoremap <M-g> <C-G>
 
 " A smart and light <Tab> to do insert-completion
 inoremap <expr> <Tab> getline('.')[col('.')-2] !~ '^\s\?$' \|\| pumvisible()
@@ -324,7 +285,6 @@ inoremap <expr> <S-Tab> pumvisible() \|\| getline('.')[col('.')-2] !~ '^\s\?$'
 autocmd CmdwinEnter * iunmap <buffer> <Tab>|nunmap <buffer> <Tab>
 
 " Shortcuts of insert-completion in CTRL-X mode
-call Metabind('<M-x>')
 for s:c in split('lnpkti]fdvuos', '\zs')
   execute 'inoremap <M-x>'.s:c.' <C-X><C-'.s:c.'>'
 endfor
@@ -334,8 +294,8 @@ endfor
 
 " Recall older or more recent command-line from history, but the command matches
 " the current command-line
-Meta cnoremap <M-p> <Up>
-Meta cnoremap <M-n> <Down>
+cnoremap <M-p> <Up>
+cnoremap <M-n> <Down>
 
 " Move the cursor around the line
 inoremap <C-A> <C-O>^| inoremap <C-X><C-A> <C-A>
@@ -343,8 +303,8 @@ cnoremap <C-A> <Home>| cnoremap <C-X><C-A> <C-A>
 inoremap <C-E> <End>
 
 " Move the cursor around one word
-Meta noremap! <M-f> <S-Right>
-Meta noremap! <M-b> <S-Left>
+noremap! <M-f> <S-Right>
+noremap! <M-b> <S-Left>
 
 " Move the cursor around one character
 inoremap <expr> <C-F> col('.')>strlen(getline('.'))?"\<Lt>C-F>":"\<Lt>Right>"
@@ -352,8 +312,8 @@ cnoremap <C-F> <Right>
 noremap! <C-B> <Left>
 
 " Delete one word after the cursor
-Meta inoremap <M-d> <C-O>dw
-Meta cnoremap <M-d> <S-Right><C-W>
+inoremap <M-d> <C-O>dw
+cnoremap <M-d> <S-Right><C-W>
 
 " Delete one character after the cursor
 inoremap <expr> <C-D> col('.')>strlen(getline('.'))?"\<Lt>C-D>":"\<Lt>Del>"
@@ -367,9 +327,7 @@ noremap! <expr> <SID>transpose "\<BS>\<Right>"
 cmap <script> <C-T> <SID>transposition<SID>transpose
 
 " Reverse letter case in insert mode
-call Metabind('<M-l>') " <SID> must be binded in the script context
 inoremap <M-l> <C-R>=<SID>toggle(1)<CR>
-call Metabind('<M-L>')
 inoremap <M-L> <C-R>=<SID>toggle(2)<CR>
 function! s:toggle(arg)
   let b:case_reverse = get(b:, 'case_reverse') ? 0 : a:arg
