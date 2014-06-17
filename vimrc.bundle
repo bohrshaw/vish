@@ -34,10 +34,10 @@ if Bundles('Justinmk/vim-sneak')
   " let g:sneak#use_ic_scs = 1 " 'ignorecase', 'smartcase'
   let sneak#textobject_z = 0
   " Alternative mappings keys: z; z,
-  Meta NXOmap <M-f> <Plug>Sneak_s
-  Meta NXOmap <M-F> <Plug>Sneak_S
-  Meta NXOmap <M-t> <Plug>(SneakStreak)
-  Meta NXOmap <M-T> <Plug>(SneakStreakBackward)
+  NXOmap <M-f> <Plug>Sneak_s
+  NXOmap <M-F> <Plug>Sneak_S
+  NXOmap <M-t> <Plug>(SneakStreak)
+  NXOmap <M-T> <Plug>(SneakStreakBackward)
   hi! link SneakPluginScope Comment
 endif
 
@@ -106,7 +106,7 @@ elseif Bundles('Shougo/neocomplete.vim', 'Bohrshaw/vimproc.vim')
   " let g:neocomplete#enable_prefetch = 1
   let g:neocomplete#data_directory = '~/.vim/tmp/neocomplete'
   " let g:neocomplete#release_cache_time = 1800 " seconds
-  Meta nnoremap <M-x>U :NeoCompleteToggle<CR>
+  nnoremap <M-x>U :NeoCompleteToggle<CR>
   inoremap <M-x>U <Esc>:NeoCompleteToggle<CR>a
 endif
 " call Bundles('ervandew/supertab')
@@ -258,7 +258,7 @@ if Bundles('Kien/ctrlp.vim')
     let g:ctrlp_user_command['fallback'] = 'ag %s -l --nocolor -g ""'
   endif
   " Bring up this finder in find file mode
-  Meta nnoremap <silent> <M-p> :<C-U>CtrlP<CR>
+  nnoremap <silent> <M-p> :<C-U>CtrlP<CR>
   " Most recent used files
   nnoremap <Leader>fr :CtrlPMRU<CR>
   " Files with similar names
@@ -526,7 +526,6 @@ call Bundles('groenewege/vim-less')
 if Bundles('mattn/emmet-vim')
   let g:user_emmet_mode='i' " only enabled in insert mode
   let g:user_emmet_leader_key = '<M-e>' " mnemonic of 'expand'
-  call Metabind(g:user_emmet_leader_key)
   " let g:user_emmet_install_global = 0 " enabled only for certain file types
   " autocmd FileType html,css EmmetInstall
 endif
@@ -701,7 +700,7 @@ endif
 
 " A powerful shell implemented in Vim Script
 if Bundles('shougo/vimshell.vim', 'bohrshaw/vimproc.vim')
-  Meta NXnoremap <M-s> :<C-U>VimShell<CR>
+  NXnoremap <M-s> :<C-U>VimShell<CR>
   autocmd FileType vimshell NXInoremap <buffer> <silent> <M-s> <Esc>:sil b#<CR>
 endif
 
@@ -716,7 +715,6 @@ if Bundles('Tpope/vim-fugitive')
   " Asynchronous execution
   command! -nargs=1 GGit call vimproc#system_bg('git --git-dir='.b:git_dir.' <args>')
   " Git deserves a convenient leader key for mappings
-  call Metabind('<M-g>')
   nnoremap <M-g>s :Gstatus<CR>
   nnoremap <M-g>cc :Gcommit -v<CR>
   nnoremap <M-g>ca :Gcommit --amend -v<CR>
