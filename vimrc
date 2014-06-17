@@ -266,7 +266,7 @@ NXnoremap <leader>ev :vs <C-R>=expand('%:h')<CR>/<Tab>
 NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/<Tab>
 
 " Window management leader key
-Meta NXnoremap <M-w> <C-W>
+Meta NXmap <M-w> <C-W>
 " Go to the below/right or above/left window
 Meta NXnoremap <M-j> <C-W>w
 Meta NXnoremap <M-k> <C-W>W
