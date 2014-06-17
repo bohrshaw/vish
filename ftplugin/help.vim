@@ -1,18 +1,9 @@
-" Turn on relative number
-setlocal relativenumber
-
-" Use 'q' to close the help window
-noremap <buffer> q <C-W>c
-
-" Jump to a subject quickly
-nnoremap <buffer> u <C-]>
-
-" Goto to an option.
-nnoremap <silent> <buffer> o :<C-U>call ftplugin#help_goto("'" . '\S\+' . "'")<CR>
-nnoremap <silent> <buffer> O :<C-U>call ftplugin#help_goto("'" . '\S\+' . "'", 'b')<CR>
-
-" Goto to a subject.
-" Don't map <Tab> because <C-I> will also be mapped.
-" 'I' is the initial of 'Insignia' which is a synonym of 'Tag'
-nnoremap <silent> <buffer> i :<C-U>call ftplugin#help_goto('\|\S\+\|')<CR>
-nnoremap <silent> <buffer> I :<C-U>call ftplugin#help_goto('\|\S\+\|', 'b')<CR>
+autocmd BufWinEnter <buffer> setlocal relativenumber
+nnoremap <buffer> q <C-W>c
+nnoremap <buffer> <CR> <C-]>
+nnoremap <silent> <buffer> ]* :call ftplugin#help_goto('\*\S\+\*')<CR>
+nnoremap <silent> <buffer> [* :call ftplugin#help_goto('\*\S\+\*', 'b')<CR>
+nnoremap <silent> <buffer> ]h :call ftplugin#help_goto('\|\S\+\|')<CR>
+nnoremap <silent> <buffer> [h :call ftplugin#help_goto('\|\S\+\|', 'b')<CR>
+nnoremap <silent> <nowait> <buffer> ]o :call ftplugin#help_goto('''\l\{2,}''')<CR>
+nnoremap <silent> <nowait> <buffer> [o :call ftplugin#help_goto('''\l\{2,}''', 'b')<CR>
