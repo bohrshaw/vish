@@ -245,18 +245,16 @@ if Bundles('Kien/ctrlp.vim')
         \ 'file': '\v\.(exe|so|dll)$'
         \ }
   " Specify an external tool to use for listing files.
+  let s:ctrlp_git_cmd = 'cd %s && git ls-files && git ls-files -o --exclude-standard'
   let g:ctrlp_user_command = {
         \ 'types': {
-        \ 1: ['.git', 'cd %s && git ls-files && git ls-files -o --exclude-standard'],
+        \ 1: ['.git', has('win32') ? '('.s:ctrlp_git_cmd.')' : s:ctrlp_git_cmd],
         \ 2: ['.hg', 'hg --cwd %s locate -I .'],
         \ },
+        \ 'fallback': !has('win32') ?
+        \ 'find %s -path "*/\.*" -prune -o -type f -print -o -type l -print' :
+        \ executable('ag') ? 'ag %s -l --nocolor -g ""' : ''
         \ }
-  if has('win32')
-    let g:ctrlp_user_command['types'][1][1] = '('.g:ctrlp_user_command['types'][1][1].')'
-  endif
-  if executable('ag')
-    let g:ctrlp_user_command['fallback'] = 'ag %s -l --nocolor -g ""'
-  endif
   " Bring up this finder in find file mode
   nnoremap <silent> <M-p> :<C-U>CtrlP<CR>
   " Most recent used files
