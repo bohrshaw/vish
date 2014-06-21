@@ -286,8 +286,9 @@ autocmd CmdwinEnter * iunmap <buffer> <Tab>|nunmap <buffer> <Tab>
 
 " Shortcuts of insert-completion in CTRL-X mode
 for s:c in split('lnpkti]fdvuos', '\zs')
-  execute 'inoremap <M-x>'.s:c.' <C-X><C-'.s:c.'>'
+  execute 'inoremap <C-X>'.s:c.' <C-X><C-'.s:c.'>'
 endfor
+imap <M-x> <C-X>
 
 " Break the undo sequence
 " inoremap <C-U> <C-G>u<C-U>

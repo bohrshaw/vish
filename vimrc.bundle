@@ -106,8 +106,8 @@ elseif Bundles('Shougo/neocomplete.vim', 'Bohrshaw/vimproc.vim')
   " let g:neocomplete#enable_prefetch = 1
   let g:neocomplete#data_directory = '~/.vim/tmp/neocomplete'
   " let g:neocomplete#release_cache_time = 1800 " seconds
-  nnoremap <M-x>U :NeoCompleteToggle<CR>
-  inoremap <M-x>U <C-R>=nr2char(neocomplete#commands#_toggle_lock())<CR>
+  nnoremap <C-X>U :NeoCompleteToggle<CR>
+  inoremap <C-X>U <C-R>=nr2char(neocomplete#commands#_toggle_lock())<CR>
 endif
 " call Bundles('ervandew/supertab')
 
