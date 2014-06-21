@@ -478,9 +478,11 @@ set linebreak " don't break a word when displaying wrapped lines
 
 set list " show non-normal spaces, tabs etc.
 if &encoding ==# 'utf-8' || &termencoding ==# 'utf-8'
+  " No reliable way to detect putty
+  let s:is_win_ssh = has('win32') || !empty('$SSH_TTY')
   " ¬ ¶ ⏎ ↲ ↪ • · ▫ ¤ ␣ ¨ ⣿ │ ░ ▒ ▸ ⇥ → ← ⇉ ⇇ ❯ ❮ » « ↓ ↑
-  let s:lcs = split(has('win32') ? '→ · » « ▫' : '▸ ␣ ❯ ❮ ▫')
-  let &showbreak = has('win32') ? '' : '↪ '
+  let s:lcs = split(s:is_win_ssh ? '▸ · » « ▫' : '▸ ␣ ❯ ❮ ▫')
+  let &showbreak = s:is_win_ssh ? '┕ ' : '↪ '
   set fillchars=stl:=,stlnc:=,vert:│,fold:-,diff:-
 else
   let s:lcs = ['>', '-', '>', '<', '+']
