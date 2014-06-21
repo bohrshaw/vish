@@ -1,4 +1,5 @@
 autocmd BufWinEnter <buffer> setlocal relativenumber
+setlocal keywordprg=:help " man by default in terminal Vim
 nnoremap <buffer> q <C-W>c
 nnoremap <buffer> <CR> <C-]>
 nnoremap <silent> <buffer> ]* :call ftplugin#help_goto('\*\S\+\*')<CR>
