@@ -672,7 +672,7 @@ endif
 
 " JSON manipulation and pretty printing
 call Bundles('Tpope/vim-jdaddy')
-command! -range=% JSONFormat <line1>,<line2>!jq '.'
+command! -range=% JSONFormat <line1>,<line2>!jq .
 command! -range=% JSONFormatEncode <line1>,<line2>!python -m json.tool
 
 " Git runtime files
