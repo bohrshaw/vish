@@ -866,4 +866,4 @@ call Bundle('gregsexton/vimcalc', {'c': 'Calc'})
 
 execute 'augroup END'
 
-" vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s nowrap:
+" vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s:
