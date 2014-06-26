@@ -12,6 +12,8 @@
 # License: Distributes under the same terms as vim
 
 # Environments {{{1
+Param ( [Switch] $Proxy=$false )
+
 # Import visual studio environment variables
 pushd 'C:\Program Files\Microsoft Visual Studio 12.0\VC'
 cmd /c "vcvarsall.bat&set" |
@@ -29,6 +31,11 @@ $ruby = "D:\Programs\Ruby20"
 $lua = "D:\Workspaces\builds\luajit\src"
 
 # Source Code {{{1
+if($script:Proxy) {
+  $http_proxy = "http://localhost:8087"
+  $https_proxy = $http_proxy
+}
+
 if((git config --get-regex remote.*url) -match '.*b4winckler/vim.*') {
   nmake clean
   git reset --hard; git clean -dxfq
@@ -36,10 +43,16 @@ if((git config --get-regex remote.*url) -match '.*b4winckler/vim.*') {
 }
 elseif((hg paths default) -match '.*vim.*') {
   nmake clean
-  hg pull; hg update -C; hg purge --all
+  hg pull --config http_proxy.host=$http_proxy
+  hg update -C; hg purge --all
 }
 else {
-  git clone --depth 1 git://github.com/b4winckler/vim.git $vim
+  if($script:Proxy) {
+    $git_protocol = 'https'
+  else
+    $git_protocol = 'git'
+  }
+  git clone --depth 1 $git_protocol"://github.com/b4winckler/vim.git" $vim
   cd $vim
 }
 
@@ -74,6 +87,7 @@ mkdir runtime\GvimExt 2>$null
 mkdir runtime\VisVim 2>$null
 (ls .\src\VisVim) -match '.*\.(dll|bat|inf|reg|txt)$' | cp -Destination .\runtime\VisVim
 
+# Wrap runtime inside Vim
 mkdir Vim; mv runtime Vim\vim74
 & 7z a -mx=9 vim-bohr.7z Vim
 mv Vim\vim74 runtime; rmdir Vim
