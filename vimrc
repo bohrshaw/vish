@@ -259,11 +259,13 @@ nnoremap dO :diffoff \| windo if &diff \| hide \| endif<CR>
 " Reverse the selected text
 xnoremap cR c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
 
-" Pseudo global marks for jumping to the last position in a file
-NXnoremap <silent> 'V :let _f = expand('~/.vim/vimrc')\|
-            \ execute (buflisted(_f)?'b ':'e ') . _f<CR>
-NXnoremap <silent> 'B :let _f = expand('~/.vim/vimrc.bundle')\|
-            \ execute (buflisted(_f)?'b ':'e ') . _f<CR>
+" Easy access to vimrc files
+cabbrev .v ~/.vim/vimrc
+NXnoremap <silent> 'V :<C-U>let _f = expand(maparg('.v', 'c', 1))\|
+            \ execute (buflisted(_f)?'b':'e').' '._f<CR>
+cabbrev .b ~/.vim/vimrc.bundle
+NXnoremap <silent> 'B :<C-U>let _f = expand(maparg('.b', 'c', 1))\|
+            \ execute (buflisted(_f)?'b':'e').' '._f<CR>
 
 " ---------------------------------------------------------------------
 " Mappings!: {{{1
