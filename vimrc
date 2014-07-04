@@ -476,11 +476,10 @@ endif
 " set number " print the line number in front of each line
 set relativenumber " show the line number relative to the current line
 set numberwidth=3 " minimal number(2) of columns to use for the line number
-" set nowrap " only part of long lines will be displayed
-set linebreak " don't break a word when displaying wrapped lines
 
 set list " show non-normal spaces, tabs etc.
 silent! set breakindent " indent wrapped lines
+set linebreak " don't break a word when displaying wrapped lines
 if &encoding ==# 'utf-8' || &termencoding ==# 'utf-8'
   " No reliable way to detect putty
   let s:is_win_ssh = has('win32') || !empty('$SSH_TTY')
