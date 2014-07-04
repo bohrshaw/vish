@@ -711,18 +711,16 @@ endif
 
 " A Git wrapper so awesome, it should be illegal.
 if Bundles('Tpope/vim-fugitive')
-  " Asynchronous execution
-  command! -nargs=1 GGit call vimproc#system_bg('git --git-dir='.b:git_dir.' <args>')
   " Git deserves a convenient leader key for mappings
   nnoremap <M-g>s :Gstatus<CR>
   nnoremap <M-g>cc :Gcommit -v<CR>
   nnoremap <M-g>ca :Gcommit --amend -v<CR>
-  nnoremap <M-g>cC :execute &modified ? 'w' : '' \|
-        \ call fugitive#repo().git_chomp_in_tree('add', <SID>git_file_path()) \|
-        \ Gcommit -v<CR>
-  nnoremap <M-g>cA :execute &modified ? 'w' : '' \|
-        \ call fugitive#repo().git_chomp_in_tree('add', <SID>git_file_path()) \|
-        \ Gcommit --amend -v<CR>
+  function! s:git_add_current()
+    execute &modified ? 'w' : ''
+    call fugitive#repo().git_chomp_in_tree('add', s:git_file_path())
+  endfunction
+  nnoremap <M-g>cC :call <SID>git_add_current() \| Gcommit -v<CR>
+  nnoremap <M-g>cA :call <SID>git_add_current() \| Gcommit --amend -v<CR>
   nnoremap <M-g>CC :Gcommit --all -v<CR>
   nnoremap <M-g>CA :Gcommit --all --amend -v<CR>
   nnoremap <M-g>cd :wq \| Gcommit -v<CR>
@@ -735,9 +733,12 @@ if Bundles('Tpope/vim-fugitive')
   nnoremap <M-g>pl :GGit pull<CR>
   nnoremap <silent> <Leader>dr :execute 'lcd '.b:git_dir[:-6]<CR>
   nnoremap <silent> <Leader>dR :execute 'cd '.b:git_dir[:-6]<CR>
+  " Utilities
   function! s:git_file_path()
     return expand('%:p')[len(b:git_dir)-4:]
   endfunction
+  " Asynchronous execution
+  command! -nargs=1 GGit call vimproc#system_bg('git --git-dir='.b:git_dir.' <args>')
 endif
 
 " A git repository viewer(a gitk clone)
