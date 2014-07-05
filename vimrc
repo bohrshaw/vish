@@ -157,7 +157,7 @@ autocmd SessionLoadPost * silent! bwipeout! _
 runtime autoload/key.vim " mappable meta key in terminals
 
 " let mapleader = "\r" " replace <Leader> in a map
-let maplocalleader = 'g\' " replace <LocalLeader> in a map
+let maplocalleader = eval('"\<M-\>"') " replace <LocalLeader> in a map
 
 " Commands for defining mappings in several modes
 command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>

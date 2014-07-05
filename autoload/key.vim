@@ -22,9 +22,9 @@ function! s:bind(c)
         echohl WarningMsg | echomsg "Out of spare keys!" | echohl None
         return
       endif
-      let s:key_idx += 1
       " Unused keys: <[S-]F13>..<[S-]F37>, <[S-]xF1>..<[S-]xF4>
       let key = '<'.(s:key_idx<25 ? '' : 'S-').'F'.(13+s:key_idx%25).'>'
+      let s:key_idx += 1
     endif
     " Map the unused key to the mapped key
     execute 'map '.key.' '.key_mapped.'|map! '.key.' '.key_mapped
@@ -36,7 +36,7 @@ function! s:bind(c)
 endfunction
 
 " Pre-bind <M-a..z> <M-A..Z>
-for i in range(26)
-  call s:bind(nr2char(97 + i))
-  call s:bind(nr2char(65 + i))
+for i in map(range(26), 'nr2char(97 + v:val)') +
+      \ map(range(26), 'nr2char(65 + v:val)') + ['\']
+  call s:bind(i)
 endfor
