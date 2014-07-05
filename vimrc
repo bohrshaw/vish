@@ -274,6 +274,15 @@ NXnoremap <silent> 'B :<C-U>let _f = expand(maparg('.b', 'c', 1))\|
 inoremap <M-i> <Esc>
 " inoremap <M-o> <C-O>
 
+" Expand a mixed case command name
+cnoremap <M-]> <C-\>e<SID>cmd_expand()<CR><Tab>
+function! s:cmd_expand()
+  let cmd = getcmdline()
+  let [pre, abbr] = cmd =~ ' ' ? split(cmd) : ['', cmd]
+  let parts = insert(split(toupper(abbr), '\zs'), pre)
+  return join(parts, '*')
+endfunction
+
 " Open the command-line window
 set cedit=<C-G>
 cnoremap <M-g> <C-G>
