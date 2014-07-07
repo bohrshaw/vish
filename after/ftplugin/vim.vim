@@ -1,8 +1,8 @@
 " Source the current line of Vim scripts
-nnoremap <buffer> <silent> <LocalLeader>r mz^"zy$:@z<CR>`z
+nnoremap <buffer> <silent> <LocalLeader>r mt^"ty$:@t<CR>`t
 " Source a visual selection (continued lines joined)
-xnoremap <buffer> <silent> <LocalLeader>r mz:<C-U>silent '<,'>y z<Bar>
-      \ let @z = substitute(@z, '\n\s*\\', '', 'g')<Bar>@z<CR>`z
+xnoremap <buffer> <silent> <LocalLeader>r mt:<C-U>silent '<,'>y t<Bar>
+      \ let @t = substitute(@t, '\n\s*\\', '', 'g')<Bar>@t<CR>`t
 " Source the entire file
 nnoremap <buffer> <LocalLeader>R :source %<CR>
 

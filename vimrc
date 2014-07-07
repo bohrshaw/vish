@@ -377,7 +377,7 @@ command! -range=% Uniqn <line1>,<line2>g/^./
 
 " Source a range of lines
 command! -bar -range Source <line1>,<line2>yank z<Bar>
-      \ let @z = substitute(@z, '\n\s*\\', '', 'g')<Bar>@z<CR>
+      \ let @t = substitute(@t, '\n\s*\\', '', 'g')<Bar>@t<CR>
 
 " Execute a command in each buffer in the quickfix or location list
 command! -nargs=1 -complete=command Qdo call vimrc#errdo('q', <q-args>)
@@ -464,7 +464,7 @@ cabbrev tc tabc
 
 " Substitute in a visual area (eat the for-expanding-space)
 cabbrev <expr> sv 's/\%V'.
-      \ setreg('z', nr2char(getchar(0)))."<BS>".(@z == ' ' ? '' : @z)
+      \ setreg('t', nr2char(getchar(0)))."<BS>".(@t == ' ' ? '' : @t)
 
 " ---------------------------------------------------------------------
 " Bundles: {{{1
