@@ -76,7 +76,7 @@ endif
 if Bundles('wellle/targets.vim', 'kana/vim-textobj-indent',
       \ 'gaving/vim-textobj-argument', '-b4winckler/vim-angry',
       \ '-qstrahl/vim-dentures', 'tommcdo/vim-ninja-feet',
-      \ 'coderifous/textobj-word-column.vim')
+      \ 'machakann/vim-textobj-delimited', 'coderifous/textobj-word-column.vim')
 endif
 if g:l " delay activating this bundle to reduce startup time
   set updatetime=10
