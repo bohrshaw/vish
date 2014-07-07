@@ -795,13 +795,15 @@ endif
 
 " Translation
 if Bundles('Bohrshaw/vim-trance', 'Mattn/webapi-vim')
-  " let g:trance#default = 'baidu'
-  let g:trance = {} " translation services
-  let g:trance.youdao = 'key=1387543717&keyfrom=vim-translate'
-  let g:trance.baidu = 'client_id=QBaUmGf99DZAUUxz2WqvFpxg'
+  let g:trance#default = 'iciba'
+  " Translation services
+  let g:trance = {
+        \ 'youdao': 'key=1387543717&keyfrom=vim-translate',
+        \ 'baidu': 'client_id=OjbuMOjZUwHtxcnxblAoQzds',
+        \ }
   " let g:trance#youdao_target = 'dict' " 'translate', 'dict' or ''(both)
   " let g:trance#truncate = 0 " truncate long output to be unobtrusive
-  nnoremap <Leader>t :call trance#translate(expand('<cword>'))<CR>
+  NXmap <Leader>t <Plug>trance
 endif
 
 " Open URI with your favorite browser
