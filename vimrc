@@ -368,9 +368,6 @@ command! -range -nargs=? Join <line1>,<line2>-1s/\s*\n\s*/<args>/
 " Remove trailing white spaces
 command! Trim let _p=getpos('.')| keepj keepp %s/\s\+$//| call setpos('.',_p)
 
-" Substitute in a visual area
-command! -range -nargs=1 SV s/\%V<args>
-
 " Remove duplicate, consecutive lines (:sort /.\_^/ u)
 command! -range=% Uniqc <line1>,<line2>g/\v^(.*)\n\1$/d
 " Remove duplicate, nonconsecutive and nonempty lines (g/\v^(.+)$\_.{-}^\1$/d)
@@ -465,8 +462,9 @@ cabbrev tmh tabm -1
 cabbrev tml tabm +1
 cabbrev tc tabc
 
-" Get the relative path of the current file
-cabbrev %% <C-R>=expand('%:h').'/'<CR>
+" Substitute in a visual area (eat the for-expanding-space)
+cabbrev <expr> sv 's/\%V'.
+      \ setreg('z', nr2char(getchar(0)))."<BS>".(@z == ' ' ? '' : @z)
 
 " ---------------------------------------------------------------------
 " Bundles: {{{1
