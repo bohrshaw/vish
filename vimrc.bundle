@@ -15,9 +15,9 @@ function! s:bundle_map()
   nnoremap <buffer> <silent> ]g :call search('Bundle\a*(.\zs\C')<CR>
   nnoremap <buffer> <silent> [g :call search('Bundle\a*(.\zs\C', 'b')<CR>
   " Open a bundle's URL in the browser
-  nnoremap <buffer> <silent> gB "zya'
+  nnoremap <buffer> <silent> gB "tya'
         \:execute 'silent OpenBrowserSmartSearch https://github.com/'
-        \.matchstr(@z, '\v''-?\zs[^'']*')<CR>
+        \.matchstr(@t, '\v''-?\zs[^'']*')<CR>
   " Activate the bundle under the cursor line
   nnoremap <buffer> <expr> <LocalLeader>b BundleActivate(
         \ matchstr(getline('.'), 'Bundle.\{-}/\zs.\{-}\ze[''"]'))
