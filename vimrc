@@ -464,7 +464,7 @@ cabbrev tc tabc
 
 " Substitute in a visual area (eat the for-expanding-space)
 cabbrev <expr> sv 's/\%V'.
-      \ setreg('t', nr2char(getchar(0)))."<BS>".(@t == ' ' ? '' : @t)
+      \ setreg('t', nr2char(getchar(0)))[1:0].(@t == ' ' ? '' : @t)
 
 " ---------------------------------------------------------------------
 " Bundles: {{{1
