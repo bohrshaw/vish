@@ -297,10 +297,11 @@ inoremap <expr> <S-Tab> pumvisible() \|\| getline('.')[col('.')-2] !~ '^\s\?$'
 autocmd CmdwinEnter * iunmap <buffer> <Tab>|nunmap <buffer> <Tab>
 
 " Shortcuts of insert-completion in CTRL-X mode
+imap <M-x> <C-X>
 for s:c in split('lnpkti]fdvuos', '\zs')
   execute 'inoremap <C-X>'.s:c.' <C-X><C-'.s:c.'>'
 endfor
-imap <M-x> <C-X>
+inoremap <C-X>. <C-A>
 
 " Break the undo sequence
 " inoremap <C-U> <C-G>u<C-U>
@@ -311,8 +312,8 @@ cnoremap <M-p> <Up>
 cnoremap <M-n> <Down>
 
 " Move the cursor around the line
-inoremap <C-A> <C-O>^| inoremap <C-X><C-A> <C-A>
-cnoremap <C-A> <Home>| cnoremap <C-X><C-A> <C-A>
+inoremap <C-A> <C-O>^
+cnoremap <C-A> <Home>
 inoremap <C-E> <End>
 
 " Move the cursor around one word
