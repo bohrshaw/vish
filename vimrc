@@ -306,6 +306,8 @@ inoremap <C-X>. <C-A>
 " Break the undo sequence
 " inoremap <C-U> <C-G>u<C-U>
 
+" Common insert editing mappings {{{2
+
 " Recall older or more recent command-line from history, but the command matches
 " the current command-line
 cnoremap <M-p> <Up>
@@ -340,6 +342,8 @@ noremap! <expr> <SID>transpose "\<BS>\<Right>"
       \ . matchstr(getcmdline()[0 : getcmdpos()-2], '.$')
 cmap <script> <C-T> <SID>transposition<SID>transpose
 
+" }}}2
+
 " Reverse letter case in insert mode
 inoremap <M-l> <C-R>=<SID>toggle(1)<CR>
 inoremap <M-L> <C-R>=<SID>toggle(2)<CR>
@@ -359,6 +363,49 @@ function! s:toggle(arg)
   endif
   return ''
 endfunction
+
+" Extend <C-V> to support entering more notated keys {{{2
+
+map! <M-v> <C-V>
+
+" Key special
+noremap! <expr> <C-V>c '<C-'.toupper(nr2char(getchar())).'>'
+noremap! <expr> <C-V>m '<M-'.nr2char(getchar()).'>'
+noremap! <expr> <C-V>d '<D-'.nr2char(getchar()).'>'
+noremap! <C-V>e <lt>Esc>
+noremap! <C-V>t <lt>Tab>
+noremap! <C-V><Space> <lt>Space>
+noremap! <C-V>r <lt>CR>
+
+" Mapping special
+noremap! <C-V>l <lt>Leader>
+noremap! <C-V>L <lt>LocalLeader>
+noremap! <C-V>b <lt>buffer>
+noremap! <C-V>n <lt>nowait>
+noremap! <C-V>si <lt>silent>
+noremap! <C-V>sp <lt>special>
+noremap! <C-V>sc <lt>script>
+noremap! <C-V>E <lt>expr>
+noremap! <C-V>u <lt>unique>
+noremap! <C-V>p <lt>Plug>
+noremap! <C-V>S <lt>SID>
+
+" Command rhs special
+noremap! <C-V>, <lt>line1>
+noremap! <C-V>; <lt>line2>
+noremap! <C-V>C <lt>count>
+noremap! <C-V>R <lt>reg>
+noremap! <C-V>B <lt>bang>
+noremap! <C-V>A <lt>args>
+noremap! <C-V>Q <lt>q-args>
+noremap! <C-V>F <lt>f-args>
+
+" Character special
+noremap! <C-V>< <lt>lt>
+noremap! <C-V>\ <lt>Bslash>
+noremap! <C-V>\| <lt>Bar>
+
+" }}}2
 
 " ---------------------------------------------------------------------
 " Commands: {{{1
