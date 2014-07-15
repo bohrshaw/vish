@@ -795,7 +795,7 @@ endif
 
 " Translation
 if Bundles('Bohrshaw/vim-trance', 'Mattn/webapi-vim')
-  let g:trance#default = 'iciba'
+  " let g:trance#default = 'iciba'
   " Translation services
   let g:trance = {
         \ 'youdao': 'key=1387543717&keyfrom=vim-translate',
