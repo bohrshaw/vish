@@ -141,10 +141,11 @@ let g:snips_author_email = 'pubohr@gmail.com'
 " Change: {{{1
 
 " Commenting
-if Bundles('Tpope/vim-commentary')
-  let commentary_map_backslash = 0
+if Bundles('Tpope/vim-commentary', '-Scrooloose/nerdcommenter', '-Tomtom/tcomment_vim')
+  let commentary_map_backslash = 0 " jd
+  let g:tcommentMapLeader1 = '<M-c>'
+  let [g:tcommentMapLeader2, g:tcommentMapLeaderCommentAnyway, g:tcommentTextObjectInlineComment] = ['', '', '']
 endif
-call Bundles('-scrooloose/nerdcommenter', '-tomtom/tcomment_vim')
 
 " Quoting/parenthesizing made simple
 call Bundles('Tpope/vim-surround')
