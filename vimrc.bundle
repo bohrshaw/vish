@@ -550,6 +550,13 @@ call Bundles('pangloss/vim-javascript')
 " CoffeeScript support for vim
 call Bundles('kchmck/vim-coffee-script')
 
+" C Family {{{2
+
+if Bundles('wting/rust.vim')
+  let g:rust_fold = 1
+  autocmd FileType rust nnoremap <buffer> <LocalLeader>r :RustRun<CR>
+endif
+
 " Golang {{{2
 
 if Bundles('fatih/vim-go', '-blackrush/vim-gocode', '-jnwhiteh/vim-golang')
