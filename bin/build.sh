@@ -14,13 +14,15 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
 # Determine if X server(GUI) is running
 pidof 'X' &>/dev/null && X=1
 
-sudo apt-get install -y python python-dev python3 python3-dev ruby1.9.1 \
-  ruby1.9.1-dev lua5.2 liblua5.2-dev mercurial
+# sudo apt-get install -y python python-dev python3 python3-dev ruby1.9.1 \
+#   ruby1.9.1-dev lua5.2 liblua5.2-dev mercurial
+# sudo apt-get install -y libncurses5-dev libgnome2-dev libgnomeui-dev \
+#   libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev \
+#   libxpm-dev libxt-dev
 if [ $X ]; then
   sudo apt-get build-dep -y vim-gnome
-  # sudo apt-get install -y libncurses5-dev libgnome2-dev libgnomeui-dev \
-  #   libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev \
-  #   libxpm-dev libxt-dev
+else
+  sudo apt-get build-dep -y vim-nox
 fi
 
 # Purge system Vim (unnecessary if install to /usr/local/)
@@ -55,7 +57,7 @@ conf_cmd="./configure \
   --disable-netbeans \
   --enable-fail-if-missing \
   --prefix=/usr/local \
-  --with-compiledby=pubohr@gmail.com \
+  --with-compiledby=bohrshaw@gmail.com \
   --quiet"
   # --with-python-config-dir= \
   # --with-python3-config-dir= \
