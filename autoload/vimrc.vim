@@ -84,13 +84,4 @@ function! vimrc#bufffer_wipe_unlisted() " {{{1
   endfor
 endfunction " }}}1
 
-" Append a mode line
-function! vimrc#appendModeline() " {{{1
-  let modeline = printf(" vim:tw=%d ts=%d sw=%d et fdm=marker:", &textwidth, &shiftwidth, &tabstop)
-  " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX Files.
-  let modeline = substitute(&commentstring, "%s", modeline, "")
-  " Append a new line and a modeline at the end of file
-  call append(line("$"), ["", modeline])
-endfunction " }}}1
-
 " vim:tw=80 ts=2 sw=2 et fdm=marker:

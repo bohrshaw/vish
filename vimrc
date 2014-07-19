@@ -455,9 +455,6 @@ command! -nargs=? -complete=buffer DiffWith call vimrc#diffwith(<f-args>)
 command! -bar UndoClear execute 'set undolevels=-1 |move -1 |'.
       \ 'let [&modified, &undolevels] = ['.&modified.', '.&undolevels.']'
 
-" Append a mode line
-command! AppendModeline call vimrc#appendModeline()
-
 " Search via Google
 command! -nargs=1 Google call netrw#NetrwBrowseX(
       \ "http://www.google.com.hk/search?q=".expand("<args>"),0)
