@@ -720,25 +720,25 @@ endif
 " A Git wrapper so awesome, it should be illegal.
 if Bundles('Tpope/vim-fugitive')
   " Git deserves a convenient leader key for mappings
-  nnoremap <M-g>s :Gstatus<CR>
-  nnoremap <M-g>cc :Gcommit -v<CR>
-  nnoremap <M-g>ca :Gcommit --amend -v<CR>
+  nnoremap g<Space>s :Gstatus<CR>
+  nnoremap g<Space>cc :Gcommit -v<CR>
+  nnoremap g<Space>ca :Gcommit --amend -v<CR>
   function! s:git_add_current()
     execute &modified ? 'w' : ''
     call fugitive#repo().git_chomp_in_tree('add', s:git_file_path())
   endfunction
-  nnoremap <M-g>cC :call <SID>git_add_current() \| Gcommit -v<CR>
-  nnoremap <M-g>cA :call <SID>git_add_current() \| Gcommit --amend -v<CR>
-  nnoremap <M-g>CC :Gcommit --all -v<CR>
-  nnoremap <M-g>CA :Gcommit --all --amend -v<CR>
-  nnoremap <M-g>cd :wq \| Gcommit -v<CR>
-  nnoremap <M-g>dd <C-W>o:Gdiff<CR>
-  nnoremap <M-g>da :Git diff<CR>
-  nnoremap <M-g>b :Gblame<CR>
-  nnoremap <M-g>l :Glog<CR>
-  nnoremap <M-g>ps :GGit push<CR>
-  nnoremap <M-g>pS :GGit push -f<CR>
-  nnoremap <M-g>pl :GGit pull<CR>
+  nnoremap g<Space>cC :call <SID>git_add_current() \| Gcommit -v<CR>
+  nnoremap g<Space>cA :call <SID>git_add_current() \| Gcommit --amend -v<CR>
+  nnoremap g<Space>CC :Gcommit --all -v<CR>
+  nnoremap g<Space>CA :Gcommit --all --amend -v<CR>
+  nnoremap g<Space>cd :wq \| Gcommit -v<CR>
+  nnoremap g<Space>dd <C-W>o:Gdiff<CR>
+  nnoremap g<Space>da :Git diff<CR>
+  nnoremap g<Space>b :Gblame<CR>
+  nnoremap g<Space>l :Glog<CR>
+  nnoremap g<Space>ps :GGit push<CR>
+  nnoremap g<Space>pS :GGit push -f<CR>
+  nnoremap g<Space>pl :GGit pull<CR>
   nnoremap <silent> <Leader>dr :execute 'lcd '.b:git_dir[:-6]<CR>
   nnoremap <silent> <Leader>dR :execute 'cd '.b:git_dir[:-6]<CR>
   " Utilities
@@ -764,9 +764,9 @@ if Bundles('airblade/vim-gitgutter')
   let g:gitgutter_sign_removed = '-'
   let g:gitgutter_sign_modified_removed = '='
   let g:gitgutter_map_keys = 0
-  nnoremap <M-g>ds :call gitgutter#toggle()<CR>
-  nnoremap <M-g>u :GitGutter<CR>
-  nnoremap <M-g>U :GitGutterAll<CR>
+  nnoremap g<Space>ds :call gitgutter#toggle()<CR>
+  nnoremap g<Space>u :GitGutter<CR>
+  nnoremap g<Space>U :GitGutterAll<CR>
   nmap [c <Plug>GitGutterPrevHunk
   nmap ]c <Plug>GitGutterNextHunk
   nmap <silent> dp :execute &diff ? 'diffput' : 'GitGutterStageHunk'<CR>
@@ -784,8 +784,8 @@ endif
 " Browse GitHub events
 if Bundles('junegunn/vim-github-dashboard')
   let g:github_dashboard = {'username': 'bohrshaw'}
-  nnoremap <M-g>G :GHDashboard!<CR>
-  nnoremap <M-g>A :GHActivity!<CR>
+  nnoremap g<Space>G :GHDashboard!<CR>
+  nnoremap g<Space>A :GHActivity!<CR>
 endif
 
 " Helpers for UNIX(Windows)
