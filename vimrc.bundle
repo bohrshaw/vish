@@ -559,7 +559,7 @@ endif
 
 " Golang {{{2
 
-if Bundles('fatih/vim-go', '-blackrush/vim-gocode', '-jnwhiteh/vim-golang')
+if Bundles('fatih/vim-go', '-blackrush/vim-gocode')
   " let g:go_disable_autoinstall = 1
   let g:go_bin_path = has('win32unix') ?
         \ '/cygdrive/'.tolower($GOPATH[0]).substitute($GOPATH[2:], '\\', '/', 'g').'/bin/' :
