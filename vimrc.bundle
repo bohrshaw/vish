@@ -367,43 +367,34 @@ endif
 
 " Appearance: {{{1
 
-" Color Schemes {{{2
-
-" Dark themes
-if Bundles('Altercation/vim-colors-solarized', 'twerth/ir_black',
+" Color Schemes
+if Bundles('Junegunn/seoul256.vim', 'W0ng/vim-hybrid',
+      \ 'Reedes/vim-colors-pencil',
+      \
+      \ 'Altercation/vim-colors-solarized', 'twerth/ir_black',
       \ 'Nanotech/jellybeans.vim', 'Zeis/vim-kolor',
       \ 'jnurmine/zenburn', 'sjl/badwolf',
       \ 'goatslacker/mango.vim', 'Sk1418/last256',
       \ 'Rking/vim-detailed', 'Lokaltog/vim-distinguished',
       \ 'Tomasr/molokai', 'sickill/vim-monokai',
-      \ 'tpope/vim-vividchalk', 'Vim-scripts/twilight',
-      \ )
-  autocmd VimEnter * nested execute 'color '.
-        \ (has('gui_running') ? 'solarized' : 'last256')
+      \ 'tpope/vim-vividchalk', 'Vim-scripts/twilight') && Bundles(
+      \
+      \ 'endel/vim-github-colorscheme', 'jonathanfilip/vim-lucius',
+      \ 'noahfrederick/vim-hemisu', 'morhetz/gruvbox',
+      \
+      \ '-flazz/vim-colorschemes', '-daylerees/colour-schemes/vim',
+      \ 'chriskempson/vim-tomorrow-theme', 'chriskempson/base16-vim')
+  let g:seoul256_background = 234
   let g:solarized_italic = 0
   let g:solarized_termcolors = &term =~ '256col' ? 256 : 16
   let g:solarized_menu=0
   autocmd ColorScheme solarized runtime colors/solarized_additional.vim
 endif
-
-" Light themes
-call Bundles('endel/vim-github-colorscheme', 'jonathanfilip/vim-lucius',
-      \ 'noahfrederick/vim-hemisu', 'morhetz/gruvbox')
-
-" Two-faced themes
-if Bundles('W0ng/vim-hybrid', 'Junegunn/seoul256.vim',
-      \ 'Reedes/vim-colors-pencil')
-  let g:seoul256_background = 234
-endif
-
-" Multiple themes
-call Bundles('-flazz/vim-colorschemes', '-daylerees/colour-schemes/vim',
-      \ 'chriskempson/vim-tomorrow-theme', 'chriskempson/base16-vim')
+autocmd VimEnter * nested execute 'color '.
+      \ (has('gui_running') ? 'seoul256' : 'last256')
 
 " Make gvim-only colorschemes work transparently in terminal vim
 " call Bundles('godlygeek/csapprox')
-
-" }}}2
 
 " Lean & mean statusline for vim that's light as air
 if Bundles('-bling/vim-airline')
