@@ -588,7 +588,7 @@ set ruler " not effective when 'statusline' is set
 set rulerformat=%50(%=%m%r%<%f%Y\ %c,%l/%L,%P%)
 
 " set tabline=
-" set titlestring=
+set titlestring=%{getcwd()}
 
 if has('vim_starting')
   if has('gui_running')
