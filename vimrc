@@ -167,9 +167,6 @@ command! -nargs=1 NXOmap nmap <args><Bar>xmap <args><Bar>omap <args>
 command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
       \ inoremap <args>
 
-" Avoid entering the crappy Ex mode
-NXnoremap Q <Nop>
-
 " Enter command line at the speed of light
 NXnoremap <Space> :
 NXnoremap z<Space> q:
@@ -219,7 +216,8 @@ nnoremap <silent> zfm :<C-U>let &l:foldmethod = matchstr(
       \ ':\zs\w\{-}'.nr2char(getchar()).'\w*')<CR>
 
 " Switch to the alternative file more conveniently
-NXnoremap g3 :<C-U>b#<CR>
+nnoremap Q <C-^>
+
 " Edit a file in the same directory of the current file
 NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/<Tab>
 NXnoremap <leader>es :sp <C-R>=expand('%:h')<CR>/<Tab>
