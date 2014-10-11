@@ -87,9 +87,8 @@ mkdir runtime\GvimExt 2>$null
 mkdir runtime\VisVim 2>$null
 (ls .\src\VisVim) -match '.*\.(dll|bat|inf|reg|txt)$' | cp -Destination .\runtime\VisVim
 
-# Wrap runtime inside Vim
-mkdir Vim; mv runtime Vim\vim74
-& 7z a -mx=9 vim-bohr.7z Vim
-mv Vim\vim74 runtime; rmdir Vim
+# mkdir Vim; mv runtime Vim\vim74
+# & 7z a -mx=9 vim-bohr.7z Vim
+# mv Vim\vim74 runtime; rmdir Vim
 
 # vim:tw=0 ts=2 sw=2 et fdm=marker:
