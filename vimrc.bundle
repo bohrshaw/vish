@@ -28,6 +28,10 @@ call Bundles('tpope/vim-scriptease')
 
 " MotionSearch: {{{1
 
+" Unite and create user interfaces
+if Bundles('Shougo/unite.vim')
+endif
+
 " The missing motion for Vim
 if Bundles('Justinmk/vim-sneak')
   " let g:sneak#streak = 1
@@ -183,7 +187,7 @@ endif
 call Bundles('Tpope/vim-abolish')
 
 " True Sublime Text style multiple selections for Vim
-call Bundles('terryma/vim-multiple-cursors')
+call Bundles('kristijanhusak/vim-multiple-cursors')
 
 " Characterize.vim: Unicode character metadata
 call Bundles('tpope/vim-characterize')
@@ -738,6 +742,10 @@ if Bundles('Tpope/vim-fugitive')
   endfunction
   " Asynchronous execution
   command! -nargs=1 GGit call vimproc#system_bg('git --git-dir='.b:git_dir.' <args>')
+endif
+
+" Git branch management
+if Bundles('Sodapopcan/vim-twiggy') && Bundles('tpope/vim-fugitive')
 endif
 
 " A git repository viewer(a gitk clone)
