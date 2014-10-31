@@ -55,7 +55,7 @@ silent! set formatoptions+=j " remove a comment leader when joining lines
 set nrformats-=octal " exclude octal numbers when using C-A or C-X
 set lazyredraw " don't redraw the screen while executing macros, etc.
 set synmaxcol=999 " ignore further syntax items to avoid slow redrawing
-set cryptmethod=blowfish " acceptable encryption strength
+set cryptmethod=blowfish2 " acceptable encryption strength
 set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
 set display+=lastline " ensure the last line is properly displayed
 " autocmd GUIEnter * set vb t_vb= " disable error beep and screen flash
