@@ -813,6 +813,9 @@ if Bundles('Bohrshaw/vim-trance', 'Mattn/webapi-vim')
   NXmap <Leader>t <Plug>trance
 endif
 
+" URL shortener
+call Bundles('bohrshaw/vim-url-shortener')
+
 " Open URI with your favorite browser
 " Other ways:
 " - The builtin function 'netrw#NetrwBrowseX()' (not working currently)
