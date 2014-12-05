@@ -86,7 +86,7 @@ mkdir runtime\VisVim 2>$null
 
 $dir = "D:/Programs/Vim/vim74"
 mkdir $dir -ErrorAction Ignore
-rm $dir".bak" -ErrorAction Ignore
+rm -r $dir".bak" -ErrorAction Ignore
 mv $dir $dir".bak"
 cp -r runtime $dir
 invoke-expression $dir"/gvim.exe"
