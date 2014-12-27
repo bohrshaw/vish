@@ -33,12 +33,10 @@ if($script:Proxy) {
 }
 
 if((git config --get-regex remote.*url) -match '.*b4winckler/vim.*') {
-  nmake -f Make_mvc.mak clean
   git reset --hard; git clean -dxfq
   git pull
 }
 elseif((hg paths default) -match '.*vim.*') {
-  nmake -f Make_mvc.mak clean
   hg pull --config http_proxy.host=$http_proxy
   hg update -C; hg purge --all
 }
@@ -55,6 +53,7 @@ else {
 
 # Building {{{1
 pushd src
+nmake -f Make_mvc.mak clean`
 
 # Gvim
 nmake -f Make_mvc.mak `
