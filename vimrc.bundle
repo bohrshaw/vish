@@ -91,8 +91,8 @@ endif
 " Insert: {{{1
 
 " Provides insert mode auto-completion for quotes, parens, brackets, etc.
-" Currently all breaks repeating.
-call Bundles('-raimondi/delimitmate', '-jiangmiao/auto-pairs')
+" Currently there're problems with 'repeat' or 'undo'.
+call Bundles('-raimondi/delimitmate', '-cohama/lexima.vim', '-jiangmiao/auto-pairs')
 
 " Wisely add 'end' in ruby, endfunction/endif/more in vim script, etc
 call Bundles('tpope/vim-endwise')
@@ -373,7 +373,7 @@ endif
 
 " Color Schemes
 if Bundles('Junegunn/seoul256.vim', 'W0ng/vim-hybrid',
-      \ 'Reedes/vim-colors-pencil',
+      \ 'Reedes/vim-colors-pencil', 'Freeo/vim-kalisi',
       \
       \ 'Altercation/vim-colors-solarized', 'twerth/ir_black',
       \ 'Nanotech/jellybeans.vim', 'Zeis/vim-kolor',
