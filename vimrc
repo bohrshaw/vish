@@ -598,8 +598,8 @@ if has('vim_starting')
       set lines=250 columns=200
     endif
   else
-    " Assume xterm supports 256 colors
-    if &term =~ 'xterm' | set term=xterm-256color | endif
+    " Assume 256 colors
+    if &term =~ 'xterm\|screen$' | let &term .= '-256color' | endif
 
     " Disable Background Color Erase (BCE) so that color schemes
     " render properly when inside 256-color tmux and GNU screen.
