@@ -151,7 +151,7 @@ autocmd SessionLoadPost * silent! bwipeout! _
 " <Tab>/<C-I>, <CR>/<C-M>, <Esc>/<C-[> are pairs of exactly same keys.
 " <A-x> is <Esc>x in console Vim.
 " Caps Lock, <C-1>, <C-S-1> etc. are not mappable.
-" Use capital letters in keys like <C-J> for readability.
+" <C-j> is the same as <C-J>.
 " See related help topics: index, map-which-keys
 
 runtime autoload/key.vim " mappable meta key in terminals
