@@ -98,8 +98,7 @@ call Bundles('-raimondi/delimitmate', '-cohama/lexima.vim', '-jiangmiao/auto-pai
 call Bundles('tpope/vim-endwise')
 
 " Completions
-if Bundles('-valloric/youcompleteme')
-elseif Bundles('Shougo/neocomplete.vim', 'Bohrshaw/vimproc.vim')
+if has('lua') && Bundles('Shougo/neocomplete.vim', 'Bohrshaw/vimproc.vim')
   let g:neocomplete#enable_at_startup = 1
   let g:neocomplete#max_list = 50
   " let g:neocomplete#auto_completion_start_length = 3
@@ -112,6 +111,7 @@ elseif Bundles('Shougo/neocomplete.vim', 'Bohrshaw/vimproc.vim')
   " let g:neocomplete#release_cache_time = 1800 " seconds
   nnoremap <C-X>U :NeoCompleteToggle<CR>
   inoremap <C-X>U <C-R>=nr2char(neocomplete#commands#_toggle_lock())<CR>
+elseif Bundles('-valloric/youcompleteme')
 endif
 " call Bundles('ervandew/supertab')
 
