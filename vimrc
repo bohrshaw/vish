@@ -208,8 +208,8 @@ nnoremap vv ^vg_
 xnoremap cs :s/\%V
 " Keep the flags when repeating last substitution
 NXnoremap & :&&<CR>
-" Deleting to the black hole register
-NXnoremap R "_d
+" Quick access to the black hole register
+NXnoremap _ "_
 " Toggle fold methods
 nnoremap <silent> zfm :<C-U>let &l:foldmethod = matchstr(
       \ ':manual:marker:indent:syntax:expr:diff',
