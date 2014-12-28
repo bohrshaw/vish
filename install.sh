@@ -1,38 +1,28 @@
 #!/usr/bin/env bash
-# Install the "Vish" distribution.
+# Link vimrc-esque files and install Vim plugins
 
 pushd `dirname $0` > /dev/null
-VIM_DIR=`pwd -P`
+VISH=`pwd -P`
 popd > /dev/null
 
-today=`date +%Y%m%d`
-backup () {
-  # Backup only non symbol link files.
-  if [ -e $1 ] && [ ! -L $1 ]; then
-    mv $1 $1.$today
-    echo "$1 has been renamed to $1.$today."
-  fi
+# Smart and safe linking
+slink () {
+  # Return if the target doesn't exist or the same link already exists
+  ( [[ ! -e $1 ]] || [[ $1 == `readlink $2` ]] ) && return
+  mkdir -p ${2%/*} # ensure the link directory exists
+  [[ -e $2 ]] && mv $2 $2.$(date +%F-%T) # backup
+  ln -sfn $1 $2
 }
 
-echo "Start installation ..."
-echo "Back up and link files ..."
-
-# Link this repository if its path isn't ~/.vim
-if [[ $VIM_DIR != $HOME'/.vim' ]]; then
-  backup $HOME'/.vim'
-  ln -sfn $VIM_DIR $HOME/.vim
-fi
+# Link to $HOME/.vim, but avoid self-linking
+[[ $VISH == $HOME'/.vim' ]] || slink $VISH $HOME/.vim
 
 # Link vimrc files
 for f in vimrc gvimrc vimperatorrc vimperator; do
-  backup $HOME/.$f
+  slink $VISH/$f $HOME/.$f
 done
-ln -sf $VIM_DIR/vimrc $HOME/.vimrc
-ln -sf $VIM_DIR/gvimrc $HOME/.gvimrc
-ln -sf $VIM_DIR/vimperatorrc $HOME/.vimperatorrc
-ln -sfn $VIM_DIR/vimperator $HOME/.vimperator
+slink $VISH/vimrc $HOME/.nvimrc
 
-echo "Clone bundles ..."
-$VIM_DIR/bin/vundle.rb
+$VISH/bin/vundle.rb
 
-echo "Installation done."
+echo "Vim ready!"
