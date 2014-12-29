@@ -361,6 +361,7 @@ function! s:toggle(arg)
 endfunction
 
 " Extend <C-V> to support entering more notated keys {{{2
+" Use the alternative <C-Q> for entering literals.
 
 map! <M-v> <C-V>
 
@@ -483,14 +484,16 @@ command! Mystify call misc#mystify()
 " ---------------------------------------------------------------------
 " Abbreviations: {{{1
 
+" Use <C-Q> to enter a literal, which doesn't trigger the abbreviation.
+
 " Open help in a vertical window or a new tab
-cabbrev hv vert h
-cabbrev ht tab h
+cabbrev vh vert h
+cabbrev th tab h
 
 " Edit a file in a new tab
 cabbrev te tabe
 " Split a buffer in a vertical window or a new tab
-cabbrev vsb vert sb
+cabbrev vb vert sb
 cabbrev tb tab sb
 
 " Print the change list or mark list
