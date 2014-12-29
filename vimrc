@@ -259,11 +259,9 @@ xnoremap cR c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
 
 " Easy access to vimrc files
 cabbrev .v ~/.vim/vimrc
-NXnoremap <silent> 'V :<C-U>let _f = expand(maparg('.v', 'c', 1))\|
-            \ execute (buflisted(_f)?'b':'e').' '._f<CR>
+autocmd BufWinLeave {.,}vimrc mark V
 cabbrev .b ~/.vim/vimrc.bundle
-NXnoremap <silent> 'B :<C-U>let _f = expand(maparg('.b', 'c', 1))\|
-            \ execute (buflisted(_f)?'b':'e').' '._f<CR>
+autocmd BufWinLeave {.,}vimrc.bundle mark B
 
 " ---------------------------------------------------------------------
 " Mappings!: {{{1
