@@ -10,7 +10,8 @@ slink () {
   # Return if the target doesn't exist or the same link already exists
   ( [[ ! -e $1 ]] || [[ $1 == `readlink $2` ]] ) && return
   mkdir -p ${2%/*} # ensure the link directory exists
-  [[ -e $2 ]] && mv $2 $2.$(date +%F-%T) # backup
+  # Backup only if not a link
+  [[ -e $2 ]] && [[ ! -L $2 ]] && mv $2 $2.$(date +%F-%T)
   ln -sfn $1 $2
 }
 
