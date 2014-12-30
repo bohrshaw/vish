@@ -59,7 +59,7 @@ silent! set cryptmethod=blowfish cm=blowfish2 " acceptable encryption
 set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
 set display+=lastline " ensure the last line is properly displayed
 " autocmd GUIEnter * set vb t_vb= " disable error beep and screen flash
-" set mouse= " disable mouse in all modes to tolerate Touchpad mis-touch
+set mouse=a " enable mouse in all modes
 set guioptions=M " skip sourcing menu.vim, before enabling filetype/syntax
 set guioptions+=c " use a console dialog for confirmation instead of a pop-up
 " Sync visual mode selection with the selection register(*) in supported GUI
