@@ -379,10 +379,10 @@ noremap! <C-V>l <lt>Leader>
 noremap! <C-V>L <lt>LocalLeader>
 noremap! <C-V>b <lt>buffer>
 noremap! <C-V>n <lt>nowait>
-noremap! <C-V>si <lt>silent>
+noremap! <C-V>sl <lt>silent>
 noremap! <C-V>sp <lt>special>
 noremap! <C-V>sc <lt>script>
-noremap! <C-V>E <lt>expr>
+noremap! <C-V>x <lt>expr>
 noremap! <C-V>u <lt>unique>
 noremap! <C-V>p <lt>Plug>
 noremap! <C-V>S <lt>SID>
