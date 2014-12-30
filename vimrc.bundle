@@ -217,6 +217,8 @@ call Bundles('Tpope/vim-repeat')
 " Pairs of handy bracket mappings
 if Bundles('Tpope/vim-unimpaired')
   nmap coP <Plug>unimpairedPaste
+  " Mouse could also be enabld in Tmux
+  nnoremap <silent> com :let &mouse = empty(&mouse) ? 'a' : ''<CR>
 endif
 nnoremap <silent> ]O :call search('to-\?do:\c', 'sW')<CR>
 nnoremap <silent> [O :call search('to-\?do:\c', 'sWb')<CR>
