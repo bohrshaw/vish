@@ -13,7 +13,7 @@
 
 if has('vim_starting')
   set all& | silent! source ~/.vimrc.local " override system vimrc
-  let g:l = $VIML && !get(g:, 'h') || get(g:, 'l') " lightweight Vim or not
+  let g:l = !get(g:, 'h') " lightweight, less plugins
 
   set nocompatible " make Vim behave in a more useful way
   set rtp^=$HOME/.vim rtp+=$HOME/.vim/after " be portable
