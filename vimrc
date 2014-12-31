@@ -404,6 +404,16 @@ noremap! <C-V>\| <lt>Bar>
 
 " }}}2
 
+" Get targets of links
+cnoremap <C-L> <C-\>e<SID>get_link_targets()<CR><CR>
+function! s:get_link_targets()
+  let [cmd; links] = split(getcmdline())
+  for l in links
+    let cmd .= ' '.fnamemodify(resolve(expand(l)), ':~:.')
+  endfor
+  return cmd
+endfunction
+
 " ---------------------------------------------------------------------
 " Commands: {{{1
 
@@ -428,7 +438,7 @@ command! -bar -range Source <line1>,<line2>yank z<Bar>
 command! -nargs=1 -complete=command Qdo call vimrc#errdo('q', <q-args>)
 command! -nargs=1 -complete=command Ldo call vimrc#errdo(<q-args>)
 
-" Delete the current without closing its window
+" Delete the current buffer without closing its window
 command! -bang Bdelete :b# |silent! bd<bang>#
 " Delete all buffers in the buffer list
 command! BdAll execute '1,'.bufnr('$').'bdelete'
