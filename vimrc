@@ -173,6 +173,8 @@ NXnoremap z<Space> q:
 NXnoremap z/ q/
 NXnoremap @<Space> @:
 
+" Go to the last-accessed or second-newest position in the change list
+nnoremap g. g,g;
 " Repeat last change on each line in a visual selection
 xnoremap . :normal! .<CR>
 " Execute a macro on each one in {count} lines
