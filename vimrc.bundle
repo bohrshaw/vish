@@ -80,8 +80,10 @@ if Bundles('wellle/targets.vim', 'kana/vim-textobj-indent',
 endif
 if g:l " delay activating this bundle to reduce startup time
   set updatetime=10
-  autocmd CursorHold * call BundleActivate("targets.vim") |
-        \ set updatetime& | autocmd! bundle CursorHold
+  augroup bundle_targets
+    autocmd CursorHold * call BundleActivate("targets.vim") |
+          \ set updatetime& | autocmd! bundle_targets CursorHold
+  augroup bundle
 endif
 
 " Insert: {{{1
@@ -96,17 +98,25 @@ call Bundles('tpope/vim-endwise')
 " Completions
 if has('lua') && Bundles('Shougo/neocomplete.vim', 'Bohrshaw/vimproc.vim')
   let g:neocomplete#enable_at_startup = 1
-  let g:neocomplete#max_list = 50
-  " let g:neocomplete#auto_completion_start_length = 3
+  " Disable auto-completion as the display could be messed up if typing fast.
+  augroup bundle_neocomp
+    autocmd CursorHold * call neocomplete#commands#_lock() |
+          \ autocmd! bundle_neocomp CursorHold
+  augroup bundle
+  let g:neocomplete#max_list = 20
+  let g:neocomplete#auto_completion_start_length = 2
   let g:neocomplete#manual_completion_start_length = 1
+  " let g:neocomplete#min_keyword_length = 3
   let g:neocomplete#enable_smart_case = &smartcase
-  let g:neocomplete#enable_cursor_hold_i = 1
+  " let g:neocomplete#enable_cursor_hold_i = 1
   " let g:neocomplete#cursor_hold_i_time = 400 " same as swap saving interval
+  let g:neocomplete#lock_iminsert = 1
   " let g:neocomplete#enable_prefetch = 1
   let g:neocomplete#data_directory = '~/.vim/tmp/neocomplete'
   " let g:neocomplete#release_cache_time = 1800 " seconds
-  nnoremap <C-X>U :NeoCompleteToggle<CR>
-  inoremap <C-X>U <C-R>=nr2char(neocomplete#commands#_toggle_lock())<CR>
+  nnoremap t<CR>c :NeoCompleteToggle<CR>
+  inoremap <silent> <expr> <C-X>c neocomplete#start_manual_complete()
+  inoremap <C-X>C <C-R>=nr2char(neocomplete#commands#_toggle_lock())<CR>
 elseif Bundles('-valloric/youcompleteme')
 endif
 " call Bundles('ervandew/supertab')
