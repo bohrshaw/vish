@@ -24,7 +24,7 @@ function! s:bundle_map()
 endfunction
 
 " A Vim plugin for Vim plugins
-call Bundles('tpope/vim-scriptease')
+call Bundles('Tpope/vim-scriptease')
 
 " MotionSearch: {{{1
 
