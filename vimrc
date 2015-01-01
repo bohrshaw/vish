@@ -13,7 +13,8 @@
 
 if has('vim_starting')
   set all& | silent! source ~/.vimrc.local " override system vimrc
-  let g:l = !get(g:, 'h') " lightweight, less plugins
+  let g:h = get(g:, 'h') || has('gui_running') && empty(argc())
+  let g:l = !g:h " lightweight, less plugins
 
   set nocompatible " make Vim behave in a more useful way
   set rtp^=$HOME/.vim rtp+=$HOME/.vim/after " be portable
