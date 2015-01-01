@@ -154,11 +154,10 @@ autocmd SessionLoadPost * silent! bwipeout! _
 " <C-j> is the same as <C-J>.
 " See related help topics: index, map-which-keys
 
+" Meta
 runtime autoload/key.vim " mappable meta key in terminals
-
 " let mapleader = "\r" " replace <Leader> in a map
 let maplocalleader = eval('"\<M-\>"') " replace <LocalLeader> in a map
-
 " Commands for defining mappings in several modes
 command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
 command! -nargs=1 NXmap nmap <args><Bar>xmap <args>
@@ -167,14 +166,14 @@ command! -nargs=1 NXOmap nmap <args><Bar>xmap <args><Bar>omap <args>
 command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
       \ inoremap <args>
 
+" Essential
 " Enter command line at the speed of light
 NXnoremap <Space> :
 NXnoremap z<Space> q:
 NXnoremap z/ q/
 NXnoremap @<Space> @:
 
-" Go to the last-accessed or second-newest position in the change list
-nnoremap g. g,g;
+" Manipulation
 " Repeat last change on each line in a visual selection
 xnoremap . :normal! .<CR>
 " Execute a macro on each one in {count} lines
@@ -184,19 +183,6 @@ function! s:macro() range
 endfunction
 " Execute a macro on each line in a visual selection
 xnoremap <silent> @ :<C-u>execute ":'<,'>normal! @".nr2char(getchar())<CR>
-
-" Search the literal text of a visual selection
-xnoremap * :<C-u>call <SID>v_search('/')<CR>/<C-R>=@/<CR><CR>
-xnoremap # :<C-u>call <SID>v_search('?')<CR>?<C-R>=@/<CR><CR>
-function! s:v_search(dir)
-  let temp = @s
-  normal! gv"sy
-  let @/ = '\V' . substitute(escape(@s, a:dir.'\'), '\n', '\\n', 'g')
-  let @s = temp
-endfunction
-
-" Jump to the middle of the current written line as opposed to the window width
-nnoremap <silent> gm :call cursor(0, virtcol('$')/2)<CR>|nnoremap gM gm
 " Yank till the line end instead of the whole line
 nnoremap Y y$
 " Yank to GUI/system clipboard
@@ -216,16 +202,31 @@ NXnoremap _ "_
 nnoremap <silent> zfm :<C-U>let &l:foldmethod = matchstr(
       \ ':manual:marker:indent:syntax:expr:diff',
       \ ':\zs\w\{-}'.nr2char(getchar()).'\w*')<CR>
+" Mappings for diff mode
+xnoremap <silent> do :execute &diff ? "'<,'>diffget" : ''<CR>
+xnoremap <silent> dp :execute &diff ? "'<,'>diffput" : ''<CR>
+nnoremap <silent> du :execute &diff ? 'diffupdate' : ''<CR>
+" Switch off diff mode and close other diff panes
+nnoremap dO :diffoff \| windo if &diff \| hide \| endif<CR>
+" Reverse the selected text
+xnoremap cR c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
 
-" Switch to the alternative file more conveniently
-nnoremap Q <C-^>
-
-" Edit a file in the same directory of the current file
-NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/<Tab>
-NXnoremap <leader>es :sp <C-R>=expand('%:h')<CR>/<Tab>
-NXnoremap <leader>ev :vs <C-R>=expand('%:h')<CR>/<Tab>
-NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/<Tab>
-
+" Navigation
+" Jump to the middle of the current written line as opposed to the window width
+nnoremap <silent> gm :call cursor(0, virtcol('$')/2)<CR>|nnoremap gM gm
+" Go to the last-accessed or second-newest position in the change list
+nnoremap g. g,g;
+" Navigate the jumper list more quickly
+nnoremap <S-Tab> <C-O>
+" Search the literal text of a visual selection
+xnoremap * :<C-u>call <SID>v_search('/')<CR>/<C-R>=@/<CR><CR>
+xnoremap # :<C-u>call <SID>v_search('?')<CR>?<C-R>=@/<CR><CR>
+function! s:v_search(dir)
+  let temp = @s
+  normal! gv"sy
+  let @/ = '\V' . substitute(escape(@s, a:dir.'\'), '\n', '\\n', 'g')
+  let @s = temp
+endfunction
 " Window management leader key
 NXmap <M-w> <C-W>
 " Go to the below/right or above/left window
@@ -233,37 +234,32 @@ NXnoremap <M-j> <C-W>w
 NXnoremap <M-k> <C-W>W
 " Split a window vertically with the alternate file
 NXnoremap <C-W><C-^> :vsplit #<CR>
-
 " Go to [count] tab pages forward or back
 NXnoremap <silent> <M-l> :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
 NXnoremap <M-h> gT
-
-" Mappings for the cmdline window
-autocmd CmdwinEnter * noremap <buffer> <F5> <CR>q:|
-      \ NXInoremap <buffer> <nowait> <CR> <CR>|
-      \ NXInoremap <buffer> <C-C> <C-C><C-C>
-
-" Mappings/options for a quickfix/location window
-autocmd FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
-      \ nnoremap <buffer> q <C-W>c|
-      \ nnoremap <buffer> <C-V> <C-W><CR><C-W>H|
-      \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T
-
-" Mappings for diff mode
-xnoremap <silent> do :execute &diff ? "'<,'>diffget" : ''<CR>
-xnoremap <silent> dp :execute &diff ? "'<,'>diffput" : ''<CR>
-nnoremap <silent> du :execute &diff ? 'diffupdate' : ''<CR>
-" Switch off diff mode and close other diff panes
-nnoremap dO :diffoff \| windo if &diff \| hide \| endif<CR>
-
-" Reverse the selected text
-xnoremap cR c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
-
+" Switch to the alternative file more conveniently
+nnoremap Q <C-^>
+" Edit a file in the same directory of the current file
+NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/<Tab>
+NXnoremap <leader>es :sp <C-R>=expand('%:h')<CR>/<Tab>
+NXnoremap <leader>ev :vs <C-R>=expand('%:h')<CR>/<Tab>
+NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/<Tab>
 " Easy access to vimrc files
 cabbrev .v ~/.vim/vimrc
 autocmd BufWinLeave {.,}vimrc mark V
 cabbrev .b ~/.vim/vimrc.bundle
 autocmd BufWinLeave {.,}vimrc.bundle mark B
+
+" Localized
+" Mappings for the cmdline window
+autocmd CmdwinEnter * noremap <buffer> <F5> <CR>q:|
+      \ NXInoremap <buffer> <nowait> <CR> <CR>|
+      \ NXInoremap <buffer> <C-C> <C-C><C-C>
+" Mappings/options for a quickfix/location window
+autocmd FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
+      \ nnoremap <buffer> q <C-W>c|
+      \ nnoremap <buffer> <C-V> <C-W><CR><C-W>H|
+      \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T
 
 " ---------------------------------------------------------------------
 " Mappings!: {{{1
