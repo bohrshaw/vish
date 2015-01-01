@@ -13,9 +13,7 @@ endsnippet
 
 snippet dir "Get the directory path of the current file" b
 # Get the directory path of the current file
-pushd \`dirname \$0\` > /dev/null
-${1:file_path}=\`pwd -P\`
-popd > /dev/null
+${1:dir}="$( cd \`dirname \$0\` && pwd -P )"
 $0
 endsnippet
 

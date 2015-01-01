@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 # Link vimrc-esque files and install Vim plugins
 
-pushd `dirname $0` > /dev/null
-VISH=`pwd -P`
-popd > /dev/null
+# Get the directory path of this file
+VISH="$( cd `dirname $0` && pwd -P )"
 
 # Smart and safe linking
 slink () {
