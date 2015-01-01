@@ -120,7 +120,7 @@ if (has('python') || has('python3')) && Bundle('sirver/ultisnips',
   let g:UltiSnipsJumpForwardTrigger="<C-J>"
   let g:UltiSnipsJumpBackwardTrigger="<C-K>"
   let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippet"]
-  let g:UltiSnipsSnippetsDir="~/.vim/snippet" " personal snippets path
+  let g:UltiSnipsSnippetsDir=expand("~/.vim/snippet") " personal snippets path
   " let g:UltiSnipsEditSplit="vertical"
   autocmd BufNewFile,BufRead *.snippets set ft=snippets
   " Avoid python mis-detection during startup in Vim 7.4.52
