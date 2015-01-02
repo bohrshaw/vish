@@ -30,14 +30,28 @@ call Bundles('Tpope/vim-scriptease')
 
 " The missing motion for Vim
 if Bundles('Justinmk/vim-sneak')
-  " let g:sneak#streak = 1
-  " let g:sneak#use_ic_scs = 1 " 'ignorecase', 'smartcase'
-  let sneak#textobject_z = 0
-  " Alternative mappings keys: z; z,
+  " let g:sneak#streak = 1 " auto streak mode
+  " let g:sneak#use_ic_scs = 1 " ignorecase and smartcase
+  let sneak#textobject_z = 0 " redundant
+  " fFtT could be slow or buggy in macros
+  NXOmap f<CR> <Plug>Sneak_f
+  NXOmap F<CR> <Plug>Sneak_F
+  NXOmap t<CR> <Plug>Sneak_t
+  NXOmap T<CR> <Plug>Sneak_T
+  " Accept two characters
   NXOmap <M-f> <Plug>Sneak_s
   NXOmap <M-F> <Plug>Sneak_S
+  " Accept two characters, more precise but a little disturbing
   NXOmap <M-t> <Plug>(SneakStreak)
   NXOmap <M-T> <Plug>(SneakStreakBackward)
+  " Mimic the native search command / and ?, currently no regex
+  " Function signature: sneak#wrap(op, inputlen, reverse, inclusive, streak)
+  nnoremap <silent> g/ :<C-U>call sneak#wrap('', 99, 0, 2, 1)<CR>
+  nnoremap <silent> g? :<C-U>call sneak#wrap('', 99, 1, 2, 1)<CR>
+  xnoremap <silent> g/ :<C-U>call sneak#wrap(visualmode(), 99, 0, 2, 1)<CR>
+  xnoremap <silent> g? :<C-U>call sneak#wrap(visualmode(), 99, 1, 2, 1)<CR>
+  onoremap <silent> g/ :<C-U>call sneak#wrap(v:operator, 99, 0, 2, 1)<CR>
+  onoremap <silent> g? :<C-U>call sneak#wrap(v:operator, 99, 1, 2, 1)<CR>
   hi! link SneakPluginScope Comment
 endif
 
@@ -309,7 +323,7 @@ if BundleNow('Shougo/unite.vim')
     let g:unite_source_grep_recursive_opt=''
   endif
   command! -nargs=* -complete=customlist,unite#complete#source U Unite <args>
-  nnoremap <M-b> :Unite -no-split -quick-match buffer<CR>
+  " nnoremap <M-b> :Unite -no-split -quick-match buffer<CR>
   " Custom mappings for the unite buffer
   autocmd FileType unite imap <buffer> <C-j> <Plug>(unite_select_next_line)|
         \ imap <buffer> <C-k> <Plug>(unite_select_previous_line)|
