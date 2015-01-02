@@ -773,7 +773,7 @@ if Bundles('Tpope/vim-fugitive')
 endif
 
 " Git branch management
-if Bundles('Sodapopcan/vim-twiggy') && Bundles('tpope/vim-fugitive')
+if Bundles('-sodapopcan/vim-twiggy') && Bundles('tpope/vim-fugitive')
 endif
 
 " A git repository viewer(a gitk clone)
