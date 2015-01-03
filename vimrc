@@ -373,22 +373,24 @@ noremap! <C-V>t <lt>Tab>
 noremap! <C-V><Space> <lt>Space>
 noremap! <C-V>r <lt>CR>
 
-" Mapping special
+" Mapping special (lowercase)
 noremap! <C-V>l <lt>Leader>
 noremap! <C-V>L <lt>LocalLeader>
 noremap! <C-V>b <lt>buffer>
 noremap! <C-V>n <lt>nowait>
-noremap! <C-V>sl <lt>silent>
+noremap! <C-V>si <lt>silent>
 noremap! <C-V>sp <lt>special>
 noremap! <C-V>sc <lt>script>
 noremap! <C-V>x <lt>expr>
 noremap! <C-V>u <lt>unique>
 noremap! <C-V>p <lt>Plug>
+
+" Mapping rhs special (uppercase)
 noremap! <C-V>S <lt>SID>
 
-" Command rhs special
-noremap! <C-V>, <lt>line1>
-noremap! <C-V>; <lt>line2>
+" Command rhs special (uppercase)
+noremap! <C-V>1 <lt>line1>
+noremap! <C-V>2 <lt>line2>
 noremap! <C-V>C <lt>count>
 noremap! <C-V>R <lt>reg>
 noremap! <C-V>B <lt>bang>
