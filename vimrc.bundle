@@ -1,6 +1,12 @@
 " Description: Vim bundle configuration.
 " Author: Bohr Shaw <pubohr@gmail.com>
 
+" To keep Vim healthy, stable, efficient and consistent, I should choose bundles
+" carefully and do customisation properly.
+"
+" Regarding to performance, in additiont to startup profiling, be aware of
+" possible autocmd pollution which should actually be more concerned.
+
 " BundleManagement: {{{1
 
 call bundle#init() " bundle initialization
@@ -111,12 +117,8 @@ call Bundles('tpope/vim-endwise')
 
 " Completions
 if has('lua') && Bundles('Shougo/neocomplete.vim', 'Bohrshaw/vimproc.vim')
-  let g:neocomplete#enable_at_startup = 1
-  " Disable auto-completion as the display could be messed up if typing fast.
-  augroup bundle_neocomp
-    autocmd CursorHold * call neocomplete#commands#_lock() |
-          \ autocmd! bundle_neocomp CursorHold
-  augroup bundle
+  " Still slow and the display could be messed up
+  let g:neocomplete#enable_at_startup = 0
   let g:neocomplete#max_list = 20
   let g:neocomplete#auto_completion_start_length = 2
   let g:neocomplete#manual_completion_start_length = 1
@@ -128,8 +130,13 @@ if has('lua') && Bundles('Shougo/neocomplete.vim', 'Bohrshaw/vimproc.vim')
   " let g:neocomplete#enable_prefetch = 1
   let g:neocomplete#data_directory = '~/.vim/tmp/neocomplete'
   " let g:neocomplete#release_cache_time = 1800 " seconds
-  nnoremap t<CR>c :NeoCompleteToggle<CR>
+  " Enable/disable neocomplete
+  nnoremap <expr> t<CR>c neocomplete#is_enabled() ?
+        \ ':NeoCompleteDisable<CR>' : ':NeoCompleteEnable<CR>'
+  " Start manual completion
   inoremap <silent> <expr> <C-X>c neocomplete#start_manual_complete()
+  " Toggle auto-completion for the current buffer, a hack to convert number 0 to
+  " an empty string
   inoremap <C-X>C <C-R>=nr2char(neocomplete#commands#_toggle_lock())<CR>
 elseif Bundles('-valloric/youcompleteme')
 endif
