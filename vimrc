@@ -23,8 +23,10 @@ if has('vim_starting')
   endif
 endif
 
-" Define or switch to an auto-command group and clean it
-execute 'augroup vimrc| autocmd!'
+" Define an autocmd group and clean it
+augroup vimrc
+  autocmd!
+augroup END
 
 " set timeoutlen=3000 " mapping delay
 set ttimeoutlen=10 " key code delay (instant escape from Insert mode)
@@ -59,7 +61,7 @@ set synmaxcol=999 " ignore further syntax items to avoid slow redrawing
 silent! set cryptmethod=blowfish cm=blowfish2 " acceptable encryption
 set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
 set display+=lastline " ensure the last line is properly displayed
-" autocmd GUIEnter * set vb t_vb= " disable error beep and screen flash
+" autocmd vimrc GUIEnter * set vb t_vb= " disable error beep and screen flash
 set mouse=a " enable mouse in all modes
 set guioptions=M " skip sourcing menu.vim, before enabling filetype/syntax
 set guioptions+=c " use a console dialog for confirmation instead of a pop-up
@@ -84,7 +86,7 @@ endif
 " Thesaurus files for insert-completion
 set thesaurus=~/.vim/spell/thesaurus-mwcd.txt
 " Enable spell checking for particular file types
-autocmd FileType gitcommit,markdown,txt setlocal spell
+autocmd vimrc FileType gitcommit,markdown,txt setlocal spell
 if v:version == 704 && has('patch088') || v:version > 704
   set spelllang+=cjk " skip spell check for East Asian characters
 endif
@@ -99,11 +101,11 @@ set fileformats=unix,dos,mac " end-of-line formats precedence
 set fileformat=unix " only for the initial unnamed buffer
 
 " Don't move the cursor to the line start when switching buffers
-autocmd BufLeave * set nostartofline |
+autocmd vimrc BufLeave * set nostartofline |
       \ autocmd vimrc CursorMoved * set startofline | autocmd! vimrc CursorMoved
 " Jump to the last known position in a file just after opening it
-autocmd BufRead * silent! normal! g`"
-autocmd BufWinEnter * normal! zv
+autocmd vimrc BufRead * silent! normal! g`"
+autocmd vimrc BufWinEnter * normal! zv
 
 let &swapfile = l ? 0 : 1 " use a swapfile for the buffer
 set undofile
@@ -136,8 +138,8 @@ if has('vim_starting') && 0 == argc() && has('gui_running') && !l
 endif
 
 " Make the file '_' a scratch buffer
-autocmd BufNewFile,BufReadPost _ set buftype=nofile nobuflisted bufhidden=hide
-autocmd SessionLoadPost * silent! bwipeout! _
+autocmd vimrc BufNewFile,BufReadPost _ set buftype=nofile nobuflisted bufhidden=hide
+autocmd vimrc SessionLoadPost * silent! bwipeout! _
 
 " ---------------------------------------------------------------------
 " Mappings: {{{1
@@ -250,17 +252,17 @@ NXnoremap <leader>ev :vs <C-R>=expand('%:h')<CR>/<Tab>
 NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/<Tab>
 " Easy access to vimrc files
 cabbrev .v ~/.vim/vimrc
-autocmd BufWinLeave {.,}vimrc mark V
+autocmd vimrc BufWinLeave {.,}vimrc mark V
 cabbrev .b ~/.vim/vimrc.bundle
-autocmd BufWinLeave {.,}vimrc.bundle mark B
+autocmd vimrc BufWinLeave {.,}vimrc.bundle mark B
 
 " Localized
 " Mappings for the cmdline window
-autocmd CmdwinEnter * noremap <buffer> <F5> <CR>q:|
+autocmd vimrc CmdwinEnter * noremap <buffer> <F5> <CR>q:|
       \ NXInoremap <buffer> <nowait> <CR> <CR>|
       \ NXInoremap <buffer> <C-C> <C-C><C-C>
 " Mappings/options for a quickfix/location window
-autocmd FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
+autocmd vimrc FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
       \ nnoremap <buffer> q <C-W>c|
       \ nnoremap <buffer> <C-V> <C-W><CR><C-W>H|
       \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T
@@ -292,7 +294,7 @@ inoremap <expr> <Tab> getline('.')[col('.')-2] !~ '^\s\?$' \|\| pumvisible()
 inoremap <expr> <S-Tab> pumvisible() \|\| getline('.')[col('.')-2] !~ '^\s\?$'
       \ ? '<C-P>' : '<Tab>'
 " Remove auto-definded mappings
-autocmd CmdwinEnter * iunmap <buffer> <Tab>|nunmap <buffer> <Tab>
+autocmd vimrc CmdwinEnter * iunmap <buffer> <Tab>|nunmap <buffer> <Tab>
 
 " Shortcuts of insert-completion in CTRL-X mode
 imap <M-x> <C-X>
@@ -562,8 +564,8 @@ endif
 execute 'set listchars=tab:'.s:lcs[0].'\ ,trail:'.s:lcs[1]
       \ .',extends:'.s:lcs[2].',precedes:'.s:lcs[3].',nbsp:'.s:lcs[4]
 " Avoid showing trailing whitespace when in insert mode
-execute 'autocmd InsertEnter * set listchars-=trail:'.s:lcs[1]
-execute 'autocmd InsertLeave * set listchars+=trail:'.s:lcs[1]
+execute 'autocmd vimrc InsertEnter * set listchars-=trail:'.s:lcs[1]
+execute 'autocmd vimrc InsertLeave * set listchars+=trail:'.s:lcs[1]
 
 set showcmd "show partial commands in status line
 " set showmatch matchtime=3 "show matching brackets, better using matchparen.vim
@@ -585,9 +587,9 @@ function! s:stl()
   set statusline+=%c=%l/%L=%P " cursor position, line percentage
 endfunction
 " Ensure all plugins are loaded before setting 'statusline'
-execute (has('vim_starting')?'autocmd VimEnter * ':'').'call s:stl()'
+execute (has('vim_starting')?'autocmd vimrc VimEnter * ':'').'call s:stl()'
 " Ensure the same statusline/tabline highlighting in any color scheme
-autocmd ColorScheme * hi StatusLine term=NONE cterm=NONE ctermfg=64 ctermbg=NONE
+autocmd vimrc ColorScheme * hi StatusLine term=NONE cterm=NONE ctermfg=64 ctermbg=NONE
       \ gui=bold guifg=#5faf5f guibg=NONE |
       \ hi StatusLineNC term=NONE cterm=NONE ctermfg=NONE ctermbg=NONE
       \ gui=NONE guifg=fg guibg=NONE |
@@ -596,7 +598,7 @@ autocmd ColorScheme * hi StatusLine term=NONE cterm=NONE ctermfg=64 ctermbg=NONE
       \ hi! link TabLineFill StatusLineNC
 
 " The status line for the quickfix window
-autocmd FileType qf setlocal statusline=%t
+autocmd vimrc FileType qf setlocal statusline=%t
       \%{strpart('\ '.get(w:,'quickfix_title',''),0,66)}%=\ %11.(%c,%l/%L,%P%)
 
 " Use CTRL-G, G_CTRL-G to see file and cursor information manually
@@ -610,7 +612,7 @@ if has('vim_starting')
   if has('gui_running')
     if has('win32')
       set guifont=Consolas:h10
-      autocmd GUIEnter * simalt ~x " maximize window
+      autocmd vimrc GUIEnter * simalt ~x " maximize window
     else
       set guifont=Consolas\ 10
       set lines=250 columns=200
