@@ -534,6 +534,9 @@ if has('vim_starting')
   " Must be after setting 'rtp'
   filetype plugin indent on
   syntax enable
+
+  " augroup is reset in 'syntax enable'
+  execute 'augroup vimrc'
 endif
 
 " ---------------------------------------------------------------------
