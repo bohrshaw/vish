@@ -11,11 +11,13 @@
 
 call bundle#init() " bundle initialization
 
-" Define an empty auto-command group
-execute 'augroup bundle| autocmd!'
+" Define an autocmd group and clean it
+augroup bundle
+  autocmd!
+augroup END
 
 " Mappings for managing bundles
-autocmd BufReadPost {.,}vimrc.bundle call s:bundle_map()
+autocmd bundle BufReadPost {.,}vimrc.bundle call s:bundle_map()
 function! s:bundle_map()
   " Move between bundles
   nnoremap <buffer> <silent> ]g :call search('Bundle\a*(.\zs\C')<CR>
@@ -103,7 +105,7 @@ if g:l " delay activating this bundle to reduce startup time
   augroup bundle_targets
     autocmd CursorHold * call BundleActivate("targets.vim") |
           \ set updatetime& | autocmd! bundle_targets CursorHold
-  augroup bundle
+  augroup END
 endif
 
 " Insert: {{{1
@@ -153,9 +155,9 @@ if (has('python') || has('python3')) && Bundle('sirver/ultisnips',
   let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippet"]
   let g:UltiSnipsSnippetsDir=expand("~/.vim/snippet") " personal snippets path
   " let g:UltiSnipsEditSplit="vertical"
-  autocmd BufNewFile,BufRead *.snippets set ft=snippets
+  autocmd bundle BufNewFile,BufRead *.snippets set ft=snippets
   " Avoid python mis-detection during startup in Vim 7.4.52
-  autocmd VimEnter * if !has('python3') |
+  autocmd bundle VimEnter * if !has('python3') |
         \ let g:UltiSnipsUsePythonVersion = 2 | endif
 elseif Bundles('garbas/vim-snipmate', 'marcweber/vim-addon-mw-utils',
       \ 'tomtom/tlib_vim', 'honza/vim-snippets')
@@ -332,7 +334,7 @@ if BundleNow('Shougo/unite.vim')
   command! -nargs=* -complete=customlist,unite#complete#source U Unite <args>
   " nnoremap <M-b> :Unite -no-split -quick-match buffer<CR>
   " Custom mappings for the unite buffer
-  autocmd FileType unite imap <buffer> <C-j> <Plug>(unite_select_next_line)|
+  autocmd bundle FileType unite imap <buffer> <C-j> <Plug>(unite_select_next_line)|
         \ imap <buffer> <C-k> <Plug>(unite_select_previous_line)|
         \ imap <buffer> <C-q> <Plug>(unite_exit)
 endif
@@ -354,7 +356,7 @@ endif
 " Convenient directory listing and file selection
 if Bundles('Tpope/vim-vinegar', '-jeetsukumaran/vim-filebeagle')
   nmap <M-d> <Plug>VinegarUp
-  autocmd VimEnter * nunmap -
+  autocmd bundle VimEnter * nunmap -
 endif
 
 " Bookmarks independent from Vim marks
@@ -399,9 +401,9 @@ if Bundles('mhinz/vim-startify')
   let g:startify_session_dir = '~/.vim/tmp/session'
   let g:startify_list_order = ['sessions', 'bookmarks', 'files']
   let g:startify_skiplist = ['[Vv]im.*[\/]doc[\/][^\/]\+\.txt']
-  autocmd FileType startify setlocal nospell
+  autocmd bundle FileType startify setlocal nospell
   " Prevent CtrlP open a split
-  autocmd FileType startify setlocal buftype=
+  autocmd bundle FileType startify setlocal buftype=
   let g:startify_custom_header = [
         \ '   _   /|',
         \ "   \\'o.O'",
@@ -441,9 +443,9 @@ if Bundles('Junegunn/seoul256.vim', 'W0ng/vim-hybrid',
   let g:solarized_italic = 0
   let g:solarized_termcolors = &term =~ '256col' ? 256 : 16
   let g:solarized_menu=0
-  autocmd ColorScheme solarized runtime colors/solarized_additional.vim
+  autocmd bundle ColorScheme solarized runtime colors/solarized_additional.vim
 endif
-autocmd VimEnter * nested execute 'color '.
+autocmd bundle VimEnter * nested execute 'color '.
       \ (has('gui_running') ? 'seoul256' : 'last256')
 
 " Make gvim-only colorschemes work transparently in terminal vim
@@ -571,7 +573,7 @@ if Bundles('mattn/emmet-vim')
   let g:user_emmet_mode='i' " only enabled in insert mode
   let g:user_emmet_leader_key = '<M-e>' " mnemonic of 'expand'
   " let g:user_emmet_install_global = 0 " enabled only for certain file types
-  " autocmd FileType html,css EmmetInstall
+  " autocmd bundle FileType html,css EmmetInstall
 endif
 
 " Markdown runtime files
@@ -598,7 +600,7 @@ call Bundles('kchmck/vim-coffee-script')
 
 if Bundles('wting/rust.vim')
   let g:rust_fold = 1
-  autocmd FileType rust nnoremap <buffer> <LocalLeader>r :RustRun<CR>
+  autocmd bundle FileType rust nnoremap <buffer> <LocalLeader>r :RustRun<CR>
 endif
 
 " Golang {{{2
@@ -610,11 +612,11 @@ if Bundles('fatih/vim-go', '-blackrush/vim-gocode')
         \ expand("$GOPATH/bin/")
   " let g:go_fmt_autosave = 0
   " call add(g:syntastic_mode_map['passive_filetypes'], 'go')
-  autocmd FileType go nnoremap <buffer> gd :GoDef<CR>|
+  autocmd bundle FileType go nnoremap <buffer> gd :GoDef<CR>|
         \ nnoremap <buffer> K :GoDoc<CR>|
         \ nnoremap <buffer> <LocalLeader>r :GoRun %<CR>|
         \ nnoremap <buffer> <LocalLeader>R :GoRun<CR>
-  autocmd FileType godoc nnoremap <buffer> q <C-W>q
+  autocmd bundle FileType godoc nnoremap <buffer> q <C-W>q
 endif
 
 " Ruby {{{2
@@ -634,13 +636,13 @@ endif
 " Runs RuboCop(A robust Ruby code analyzer) and displays the results in Vim
 if Bundles('ngmy/vim-rubocop')
   let g:vimrubocop_keymap = 0
-  autocmd FileType ruby nnoremap <silent> <buffer> <nowait>
+  autocmd bundle FileType ruby nnoremap <silent> <buffer> <nowait>
         \ <LocalLeader>r :RuboCop<CR>
 endif
 
 " Bindings for the gem recording the results of every line of code
 if Bundles('hwartig/vim-seeing-is-believing')
-  autocmd FileType ruby
+  autocmd bundle FileType ruby
         \ NXInoremap <buffer> <F5> <Plug>(seeing-is-believing-run)|
         \ NXInoremap <buffer> <F4> <Plug>(seeing-is-believing-mark)
 endif
@@ -661,13 +663,13 @@ if Bundles('klen/python-mode')
   " Escape syntastic check for python
   call add(g:syntastic_mode_map['passive_filetypes'], 'python')
   let g:pymode_python = 'python3'
-  autocmd VimEnter * set shellslash&
+  autocmd bundle VimEnter * set shellslash&
 endif
 
 " Bindings for the python auto-completion library 'jedi'
 if Bundles('davidhalter/jedi-vim')
   let g:jedi#auto_vim_configuration = 0
-  autocmd FileType python setlocal completeopt=menuone,longest,preview
+  autocmd bundle FileType python setlocal completeopt=menuone,longest,preview
   let g:jedi#goto_assignments_command = '<LocalLeader>d'
   let g:jedi#goto_definitions_command = '<LocalLeader>D'
   let g:jedi#rename_command = '<LocalLeader>R'
@@ -710,9 +712,9 @@ call Bundles('guns/vim-sexp', 'tpope/vim-sexp-mappings-for-regular-people')
 " Better Rainbow Parentheses
 if Bundles('jbnicolai/rainbow_parentheses.vim')
   let g:rbpt_loadcmd_toggle = 1
-  autocmd VimEnter * call rainbow_parentheses#load(0) |
-        \ autocmd Syntax clojure call rainbow_parentheses#load(0)
-  autocmd ColorScheme * call rainbow_parentheses#activate()
+  autocmd bundle VimEnter * call rainbow_parentheses#load(0) |
+        \ autocmd bundle Syntax clojure call rainbow_parentheses#load(0)
+  autocmd bundle ColorScheme * call rainbow_parentheses#activate()
   nnoremap t<CR>p :call rainbow_parentheses#toggle()<CR>
 endif
 
@@ -720,7 +722,7 @@ endif
 
 " JSON runtime files
 if Bundles('Elzr/vim-json')
-  autocmd FileType json setlocal foldmethod=syntax
+  autocmd bundle FileType json setlocal foldmethod=syntax
 endif
 
 " JSON manipulation and pretty printing
@@ -752,7 +754,7 @@ endif
 " A powerful shell implemented in Vim Script
 if Bundles('shougo/vimshell.vim', 'bohrshaw/vimproc.vim')
   NXnoremap <M-s> :<C-U>VimShell<CR>
-  autocmd FileType vimshell NXInoremap <buffer> <silent> <M-s> <Esc>:sil b#<CR>
+  autocmd bundle FileType vimshell NXInoremap <buffer> <silent> <M-s> <Esc>:sil b#<CR>
 endif
 
 " The interface to Web API
@@ -838,7 +840,7 @@ endif
 
 " Helpers for UNIX(Windows)
 if Bundles('Tpope/vim-eunuch')
-  autocmd VimEnter * command! W SudoWrite
+  autocmd bundle VimEnter * command! W SudoWrite
 endif
 
 " Tmux basics, insert mode completion of words in adjacent tmux panes
@@ -884,7 +886,7 @@ if Bundles('Tyru/open-browser.vim')
   nmap gx <Plug>(openbrowser-smart-search)
   xmap gx <Plug>(openbrowser-smart-search)
   " Remove unused commands
-  autocmd VimEnter * delcommand OpenBrowser | delcommand OpenBrowserSearch
+  autocmd bundle VimEnter * delcommand OpenBrowser | delcommand OpenBrowserSearch
 endif
 
 " Vimscript for gist
