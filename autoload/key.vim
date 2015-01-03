@@ -1,8 +1,27 @@
 " Description: Mappable Meta key in terminals
 " Author: Bohr Shaw <pubohr@gmail.com>
 
+" References:
 " https://github.com/tpope/vim-rsi
 " http://vim.wikia.com/wiki/Mapping_fast_keycodes_in_terminal_Vim
+
+" Issues:
+" Even though the tiny key code delay('ttimeoutlen') means that typing
+" "<Esc>k" could hardly be recognised as the key code of "<Esc>k" and only
+" "<M-k>" can ensure generating this key code, such a key sequence as "<Esc>k"
+" in a macro is still recognised as a key code, which is really disruptive to
+" macros.
+" Another subtle issue is that in normal mode, if "<Esc>" is mapped, "<M-k>"
+" is executed as "<Esc>" and then "k", which I suspect a Vim bug.
+
+" Solutions:(Compromise)
+" Just like I can use "noremap" to avoid "<Esc>k" to be recognised as a key
+" code, I could use "normal! <C-R><C-R>q<CR>" as an alternative to "@q" to
+" achieve the same aim, for which I even make a convenient mapping "@!". But
+" be aware that ALL keys in that macro are then executed without remapping.
+" A probably better way to circumvent this issue is to deliberately use
+" "<C-C>" to escape whichever insert, visual or command mode, except that the
+" "InsertLeave" autocommand would not be triggered by using "<C-C>".
 
 if has('gui_running')
   finish
@@ -10,16 +29,8 @@ endif
 
 " Instead of setting a key code(e.g. "<Esc>k") to key(e.g. "<F13>") and then
 " map "<F13>" to a meta-key(e.g. "<M-k>"), I could just set the same key code
-" to "<M-k>" directly.
-"
-" Note that even though the tiny key code delay means that typing "<Esc>k"
-" could hardly be recognised as the key code of "<Esc>k" and only "<M-k>" can
-" ensure generating this key code, such a key sequence as "<Esc>k" in a macro
-" is still recognised as a key code, which is really disruptive to macros.
-"
-" Just like I can use "noremap" to avoid "<Esc>k" to be recognised as a key
-" code, I could use "normal! <C-R>q<CR>" as an alternative to "@q" to achieve
-" the same aim.
+" to "<M-k>" directly. But I'm not aware of the potential consequences of
+" manipulating meta-key's key codes.
 let s:key_idx = 0
 function! s:bind(c)
   let key_mapped = '<M-'.a:c.'>'

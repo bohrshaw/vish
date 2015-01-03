@@ -184,6 +184,9 @@ function! s:macro() range
 endfunction
 " Execute a macro on each line in a visual selection
 xnoremap <silent> @ :<C-u>execute ":'<,'>normal! @".nr2char(getchar())<CR>
+" Execute a macro without remapping.
+NXnoremap <expr> <silent> @! repeat(
+      \ ':<C-U>normal! <C-R><C-R>'.nr2char(getchar()).'<CR>', v:count1)
 " Yank till the line end instead of the whole line
 nnoremap Y y$
 " Yank to GUI/system clipboard
