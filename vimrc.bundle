@@ -427,6 +427,7 @@ if Bundles('Junegunn/seoul256.vim', 'W0ng/vim-hybrid',
       \ 'Reedes/vim-colors-pencil', 'Freeo/vim-kalisi',
       \
       \ 'Altercation/vim-colors-solarized', 'twerth/ir_black',
+      \ 'Romainl/apprentice',
       \ 'Nanotech/jellybeans.vim', 'Zeis/vim-kolor',
       \ 'jnurmine/zenburn', 'sjl/badwolf',
       \ 'goatslacker/mango.vim', 'Sk1418/last256',
