@@ -133,7 +133,7 @@ if has('lua') && Bundles('Shougo/neocomplete.vim', 'Bohrshaw/vimproc.vim')
   let g:neocomplete#data_directory = '~/.vim/tmp/neocomplete'
   " let g:neocomplete#release_cache_time = 1800 " seconds
   " Enable/disable neocomplete
-  nnoremap <expr> t<CR>c neocomplete#is_enabled() ?
+  nnoremap <expr> t<BS>c neocomplete#is_enabled() ?
         \ ':NeoCompleteDisable<CR>' : ':NeoCompleteEnable<CR>'
   " Start manual completion
   inoremap <silent> <expr> <C-X>c neocomplete#start_manual_complete()
@@ -230,13 +230,13 @@ call Bundles('tpope/vim-characterize')
 
 " Display your undo history in a graph
 if Bundles('-mbbill/undotree')
-  nnoremap t<CR>u :UndotreeToggle<CR>
+  nnoremap t<BS>u :UndotreeToggle<CR>
   let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
 endif
 
 " Vim plugin to visualize your Vim undo tree
 if Bundles('sjl/gundo.vim')
-  nnoremap t<CR>u :GundoToggle<CR>
+  nnoremap t<BS>u :GundoToggle<CR>
 endif
 
 " Enable repeating supported plugin maps with '.'
@@ -341,7 +341,7 @@ endif
 
 " A tree explorer plugin for vim
 if Bundle('scrooloose/nerdtree', {'m': [
-      \ 'nnoremap t<CR>d :NERDTreeToggle<CR>',
+      \ 'nnoremap t<BS>d :NERDTreeToggle<CR>',
       \ 'noremap <leader>dd :NERDTree<CR>',
       \ 'noremap <leader>df :NERDTreeFind<CR>']})
   let NERDTreeHijackNetrw=0 " don't replace netrw
@@ -489,7 +489,7 @@ if Bundles('yggdroot/indentline', '-nathanaelkane/vim-indent-guides')
   " let g:indentLine_fileType = ['rb']
   " let g:indentLine_faster = 1
   " let g:indentLine_char = '┊' " |│¦┆┊
-  nnoremap t<CR>i :IndentLinesToggle<CR>
+  nnoremap t<BS>i :IndentLinesToggle<CR>
 endif
 
 " A powerful color tool
@@ -525,7 +525,7 @@ if Bundles('majutsushi/tagbar')
         \ 'ctagsbin' : 'gotags',
         \ 'ctagsargs' : '-sort -silent'
         \ }
-  nnoremap t<CR>t :TagbarToggle<CR>
+  nnoremap t<BS>t :TagbarToggle<CR>
 endif
 
 " Documentation/reference viewer
@@ -716,7 +716,7 @@ if Bundles('jbnicolai/rainbow_parentheses.vim')
   autocmd bundle VimEnter * call rainbow_parentheses#load(0) |
         \ autocmd bundle Syntax clojure call rainbow_parentheses#load(0)
   autocmd bundle ColorScheme * call rainbow_parentheses#activate()
-  nnoremap t<CR>p :call rainbow_parentheses#toggle()<CR>
+  nnoremap t<BS>p :call rainbow_parentheses#toggle()<CR>
 endif
 
 " Others {{{2
