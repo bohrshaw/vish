@@ -13,10 +13,15 @@
 
 if has('vim_starting')
   set all& | silent! source ~/.vimrc.local " override system vimrc
-  let g:h = get(g:, 'h') || has('gui_running') && empty(argc())
-  let g:l = !g:h " lightweight, less plugins
-
   set nocompatible " make Vim behave in a more useful way
+
+  " Whether to include all enabled bundles, IDE
+  let g:h = get(g:, 'h') || has('gui_running') && empty(argc())
+  " Whether to include the least number of bundles, for shell command line editing
+  let g:l = get(g:, 'l') || argv(0) =~# '^\V'.
+        \ (empty($TMPPREFIX) ? '/tmp/zsh' : $TMPPREFIX).'ecl\|'.
+        \ $TMP.'/bash-fc'
+
   set rtp^=$HOME/.vim rtp+=$HOME/.vim/after " be portable
   if has('gui_running') || $termencoding ==? 'utf-8'
     set encoding=utf-8 " used inside Vim, allow mapping with the ALT key
@@ -273,6 +278,8 @@ autocmd vimrc FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
 " Quick escape
 inoremap <M-i> <Esc>
 " inoremap <M-o> <C-O>
+" Quick exit, useful when editing the shell command line
+inoremap <M-z> <Esc>ZZ
 
 " Expand a mixed case command name
 cnoremap <M-]> <C-\>e<SID>cmd_expand()<CR><Tab>
