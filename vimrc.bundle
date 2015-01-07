@@ -37,7 +37,7 @@ call Bundles('Tpope/vim-scriptease')
 " MotionSearch: {{{1
 
 " The missing motion for Vim
-if Bundles('Justinmk/vim-sneak')
+if Bundles('JUSTINMK/vim-sneak')
   " let g:sneak#streak = 1 " auto streak mode
   " let g:sneak#use_ic_scs = 1 " ignorecase and smartcase
   let sneak#textobject_z = 0 " redundant
@@ -100,7 +100,7 @@ if Bundles('wellle/targets.vim', 'kana/vim-textobj-indent',
       \ '-qstrahl/vim-dentures', 'tommcdo/vim-ninja-feet',
       \ 'machakann/vim-textobj-delimited', 'coderifous/textobj-word-column.vim')
 endif
-if g:l " delay activating this bundle to reduce startup time
+if !g:h " delay activating this bundle to reduce startup time
   set updatetime=10
   augroup bundle_targets
     autocmd CursorHold * call BundleActivate("targets.vim") |
@@ -115,7 +115,7 @@ endif
 call Bundles('-raimondi/delimitmate', '-cohama/lexima.vim', '-jiangmiao/auto-pairs')
 
 " Wisely add 'end' in ruby, endfunction/endif/more in vim script, etc
-call Bundles('tpope/vim-endwise')
+call Bundles('TPOPE/vim-endwise')
 
 " Completions
 if has('lua') && Bundles('Shougo/neocomplete.vim', 'Bohrshaw/vimproc.vim')
@@ -145,9 +145,9 @@ endif
 " call Bundles('ervandew/supertab')
 
 " Snippet solutions
-if (has('python') || has('python3')) && Bundle('sirver/ultisnips',
+if (has('python') || has('python3')) && Bundle('SIRVER/ultisnips',
       \ {'m':['i <C-J>'], 'c':'UltiSnipsEdit', 'f':'*.snippets'}) &&
-      \ Bundles('honza/vim-snippets')
+      \ Bundles('HONZA/vim-snippets')
   let g:UltiSnipsExpandTrigger='<C-J>'
   let g:UltiSnipsListSnippets='<C-Q>'
   let g:UltiSnipsJumpForwardTrigger="<C-J>"
@@ -181,7 +181,7 @@ if Bundles('Tpope/vim-commentary', '-Scrooloose/nerdcommenter', '-Tomtom/tcommen
 endif
 
 " Quoting/parenthesizing made simple
-call Bundles('Tpope/vim-surround')
+call Bundles('TPOPE/vim-surround')
 
 " Alignment
 if Bundles('-godlygeek/tabular', 'junegunn/vim-easy-align', '-tommcdo/vim-lion')
@@ -194,7 +194,7 @@ endif
 call Bundles('Tpope/vim-speeddating')
 
 " Exchange text flexibly with a text exchange operator
-if Bundles('Tommcdo/vim-exchange')
+if Bundles('TOMMCDO/vim-exchange')
   " nmap cx <Plug>(Exchange)
   vmap cx <Plug>(Exchange)
   " nmap cxc <Plug>(ExchangeClear)
@@ -208,14 +208,14 @@ if Bundles('Tommcdo/vim-exchange')
 endif
 
 " Exchange(swap) text directly/quickly with mappings
-if Bundles('Kurkale6ka/vim-swap')
+if Bundles('-Kurkale6ka/vim-swap')
   " let g:swap_custom_ops = []
   xmap c: <plug>SwapSwapOperands
   xmap c\| <plug>SwapSwapPivotOperands
 endif
 
 " Easily search for, substitute, and abbreviate multiple variants of a word
-call Bundles('Tpope/vim-abolish')
+call Bundles('TPOPE/vim-abolish')
 
 " True Sublime Text style multiple selections for Vim
 call Bundles('kristijanhusak/vim-multiple-cursors')
@@ -240,7 +240,7 @@ if Bundles('sjl/gundo.vim')
 endif
 
 " Enable repeating supported plugin maps with '.'
-call Bundles('Tpope/vim-repeat')
+call Bundles('TPOPE/vim-repeat')
 
 " A lightweight implementation of emacs's kill-ring for vim
 " call Bundles('maxbrunsfeld/vim-yankstack')
@@ -248,7 +248,7 @@ call Bundles('Tpope/vim-repeat')
 " Mapping: {{{1
 
 " Pairs of handy bracket mappings
-if Bundles('Tpope/vim-unimpaired')
+if Bundles('TPOPE/vim-unimpaired')
   nmap coP <Plug>unimpairedPaste
   " Mouse could also be enabld in Tmux
   nnoremap <silent> com :let &mouse = empty(&mouse) ? 'a' : ''<CR>
@@ -383,7 +383,7 @@ endif
 call Bundles('-vim-scripts/bufexplorer.zip', '-jeetsukumaran/vim-buffergator')
 
 " Distraction-free writing
-if Bundle('junegunn/goyo.vim', {'m': ['nnoremap <C-W>O :Goyo<CR>']})
+if Bundle('JUNEGUNN/goyo.vim', {'m': ['nnoremap <C-W>O :Goyo<CR>']})
   " let g:goyo_width = 100
   let g:goyo_margin_top = 2
   let g:goyo_margin_bottom = 2
@@ -423,14 +423,14 @@ endif
 " Appearance: {{{1
 
 " Color Schemes
-if Bundles('Junegunn/seoul256.vim', 'W0ng/vim-hybrid',
+if Bundles('JUNEGUNN/seoul256.vim', 'W0ng/vim-hybrid',
       \ 'Reedes/vim-colors-pencil', 'Freeo/vim-kalisi',
       \
       \ 'Altercation/vim-colors-solarized', 'twerth/ir_black',
-      \ 'Romainl/apprentice',
+      \ 'ROMAINL/apprentice',
       \ 'Nanotech/jellybeans.vim', 'Zeis/vim-kolor',
       \ 'jnurmine/zenburn', 'sjl/badwolf',
-      \ 'goatslacker/mango.vim', 'Sk1418/last256',
+      \ 'goatslacker/mango.vim', 'SK1418/last256',
       \ 'Rking/vim-detailed', 'Lokaltog/vim-distinguished',
       \ 'Tomasr/molokai', 'sickill/vim-monokai',
       \ 'tpope/vim-vividchalk', 'Vim-scripts/twilight') && Bundles(
@@ -623,10 +623,10 @@ endif
 " Ruby {{{2
 
 " Ruby runtime files (shipped with Vim and fairly updated.)
-call Bundles('vim-ruby/vim-ruby')
+call Bundles('VIM-RUBY/vim-ruby')
 
 " A custom text object for selecting ruby blocks
-call Bundle('nelstrom/vim-textobj-rubyblock',
+call Bundle('NELSTROM/vim-textobj-rubyblock',
       \ {'f':'ruby', 'd':['kana/vim-textobj-user']})
 
 " Provide more controls over the above
@@ -657,18 +657,18 @@ call Bundle('tpope/vim-rake', {'f':'ruby'})
 " Python {{{2
 
 " Vim python-mode. PyLint, Rope, Pydoc, breakpoints from box.
-if Bundles('klen/python-mode')
+if Bundles('Klen/python-mode')
   let g:pymode_run_bind = '<LocalLeader>r'
   let g:pymode_breakpoint_bind = '<LocalLeader>b'
   let g:pymode_rope = 0
   " Escape syntastic check for python
-  call add(g:syntastic_mode_map['passive_filetypes'], 'python')
+  call add(get(get(g:, 'syntastic_mode_map', {}), 'passive_filetypes', []), 'python')
   let g:pymode_python = 'python3'
   autocmd bundle VimEnter * set shellslash&
 endif
 
 " Bindings for the python auto-completion library 'jedi'
-if Bundles('davidhalter/jedi-vim')
+if Bundles('Davidhalter/jedi-vim')
   let g:jedi#auto_vim_configuration = 0
   autocmd bundle FileType python setlocal completeopt=menuone,longest,preview
   let g:jedi#goto_assignments_command = '<LocalLeader>d'
