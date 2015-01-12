@@ -510,6 +510,10 @@ if Bundles('scrooloose/syntastic')
   let g:syntastic_auto_jump = 2 " auto-jump to the first error
 endif
 
+" Format codes with external code formatters
+if Bundles('Chiel92/vim-autoformat')
+endif
+
 " Vim plugin that displays tags in a window, ordered by class etc
 if Bundles('majutsushi/tagbar')
   let g:tagbar_type_go = {
