@@ -447,7 +447,8 @@ if Bundles('JUNEGUNN/seoul256.vim', 'W0ng/vim-hybrid',
   autocmd bundle ColorScheme solarized runtime colors/solarized_additional.vim
 endif
 autocmd bundle VimEnter * nested execute 'color '.
-      \ (has('gui_running') ? 'seoul256' : 'last256')
+      \ (has('gui_running') ? 'seoul256' :
+      \ (has('win32') ? 'apprentice' : 'last256'))
 
 " Make gvim-only colorschemes work transparently in terminal vim
 " call Bundles('godlygeek/csapprox')
