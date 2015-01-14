@@ -41,11 +41,11 @@ if Bundles('JUSTINMK/vim-sneak')
   " let g:sneak#streak = 1 " auto streak mode
   " let g:sneak#use_ic_scs = 1 " ignorecase and smartcase
   let sneak#textobject_z = 0 " redundant
-  " fFtT could be slow or buggy in macros
-  NXOmap f<CR> <Plug>Sneak_f
-  NXOmap F<CR> <Plug>Sneak_F
-  NXOmap t<CR> <Plug>Sneak_t
-  NXOmap T<CR> <Plug>Sneak_T
+  " Mapped fFtT could be slow or buggy in macros, and they conflict with Chinese IME
+  " NXOmap f<CR> <Plug>Sneak_f
+  " NXOmap F<CR> <Plug>Sneak_F
+  " NXOmap t<CR> <Plug>Sneak_t
+  " NXOmap T<CR> <Plug>Sneak_T
   " Accept two characters
   NXOmap <M-f> <Plug>Sneak_s
   NXOmap <M-F> <Plug>Sneak_S
@@ -740,7 +740,7 @@ command! -range=% JSONFormatEncode <line1>,<line2>!python -m json.tool
 call Bundles('Tpope/vim-git')
 
 " A Vim plugin for Windows PowerShell support
-call Bundles('pprovost/vim-ps1')
+call Bundles('Pprovost/vim-ps1')
 
 " Syntax file for nginx
 call Bundles('vim-scripts/nginx.vim')
