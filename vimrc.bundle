@@ -50,8 +50,8 @@ if Bundles('JUSTINMK/vim-sneak')
   NXOmap <M-f> <Plug>Sneak_s
   NXOmap <M-F> <Plug>Sneak_S
   " Accept two characters, more precise but a little disturbing
-  NXOmap <M-t> <Plug>(SneakStreak)
-  NXOmap <M-T> <Plug>(SneakStreakBackward)
+  NXOmap L <Plug>(SneakStreak)
+  NXOmap H <Plug>(SneakStreakBackward)
   " Mimic the native search command / and ?, currently no regex
   " Function signature: sneak#wrap(op, inputlen, reverse, inclusive, streak)
   nnoremap <silent> g/ :<C-U>call sneak#wrap('', 99, 0, 2, 1)<CR>
