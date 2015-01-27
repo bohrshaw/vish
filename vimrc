@@ -272,6 +272,9 @@ autocmd vimrc FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
       \ nnoremap <buffer> <C-V> <C-W><CR><C-W>H|
       \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T
 
+" Toggle full screen
+NXnoremap <F11> :<C-U>call libcallnr($VIMRUNTIME.'\gvimfullscreen.dll', "ToggleFullScreen", 0)<CR>
+
 " ---------------------------------------------------------------------
 " Mappings!: {{{1
 
