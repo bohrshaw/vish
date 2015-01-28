@@ -239,15 +239,15 @@ function! s:v_search(dir)
   let @s = temp
 endfunction
 " Window management leader key
-NXmap <M-w> <C-W>
+NXmap gw <C-W>
 " Go to the below/right or above/left window
-NXnoremap <M-j> <C-W>w
-NXnoremap <M-k> <C-W>W
+NXnoremap <M-w> <C-W>w
+NXnoremap <M-o> <C-W>W
 " Split a window vertically with the alternate file
 NXnoremap <C-W><C-^> :vsplit #<CR>
 " Go to [count] tab pages forward or back
-NXnoremap <silent> <M-l> :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
-NXnoremap <M-h> gT
+NXnoremap <silent> <M-t> :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
+NXnoremap <M-y> gT
 " Switch to the alternative file more conveniently
 nnoremap Q <C-^>
 " Edit a file in the same directory of the current file
