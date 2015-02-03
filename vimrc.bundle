@@ -855,7 +855,12 @@ if !has('win32') && Bundles('Tpope/vim-tbone', 'wellle/tmux-complete.vim')
 endif
 
 " Implement transparent editing of gpg encrypted files
-" call Bundles('jamessan/vim-gnupg')
+if 1 || Bundles('jamessan/vim-gnupg') " a huge plugin file
+  let g:GPGDefaultRecipients = ['Bohr Shaw']
+  command! -bar GPGEnable call BundleActivate('vim-gnupg')
+  command! Diary execute (exists("g:loaded_gnupg") ? '' : 'GPGEnable|').
+        \ 'e '.get(g:, 'DIARY_PATH', '').strftime('%Y%m%d').'.gpg'
+endif
 
 " Translation
 if Bundles('Bohrshaw/vim-trance', 'Mattn/webapi-vim')
