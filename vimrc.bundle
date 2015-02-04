@@ -20,10 +20,10 @@ augroup END
 autocmd bundle BufReadPost {.,}vimrc.bundle call s:bundle_map()
 function! s:bundle_map()
   " Move between bundles
-  nnoremap <buffer> <silent> ]g :call search('Bundle\a*(.\zs\C')<CR>
-  nnoremap <buffer> <silent> [g :call search('Bundle\a*(.\zs\C', 'b')<CR>
+  nnoremap <buffer> <silent> ]] :call search('Bundle\a*(.\zs\C')<CR>
+  nnoremap <buffer> <silent> [[ :call search('Bundle\a*(.\zs\C', 'b')<CR>
   " Open a bundle's URL in the browser
-  nnoremap <buffer> <silent> gB "tya'
+  nnoremap <buffer> <silent> gX "tya'
         \:execute 'silent OpenBrowserSmartSearch https://github.com/'
         \.matchstr(@t, '\v''-?\zs[^'']*')<CR>
   " Activate the bundle under the cursor line
@@ -32,7 +32,11 @@ function! s:bundle_map()
 endfunction
 
 " A Vim plugin for Vim plugins
-call Bundles('Tpope/vim-scriptease')
+if Bundles('Tpope/vim-scriptease')
+  autocmd bundle FileType vim nnoremap <buffer> <Leader>R :Runtime<CR>
+else
+  autocmd bundle FileType vim nnoremap <buffer> <Leader>R :source %<CR>
+endif
 
 " MotionSearch: {{{1
 
@@ -548,8 +552,18 @@ call Bundles('Tpope/vim-dispatch')
 " Run commands quickly
 if Bundles('thinca/vim-quickrun')
   let g:quickrun_no_default_key_mappings = 1
-  map <Leader>r <Plug>(quickrun)
+  nmap <Leader>r <Plug>(quickrun-op)
+  nnoremap <silent> <Leader>rr :.QuickRun -mode n -outputter message<CR>
+  xnoremap <Leader>r :QuickRun -mode v -outputter message<CR>
+  nnoremap <Leader>R :%QuickRun -mode n -outputter message<CR>
+else
+  " Source the current line of Vim scripts
+  autocmd bundle FileType vim nnoremap <buffer><silent> <Leader>rr mt^"ty$:@t<CR>`t
 endif
+" Source a visual selection (continued lines joined)
+autocmd bundle FileType vim xnoremap <buffer><silent> <Leader>r
+      \ mt:<C-U>silent '<,'>y t<Bar>
+      \ let @t = substitute(@t, '\n\s*\\', '', 'g')<Bar>@t<CR>`t
 
 " Transition between multiline and single-line code
 if Bundles('andrewradev/splitjoin.vim')
@@ -907,7 +921,7 @@ endif
 
 " Run code on codepad.org
 if Bundles('mattn/codepad-vim', 'mattn/webapi-vim')
-  NXnoremap <Leader>R :CodePadRun<CR>
+  NXnoremap <Leader>rx :CodePadRun<CR>
 endif
 
 " Interact with the simplenote service

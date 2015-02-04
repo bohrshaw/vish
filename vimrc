@@ -179,6 +179,8 @@ command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
 NXnoremap <Space> :
 NXnoremap z<Space> q:
 NXnoremap z/ q/
+" set cedit=<C-G>
+cnoremap <M-z> <C-F>
 NXnoremap @<Space> @:
 
 " Manipulation
@@ -293,10 +295,6 @@ function! s:cmd_expand()
   let parts = insert(split(toupper(abbr), '\zs'), pre)
   return join(parts, '*')
 endfunction
-
-" Open the command-line window
-set cedit=<C-G>
-cnoremap <M-g> <C-G>
 
 " A smart and light <Tab> to do insert-completion
 inoremap <expr> <Tab> getline('.')[col('.')-2] !~ '^\s\?$' \|\| pumvisible()
@@ -446,7 +444,7 @@ command! -range=% Uniqn <line1>,<line2>g/^./
       \ if search('^\V'.escape(getline('.'),'\').'\$', 'bW') |
       \ delete | endif <NL> silent! normal! ``
 
-" Source a range of lines
+" like :source, but support a range
 command! -bar -range Source <line1>,<line2>yank z<Bar>
       \ let @t = substitute(@t, '\n\s*\\', '', 'g')<Bar>@t<CR>
 
