@@ -255,11 +255,11 @@ NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/<Tab>
 NXnoremap <leader>es :sp <C-R>=expand('%:h')<CR>/<Tab>
 NXnoremap <leader>ev :vs <C-R>=expand('%:h')<CR>/<Tab>
 NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/<Tab>
-" Easy access to vimrc files
-cabbrev .v ~/.vim/vimrc
-autocmd vimrc BufWinLeave {.,}vimrc mark V
-cabbrev .b ~/.vim/vimrc.bundle
-autocmd vimrc BufWinLeave {.,}vimrc.bundle mark B
+" Pseudo global marks for jumping to the last position in a file
+NXnoremap <silent> 'V :let _f = expand('~/.vim/vimrc')\|
+      \ execute (buflisted(_f)?'b ':'e ') . _f<CR>
+NXnoremap <silent> 'B :let _f = expand('~/.vim/vimrc.bundle')\|
+      \ execute (buflisted(_f)?'b ':'e ') . _f<CR>
 
 " Localized
 " Mappings for the cmdline window
