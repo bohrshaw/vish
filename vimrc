@@ -225,6 +225,8 @@ nnoremap dO :diffoff \| windo if &diff \| hide \| endif<CR>
 xnoremap cR c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
 
 " Navigation
+" mark position before search
+NXnoremap / ms/
 " Jump to the middle of the current written line as opposed to the window width
 nnoremap <silent> gm :call cursor(0, virtcol('$')/2)<CR>|nnoremap gM gm
 " Go to the last-accessed or second-newest position in the change list
@@ -241,15 +243,14 @@ function! s:v_search(dir)
   let @s = temp
 endfunction
 " Window management leader key
-NXmap gw <C-W>
+NXmap <M-w> <C-W>
 " Go to the below/right or above/left window
-NXnoremap <M-w> <C-W>w
+NXnoremap <M-i> <C-W>w
 NXnoremap <M-o> <C-W>W
 " Split a window vertically with the alternate file
 NXnoremap <C-W><C-^> :vsplit #<CR>
 " Go to [count] tab pages forward or back
 NXnoremap <silent> <M-t> :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
-NXnoremap <M-y> gT
 " Switch to the alternative file more conveniently
 nnoremap Q <C-^>
 " Edit a file in the same directory of the current file
@@ -305,7 +306,7 @@ inoremap <expr> <Tab> getline('.')[col('.')-2] !~ '^\s\?$' \|\| pumvisible()
 inoremap <expr> <S-Tab> pumvisible() \|\| getline('.')[col('.')-2] !~ '^\s\?$'
       \ ? '<C-P>' : '<Tab>'
 " Remove auto-definded mappings
-autocmd vimrc CmdwinEnter * iunmap <buffer> <Tab>|nunmap <buffer> <Tab>
+autocmd vimrc CmdwinEnter * silent! iunmap <buffer> <Tab>
 
 " Shortcuts of insert-completion in CTRL-X mode
 imap <M-x> <C-X>
@@ -458,13 +459,13 @@ command! -nargs=1 -complete=command Ldo call vimrc#errdo(<q-args>)
 " Delete the current buffer without closing its window
 command! -bang Bdelete :b# |silent! bd<bang>#
 " Delete all buffers in the buffer list
-command! BdAll execute '1,'.bufnr('$').'bdelete'
+command! BufDeleteAll execute '1,'.bufnr('$').'bdelete'
 " Delete all buffers in the buffer list except the current one
 command! BufOnly let nc = bufnr('%') |let nl = bufnr('$') |
       \ silent! execute nc > 1 ? '1,'.(nc-1).'bdelete |' : ''
       \ nl > nc ? (nc+1).','.nl.'bdelete' : ''
 " Wipe out all unlisted buffers
-command! BwUnlisted call vimrc#bufffer_wipe_unlisted()
+command! BwipeoutUnlisted call vimrc#bufffer_wipe_unlisted()
 
 " Create a path
 command! -nargs=? -complete=dir Mkdir call vimrc#mkdir(<q-args>)
