@@ -954,8 +954,4 @@ call Bundle('gregsexton/vimcalc', {'c': 'Calc'})
 " call Bundles('aaronbieber/quicktask', 'davidoc/taskpaper.vim',
 "       \ 'davidoc/todo.txt-vim')
 
-" BundleManagement: {{{1
-
-execute 'augroup END'
-
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s:

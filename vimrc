@@ -548,9 +548,6 @@ if has('vim_starting')
   " Must be after setting 'rtp'
   filetype plugin indent on
   syntax enable
-
-  " augroup is reset in 'syntax enable'
-  execute 'augroup vimrc'
 endif
 
 " ---------------------------------------------------------------------
@@ -650,8 +647,4 @@ endif
 " endif
 
 " ---------------------------------------------------------------------
-" Footer: {{{1
-
-execute 'augroup END'
-
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s:
