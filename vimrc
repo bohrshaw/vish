@@ -198,8 +198,8 @@ NXnoremap <expr> <silent> @! repeat(
       \ ':<C-U>normal! <C-R><C-R>'.nr2char(getchar()).'<CR>', v:count1)
 " Yank till the line end instead of the whole line
 nnoremap Y y$
-" Yank to GUI/system clipboard
-NXnoremap gy "+y
+" quick access to GUI/system clipboard
+NXnoremap "" "+
 " Make 'cw' consistent with 'dw', but 'cw' behaving like 'ce' could be more
 " convenient as it's quicker to type and 'ce' is used more often.
 " onoremap <silent> w :execute 'normal! '.v:count1.'w'<CR>
