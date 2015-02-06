@@ -1,6 +1,23 @@
 " Description: Assistant scripts for vimrc
 " Author: Bohr Shaw <pubohr@gmail.com>
 
+" Execute lines of viml, or echo the value of a viml expression
+function! vimrc#run(type)
+  " When g@ calling, a:type is 'line', 'char' or 'block'.
+  " In visual mode, a:type is visualmode().
+  if a:type =~# 'line\|V'
+    execute (a:type == 'V' ? "'<,'>" : "'[,']").'yank t'
+    " join breaked lines before executing
+    execute substitute(@t, '\n\s*\\', '', 'g')
+  else " a:type =~ 'char\|v'
+    " note `> or `] is exclusive
+    execute 'normal! '.(a:type == 'v' ? '`<"tyv`>' : '`["tyv`]')
+    echo @t
+  endif
+  " the mark 't' should be set before calling this function
+  normal! `t
+endfunction
+
 " Create a path conveniently
 function! vimrc#mkdir(...) " {{{1
   let dir = fnamemodify(expand(a:0 || empty(a:1) ? '%:h' : a:1), ':p')

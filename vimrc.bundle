@@ -32,11 +32,7 @@ function! s:bundle_map()
 endfunction
 
 " A Vim plugin for Vim plugins
-if Bundles('Tpope/vim-scriptease')
-  autocmd bundle FileType vim nnoremap <buffer> <Leader>R :Runtime<CR>
-else
-  autocmd bundle FileType vim nnoremap <buffer> <Leader>R :source %<CR>
-endif
+call Bundles('Tpope/vim-scriptease')
 
 " MotionSearch: {{{1
 
@@ -549,22 +545,15 @@ endif
 " Dispatch.vim: asynchronous build and test dispatcher
 call Bundles('Tpope/vim-dispatch')
 
-" Run commands quickly
+" Execute whole/part of editing file
 if Bundles('thinca/vim-quickrun')
   let g:quickrun_config = {'_': {'outputter': 'message'}}
   let g:quickrun_no_default_key_mappings = 1
-  nmap <Leader>r <Plug>(quickrun-op)
-  nnoremap <silent> <Leader>rr :.QuickRun -mode n<CR>
-  xnoremap <Leader>r :QuickRun -mode v<CR>
-  nnoremap <Leader>R :%QuickRun -mode n<CR>
-else
-  " Source the current line of Vim scripts
-  autocmd bundle FileType vim nnoremap <buffer><silent> <Leader>rr mt^"ty$:@t<CR>`t
+  nmap R <Plug>(quickrun-op)
+  nnoremap <silent> Rr :.QuickRun -mode n<CR>
+  nnoremap RR :%QuickRun -mode n<CR>
+  xnoremap R :QuickRun -mode v<CR>
 endif
-" Source a visual selection (continued lines joined)
-autocmd bundle FileType vim xnoremap <buffer><silent> <Leader>r
-      \ mt:<C-U>silent '<,'>y t<Bar>
-      \ let @t = substitute(@t, '\n\s*\\', '', 'g')<Bar>@t<CR>`t
 
 " Transition between multiline and single-line code
 if Bundles('andrewradev/splitjoin.vim')
@@ -922,8 +911,7 @@ endif
 
 " Run code on codepad.org
 if Bundles('mattn/codepad-vim', 'mattn/webapi-vim')
-  nnoremap <Leader>rx :CodePadRun<CR>
-  xnoremap <Leader>R :CodePadRun<CR>
+  NXnoremap <Leader>R :CodePadRun<CR>
 endif
 
 " Interact with the simplenote service
