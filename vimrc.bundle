@@ -567,13 +567,13 @@ autocmd bundle FileType vim xnoremap <buffer><silent> <Leader>r
 
 " Transition between multiline and single-line code
 if Bundles('andrewradev/splitjoin.vim')
-  " let g:splitjoin_split_mapping = 'gS'
-  " let g:splitjoin_join_mapping  = 'gJ'
+  let g:splitjoin_split_mapping = 'gS'
+  let g:splitjoin_join_mapping  = 'gJ'
 endif
 
 " Switch segments of text with predefined replacements
 if Bundles('andrewradev/switch.vim')
-  nnoremap cS :Switch<CR>
+  let g:switch_mapping = 'gs'
   " let g:switch_custom_definitions = []
 endif
 
