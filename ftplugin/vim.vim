@@ -9,8 +9,9 @@ endif
 
 " Execute lines, or echo the value of an expression
 nnoremap <buffer><silent> R mz:set operatorfunc=vimrc#run<CR>g@
-nmap <buffer> Rr RVl
-nnoremap <buffer><expr> RR ':'.(g:loaded_scriptease?'Runtime':'source %').'<CR>'
+" use :normal to support mapping count
+nmap <buffer><silent> RR :normal RVl<CR>
+nnoremap <buffer><expr> R% ':'.(g:loaded_scriptease?'Runtime':'source %').'<CR>'
 xnoremap <buffer><silent> R mz:<C-U>call vimrc#run(visualmode())<CR>
 
 " Enable omni completion for vim scripts

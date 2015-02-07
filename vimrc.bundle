@@ -550,9 +550,11 @@ if Bundles('thinca/vim-quickrun')
   let g:quickrun_config = {'_': {'outputter': 'message'}}
   let g:quickrun_no_default_key_mappings = 1
   nmap R <Plug>(quickrun-op)
-  nnoremap <silent> Rr :.QuickRun -mode n<CR>
-  nnoremap RR :%QuickRun -mode n<CR>
+  nnoremap <silent> RR :Run -mode n<CR>
+  nnoremap R% :%QuickRun -mode n<CR>
   xnoremap R :QuickRun -mode v<CR>
+  command! -nargs=* -range -complete=customlist,quickrun#complete Run
+        \ call quickrun#command(<q-args>, <count>, <line1>, <line2>)
 endif
 
 " Transition between multiline and single-line code
