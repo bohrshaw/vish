@@ -15,7 +15,7 @@ function! vimrc#run(type)
     echo @t
   endif
   " the mark 't' should be set before calling this function
-  normal! `t
+  normal! g`t
 endfunction
 
 " Create a path conveniently
