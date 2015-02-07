@@ -23,9 +23,9 @@ function! s:bundle_map()
   nnoremap <buffer> <silent> ]g :call search('Bundle\a*(.\zs\C')<CR>
   nnoremap <buffer> <silent> [g :call search('Bundle\a*(.\zs\C', 'b')<CR>
   " Open a bundle's URL in the browser
-  nnoremap <buffer> <silent> gX "tya'
+  nnoremap <buffer> <silent> gX "zya'
         \:execute 'silent OpenBrowserSmartSearch https://github.com/'
-        \.matchstr(@t, '\v''-?\zs[^'']*')<CR>
+        \.matchstr(@z, '\v''-?\zs[^'']*')<CR>
   " Activate the bundle under the cursor line
   nnoremap <buffer> <expr> <LocalLeader>b BundleActivate(
         \ matchstr(getline('.'), 'Bundle.\{-}/\zs.\{-}\ze[''"]'))
@@ -367,7 +367,7 @@ if Bundles('-mattesGroeger/vim-bookmarks')
   let g:bookmark_auto_save_file = $HOME.'/.vim/tmp/bookmark'
   " let g:bookmark_highlight_lines = 1
   " let g:bookmark_center = 1
-  nmap mt <Plug>ToggleBookmark
+  nmap <Leader>tm <Plug>ToggleBookmark
   nmap ma <Plug>Annotate
   nmap ]m <Plug>NextBookmark
   nmap [m <Plug>PrevBookmark

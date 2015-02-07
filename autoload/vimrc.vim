@@ -6,16 +6,16 @@ function! vimrc#run(type)
   " When g@ calling, a:type is 'line', 'char' or 'block'.
   " In visual mode, a:type is visualmode().
   if a:type =~# 'line\|V'
-    execute (a:type == 'V' ? "'<,'>" : "'[,']").'yank t'
+    execute (a:type == 'V' ? "'<,'>" : "'[,']").'yank z'
     " join breaked lines before executing
-    execute substitute(@t, '\n\s*\\', '', 'g')
+    execute substitute(@z, '\n\s*\\', '', 'g')
   else " a:type =~ 'char\|v'
     " note `> or `] is exclusive
-    execute 'normal! '.(a:type == 'v' ? '`<"tyv`>' : '`["tyv`]')
-    echo @t
+    execute 'normal! '.(a:type == 'v' ? '`<"zyv`>' : '`["zyv`]')
+    echo @z
   endif
   " the mark 't' should be set before calling this function
-  normal! g`t
+  normal! g`z
 endfunction
 
 " Create a path conveniently

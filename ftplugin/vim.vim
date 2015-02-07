@@ -8,10 +8,10 @@ if exists("b:did_ftplugin")
 endif
 
 " Execute lines, or echo the value of an expression
-nnoremap <buffer><silent> R mt:set operatorfunc=vimrc#run<CR>g@
+nnoremap <buffer><silent> R mz:set operatorfunc=vimrc#run<CR>g@
 nmap <buffer> Rr RVl
 nnoremap <buffer><expr> RR ':'.(g:loaded_scriptease?'Runtime':'source %').'<CR>'
-xnoremap <buffer><silent> R mt:<C-U>call vimrc#run(visualmode())<CR>
+xnoremap <buffer><silent> R mz:<C-U>call vimrc#run(visualmode())<CR>
 
 " Enable omni completion for vim scripts
 set omnifunc=syntaxcomplete#Complete
