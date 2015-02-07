@@ -12,7 +12,11 @@ function! vimrc#run(type)
   else " a:type =~ 'char\|v'
     " note `> or `] is exclusive
     execute 'normal! '.(a:type == 'v' ? '`<"zyv`>' : '`["zyv`]')
-    echo @z
+    try
+      echo eval(@z)
+    catch
+      echohl Error | echo "Invalid expression" | echohl None
+    endtry
   endif
   " the mark 't' should be set before calling this function
   normal! g`z
