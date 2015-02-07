@@ -182,6 +182,7 @@ NXnoremap z/ q/
 " set cedit=<C-G>
 cnoremap <M-z> <C-F>
 NXnoremap @<Space> @:
+NXnoremap @: :verbose @:<CR>
 
 " Manipulation
 " Repeat last change on each line in a visual selection
