@@ -396,14 +396,15 @@ if Bundles('roman/golden-ratio')
   noremap <C-W>G :GoldenRatioResize<CR>
 endif
 
-" A start screen for Vim
-if Bundles('mhinz/vim-startify')
+" Session management
+if Bundles('Bohrshaw/vim-mansion', '-tpope/vim-obsession')
+  let g:sessiondir = '~/.vim/tmp/session'
+  " let g:mansion_no_auto_save = 1
+  " let g:mansion_no_maps = 1
+elseif Bundles('mhinz/vim-startify')
   let g:startify_session_dir = '~/.vim/tmp/session'
   let g:startify_list_order = ['sessions', 'bookmarks', 'files']
   let g:startify_skiplist = ['[Vv]im.*[\/]doc[\/][^\/]\+\.txt']
-  autocmd bundle FileType startify setlocal nospell
-  " Prevent CtrlP open a split
-  autocmd bundle FileType startify setlocal buftype=
   let g:startify_custom_header = [
         \ '   _   /|',
         \ "   \\'o.O'",
@@ -411,13 +412,8 @@ if Bundles('mhinz/vim-startify')
         \ '      U    ʕϴϖϴʔ',
         \ ''
         \ ]
-endif
-
-" Vim session manager
-if Bundles('bohrshaw/vim-mansion')
-  let g:sessiondir = '~/.vim/tmp/session'
-  " let g:mansion_no_auto_save = 1
-  " let g:mansion_no_maps = 1
+  " Prevent CtrlP open a split
+  autocmd bundle FileType startify setlocal nospell buftype=
 endif
 
 " Appearance: {{{1
