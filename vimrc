@@ -232,7 +232,8 @@ nnoremap <silent> gm :call cursor(0, virtcol('$')/2)<CR>|nnoremap gM gm
 " Go to the last-accessed or second-newest position in the change list
 nnoremap g. g,g;
 " Navigate the jumper list more quickly
-nnoremap <S-Tab> <C-O>
+nnoremap <M-i> <C-I>
+nnoremap <M-o> <C-O>
 " Search the literal text of a visual selection
 xnoremap * :<C-u>call <SID>v_search('/')<CR>/<C-R>=@/<CR><CR>
 xnoremap # :<C-u>call <SID>v_search('?')<CR>?<C-R>=@/<CR><CR>
@@ -287,7 +288,7 @@ NXnoremap <F11> :<C-U>call libcallnr($VIMRUNTIME.'\gvimfullscreen.dll', "ToggleF
 
 " Quick escape
 inoremap <M-i> <Esc>
-" inoremap <M-o> <C-O>
+inoremap <M-o> <C-O>
 " Quick exit, useful when editing the shell command line
 inoremap <M-z> <Esc>ZZ
 
