@@ -1,3 +1,5 @@
+" Link to this file: https://gist.github.com/igrigorik/759425/raw/vimgolf.vimrc
+
 " http://vimdoc.sourceforge.net/htmldoc/starting.html#vimrc
 
 set nocompatible        " use vim defaults
