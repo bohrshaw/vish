@@ -27,8 +27,8 @@ function! s:bundle_map()
         \:execute 'silent OpenBrowserSmartSearch https://github.com/'
         \.matchstr(@z, '\v''-?\zs[^'']*')<CR>
   " Activate the bundle under the cursor line
-  nnoremap <buffer> <expr> <LocalLeader>b BundleActivate(
-        \ matchstr(getline('.'), 'Bundle.\{-}/\zs.\{-}\ze[''"]'))
+  nnoremap <buffer><silent> <LocalLeader>b mz"zyi'
+        \:call BundleActivate(split(@z, '/')[1])<CR>g`z
 endfunction
 
 " A Vim plugin for Vim plugins
