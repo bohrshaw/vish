@@ -6,19 +6,19 @@ function! vimrc#run(type)
   " When g@ calling, a:type is 'line', 'char' or 'block'.
   " In visual mode, a:type is visualmode().
   if a:type =~# 'line\|V'
-    execute (a:type == 'V' ? "'<,'>" : "'[,']").'yank z'
+    execute 'silent '.(a:type == 'V' ? "'<,'>" : "'[,']").'yank z'
     " join breaked lines before executing
     execute substitute(@z, '\n\s*\\', '', 'g')
-  else " a:type =~ 'char\|v'
+  else " a:type =~# 'char\|v'
     " note `> or `] is exclusive
-    execute 'normal! '.(a:type == 'v' ? '`<"zyv`>' : '`["zyv`]')
+    execute 'silent normal! '.(a:type == 'v' ? '`<"zyv`>' : '`["zyv`]')
     try
       echo eval(@z)
     catch
       echohl Error | echo "Invalid expression" | echohl None
     endtry
   endif
-  " the mark 't' should be set before calling this function
+  " the mark 'z' should be set before calling this function
   normal! g`z
 endfunction
 
