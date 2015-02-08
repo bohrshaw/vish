@@ -861,7 +861,8 @@ if 1 || Bundles('jamessan/vim-gnupg') " a huge plugin file
   let g:GPGDefaultRecipients = ['Bohr Shaw']
   command! -bar GPGEnable call BundleActivate('vim-gnupg')
   command! Diary execute (exists("g:loaded_gnupg") ? '' : 'GPGEnable|').
-        \ 'e '.get(g:, 'DIARY_PATH', '').strftime('%Y%m%d').'.gpg'
+        \ 'e '.get(g:, 'DIARY_PATH', '').strftime('%Y%m%d').'.gpg|'.
+        \ 'setlocal nolinebreak|wincmd c|Goyo'
 endif
 
 " Translation
