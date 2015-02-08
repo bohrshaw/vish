@@ -8,7 +8,8 @@ function! vimrc#run(type)
   if a:type =~# 'line\|V'
     execute 'silent '.(a:type == 'V' ? "'<,'>" : "'[,']").'yank z'
     " join breaked lines before executing
-    execute substitute(@z, '\n\s*\\', '', 'g')
+    let @z = substitute(@z, '\n\s*\\', '', 'g')
+    @z
   else " a:type =~# 'char\|v'
     " note `> or `] is exclusive
     execute 'silent normal! '.(a:type == 'v' ? '`<"zyv`>' : '`["zyv`]')
