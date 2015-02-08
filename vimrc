@@ -208,6 +208,7 @@ NXnoremap "" "+
 " onoremap <silent> w :execute 'normal! '.v:count1.'w'<CR>
 " Mark a single line in character-wise visual mode
 nnoremap vv ^vg_
+nnoremap vV vg_
 " Substitute in an visual area
 xnoremap cs :s/\%V
 " Keep the flags when repeating last substitution
