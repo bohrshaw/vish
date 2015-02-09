@@ -919,7 +919,7 @@ endif
 " Interact with the simplenote service
 " call Bundles('mrtazz/simplenote.vim')
 
-" Browse Hacker News inside Vim
+" Browse Hacker News inside Vim, :pip install hackernews-python
 if Dundles('ryanss/vim-hackernews')
   command! HackerNews call BundleActivate('vim-hackernews') |HackerNews
 endif
