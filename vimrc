@@ -3,7 +3,7 @@
 
 " TIPS:
 " Less is more!
-" Analyse startup performance by `vim --startuptime profile`
+" Analyse startup performance with profile.sh
 
 " Options: {{{1
 
