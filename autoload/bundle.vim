@@ -81,6 +81,13 @@ function! Bundles(...)
   return get(l:, 'if_config') ? 1 : 0
 endfunction
 
+function! Dundles(...)
+  for b in a:000
+    call s:uniqadd(g:dundles, b)
+  endfor
+  return 1
+endfunction
+
 function! s:bundle_enabled(b)
   if a:b[0] == '-'
     return

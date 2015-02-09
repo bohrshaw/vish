@@ -220,6 +220,9 @@ call Bundles('TPOPE/vim-abolish')
 " True Sublime Text style multiple selections for Vim
 call Bundles('kristijanhusak/vim-multiple-cursors')
 
+" Preview contents of the registers when ", @, i_CTRL-R
+" call Dundles('junegunn/vim-peekaboo')
+
 " Characterize.vim: Unicode character metadata
 call Bundles('tpope/vim-characterize')
 
@@ -857,7 +860,7 @@ if !has('win32') && Bundles('Tpope/vim-tbone', 'wellle/tmux-complete.vim')
 endif
 
 " Implement transparent editing of gpg encrypted files
-if 1 || Bundles('jamessan/vim-gnupg') " a huge plugin file
+if Dundles('jamessan/vim-gnupg') " a huge plugin file
   let g:GPGDefaultRecipients = ['Bohr Shaw']
   command! -bar GPGEnable call BundleActivate('vim-gnupg')
   command! Diary execute (exists("g:loaded_gnupg") ? '' : 'GPGEnable|').
@@ -915,6 +918,11 @@ endif
 
 " Interact with the simplenote service
 " call Bundles('mrtazz/simplenote.vim')
+
+" Browse Hacker News inside Vim
+if Dundles('ryanss/vim-hackernews')
+  command! HackerNews call BundleActivate('vim-hackernews') |HackerNews
+endif
 
 " AlternativeUsages: {{{1
 
