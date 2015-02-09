@@ -256,8 +256,8 @@ if Bundles('TPOPE/vim-unimpaired')
   " Mouse could also be enabld in Tmux
   nnoremap <silent> com :let &mouse = empty(&mouse) ? 'a' : ''<CR>
 endif
-nnoremap <silent> ]O :call search('to-\?do:\c', 'sW')<CR>
-nnoremap <silent> [O :call search('to-\?do:\c', 'sWb')<CR>
+nnoremap <silent> ]d :call search('\cto-\?do:', 's')<CR>
+nnoremap <silent> [d :call search('\cto-\?do:', 'sb')<CR>
 
 " Create your own submodes (e.g, g--- instead of g-g-g-)
 " call BundleNow('kana/vim-submode')
