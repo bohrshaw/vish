@@ -20,8 +20,8 @@ augroup END
 autocmd bundle BufReadPost {.,}vimrc.bundle call s:bundle_map()
 function! s:bundle_map()
   " Move between bundles
-  nnoremap <buffer> <silent> ]g :call search('Bundle\a*(.\zs\C')<CR>
-  nnoremap <buffer> <silent> [g :call search('Bundle\a*(.\zs\C', 'b')<CR>
+  nnoremap <buffer> <silent> ]g :call search('[BD]undle\a*(.\zs\C')<CR>
+  nnoremap <buffer> <silent> [g :call search('[BD]undle\a*(.\zs\C', 'b')<CR>
   " Open a bundle's URL in the browser
   nnoremap <buffer> <silent> gX "zya'
         \:execute 'silent OpenBrowserSmartSearch https://github.com/'
