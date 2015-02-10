@@ -9,3 +9,5 @@ nnoremap <silent> <buffer> ]* :call ftplugin#help_goto('\*\S\+\*')<CR>
 nnoremap <silent> <buffer> [* :call ftplugin#help_goto('\*\S\+\*', 'b')<CR>
 nnoremap <silent> <nowait> <buffer> ]o :call ftplugin#help_goto('''\l\{2,}''')<CR>
 nnoremap <silent> <nowait> <buffer> [o :call ftplugin#help_goto('''\l\{2,}''', 'b')<CR>
+" Mappings for executing codes
+call ftplugin#vim_map()

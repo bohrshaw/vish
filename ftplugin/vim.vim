@@ -7,12 +7,8 @@ if exists("b:did_ftplugin")
   " this variable will be set later when sourcing $VIMRUNTIME/ftplugin/vim.vim
 endif
 
-" Execute lines, or echo the value of an expression
-nnoremap <buffer><silent> R mz:set operatorfunc=vimrc#run<CR>g@
-" use :normal to support mapping count
-nmap <buffer><silent> RR :normal RVl<CR>
-nnoremap <buffer><expr> R% ':'.(g:loaded_scriptease?'Runtime':'source %').'<CR>'
-xnoremap <buffer><silent> R mz:<C-U>call vimrc#run(visualmode())<CR>
+" Mappings for executing codes
+call ftplugin#vim_map()
 
 " Enable omni completion for vim scripts
 set omnifunc=syntaxcomplete#Complete
