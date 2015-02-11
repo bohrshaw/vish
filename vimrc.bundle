@@ -37,22 +37,50 @@ call Bundles('Tpope/vim-scriptease')
 " MotionSearch: {{{1
 
 " The missing motion for Vim
-if Bundles('JUSTINMK/vim-sneak')
-  " let g:sneak#streak = 1 " auto streak mode
+if Bundles('-JUSTINMK/vim-sneak', 'BOHRSHAW/vim-sneak')
+  " let g:sneak#streak = 1 " enable streak mode
+  let g:sneak#streak_esc = "\<CR>" " key to exit streak-mode
   " let g:sneak#use_ic_scs = 1 " ignorecase and smartcase
-  let sneak#textobject_z = 0 " redundant
+  let sneak#textobject_z = 0 " prevent the default {operator}z mapping
+  " Disable default mappings
+  NXOmap <Plug>_Sneak_s <Plug>Sneak_s
+  NXOmap <Plug>_Sneak_S <Plug>Sneak_S
+  " TODO: more precise fFtT motions
   " Mapped fFtT could be slow or buggy in macros, and they conflict with Chinese IME
   " NXOmap f<CR> <Plug>Sneak_f
   " NXOmap F<CR> <Plug>Sneak_F
   " NXOmap t<CR> <Plug>Sneak_t
   " NXOmap T<CR> <Plug>Sneak_T
-  " Accept two characters
-  NXOmap <M-f> <Plug>Sneak_s
-  NXOmap <M-F> <Plug>Sneak_S
-  " Accept two characters, more precise but a little disturbing
-  NXOmap L <Plug>(SneakStreak)
-  NXOmap H <Plug>(SneakStreakBackward)
-  " Mimic the native search command / and ?, currently no regex
+  " Arbitrary precise motion
+  nnoremap <silent> L :call Sneak('', 0, 'n')<CR>
+  xnoremap <silent> L :call Sneak('', 0, 'v')<CR>
+  onoremap <silent> L :call Sneak('', 0, 'o')<CR>
+  nnoremap <silent> H :call Sneak('', 1, 'n')<CR>
+  xnoremap <silent> H :call Sneak('', 1, 'v')<CR>
+  onoremap <silent> H :call Sneak('', 1, 'o')<CR>
+  function! Sneak(pattern, reverse, mode)
+    let c = v#getchar()
+    if empty(c) |return |endif
+    if a:mode =~# "^[vV\<C-v>]" |execute 'normal! gv' |endif
+    if empty(a:pattern)
+      if c =~# '\v^(\d|\a)$' " excluding positions surrounded with similar characters
+        let p = c =~# '\d' ? '\d' : (c =~# '\l' ? '\l' : '\u')
+        let pattern = '\v'.p.'@<!'.c.'|'.c.p.'@!'
+      elseif c == "\<CR>" " last non-blank character of the line
+        let pattern = '\S\s*\_$'
+      elseif c == "\<BS>" " first non-blank character of the line
+        let pattern = '\_^\s*\zs'
+      else " literal
+        let c = escape(c, '\')
+        let pattern = '\V'.c.'\@<!'.c.'\|'.c.c.'\@!'
+      endif
+    else
+      let pattern = substitute(a:pattern, '\CIN', c, 'g')
+    endif
+    " op, input, inputlen, count, repeatmotion, reverse, inclusive, streak
+    call sneak#to('', '\m'.pattern, 1, 1, 0, a:reverse, 2, 2)
+  endfunction
+  " Mimic the native search command / and ?, but literal
   " Function signature: sneak#wrap(op, inputlen, reverse, inclusive, streak)
   nnoremap <silent> g/ :<C-U>call sneak#wrap('', 99, 0, 2, 1)<CR>
   nnoremap <silent> g? :<C-U>call sneak#wrap('', 99, 1, 2, 1)<CR>
