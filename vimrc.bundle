@@ -271,7 +271,7 @@ nnoremap <silent> [d :call search('\cto-\?do:', 'sb')<CR>
 " FileBufferPaneWindowTabSession: {{{1
 
 " Fuzzy file, buffer, mru, tag, etc finder
-if Bundles('Kien/ctrlp.vim')
+if Bundles('Ctrlpvim/ctrlp.vim')
   let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/ctrlp'
   " Set the mode to determine the root searching directory.
   " let g:ctrlp_working_path_mode = 'ra'
@@ -297,7 +297,8 @@ if Bundles('Kien/ctrlp.vim')
         \ executable('ag') ? 'ag %s -l --nocolor -g ""' : ''
         \ }
   " Bring up this finder in find file mode
-  nnoremap <silent> <M-p> :<C-U>CtrlP<CR>
+  let g:ctrlp_map = '<M-p>'
+  " let g:ctrlp_cmd = 'CtrlP'
   " Most recent used files
   nnoremap <Leader>fr :CtrlPMRU<CR>
   " Files with similar names
