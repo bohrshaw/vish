@@ -430,7 +430,7 @@ endif
 
 " Session management
 if Bundles('Bohrshaw/vim-mansion', '-tpope/vim-obsession')
-  let g:sessiondir = '~/.vim/tmp/session'
+  " let g:sessiondir = '~/.vim/session'
   " let g:mansion_no_auto_save = 1
   " let g:mansion_no_maps = 1
 elseif Bundles('mhinz/vim-startify')
