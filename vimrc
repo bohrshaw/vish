@@ -300,11 +300,9 @@ inoremap <M-z> <Esc>ZZ
 " Expand a mixed case command name
 cnoremap <M-]> <C-\>e<SID>cmd_expand()<CR><Tab>
 function! s:cmd_expand()
-  let cmd = getcmdline()
-  let [pre, abbr] = cmd =~ ' ' ? split(cmd) :
-        \ cmd =~ '\A' ? split(cmd, '\A\+\zs') : ['', cmd]
-  let parts = insert(split(toupper(abbr), '\zs'), pre)
-  return join(parts, '*')
+  let [range, abbr] = split(getcmdline(), '^\A*\zs', 1)
+  let parts = map(split(abbr, abbr =~ '\s' ? '\s' : '\zs'), 'toupper(v:val[0]).v:val[1:]')
+  return range . join(parts, '*')
 endfunction
 
 " A smart and light <Tab> to do insert-completion
