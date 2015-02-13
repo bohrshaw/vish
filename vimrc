@@ -300,7 +300,8 @@ inoremap <M-z> <Esc>ZZ
 " Expand a mixed case command name
 cnoremap <M-]> <C-\>e<SID>cmd_expand()<CR><Tab>
 function! s:cmd_expand()
-  let [range, abbr] = split(getcmdline(), '^\A*\zs', 1)
+  let cmd = getcmdline()
+  let [range, abbr] = [matchstr(cmd, '^\A*'), matchstr(cmd, '\a.*')]
   let parts = map(split(abbr, abbr =~ '\s' ? '\s' : '\zs'), 'toupper(v:val[0]).v:val[1:]')
   return range . join(parts, '*')
 endfunction
