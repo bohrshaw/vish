@@ -702,7 +702,7 @@ if Bundles('Klen/python-mode')
   let g:pymode_rope = 0
   " Escape syntastic check for python
   call add(get(get(g:, 'syntastic_mode_map', {}), 'passive_filetypes', []), 'python')
-  let g:pymode_python = 'python3'
+  " let g:pymode_python = 'python3'
   autocmd bundle VimEnter * set shellslash&
 endif
 
