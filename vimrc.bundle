@@ -844,7 +844,7 @@ if Bundle('gregsexton/gitv', {'c': 'Gitv'}) && Bundles('tpope/vim-fugitive')
 endif
 
 " Shows a git diff in the sign column and stages/reverts hunks
-if Bundles('airblade/vim-gitgutter')
+if Bundles('Airblade/vim-gitgutter')
   " let g:gitgutter_enabled = 0
   " let g:gitgutter_signs = 0
   let g:gitgutter_realtime = 0
