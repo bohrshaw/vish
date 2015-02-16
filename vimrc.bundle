@@ -147,7 +147,6 @@ call Bundles('TPOPE/vim-endwise')
 
 " Completions
 if has('lua') && Bundles('Shougo/neocomplete.vim', 'Bohrshaw/vimproc.vim')
-  " Still slow and the display could be messed up
   let g:neocomplete#enable_at_startup = 0
   let g:neocomplete#max_list = 20
   let g:neocomplete#auto_completion_start_length = 2
@@ -161,13 +160,16 @@ if has('lua') && Bundles('Shougo/neocomplete.vim', 'Bohrshaw/vimproc.vim')
   let g:neocomplete#data_directory = '~/.vim/tmp/neocomplete'
   " let g:neocomplete#release_cache_time = 1800 " seconds
   " Enable/disable neocomplete
-  nnoremap <expr> <Leader>tc neocomplete#is_enabled() ?
+  nnoremap <expr> <Leader>tC neocomplete#is_enabled() ?
         \ ':NeoCompleteDisable<CR>' : ':NeoCompleteEnable<CR>'
+  " Toggle auto/manual completion for the current buffer
+  nnoremap <Leader>tc :NeoCompleteToggle<CR>
+  inoremap <LocalLeader>tc <C-R>=neocomplete#commands#_toggle_lock()[1:0]<CR>
   " Start manual completion
-  inoremap <silent> <expr> <C-X>c neocomplete#start_manual_complete()
-  " Toggle auto-completion for the current buffer, a hack to convert number 0 to
-  " an empty string
-  inoremap <C-X>C <C-R>=nr2char(neocomplete#commands#_toggle_lock())<CR>
+  inoremap <silent><M-n> <C-O>:call neocomplete#init#enable() \|
+        \call neocomplete#commands#_lock() \|
+        \inoremap <silent><expr><M-n> neocomplete#start_manual_complete()<CR>
+        \<C-R>=neocomplete#start_manual_complete()<CR>
 elseif Bundles('-valloric/youcompleteme')
 endif
 " call Bundles('ervandew/supertab')
