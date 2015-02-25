@@ -89,10 +89,7 @@ if Bundles('-JUSTINMK/vim-sneak', 'BOHRSHAW/vim-sneak')
   onoremap <silent> g/ :<C-U>call sneak#wrap(v:operator, 99, 0, 2, 1)<CR>
   onoremap <silent> g? :<C-U>call sneak#wrap(v:operator, 99, 1, 2, 1)<CR>
   hi! link SneakPluginScope Comment
-endif
-
-" Vim motions on speed
-if Bundles('-bohrshaw/vim-easymotion')
+elseif Bundles('LOKALTOG/vim-easymotion')
   let g:EasyMotion_leader_key = 'g<CR>'
 endif
 
