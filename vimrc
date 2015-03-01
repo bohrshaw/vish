@@ -116,7 +116,7 @@ let &swapfile = l ? 0 : 1 " use a swapfile for the buffer
 set undofile
 " Remember uppercase global variables, number of files in which marks are
 " remembered(:oldfiles), ... , and viminfo file name.
-let &viminfo = "!,'99,<50,s10,h,n$HOME/.vim/tmp/".(has('nvim')?'n':'').'viminfo'
+let &viminfo = "!,'99,<50,s10,h,n$HOME/.vim/tmp/viminfo"
 " Exclude options and mappings and be portable
 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
 set viewoptions=folds,cursor,slash,unix
