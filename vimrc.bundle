@@ -339,9 +339,18 @@ if Bundles('Ctrlpvim/ctrlp.vim')
   nnoremap <leader>fm :CtrlPBookmarkDir<CR>
   " Clear the cache for the current search path
   nnoremap <leader>fc :CtrlPClearCache<CR>
-  " Fast vim CtrlP matcher based on python, for large projects
-  if has('python') && Bundles('felikz/ctrlp-py-matcher')
+  " fast matcher(especially for large projects) using python
+  if 0 && has('python') && Bundles('Felikz/ctrlp-py-matcher')
     let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
+  elseif Bundles('Tpope/vim-haystack') " better fuzzy matching algorithm
+    function! Haystack_matcher(items, str, limit, mmode, ispath, crfile, regex) abort
+      let items = copy(a:items)
+      if a:ispath
+        call filter(items, 'v:val !=# a:crfile')
+      endif
+      return haystack#filter(items, a:str)
+    endfunction
+    let g:ctrlp_match_func = {'match': 'Haystack_matcher'}
   endif
   " Extensions
   let g:ctrlp_extensions = []
