@@ -117,6 +117,7 @@ set undofile
 " Remember uppercase global variables, number of files in which marks are
 " remembered(:oldfiles), ... , and viminfo file name.
 let &viminfo = "!,'99,<50,s10,h,n$HOME/.vim/tmp/viminfo"
+let _viminfo = &viminfo " for quick interactive restoring
 " Exclude options and mappings and be portable
 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
 set viewoptions=folds,cursor,slash,unix
