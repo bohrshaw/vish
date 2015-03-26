@@ -9,6 +9,10 @@
 
 # Environments {{{1
 Param ( [Switch] $Proxy=$false )
+if($script:Proxy) {
+  $http_proxy = "http://localhost:8087"
+  $https_proxy = $http_proxy
+}
 
 # Import visual studio environment variables
 pushd 'C:\Program Files\Microsoft Visual Studio 12.0\VC'
@@ -27,28 +31,14 @@ $ruby = "D:\Programs\Ruby21mswin" # avoid "rubyinstaller.org" and compile ruby w
 $lua = "D:\Workspaces\builds\luajit\src"
 
 # Source Code Preparation {{{1
-if($script:Proxy) {
-  $http_proxy = "http://localhost:8087"
-  $https_proxy = $http_proxy
-}
-
-if((git config --get-regex remote.*url) -match '.*b4winckler/vim.*') {
+if((git config --get-regex remote.*url) -match '.*vim/vim.*') {
   git reset --hard; git clean -dxfq
   git pull
 }
-elseif((hg paths default) -match '.*vim.*') {
-  hg pull --config http_proxy.host=$http_proxy
-  hg update -C; hg purge --all
-}
 else {
-  if($script:Proxy) {
-    $git_protocol = 'https'
-  else
-    $git_protocol = 'git'
-  }
-  $vim = "vim" # the directory to clone Vim source file to
-  git clone --depth 1 $git_protocol"://github.com/b4winckler/vim.git" $vim
-  cd $vim
+  $vim_dir = "vim"
+  git clone --depth 1 git://github.com/vim/vim $vim_dir
+  cd $vim_dir
 }
 
 # Building {{{1
