@@ -23,7 +23,7 @@
 " "<C-C>" to escape whichever insert, visual or command mode, except that the
 " "InsertLeave" autocommand would not be triggered by using "<C-C>".
 
-if has('gui_running')
+if has('gui_running') || has('nvim')
   finish
 endif
 

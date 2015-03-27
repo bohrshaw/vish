@@ -166,7 +166,9 @@ autocmd vimrc SessionLoadPost * silent! bwipeout! _
 " See related help topics: index, map-which-keys
 
 " Meta
-runtime autoload/key.vim " mappable meta key in terminals
+if !has('nvim')
+  runtime autoload/key.vim " mappable meta key in terminals
+endif
 " let mapleader = "\r" " replace <Leader> in a map
 let maplocalleader = eval('"\<M-\>"') " replace <LocalLeader> in a map
 " Commands for defining mappings in several modes
