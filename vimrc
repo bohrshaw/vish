@@ -263,6 +263,13 @@ NXnoremap <silent> <M-l> :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
 NXnoremap <silent> <M-h> gT
 " Switch to the alternative file more conveniently
 nnoremap Q <C-^>
+" Deal with terminal buffers
+if has('nvim')
+  tnoremap <m-w> <c-\><c-n><c-w>
+  tnoremap <m-j> <c-\><c-n><c-w>w
+  tnoremap <m-k> <c-\><c-n><c-w>W
+  autocmd vimrc WinEnter term://* startinsert
+endif
 " Edit a file in the same directory of the current file
 NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/<Tab>
 NXnoremap <leader>es :sp <C-R>=expand('%:h')<CR>/<Tab>
@@ -299,6 +306,9 @@ inoremap <M-i> <Esc>
 inoremap <M-o> <C-O>
 " Quick exit, useful when editing the shell command line
 inoremap <M-z> <Esc>ZZ
+if has('nvim')
+  tnoremap <M-z> <C-\><C-N>
+endif
 
 " Expand a mixed case command name
 cnoremap <M-]> <C-\>e<SID>cmd_expand()<CR><Tab>
