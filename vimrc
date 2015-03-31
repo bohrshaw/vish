@@ -268,7 +268,7 @@ if has('nvim')
   tnoremap <m-w> <c-\><c-n><c-w>
   tnoremap <m-j> <c-\><c-n><c-w>w
   tnoremap <m-k> <c-\><c-n><c-w>W
-  autocmd vimrc WinEnter term://* startinsert
+  autocmd vimrc BufWinEnter,WinEnter term://* startinsert
 endif
 " Edit a file in the same directory of the current file
 NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/<Tab>
