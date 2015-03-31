@@ -307,7 +307,7 @@ inoremap <M-o> <C-O>
 " Quick exit, useful when editing the shell command line
 inoremap <M-z> <Esc>ZZ
 if has('nvim')
-  tnoremap <Esc> <C-\><C-N>
+  tnoremap <M-z> <C-\><C-N>
 endif
 
 " Expand a mixed case command name
