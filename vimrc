@@ -182,6 +182,10 @@ command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
 " Essential
 " Enter command line at the speed of light
 NXnoremap <Space> :
+inoremap <M-Space> <Esc>:
+if has('nvim')
+  tnoremap <M-Space> <C-\><C-N>:
+endif
 NXnoremap z<Space> q:
 NXnoremap z/ q/
 " set cedit=<C-G>
@@ -262,12 +266,15 @@ NXnoremap <C-W><C-^> :vsplit #<CR>
 NXnoremap <silent> <M-l> :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
 NXnoremap <silent> <M-h> gT
 " Switch to the alternative file more conveniently
-nnoremap Q <C-^>
+nnoremap <M-q> <C-^>
 " Deal with terminal buffers
 if has('nvim')
   tnoremap <m-w> <c-\><c-n><c-w>
   tnoremap <m-j> <c-\><c-n><c-w>w
   tnoremap <m-k> <c-\><c-n><c-w>W
+  tmap <m-l> <C-\><C-n><M-l>
+  tnoremap <m-h> <c-\><c-n>gT
+  tnoremap <m-q> <c-\><c-n><c-^>
   autocmd vimrc BufWinEnter,WinEnter term://* startinsert
 endif
 " Edit a file in the same directory of the current file
