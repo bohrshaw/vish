@@ -561,6 +561,7 @@ cabbrev tml tabm +1
 cabbrev tc tabc
 
 " Substitute in a visual area (eat the for-expanding-space)
+" Hack: Use an expression to save a temporary value.
 cabbrev <expr> sv 's/\%V'.
       \ setreg('z', nr2char(getchar(0)))[1:0].(@z == ' ' ? '' : @z)
 
