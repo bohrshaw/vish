@@ -197,6 +197,10 @@ NXnoremap @: :Verbose @:<CR>
 " Manipulation
 " Repeat last change on each line in a visual selection
 xnoremap . :normal! .<CR>
+" Finish and execute a recursive macro
+nnoremap <silent>Q q:let _r = v#getchar()\|
+      \call setreg(_r, getreg(_r).'@'._r)\|
+      \execute 'normal! @'._r<CR>
 " Execute a macro on each one in {count} lines
 nnoremap <silent> @. :call <SID>macro()<CR>
 function! s:macro() range
