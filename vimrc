@@ -5,6 +5,7 @@
 " Less is more!
 " Analyse startup performance with profile.sh
 
+" ---------------------------------------------------------------------
 " Options: {{{1
 
 " View and set all options by :opt[ions]
