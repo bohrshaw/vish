@@ -32,12 +32,12 @@ function! s:bundle_map()
 endfunction
 
 " A Vim plugin for Vim plugins
-call Bundles('Tpope/vim-scriptease')
+call Bundles('tpope/vim-scriptease')
 
 " MotionSearch: {{{1
 
 " The missing motion for Vim
-if Bundles('-JUSTINMK/vim-sneak', 'BOHRSHAW/vim-sneak')
+if Bundles('-Justinmk/vim-sneak', 'Bohrshaw/vim-sneak')
   " let g:sneak#streak = 1 " enable streak mode
   let g:sneak#streak_esc = "\<CR>" " key to exit streak-mode
   " let g:sneak#use_ic_scs = 1 " ignorecase and smartcase
@@ -89,24 +89,14 @@ if Bundles('-JUSTINMK/vim-sneak', 'BOHRSHAW/vim-sneak')
   onoremap <silent> g/ :<C-U>call sneak#wrap(v:operator, 99, 0, 2, 1)<CR>
   onoremap <silent> g? :<C-U>call sneak#wrap(v:operator, 99, 1, 2, 1)<CR>
   hi! link SneakPluginScope Comment
-elseif Bundles('LOKALTOG/vim-easymotion')
-  let g:EasyMotion_leader_key = 'g<CR>'
-endif
-
-" Move cursor between text patterns
-if Bundles('machakann/vim-patternjump')
+elseif Bundles('machakann/vim-patternjump')
   let g:patternjump_no_default_key_mappings = 1
-endif
-
-" Acts like `f` but taking two characters
-if Bundles('-goldfeld/vim-seek')
+elseif Bundles('lokaltog/vim-easymotion')
+  let g:EasyMotion_leader_key = 'g<CR>'
+elseif Bundles('-goldfeld/vim-seek', '-rhysd/clever-f.vim')
   let g:SeekKey = 'f<CR>'
   let g:SeekBackKey = 'f<BS>'
   " let g:seek_enable_jumps = 1
-endif
-
-" Extended f, F, t and T key mappings for Vim
-if Bundles('-rhysd/clever-f.vim')
   let g:clever_f_across_no_line = 1
 endif
 
@@ -120,12 +110,11 @@ if BundleNow('kana/vim-textobj-user')
 endif
 
 " Text objects extended
-if Bundles('wellle/targets.vim', 'kana/vim-textobj-indent',
+if Bundles('-wellle/targets.vim', 'kana/vim-textobj-indent',
       \ 'gaving/vim-textobj-argument', '-b4winckler/vim-angry',
       \ '-qstrahl/vim-dentures', 'tommcdo/vim-ninja-feet',
       \ 'machakann/vim-textobj-delimited', 'coderifous/textobj-word-column.vim')
-endif
-if !g:h " delay activating this bundle to reduce startup time
+  " Delay activating this bundle to reduce startup time
   set updatetime=10
   augroup bundle_targets
     autocmd CursorHold * call BundleActivate("targets.vim") |
@@ -140,10 +129,10 @@ endif
 call Bundles('-raimondi/delimitmate', '-cohama/lexima.vim', '-jiangmiao/auto-pairs')
 
 " Wisely add 'end' in ruby, endfunction/endif/more in vim script, etc
-call Bundles('TPOPE/vim-endwise')
+call Bundles('tpope/vim-endwise')
 
 " Completions
-if has('lua') && Bundles('Shougo/neocomplete.vim', 'Bohrshaw/vimproc.vim')
+if has('lua') && Bundles('shougo/neocomplete.vim', 'bohrshaw/vimproc.vim')
   let g:neocomplete#enable_at_startup = 0
   let g:neocomplete#max_list = 20
   let g:neocomplete#auto_completion_start_length = 2
@@ -167,14 +156,14 @@ if has('lua') && Bundles('Shougo/neocomplete.vim', 'Bohrshaw/vimproc.vim')
         \call neocomplete#commands#_lock() \|
         \inoremap <silent><expr><M-n> neocomplete#start_manual_complete()<CR>
         \<C-R>=neocomplete#start_manual_complete()<CR>
-elseif Bundles('-valloric/youcompleteme')
+elseif Bundles('valloric/youcompleteme')
+elseif Bundles('ervandew/supertab')
 endif
-" call Bundles('ervandew/supertab')
 
 " Snippet solutions
-if (has('python') || has('python3')) && Bundle('SIRVER/ultisnips',
+if (has('python') || has('python3')) && Bundle('Sirver/ultisnips',
       \ {'m':['i <C-J>'], 'c':'UltiSnipsEdit', 'f':'*.snippets'}) &&
-      \ Bundles('HONZA/vim-snippets')
+      \ Bundles('Honza/vim-snippets')
   let g:UltiSnipsExpandTrigger='<C-J>'
   let g:UltiSnipsListSnippets='<C-Q>'
   let g:UltiSnipsJumpForwardTrigger="<C-J>"
@@ -201,14 +190,14 @@ let g:snips_author_email = 'pubohr@gmail.com'
 " Change: {{{1
 
 " Commenting
-if Bundles('Tpope/vim-commentary', '-Scrooloose/nerdcommenter', '-Tomtom/tcomment_vim')
+if Bundles('tpope/vim-commentary', '-scrooloose/nerdcommenter', '-tomtom/tcomment_vim')
   let commentary_map_backslash = 0 " jd
   let g:tcommentMapLeader1 = '<M-c>'
   let [g:tcommentMapLeader2, g:tcommentMapLeaderCommentAnyway, g:tcommentTextObjectInlineComment] = ['', '', '']
 endif
 
 " Quoting/parenthesizing made simple
-call Bundles('TPOPE/vim-surround')
+call Bundles('Tpope/vim-surround')
 
 " Alignment
 if Bundles('-godlygeek/tabular', 'junegunn/vim-easy-align', '-tommcdo/vim-lion')
@@ -218,10 +207,10 @@ if Bundles('-godlygeek/tabular', 'junegunn/vim-easy-align', '-tommcdo/vim-lion')
 endif
 
 " Use CTRL-A/CTRL-X to increment dates, times, and more
-call Bundles('Tpope/vim-speeddating')
+call Bundles('tpope/vim-speeddating')
 
 " Exchange text flexibly with a text exchange operator
-if Bundles('TOMMCDO/vim-exchange')
+if Bundles('Tommcdo/vim-exchange')
   " nmap cx <Plug>(Exchange)
   vmap cx <Plug>(Exchange)
   " nmap cxc <Plug>(ExchangeClear)
@@ -235,14 +224,14 @@ if Bundles('TOMMCDO/vim-exchange')
 endif
 
 " Exchange(swap) text directly/quickly with mappings
-if Bundles('-Kurkale6ka/vim-swap')
+if Bundles('-kurkale6ka/vim-swap')
   " let g:swap_custom_ops = []
   xmap c: <plug>SwapSwapOperands
   xmap c\| <plug>SwapSwapPivotOperands
 endif
 
 " Easily search for, substitute, and abbreviate multiple variants of a word
-call Bundles('TPOPE/vim-abolish')
+call Bundles('Tpope/vim-abolish')
 
 " True Sublime Text style multiple selections for Vim
 call Bundles('kristijanhusak/vim-multiple-cursors')
@@ -270,7 +259,7 @@ if Bundles('sjl/gundo.vim')
 endif
 
 " Enable repeating supported plugin maps with '.'
-call Bundles('TPOPE/vim-repeat')
+call Bundles('Tpope/vim-repeat')
 
 " A lightweight implementation of emacs's kill-ring for vim
 " call Bundles('maxbrunsfeld/vim-yankstack')
@@ -278,7 +267,7 @@ call Bundles('TPOPE/vim-repeat')
 " Mapping: {{{1
 
 " Pairs of handy bracket mappings
-if Bundles('TPOPE/vim-unimpaired')
+if Bundles('Tpope/vim-unimpaired')
   nmap coP <Plug>unimpairedPaste
   " Mouse could also be enabld in Tmux
   nnoremap <silent> com :let &mouse = empty(&mouse) ? 'a' : ''<CR>
@@ -298,7 +287,7 @@ nnoremap <silent> [d :call search('\cto-\?do:', 'sb')<CR>
 " FileBufferPaneWindowTabSession: {{{1
 
 " Fuzzy file, buffer, mru, tag, etc finder
-if Bundles('Ctrlpvim/ctrlp.vim')
+if Bundles('ctrlpvim/ctrlp.vim')
   let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/ctrlp'
   " Set the mode to determine the root searching directory.
   " let g:ctrlp_working_path_mode = 'ra'
@@ -340,9 +329,9 @@ if Bundles('Ctrlpvim/ctrlp.vim')
   " Clear the cache for the current search path
   nnoremap <leader>fc :CtrlPClearCache<CR>
   " fast matcher(especially for large projects) using python
-  if 0 && has('python') && Bundles('Felikz/ctrlp-py-matcher')
+  if 0 && has('python') && Bundles('felikz/ctrlp-py-matcher')
     let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
-  elseif Bundles('Tpope/vim-haystack') " better fuzzy matching algorithm
+  elseif Bundles('tpope/vim-haystack') " better fuzzy matching algorithm
     function! Haystack_matcher(items, str, limit, mmode, ispath, crfile, regex) abort
       let items = copy(a:items)
       if a:ispath
@@ -362,7 +351,7 @@ if Bundles('Ctrlpvim/ctrlp.vim')
 endif
 
 " Unite and create user interfaces
-if BundleNow('Shougo/unite.vim')
+if BundleNow('shougo/unite.vim')
   let g:unite_data_directory = expand('~/.vim/tmp/unite')
   call unite#filters#matcher_default#use(['matcher_fuzzy'])
   " let g:unite_source_history_yank_enable = 1
@@ -394,7 +383,7 @@ if Bundle('scrooloose/nerdtree', {'m': [
 endif
 
 " Convenient directory listing and file selection
-if Bundles('Tpope/vim-vinegar', '-jeetsukumaran/vim-filebeagle')
+if Bundles('tpope/vim-vinegar', '-jeetsukumaran/vim-filebeagle')
   nmap <M-d> <Plug>VinegarUp
   autocmd bundle VimEnter * nunmap -
 endif
@@ -423,7 +412,7 @@ endif
 call Bundles('-vim-scripts/bufexplorer.zip', '-jeetsukumaran/vim-buffergator')
 
 " Distraction-free, hyper-focus writing
-if Bundles('JUNEGUNN/goyo.vim', 'JUNEGUNN/limelight.vim')
+if Bundles('Junegunn/goyo.vim', 'Junegunn/limelight.vim')
   " let g:goyo_width = 100
   let g:goyo_margin_top = 2
   let g:goyo_margin_bottom = 2
@@ -440,7 +429,7 @@ if Bundles('roman/golden-ratio')
 endif
 
 " Session management
-if Bundles('Bohrshaw/vim-mansion', '-tpope/vim-obsession')
+if Bundles('bohrshaw/vim-mansion', '-tpope/vim-obsession')
   " let g:sessiondir = '~/.vim/session'
   " let g:mansion_no_auto_save = 1
   " let g:mansion_no_maps = 1
@@ -462,17 +451,17 @@ endif
 " Appearance: {{{1
 
 " Color Schemes
-if Bundles('JUNEGUNN/seoul256.vim', 'W0ng/vim-hybrid',
-      \ 'Reedes/vim-colors-pencil', 'Freeo/vim-kalisi',
+if Bundles('Junegunn/seoul256.vim', 'w0ng/vim-hybrid',
+      \ 'reedes/vim-colors-pencil', 'freeo/vim-kalisi',
       \
-      \ 'Altercation/vim-colors-solarized', 'twerth/ir_black',
-      \ 'ROMAINL/apprentice',
-      \ 'Nanotech/jellybeans.vim', 'Zeis/vim-kolor',
+      \ 'altercation/vim-colors-solarized', '-twerth/ir_black',
+      \ 'Romainl/apprentice',
+      \ 'nanotech/jellybeans.vim', 'Zeis/vim-kolor',
       \ 'jnurmine/zenburn', 'sjl/badwolf',
-      \ 'goatslacker/mango.vim', 'SK1418/last256',
-      \ 'Rking/vim-detailed', 'Lokaltog/vim-distinguished',
-      \ 'Tomasr/molokai', 'sickill/vim-monokai',
-      \ 'tpope/vim-vividchalk', 'Vim-scripts/twilight') && Bundles(
+      \ 'goatslacker/mango.vim', 'Sk1418/last256',
+      \ 'rking/vim-detailed', 'lokaltog/vim-distinguished',
+      \ 'tomasr/molokai', 'sickill/vim-monokai',
+      \ '-tpope/vim-vividchalk', '-vim-scripts/twilight') && Bundles(
       \
       \ 'endel/vim-github-colorscheme', 'jonathanfilip/vim-lucius',
       \ 'noahfrederick/vim-hemisu', 'morhetz/gruvbox',
@@ -551,7 +540,7 @@ if Bundles('scrooloose/syntastic')
 endif
 
 " Format codes with external code formatters
-if Bundles('Chiel92/vim-autoformat')
+if Bundles('chiel92/vim-autoformat')
 endif
 
 " Vim plugin that displays tags in a window, ordered by class etc
@@ -582,7 +571,7 @@ if Bundles('-thinca/vim-ref')
 endif
 
 " Dispatch.vim: asynchronous build and test dispatcher
-call Bundles('Tpope/vim-dispatch')
+call Bundles('tpope/vim-dispatch')
 
 " Execute whole/part of editing file
 if Bundles('thinca/vim-quickrun')
@@ -656,7 +645,7 @@ endif
 
 " Golang {{{2
 
-if Bundles('Fatih/vim-go', '-blackrush/vim-gocode')
+if Bundles('fatih/vim-go', '-blackrush/vim-gocode')
   " let g:go_disable_autoinstall = 1
   let g:go_bin_path = has('win32unix') ?
         \ '/cygdrive/'.tolower($GOPATH[0]).substitute($GOPATH[2:], '\\', '/', 'g').'/bin/' :
@@ -673,10 +662,10 @@ endif
 " Ruby {{{2
 
 " Ruby runtime files (shipped with Vim and fairly updated.)
-call Bundles('VIM-RUBY/vim-ruby')
+call Bundles('Vim-ruby/vim-ruby')
 
 " A custom text object for selecting ruby blocks
-call Bundle('NELSTROM/vim-textobj-rubyblock',
+call Bundle('Nelstrom/vim-textobj-rubyblock',
       \ {'f':'ruby', 'd':['kana/vim-textobj-user']})
 
 " Provide more controls over the above
@@ -707,7 +696,7 @@ call Bundle('tpope/vim-rake', {'f':'ruby'})
 " Python {{{2
 
 " Vim python-mode. PyLint, Rope, Pydoc, breakpoints from box.
-if Bundles('Klen/python-mode')
+if Bundles('klen/python-mode')
   let g:pymode_run_bind = '<LocalLeader>r'
   let g:pymode_breakpoint_bind = '<LocalLeader>b'
   let g:pymode_rope = 0
@@ -718,7 +707,7 @@ if Bundles('Klen/python-mode')
 endif
 
 " Bindings for the python auto-completion library 'jedi'
-if Bundles('Davidhalter/jedi-vim')
+if Bundles('davidhalter/jedi-vim')
   let g:jedi#auto_vim_configuration = 0
   autocmd bundle FileType python setlocal completeopt=menuone,longest,preview
   let g:jedi#goto_assignments_command = '<LocalLeader>d'
@@ -772,20 +761,20 @@ endif
 " Others {{{2
 
 " JSON runtime files
-if Bundles('Elzr/vim-json')
+if Bundles('elzr/vim-json')
   autocmd bundle FileType json setlocal foldmethod=syntax
 endif
 
 " JSON manipulation and pretty printing
-call Bundles('Tpope/vim-jdaddy')
+call Bundles('tpope/vim-jdaddy')
 command! -range=% JSONFormat <line1>,<line2>!jq .
 command! -range=% JSONFormatEncode <line1>,<line2>!python -m json.tool
 
 " Git runtime files
-call Bundles('Tpope/vim-git')
+call Bundles('tpope/vim-git')
 
 " A Vim plugin for Windows PowerShell support
-call Bundles('Pprovost/vim-ps1')
+call Bundles('pprovost/vim-ps1')
 
 " Syntax file for nginx
 call Bundles('vim-scripts/nginx.vim')
@@ -796,7 +785,7 @@ call Bundles('bohrshaw/vim-vimperator-syntax')
 " ExternalInteraction: {{{1
 
 " An asynchronous execution library
-if Bundles('Bohrshaw/vimproc.vim')
+if Bundles('bohrshaw/vimproc.vim')
   command! -nargs=+ -bang -complete=shellcmd B execute <bang>0 ?
         \ 'call vimproc#system_bg(<q-args>)' : 'VimProcBang <args>'
   command! -nargs=+ -complete=shellcmd R VimProcRead <args>
@@ -816,13 +805,13 @@ elseif Bundles('shougo/vimshell.vim', 'bohrshaw/vimproc.vim')
 endif
 
 " The interface to Web API
-if Bundles('Mattn/webapi-vim')
+if Bundles('mattn/webapi-vim')
   let g:webapi#system_function = has('win32') ?
         \ 'vimproc#cmd#system' : 'vimproc#system'
 endif
 
 " A Git wrapper so awesome, it should be illegal.
-if Bundles('Tpope/vim-fugitive')
+if Bundles('tpope/vim-fugitive')
   " Git deserves a convenient leader key for mappings
   nnoremap g<Space>s :Gstatus<CR>
   nnoremap g<Space>cc :Gcommit -v<CR>
@@ -865,7 +854,7 @@ if Bundle('gregsexton/gitv', {'c': 'Gitv'}) && Bundles('tpope/vim-fugitive')
 endif
 
 " Shows a git diff in the sign column and stages/reverts hunks
-if Bundles('Airblade/vim-gitgutter')
+if Bundles('airblade/vim-gitgutter')
   " let g:gitgutter_enabled = 0
   " let g:gitgutter_signs = 0
   let g:gitgutter_realtime = 0
@@ -900,12 +889,12 @@ if Bundles('junegunn/vim-github-dashboard')
 endif
 
 " Helpers for UNIX(Windows)
-if Bundles('Tpope/vim-eunuch')
+if Bundles('tpope/vim-eunuch')
   autocmd bundle VimEnter * command! W SudoWrite
 endif
 
 " Tmux basics, insert mode completion of words in adjacent tmux panes
-if !has('win32') && Bundles('Tpope/vim-tbone', 'wellle/tmux-complete.vim')
+if !has('win32') && Bundles('tpope/vim-tbone', 'wellle/tmux-complete.vim')
   let g:tmuxcomplete#trigger = '' " completefunc, omnifunc, or empty
 endif
 
@@ -920,7 +909,7 @@ if Dundles('jamessan/vim-gnupg') " a huge plugin file
 endif
 
 " Translation
-if Bundles('Bohrshaw/vim-trance', 'Mattn/webapi-vim')
+if Bundles('bohrshaw/vim-trance', 'mattn/webapi-vim')
   " let g:trance#default = 'iciba'
   " Translation services
   let g:trance = {
@@ -939,7 +928,7 @@ call Bundles('bohrshaw/vim-url-shortener')
 " Other ways:
 " - The builtin function 'netrw#NetrwBrowseX()' (not working currently)
 " - Python helpers: :py import webbrowser; webbrowser.open()
-if Bundles('Tyru/open-browser.vim')
+if Bundles('tyru/open-browser.vim')
   " Add or override search engines
   let g:openbrowser_search_engines = {
         \ 'google_hk': 'http://google.com.hk/search?q={query}',

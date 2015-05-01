@@ -16,8 +16,6 @@ if has('vim_starting')
   set all& | silent! source ~/.vimrc.local " override system vimrc
   set nocompatible " make Vim behave in a more useful way
 
-  " Whether to include all enabled bundles, IDE
-  let g:h = get(g:, 'h')
   " Whether to include the least number of bundles, for shell command line editing
   let g:l = get(g:, 'l') || argv(0) =~# '^\V'.
         \ (empty($TMPPREFIX) ? '/tmp/zsh' : $TMPPREFIX).'ecl\|'.

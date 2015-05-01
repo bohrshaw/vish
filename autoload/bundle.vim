@@ -91,10 +91,9 @@ endfunction
 function! s:bundle_enabled(b)
   if a:b[0] == '-'
     return
-  else
-    call s:uniqadd(g:dundles, a:b) " add a bundle to the bundle downloading list
   endif
-  if get(g:, 'h') || a:b =~# '\v^[^a-z]+/' || a:b[0] =~# '\u' && !get(g:, 'l')
+  call s:uniqadd(g:dundles, a:b) " add a bundle to the bundle downloading list
+  if a:b[0] =~# '\u' || !get(g:, 'l')
     return 1
   endif
 endfunction
