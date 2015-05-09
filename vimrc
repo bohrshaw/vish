@@ -165,7 +165,12 @@ autocmd vimrc SessionLoadPost * silent! bwipeout! _
 " See related help topics: index, map-which-keys
 
 " Meta
-if !has('nvim')
+if has('nvim')
+  " Map meta-chords to esc-sequences in terminal
+  for c in split("abcdefghijklmnopqrstuvwxyz,./;'[]\\-=`", '\zs')
+    execute 'tnoremap '.'<M-'.c.'> <Esc>'.c
+  endfor
+else
   runtime autoload/key.vim " mappable meta key in terminals
 endif
 " let mapleader = "\r" " replace <Leader> in a map
