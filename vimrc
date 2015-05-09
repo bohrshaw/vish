@@ -416,7 +416,8 @@ endfunction
 map! <M-v> <C-V>
 
 " Key special
-noremap! <expr> <C-V>c '<C-'.nr2char(getchar()).'>'
+noremap! <expr> <C-V>c '<C-'.setreg('z', nr2char(getchar()))[1:0]
+      \.(@z =~# '\u' ? 'S-'.tolower(@z) : @z).'>'
 noremap! <expr> <C-V>m '<M-'.nr2char(getchar()).'>'
 noremap! <expr> <C-V>d '<D-'.nr2char(getchar()).'>'
 noremap! <C-V>e <lt>Esc>
