@@ -801,7 +801,7 @@ if has('nvim')
   NXnoremap <M-s> :<C-U>Shell<CR>
 elseif Bundles('shougo/vimshell.vim', 'bohrshaw/vimproc.vim')
   NXnoremap <M-s> :<C-U>VimShell<CR>
-  autocmd bundle FileType vimshell NXInoremap <buffer><silent><M-q> <Esc>:sil b#<CR>
+  autocmd bundle FileType vimshell NXInoremap <buffer><silent><M-a> <Esc>:sil b#<CR>
 endif
 
 " The interface to Web API
