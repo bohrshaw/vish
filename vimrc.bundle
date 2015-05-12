@@ -317,6 +317,7 @@ if Bundles('ctrlpvim/ctrlp.vim')
   " let g:ctrlp_cmd = 'CtrlP'
   " Most recent used files
   nnoremap <Leader>fr :CtrlPMRU<CR>
+  nnoremap <M-f> :CtrlPMRU<CR>
   " Files with similar names
   nmap <Leader>fs :let g:ctrlp_default_input = expand('%:t:r') \|
         \ call ctrlp#init(0) \| unlet g:ctrlp_default_input<CR>
