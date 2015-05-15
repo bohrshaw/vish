@@ -415,45 +415,41 @@ endfunction
 
 map! <M-v> <C-V>
 
-" Key special
+" Key(character) special
 noremap! <expr> <C-V>c '<C-'.setreg('z', nr2char(getchar()))[1:0]
       \.(@z =~# '\u' ? 'S-'.tolower(@z) : @z).'>'
 noremap! <expr> <C-V>m '<M-'.nr2char(getchar()).'>'
 noremap! <expr> <C-V>d '<D-'.nr2char(getchar()).'>'
-noremap! <C-V>e <lt>Esc>
-noremap! <C-V>t <lt>Tab>
-noremap! <C-V><Space> <lt>Space>
-noremap! <C-V>r <lt>CR>
+noremap! <C-V>E <LT>Esc>
+noremap! <C-V>T <LT>Tab>
+noremap! <C-V><Space> <LT>Space>
+noremap! <C-V>R <LT>CR>
+noremap! <C-V>< <LT>LT>
+noremap! <C-V>\ <LT>Bslash>
+noremap! <C-V>\| <LT>Bar>
 
-" Mapping special (lowercase)
-noremap! <C-V>l <lt>Leader>
-noremap! <C-V>L <lt>LocalLeader>
-noremap! <C-V>b <lt>buffer>
-noremap! <C-V>n <lt>nowait>
-noremap! <C-V>si <lt>silent>
-noremap! <C-V>sp <lt>special>
-noremap! <C-V>sc <lt>script>
-noremap! <C-V>x <lt>expr>
-noremap! <C-V>u <lt>unique>
-noremap! <C-V>p <lt>Plug>
+" Mapping special
+noremap! <C-V>bu <LT>buffer>
+noremap! <C-V>no <LT>nowait>
+noremap! <C-V>si <LT>silent>
+noremap! <C-V>sp <LT>special>
+noremap! <C-V>sc <LT>script>
+noremap! <C-V>ex <LT>expr>
+noremap! <C-V>un <LT>unique>
+noremap! <C-V>L <LT>Leader>
+noremap! <C-V>lL <LT>LocalLeader>
+noremap! <C-V>P <LT>Plug>
+noremap! <C-V>S <LT>SID>
 
-" Mapping rhs special (uppercase)
-noremap! <C-V>S <lt>SID>
-
-" Command rhs special (uppercase)
-noremap! <C-V>1 <lt>line1>
-noremap! <C-V>2 <lt>line2>
-noremap! <C-V>C <lt>count>
-noremap! <C-V>R <lt>reg>
-noremap! <C-V>B <lt>bang>
-noremap! <C-V>A <lt>args>
-noremap! <C-V>Q <lt>q-args>
-noremap! <C-V>F <lt>f-args>
-
-" Character special
-noremap! <C-V>< <lt>lt>
-noremap! <C-V>\ <lt>Bslash>
-noremap! <C-V>\| <lt>Bar>
+" Command special
+noremap! <C-V>l1 <LT>line1>
+noremap! <C-V>l2 <LT>line2>
+noremap! <C-V>co <LT>count>
+noremap! <C-V>re <LT>reg>
+noremap! <C-V>ba <LT>bang>
+noremap! <C-V>ar <LT>args>
+noremap! <C-V>qa <LT>q-args>
+noremap! <C-V>fa <LT>f-args>
 
 " }}}2
 
