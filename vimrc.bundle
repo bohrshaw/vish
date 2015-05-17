@@ -39,7 +39,7 @@ call Bundles('tpope/vim-scriptease')
 " The missing motion for Vim
 if Bundles('-Justinmk/vim-sneak', 'Bohrshaw/vim-sneak')
   " let g:sneak#streak = 1 " enable streak mode
-  let g:sneak#streak_esc = "\<CR>" " key to exit streak-mode
+  " let g:sneak#streak_esc = "\<CR>" " key to exit streak-mode
   " let g:sneak#use_ic_scs = 1 " ignorecase and smartcase
   let sneak#textobject_z = 0 " prevent the default {operator}z mapping
   " Disable default mappings
