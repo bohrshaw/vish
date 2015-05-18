@@ -186,14 +186,14 @@ command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
 " Essential
 " Enter command line at the speed of light
 NXnoremap <Space> :
+NXnoremap <M-Space> q:
+" set cedit=<C-G>
+cnoremap <M-Space> <C-F>
+" NXnoremap <M-/> q/
 inoremap <M-Space> <Esc>:
 if has('nvim')
   tnoremap <M-Space> <C-\><C-N>:
 endif
-NXnoremap z<Space> q:
-NXnoremap z/ q/
-" set cedit=<C-G>
-cnoremap <M-z> <C-F>
 NXnoremap @<Space> @:
 NXnoremap @; :verbose @:<CR>
 NXnoremap @: :Verbose @:<CR>
