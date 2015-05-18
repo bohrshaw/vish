@@ -2,8 +2,8 @@
 function! ftplugin#vim_map()
   nnoremap <buffer><silent> R mz:set operatorfunc=vimrc#run<CR>g@
   " use :normal to support mapping count
-  nmap <buffer><silent> RR :normal RVl<CR>
-  nnoremap <buffer><expr> R% ':'.(g:loaded_scriptease?'Runtime':'source %').'<CR>'
+  nmap <buffer><silent> Rr :normal RVl<CR>
+  nnoremap <buffer><expr> RR ':'.(g:loaded_scriptease?'Runtime':'source %').'<CR>'
   xnoremap <buffer><silent> R mz:<C-U>call vimrc#run(visualmode())<CR>
 endfunction
 

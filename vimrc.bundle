@@ -579,8 +579,8 @@ if Bundles('thinca/vim-quickrun')
   let g:quickrun_config = {'_': {'outputter': 'message'}}
   let g:quickrun_no_default_key_mappings = 1
   nmap R <Plug>(quickrun-op)
-  nnoremap <silent> RR :Run -mode n<CR>
-  nnoremap R% :%QuickRun -mode n<CR>
+  nnoremap <silent> Rr :Run -mode n<CR>
+  nnoremap RR :%QuickRun -mode n<CR>
   xnoremap R :QuickRun -mode v<CR>
   command! -nargs=* -range -complete=customlist,quickrun#complete Run
         \ call quickrun#command(<q-args>, <count>, <line1>, <line2>)
@@ -642,7 +642,7 @@ call Bundles('kchmck/vim-coffee-script')
 if Bundles('rust-lang/rust.vim')
   let g:rust_fold = 1 " folds are defined but opened
   " let g:rust_conceal = 1
-  autocmd bundle FileType rust nnoremap <buffer>R% :RustRun<CR>|
+  autocmd bundle FileType rust nnoremap <buffer>RR :RustRun<CR>|
         \nnoremap <buffer>R<Space> :RustRun
 endif
 
