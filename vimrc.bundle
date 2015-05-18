@@ -639,9 +639,11 @@ call Bundles('kchmck/vim-coffee-script')
 
 " C Family {{{2
 
-if Bundles('wting/rust.vim')
-  let g:rust_fold = 1
-  autocmd bundle FileType rust nnoremap <buffer> <LocalLeader>r :RustRun<CR>
+if Bundles('rust-lang/rust.vim')
+  let g:rust_fold = 1 " folds are defined but opened
+  " let g:rust_conceal = 1
+  autocmd bundle FileType rust nnoremap <buffer>R% :RustRun<CR>|
+        \nnoremap <buffer>R<Space> :RustRun
 endif
 
 " Golang {{{2
