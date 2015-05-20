@@ -325,6 +325,10 @@ if has('nvim')
   tnoremap <M-z> <C-\><C-N>
 endif
 
+" Open HELP in a positioned window
+cnoremap <M-w>v <C-\>e'vert '.getcmdline()<CR><CR>
+cnoremap <M-w>t <C-\>e'tab '.getcmdline()<CR><CR>
+
 " Expand a mixed case command name
 cnoremap <M-]> <C-\>e<SID>cmd_expand()<CR><Tab>
 function! s:cmd_expand()
@@ -544,10 +548,6 @@ command! Mystify call misc#mystify()
 " Abbreviations: {{{1
 
 " Use <C-Q> to enter a literal, which doesn't trigger the abbreviation.
-
-" Open help in a vertical window or a new tab
-cabbrev vh vert h
-cabbrev th tab h
 
 " Edit a file in a new tab
 cabbrev te tabe
