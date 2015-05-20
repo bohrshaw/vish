@@ -1,2 +1,2 @@
-" Indent width
+setlocal makeprg=shellcheck\ -f\ gcc\ %
 set sw=2 ts=2 sts=2
