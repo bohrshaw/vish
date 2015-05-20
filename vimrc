@@ -266,8 +266,8 @@ endfunction
 " Window management leader key
 NXmap <M-w> <C-W>
 " Go to the below/right or above/left window
-NXnoremap <M-j> <C-W>w
-NXnoremap <M-k> <C-W>W
+nnoremap <M-j> <C-W>w
+nnoremap <M-k> <C-W>W
 " Split a window vertically with the alternate file
 NXnoremap <C-W><C-^> :vsplit #<CR>
 " Go to [count] tab pages forward or back

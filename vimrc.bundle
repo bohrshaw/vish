@@ -162,12 +162,12 @@ endif
 
 " Snippet solutions
 if (has('python') || has('python3')) && Bundle('Sirver/ultisnips',
-      \ {'m':['i <C-J>'], 'c':'UltiSnipsEdit', 'f':'*.snippets'}) &&
+      \ {'m':['i <M-j>', 'x <M-j>'], 'c':'UltiSnipsEdit', 'f':'*.snippets'}) &&
       \ Bundles('Honza/vim-snippets')
-  let g:UltiSnipsExpandTrigger='<C-J>'
-  let g:UltiSnipsListSnippets='<C-Q>'
-  let g:UltiSnipsJumpForwardTrigger="<C-J>"
-  let g:UltiSnipsJumpBackwardTrigger="<C-K>"
+  let g:UltiSnipsExpandTrigger='<M-j>'
+  let g:UltiSnipsListSnippets='<M-s>'
+  let g:UltiSnipsJumpForwardTrigger="<M-j>"
+  let g:UltiSnipsJumpBackwardTrigger="<M-k>"
   let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippet"]
   let g:UltiSnipsSnippetsDir=expand("~/.vim/snippet") " personal snippets path
   " let g:UltiSnipsEditSplit="vertical"
@@ -178,11 +178,10 @@ if (has('python') || has('python3')) && Bundle('Sirver/ultisnips',
 elseif Bundles('garbas/vim-snipmate', 'marcweber/vim-addon-mw-utils',
       \ 'tomtom/tlib_vim', 'honza/vim-snippets')
   command! -nargs=1 SImap imap <args>|smap <args>
-  SImap <C-J> <Plug>snipMateNextOrTrigger
-  xmap <C-J> <Plug>snipMateVisual
-  SImap <C-K> <Plug>snipMateBack
-  inoremap <C-\> <C-K>
-  SImap <C-Q> <Plug>snipMateShow
+  SImap <M-j> <Plug>snipMateNextOrTrigger
+  xmap <M-j> <Plug>snipMateVisual
+  SImap <M-k> <Plug>snipMateBack
+  SImap <M-s> <Plug>snipMateShow
 endif
 let g:snips_author = 'Bohr Shaw'
 let g:snips_author_email = 'pubohr@gmail.com'
