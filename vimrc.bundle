@@ -238,8 +238,18 @@ call Bundles('kristijanhusak/vim-multiple-cursors')
 " Preview contents of the registers when ", @, i_CTRL-R
 " call Dundles('junegunn/vim-peekaboo')
 
-" Characterize.vim: Unicode character metadata
-call Bundles('tpope/vim-characterize')
+" Make the handling of unicode and digraphs easier
+if Bundles('chrisbra/unicode.vim', 'tpope/vim-characterize')
+  imap <C-x><M-u> <Plug>(UnicodeComplete)
+  imap <C-x><M-d> <Plug>(DigraphComplete)
+  nmap gA <Plug>(UnicodeGA)
+  " Disable mappings
+  nmap <leader>_MakeDigraph <Plug>(MakeDigraph)
+  nmap <leader>_UnicodeSwapCompleteName <Plug>(UnicodeSwapCompleteName)
+  " Duplicate commands with new names
+  command! -nargs=1 Unicode call unicode#PrintUnicode(<q-args>)
+  command! UnicodeDownload call unicode#Download(1)
+endif
 
 " Transpose matrices of text (swap lines with columns)
 " call Bundles('salsifis/vim-transpose')
