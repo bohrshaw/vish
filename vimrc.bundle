@@ -473,6 +473,7 @@ if Bundles('Junegunn/seoul256.vim', 'w0ng/vim-hybrid',
       \ 'tomasr/molokai', 'sickill/vim-monokai',
       \ '-tpope/vim-vividchalk', '-vim-scripts/twilight') && Bundles(
       \
+      \ 'Nlknguyen/papercolor-theme',
       \ 'endel/vim-github-colorscheme', 'jonathanfilip/vim-lucius',
       \ 'noahfrederick/vim-hemisu', 'morhetz/gruvbox',
       \
