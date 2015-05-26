@@ -232,9 +232,9 @@ NXnoremap & :&&<CR>
 " Quick access to the black hole register
 NXnoremap _ "_
 " Toggle fold methods
-nnoremap <silent> zfm :<C-U>let &l:foldmethod = matchstr(
-      \ ':manual:marker:indent:syntax:expr:diff',
-      \ ':\zs\w\{-}'.nr2char(getchar()).'\w*')<CR>
+nnoremap <silent> zfm :let &l:foldmethod = tolower(matchstr(
+      \':Manual:marker:indent:syntax:expr:diff',
+      \'\C:\zs'.nr2char(getchar()).'\w*'))\|set foldmethod<CR>
 " Mappings for diff mode
 xnoremap <silent> do :execute &diff ? "'<,'>diffget" : ''<CR>
 xnoremap <silent> dp :execute &diff ? "'<,'>diffput" : ''<CR>

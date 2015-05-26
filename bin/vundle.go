@@ -165,3 +165,5 @@ func helptags() {
 		log.Printf("Fail to generate help tags.")
 	}
 }
+
+// vim:fdm=syntax:
