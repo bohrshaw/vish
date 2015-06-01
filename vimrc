@@ -318,12 +318,12 @@ NXnoremap <F11> :<C-U>call libcallnr($VIMRUNTIME.'\gvimfullscreen.dll', "ToggleF
 
 " Quick escape
 inoremap <M-i> <Esc>
+if has('nvim')
+  tnoremap <M-i> <C-\><C-N>
+endif
 inoremap <M-o> <C-O>
 " Quick exit, useful when editing the shell command line
 inoremap <M-z> <Esc>ZZ
-if has('nvim')
-  tnoremap <M-z> <C-\><C-N>
-endif
 
 " Open HELP in a positioned window
 cnoremap <M-w>v <C-\>e'vert '.getcmdline()<CR><CR>
