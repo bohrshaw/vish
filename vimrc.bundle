@@ -38,7 +38,7 @@ call Bundles('tpope/vim-scriptease')
 
 " The missing motion for Vim
 if Bundles('-Justinmk/vim-sneak', 'Bohrshaw/vim-sneak')
-  " let g:sneak#streak = 1 " enable streak mode
+  let g:sneak#streak = 1 " enable streak mode
   " let g:sneak#streak_esc = "\<CR>" " key to exit streak-mode
   " let g:sneak#use_ic_scs = 1 " ignorecase and smartcase
   let sneak#textobject_z = 0 " prevent the default {operator}z mapping
@@ -80,7 +80,8 @@ if Bundles('-Justinmk/vim-sneak', 'Bohrshaw/vim-sneak')
       let pattern = substitute(a:pattern, '\CIN', c, 'g')
     endif
     " op, input, inputlen, count, repeatmotion, reverse, inclusive, streak
-    call sneak#to('', '\m'.pattern, 1, 1, 0, a:reverse, 2, 2)
+    " inclusive: 2 means inclusive-exclusive motion like /
+    call sneak#to('', '\m'.pattern, 1, 1, 0, a:reverse, 2, 1)
   endfunction
   " Mimic the native search command / and ?, but literal
   " Function signature: sneak#wrap(op, inputlen, reverse, inclusive, streak)
