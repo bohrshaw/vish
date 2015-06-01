@@ -63,14 +63,16 @@ if Bundles('-Justinmk/vim-sneak', 'Bohrshaw/vim-sneak')
     if empty(c) |return |endif
     if a:mode =~# "^[vV\<C-v>]" |execute 'normal! gv' |endif
     if empty(a:pattern)
-      if c =~# '\v^(\d|\a)$' " excluding positions surrounded with similar characters
+      if c =~# '\v^(\d|\a)$' " to match a boundary
         let p = c =~# '\d' ? '\d' : (c =~# '\l' ? '\l' : '\u')
         let pattern = '\v'.p.'@<!'.c.'|'.c.p.'@!'
-      elseif c == "\<CR>" " last non-blank character of the line
-        let pattern = '\S\s*\_$'
-      elseif c == "\<BS>" " first non-blank character of the line
+      elseif c == "\<BS>" " get a new character, to match a non-boundary
+        let c = v#getchar()
+        let p = c =~# '\d' ? '\d' : (c =~# '\l' ? '\l' : '\u')
+        let pattern = '\v'.p.'\zs'.c.'\ze'.p
+      elseif c == "\<CR>" " to match the first non-blank character of a line
         let pattern = '\_^\s*\zs'
-      else " literal
+      else " to match a literal
         let c = escape(c, '\')
         let pattern = '\V'.c.'\@<!'.c.'\|'.c.c.'\@!'
       endif
