@@ -281,8 +281,8 @@ nnoremap <M-k> <C-W>W
 " Split a window vertically with the alternate file
 NXnoremap <C-W><C-^> :vsplit #<CR>
 " Go to [count] tab pages forward or back
-NXnoremap <silent> <M-l> :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
-NXnoremap <silent> <M-h> gT
+NXnoremap <silent> <M-t> :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
+NXnoremap <silent> <M-T> gT
 " Switch to the alternative file more conveniently
 nnoremap <M-a> <C-^>
 " Deal with terminal buffers

@@ -324,9 +324,6 @@ if Bundles('ctrlpvim/ctrlp.vim')
         \ 'find %s -path "*/\.*" -prune -o -type f -print -o -type l -print' :
         \ executable('ag') ? 'ag %s -l --nocolor -g ""' : ''
         \ }
-  " Bring up this finder in find file mode
-  let g:ctrlp_map = '<M-p>'
-  " let g:ctrlp_cmd = 'CtrlP'
   " Mappings inside CtrlP's prompt
   let g:ctrlp_prompt_mappings = {
         \ 'PrtCurLeft()':         ['<C-b>'],
@@ -346,6 +343,8 @@ if Bundles('ctrlpvim/ctrlp.vim')
         \ 'ToggleType(-1)':       ['<M-b>'],
         \ 'PrtExit()':            ['<Esc>', '<C-c>', '<M-q>', '<C-g>'],
         \ }
+  " Find project files
+  let g:ctrlp_map = '<M-p>'
   " Most recent used files
   nnoremap <Leader>fr :CtrlPMRU<CR>
   nnoremap <M-f> :CtrlPMRU<CR>
@@ -353,7 +352,7 @@ if Bundles('ctrlpvim/ctrlp.vim')
   nmap <Leader>fs :let g:ctrlp_default_input = expand('%:t:r') \|
         \ call ctrlp#init(0) \| unlet g:ctrlp_default_input<CR>
   " Buffers
-  nnoremap <M-b> :CtrlPBuffer<CR>
+  nnoremap <Leader>fb :CtrlPBuffer<CR>
   " Files, buffers and MRU files at the same time
   nnoremap <Leader>fa :CtrlPMixed<CR>
   " Bookmarked directories
@@ -393,8 +392,10 @@ if BundleNow('shougo/unite.vim')
     let g:unite_source_grep_recursive_opt=''
   endif
   command! -nargs=* -complete=customlist,unite#complete#source U Unite <args>
-  " This filter algorithm ignores the order of characters
-  nnoremap <M-B> :Unite -direction=below -start-insert buffer<CR>
+  " Find a listed buffer, the filter algorithm ignores the order of typing chars
+  nnoremap <silent><M-b> :Unite -direction=below -start-insert buffer<CR>
+  " Find a HELP buffer
+  nnoremap <silent><M-h> :Unite -direction=below -start-insert -input=.txt\ / buffer:?<CR>
   " Custom mappings for the unite buffer
   autocmd bundle FileType unite imap <buffer><M-j> <Plug>(unite_select_next_line)|
         \imap <buffer><M-k> <Plug>(unite_select_previous_line)|
