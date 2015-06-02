@@ -325,9 +325,9 @@ inoremap <M-o> <C-O>
 " Quick exit, useful when editing the shell command line
 inoremap <M-z> <Esc>ZZ
 
-" Open HELP in a positioned window
-cnoremap <M-w>v <C-\>e'vert '.getcmdline()<CR><CR>
-cnoremap <M-w>t <C-\>e'tab '.getcmdline()<CR><CR>
+" Make a command(e.g. `:h ...`) open a view vertically or in a new tab.
+cnoremap <M-h> <C-\>e'vert '.getcmdline()<CR><CR>
+cnoremap <M-t> <C-\>e'tab '.getcmdline()<CR><CR>
 
 " Expand a mixed case command name
 cnoremap <M-]> <C-\>e<SID>cmd_expand()<CR><Tab>
