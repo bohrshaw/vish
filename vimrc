@@ -194,9 +194,18 @@ inoremap <M-Space> <Esc>:
 if has('nvim')
   tnoremap <M-Space> <C-\><C-N>:
 endif
+" Refine the last command
 NXnoremap @<Space> @:
 NXnoremap @; :verbose @:<CR>
 NXnoremap @: :Verbose @:<CR>
+" Run the current command with a bang(!)
+cnoremap <M-1> <C-\>e<SID>insert_bang()<CR><CR>
+" Run the last command with a bang(!)
+nnoremap @! :<Up><C-\>e<SID>insert_bang()<CR><CR>
+function! s:insert_bang()
+  let [cmd, args] = split(getcmdline(), '\v(^\a+)@<=\ze(\A|$)', 1)
+  return cmd.'!'.args
+endfunction
 
 " Manipulation
 " Repeat last change on each line in a visual selection
@@ -213,7 +222,7 @@ endfunction
 " Execute a macro on each line in a visual selection
 xnoremap <silent> @ :<C-u>execute ":'<,'>normal! @".nr2char(getchar())<CR>
 " Execute a macro without remapping.
-NXnoremap <expr> <silent> @! repeat(
+NXnoremap <expr> <silent> @# repeat(
       \ ':<C-U>normal! <C-R><C-R>'.nr2char(getchar()).'<CR>', v:count1)
 " Yank till the line end instead of the whole line
 nnoremap Y y$
