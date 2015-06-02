@@ -366,7 +366,7 @@ endif
 " Unite and create user interfaces
 if BundleNow('shougo/unite.vim')
   let g:unite_data_directory = expand('~/.vim/tmp/unite')
-  call unite#filters#matcher_default#use(['matcher_fuzzy'])
+  " call unite#filters#matcher_default#use(['matcher_fuzzy'])
   " let g:unite_source_history_yank_enable = 1
   if executable('ag')
     let g:unite_source_grep_command='ag'
@@ -374,11 +374,17 @@ if BundleNow('shougo/unite.vim')
     let g:unite_source_grep_recursive_opt=''
   endif
   command! -nargs=* -complete=customlist,unite#complete#source U Unite <args>
-  " nnoremap <M-b> :Unite -no-split -quick-match buffer<CR>
+  " This filter algorithm ignores the order of characters
+  nnoremap <M-B> :Unite -direction=below -start-insert buffer<CR>
   " Custom mappings for the unite buffer
-  autocmd bundle FileType unite imap <buffer> <C-j> <Plug>(unite_select_next_line)|
-        \ imap <buffer> <C-k> <Plug>(unite_select_previous_line)|
-        \ imap <buffer> <C-q> <Plug>(unite_exit)
+  autocmd bundle FileType unite imap <buffer><M-j> <Plug>(unite_select_next_line)|
+        \imap <buffer><M-k> <Plug>(unite_select_previous_line)|
+        \unmap <buffer><Space>|
+        \nmap <buffer>m <Plug>(unite_toggle_mark_current_candidate)|
+        \imap <buffer><M-q> <Plug>(unite_exit)|
+        \if unite#loaded_source_names_string() == 'buffer'|
+        \imap <buffer><Esc> <Plug>(unite_exit)|
+        \endif
 endif
 
 " A tree explorer plugin for vim
