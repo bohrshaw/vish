@@ -313,12 +313,12 @@ NXnoremap <silent> 'B :let _f = expand('~/.vim/vimrc.bundle')\|
 " Mappings for the cmdline window
 autocmd vimrc CmdwinEnter * noremap <buffer> <F5> <CR>q:|
       \ NXInoremap <buffer> <nowait> <CR> <CR>|
-      \ NXInoremap <buffer> <C-C> <C-C><C-C>
+      \ NXInoremap <buffer> <M-q> <C-c><C-c>
 " Mappings/options for a quickfix/location window
 autocmd vimrc FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
       \ nnoremap <buffer> q <C-W>c|
-      \ nnoremap <buffer> <C-V> <C-W><CR><C-W>H|
-      \ nnoremap <buffer> <C-T> <C-W><CR><C-W>T
+      \ nnoremap <buffer> <M-v> <C-W><CR><C-W>H|
+      \ nnoremap <buffer> <M-t> <C-W><CR><C-W>T
 
 " Toggle full screen
 NXnoremap <F11> :<C-U>call libcallnr($VIMRUNTIME.'\gvimfullscreen.dll', "ToggleFullScreen", 0)<CR>
