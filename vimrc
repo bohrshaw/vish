@@ -189,7 +189,8 @@ NXnoremap <Space> :
 NXnoremap <M-Space> q:
 " set cedit=<C-G>
 cnoremap <M-Space> <C-F>
-" NXnoremap <M-/> q/
+" q/ is not reliable as q is often solely mapped to quitting
+NXnoremap <M-/> q/
 inoremap <M-Space> <Esc>:
 if has('nvim')
   tnoremap <M-Space> <C-\><C-N>:
