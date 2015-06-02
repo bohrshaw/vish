@@ -15,15 +15,25 @@ function! v#getchar(...)
   return cs
 endfunction
 
-" a list of listed buffer numbers
-function! v#bufnrs()
+" Get a list of buffers
+" If argument 1 is empty, listed buffers are displayed.
+" If argument 1 is "!", both listed and non-listed buffers are displayed.
+" If argument 1 is "?", non-listed buffers are displayed.
+function! v#buffers(...)
+  let a1 = get(a:, 1, '')
   redir => bufs
-  silent ls
+  execute 'silent ls'.(empty(a1) ? '' : '!')
   redir END
-  return map(split(bufs, '\n'), 'matchstr(v:val, ''\d\+'')')
+  let buflist = split(bufs, '\n')
+  if a1 == '?'
+    return filter(buflist, 'v:val =~# ''\v^\s*\d+u''')
+  else
+    return buflist
+  endif
 endfunction
-
-" a list of listed buffer names
-function! v#bufnames()
-  return map(v#bufnrs(), 'bufname(v:val+0)')
+function! v#bufnrs(...)
+  return map(v#buffers(get(a:, 1, '')), 'matchstr(v:val, ''\d\+'')')
+endfunction
+function! v#bufnames(...)
+  return map(v#bufnrs(get(a:, 1, '')), 'bufname(v:val+0)')
 endfunction
