@@ -458,7 +458,7 @@ noremap! <C-V>fa <LT>f-args>
 " }}}2
 
 " Get targets of links
-cnoremap <C-L> <C-\>e<SID>get_link_targets()<CR><CR>
+cnoremap <M-L> <C-\>e<SID>get_link_targets()<CR><CR>
 function! s:get_link_targets()
   let [cmd; links] = split(getcmdline())
   for l in links
