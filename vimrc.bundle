@@ -327,6 +327,25 @@ if Bundles('ctrlpvim/ctrlp.vim')
   " Bring up this finder in find file mode
   let g:ctrlp_map = '<M-p>'
   " let g:ctrlp_cmd = 'CtrlP'
+  " Mappings inside CtrlP's prompt
+  let g:ctrlp_prompt_mappings = {
+        \ 'PrtCurLeft()':         ['<C-b>'],
+        \ 'PrtCurRight()':        ['<C-f>'],
+        \ 'PrtInsert()':          ['<C-r>'],
+        \ 'PrtInsert("c")':       ['<C-S-v>'],
+        \ 'ToggleRegex()':        ['<M-r>'],
+        \ 'ToggleByFname()':      ['<M-d>'],
+        \ 'PrtSelectMove("j")':   ['<M-j>'],
+        \ 'PrtSelectMove("k")':   ['<M-k>'],
+        \ 'MarkToOpen()':         ['<M-m>'],
+        \ 'AcceptSelection("h")': ['<M-s>'],
+        \ 'AcceptSelection("v")': ['<M-v>'],
+        \ 'AcceptSelection("t")': ['<M-t>'],
+        \ 'CreateNewFile()':      ['<C-n>'],
+        \ 'ToggleType(1)':        ['<M-f>'],
+        \ 'ToggleType(-1)':       ['<M-b>'],
+        \ 'PrtExit()':            ['<Esc>', '<C-c>', '<M-q>', '<C-g>'],
+        \ }
   " Most recent used files
   nnoremap <Leader>fr :CtrlPMRU<CR>
   nnoremap <M-f> :CtrlPMRU<CR>
