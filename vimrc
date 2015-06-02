@@ -493,10 +493,6 @@ command! -range=% Uniqn <line1>,<line2>g/^./
       \ if search('^\V'.escape(getline('.'),'\').'\$', 'bW') |
       \ delete | endif <NL> silent! normal! ``
 
-" like :source, but support a range
-command! -bar -range Source <line1>,<line2>yank z<Bar>
-      \ let @z = substitute(@z, '\n\s*\\', '', 'g')<Bar>@z<CR>
-
 " Execute a command in each buffer in the quickfix or location list
 command! -nargs=1 -complete=command Qdo call vimrc#errdo('q', <q-args>)
 command! -nargs=1 -complete=command Ldo call vimrc#errdo(<q-args>)
