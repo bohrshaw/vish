@@ -604,7 +604,7 @@ if &encoding ==# 'utf-8' || &termencoding ==# 'utf-8'
   " ¬ ¶ ⏎ ↲ ↪ • · ▫ ¤ ␣ ¨ ⣿ │ ░ ▒ ▸ ⇥ → ← ⇉ ⇇ ❯ ❮ » « ↓ ↑
   let s:lcs = split(s:is_win_ssh ? '· · » « ▫' : '· ␣ ❯ ❮ ▫')
   let &showbreak = s:is_win_ssh ? '→' : '❯'
-  set fillchars=stl:=,stlnc:=,vert:│,fold:-,diff:-
+  set fillchars=vert:│,fold:-,diff:-
 else
   let s:lcs = ['>', '-', '>', '<', '+']
 endif
@@ -620,21 +620,22 @@ set colorcolumn=+1 " highlight column after 'textwidth'
 
 " A concise status line named "Starline"
 set laststatus=2 " always display the status line
+" Ensure all plugins are loaded before setting 'statusline'
 function! s:stl()
   set statusline=%m%.30f " modified flag, file name(truncated if length > 30)
-  set statusline+===%R%Y%W%q " read-only, filetype, preview, quickfix
-  set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?','.&fenc:''} " file encoding
-  set statusline+=%{&ff!='unix'?','.&ff:''} " file format
+  set statusline+=:%R%Y%W%q " read-only, filetype, preview, quickfix
+  set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?':'.&fenc:''} " file encoding
+  set statusline+=%{&ff!='unix'?':'.&ff:''} " file format
   " Git branch name
   let &statusline .= exists('*fugitive#head') ?
-        \ "%{exists('b:git_dir')?','.fugitive#head(7):''}" : ''
-  " set statusline+=%{','.matchstr(getcwd(),'.*[\\/]\\zs\\S*')}
-  set statusline+=%{get(b:,'case_reverse',0)?',CASE':''} " software caps lock
+        \ "%{exists('b:git_dir')?':'.fugitive#head(7):''}" : ''
+  " set statusline+=%{':'.matchstr(getcwd(),'.*[\\/]\\zs\\S*')}
+  set statusline+=%{get(b:,'case_reverse',0)?':CASE':''} " software caps lock
   set statusline+=%= " left/right separator
-  set statusline+=%c=%l/%L=%P " cursor position, line percentage
+  set statusline+=%c:%l/%L:%P " cursor position, line percentage
 endfunction
-" Ensure all plugins are loaded before setting 'statusline'
 execute (has('vim_starting')?'autocmd vimrc VimEnter * ':'').'call s:stl()'
+set fillchars+=stl:#,stlnc:+ " characters to fill the statuslines
 " Ensure the same statusline/tabline highlighting in any color scheme
 autocmd vimrc ColorScheme * hi StatusLine term=NONE cterm=NONE ctermfg=64 ctermbg=NONE
       \ gui=bold guifg=#5faf5f guibg=NONE |
