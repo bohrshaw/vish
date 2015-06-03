@@ -28,7 +28,7 @@ function! s:bundle_map()
         \.matchstr(@z, '\v''-?\zs[^'']*')<CR>
   " Activate the bundle under the cursor line
   nnoremap <buffer><silent> <LocalLeader>b mz"zyi'
-        \:call BundleActivate(split(@z, '/')[1])<CR>g`z
+        \:call BundleRun(split(@z, '/')[1])<CR>g`z
 endfunction
 
 " A Vim plugin for Vim plugins
@@ -104,7 +104,7 @@ elseif Bundles('-goldfeld/vim-seek', '-rhysd/clever-f.vim')
 endif
 
 " Create your own text objects
-if BundleNow('kana/vim-textobj-user')
+if BundlePath('kana/vim-textobj-user')
   call textobj#user#plugin('file', {
         \ 'file': {
         \ 'pattern': '\f\+', 'select': ['af', 'if']
@@ -120,7 +120,7 @@ if Bundles('-wellle/targets.vim', 'kana/vim-textobj-indent',
   " Delay activating this bundle to reduce startup time
   set updatetime=10
   augroup bundle_targets
-    autocmd CursorHold * call BundleActivate("targets.vim") |
+    autocmd CursorHold * call BundleRun("targets.vim") |
           \ set updatetime& | autocmd! bundle_targets CursorHold
   augroup END
 endif
@@ -288,7 +288,7 @@ nnoremap <silent> ]d :call search('\cto-\?do:', 's')<CR>
 nnoremap <silent> [d :call search('\cto-\?do:', 'sb')<CR>
 
 " Create your own submodes (e.g, g--- instead of g-g-g-)
-" call BundleNow('kana/vim-submode')
+" call BundlePath('kana/vim-submode')
 
 " Mappings for simultaneously pressed keys
 " call Bundles('kana/vim-arpeggio')
@@ -382,7 +382,7 @@ if Bundles('ctrlpvim/ctrlp.vim')
 endif
 
 " Unite and create user interfaces
-if BundleNow('shougo/unite.vim')
+if BundlePath('shougo/unite.vim')
   let g:unite_data_directory = expand('~/.vim/tmp/unite')
   " call unite#filters#matcher_default#use(['matcher_fuzzy'])
   " let g:unite_source_history_yank_enable = 1
@@ -943,7 +943,7 @@ endif
 " Implement transparent editing of gpg encrypted files
 if Dundles('jamessan/vim-gnupg') " a huge plugin file
   let g:GPGDefaultRecipients = ['Bohr Shaw']
-  command! -bar GPGEnable call BundleActivate('vim-gnupg')
+  command! -bar GPGEnable call BundleRun('vim-gnupg')
   command! GPGDone let &viminfo = _viminfo
   command! Diary execute (exists("g:loaded_gnupg") ? '' : 'GPGEnable|').
         \ 'silent e '.get(g:, 'DIARY_PATH', '').strftime('%Y%m%d').'.gpg|'.
@@ -1003,7 +1003,7 @@ endif
 
 " Browse Hacker News inside Vim, :pip install hackernews-python
 if Dundles('ryanss/vim-hackernews')
-  command! HackerNews call BundleActivate('vim-hackernews') |HackerNews
+  command! HackerNews call BundleRun('vim-hackernews') |HackerNews
 endif
 
 " AlternativeUsages: {{{1

@@ -12,7 +12,7 @@ function! Bundle(...)
   if s:bundle_enabled(a:1)
     let dirs = map(add((has_key(a:2, 'd') ? a:2['d'] : []), a:1),
           \ 'matchstr(v:val, ''/\zs.*'')')
-    let bundle_cmd = 'call call("BundleActivate",'.string(dirs).')'
+    let bundle_cmd = 'call call("BundleRun",'.string(dirs).')'
     if has_key(a:2, 'm')
       " Get all user-defined mapping commands
       let map_cmds = substitute(
@@ -49,7 +49,7 @@ function! Bundle(...)
   endif
 endfunction
 
-function! BundleActivate(...)
+function! BundleRun(...)
   for dir in a:000
     if path#add(dir) " inject the bundle path to runtime path
       let path = expand('~/.vim/bundle/'.dir)
@@ -64,7 +64,7 @@ function! BundleActivate(...)
   endfor
 endfunction
 
-function! BundleNow(b)
+function! BundlePath(b)
   if s:bundle_enabled(a:b)
     call path#add(a:b[stridx(a:b,"/")+1:])
     return 1
