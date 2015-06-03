@@ -355,6 +355,8 @@ inoremap <expr> <S-Tab> pumvisible() \|\| getline('.')[col('.')-2] !~ '^\s\?$'
       \ ? '<C-P>' : '<Tab>'
 " Remove auto-definded mappings
 autocmd vimrc CmdwinEnter * silent! iunmap <buffer> <Tab>
+" Show all candidates
+cnoremap <M-a> <C-d>
 
 " Shortcuts of insert-completion in CTRL-X mode
 imap <M-x> <C-X>
