@@ -228,7 +228,7 @@ NXnoremap <expr> <silent> @# repeat(
 " Yank till the line end instead of the whole line
 nnoremap Y y$
 " quick access to GUI/system clipboard
-NXnoremap "" "+
+NXnoremap "<Space> "+
 " Make 'cw' consistent with 'dw', but 'cw' behaving like 'ce' could be more
 " convenient as it's quicker to type and 'ce' is used more often.
 " onoremap <silent> w :execute 'normal! '.v:count1.'w'<CR>
