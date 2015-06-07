@@ -178,10 +178,15 @@ let maplocalleader = eval('"\<M-\>"') " replace <LocalLeader> in a map
 " Commands for defining mappings in several modes
 command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
 command! -nargs=1 NXmap nmap <args><Bar>xmap <args>
+command! -nargs=1 NXOnoremap nnoremap <args><Bar>xnoremap <args><Bar>onoremap <args>
 command! -nargs=1 NXOmap nmap <args><Bar>xmap <args><Bar>omap <args>
 " Allow chained commands, but also check for a " to start a comment
 command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
       \ inoremap <args>
+" Execute a remapped key in its un-remapped(vanilla) state
+NXOnoremap <expr>\\ nr2char(getchar())
+" Todo: Execte a global key shadowed by the same local one
+" noremap g\ ...
 
 " Essential
 " Enter command line at the speed of light
@@ -222,8 +227,8 @@ function! s:macro() range
 endfunction
 " Execute a macro on each line in a visual selection
 xnoremap <silent> @ :<C-u>execute ":'<,'>normal! @".nr2char(getchar())<CR>
-" Execute a macro without remapping.
-NXnoremap <expr> <silent> @# repeat(
+" Execute a macro without remapping
+NXnoremap <expr> <silent> @2 repeat(
       \ ':<C-U>normal! <C-R><C-R>'.nr2char(getchar()).'<CR>', v:count1)
 " Yank till the line end instead of the whole line
 nnoremap Y y$
