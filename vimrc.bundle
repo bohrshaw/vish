@@ -204,8 +204,8 @@ call Bundles('Tpope/vim-surround')
 " Alignment
 if Bundles('-godlygeek/tabular', 'junegunn/vim-easy-align', '-tommcdo/vim-lion')
   command! -nargs=* -range -bang Align <line1>,<line2>EasyAlign <args>
-  NXmap gl <Plug>(EasyAlign)
-  NXmap gL <Plug>(LiveEasyAlign)
+  NXmap zl <Plug>(EasyAlign)
+  NXmap Zl <Plug>(LiveEasyAlign)
 endif
 
 " Use CTRL-A/CTRL-X to increment dates, times, and more
