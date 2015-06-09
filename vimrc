@@ -191,12 +191,12 @@ NXOnoremap <expr>\\ nr2char(getchar())
 " Essential
 " Enter command line at the speed of light
 NXnoremap <Space> :
+inoremap <M-Space> <Esc>:
 NXnoremap <M-Space> q:
 " set cedit=<C-G>
 cnoremap <M-Space> <C-F>
 " q/ is not reliable as q is often solely mapped to quitting
 NXnoremap <M-/> q/
-inoremap <M-Space> <Esc>:
 if has('nvim')
   tnoremap <M-Space> <C-\><C-N>:
 endif
