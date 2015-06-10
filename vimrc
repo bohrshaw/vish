@@ -432,7 +432,7 @@ function! s:toggle(arg)
 endfunction
 
 " Extend <C-V> to support entering more notated keys {{{2
-" Use the alternative <C-Q> for entering literals.
+" Use <C-v><Esc><BS> to cancel.
 
 map! <M-v> <C-V>
 
