@@ -295,8 +295,8 @@ if has('nvim')
   tnoremap <m-w> <c-\><c-n><c-w>
   tnoremap <m-j> <c-\><c-n><c-w>w
   tnoremap <m-k> <c-\><c-n><c-w>W
-  tmap <m-l> <C-\><C-n><M-l>
-  tnoremap <m-h> <c-\><c-n>gT
+  tmap <M-t> <C-\><C-n><M-t>
+  tnoremap <M-T> <C-\><C-n>gT
   tnoremap <m-a> <c-\><c-n><c-^>
   autocmd vimrc BufWinEnter,WinEnter term://* startinsert
 endif
