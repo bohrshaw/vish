@@ -635,7 +635,8 @@ silent! set cryptmethod=blowfish cm=blowfish2 " acceptable encryption
 " Join lines without any character or with specified characters in between
 command! -range -nargs=? Join <line1>,<line2>-1s/\s*\n\s*/<args>/
 " Remove trailing white spaces
-command! Trim let _p=getpos('.')| keepj keepp %s/\s\+$//| call setpos('.',_p)
+command! -range=% Trim let _p=getpos('.')|
+      \keepj keepp <line1>,<line2>s/\s\+$//| call setpos('.',_p)
 " Execute an external command silently
 command! -nargs=1 -complete=shellcmd Silent call system(<q-args>)
 " Remove duplicate lines:" {{{
