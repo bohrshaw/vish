@@ -223,6 +223,7 @@ if has('nvim')
   tmap <M-t> <C-\><C-n><M-t>
   tnoremap <M-T> <C-\><C-n>gT
   autocmd vimrc BufWinEnter,WinEnter term://* startinsert
+  autocmd vimrc BufLeave term://* stopinsert
 endif
 " Manipulate tabs
 cabbrev tm tabm
