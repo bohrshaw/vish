@@ -37,3 +37,14 @@ endfunction
 function! v#bufnames(...)
   return map(v#bufnrs(get(a:, 1, '')), 'bufname(v:val+0)')
 endfunction
+
+" Create a path (also see the implementation in "vim-eunuch")
+function! v#mkdir(...)
+  let dir = fnamemodify(expand(a:0 || empty(a:1) ? '%:h' : a:1), ':p')
+  try
+    call mkdir(dir, 'p')
+    echo "Succeed in creating directory: " . dir
+  catch
+    echohl WarningMsg | echo "Fail in creating directory: " . dir | echohl NONE
+  endtry
+endfunction

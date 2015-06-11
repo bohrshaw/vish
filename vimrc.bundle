@@ -1,11 +1,9 @@
-" Description: Vim bundle configuration.
+" This is part of the Vim initialization file, exclusively for plugin settings.
+"
 " Author: Bohr Shaw <pubohr@gmail.com>
 
-" To keep Vim healthy, stable, efficient and consistent, I should choose bundles
-" carefully and do customisation properly.
-"
-" Regarding to performance, in additiont to startup profiling, be aware of
-" possible autocmd pollution which should actually be more concerned.
+" Select bundles carefully and customize properly.
+" Be aware of possible autocmd pollution which should be more concerned.
 
 " BundleManagement: {{{1
 

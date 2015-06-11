@@ -23,17 +23,6 @@ function! vimrc#run(type)
   normal! g`z
 endfunction
 
-" Create a path conveniently
-function! vimrc#mkdir(...) " {{{1
-  let dir = fnamemodify(expand(a:0 || empty(a:1) ? '%:h' : a:1), ':p')
-  try
-    call mkdir(dir, 'p')
-    echo "Succeed in creating directory: " . dir
-  catch
-    echohl WarningMsg | echo "Fail in creating directory: " . dir | echohl NONE
-  endtry
-endfunction " }}}1
-
 " Count anything in a range of lines
 function! vimrc#count(...) " {{{1
   if a:0 == 3
