@@ -2,7 +2,6 @@
 
 " a wapper around getchar()
 function! v#getchar(...)
-  echon '>'
   let cs = ''
   for i in range(1, get(a:, 1, 1))
     let c = getchar()

@@ -361,56 +361,78 @@ silent! set wildignorecase " ignore case when completing file names/directories
 " Show all candidates
 cnoremap <M-a> <C-d>
 " Make a command(e.g. `:h ...`) split vertically or in a new tab.
-cnoremap <M-h> <C-\>e'vert '.getcmdline()<CR><CR>
+cnoremap <M-v> <C-\>e'vert '.getcmdline()<CR><CR>
 cnoremap <M-t> <C-\>e'tab '.getcmdline()<CR><CR>
 " Expand a mixed case command name:" {{{
-cnoremap <M-]> <C-\>e<SID>cmd_expand()<CR><Tab>
+cnoremap <M-j> <C-\>e<SID>cmd_expand()<CR><Tab>
 function! s:cmd_expand()
   let cmd = getcmdline()
   let [range, abbr] = [matchstr(cmd, '^\A*'), matchstr(cmd, '\a.*')]
   let parts = map(split(abbr, abbr =~ '\s' ? '\s' : '\zs'), 'toupper(v:val[0]).v:val[1:]')
   return range . join(parts, '*')
 endfunction " }}}
-" Extend <C-V> to support entering more notated keys {{{
-" Use <C-v><Esc><BS> to cancel.
-map! <M-v> <C-V>
 
-" Key(character) special
-noremap! <expr> <C-V>c '<C-'.setreg('z', nr2char(getchar()))[1:0]
-      \.(@z =~# '\u' ? 'S-'.tolower(@z) : @z).'>'
-noremap! <expr> <C-V>m '<M-'.nr2char(getchar()).'>'
-noremap! <expr> <C-V>d '<D-'.nr2char(getchar()).'>'
-noremap! <C-V>E <LT>Esc>
-noremap! <C-V>T <LT>Tab>
-noremap! <C-V><Space> <LT>Space>
-noremap! <C-V>R <LT>CR>
-noremap! <C-V>< <LT>LT>
-noremap! <C-V>\ <LT>Bslash>
-noremap! <C-V>\| <LT>Bar>
+" Abbreviations" {{{
+" Trigger abbreviation
+noremap! <M-]> <C-]>
 
-" Mapping special
-noremap! <C-V>bu <LT>buffer>
-noremap! <C-V>no <LT>nowait>
-noremap! <C-V>si <LT>silent>
-noremap! <C-V>sp <LT>special>
-noremap! <C-V>sc <LT>script>
-noremap! <C-V>ex <LT>expr>
-noremap! <C-V>un <LT>unique>
-noremap! <C-V>L <LT>Leader>
-noremap! <C-V>lL <LT>LocalLeader>
-noremap! <C-V>P <LT>Plug>
-noremap! <C-V>S <LT>SID>
+abbr bs Bohr Shaw
+" }}}
 
-" Command special
-noremap! <C-V>l1 <LT>line1>
-noremap! <C-V>l2 <LT>line2>
-noremap! <C-V>co <LT>count>
-noremap! <C-V>re <LT>reg>
-noremap! <C-V>ba <LT>bang>
-noremap! <C-V>ar <LT>args>
-noremap! <C-V>qa <LT>q-args>
-noremap! <C-V>fa <LT>f-args>
-
+" Type special(notated) keys {{{
+noremap! <expr><M-s> <SID>special_key()
+function! s:special_key()
+  let c1 = v#getchar()
+  if empty(c1)
+    return ''
+  endif
+  if has_key(s:key_map, c1) == 1
+    return s:key_map[c1]
+  endif
+  let c2 = v#getchar()
+  if empty(c2)
+    return ''
+  endif
+  let cc = c1.c2
+  if has_key(s:key_map, cc) == 1
+    return s:key_map[cc]
+  elseif cc =~# 'c.'
+    return '<C-'.(c2 =~# '\u' ? 'S-'.tolower(c2) : c2).'>'
+  elseif cc =~# '[md].'
+    return '<'.toupper(c1).'-'.c2.'>'
+  else
+    return ''
+  endif
+endfunction
+let s:key_map = {
+      \'E':  '<Esc>',
+      \'T':  '<Tab>',
+      \' ':  '<Space>',
+      \'R':  '<CR>',
+      \'<':  '<LT>',
+      \'\':  '<Bslash>',
+      \'|':  '<Bar>',
+      \'bu': '<buffer>',
+      \'no': '<nowait>',
+      \'si': '<silent>',
+      \'sp': '<special>',
+      \'sc': '<script>',
+      \'ex': '<expr>',
+      \'un': '<unique>',
+      \'L':  '<Leader>',
+      \'ll': '<LocalLeader>',
+      \'lL': '<LocalLeader>',
+      \'P':  '<Plug>',
+      \'S':  '<SID>',
+      \'l1': '<line1>',
+      \'l2': '<line2>',
+      \'co': '<count>',
+      \'re': '<reg>',
+      \'ba': '<bang>',
+      \'ar': '<args>',
+      \'qa': '<q-args>',
+      \'fa': '<f-args>',
+      \}
 " }}}
 " }}}
 " Repeat:" {{{
