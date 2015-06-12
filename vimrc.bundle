@@ -396,6 +396,9 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
     imap <M-x> <Esc>x
     imap <buffer><M-j> <Plug>(unite_select_next_line)
     imap <buffer><M-k> <Plug>(unite_select_previous_line)
+    inoremap <silent><buffer><expr><M-s> unite#do_action('split')
+    inoremap <silent><buffer><expr><M-v> unite#do_action('vsplit')
+    inoremap <silent><buffer><expr><M-t> unite#do_action('tabopen')
     unmap <buffer><Space>|unmap <buffer><S-Space>
     nmap <buffer>m <Plug>(unite_toggle_mark_current_candidate)
     nmap <buffer>M <Plug>(unite_toggle_mark_current_candidate_up)
@@ -404,7 +407,7 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
     " imap <buffer>m i_<Plug>(unite_toggle_mark_current_candidate)
     " imap <buffer>M i_<Plug>(unite_toggle_mark_current_candidate_up)
     nmap <buffer>C <Plug>(unite_disable_max_candidates)
-    unmap <buffer>q
+    " unmap <buffer>q
     nmap <buffer><Esc> <Plug>(unite_exit)
     nmap <buffer><M-q> <Plug>(unite_exit)
     imap <buffer><M-q> <Plug>(unite_exit)
