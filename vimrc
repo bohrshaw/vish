@@ -365,8 +365,8 @@ silent! set wildignorecase " ignore case when completing file names/directories
 " Show all candidates
 cnoremap <M-a> <C-d>
 " Make a command(e.g. `:h ...`) split vertically or in a new tab.
-cnoremap <M-v> <C-\>e'vert '.getcmdline()<CR><CR>
-cnoremap <M-t> <C-\>e'tab '.getcmdline()<CR><CR>
+cnoremap <M-w>v <C-\>e'vert '.getcmdline()<CR><CR>
+cnoremap <M-w>t <C-\>e'tab '.getcmdline()<CR><CR>
 " Expand a mixed case command name:" {{{
 cnoremap <M-j> <C-\>e<SID>cmd_expand()<CR><Tab>
 function! s:cmd_expand()
@@ -383,8 +383,8 @@ noremap! <M-]> <C-]>
 abbr bs Bohr Shaw
 " }}}
 
-" Type special(notated) keys {{{
-noremap! <expr><M-s> <SID>special_key()
+" Type notated keys {{{
+noremap! <expr><M-v> <SID>special_key()
 function! s:special_key()
   let c1 = v#getchar()
   if empty(c1)
