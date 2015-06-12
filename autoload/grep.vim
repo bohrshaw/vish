@@ -1,7 +1,7 @@
 " Grep using 'ag' or 'ack'
 function! grep#grep(prg, cmd)
   if a:prg == 'ag'
-    if a:cmd =~# '^\w\+\s\+-g\s'
+    if a:cmd =~# '^\w\+\s\+-g\s' " search only file names
       let grepprg = 'ag --nocolor'
       let grepformat = "%f"
     else
@@ -37,7 +37,7 @@ function! grep#help(cmd)
     elseif executable('ack')
       set grepprg=ack\ --noenv\ --type-set=txt:ext:txt\ --txt
     else
-      execute 'helpgrep '.a:cmd
+      execute 'helpgrep '.matchstr(a:cmd, '\v\s+\zs.*')
       return
     endif
     let path = ''

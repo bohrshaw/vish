@@ -182,10 +182,14 @@ elseif executable('ack')
   set grepprg=ack\ --column
   set grepformat^=%f:%l:%c:%m
 endif
-" Grep using 'ag' or 'ack' without affecting 'grepprg' and 'grepformat'
-command! -bar -nargs=+ -complete=file Ag call grep#grep('ag', <q-args>)
-command! -bar -nargs=+ -complete=file Ack call grep#grep('ack', <q-args>)
+" A wrapper around grep using 'ag' or 'ack' without affecting 'grepprg' and
+" 'grepformat'. Notice that a grep command like :grep, :lgrep, :grepadd etc.
+" still needs to be explicitly specified.
+command! -bar -nargs=+ -complete=file WithAg call grep#grep('ag', <q-args>)
+command! -bar -nargs=+ -complete=file WithAck call grep#grep('ack', <q-args>)
+" Grep all HELP docs preferably with ag, ack, helpgrep, in this order
 command! -nargs=+ -complete=command Help call grep#help(<q-args>)
+" A shortcut to ":Help grep"
 command! -nargs=+ -complete=command Helpgrep call grep#help('grep '.<q-args>)
 " Grep through all buffers
 command! -nargs=1 BufGrep cexpr [] | bufdo vimgrepadd <args> %
