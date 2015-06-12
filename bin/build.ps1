@@ -27,7 +27,7 @@ popd
 # Paths of langauges to be compiled into Vim
 $python = "C:\Python27"
 $python3 = "C:\Python34"
-$ruby = "D:\Programs\Ruby21mswin" # avoid "rubyinstaller.org" and compile ruby with vs
+$ruby = "D:\Programs\Ruby22mswin" # avoid "rubyinstaller.org" and compile ruby with vs
 $lua = "D:\Workspaces\builds\luajit\src"
 
 # Source Code Preparation {{{1
@@ -52,9 +52,9 @@ nmake -f Make_mvc.mak `
   FEATURES=HUGE GUI=yes OLE=no MBYTE=yes IME=yes `
   PYTHON=$python DYNAMIC_PYTHON=yes PYTHON_VER=27 `
   PYTHON3=$python3 DYNAMIC_PYTHON3=yes PYTHON3_VER=34 `
-  RUBY=$ruby DYNAMIC_RUBY=yes RUBY_VER=21 RUBY_VER_LONG=2.1.0 RUBY_PLATFORM=i386-mswin32_120 RUBY_INSTALL_NAME=msvcr120-ruby210 `
+  RUBY=$ruby DYNAMIC_RUBY=yes RUBY_VER=22 RUBY_VER_LONG=2.2.0 RUBY_PLATFORM=i386-mswin32_120 RUBY_INSTALL_NAME=msvcr120-ruby220 `
   LUA=$lua DYNAMIC_LUA=yes LUA_VER=51 `
-  USERNAME=bohrshaw USERDOMAIN=gmail.com
+  USERNAME=pubohr USERDOMAIN=gmail.com
 
 # Vim
 nmake -f Make_mvc.mak `
