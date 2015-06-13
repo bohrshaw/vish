@@ -229,9 +229,10 @@ if has('nvim')
   autocmd vimrc BufWinEnter,WinEnter term://* startinsert
   autocmd vimrc BufLeave term://* stopinsert
 endif
-" Manipulate tabs
-cabbrev tm tabm
-cabbrev tc tabc
+" Tab is a collection of windows
+cabbrev tm tabmove
+nnoremap <C-w>C :tabclose<CR>
+cabbrev tc tabclose
 " }}}
 " Content:" {{{
 " Edit the alternative file
