@@ -297,7 +297,7 @@ nnoremap <silent> [d :call search('\cto-\?do:', 'sb')<CR>
 " FileBufferPaneWindowTabSession: {{{1
 
 " Fuzzy file, buffer, mru, tag, etc finder
-if Bundles('ctrlpvim/ctrlp.vim')
+if Bundles('-ctrlpvim/ctrlp.vim')
   let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/ctrlp'
   " Set the mode to determine the root searching directory.
   " let g:ctrlp_working_path_mode = 'ra'
@@ -312,7 +312,7 @@ if Bundles('ctrlpvim/ctrlp.vim')
         \ 'file': '\v\.(exe|so|dll)$'
         \ }
   " Specify an external tool to use for listing files.
-  let s:ctrlp_git_cmd = 'cd %s && git ls-files && git ls-files -o --exclude-standard'
+  let s:ctrlp_git_cmd = 'cd %s && git ls-files --cached --others --exclude-standard'
   let g:ctrlp_user_command = {
         \ 'types': {
         \ 1: ['.git', has('win32') ? '('.s:ctrlp_git_cmd.')' : s:ctrlp_git_cmd],
@@ -320,7 +320,7 @@ if Bundles('ctrlpvim/ctrlp.vim')
         \ },
         \ 'fallback': !has('win32') ?
         \ 'find %s -path "*/\.*" -prune -o -type f -print -o -type l -print' :
-        \ executable('ag') ? 'ag %s -l --nocolor -g ""' : ''
+        \ executable('ag') ? 'ag -g "" %s' : ''
         \ }
   " Mappings inside CtrlP's prompt
   let g:ctrlp_prompt_mappings = {
@@ -381,53 +381,79 @@ endif
 
 " Unite and create user interfaces
 if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
-      \'-shougo/neomru.vim', 'shougo/unite-outline', 'tsukkee/unite-tag',
+      \'shougo/neomru.vim', 'shougo/unite-outline', 'tsukkee/unite-tag',
       \'shougo/unite-help', '-shougo/tabpagebuffer.vim')
   command! -nargs=* -complete=customlist,unite#complete#source U Unite <args>
   " Find a listed buffer(the filter algorithm ignores the order of typing chars)
   nnoremap <silent><M-b> :Unite -buffer-name=buffer buffer<CR>
   " Find a HELP buffer
   nnoremap <silent><M-h> :Unite -buffer-name=help -input=.txt\ / buffer:?<CR>
+  " Find recently used files (May consider importing from v:oldfiles.)
+  nnoremap <silent><M-f> :Unite file_mru<CR>
+  " Find files recursively in the project or the CWD
+  nnoremap <silent><M-p> :call <SID>project_files()<CR>
+  function! s:project_files() " {{{
+    " The project root is inferred from the current buffer or the CWD
+    let git_dir = get(b:, 'git_dir', fugitive#extract_git_dir(getcwd()))
+    if !empty(git_dir)
+      execute 'lcd '.git_dir[:-6]
+      Unite file_rec/git:--cached:--others:--exclude-standard
+    else
+      execute 'Unite file_rec/'.(has('nvim')?'neovim':'async')
+    endif
+  endfunction" }}}
   " Bring up the default Unite buffer
   nnoremap <Leader>ur :UniteResume default<CR>
-  " Custom mappings for the unite buffer
+  " Custom mappings for the unite buffer" {{{
   autocmd bundle FileType unite call <SID>unite_buffer_mapping()
   function! s:unite_buffer_mapping()
-    imap <M-x> <Esc>x
+    " Navigation
+    " Note <Esc> is mapped to <Plug>(unite_insert_leave) which just moves the curosr
+    imap <buffer><M-x> <Esc>x
     imap <buffer><M-j> <Plug>(unite_select_next_line)
     imap <buffer><M-k> <Plug>(unite_select_previous_line)
+    " Action
     inoremap <silent><buffer><expr><M-s> unite#do_action('split')
     inoremap <silent><buffer><expr><M-v> unite#do_action('vsplit')
     inoremap <silent><buffer><expr><M-t> unite#do_action('tabopen')
+    inoremap <silent><buffer><expr><M-e> unite#do_action('edit')
+    " Mark
     unmap <buffer><Space>|unmap <buffer><S-Space>
     nmap <buffer>m <Plug>(unite_toggle_mark_current_candidate)
     nmap <buffer>M <Plug>(unite_toggle_mark_current_candidate_up)
     xmap <buffer>m v_<Plug>(unite_toggle_mark_selected_candidates)
-    " unmap! <buffer><Space>|unmap! <buffer><S-Space>
-    " imap <buffer>m i_<Plug>(unite_toggle_mark_current_candidate)
-    " imap <buffer>M i_<Plug>(unite_toggle_mark_current_candidate_up)
-    nmap <buffer>C <Plug>(unite_disable_max_candidates)
-    " unmap <buffer>q
-    nmap <buffer><Esc> <Plug>(unite_exit)
-    nmap <buffer><M-q> <Plug>(unite_exit)
+    unmap! <buffer><Space>|unmap! <buffer><S-Space>
+    imap <expr><buffer>m unite#smart_map('m', "\<Plug>(unite_toggle_mark_current_candidate)")
+    imap <expr><buffer>M unite#smart_map('M', "\<Plug>(unite_toggle_mark_current_candidate_up)")
+    " Quit
     imap <buffer><M-q> <Plug>(unite_exit)
+    nmap <buffer><M-q> <Plug>(unite_exit)
+    imap <buffer><M-Q> <Esc><Plug>(unite_all_exit)
     nmap <buffer>R <Plug>(unite_restart)
-    if unite#loaded_source_names_string() == 'buffer'
-      imap <buffer><Esc> <Plug>(unite_exit)
-    endif
-  endfunction
+    " Others
+    nmap <buffer>C <Plug>(unite_disable_max_candidates)
+    imap <buffer><M-Space> <Esc>:
+  endfunction" }}}
   call unite#custom#profile('default', 'context', {
         \'start_insert': 1,
         \'direction': 'below',
         \})
-  let g:unite_data_directory = expand('~/.vim/tmp/unite')
-  " call unite#filters#matcher_default#use(['matcher_fuzzy'])
-  " let g:unite_source_history_yank_enable = 1
   if executable('ag')
+    if has('win32')
+      let g:unite_source_rec_async_command = 'ag -g ""'
+    endif
     let g:unite_source_grep_command='ag'
-    let g:unite_source_grep_default_opts='--smart-case --line-numbers --nogroup --nocolor'
+    let g:unite_source_grep_default_opts='--line-numbers'
     let g:unite_source_grep_recursive_opt=''
   endif
+  " call unite#filters#matcher_default#use(['matcher_fuzzy'])
+  " let g:unite_source_history_yank_enable = 1 " yank ring
+  let g:unite_data_directory = expand('~/.vim/tmp/unite')
+  let g:neomru#file_mru_path = expand('~/.vim/tmp/unite/mru/files')
+  let g:neomru#directory_mru_path = expand('~/.vim/tmp/unite/mru/directories')
+  " Performance tuning
+  let g:neomru#do_validate = 0 " skip checking invalide files for performance
+  autocmd VimEnter * silent! autocmd! neomru BufEnter,VimEnter,BufWritePost
 endif
 
 " A tree explorer plugin for vim
@@ -907,7 +933,8 @@ if Bundles('tpope/vim-fugitive')
     call fugitive#repo().git_chomp_in_tree('add', s:git_file_path())
   endfunction
   " Asynchronous execution
-  command! -nargs=1 GGit call vimproc#system_bg('git --git-dir='.b:git_dir.' <args>')
+  command! -nargs=1 GGit call vimproc#system_bg(
+        \'git --git-dir='.b:git_dir.' --work-tree='.b:git_dir[:-6].' <args>')
 endif
 
 " Git branch management
