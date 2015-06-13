@@ -799,8 +799,11 @@ endif
 
 " Bindings for the python auto-completion library 'jedi'
 if Bundles('davidhalter/jedi-vim')
+  " Let g:jedi#auto_initialization = 0
   let g:jedi#auto_vim_configuration = 0
   autocmd bundle FileType python setlocal completeopt=menuone,longest,preview
+  " let g:jedi#show_call_signatures = 0
+  let g:jedi#completions_command = '' " mapping key for omni completion
   let g:jedi#goto_assignments_command = '<LocalLeader>d'
   let g:jedi#goto_definitions_command = '<LocalLeader>D'
   let g:jedi#rename_command = '<LocalLeader>R'
