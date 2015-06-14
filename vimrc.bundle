@@ -910,13 +910,14 @@ if Bundles('tpope/vim-fugitive')
   nnoremap g<Space>s :Gstatus<CR>
   nnoremap g<Space>cc :Gcommit -v<CR>
   nnoremap g<Space>cC :call <SID>git_add_current() \| Gcommit -v<CR>
-  nnoremap g<Space>CC :Gcommit --all -v<CR>
   nnoremap g<Space>ca :Gcommit --amend -v<CR>
   nnoremap g<Space>cA :call <SID>git_add_current() \| Gcommit --amend -v<CR>
-  nnoremap g<Space>CA :Gcommit --all --amend -v<CR>
   nnoremap g<Space>ce :Gcommit --allow-empty-message -m ''<CR>
   nnoremap g<Space>cE :call <SID>git_add_current() \| Gcommit --allow-empty-message -m ''<CR>
-  nnoremap g<Space>CE :Gcommit --all --allow-empty-message -m ''<CR>
+  nnoremap g<Space>Cc :Gcommit --all -v<CR>
+  nnoremap g<Space>CC :Gcommit --all -av<CR>
+  nnoremap g<Space>Ca :Gcommit --all --amend -v<CR>
+  nnoremap g<Space>CA :Gcommit --all --amend -av<CR>
   nnoremap g<Space>cd :wq \| Gcommit -v<CR>
   nnoremap g<Space>dd <C-W>o:Gdiff<CR>
   nnoremap g<Space>da :Git diff<CR>
