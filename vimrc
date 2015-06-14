@@ -573,7 +573,7 @@ function! s:stl()
   set statusline+=%c:%l/%L:%P " cursor position, line percentage
 endfunction
 execute (has('vim_starting')?'autocmd vimrc VimEnter * ':'').'call s:stl()'
-set fillchars+=stl:=,stlnc:- " characters to fill the statuslines
+set fillchars+=stl::,stlnc:~ " characters to fill the statuslines
 " Ensure the same statusline/tabline highlighting in any color scheme
 autocmd vimrc ColorScheme * hi StatusLine
       \ term=bold cterm=bold ctermfg=131 ctermbg=233
