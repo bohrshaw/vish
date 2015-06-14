@@ -915,9 +915,7 @@ if Bundles('tpope/vim-fugitive')
   nnoremap g<Space>ce :Gcommit --allow-empty-message -m ''<CR>
   nnoremap g<Space>cE :call <SID>git_add_current() \| Gcommit --allow-empty-message -m ''<CR>
   nnoremap g<Space>Cc :Gcommit --all -v<CR>
-  nnoremap g<Space>CC :Gcommit --all -av<CR>
   nnoremap g<Space>Ca :Gcommit --all --amend -v<CR>
-  nnoremap g<Space>CA :Gcommit --all --amend -av<CR>
   nnoremap g<Space>cd :wq \| Gcommit -v<CR>
   nnoremap g<Space>dd <C-W>o:Gdiff<CR>
   nnoremap g<Space>da :Git diff<CR>
