@@ -410,7 +410,7 @@ function! s:special_key()
 endfunction
 let s:key_map = {
       \"\<Tab>": '<Tab>',
-      \"\<Esc>": '<Esc>',
+      \'E':      '<Esc>',
       \' ':      '<Space>',
       \"\<CR>":  '<CR>',
       \"\<BS>":  '<BS>',
