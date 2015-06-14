@@ -40,8 +40,7 @@ if has('vim_starting')
 
   " Whether to include the least number of bundles, for shell command line editing
   let g:l = get(g:, 'l') || argv(0) =~# '^\V'.
-        \ (empty($TMPPREFIX) ? '/tmp/zsh' : $TMPPREFIX).'ecl\|'.
-        \ $TMP.'/bash-fc'
+        \(empty($TMPPREFIX)?'/tmp/zsh':$TMPPREFIX).'ecl\|'.$TMP.'/bash-fc'
 
   set rtp^=$HOME/.vim rtp+=$HOME/.vim/after " be portable
   if has('gui_running') || $termencoding ==? 'utf-8'
@@ -293,7 +292,7 @@ NXnoremap <silent> 'B :let _f = expand('~/.vim/vimrc.bundle')\|
 " Make the file '_' a scratch buffer
 autocmd vimrc BufNewFile,BufReadPost _ set buftype=nofile nobuflisted bufhidden=hide
 autocmd vimrc SessionLoadPost * silent! bwipeout! _
-if has('vim_starting') && 0 == argc() && has('gui_running') && !l
+if has('vim_starting') && 0 == argc() && has('gui_running') && !g:l
   cd $HOME
 endif
 " Recognise a file's encoding in this order
@@ -479,7 +478,7 @@ nnoremap dO :diffoff \| windo if &diff \| hide \| endif<CR>
 command! -nargs=? -complete=buffer DiffWith call vimrc#diffwith(<f-args>)
 " }}}
 " Persistence:" {{{
-let &swapfile = l ? 0 : 1 " use a swapfile for the buffer
+let &swapfile = g:l ? 0 : 1 " use a swapfile for the buffer
 set undofile " remember undo history across sessions
 " Remember uppercase global variables, number of files in which marks are
 " remembered(:oldfiles), ... , and viminfo file name.
@@ -595,6 +594,7 @@ autocmd vimrc FileType qf setlocal statusline=%t
 set ruler " not effective when 'statusline' is set
 set rulerformat=%50(%=%m%r%<%f%Y\ %c,%l/%L,%P%)
 " }}}
+let &showtabline = g:l ? 1 : 2
 " set tabline=
 set titlestring=%{getcwd()}
 " set number " print the line number in front of each line
