@@ -231,7 +231,7 @@ if has('nvim')
 endif
 " Tab is a collection of windows
 cabbrev tm tabmove
-nnoremap <C-w>C :tabclose<CR>
+nnoremap <silent><C-w>C :tabclose<CR>
 cabbrev tc tabclose
 " }}}
 " Content:" {{{
