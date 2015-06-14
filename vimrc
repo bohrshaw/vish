@@ -574,15 +574,20 @@ function! s:stl()
   set statusline+=%c:%l/%L:%P " cursor position, line percentage
 endfunction
 execute (has('vim_starting')?'autocmd vimrc VimEnter * ':'').'call s:stl()'
-set fillchars+=stl:#,stlnc:+ " characters to fill the statuslines
+set fillchars+=stl:=,stlnc:- " characters to fill the statuslines
 " Ensure the same statusline/tabline highlighting in any color scheme
-autocmd vimrc ColorScheme * hi StatusLine term=NONE cterm=NONE ctermfg=64 ctermbg=NONE
-      \ gui=bold guifg=#5faf5f guibg=NONE |
-      \ hi StatusLineNC term=NONE cterm=NONE ctermfg=NONE ctermbg=NONE
-      \ gui=NONE guifg=fg guibg=NONE |
+autocmd vimrc ColorScheme * hi StatusLine
+      \ term=bold cterm=bold ctermfg=131 ctermbg=233
+      \ gui=bold guifg=#be7572 guibg=#171717 |
+      \ hi StatusLineNC
+      \ term=NONE cterm=NONE ctermfg=64 ctermbg=233
+      \ gui=NONE guifg=#5faf5f guibg=#171717 |
       \ hi! link TabLineSel StatusLine |
       \ hi! link TabLine StatusLineNC |
       \ hi! link TabLineFill StatusLineNC
+if !has('vim_starting')
+  doautocmd vimrc ColorScheme *
+endif
 " The status line for the quickfix window
 autocmd vimrc FileType qf setlocal statusline=%t
       \%{strpart('\ '.get(w:,'quickfix_title',''),0,66)}%=\ %11.(%c,%l/%L,%P%)
