@@ -1,4 +1,4 @@
-" Description: Mappable Meta key in terminals
+" Description: Mappable Meta key in terminals Vim(inapplicable to Neovim)
 " Author: Bohr Shaw <pubohr@gmail.com>
 
 " References:
@@ -12,15 +12,15 @@
 " in a macro is still recognised as a key code, which is really disruptive to
 " macros.
 " Another subtle issue is that in normal mode, if "<Esc>" is mapped, "<M-k>"
-" is executed as "<Esc>" and then "k", which I suspect a Vim bug.
+" is executed as "<Esc>" and then "k", which I suspect is a Vim bug.
 
 " Solutions:(Compromise)
 " Just like I can use "noremap" to avoid "<Esc>k" to be recognised as a key
 " code, I could use "normal! <C-R><C-R>q<CR>" as an alternative to "@q" to
-" achieve the same aim, for which I even make a convenient mapping "@!". But
-" be aware that ALL keys in that macro are then executed without remapping.
-" A probably better way to circumvent this issue is to deliberately use
-" "<C-C>" to escape whichever insert, visual or command mode, except that the
+" achieve the same, for which I even make a convenient mapping. But be aware
+" that ALL keys in that macro are then executed without remapping.  A probably
+" better way to circumvent this issue is to deliberately use "<C-C>" to escape
+" whichever insert, visual or command mode. But be aware that the
 " "InsertLeave" autocommand would not be triggered by using "<C-C>".
 
 if has('gui_running') || has('nvim')
