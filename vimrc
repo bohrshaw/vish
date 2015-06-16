@@ -17,6 +17,7 @@
 " Analyse startup performance with profile.sh
 
 " Mapping notes:
+" Use <C-c> instead of <Esc> to cancel a mapping
 " :h map-which-keys
 " Potentially unused keys: "\ <Space> <CR> <BS> Z Q R S X _ !"
 " Keys waiting for a second key: "f t d c g z v y m q ' [ ]"
@@ -51,7 +52,8 @@ endif " }}}
 set ttimeoutlen=10 " key code delay (instant escape from Insert mode)
 " Meta-VimScript:" {{{
 " let mapleader = "\r" " replace <Leader> in a map
-let maplocalleader = eval('"\<M-\>"') " replace <LocalLeader> in a map
+let maplocalleader = "\t" " replace <LocalLeader> in a map
+noremap <Tab> <Nop>
 " Commands for defining mappings in several modes
 command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
 command! -nargs=1 NXmap nmap <args><Bar>xmap <args>
