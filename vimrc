@@ -94,8 +94,6 @@ if has('nvim')
   tnoremap <M-i> <C-\><C-N>
 endif
 inoremap <M-o> <C-O>
-" Quick exit, useful when editing the shell command line
-inoremap <M-z> <Esc>ZZ
 " }}}
 " Yank till the line end instead of the whole line
 nnoremap Y y$
@@ -212,26 +210,29 @@ autocmd vimrc FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
 " View:" {{{
 " Window management leader key
 NXmap <M-w> <C-W>
-" Go to the below/right or above/left window
 nnoremap <M-j> <C-W>w
 nnoremap <M-k> <C-W>W
-" Go to [count] tab pages forward or back
+nnoremap <M-q> <C-W>q
+inoremap <M-q> <Esc><C-W>q
+" Quick exit, useful when editing the shell command line
+inoremap <M-z> <Esc>ZZ
+" Tab is a collection of windows
 NXnoremap <silent> <M-t> :<C-U>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
 NXnoremap <silent> <M-T> gT
+cabbrev tm tabmove
+nnoremap <silent><C-w>C :tabclose<CR>
+cabbrev tc tabclose
 " Deal with terminal buffers
 if has('nvim')
   tnoremap <M-w> <C-\><C-n><C-w>
   tnoremap <M-j> <C-\><C-n><C-w>w
   tnoremap <M-k> <C-\><C-n><C-w>W
+  tnoremap <M-q> <C-\><C-n><C-W>q
   tmap <M-t> <C-\><C-n><M-t>
   tnoremap <M-T> <C-\><C-n>gT
   autocmd vimrc BufWinEnter,WinEnter term://* startinsert
   autocmd vimrc BufLeave term://* stopinsert
 endif
-" Tab is a collection of windows
-cabbrev tm tabmove
-nnoremap <silent><C-w>C :tabclose<CR>
-cabbrev tc tabclose
 " }}}
 " Content:" {{{
 " Edit the alternative file
@@ -402,6 +403,8 @@ function! s:special_key()
     return s:key_map[cc]
   elseif cc =~# 'c.'
     return '<C-'.(c2 =~# '\u' ? 'S-'.tolower(c2) : c2).'>'
+  elseif cc =~# 'C.'
+    return 'ctrl-'.c2
   elseif cc =~# '[md].'
     return '<'.toupper(c1).'-'.c2.'>'
   else
@@ -429,6 +432,7 @@ let s:key_map = {
       \'lL':     '<LocalLeader>',
       \'P':      '<Plug>',
       \'S':      '<SID>',
+      \'N':      '<Nop>',
       \'l1':     '<line1>',
       \'l2':     '<line2>',
       \'co':     '<count>',
