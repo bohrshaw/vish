@@ -151,7 +151,7 @@ if has('lua') && Bundles('shougo/neocomplete.vim', 'bohrshaw/vimproc.vim')
         \ ':NeoCompleteDisable<CR>' : ':NeoCompleteEnable<CR>'
   " Toggle auto/manual completion for the current buffer
   nnoremap <Leader>tc :NeoCompleteToggle<CR>
-  inoremap <LocalLeader>tc <C-R>=neocomplete#commands#_toggle_lock()[1:0]<CR>
+  inoremap <M-\>tc <C-R>=neocomplete#commands#_toggle_lock()[1:0]<CR>
   " Start manual completion
   inoremap <silent><M-n> <C-O>:call neocomplete#init#enable() \|
         \call neocomplete#commands#_lock() \|
