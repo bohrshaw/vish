@@ -55,18 +55,18 @@ endfunction " }}}1
 
 " Calculate words frequency
 " http://vim.wikia.com/wiki/Word_frequency_statistics_for_a_file
-function! vimrc#word_frequency() range " {{{1
-  let all = split(join(getline(a:firstline, a:lastline)), '\A\+')
-  let frequencies = {}
-  for word in all
-    let frequencies[word] = get(frequencies, word, 0) + 1
-  endfor
-  new
-  setlocal buftype=nofile bufhidden=hide noswapfile tabstop=20
-  for [key,value] in items(frequencies)
-    call append('$', key."\t".value)
-  endfor
-  sort i
+function! vimrc#word_frequency(...) " {{{1
+  let words = split(join(getline(get(a:, 1, 1), get(a:, 2, '$'))), '\A\+')
+python3 << EOF
+import vim
+words = {}
+for word in vim.eval('words'):
+    words[word] = words.get(word, 0) + 1
+vim.command('return ' + str(
+    [t[0]+':'+str(t[1]) for t in sorted(words.items(),
+                                        key=lambda x: x[1],
+                                        reverse=1)]))
+EOF
 endfunction " }}}1
 
 " Diff with another file

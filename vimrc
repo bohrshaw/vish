@@ -700,7 +700,7 @@ xnoremap cR c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
 command! -range=% -nargs=? Count echo vimrc#count
       \(<q-args>, <line1>, <line2>) | normal ``
 " Calculate words frequency
-command! -range=% WordFrequency <line1>,<line2>call vimrc#word_frequency()
+command! -range=% WordFrequency echo vimrc#word_frequency(<line1>, <line2>)
 " Calculate the total lines of source code minus blank lines and comment lines.
 command! -range=% SLOC echo vimrc#count
       \('^[^' . &cms[0] . ']', <line1>, <line2>) | normal ``
