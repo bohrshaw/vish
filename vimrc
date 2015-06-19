@@ -135,7 +135,9 @@ nnoremap g. g,g;
 cabbrev chs changes
 cabbrev ms marks
 set matchpairs+=<:> " character pairs matched by '%'
-runtime macros/matchit.vim " extended pair matching with '%'
+if !has('nvim') " nvim put it in plugin/
+  runtime macros/matchit.vim " extended pair matching with '%'
+endif
 " Jump to the middle of the current written line as opposed to the window width
 nnoremap <silent> gm :call cursor(0, virtcol('$')/2)<CR>|nnoremap gM gm
 " Auto-place the cursor when switching buffers or files:" {{{
@@ -630,7 +632,7 @@ if has('vim_starting')
 endif
 " }}}
 set showcmd "show partial commands in status line
-" set showmatch matchtime=3 "show matching brackets, better using matchparen.vim
+" set showmatch matchtime=1 " better using highlighting in plugin/matchparen.vim
 silent! set breakindent " indent wrapped lines
 set linebreak " don't break a word when displaying wrapped lines
 set colorcolumn=+1 " highlight column after 'textwidth'
