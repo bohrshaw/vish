@@ -173,9 +173,7 @@ if (has('python') || has('python3')) && Bundle('Sirver/ultisnips',
   let g:UltiSnipsSnippetsDir=expand("~/.vim/snippet") " personal snippets path
   " let g:UltiSnipsEditSplit="vertical"
   autocmd bundle BufNewFile,BufRead *.snippets set ft=snippets
-  " Avoid python mis-detection during startup in Vim 7.4.52
-  autocmd bundle VimEnter * if !has('python3') |
-        \ let g:UltiSnipsUsePythonVersion = 2 | endif
+  let g:UltiSnipsUsePythonVersion = has('python3') ? 3 : 2
 elseif Bundles('garbas/vim-snipmate', 'marcweber/vim-addon-mw-utils',
       \ 'tomtom/tlib_vim', 'honza/vim-snippets')
   command! -nargs=1 SImap imap <args>|smap <args>
@@ -793,7 +791,7 @@ if Bundles('klen/python-mode')
   let g:pymode_rope = 0
   " Escape syntastic check for python
   call add(get(get(g:, 'syntastic_mode_map', {}), 'passive_filetypes', []), 'python')
-  " let g:pymode_python = 'python3'
+  let g:pymode_python = 'python3'
   autocmd bundle VimEnter * set shellslash&
 endif
 
