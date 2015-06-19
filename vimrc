@@ -53,6 +53,7 @@ set ttimeoutlen=10 " key code delay (instant escape from Insert mode)
 " Meta-VimScript:" {{{
 " let mapleader = "\r" " replace <Leader> in a map
 let maplocalleader = "\t" " replace <LocalLeader> in a map
+let g:mapinsertleader = "\<M-g>"
 noremap <Tab> <Nop>
 " Commands for defining mappings in several modes
 command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
