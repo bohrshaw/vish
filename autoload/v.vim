@@ -9,7 +9,6 @@ function! v#getchar(...)
     if index(["\<esc>", "\<c-c>"], c) >= 0
       break
     endif
-    echon c
     let cs .= c
   endfor
   return cs
