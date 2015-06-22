@@ -70,6 +70,7 @@ if has('nvim')
   for c in split("abcdefghijklmnopqrstuvwxyz,./;'[]\\-=`", '\zs')
     execute 'tnoremap '.'<M-'.c.'> <Esc>'.c
   endfor
+  tnoremap <M-CR> <Esc><CR>
 else
   runtime autoload/key.vim " mappable meta key in terminals
 endif " }}}
