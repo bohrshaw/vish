@@ -519,9 +519,10 @@ inoremap <C-E> <End>
 noremap! <M-f> <S-Right>
 noremap! <M-b> <S-Left>
 " Move the cursor around one character
-inoremap <expr> <C-F> col('.')>strlen(getline('.'))?"\<Lt>C-F>":"\<Lt>Right>"
-cnoremap <C-F> <Right>
+noremap! <C-F> <Right>
 noremap! <C-B> <Left>
+" Delete one word before the cursor
+noremap! <M-BS> <C-w>
 " Delete one word after the cursor
 inoremap <M-d> <C-O>dw
 cnoremap <M-d> <S-Right><C-W>
@@ -529,11 +530,11 @@ cnoremap <M-d> <S-Right><C-W>
 inoremap <expr> <C-D> col('.')>strlen(getline('.'))?"\<Lt>C-D>":"\<Lt>Del>"
 cnoremap <expr> <C-D> getcmdpos()>strlen(getcmdline())?"\<Lt>C-D>":"\<Lt>Del>"
 " Transpose two characters around the cursor
+cmap <script><C-T> <SID>transposition<SID>transpose
 noremap! <expr> <SID>transposition getcmdpos() > strlen(getcmdline()) ?
       \ "\<Left>" : getcmdpos()>1 ? '' : "\<Right>"
 noremap! <expr> <SID>transpose "\<BS>\<Right>"
       \ . matchstr(getcmdline()[0 : getcmdpos()-2], '.$')
-cmap <script> <C-T> <SID>transposition<SID>transpose
 " }}}
 " Bundles:" {{{
 if has('vim_starting')
