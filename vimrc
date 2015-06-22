@@ -398,27 +398,34 @@ function! s:special_key()
   if empty(c1)
     return ''
   endif
-  if has_key(s:key_map, c1) == 1
-    return s:key_map[c1]
+  if has_key(s:keymap, c1) == 1
+    return s:keymap[c1]
   endif
   let c2 = v#getchar()
   if empty(c2)
     return ''
   endif
+  let c2_ = has_key(s:keymap_sp, c2) ? s:keymap_sp[c2] : c2
   let cc = c1.c2
-  if has_key(s:key_map, cc) == 1
-    return s:key_map[cc]
+  if has_key(s:keymap, cc) == 1
+    return s:keymap[cc]
   elseif cc =~# 'c.'
-    return '<C-'.(c2 =~# '\u' ? 'S-'.tolower(c2) : c2).'>'
+    return '<C-'.(c2 =~# '\u' ? 'S-'.tolower(c2_) : c2_).'>'
   elseif cc =~# 'C.'
     return 'ctrl-'.c2
   elseif cc =~# '[md].'
-    return '<'.toupper(c1).'-'.c2.'>'
+    return '<'.toupper(c1).'-'.c2_.'>'
   else
     return ''
   endif
 endfunction
-let s:key_map = {
+let s:keymap_sp = {
+      \"\<Tab>": 'Tab',
+      \' ':      'Space',
+      \"\<CR>":  'CR',
+      \"\<BS>":  'BS',
+      \}
+let s:keymap = {
       \"\<Tab>": '<Tab>',
       \'E':      '<Esc>',
       \' ':      '<Space>',
