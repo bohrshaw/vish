@@ -251,7 +251,7 @@ if Bundles('chrisbra/unicode.vim', 'tpope/vim-characterize')
 endif
 
 " Transpose matrices of text (swap lines with columns)
-" call Bundles('salsifis/vim-transpose')
+call Bundles('salsifis/vim-transpose')
 
 " History: {{{1
 
