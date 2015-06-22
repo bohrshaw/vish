@@ -157,7 +157,7 @@ autocmd vimrc BufWinEnter * normal! zv
 " }}}
 " Search:" {{{
 set incsearch " show matches when typing the search pattern
-set hlsearch " highlight all matches of a search pattern
+set nohlsearch " highlight all matches of a search pattern
 set ignorecase " case insensitive in search patterns and command completion
 set smartcase " case sensitive only when up case characters present
 " Mark position before search
