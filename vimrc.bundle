@@ -919,9 +919,9 @@ if Bundles('tpope/vim-fugitive')
   nnoremap g<Space>da :Git diff<CR>
   nnoremap g<Space>b :Gblame<CR>
   nnoremap g<Space>l :Glog<CR>
-  nnoremap g<Space>ps :GGit push<CR>
-  nnoremap g<Space>pS :GGit push -f<CR>
-  nnoremap g<Space>pl :GGit pull<CR>
+  nnoremap g<Space>ps :GitBg push<CR>
+  nnoremap g<Space>pS :GitBg push -f<CR>
+  nnoremap g<Space>pl :GitBg pull<CR>
   nnoremap <silent> <Leader>dr :execute 'lcd '.b:git_dir[:-6]<CR>
   nnoremap <silent> <Leader>dR :execute 'cd '.b:git_dir[:-6]<CR>
   " Utilities
@@ -933,7 +933,9 @@ if Bundles('tpope/vim-fugitive')
     call fugitive#repo().git_chomp_in_tree('add', s:git_file_path())
   endfunction
   " Asynchronous execution
-  command! -nargs=1 GGit call vimproc#system_bg(
+  command! -nargs=1 GGit execute
+        \'B git --git-dir='.b:git_dir.' --work-tree='.b:git_dir[:-6].' <args>'
+  command! -nargs=1 GitBg call vimproc#system_bg(
         \'git --git-dir='.b:git_dir.' --work-tree='.b:git_dir[:-6].' <args>')
 endif
 
