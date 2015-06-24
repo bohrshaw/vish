@@ -595,8 +595,8 @@ execute (has('vim_starting')?'autocmd vimrc VimEnter * ':'').'call s:stl()'
 set fillchars+=stl::,stlnc:~ " characters to fill the statuslines
 " Ensure the same statusline/tabline highlighting in any color scheme
 autocmd vimrc ColorScheme * hi StatusLine
-      \ term=bold cterm=bold ctermfg=64 ctermbg=233
-      \ gui=bold guifg=#5faf5f guibg=#171717 |
+      \ term=bold cterm=bold ctermfg=40 ctermbg=233
+      \ gui=bold guifg=#00d700 guibg=#171717 |
       \ hi StatusLineNC
       \ term=NONE cterm=NONE ctermfg=131 ctermbg=233
       \ gui=NONE guifg=#be7572 guibg=#171717 |
