@@ -74,6 +74,9 @@ if has('nvim')
 else
   runtime autoload/key.vim " mappable meta key in terminals
 endif " }}}
+if has('nvim') " skip python check to reduce startup time
+  let [g:python_host_skip_check, g:python3_host_skip_check] = [1, 1]
+endif
 " }}}
 " Shortcuts:" {{{
 " Enter the command line:" {{{
