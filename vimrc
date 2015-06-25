@@ -602,7 +602,8 @@ autocmd vimrc ColorScheme * hi StatusLine
       \ gui=NONE guifg=#be7572 guibg=#171717 |
       \ hi! link TabLineSel StatusLine |
       \ hi! link TabLine StatusLineNC |
-      \ hi! link TabLineFill StatusLineNC
+      \ hi! link TabLineFill StatusLineNC |
+      \ hi! TermCursor term=NONE cterm=NONE ctermfg=NONE ctermbg=46
 if !has('vim_starting')
   doautocmd vimrc ColorScheme *
 endif
