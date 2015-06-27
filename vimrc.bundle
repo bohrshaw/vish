@@ -885,12 +885,12 @@ endif
 
 " A powerful shell implemented in Vim Script
 if has('nvim')
-  " This command prefers an usually unique termianl-buffer-name compared with
-  " the one('*:/usr/bin/zsh') created by :terminal.
-  command! Shell let _b = bufname('^term://*:zsh$')|
-        \if empty(_b)|enew|call termopen('zsh')|startinsert|
-        \else|execute 'b '._b|endif
+  " Open a shell or switch to the same shell, in the same window
+  command! Shell if empty(get(g:, '_bufterm', ''))|
+        \execute 'terminal'|let g:_bufterm = bufnr('%')|
+        \else|execute 'b '.g:_bufterm|endif
   NXnoremap <M-s> :<C-U>Shell<CR>
+  nnoremap <Leader>bs :Unite -input=term:/\ zsh\|bash\  buffer<CR>
 elseif Bundles('shougo/vimshell.vim', 'bohrshaw/vimproc.vim')
   NXnoremap <M-s> :<C-U>VimShell<CR>
   autocmd bundle FileType vimshell NXInoremap <buffer><silent><M-a> <Esc>:sil b#<CR>
