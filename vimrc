@@ -685,7 +685,7 @@ set winminheight=0 " the minimal height of a window
 set history=1000 " maximum number of commands and search patterns to keep
 set synmaxcol=999 " ignore further syntax items to avoid slow redrawing
 silent! set cryptmethod=blowfish cm=blowfish2 " acceptable encryption
-set langnoremap " 'langmap' doesn't apply to characters resulting from a mapping
+silent! set langnoremap " 'langmap' doesn't apply to characters resulting from a mapping
 " Make 'cw' consistent with 'dw'
 " onoremap <silent> w :execute 'normal! '.v:count1.'w'<CR>
 
