@@ -385,7 +385,7 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
   " Find a listed buffer(the filter algorithm ignores the order of typing chars)
   nnoremap <silent><M-b> :Unite -buffer-name=buffer buffer<CR>
   " Find a HELP buffer
-  nnoremap <silent><M-h> :Unite -buffer-name=help -input=.txt\ / buffer:?<CR>
+  nnoremap <silent><Leader>bh :Unite -buffer-name=help -input=.txt\ doc/ buffer:?<CR>
   " Find recently used files (May consider importing from v:oldfiles.)
   nnoremap <silent><M-f> :Unite file_mru<CR>
   " Find files recursively in the project or the CWD
