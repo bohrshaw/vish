@@ -169,10 +169,8 @@ NXnoremap / ms/
 xnoremap * :<C-u>call <SID>v_search('/')<CR>/<C-R>=@/<CR><CR>
 xnoremap # :<C-u>call <SID>v_search('?')<CR>?<C-R>=@/<CR><CR>
 function! s:v_search(dir)
-  let temp = @s
-  normal! gv"sy
-  let @/ = '\V' . substitute(escape(@s, a:dir.'\'), '\n', '\\n', 'g')
-  let @s = temp
+  normal! gv"zy
+  let @/ = '\V' . substitute(escape(@z, a:dir.'\'), '\n', '\\n', 'g')
 endfunction" }}}
 " Substitute in a visual area:" {{{
 xnoremap cs :s/\%V
@@ -708,7 +706,8 @@ command! -range=% Uniqn <line1>,<line2>g/^./
 NXnoremap <F11> :<C-U>call libcallnr($VIMRUNTIME.'\gvimfullscreen.dll', "ToggleFullScreen", 0)<CR>
 " Search via Google
 command! -nargs=1 Google call netrw#NetrwBrowseX(
-      \ "http://www.google.com.hk/search?q=".expand("<args>"),0)
+      \ "https://www.google.com/search?q=".expand("<args>"),0)
+xnoremap <Leader>gg "zy:<C-u>Google <C-r>z<CR>
 " Mystify texts
 command! Mystify call misc#mystify()
 " Reverse the selected text
