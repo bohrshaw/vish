@@ -67,7 +67,7 @@ endfunction " }}}1
 
 " Add paths of a bundle to runtime path
 function! path#add(dir) " {{{1
-  let path = expand('~/.vim/bundle/'.a:dir)
+  let path = expand(a:dir !~ '[/\\]' ? '~/.vim/bundle/'.a:dir : a:dir)
   let rtp = path#split(&rtp)
   if index(rtp, 'path') < 0
     call insert(rtp, path, 1)

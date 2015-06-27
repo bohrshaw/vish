@@ -36,7 +36,7 @@ augroup END
 " }}}
 " Vim Starting:" {{{
 if has('vim_starting')
-  set all& | silent! source ~/.vimrc.local " override system vimrc
+  set all& " override system vimrc
   set nocompatible " make Vim behave in a more useful way
 
   " Whether to include the least number of bundles, for shell command line editing
@@ -722,6 +722,8 @@ command! -range=% WordFrequency echo vimrc#word_frequency(<line1>, <line2>)
 command! -range=% SLOC echo vimrc#count
       \('^[^' . &cms[0] . ']', <line1>, <line2>) | normal ``
 " }}}
+
+silent! source ~/.vimrc.local " machine specific config
 " }}}
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s:
