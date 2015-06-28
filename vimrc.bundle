@@ -886,7 +886,7 @@ endif
 " A powerful shell implemented in Vim Script
 if has('nvim')
   " Open a shell or switch to the same shell, in the same window
-  command! Shell if empty(get(g:, '_bufterm', ''))|
+  command! Shell if empty(get(g:, '_bufterm', '')) || !bufexists(g:_bufterm)|
         \execute 'terminal'|let g:_bufterm = bufnr('%')|
         \else|execute 'b '.g:_bufterm|endif
   NXnoremap <M-s> :<C-U>Shell<CR>
