@@ -23,6 +23,10 @@ for f in vimrc gvimrc vimperatorrc vimperator; do
 done
 slink $VISH/vimrc $HOME/.nvimrc
 
-$VISH/bin/vundle.rb
+if hash go &>/dev/null; then
+  go run $VISH/bin/vundle.go
+else
+  $VISH/bin/vundle.rb
+fi
 
 echo "Vim ready!"

@@ -46,6 +46,10 @@ New-Link "$VIM_DIR\vimperator" "$HOME\vimperator"
 New-Link "$VIM_DIR\vsvimrc"
 
 # Sync bundles
-Invoke-Expression "ruby $VIM_DIR\bin\bundle.rb"
+if (Get-Command "go.exe" -ErrorAction SilentlyContinue) {
+    Invoke-Expression "go run $VIM_DIR\bin\bundle.go"
+} else {
+    Invoke-Expression "ruby $VIM_DIR\bin\bundle.rb"
+}
 
 # vim:tw=80 ts=4 sw=4 et fdm=marker:
