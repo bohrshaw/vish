@@ -555,7 +555,7 @@ if Bundles('Junegunn/seoul256.vim', 'w0ng/vim-hybrid',
       \
       \ '-flazz/vim-colorschemes', '-daylerees/colour-schemes/vim',
       \ 'chriskempson/vim-tomorrow-theme', 'chriskempson/base16-vim')
-  let g:seoul256_background = 234
+  let g:seoul256_background = has('gui_running') ? 234 : 233
   let g:solarized_italic = 0
   let g:solarized_termcolors = &term =~ '256col' ? 256 : 16
   let g:solarized_menu=0
@@ -563,7 +563,7 @@ if Bundles('Junegunn/seoul256.vim', 'w0ng/vim-hybrid',
 endif
 autocmd bundle VimEnter * nested execute 'color '.
       \ (has('gui_running') ? 'seoul256' :
-      \ (has('win32') ? 'apprentice' : 'last256'))
+      \ (has('win32') ? 'apprentice' : 'seoul256'))
 
 " Make gvim-only colorschemes work transparently in terminal vim
 " call Bundles('godlygeek/csapprox')
