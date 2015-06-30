@@ -886,9 +886,9 @@ endif
 " A powerful shell implemented in Vim Script
 if has('nvim')
   " Open a shell or switch to the same shell, in the same window
-  command! Shell if empty(get(g:, 'V_SHELL_BUFNR', '')) || !bufexists(g:V_SHELL_BUFNR)|
-        \execute 'terminal'|let g:V_SHELL_BUFNR = bufnr('%')|
-        \else|execute 'b '.g:V_SHELL_BUFNR|endif
+  command! Shell if empty(get(g:, 'v_shell_bufnr', '')) || !bufexists(g:v_shell_bufnr)|
+        \execute 'terminal'|let g:v_shell_bufnr = bufnr('%')|
+        \else|execute 'b '.g:v_shell_bufnr|endif
   NXnoremap <M-s> :<C-U>Shell<CR>
   nnoremap <Leader>bs :Unite -input=term:/\ zsh\|bash\  buffer<CR>
 elseif Bundles('shougo/vimshell.vim', 'bohrshaw/vimproc.vim')
