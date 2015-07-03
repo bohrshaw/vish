@@ -984,7 +984,10 @@ endif
 
 " Helpers for UNIX(Windows)
 if Bundles('tpope/vim-eunuch')
-  autocmd bundle VimEnter * command! W SudoWrite
+  " Delayed as W would be defined by eunuch
+  autocmd bundle VimEnter * command! W
+        \ if has('nvim')|echo "Please <C-z>, then run `sudo -v` in a loop."|
+        \ else|SudoWrite|endif|command! W SudoWrite
 endif
 
 " Tmux basics, insert mode completion of words in adjacent tmux panes
