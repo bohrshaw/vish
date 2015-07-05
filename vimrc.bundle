@@ -568,6 +568,17 @@ autocmd bundle VimEnter * nested execute 'color '.
 " Make gvim-only colorschemes work transparently in terminal vim
 " call Bundles('godlygeek/csapprox')
 
+" Configurable and extensible tab line and status line
+if Bundles('tpope/vim-flagship')
+  " Tabline
+  let g:tabprefix = (has('nvim') ? v:servername[5:] : '%{v:servername}').
+        \(empty($SSH_TTY) ? '': '@'.hostname())
+  " Statusline (leave untouched)
+  if has('vim_starting')
+    autocmd User Flags call Vstatusline()
+  endif
+endif
+
 " Lean & mean statusline for vim that's light as air
 if Bundles('-bling/vim-airline')
   " Remove separators, the different colors already make it easy to distinguish.

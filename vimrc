@@ -579,7 +579,7 @@ execute 'autocmd vimrc InsertLeave * set listchars+=trail:'.s:lcs[1]
 " Status line(I name it as "Starline"):" {{{
 set laststatus=2 " always display the status line
 " Ensure all plugins are loaded before setting 'statusline'
-function! s:stl()
+function! Vstatusline()
   set statusline=%m%.30f " modified flag, file name(truncated if length > 30)
   set statusline+=:%R%Y%W%q " read-only, filetype, preview, quickfix
   set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?':'.&fenc:''} " file encoding
@@ -592,7 +592,7 @@ function! s:stl()
   set statusline+=%= " left/right separator
   set statusline+=%c:%l/%L:%P " cursor position, line percentage
 endfunction
-execute (has('vim_starting')?'autocmd vimrc VimEnter * ':'').'call s:stl()'
+execute (has('vim_starting')?'autocmd vimrc VimEnter * ':'').'call Vstatusline()'
 set fillchars+=stl::,stlnc:~ " characters to fill the statuslines
 " Ensure the same statusline/tabline highlighting in any color scheme
 autocmd vimrc ColorScheme * hi StatusLine
