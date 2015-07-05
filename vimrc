@@ -702,7 +702,7 @@ command! -range=% Uniqn <line1>,<line2>g/^./
       \ delete | endif <NL> silent! normal! ``
 " }}}
 " Toggle full screen
-NXnoremap <F11> :<C-U>call libcallnr($VIMRUNTIME.'\gvimfullscreen.dll', "ToggleFullScreen", 0)<CR>
+NXnoremap <F11> :<C-U>call libcallnr('gvimfullscreen.dll', "ToggleFullScreen", 0)<CR>
 " Search via Google
 command! -nargs=1 Google call netrw#NetrwBrowseX(
       \ "https://www.google.com/search?q=".expand("<args>"),0)
