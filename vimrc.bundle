@@ -571,8 +571,13 @@ autocmd bundle VimEnter * nested execute 'color '.
 " Configurable and extensible tab line and status line
 if Bundles('tpope/vim-flagship')
   " Tabline
-  let g:tabprefix = (has('nvim') ? v:servername[5:] : '%{v:servername}').
-        \(empty($SSH_TTY) ? '': '@'.hostname())
+  let g:tabprefix = '%1*'.
+        \(has('nvim') ? matchstr(v:servername, 'nvim.*') : '%{v:servername}').
+        \(empty($SSH_TTY) ? '': '@'.hostname()).
+        \'%*'
+  autocmd bundle ColorScheme * hi User1
+        \ term=bold cterm=bold ctermfg=116 ctermbg=233
+        \ gui=bold guifg=#97DDDF guibg=#171717
   " Statusline (leave untouched)
   if has('vim_starting')
     autocmd User Flags call Vstatusline()
