@@ -516,6 +516,11 @@ endif
 
 " Session management
 if Bundles('bohrshaw/vim-mansion', '-tpope/vim-obsession')
+  if has('nvim')
+    augroup bundle_mansion
+      autocmd CursorMovedI * SessionTrack|autocmd! bundle_mansion
+    augroup END
+  endif
   " let g:sessiondir = '~/.vim/session'
   " let g:mansion_no_auto_save = 1
   " let g:mansion_no_maps = 1
