@@ -504,8 +504,8 @@ if Bundles('Junegunn/goyo.vim', 'Junegunn/limelight.vim')
   let g:goyo_margin_bottom = 2
   " let g:goyo_linenr = 1
   nnoremap <silent><C-W>O :Goyo<CR>
-  autocmd bundle User GoyoEnter Limelight
-  autocmd bundle User GoyoLeave Limelight!
+  " autocmd bundle User GoyoEnter Limelight
+  " autocmd bundle User GoyoLeave Limelight!
 endif
 
 " Automatic resizing of Vim windows to the golden ratio
