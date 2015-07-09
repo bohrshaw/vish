@@ -277,8 +277,11 @@ NXnoremap <leader>ev :vs <C-R>=expand('%:h')<CR>/<Tab>
 NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/<Tab>
 " Edit a file in a new tab
 cabbrev te tabe
-set path=.,,~ " directories to search by 'gf', ':find', etc.
-set cdpath=.,,~/workspaces " directories to search by ':cd', ':lcd'
+" Directories to search by 'gf', ':find', etc.
+" (dir of the current file, current dir, etc.)
+setglobal path=.,,~,~/.vim,~/.dot,~/.dots
+" Directories to search by ':cd', ':lcd'
+set cdpath=,,.,~,~/workspaces
 " Open a destination file of a link:" {{{
 cnoremap <M-l> <C-\>e<SID>get_link_targets()<CR><CR>
 function! s:get_link_targets()
