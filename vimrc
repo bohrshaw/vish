@@ -160,18 +160,9 @@ autocmd vimrc BufWinEnter * normal! zv
 " }}}
 " Search:" {{{
 set incsearch " show matches when typing the search pattern
-set nohlsearch " highlight all matches of a search pattern
+set hlsearch " highlight all matches of a search pattern
 set ignorecase " case insensitive in search patterns and command completion
 set smartcase " case sensitive only when up case characters present
-" Mark position before search
-NXnoremap / ms/
-" Search the literal text of a visual selection:" {{{
-xnoremap * :<C-u>call <SID>v_search('/')<CR>/<C-R>=@/<CR><CR>
-xnoremap # :<C-u>call <SID>v_search('?')<CR>?<C-R>=@/<CR><CR>
-function! s:v_search(dir)
-  normal! gv"zy
-  let @/ = '\V' . substitute(escape(@z, a:dir.'\'), '\n', '\\n', 'g')
-endfunction" }}}
 " Substitute in a visual area:" {{{
 xnoremap cs :s/\%V
 " Substitute in a visual area (eat the for-expanding-space)

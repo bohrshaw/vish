@@ -83,12 +83,12 @@ if Bundles('-Justinmk/vim-sneak', 'Bohrshaw/vim-sneak')
   endfunction
   " Mimic the native search command / and ?, but literal
   " Function signature: sneak#wrap(op, inputlen, reverse, inclusive, streak)
-  nnoremap <silent> g/ :<C-U>call sneak#wrap('', 99, 0, 2, 1)<CR>
-  nnoremap <silent> g? :<C-U>call sneak#wrap('', 99, 1, 2, 1)<CR>
-  xnoremap <silent> g/ :<C-U>call sneak#wrap(visualmode(), 99, 0, 2, 1)<CR>
-  xnoremap <silent> g? :<C-U>call sneak#wrap(visualmode(), 99, 1, 2, 1)<CR>
-  onoremap <silent> g/ :<C-U>call sneak#wrap(v:operator, 99, 0, 2, 1)<CR>
-  onoremap <silent> g? :<C-U>call sneak#wrap(v:operator, 99, 1, 2, 1)<CR>
+  nnoremap <silent> z/ :<C-U>call sneak#wrap('', 99, 0, 2, 1)<CR>
+  nnoremap <silent> z? :<C-U>call sneak#wrap('', 99, 1, 2, 1)<CR>
+  xnoremap <silent> z/ :<C-U>call sneak#wrap(visualmode(), 99, 0, 2, 1)<CR>
+  xnoremap <silent> z? :<C-U>call sneak#wrap(visualmode(), 99, 1, 2, 1)<CR>
+  onoremap <silent> z/ :<C-U>call sneak#wrap(v:operator, 99, 0, 2, 1)<CR>
+  onoremap <silent> z? :<C-U>call sneak#wrap(v:operator, 99, 1, 2, 1)<CR>
   hi! link SneakPluginScope Comment
 elseif Bundles('machakann/vim-patternjump')
   let g:patternjump_no_default_key_mappings = 1
@@ -121,6 +121,53 @@ if Bundles('-wellle/targets.vim', 'kana/vim-textobj-indent',
     autocmd CursorHold * call BundleRun("targets.vim") |
           \ set updatetime& | autocmd! bundle_targets CursorHold
   augroup END
+endif
+
+" Search improved
+if Bundles('haya14busa/incsearch.vim', 'haya14busa/vim-asterisk')
+  " Highlight will auto-suspend on cursor move after a search
+  nnoremap <expr>/ incsearch#autocmd#auto_nohlsearch(1).'ms/'
+  nnoremap <expr>? incsearch#autocmd#auto_nohlsearch(1).'ms?'
+  xnoremap <expr>/ incsearch#autocmd#auto_nohlsearch(1).'/'
+  xnoremap <expr>? incsearch#autocmd#auto_nohlsearch(1).'?'
+  onoremap <expr>/ incsearch#autocmd#auto_nohlsearch(1).'/'
+  onoremap <expr>? incsearch#autocmd#auto_nohlsearch(1).'?'
+  " Suspend or temporarily resume highlight, primarily for :s, :g
+  nnoremap <silent>zh :<C-u>if v:hlsearch \|nohlsearch \|
+        \else \|call incsearch#autocmd#auto_nohlsearch(0) \|set hlsearch \|endif<CR>
+  xmap zh <Esc>zhgv
+  " Consistent direction when repeating a search
+  NXOnoremap <expr>n incsearch#autocmd#auto_nohlsearch(1).
+        \(v:searchforward ? 'n' : 'N')
+  NXOnoremap <expr>N incsearch#autocmd#auto_nohlsearch(1).
+        \(v:searchforward ? 'N' : 'n')
+  " let g:incsearch#consistent_n_direction = 1 " redundant
+  " Incremantal search improved with a search specific command line interface
+  map g/ <Plug>(incsearch-forward)
+  map g? <Plug>(incsearch-backward)
+  function! s:incsearch_mapping()
+    IncSearchNoreMap <M-j> <Over>(incsearch-next)
+    IncSearchNoreMap <M-k> <Over>(incsearch-prev)
+    IncSearchNoreMap <C-f> <Over>(incsearch-scroll-f)
+    IncSearchNoreMap <C-b> <Over>(incsearch-scroll-b)
+    IncSearchNoreMap <Tab> <Over>(buffer-complete)
+    IncSearchNoreMap <S-Tab> <Over>(buffer-complete-prev)
+  endfunction
+  execute repeat('autocmd bundle VimEnter * ', has('vim_starting')).
+        \'call s:incsearch_mapping()'
+  " Search literally in visual mode
+  map *   <Plug>(incsearch-nohl)<Plug>(asterisk-*)
+  map #   <Plug>(incsearch-nohl)<Plug>(asterisk-#)
+  map g*  <Plug>(incsearch-nohl)<Plug>(asterisk-g*)
+  map g#  <Plug>(incsearch-nohl)<Plug>(asterisk-g#)
+  " The cusor would not move
+  map z*  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)
+  map gz* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
+  map z#  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)
+  map gz# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
+  let g:incsearch#auto_nohlsearch = 1 " auto-nohlsearch on cursor move
+  " Highlight only in the current window (custom hi-group instead of 'Search')
+  let g:incsearch#no_inc_hlsearch = 1
 endif
 
 " Insert: {{{1
