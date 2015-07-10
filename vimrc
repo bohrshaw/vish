@@ -211,8 +211,8 @@ command! -bar Cclear call setqflist([])
 " Mappings/options for a quickfix/location window
 autocmd vimrc FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
       \ nnoremap <buffer> q <C-W>c|
-      \ nnoremap <buffer> <M-v> <C-W><CR><C-W>H|
-      \ nnoremap <buffer> <M-t> <C-W><CR><C-W>T
+      \ nnoremap <buffer> <M-w>v <C-W><CR><C-W>H|
+      \ nnoremap <buffer> <M-w>t <C-W><CR><C-W>T
 " }}}
 " }}}
 " View:" {{{
@@ -236,8 +236,6 @@ if has('nvim')
   tnoremap <M-j> <C-\><C-n><C-w>w
   tnoremap <M-k> <C-\><C-n><C-w>W
   tnoremap <M-q> <C-\><C-n><C-W>q
-  tmap <M-t> <C-\><C-n><M-t>
-  tnoremap <M-T> <C-\><C-n>gT
   autocmd vimrc BufWinEnter,WinEnter term://* startinsert
   autocmd vimrc BufLeave term://* stopinsert
 endif

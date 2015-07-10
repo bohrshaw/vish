@@ -331,9 +331,9 @@ if Bundles('-ctrlpvim/ctrlp.vim')
         \ 'PrtSelectMove("j")':   ['<M-j>'],
         \ 'PrtSelectMove("k")':   ['<M-k>'],
         \ 'MarkToOpen()':         ['<M-m>'],
-        \ 'AcceptSelection("h")': ['<M-s>'],
-        \ 'AcceptSelection("v")': ['<M-v>'],
-        \ 'AcceptSelection("t")': ['<M-t>'],
+        \ 'AcceptSelection("h")': ['<M-w>s'],
+        \ 'AcceptSelection("v")': ['<M-w>v'],
+        \ 'AcceptSelection("t")': ['<M-w>t'],
         \ 'CreateNewFile()':      ['<C-n>'],
         \ 'ToggleType(1)':        ['<M-f>'],
         \ 'ToggleType(-1)':       ['<M-b>'],
@@ -411,9 +411,9 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
     imap <buffer><M-j> <Plug>(unite_select_next_line)
     imap <buffer><M-k> <Plug>(unite_select_previous_line)
     " Action
-    inoremap <silent><buffer><expr><M-s> unite#do_action('split')
-    inoremap <silent><buffer><expr><M-v> unite#do_action('vsplit')
-    inoremap <silent><buffer><expr><M-t> unite#do_action('tabopen')
+    inoremap <silent><buffer><expr><M-w>s unite#do_action('split')
+    inoremap <silent><buffer><expr><M-w>v unite#do_action('vsplit')
+    inoremap <silent><buffer><expr><M-w>t unite#do_action('tabopen')
     inoremap <silent><buffer><expr><M-e> unite#do_action('edit')
     " Mark
     unmap <buffer><Space>|unmap <buffer><S-Space>
