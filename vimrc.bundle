@@ -726,10 +726,28 @@ if Bundles('mattn/emmet-vim')
 endif
 
 " Markdown runtime files
-call Bundles('tpope/vim-markdown')
+call Bundles('tpope/vim-markdown', 'nelstrom/vim-markdown-folding')
 
-" Vim, your markup language of choice, and your browser of choice
-" call Bundles('matthias-guenther/hammer.vim')
+" Preview various markup files with external tools
+if has('ruby') && Bundles('greyblake/vim-preview', '-matthias-guenther/hammer.vim')
+  autocmd VimEnter * nunmap <Leader>P
+else
+  command! -range=% Preview call <SID>preview_markdown(<line1>, <line2>)
+  function! s:preview_markdown(line1, line2)
+    let text = getline(a:line1, a:line2)
+    let tmp = has('win32') ? $TEMP.'\' : '/tmp/'
+    let [markdown, html] = [tmp.'preview.md', tmp.'preview.html']
+    call writefile(text, markdown)
+    if !has('win32') && executable('redcarpet')
+      call system('redcarpet '.markdown.' >'.html)
+    elseif executable('multimarkdown')
+      call system('multimarkdown -c '.markdown.' -o '.html)
+    else
+      echo 'No supported external tools found.'|return 0
+    endif
+    call V#open(html)
+  endfunction
+endif
 
 " Javascript {{{2
 
