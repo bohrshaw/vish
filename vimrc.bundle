@@ -450,7 +450,7 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
   let g:neomru#file_mru_path = expand('~/.vim/tmp/unite/mru/files')
   let g:neomru#directory_mru_path = expand('~/.vim/tmp/unite/mru/directories')
   " Performance tuning
-  let g:neomru#do_validate = 0 " skip checking invalide files for performance
+  " let g:neomru#do_validate = 0 " skip checking invalide files for performance
   autocmd VimEnter * silent! autocmd! neomru BufEnter,VimEnter,BufWritePost
 endif
 
