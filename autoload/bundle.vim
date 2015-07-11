@@ -55,7 +55,7 @@ function! BundleRun(...)
       let path = expand('~/.vim/bundle/'.dir)
       for p in [path,  path.'/after'] " source related files
         for d in ['ftdetect', 'plugin']
-          for f in glob(p.'/'.d.'/*.vim',1,1)
+          for f in glob(p.'/'.d.'/**/*.vim',1,1)
             execute  filereadable(f) ? 'source '.f : ''
           endfor
         endfor
