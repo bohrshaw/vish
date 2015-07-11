@@ -253,6 +253,9 @@ endif
 " Transpose matrices of text (swap lines with columns)
 call Bundles('salsifis/vim-transpose')
 
+" Replay the edit
+" call Bundles('chrisbra/replay', 'haya14busa/vim-undoreplay')
+
 " History: {{{1
 
 " Display your undo history in a graph
