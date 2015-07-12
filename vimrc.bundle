@@ -124,7 +124,7 @@ if Bundles('-wellle/targets.vim', 'kana/vim-textobj-indent',
 endif
 
 " Search improved
-if Bundles('haya14busa/incsearch.vim', 'haya14busa/vim-asterisk')
+if Bundles('Haya14busa/incsearch.vim', 'Haya14busa/vim-asterisk')
   " Highlight will auto-suspend on cursor move after a search
   nnoremap <expr>/ incsearch#autocmd#auto_nohlsearch(1).'ms/'
   nnoremap <expr>? incsearch#autocmd#auto_nohlsearch(1).'ms?'
