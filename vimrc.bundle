@@ -695,7 +695,7 @@ if Bundles('scrooloose/syntastic')
         \ 'active_filetypes': [],
         \ 'passive_filetypes': [] }
   let g:syntastic_always_populate_loc_list = 1
-  let g:syntastic_auto_jump = 3 " auto-jump to the first error
+  " let g:syntastic_auto_jump = 3 " auto-jump to the first error
 endif
 
 " Format codes with external code formatters
