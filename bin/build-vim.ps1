@@ -45,24 +45,18 @@ else {
 pushd src
 nmake -f Make_mvc.mak clean`
 
-# Gvim
+# gVim and Vim
+'yes', 'no' | foreach {
 nmake -f Make_mvc.mak `
   SDK_INCLUDE_DIR="C:\Program Files\Microsoft SDKs\Windows\v7.1A\Include" `
   CPUNR=i686 WINVER=0x0500 `
-  FEATURES=HUGE GUI=yes OLE=no MBYTE=yes IME=yes `
+  FEATURES=HUGE GUI=$_ OLE=no MBYTE=yes IME=yes `
   PYTHON=$python DYNAMIC_PYTHON=yes PYTHON_VER=27 `
   PYTHON3=$python3 DYNAMIC_PYTHON3=yes PYTHON3_VER=34 `
   RUBY=$ruby DYNAMIC_RUBY=yes RUBY_VER=22 RUBY_VER_LONG=2.2.0 RUBY_PLATFORM=i386-mswin32_120 RUBY_INSTALL_NAME=msvcr120-ruby220 `
   LUA=$lua DYNAMIC_LUA=yes LUA_VER=51 `
   USERNAME=pubohr USERDOMAIN=gmail.com
-
-# Vim
-nmake -f Make_mvc.mak `
-  SDK_INCLUDE_DIR="C:\Program Files\Microsoft SDKs\Windows\v7.1A\Include" `
-  CPUNR=i686 WINVER=0x0500 `
-  FEATURES=BIG MBYTE=yes `
-  PYTHON3=$python3 DYNAMIC_PYTHON3=yes PYTHON3_VER=34 `
-  USERNAME=bohrshaw USERDOMAIN=gmail.com
+}
 
 popd
 
