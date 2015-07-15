@@ -14,7 +14,7 @@
 " For an overview, :h quickref, :h index
 " Could view and set all options. (:h :options)
 " See minimal sensible settings: https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim
-" Analyse startup performance with profile.sh
+" Analyse startup performance with vim-profile.sh
 
 " Mapping notes:
 " Use <C-c> instead of <Esc> to cancel a mapping
