@@ -795,7 +795,7 @@ else
     else
       echo 'No supported external tools found.'|return 0
     endif
-    call V#open(html)
+    call v#open(html)
   endfunction
 endif
 

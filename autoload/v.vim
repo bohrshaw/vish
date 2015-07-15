@@ -47,3 +47,14 @@ function! v#mkdir(...)
     echohl WarningMsg | echo "Fail in creating directory: " . dir | echohl NONE
   endtry
 endfunction
+
+" Open a file with the default system program
+function! v#open(...)
+  if has('unix')
+    call system("xdg-open ".a:1)
+  elseif has('win32')
+    call system('"'.a:1.'"')
+  elseif has('mac')
+    call system('open '.a:1)
+  endif
+endfunction
