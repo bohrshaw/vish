@@ -976,10 +976,26 @@ endif
 " A powerful shell implemented in Vim Script
 if has('nvim')
   " Open a shell or switch to the same shell, in the same window
-  command! Shell if empty(get(g:, 'v_shell_bufnr', '')) || !bufexists(g:v_shell_bufnr)|
-        \execute 'terminal'|let g:v_shell_bufnr = bufnr('%')|
-        \else|execute 'b '.g:v_shell_bufnr|endif
-  NXnoremap <M-s> :<C-U>Shell<CR>
+  command! -nargs=? Shell call <SID>shell('<args>')
+  command! -nargs=? S call <SID>shell('<args>')
+  function! s:shell(name)
+    let name_part = matchstr(a:name, '\v-\a *\zs.*|.*\ze *-\a')
+    let name = matchstr(&shell,'\a*$').';'.(empty(name_part)?'shell':name_part)
+    try
+      if a:name =~ '-s'
+        sbuffer
+      elseif a:name =~ '-v'
+        vert sbuffer
+      elseif a:name =~ '-t'
+        tab sbuffer
+      endif
+      execute 'buffer term://*'.name
+    catch
+      enew|call termopen(&shell, {'name': name})|startinsert
+    endtry
+  endfunction
+  NXnoremap <M-s> :<C-u>Shell<CR>
+  tnoremap <C-d> <C-\><C-n>:bwipeout!<CR>
   nnoremap <Leader>bs :Unite -input=term:/\ zsh\|bash\  buffer<CR>
 elseif Bundles('shougo/vimshell.vim', 'bohrshaw/vimproc.vim')
   NXnoremap <M-s> :<C-U>VimShell<CR>
