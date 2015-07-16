@@ -391,7 +391,9 @@ function! s:special_key()
   if empty(c1)
     return ''
   endif
-  if has_key(s:keymap, c1) == 1
+  if strtrans(c1)[0] == '^'
+    return '<C-'.tolower(strtrans(c1)[1]).'>'
+  elseif has_key(s:keymap, c1) == 1
     return s:keymap[c1]
   endif
   let c2 = v#getchar()
