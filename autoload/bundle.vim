@@ -109,3 +109,5 @@ function! s:uniqadd(list, item)
     call add(a:list, a:item)
   endif
 endfunction
+
+" vim:foldmethod=expr foldexpr=getline(v\:lnum)=~#'^fu'?'a1'\:getline(v\:lnum)=~#'^endf'?'s1'\:'=':

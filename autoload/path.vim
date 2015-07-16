@@ -7,7 +7,7 @@
 " $VIM/vimfiles/bundle/*, $VIMRUNTIME/bundle/*, $VIM/vimfiles/bundle/*/after,
 " and .vim/bundle/*/after be added (on UNIX).  If the second argument is a
 " list, add a separate entry for each item in the list.
-function! path#inject(...) abort " {{{1
+function! path#inject(...) abort
   let bundle_base = a:0 ? a:1 : 'bundle/*'
   let dirs = []
   for dir in path#split(&rtp)
@@ -42,13 +42,12 @@ function! path#inject(...) abort " {{{1
   let &rtp = path#join(dirs)
   return 1
 endfunction
-" }}}1
 
 " Prepend the given directory to the runtime path and append its corresponding
 " 'after' directory. If the directory is already included, move it to the
 " outermost position. Wildcards are added as is. Ending a path in /* causes
 " all subdirectories to be added (except those in g:path_disabled).
-function! path#surround(path) abort " {{{1
+function! path#surround(path) abort
   let rtp = path#split(&rtp)
   if a:path =~# '[\/]\*$'
     let path = fnamemodify(a:path[0:-4], ':p:s?[\/]\=$??')
@@ -63,10 +62,10 @@ function! path#surround(path) abort " {{{1
   endif
   let &rtp = path#join(before, rtp, after)
   return &rtp
-endfunction " }}}1
+endfunction
 
 " Add paths of a bundle to runtime path
-function! path#add(dir) " {{{1
+function! path#add(dir)
   let path = path#expand(a:dir)
   let rtp = path#split(&rtp)
   if index(rtp, path) < 0
@@ -78,10 +77,10 @@ function! path#add(dir) " {{{1
     let &rtp = path#join(rtp)
     return 1
   endif
-endfunction " }}}1
+endfunction
 
 " Invoke :helptags on all non-$VIM doc directories in runtimepath.
-function! path#helptags() abort " {{{1
+function! path#helptags() abort
   for glob in path#split(&rtp)
     for dir in split(glob(glob), "\n")
       if (dir.'/')[0 : strlen($VIMRUNTIME)] !=# $VIMRUNTIME.'/' && filewritable(dir.'/doc') == 2 && !empty(filter(split(glob(dir.'/doc/*'),"\n>"),'!isdirectory(v:val)')) && (!filereadable(dir.'/doc/tags') || filewritable(dir.'doc/tags'))
@@ -90,19 +89,17 @@ function! path#helptags() abort " {{{1
     endfor
   endfor
 endfunction
-
 command! -bar Helptags :call path#helptags()
-" }}}1
 
 " Return a directory list based on a glob pattern.
-function! path#glob_directories(pattern) abort " {{{1
+function! path#glob_directories(pattern) abort
   return filter(split(glob(a:pattern),"\n"), 'isdirectory(v:val)')
-endfunction "}}}1
+endfunction
 
 " Check if a bundle is disabled. A bundle is considered disabled if it ends in
 " a tilde or its basename or full name is included in the list
 " g:path_disabled.
-function! path#is_disabled(path) " {{{1
+function! path#is_disabled(path)
   if a:path =~# '\~$'
     return 1
   elseif !exists("g:path_disabled")
@@ -110,17 +107,17 @@ function! path#is_disabled(path) " {{{1
   endif
   let blacklist = g:path_disabled
   return index(blacklist, strpart(a:path, strridx(a:path, '/')+1)) != -1 && index(blacklist, a:path) != 1
-endfunction "}}}1
+endfunction
 
 " Split a path into a list.
-function! path#split(path) abort " {{{1
+function! path#split(path) abort
   if type(a:path) == type([]) | return a:path | endif
   let split = split(a:path,'\\\@<!\%(\\\\\)*\zs,')
   return map(split,'substitute(v:val,''\\\([\\,]\)'',''\1'',"g")')
-endfunction " }}}1
+endfunction
 
 " Convert a list to a path.
-function! path#join(...) abort " {{{1
+function! path#join(...) abort
   if type(a:1) == type(1) && a:1
     let i = 1
     let space = ' '
@@ -144,11 +141,11 @@ function! path#join(...) abort " {{{1
     let i += 1
   endwhile
   return substitute(path,'^,','','')
-endfunction " }}}1
+endfunction
 
 " Expand a directory or path to full-path
 function! path#expand(dir)
   return expand(a:dir =~ '[/\\]' ? a:dir : '~/.vim/bundle/'.a:dir)
 endfunction
 
-" vim:et sw=2 fdm=marker:
+" vim:et sw=2 foldmethod=expr foldexpr=getline(v\:lnum)=~#'^fu'?'a1'\:getline(v\:lnum)=~#'^endf'?'s1'\:'=':
