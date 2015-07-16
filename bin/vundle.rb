@@ -152,6 +152,6 @@ ThreadsWait.all_waits(*(Thread.list - [Thread.main]))
 # Generate Vim help tags
 system('vim', '-Nesu', 'NONE', '--cmd',
        'if &rtp !~# "\v[\/]\.vim[,|$]" | set rtp^=~/.vim | endif' \
-       ' | call path#inject() | Helptags | qa')
+       ' | call rtp#inject() | Helptags | qa')
 
 # vim:fdm=syntax:

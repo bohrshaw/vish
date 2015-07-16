@@ -159,7 +159,7 @@ func helptags() {
 	args := []string{
 		"-Nesu", "NONE",
 		"--cmd", `if &rtp !~# '\v[\/]\.vim[,|$]' | set rtp^=~/.vim | endif |` +
-			"call path#inject() | Helptags | qa",
+			"call rtp#inject() | Helptags | qa",
 	}
 	if exec.Command("vim", args...).Run() != nil {
 		log.Printf("Fail to generate help tags.")

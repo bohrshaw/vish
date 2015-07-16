@@ -2,12 +2,13 @@
 " Author: Bohr Shaw <pubohr@gmail.com>
 
 " Inject bundle paths to 'rtp'
-command! BundleInject call path#inject('bundle',
+command! BundleInject call rtp#inject('bundle',
       \ map(g:bundles, 'v:val[stridx(v:val,"/")+1:]'))
 
 " Activate a bundle by sourcing its related files
 command! -nargs=1 -complete=file BundleRun call BundleRun(<q-args>)
 
+" Call this function to source this file
 function! bundle#init()
   " Define an auto-group for bundle activation
   execute 'augroup bundling | augroup END'
@@ -58,8 +59,8 @@ endfunction
 
 function! BundleRun(...)
   for dir in a:000
-    call path#add(dir) " inject the bundle path to runtime path
-    let path = path#expand(dir)
+    call rtp#add(dir) " inject the bundle path to runtime path
+    let path = rtp#expand(dir)
     for p in [path,  path.'/after'] " source related files
       for d in ['ftdetect', 'plugin']
         for f in glob(p.'/'.d.'/**/*.vim',1,1)
@@ -72,7 +73,7 @@ endfunction
 
 function! BundlePath(b)
   if s:bundle_enabled(a:b)
-    call path#add(a:b[stridx(a:b,"/")+1:])
+    call rtp#add(a:b[stridx(a:b,"/")+1:])
     return 1
   endif
 endfunction
