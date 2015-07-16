@@ -5,6 +5,8 @@ function! ftplugin#vim_map()
   nmap <buffer><silent> Rr :normal RVl<CR>
   nnoremap <buffer><expr> RR ':'.(g:loaded_scriptease?'Runtime':'source %').'<CR>'
   xnoremap <buffer><silent> R mz:<C-U>call vimrc#run(visualmode())<CR>
+
+  xnoremap <buffer><silent><LocalLeader>e "zy:echo eval(@z)<CR>
 endfunction
 
 " Goto a position specified with a pattern 'count' times.

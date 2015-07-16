@@ -1,24 +1,21 @@
 " Description: Assistant scripts for vimrc
 " Author: Bohr Shaw <pubohr@gmail.com>
 
-" Execute lines of viml, or echo the value of a viml expression
+" Source lines of viml
+" Note that in the context of a function, `:@` is not a solution.
 function! vimrc#run(type)
+  let tmp = tempname()
   " When g@ calling, a:type is 'line', 'char' or 'block'.
-  " In visual mode, a:type is visualmode().
+  " In visual mode, a:type is visualmode() which is 'v', 'V', '<C-v>'.
   if a:type =~# 'line\|V'
-    execute 'silent '.(a:type == 'V' ? "'<,'>" : "'[,']").'yank z'
-    " join breaked lines before executing
-    let @z = substitute(@z, '\n\s*\\', '', 'g')
-    @z
+    execute 'silent '.(a:type == 'V' ? "'<,'>" : "'[,']").'write '.tmp
   else " a:type =~# 'char\|v'
     " note `> or `] is exclusive
     execute 'silent normal! '.(a:type == 'v' ? '`<"zyv`>' : '`["zyv`]')
-    try
-      echo eval(@z)
-    catch
-      echohl Error | echo "Invalid expression" | echohl None
-    endtry
+    call writefile(split(@z, '\n'), tmp)
   endif
+  execute 'source '.tmp
+  call delete(tmp)
   " the mark 'z' should be set before calling this function
   normal! g`z
 endfunction
