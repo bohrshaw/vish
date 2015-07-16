@@ -1,6 +1,13 @@
 " bundle.vim - a Vim bundle manager
 " Author: Bohr Shaw <pubohr@gmail.com>
 
+" Inject bundle paths to 'rtp'
+command! BundleInject call path#inject('bundle',
+      \ map(g:bundles, 'v:val[stridx(v:val,"/")+1:]'))
+
+" Activate a bundle by sourcing its related files
+command! -nargs=1 -complete=file BundleRun call BundleRun(<q-args>)
+
 function! bundle#init()
   " Define an auto-group for bundle activation
   execute 'augroup bundling | augroup END'
@@ -51,16 +58,15 @@ endfunction
 
 function! BundleRun(...)
   for dir in a:000
-    if path#add(dir) " inject the bundle path to runtime path
-      let path = expand('~/.vim/bundle/'.dir)
-      for p in [path,  path.'/after'] " source related files
-        for d in ['ftdetect', 'plugin']
-          for f in glob(p.'/'.d.'/**/*.vim',1,1)
-            execute  filereadable(f) ? 'source '.f : ''
-          endfor
+    call path#add(dir) " inject the bundle path to runtime path
+    let path = path#expand(dir)
+    for p in [path,  path.'/after'] " source related files
+      for d in ['ftdetect', 'plugin']
+        for f in glob(p.'/'.d.'/**/*.vim',1,1)
+          execute  filereadable(f) ? 'source '.f : ''
         endfor
       endfor
-    endif
+    endfor
   endfor
 endfunction
 
@@ -103,7 +109,3 @@ function! s:uniqadd(list, item)
     call add(a:list, a:item)
   endif
 endfunction
-
-" Inject bundle paths to 'rtp'
-command! BundleInject call path#inject('bundle',
-      \ map(g:bundles, 'v:val[stridx(v:val,"/")+1:]'))

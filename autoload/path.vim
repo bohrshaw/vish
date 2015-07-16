@@ -67,7 +67,7 @@ endfunction " }}}1
 
 " Add paths of a bundle to runtime path
 function! path#add(dir) " {{{1
-  let path = expand(a:dir !~ '[/\\]' ? '~/.vim/bundle/'.a:dir : a:dir)
+  let path = path#expand(a:dir)
   let rtp = path#split(&rtp)
   if index(rtp, path) < 0
     call insert(rtp, path, 1)
@@ -145,5 +145,10 @@ function! path#join(...) abort " {{{1
   endwhile
   return substitute(path,'^,','','')
 endfunction " }}}1
+
+" Expand a directory or path to full-path
+function! path#expand(dir)
+  return expand(a:dir =~ '[/\\]' ? a:dir : '~/.vim/bundle/'.a:dir)
+endfunction
 
 " vim:et sw=2 fdm=marker:
