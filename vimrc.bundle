@@ -975,7 +975,7 @@ endif
 
 " A powerful shell implemented in Vim Script
 if has('nvim')
-  " Open a shell or switch to the same shell, in the same window
+  " Manage multiple shells
   command! -nargs=? Shell call <SID>shell('<args>')
   command! -nargs=? S call <SID>shell('<args>')
   function! s:shell(name)
@@ -995,7 +995,7 @@ if has('nvim')
     endtry
   endfunction
   NXnoremap <M-s> :<C-u>Shell<CR>
-  tnoremap <C-d> <C-\><C-n>:bwipeout!<CR>
+  tnoremap <M-C-d> <C-\><C-n>:bwipeout!<CR>
   nnoremap <Leader>bs :Unite -input=term:/\ zsh\|bash\  buffer<CR>
 elseif Bundles('shougo/vimshell.vim', 'bohrshaw/vimproc.vim')
   NXnoremap <M-s> :<C-U>VimShell<CR>
