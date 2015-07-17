@@ -658,6 +658,7 @@ if has('vim_starting')
       set guifont=Consolas\ 10
       set lines=250 columns=200
     endif
+    set linespace=0
   else
     " Assume 256 colors
     if &term =~ '\v(xterm|screen)$' | let &term .= '-256color' | endif
