@@ -94,6 +94,11 @@ endif
 autocmd vimrc CmdwinEnter * noremap <buffer> <F5> <CR>q:|
       \ NXInoremap <buffer> <nowait> <CR> <CR>|
       \ NXInoremap <buffer> <M-q> <C-c><C-c>
+" Resolve local mapping conflicts with <Space>
+autocmd vimrc BufWinEnter option-window autocmd CursorMoved option-window
+      \ execute 'nnoremap <silent><buffer><LocalLeader>r '.maparg("<Space>")|
+      \ unmap <buffer><Space>|
+      \ autocmd! CursorMoved option-window
 " }}}
 " Escape:" {{{
 inoremap <M-i> <Esc>
