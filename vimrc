@@ -237,18 +237,13 @@ if has('nvim')
 endif
 " }}}
 " Content:" {{{
-" Edit the alternative file
-nnoremap <M-a> <C-^>
-if has('nvim')
-  tnoremap <M-a> <C-\><C-n><C-^>
-endif
-" Split the window and edit the alternate file
-NXnoremap <C-W><M-s> <C-w>^
-NXnoremap <C-W><M-v> :vsplit #<CR>
 " Split a buffer in a vertical window or a new tab
-cabbrev vb vert sb
-cabbrev tb tab sb
-" Ways to delete buffers:" {{{
+nnoremap <silent><M-b>d :bdelete<CR>
+nnoremap <silent><M-b><M-f>d :bdelete!<CR>
+nnoremap <silent><M-b>w :bwipeout<CR>
+nnoremap <silent><M-b><M-f>w :bwipeout!<CR>
+nnoremap <silent><M-b>x :Bdelete<CR>
+nnoremap <silent><M-b><M-f>x :Bdelete!<CR>
 " Delete the current buffer without closing its window
 command! -bang Bdelete :b# |silent! bd<bang>#
 " Delete all buffers in the buffer list
@@ -259,23 +254,43 @@ command! BufOnly let nc = bufnr('%') |let nl = bufnr('$') |
       \ nl > nc ? (nc+1).','.nl.'bdelete' : ''
 " Wipe out all unlisted buffers
 command! BwipeoutUnlisted call vimrc#bufffer_wipe_unlisted()
-" }}}
+cabbrev vb vert sb
+cabbrev tb tab sb
 set autoread " auto-read a file changed outside of Vim
 " set autowrite " auto-write a modified file when switching buffers
 set hidden " hide a modified buffer without using '!' when it's abandoned
 
+nnoremap <silent><M-f>w :write<CR>
+nnoremap <silent><M-f><M-f>w :write!<CR>
+nnoremap <silent><M-f>u :update<CR>
+nnoremap <silent><M-f><M-f>u :update!<CR>
+nnoremap <silent><M-f>a :wall<CR>
+nnoremap <silent><M-f><M-f>a :wall!<CR>
+nnoremap <silent><M-f>e :edit<CR>
+nnoremap <silent><M-f><M-f>e :edit!<CR>
+nnoremap <silent><M-f>c :checktime<CR>
 " Edit a file in the same directory of the current file
-NXnoremap <leader>ee :e <C-R>=expand('%:h')<CR>/<Tab>
-NXnoremap <leader>es :sp <C-R>=expand('%:h')<CR>/<Tab>
-NXnoremap <leader>ev :vs <C-R>=expand('%:h')<CR>/<Tab>
-NXnoremap <leader>et :tabe <C-R>=expand('%:h')<CR>/<Tab>
-" Edit a file in a new tab
-cabbrev te tabe
+nnoremap <M-f>o :e <C-R>=expand('%:h')<CR>/<Tab>
+nnoremap <M-f>s :sp <C-R>=expand('%:h')<CR>/<Tab>
+nnoremap <M-f>v :vs <C-R>=expand('%:h')<CR>/<Tab>
+nnoremap <M-f>t :tabe <C-R>=expand('%:h')<CR>/<Tab>
+" Edit the alternative file" {{{
+nnoremap <M-a> <C-^>
+if has('nvim')
+  tnoremap <M-a> <C-\><C-n><C-^>
+endif
+" Split the window and edit the alternate file
+NXnoremap <C-W><M-s> <C-w>^
+NXnoremap <C-W><M-v> :vsplit #<CR>
+" }}}
 " Directories to search by 'gf', ':find', etc.
 " (dir of the current file, current dir, etc.)
 setglobal path=.,,~,~/.vim,~/.dot,~/.dots
 " Directories to search by ':cd', ':lcd'
 set cdpath=,,.,~,~/workspaces
+if has('vim_starting') && 0 == argc() && has('gui_running') && !g:l
+  cd $HOME
+endif
 " Open a destination file of a link:" {{{
 cnoremap <M-l> <C-\>e<SID>get_link_targets()<CR><CR>
 function! s:get_link_targets()
@@ -298,9 +313,6 @@ NXnoremap <silent> 'B :let _f = expand('~/.vim/vimrc.bundle')\|
 " Make the file '_' a scratch buffer
 autocmd vimrc BufNewFile,BufReadPost _ set buftype=nofile nobuflisted bufhidden=hide
 autocmd vimrc SessionLoadPost * silent! bwipeout! _
-if has('vim_starting') && 0 == argc() && has('gui_running') && !g:l
-  cd $HOME
-endif
 " Recognise a file's encoding in this order
 " set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1
 set fileformats=unix,dos,mac " end-of-line formats precedence

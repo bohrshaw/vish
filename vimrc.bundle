@@ -390,10 +390,9 @@ if Bundles('-ctrlpvim/ctrlp.vim')
         \ 'PrtExit()':            ['<Esc>', '<C-c>', '<M-q>', '<C-g>'],
         \ }
   " Find project files
-  let g:ctrlp_map = '<M-p>'
+  let g:ctrlp_map = '<M-f>p'
   " Most recent used files
   nnoremap <Leader>fr :CtrlPMRU<CR>
-  nnoremap <M-f> :CtrlPMRU<CR>
   " Files with similar names
   nmap <Leader>fs :let g:ctrlp_default_input = expand('%:t:r') \|
         \ call ctrlp#init(0) \| unlet g:ctrlp_default_input<CR>
@@ -433,13 +432,13 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
       \'shougo/unite-help', '-shougo/tabpagebuffer.vim')
   command! -nargs=* -complete=customlist,unite#complete#source U Unite <args>
   " Find a listed buffer(the filter algorithm ignores the order of typing chars)
-  nnoremap <silent><M-b> :Unite -buffer-name=buffer buffer<CR>
+  nnoremap <silent><M-b>o :Unite -buffer-name=buffer buffer<CR>
   " Find a HELP buffer
   nnoremap <silent><Leader>bh :Unite -buffer-name=help -input=.txt\ doc/ buffer:?<CR>
   " Find recently used files (May consider importing from v:oldfiles.)
-  nnoremap <silent><M-f> :Unite file_mru<CR>
+  nnoremap <silent><M-f>r :Unite file_mru<CR>
   " Find files recursively in the project or the CWD
-  nnoremap <silent><M-p> :call <SID>project_files()<CR>
+  nnoremap <silent><M-f>p :call <SID>project_files()<CR>
   function! s:project_files() " {{{
     " The project root is inferred from the current buffer or the CWD
     let git_dir = get(b:, 'git_dir', fugitive#extract_git_dir(getcwd()))
@@ -520,7 +519,7 @@ endif
 
 " Convenient directory listing and file selection
 if Bundles('tpope/vim-vinegar', '-jeetsukumaran/vim-filebeagle')
-  nmap <M-d> <Plug>VinegarUp
+  nmap <M-f>l <Plug>VinegarUp
   autocmd bundle VimEnter * nunmap -
 endif
 
@@ -1088,10 +1087,12 @@ endif
 
 " Helpers for UNIX(Windows)
 if Bundles('tpope/vim-eunuch')
-  " Delayed as W would be defined by eunuch
-  autocmd bundle VimEnter * command! W
-        \ if has('nvim')|echo "Please <C-z>, then run `sudo -v` in a loop."|
-        \ else|SudoWrite|endif|command! W SudoWrite
+  nnoremap <silent><M-f>d :Remove<CR>
+  nnoremap <silent><M-f><M-f>d :Remove!<CR>
+  nnoremap <silent><M-f>A :Wall<CR>
+  nnoremap <silent><M-f>W :if has('nvim')\|
+        \echo "Please <C-z>, then run `sudo -v` in a loop."\|
+        \else\|SudoWrite\|endif\|nnoremap <silent><M-f>W :SudoWrite<LT>CR><CR>
 endif
 
 " Tmux basics, insert mode completion of words in adjacent tmux panes
