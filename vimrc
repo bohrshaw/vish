@@ -216,16 +216,19 @@ autocmd vimrc FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
 NXmap <M-w> <C-W>
 nnoremap <M-j> <C-W>w
 nnoremap <M-k> <C-W>W
+nnoremap <C-w><M-t> <C-w>t
+nnoremap <C-w><M-b> <C-w>b
+nnoremap <C-w>t <C-w>T
 nnoremap <M-q> <C-W>q
 inoremap <M-q> <Esc><C-W>q
 " Quick exit, useful when editing the shell command line
 inoremap <M-z> <Esc>ZZ
 " Tab is a collection of windows
-NXnoremap <silent><M-l> :<C-u>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
-NXnoremap <M-h> gT
-NXnoremap <silent><C-w>Q :tabclose<CR>
-NXnoremap <silent><C-w><M-l> :<C-u>execute 'tabmove+'.v:count1<CR>
-NXnoremap <silent><C-w><M-h> :<C-u>execute 'tabmove-'.v:count1<CR>
+nnoremap <silent><M-l> :<C-u>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
+nnoremap <M-h> gT
+nnoremap <silent><C-w>Q :tabclose<CR>
+nnoremap <silent><C-w><M-l> :<C-u>execute 'tabmove+'.v:count1<CR>
+nnoremap <silent><C-w><M-h> :<C-u>execute 'tabmove-'.v:count1<CR>
 " Deal with terminal buffers
 if has('nvim')
   tnoremap <M-w> <C-\><C-n><C-w>
