@@ -239,11 +239,11 @@ endif
 " Content:" {{{
 " Split a buffer in a vertical window or a new tab
 nnoremap <silent><M-b>d :bdelete<CR>
-nnoremap <silent><M-b><M-f>d :bdelete!<CR>
+nnoremap <silent><M-b><M-b>d :bdelete!<CR>
 nnoremap <silent><M-b>w :bwipeout<CR>
-nnoremap <silent><M-b><M-f>w :bwipeout!<CR>
+nnoremap <silent><M-b><M-b>w :bwipeout!<CR>
 nnoremap <silent><M-b>x :Bdelete<CR>
-nnoremap <silent><M-b><M-f>x :Bdelete!<CR>
+nnoremap <silent><M-b><M-b>x :Bdelete!<CR>
 " Delete the current buffer without closing its window
 command! -bang Bdelete :b# |silent! bd<bang>#
 " Delete all buffers in the buffer list
