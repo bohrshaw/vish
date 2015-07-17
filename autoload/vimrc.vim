@@ -8,11 +8,11 @@ function! vimrc#run(type)
   " When g@ calling, a:type is 'line', 'char' or 'block'.
   " In visual mode, a:type is visualmode() which is 'v', 'V', '<C-v>'.
   if a:type =~# 'line\|V'
-    execute 'silent '.(a:type == 'V' ? "'<,'>" : "'[,']").'write '.tmp
+    execute 'silent keepalt '.(a:type == 'V' ? "'<,'>" : "'[,']").'write '.tmp
   else " a:type =~# 'char\|v'
     " note `> or `] is exclusive
     execute 'silent normal! '.(a:type == 'v' ? '`<"zyv`>' : '`["zyv`]')
-    call writefile(split(@z, '\n'), tmp)
+    keepalt call writefile(split(@z, '\n'), tmp)
   endif
   execute 'source '.tmp
   call delete(tmp)
