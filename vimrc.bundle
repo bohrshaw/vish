@@ -630,9 +630,7 @@ if Bundles('tpope/vim-flagship')
         \(has('nvim') ? matchstr(v:servername, 'nvim.*') : '%{v:servername}').
         \(empty($SSH_TTY) ? '': '@'.hostname()).
         \'%*'
-  autocmd bundle ColorScheme * hi User1
-        \ term=bold cterm=bold ctermfg=116 ctermbg=233
-        \ gui=bold guifg=#97DDDF guibg=#171717
+  let g:tabsuffix = "%1*%{Vmode()}%*"
   " Statusline (leave untouched)
   if has('vim_starting')
     autocmd User Flags call Vstatusline()

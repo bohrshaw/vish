@@ -585,7 +585,9 @@ execute 'autocmd vimrc InsertLeave * set listchars+=trail:'.s:lcs[1]
 set laststatus=2 " always display the status line
 " Ensure all plugins are loaded before setting 'statusline'
 function! Vstatusline()
-  set statusline=%m%.30f " modified flag, file name(truncated if length > 30)
+  set statusline=%1*%{Vmode()}%* " edit mode
+  set statusline+=:%2*%M%* " buffer modified/modifiable flag
+  set statusline+=%.30f " file name, truncated if its length > 30
   set statusline+=:%R%Y%W%q " read-only, filetype, preview, quickfix
   set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?':'.&fenc:''} " file encoding
   set statusline+=%{&ff!='unix'?':'.&ff:''} " file format
@@ -597,8 +599,27 @@ function! Vstatusline()
   set statusline+=%= " left/right separator
   set statusline+=%c:%l/%L:%P " cursor position, line percentage
 endfunction
-execute (has('vim_starting')?'autocmd vimrc VimEnter * ':'').'call Vstatusline()'
+function! Vmode()
+  let mode = mode()
+  if mode =~# '[VS]'
+    return mode.'L'
+  elseif mode =~# "[\<C-v>\<C-s>]"
+    return strtrans(mode)[1].'B'
+  else
+    return toupper(mode)
+  endif
+  return ''
+endfunction
+set noshowmode " hide the mode message on the command line
 set fillchars+=stl::,stlnc:~ " characters to fill the statuslines
+execute (has('vim_starting')?'autocmd vimrc VimEnter * ':'').'call Vstatusline()'
+
+autocmd bundle ColorScheme * hi User1
+      \ term=bold cterm=bold ctermfg=123 ctermbg=233
+      \ gui=bold guifg=#87FFFF guibg=#171717|
+      \ hi User2
+      \ term=bold cterm=bold ctermfg=226 ctermbg=233
+      \ gui=bold guifg=#FFFF00 guibg=#171717
 " Ensure the same statusline/tabline highlighting in any color scheme
 autocmd vimrc ColorScheme * hi StatusLine
       \ term=bold cterm=bold ctermfg=40 ctermbg=233
@@ -612,9 +633,11 @@ autocmd vimrc ColorScheme * hi StatusLine
 if !has('vim_starting')
   doautocmd vimrc ColorScheme *
 endif
+
 " The status line for the quickfix window
 autocmd vimrc FileType qf setlocal statusline=%t
       \%{strpart('\ '.get(w:,'quickfix_title',''),0,66)}%=\ %11.(%c,%l/%L,%P%)
+
 " Use CTRL-G, G_CTRL-G to see file and cursor information manually
 set ruler " not effective when 'statusline' is set
 set rulerformat=%50(%=%m%r%<%f%Y\ %c,%l/%L,%P%)
