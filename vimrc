@@ -392,7 +392,13 @@ function! s:special_key()
     return ''
   endif
   if strtrans(c1)[0] == '^'
-    return '<C-'.tolower(strtrans(c1)[1]).'>'
+    if strtrans(c1)[1] == 'i'
+      return '<Tab>'
+    elseif strtrans(c1)[1] == 'm'
+      return '<CR>'
+    else
+      return '<C-'.tolower(strtrans(c1)[1]).'>'
+    endif
   elseif has_key(s:keymap, c1) == 1
     return s:keymap[c1]
   endif
