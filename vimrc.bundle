@@ -976,7 +976,7 @@ if has('nvim')
   command! -nargs=? Shell call <SID>shell('<args>')
   command! -nargs=? S call <SID>shell('<args>')
   function! s:shell(name)
-    let name_part = matchstr(a:name, '\v-\a *\zs.*|.*\ze *-\a')
+    let name_part = matchstr(a:name, '\v-\a *\zs.*|.*\ze *-\a|[^-]+')
     let name = matchstr(&shell,'\a*$').';'.(empty(name_part)?'shell':name_part)
     try
       if a:name =~ '-s'
