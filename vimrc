@@ -245,7 +245,6 @@ if has('nvim')
   tnoremap <M-w> <C-\><C-n><C-w>
   tnoremap <M-j> <C-\><C-n><C-w>w
   tnoremap <M-k> <C-\><C-n><C-w>W
-  tnoremap <M-q> <C-\><C-n><C-W>q
   autocmd vimrc BufWinEnter,WinEnter term://* startinsert
   autocmd vimrc BufLeave term://* stopinsert
 endif
