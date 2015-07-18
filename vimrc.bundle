@@ -1017,12 +1017,12 @@ if Bundles('tpope/vim-fugitive')
 
   nnoremap <silent>g<Space>a<Space> :call <SID>git_add_current()<CR>
   nmap g<Space>ac g<Space>a<Space>:Gcommit -v<CR>
-  nmap g<Space>ae g<Space>a<Space>:Gcommit --allow-empty-message -m ''<CR>
+  nmap g<Space>ae g<Space>a<Space>:GitBg commit --allow-empty-message -m ''<CR>
   nmap g<Space>aa g<Space>a<Space>:Gcommit --amend -v<CR>
 
   nnoremap g<Space>A<Space> :wall \| Git add --update<CR>
   nnoremap g<Space>Ac :wall \| Gcommit --all -v<CR>
-  nnoremap g<Space>Ae :wall \| Gcommit --all --allow-empty-message -m ''<CR>
+  nnoremap g<Space>Ae :wall \| GitBg commit --all --allow-empty-message -m ''<CR>
   nnoremap g<Space>Aa :wall \| Gcommit --all --amend -v<CR>
 
   nnoremap g<Space>d :tab sbuffer % \| Gdiff<CR>
@@ -1043,9 +1043,9 @@ if Bundles('tpope/vim-fugitive')
 
   " Asynchronous execution
   command! -nargs=1 GGit execute
-        \'B git --git-dir='.b:git_dir.' --work-tree='.b:git_dir[:-6].' <args>'
+        \'B git --git-dir='.b:git_dir.' --work-tree='.b:git_dir[:-6].' '.<q-args>
   command! -nargs=1 GitBg call vimproc#system_bg(
-        \'git --git-dir='.b:git_dir.' --work-tree='.b:git_dir[:-6].' <args>')
+        \'git --git-dir='.b:git_dir.' --work-tree='.b:git_dir[:-6].' '.<q-args>)
 endif
 
 " Git branch management
