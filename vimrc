@@ -281,7 +281,8 @@ nnoremap <silent><M-f>a :wall<CR>
 nnoremap <silent><M-f><M-f>a :wall!<CR>
 nnoremap <silent><M-f>e :edit<CR>
 nnoremap <silent><M-f><M-f>e :edit!<CR>
-nnoremap <silent><M-f>c :checktime<CR>
+nnoremap <M-f>f :filetype detect<CR>
+nnoremap <M-f>c :checktime<CR>
 " Edit a file in the same directory of the current file
 nnoremap <M-f>o :e <C-R>=expand('%:h')<CR>/<Tab>
 nnoremap <M-f>s :sp <C-R>=expand('%:h')<CR>/<Tab>
