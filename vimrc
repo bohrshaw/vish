@@ -290,8 +290,6 @@ nnoremap <M-f>c :checktime<CR>
 " Edit a file in the same directory of the current file
 nnoremap <M-f>o :e <C-R>=expand('%:h')<CR>/<Tab>
 nnoremap <M-f>s :sp <C-R>=expand('%:h')<CR>/<Tab>
-nnoremap <M-f>v :vs <C-R>=expand('%:h')<CR>/<Tab>
-nnoremap <M-f>t :tabe <C-R>=expand('%:h')<CR>/<Tab>
 " Edit the alternative file" {{{
 nnoremap <M-a> <C-^>
 if has('nvim')
@@ -322,10 +320,9 @@ endfunction
 " Easy access to vimrc files:" {{{
 cabbrev .v ~/.vim/vimrc
 cabbrev .b ~/.vim/vimrc.bundle
-" Pseudo global marks for jumping to the last position in a file
-NXnoremap <silent> 'V :let _f = expand('~/.vim/vimrc')\|
+nnoremap <silent> <M-f>v :let _f = expand('~/.vim/vimrc')\|
       \ execute (buflisted(_f)?'b ':'e ') . _f<CR>
-NXnoremap <silent> 'B :let _f = expand('~/.vim/vimrc.bundle')\|
+nnoremap <silent> <M-f>b :let _f = expand('~/.vim/vimrc.bundle')\|
       \ execute (buflisted(_f)?'b ':'e ') . _f<CR>
 " }}}
 " Make the file '_' a scratch buffer
