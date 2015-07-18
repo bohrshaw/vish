@@ -212,23 +212,30 @@ autocmd vimrc FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
 " }}}
 " }}}
 " View:" {{{
-" Window management leader key
+" Window management (Tab is a collection of windows.)
+
+" The leader key
 NXmap <M-w> <C-W>
-nnoremap <M-j> <C-W>w
-nnoremap <M-k> <C-W>W
-nnoremap <C-w><M-t> <C-w>t
-nnoremap <C-w><M-b> <C-w>b
-nnoremap <C-w>t <C-w>T
+
+nmap <M-j> <C-w>j
+nmap <M-k> <C-w>k
+nnoremap <silent><expr><C-w>j ':<C-u>'.repeat("wincmd w\|", v:count1)."<CR>"
+nnoremap <silent><expr><C-w>k ':<C-u>'.repeat("wincmd W\|", v:count1)."<CR>"
+for i in [2, 3, 4]
+  execute "nnoremap <C-w>".i."j ".repeat('<C-w>w', i)
+  execute "nnoremap <C-w>".i."k ".repeat('<C-w>W', i)
+endfor
 nnoremap <M-q> <C-W>q
 inoremap <M-q> <Esc><C-W>q
-" Quick exit, useful when editing the shell command line
-inoremap <M-z> <Esc>ZZ
-" Tab is a collection of windows
+
 nnoremap <silent><M-l> :<C-u>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
 nnoremap <M-h> gT
-nnoremap <silent><C-w>Q :tabclose<CR>
 nnoremap <silent><C-w><M-l> :<C-u>execute 'tabmove+'.v:count1<CR>
 nnoremap <silent><C-w><M-h> :<C-u>execute 'tabmove-'.v:count1<CR>
+nnoremap <silent><C-w>Q :tabclose<CR>
+
+nnoremap <silent><C-w>O :tab sbuffer<CR>
+
 " Deal with terminal buffers
 if has('nvim')
   tnoremap <M-w> <C-\><C-n><C-w>
@@ -238,6 +245,9 @@ if has('nvim')
   autocmd vimrc BufWinEnter,WinEnter term://* startinsert
   autocmd vimrc BufLeave term://* stopinsert
 endif
+
+" Quick exit, useful when editing the shell command line
+inoremap <M-z> <Esc>ZZ
 " }}}
 " Content:" {{{
 " Split a buffer in a vertical window or a new tab

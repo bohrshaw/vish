@@ -552,7 +552,7 @@ if Bundles('Junegunn/goyo.vim', 'Junegunn/limelight.vim')
   let g:goyo_margin_top = 2
   let g:goyo_margin_bottom = 2
   " let g:goyo_linenr = 1
-  nnoremap <silent><C-W>O :Goyo<CR>
+  nnoremap <silent><C-W><M-o> :Goyo<CR>
   " autocmd bundle User GoyoEnter Limelight
   " autocmd bundle User GoyoLeave Limelight!
 endif
