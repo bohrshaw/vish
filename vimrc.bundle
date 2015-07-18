@@ -1198,5 +1198,6 @@ call Bundle('gregsexton/vimcalc', {'c': 'Calc'})
 " Task managers
 " call Bundles('aaronbieber/quicktask', 'davidoc/taskpaper.vim',
 "       \ 'davidoc/todo.txt-vim')
+" }}}1
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s:
