@@ -768,7 +768,7 @@ call Bundles('groenewege/vim-less')
 " Improves HTML & CSS workflow: http://emmet.io
 if Bundles('mattn/emmet-vim')
   let g:user_emmet_mode='i' " only enabled in insert mode
-  let g:user_emmet_leader_key = '<M-e>' " mnemonic of 'expand'
+  let g:user_emmet_leader_key = '<M-g>e' " mnemonic of 'expand'
   " let g:user_emmet_install_global = 0 " enabled only for certain file types
   " autocmd bundle FileType html,css EmmetInstall
 endif

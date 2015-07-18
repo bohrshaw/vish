@@ -82,23 +82,26 @@ endif
 " Enter the command line:" {{{
 NXnoremap <Space> :
 inoremap <M-Space> <Esc>:
-NXnoremap <M-Space> q:
-" set cedit=<C-G>
-cnoremap <M-Space> <C-F>
-" q/ is not reliable as q is often solely mapped to quitting
-NXnoremap <M-/> q/
+inoremap <M-e> <Esc>:
 if has('nvim')
   tnoremap <M-Space> <C-\><C-N>:
 endif
-" Mappings for the cmdline window
-autocmd vimrc CmdwinEnter * noremap <buffer> <F5> <CR>q:|
-      \ NXInoremap <buffer> <nowait> <CR> <CR>|
-      \ NXInoremap <buffer> <M-q> <C-c><C-c>
 " Resolve local mapping conflicts with <Space>
 autocmd vimrc BufWinEnter option-window autocmd CursorMoved option-window
       \ execute 'nnoremap <silent><buffer><LocalLeader>r '.maparg("<Space>")|
       \ unmap <buffer><Space>|
       \ autocmd! CursorMoved option-window
+
+" The command line window
+NXnoremap <M-Space> q:
+NXnoremap <M-e> q:
+NXnoremap <M-/> q/
+" set cedit=<C-G>
+cnoremap <M-Space> <C-F>
+cnoremap <M-e> <C-F>
+autocmd vimrc CmdwinEnter * noremap <buffer> <F5> <CR>q:|
+      \ NXInoremap <buffer> <nowait> <CR> <CR>|
+      \ NXInoremap <buffer> <M-q> <C-c><C-c>
 " }}}
 " Escape:" {{{
 inoremap <M-i> <Esc>
