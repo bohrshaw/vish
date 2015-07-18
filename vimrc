@@ -235,7 +235,8 @@ nnoremap <silent><M-l> :<C-u>execute repeat('tabn\|', v:count1-1).'tabn'<CR>
 nnoremap <M-h> gT
 nnoremap <silent><C-w><M-l> :<C-u>execute 'tabmove+'.v:count1<CR>
 nnoremap <silent><C-w><M-h> :<C-u>execute 'tabmove-'.v:count1<CR>
-nnoremap <silent><C-w>Q :tabclose<CR>
+nnoremap <silent><M-Q> :windo quit<CR>
+nmap <silent><C-w>Q <M-Q>
 
 nnoremap <silent><C-w>O :tab sbuffer<CR>
 
