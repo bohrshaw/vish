@@ -1009,32 +1009,37 @@ endif
 if Bundles('tpope/vim-fugitive')
   " Git deserves a convenient leader key for mappings
   nnoremap g<Space>s :Gstatus<CR>
-  nnoremap g<Space>cc :Gcommit -v<CR>
-  nnoremap g<Space>cC :call <SID>git_add_current() \| Gcommit -v<CR>
+
+  nnoremap g<Space>c<Space> :Gcommit -v<CR>
   nnoremap g<Space>ca :Gcommit --amend -v<CR>
-  nnoremap g<Space>cA :call <SID>git_add_current() \| Gcommit --amend -v<CR>
   nnoremap g<Space>ce :Gcommit --allow-empty-message -m ''<CR>
-  nnoremap g<Space>cE :call <SID>git_add_current() \| Gcommit --allow-empty-message -m ''<CR>
-  nnoremap g<Space>Cc :Gcommit --all -v<CR>
-  nnoremap g<Space>Ca :Gcommit --all --amend -v<CR>
-  nnoremap g<Space>cd :wq \| Gcommit -v<CR>
-  nnoremap g<Space>dd <C-W>o:Gdiff<CR>
-  nnoremap g<Space>da :Git diff<CR>
+
+  nnoremap <silent>g<Space>a<Space> :call <SID>git_add_current()<CR>
+  nmap g<Space>ac g<Space>a<Space>:Gcommit -v<CR>
+  nmap g<Space>ae g<Space>a<Space>:Gcommit --allow-empty-message -m ''<CR>
+  nmap g<Space>aa g<Space>a<Space>:Gcommit --amend -v<CR>
+
+  nnoremap g<Space>A<Space> :wall \| Git add --update<CR>
+  nnoremap g<Space>Ac :wall \| Gcommit --all -v<CR>
+  nnoremap g<Space>Ae :wall \| Gcommit --all --allow-empty-message -m ''<CR>
+  nnoremap g<Space>Aa :wall \| Gcommit --all --amend -v<CR>
+
+  nnoremap g<Space>d :tab sbuffer % \| Gdiff<CR>
   nnoremap g<Space>b :Gblame<CR>
   nnoremap g<Space>l :Glog<CR>
+
   nnoremap g<Space>ps :GitBg push<CR>
-  nnoremap g<Space>pS :GitBg push -f<CR>
+  nnoremap g<Space>pf :GitBg push -f<CR>
   nnoremap g<Space>pl :GitBg pull<CR>
+
   nnoremap <silent> <Leader>dr :execute 'lcd '.b:git_dir[:-6]<CR>
   nnoremap <silent> <Leader>dR :execute 'cd '.b:git_dir[:-6]<CR>
-  " Utilities
-  function! s:git_file_path()
-    return expand('%:p')[len(b:git_dir)-4:]
-  endfunction
+
   function! s:git_add_current()
-    execute &modified ? 'w' : ''
-    call fugitive#repo().git_chomp_in_tree('add', s:git_file_path())
+    update
+    call fugitive#repo().git_chomp_in_tree('add', expand('%:p')[len(b:git_dir)-4:])
   endfunction
+
   " Asynchronous execution
   command! -nargs=1 GGit execute
         \'B git --git-dir='.b:git_dir.' --work-tree='.b:git_dir[:-6].' <args>'
