@@ -6,7 +6,11 @@ function! v#getchar(...)
   for i in range(1, get(a:, 1, 1))
     let c = getchar()
     let c = type(c) == type(0) ? nr2char(c) : c
-    if index(["\<esc>", "\<c-c>"], c) >= 0
+    if "\<C-c>" == c
+      return ''
+    elseif "\<Esc>" == c && !exists('a:2')
+      return ''
+    elseif "\<CR>" == c && !exists('a:2')
       break
     endif
     let cs .= c

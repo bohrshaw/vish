@@ -415,22 +415,25 @@ abbr bs Bohr Shaw
 " Type notated keys {{{
 noremap! <expr><M-v> <SID>special_key()
 function! s:special_key()
-  let c1 = v#getchar()
+  let c1 = v#getchar(1, 1)
   if empty(c1)
     return ''
   endif
   if strtrans(c1)[0] == '^'
-    if strtrans(c1)[1] == 'i'
+    let c1_2 = strtrans(c1)[1]
+    if c1_2 == 'i'
       return '<Tab>'
-    elseif strtrans(c1)[1] == 'm'
+    elseif c1_2 == 'm'
       return '<CR>'
+    elseif c1_2 == '['
+      return '<Esc>'
     else
-      return '<C-'.tolower(strtrans(c1)[1]).'>'
+      return '<C-'.tolower(c1_2).'>'
     endif
   elseif has_key(s:keymap, c1) == 1
     return s:keymap[c1]
   endif
-  let c2 = v#getchar()
+  let c2 = v#getchar(1, 1)
   if empty(c2)
     return ''
   endif
@@ -455,12 +458,9 @@ let s:keymap_sp = {
       \"\<BS>":  'BS',
       \}
 let s:keymap = {
-      \"\<Tab>": '<Tab>',
-      \'E':      '<Esc>',
       \' ':      '<Space>',
-      \"\<CR>":  '<CR>',
       \"\<BS>":  '<BS>',
-      \'<':      '<LT>',
+      \'<':      '<lt>',
       \'\':      '<Bslash>',
       \'|':      '<Bar>',
       \'bu':     '<buffer>',
