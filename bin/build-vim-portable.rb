@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+# Deprecated!
 # This script creates a portable and self contained vim distribution
 # officially called "Vimind" for windows(32-bit). However you should
 # run this file under linux.
@@ -7,6 +8,9 @@
 # Author:: Bohr Shaw (mailto:pubohr@gmail.com)
 # Copyright:: Copyright (c) Bohr Shaw
 # License:: Distributes under the same terms as Ruby
+#
+# Similar works:
+# https://github.com/junegunn/myvim
 
 # Importing modules and configuration {{{1
 require 'fileutils'
