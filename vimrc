@@ -287,8 +287,8 @@ nnoremap <silent><M-f><M-f>e :edit!<CR>
 nnoremap <M-f>f :filetype detect<CR>
 nnoremap <M-f>c :checktime<CR>
 " Edit a file in the same directory of the current file
-nnoremap <M-f>o :e <C-R>=expand('%:h')<CR>/<Tab>
-nnoremap <M-f>s :sp <C-R>=expand('%:h')<CR>/<Tab>
+nnoremap <M-f>o :e <C-R>=expand('%:h')<CR>/
+nnoremap <M-f>s :sp <C-R>=expand('%:h')<CR>/
 " Edit the alternative file
 nnoremap <M-a> <C-^>
 if has('nvim')
