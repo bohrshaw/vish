@@ -316,11 +316,11 @@ endfunction
 " Easy access to vimrc files:" {{{
 cabbrev .v ~/.vim/vimrc
 cabbrev .b ~/.vim/vimrc.bundle
-nnoremap <silent> <M-f>v :let _f = expand('~/.vim/vimrc')\|
-      \ execute (buflisted(_f)?'b ':'e ') . _f<CR>
-nnoremap <silent> <M-f>b :let _f = expand('~/.vim/vimrc.bundle')\|
-      \ execute (buflisted(_f)?'b ':'e ') . _f<CR>
+nnoremap <silent><M-f>v :Be ~/.vim/vimrc<CR>
+nnoremap <silent><M-f>b :Be ~/.vim/vimrc.bundle<CR>
 " }}}
+" Switch to a file without reloading it
+command! -nargs=1 Be execute (buflisted(expand(<q-args>))?'b':'e').' '.<q-args>
 " Make the file '_' a scratch buffer
 autocmd vimrc BufNewFile,BufReadPost _ set buftype=nofile nobuflisted bufhidden=hide
 autocmd vimrc SessionLoadPost * silent! bwipeout! _
