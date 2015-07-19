@@ -261,7 +261,7 @@ nnoremap <silent><M-b><M-b>w :bwipeout!<CR>
 nnoremap <silent><M-b>x :Bdelete<CR>
 nnoremap <silent><M-b><M-b>x :Bdelete!<CR>
 " Delete the current buffer without closing its window
-command! -bang Bdelete :b# |silent! bd<bang>#
+command! -bang Bdelete try|b#|silent! bd<bang>#|catch|bd|endtry
 " Delete all buffers in the buffer list
 command! BufDeleteAll execute '1,'.bufnr('$').'bdelete'
 " Delete all buffers in the buffer list except the current one
@@ -289,15 +289,13 @@ nnoremap <M-f>c :checktime<CR>
 " Edit a file in the same directory of the current file
 nnoremap <M-f>o :e <C-R>=expand('%:h')<CR>/<Tab>
 nnoremap <M-f>s :sp <C-R>=expand('%:h')<CR>/<Tab>
-" Edit the alternative file" {{{
+" Edit the alternative file
 nnoremap <M-a> <C-^>
 if has('nvim')
   tnoremap <M-a> <C-\><C-n><C-^>
 endif
-" Split the window and edit the alternate file
-NXnoremap <C-W><M-s> <C-w>^
-NXnoremap <C-W><M-v> :vsplit #<CR>
-" }}}
+nnoremap <C-W><M-s> <C-w>^
+nnoremap <silent><C-W><M-v> :vsplit #<CR>
 " Directories to search by 'gf', ':find', etc.
 " (dir of the current file, current dir, etc.)
 setglobal path=.,,~,~/.vim,~/.dot,~/.dots
