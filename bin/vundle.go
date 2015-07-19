@@ -16,7 +16,7 @@ import (
 var (
 	update   = flag.Bool("u", false, "update bundles")
 	clear    = flag.Bool("c", false, "clear bundles")
-	routines = flag.Int("r", 20, "number of routines")
+	routines = flag.Int("r", 12, "number of routines")
 	cuser, _ = user.Current()
 	sep      = string(os.PathSeparator)
 	root     = cuser.HomeDir + sep + ".vim" + sep + "bundle"
