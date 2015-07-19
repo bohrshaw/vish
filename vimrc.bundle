@@ -425,6 +425,10 @@ if Bundles('-ctrlpvim/ctrlp.vim')
     call add(g:ctrlp_extensions, 'funky')
     nnoremap <Leader>ff :CtrlPFunky<CR>
   endif
+  " Modified files in git projects
+  if Bundles('jasoncodes/ctrlp-modified.vim')
+    nnoremap <Leader>fg :CtrlPModified<CR>
+  endif
 endif
 
 " Unite and create user interfaces
