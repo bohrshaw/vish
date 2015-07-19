@@ -774,7 +774,9 @@ if Bundles('mattn/emmet-vim')
 endif
 
 " Markdown runtime files
-call Bundles('tpope/vim-markdown', 'nelstrom/vim-markdown-folding')
+if Bundles('tpope/vim-markdown', '-nelstrom/vim-markdown-folding')
+  let g:markdown_folding = 1
+endif
 
 " Preview various markup files with external tools
 if has('ruby') && Bundles('greyblake/vim-preview', '-matthias-guenther/hammer.vim')
