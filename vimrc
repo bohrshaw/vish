@@ -296,11 +296,10 @@ if has('nvim')
 endif
 nnoremap <C-W><M-s> <C-w>^
 nnoremap <silent><C-W><M-v> :vsplit #<CR>
-" Directories to search by 'gf', ':find', etc.
+" Directories to search by `gf, :find, cd, lcd etc.`
 " (dir of the current file, current dir, etc.)
-setglobal path=.,,~,~/.vim,~/.dot,~/.dots
-" Directories to search by ':cd', ':lcd'
-set cdpath=,,.,~,~/workspaces
+setglobal path=.,,~,~/.vim
+set cdpath=,,.,~
 if has('vim_starting') && 0 == argc() && has('gui_running') && !g:l
   cd $HOME
 endif
