@@ -620,7 +620,11 @@ function! Vstatusline()
 endfunction
 function! Vmode()
   let mode = mode()
-  if mode =~# '[VS]'
+  if mode ==# 'i'
+    return 'INSERT'
+  elseif mode ==# 'R'
+    return 'REPLACE'
+  elseif mode =~# '[VS]'
     return mode.'L'
   elseif mode =~# "[\<C-v>\<C-s>]"
     return strtrans(mode)[1].'B'
