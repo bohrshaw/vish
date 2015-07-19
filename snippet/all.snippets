@@ -10,6 +10,18 @@ cms = cms()
 
 endglobal
 
+snippet #!
+#!/bin/${1:bash}
+
+$0
+endsnippet
+
+snippet !env
+#!/usr/bin/env ${1:bash}
+
+$0
+endsnippet
+
 snippet author "author name and email" b
 `!p snip.rv=cms[0]`Author: ${1:`!v g:snips_author`} <${2:`!v g:snips_author_email`}>`!p snip.rv=cms[1]`
 endsnippet
