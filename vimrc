@@ -577,10 +577,6 @@ noremap! <expr> <SID>transpose "\<BS>\<Right>"
 if has('vim_starting')
   runtime vimrc.bundle " bundle configuration
   BundleInject " inject bundle paths to 'rtp'
-
-  " Must be after setting 'rtp'
-  filetype plugin indent on
-  syntax enable
 endif
 " }}}
 " Appearance:" {{{
@@ -775,6 +771,10 @@ command! -range=% SLOC echo vimrc#count
 " }}}
 
 silent! source ~/.vimrc.local " machine specific config
+
+" Must be after setting 'rtp'
+filetype plugin indent on
+syntax enable
 " }}}
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s:
