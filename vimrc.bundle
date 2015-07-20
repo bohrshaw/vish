@@ -14,6 +14,9 @@ augroup bundle
   autocmd!
 augroup END
 
+" Let the bundle manager define this variable to download ALL bundles
+let g:nvim = get(g:, 'nvim', has('nvim'))
+
 " Mappings for managing bundles
 autocmd bundle BufReadPost {.,}vimrc.bundle call s:bundle_map()
 function! s:bundle_map()
@@ -969,6 +972,9 @@ call Bundles('vim-scripts/nginx.vim')
 call Bundles('bohrshaw/vim-vimperator-syntax')
 
 " ExternalInteraction: {{{1
+
+if 0 && g:nvim && Bundles('fmoralesc/nvimfs')
+endif
 
 " An asynchronous execution library
 if Bundles('bohrshaw/vimproc.vim')

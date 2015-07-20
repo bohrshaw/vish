@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+# Deprecated! Use vundle.go instead.
 # Sync Vim bundles
 # Author: Bohr Shaw <pubohr@gmail.com>
 
