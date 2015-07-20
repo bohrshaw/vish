@@ -621,9 +621,9 @@ endfunction
 function! Vmode()
   let mode = mode()
   if mode ==# 'i'
-    return 'INSERT'
+    return 'INS'
   elseif mode ==# 'R'
-    return 'REPLACE'
+    return 'REP'
   elseif mode =~# '[VS]'
     return mode.'L'
   elseif mode =~# "[\<C-v>\<C-s>]"
