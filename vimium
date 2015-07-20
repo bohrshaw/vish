@@ -1,0 +1,24 @@
+# Vimium for Chrome/Chromium config backup
+
+# Custom key mappings
+
+map ' Marks.activateGotoMode
+
+map gm LinkHints.activateModeWithQueue
+map go LinkHints.activateModeToOpenInNewForegroundTab
+map gd LinkHints.activateModeToDownloadLink
+map ga LinkHints.activateModeToOpenIncognito
+
+map l nextTab
+map h previousTab
+map U restoreTab
+map < moveTabLeft
+map > moveTabRight
+map gX closeTabsOnLeft
+map gx closeTabsOnRight
+
+map <a-h> scrollLeft
+map <a-l> scrollRight
+
+# Characters used for link hints
+asdfjklewioghpqurmvnbtcxzy
