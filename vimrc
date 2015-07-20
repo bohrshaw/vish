@@ -624,6 +624,8 @@ function! Vmode()
     return 'INS'
   elseif mode ==# 'R'
     return 'REP'
+  elseif mode ==# 't'
+    return 'TERM'
   elseif mode =~# '[VS]'
     return mode.'L'
   elseif mode =~# "[\<C-v>\<C-s>]"
