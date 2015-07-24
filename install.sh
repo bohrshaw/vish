@@ -24,7 +24,7 @@ done
 slink $VISH/vimrc $HOME/.nvimrc
 
 if hash go &>/dev/null; then
-  go run $VISH/bin/vundle.go
+  go run $VISH/bin/src/vundle/vundle.go
 else
   $VISH/bin/vundle.rb
 fi

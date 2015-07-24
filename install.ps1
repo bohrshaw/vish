@@ -47,7 +47,7 @@ New-Link "$VIM_DIR\vsvimrc"
 
 # Sync bundles
 if (Get-Command "go.exe" -ErrorAction SilentlyContinue) {
-    Invoke-Expression "go run $VIM_DIR\bin\bundle.go"
+    Invoke-Expression "go run $VIM_DIR\bin\src\vundle\vundle.go"
 } else {
     Invoke-Expression "ruby $VIM_DIR\bin\bundle.rb"
 }
