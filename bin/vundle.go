@@ -17,9 +17,8 @@ var (
 	update   = flag.Bool("u", false, "update bundles")
 	clear    = flag.Bool("c", false, "clear bundles")
 	routines = flag.Int("r", 12, "number of routines")
-	cuser, _ = user.Current()
-	sep      = string(os.PathSeparator)
-	root     = cuser.HomeDir + sep + ".vim" + sep + "bundle"
+	_user, _ = user.Current()
+	root     = _user.HomeDir + "/.vim/bundle"
 )
 
 // References:
@@ -71,7 +70,7 @@ func main() {
 
 // Sync a bundle
 func syncBundle(bundle *string) {
-	path := root + sep + strings.Split(*bundle, "/")[1]
+	path := root + "/" + strings.Split(*bundle, "/")[1]
 	_, err := os.Stat(path)
 	path_exist := !os.IsNotExist(err)
 
@@ -98,7 +97,7 @@ func syncBundle(bundle *string) {
 		out, _ := cmd.Output()
 
 		// Update submodules
-		if _, err := os.Stat(path + sep + ".gitmodules"); !os.IsNotExist(err) {
+		if _, err := os.Stat(path + "/.gitmodules"); !os.IsNotExist(err) {
 			cmd.Args = strings.Fields("git submodule sync")
 			cmd.Run()
 			cmd.Args = strings.Fields("git submodule update --init --recursive")
@@ -113,12 +112,12 @@ func syncBundle(bundle *string) {
 
 // Remove disabled bundles
 func clearBundle(bundles *[]string) {
-	dirs, _ := filepath.Glob(root + sep + "*")
+	dirs, _ := filepath.Glob(root + "/*")
 	var match bool
 	for _, d := range dirs {
 		match = false
 		for _, b := range *bundles {
-			if string(d[strings.LastIndex(d, sep)+1:]) == strings.Split(b, "/")[1] {
+			if string(d[strings.LastIndexAny(d, "/\\")+1:]) == strings.Split(b, "/")[1] {
 				match = true
 				break
 			}
