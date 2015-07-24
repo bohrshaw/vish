@@ -28,32 +28,30 @@ func main() {
 	// Parse the command line into the defined flags
 	flag.Parse()
 
-	bundles := getBundles()
-
-	c := make(chan string, 99)
-
-	// For counting goroutines
-	var wg sync.WaitGroup
+	var (
+		bundles = getBundles()
+		ch      = make(chan string, 9)
+	)
+	var wg sync.WaitGroup // count of goroutines
 
 	// Spawn some worker goroutines
 	for i := 0; i < *routines; i++ {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			for bundle := range c {
+			for bundle := range ch {
 				syncBundle(&bundle)
 			}
 		}()
 	}
 
-	// Fill the channel with bundles
+	// Send bundles to the channel
 	for _, bundle := range bundles {
-		c <- bundle
+		ch <- bundle
 	}
-	// Close the channel (after the last sent value is received) to notify
-	// receivers stop waiting
-	close(c)
+	close(ch)
 
+	// Spawn another goroutine to do clean-up
 	if *clear {
 		wg.Add(1)
 		go func() {
@@ -62,7 +60,6 @@ func main() {
 		}()
 	}
 
-	// Wait for all the workers to finish
 	wg.Wait()
 
 	helptags()
