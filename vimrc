@@ -778,9 +778,11 @@ command! -range=% SLOC echo vimrc#count
 
 silent! source ~/.vimrc.local " machine specific config
 
-" Must be after setting 'rtp'
-filetype plugin indent on
-syntax enable
+if has('vim_starting')
+  " Must be after setting 'rtp'
+  filetype plugin indent on
+  syntax enable
+endif
 " }}}
 
 " vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s:
