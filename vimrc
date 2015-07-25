@@ -119,10 +119,6 @@ nnoremap vV vg_
 NXnoremap "<Space> "+
 " Access to the black hole register
 NXnoremap _ "_
-" Toggle fold methods
-nnoremap <silent> zfm :let &l:foldmethod = tolower(matchstr(
-      \':Manual:marker:indent:syntax:expr:diff',
-      \'\C:\zs'.nr2char(getchar()).'\w*'))\|set foldmethod<CR>
 " Run a command with a bang(!):" {{{
 " For the current command
 cnoremap <M-1> <C-\>e<SID>insert_bang()<CR><CR>
@@ -247,6 +243,30 @@ if has('nvim')
   autocmd vimrc BufWinEnter,WinEnter term://* startinsert
   autocmd vimrc BufLeave term://* stopinsert
 endif
+
+" Focus on a region using manual folding (mnemonic: pick)
+nnoremap <silent>zp :set operatorfunc=<SID>fold_others<CR>g@
+xnoremap <silent>zp :<C-u>call <SID>fold_others()<CR>
+nnoremap <silent>zP :call <SID>fold_restore()<CR>
+" {{{
+function! s:fold_others(...)
+  let [line1, line2] = a:0 == 1 ? ["'[", "']"] : ["'<", "'>"]
+  let b:fold_opts = [&fdm, &fdl, &fde]
+  set fde=0 fdm=expr | redraw " disable existing folding
+  set fdm=manual
+  execute '1,'.line1.'-1fold|'.line2.'+1,$'.'fold'
+endfunction
+function! s:fold_restore()
+  normal! zE
+  let [&fdm, &fdl, &fde] = b:fold_opts
+  normal! zvzz
+endfunction
+" }}}
+
+" Toggle fold methods
+nnoremap <silent> zfm :let &l:foldmethod = tolower(matchstr(
+      \':Manual:marker:indent:syntax:expr:diff',
+      \'\C:\zs'.nr2char(getchar()).'\w*'))\|set foldmethod<CR>
 " }}}
 " Content:" {{{
 " Split a buffer in a vertical window or a new tab
