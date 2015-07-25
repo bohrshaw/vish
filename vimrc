@@ -163,7 +163,6 @@ augroup vimrc_cursor
 augroup END
 " Jump to the last known position in a file just after opening it
 autocmd vimrc BufRead * silent! normal! g`"
-autocmd vimrc BufWinEnter * normal! zv
 " }}}
 " }}}
 " Search:" {{{
