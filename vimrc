@@ -247,9 +247,6 @@ if has('nvim')
   autocmd vimrc BufWinEnter,WinEnter term://* startinsert
   autocmd vimrc BufLeave term://* stopinsert
 endif
-
-" Quick exit, useful when editing the shell command line
-inoremap <M-z> <Esc>ZZ
 " }}}
 " Content:" {{{
 " Split a buffer in a vertical window or a new tab
@@ -281,6 +278,8 @@ nnoremap <silent><M-f>u :update<CR>
 nnoremap <silent><M-f><M-f>u :update!<CR>
 nnoremap <silent><M-f>a :wall<CR>
 nnoremap <silent><M-f><M-f>a :wall!<CR>
+" Quick save and exit, useful when editing the shell command line
+inoremap <M-z> <Esc>ZZ
 nnoremap <silent><M-f>e :edit<CR>
 nnoremap <silent><M-f><M-f>e :edit!<CR>
 nnoremap <M-f>f :filetype detect<CR>
