@@ -289,13 +289,13 @@ nnoremap <M-f>c :checktime<CR>
 " Edit a file in the same directory of the current file
 nnoremap <M-f>o :e <C-R>=expand('%:h')<CR>/
 nnoremap <M-f>s :sp <C-R>=expand('%:h')<CR>/
-" Edit the alternative file
-nnoremap <M-a> <C-^>
+" Switch to the alternative buffer
+nnoremap <silent><M-a> :buffer #<CR>
 if has('nvim')
-  tnoremap <M-a> <C-\><C-n><C-^>
+  tnoremap <silent><M-a> <C-\><C-n>:buffer #<CR>
 endif
-nnoremap <C-W><M-s> <C-w>^
-nnoremap <silent><C-W><M-v> :vsplit #<CR>
+nnoremap <silent><C-W><M-s> :sbuffer #<CR>
+nnoremap <silent><C-W><M-v> :vert sbuffer #<CR>
 " Directories to search by `gf, :find, cd, lcd etc.`
 " (dir of the current file, current dir, etc.)
 setglobal path=.,,~,~/.vim
