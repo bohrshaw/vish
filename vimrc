@@ -264,7 +264,7 @@ endfunction
 " }}}
 
 " Toggle fold methods
-nnoremap <silent> zfm :let &l:foldmethod = tolower(matchstr(
+nnoremap <silent> cof :let &l:foldmethod = tolower(matchstr(
       \':Manual:marker:indent:syntax:expr:diff',
       \'\C:\zs'.nr2char(getchar()).'\w*'))\|set foldmethod<CR>
 " }}}
