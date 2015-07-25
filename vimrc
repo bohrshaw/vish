@@ -622,17 +622,19 @@ execute 'autocmd vimrc InsertLeave * set listchars+=trail:'.s:lcs[1]
 set laststatus=2 " always display the status line
 " Ensure all plugins are loaded before setting 'statusline'
 function! Vstatusline()
-  set statusline=%1*%{Vmode()}%* " edit mode
-  set statusline+=:%2*%M%* " buffer modified/modifiable flag
+  set statusline=%1*%{Vmode()}%* " mode
+  set statusline+=:%2*%M " modified/modifiable
+  set statusline+=%{&readonly?'=':''}%* " read-only
   set statusline+=%.30f " file name, truncated if its length > 30
-  set statusline+=:%R%Y%W%q " read-only, filetype, preview, quickfix
+  set statusline+=:%1*%Y%* " file type
   set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?':'.&fenc:''} " file encoding
   set statusline+=%{&ff!='unix'?':'.&ff:''} " file format
   " Git branch name
   let &statusline .= exists('*fugitive#head') ?
         \ "%{exists('b:git_dir')?':'.fugitive#head(7):''}" : ''
   " set statusline+=%{':'.matchstr(getcwd(),'.*[\\/]\\zs\\S*')}
-  set statusline+=%{get(b:,'case_reverse',0)?':CASE':''} " software caps lock
+  set statusline+=%{get(b:,'case_reverse',0)?':CAPS':''} " software caps lock
+  set statusline+=%w%q " preview, quickfix
   set statusline+=%= " left/right separator
   set statusline+=%c:%l/%L:%P " cursor position, line percentage
 endfunction
