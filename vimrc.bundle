@@ -1051,8 +1051,8 @@ if Bundles('tpope/vim-fugitive')
   nnoremap g<Space>pf :GitBg push -f<CR>
   nnoremap g<Space>pl :GitBg pull<CR>
 
-  nnoremap <silent> <Leader>dr :execute 'lcd '.b:git_dir[:-6]<CR>
-  nnoremap <silent> <Leader>dR :execute 'cd '.b:git_dir[:-6]<CR>
+  nnoremap <expr><M-f>/ ':cd '.b:git_dir[:-6]."<CR>"
+  nnoremap <expr><M-f>\ ':lcd '.b:git_dir[:-6]."<CR>"
 
   function! s:git_add_current()
     update
