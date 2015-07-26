@@ -55,7 +55,7 @@ func main() {
 	if *clear {
 		wg.Add(1)
 		go func() {
-			clearBundle(&bundles)
+			cleanBundle(&bundles)
 			wg.Done()
 		}()
 	}
@@ -108,7 +108,7 @@ func syncBundle(bundle *string) {
 }
 
 // Remove disabled bundles
-func clearBundle(bundles *[]string) {
+func cleanBundle(bundles *[]string) {
 	dirs, _ := filepath.Glob(root + "/*")
 	var match bool
 	for _, d := range dirs {
