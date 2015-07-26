@@ -1,8 +1,10 @@
 " Description: Assistant scripts for vimrc
 " Author: Bohr Shaw <pubohr@gmail.com>
 
-" Source lines of viml
-" Note that in the context of a function, `:@` is not a solution.
+" Source lines of Viml
+" Note: In the context of a function, `:@` is not a solution. And newly defined
+" autoloaded functions can't yet be sourced because of a mismatch between the
+" temporary file name and the function name.
 function! vimrc#run(type)
   let tmp = tempname()
   " When g@ calling, a:type is 'line', 'char' or 'block'.
