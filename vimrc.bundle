@@ -348,8 +348,6 @@ nnoremap <silent> [d :call search('\cto-\?do:', 'sb')<CR>
 " Mappings for simultaneously pressed keys
 " call Bundles('kana/vim-arpeggio')
 
-" Fixes key codes for console Vim
-" call Bundles('drmikehenry/vim-fixkey')
 
 " FileBufferPaneWindowTabSession: {{{1
 

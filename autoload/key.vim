@@ -1,8 +1,9 @@
 " Description: Mappable Meta key in terminals Vim(inapplicable to Neovim)
 " Author: Bohr Shaw <pubohr@gmail.com>
 
-" References:
+" Related:
 " https://github.com/tpope/vim-rsi
+" https://github.com/drmikehenry/vim-fixkey/blob/master/plugin/fixkey.vim
 " http://vim.wikia.com/wiki/Mapping_fast_keycodes_in_terminal_Vim
 
 " Issues:
