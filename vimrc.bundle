@@ -794,23 +794,9 @@ endif
 " Preview various markup files with external tools
 if s:ruby && Bundles('greyblake/vim-preview', '-matthias-guenther/hammer.vim')
   autocmd VimEnter * nunmap <Leader>P
-else
-  command! -range=% Preview call <SID>preview_markdown(<line1>, <line2>)
-  function! s:preview_markdown(line1, line2)
-    let text = getline(a:line1, a:line2)
-    let tmp = has('win32') ? $TEMP.'\' : '/tmp/'
-    let [markdown, html] = [tmp.'preview.md', tmp.'preview.html']
-    call writefile(text, markdown)
-    if !has('win32') && executable('redcarpet')
-      call system('redcarpet '.markdown.' >'.html)
-    elseif executable('multimarkdown')
-      call system('multimarkdown -c '.markdown.' -o '.html)
-    else
-      echo 'No supported external tools found.'|return 0
-    endif
-    call v#open(html)
-  endfunction
 endif
+autocmd bundle VimEnter * command! -range=% PreviewMarkdown
+      \ call markdown#preview(<line1>, <line2>)
 
 " Javascript {{{2
 
