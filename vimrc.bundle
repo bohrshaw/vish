@@ -2,7 +2,7 @@
 "
 " Author: Bohr Shaw <pubohr@gmail.com>
 
-" BundleManagement: {{{1
+" Fundamental: {{{1
 
 " Select bundles carefully and customize properly.
 " Be aware of possible autocmd pollution which should be more concerned.
@@ -40,7 +40,25 @@ endfunction
 " A Vim plugin for Vim plugins
 call Bundles('tpope/vim-scriptease')
 
-" MotionSearch: {{{1
+" Shortcuts: {{{1
+
+" Pairs of handy bracket mappings
+if Bundles('Tpope/vim-unimpaired')
+  nmap cop <Plug>unimpairedPaste
+endif
+" Mouse could also be enabld in Tmux
+nnoremap <silent> com :let &mouse = empty(&mouse) ? 'a' : ''<CR>
+autocmd VimEnter * nnoremap <silent>coh :let v:hlsearch = !v:hlsearch<CR>
+nnoremap <silent> ]d :call search('\cto-\?do:', 's')<CR>
+nnoremap <silent> [d :call search('\cto-\?do:', 'sb')<CR>
+
+" Create your own submodes (e.g, g--- instead of g-g-g-)
+" call BundlePath('kana/vim-submode')
+
+" Mappings for simultaneously pressed keys
+" call Bundles('kana/vim-arpeggio')
+
+" Motion: {{{1
 
 " The missing motion for Vim
 if Bundles('-Justinmk/vim-sneak', 'Bohrshaw/vim-sneak')
@@ -131,6 +149,8 @@ if Bundles('-wellle/targets.vim', 'kana/vim-textobj-indent',
   augroup END
 endif
 
+" Search: {{{1
+
 " Search improved
 if Bundles('Haya14busa/incsearch.vim', 'Haya14busa/vim-asterisk')
   " Highlight will auto-suspend on cursor move after a search
@@ -178,7 +198,7 @@ if Bundles('Haya14busa/incsearch.vim', 'Haya14busa/vim-asterisk')
   let g:incsearch#no_inc_hlsearch = 1
 endif
 
-" Insert: {{{1
+" Completion: {{{1
 
 " Provides insert mode auto-completion for quotes, parens, brackets, etc.
 " Currently there're problems with 'repeat' or 'undo'.
@@ -283,6 +303,9 @@ if Bundles('-kurkale6ka/vim-swap')
   xmap c\| <plug>SwapSwapPivotOperands
 endif
 
+" Transpose matrices of text (swap lines with columns)
+call Bundles('salsifis/vim-transpose')
+
 " Easily search for, substitute, and abbreviate multiple variants of a word
 call Bundles('Tpope/vim-abolish')
 
@@ -305,13 +328,10 @@ if Bundles('chrisbra/unicode.vim', 'tpope/vim-characterize')
   command! UnicodeDownload call unicode#Download(1)
 endif
 
-" Transpose matrices of text (swap lines with columns)
-call Bundles('salsifis/vim-transpose')
-
 " Replay the edit
 " call Bundles('chrisbra/replay', 'haya14busa/vim-undoreplay')
 
-" History: {{{1
+" Repeat: {{{1
 
 " Display your undo history in a graph
 if Bundles('-mbbill/undotree')
@@ -330,26 +350,26 @@ call Bundles('Tpope/vim-repeat')
 " A lightweight implementation of emacs's kill-ring for vim
 " call Bundles('maxbrunsfeld/vim-yankstack')
 
-" Mapping: {{{1
+" View: {{{1
 
-" Pairs of handy bracket mappings
-if Bundles('Tpope/vim-unimpaired')
-  nmap cop <Plug>unimpairedPaste
+" Distraction-free, hyper-focus writing
+if Bundles('Junegunn/goyo.vim', 'Junegunn/limelight.vim')
+  " let g:goyo_width = 100
+  let g:goyo_margin_top = 2
+  let g:goyo_margin_bottom = 2
+  " let g:goyo_linenr = 1
+  nnoremap <silent><C-W><M-o> :Goyo<CR>
+  " autocmd bundle User GoyoEnter Limelight
+  " autocmd bundle User GoyoLeave Limelight!
 endif
-" Mouse could also be enabld in Tmux
-nnoremap <silent> com :let &mouse = empty(&mouse) ? 'a' : ''<CR>
-autocmd VimEnter * nnoremap <silent>coh :let v:hlsearch = !v:hlsearch<CR>
-nnoremap <silent> ]d :call search('\cto-\?do:', 's')<CR>
-nnoremap <silent> [d :call search('\cto-\?do:', 'sb')<CR>
 
-" Create your own submodes (e.g, g--- instead of g-g-g-)
-" call BundlePath('kana/vim-submode')
+" Automatic resizing of Vim windows to the golden ratio
+if Bundles('roman/golden-ratio')
+  let g:golden_ratio_autocommand = 0
+  noremap <C-W>G :GoldenRatioResize<CR>
+endif
 
-" Mappings for simultaneously pressed keys
-" call Bundles('kana/vim-arpeggio')
-
-
-" FileBufferPaneWindowTabSession: {{{1
+" Content: {{{1
 
 " Fuzzy file, buffer, mru, tag, etc finder
 if Bundles('-ctrlpvim/ctrlp.vim')
@@ -556,23 +576,6 @@ endif
 
 " Buffer Explorer/Browser
 call Bundles('-vim-scripts/bufexplorer.zip', '-jeetsukumaran/vim-buffergator')
-
-" Distraction-free, hyper-focus writing
-if Bundles('Junegunn/goyo.vim', 'Junegunn/limelight.vim')
-  " let g:goyo_width = 100
-  let g:goyo_margin_top = 2
-  let g:goyo_margin_bottom = 2
-  " let g:goyo_linenr = 1
-  nnoremap <silent><C-W><M-o> :Goyo<CR>
-  " autocmd bundle User GoyoEnter Limelight
-  " autocmd bundle User GoyoLeave Limelight!
-endif
-
-" Automatic resizing of Vim windows to the golden ratio
-if Bundles('roman/golden-ratio')
-  let g:golden_ratio_autocommand = 0
-  noremap <C-W>G :GoldenRatioResize<CR>
-endif
 
 " Session management
 if Bundles('bohrshaw/vim-mansion', '-tpope/vim-obsession')

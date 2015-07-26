@@ -7,6 +7,7 @@
 "
 " Author: Bohr Shaw <pubohr@gmail.com>
 
+" Fundamental:" {{{
 " Comments:" {{{
 " Be: healthy, stable, efficient, consistent, intuitive, convenient, accessible!
 
@@ -28,7 +29,6 @@
 " <C-J> is the same as <C-j>, use <C-S-j> instead.
 
 " }}}
-" Fundamental:" {{{
 " Define an augroup for all autocmds in this file and empty it:" {{{
 augroup vimrc
   autocmd!
