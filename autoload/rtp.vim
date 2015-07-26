@@ -79,17 +79,18 @@ function! rtp#add(dir)
   endif
 endfunction
 
-" Invoke :helptags on all non-$VIM doc directories in runtimepath.
-function! rtp#helptags() abort
-  for glob in rtp#split(&rtp)
-    for dir in split(glob(glob), "\n")
-      if (dir.'/')[0 : strlen($VIMRUNTIME)] !=# $VIMRUNTIME.'/' && filewritable(dir.'/doc') == 2 && !empty(filter(split(glob(dir.'/doc/*'),"\n>"),'!isdirectory(v:val)')) && (!filereadable(dir.'/doc/tags') || filewritable(dir.'doc/tags'))
-        silent! execute 'helptags' fnameescape(dir.'/doc')
-      endif
-    endfor
+" Invoke :helptags on all non-$VIMRUNTIME doc directories in runtimepath.
+function! rtp#helptags(...) abort
+  for dir in rtp#split(&rtp)
+    let dir = expand(dir.'/doc/')
+    if dir[0:strlen($VIMRUNTIME)] !=# $VIMRUNTIME.path#slash() &&
+          \filewritable(dir) == 2 && !empty(glob(dir.'*.txt')) &&
+          \(!filereadable(dir.'tags') || get(a:, 1) == 1)
+      silent! execute 'helptags' fnameescape(dir)
+    endif
   endfor
 endfunction
-command! -bar Helptags :call rtp#helptags()
+command! -bar -bang Helptags call rtp#helptags(<bang>0)
 
 " Check if a bundle is disabled. A bundle is considered disabled if it ends in
 " a tilde or its basename or full name is included in the list

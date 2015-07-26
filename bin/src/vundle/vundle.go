@@ -153,9 +153,17 @@ func getBundles() []string {
 // Generate help tags
 func helptags() {
 	args := []string{
-		"-Nesu", "NONE",
-		"--cmd", `if &rtp !~# '\v[\/]\.vim[,|$]' | set rtp^=~/.vim | endif |` +
-			"call rtp#inject() | Helptags | qa",
+		"-Nesu",
+		"NONE",
+		"--cmd",
+		`if &rtp !~# '\v[\/]\.vim[,|$]' | set rtp^=~/.vim | endif` +
+			"| call rtp#inject() | Helptags" +
+			func() string {
+				if *update {
+					return "!"
+				}
+				return ""
+			}() + "| qall",
 	}
 	if exec.Command("vim", args...).Run() != nil {
 		log.Printf("Fail to generate help tags.")
