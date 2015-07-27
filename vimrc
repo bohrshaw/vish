@@ -248,6 +248,12 @@ function! s:win_toggle() " {{{
   endif
 endfunction " }}}
 
+" Exchange the current window with the {count}th window
+nnoremap <silent><C-w>e :<C-u>execute 'buffer '.winbufnr(v:count1).'\|'
+      \.v:count1.'wincmd w\|buffer '.winbufnr(0)<CR>
+" Attach the current window bellow the last windows with the same width
+nnoremap <silent><C-w>a :execute 'close\|$wincmd w\|belowright sbuffer '.bufnr('')<CR>
+
 " Deal with terminal buffers
 if has('nvim')
   tnoremap <M-w> <C-\><C-n><C-w>
