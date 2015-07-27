@@ -277,10 +277,20 @@ endfunction
 " }}}
 
 " Toggle fold methods
-nnoremap <silent>cof :let &l:foldmethod = tolower(matchstr(
+nnoremap <silent>cof :let &foldmethod = tolower(matchstr(
       \',mmanual,kmarker,iindent,ssyntax,eexpr,ddiff',
       \','.nr2char(getchar()).'\zs\a*\C'))\|set foldmethod<CR>
 nmap <silent>zfm cof
+
+" Don't screw up folds when inserting text that might affect them.
+" Also improve speed by avoiding updating expensive folds eagerly.
+" http://vim.wikia.com/wiki/Keep_folds_closed_while_inserting_text
+autocmd vimrc InsertEnter * if &foldmethod != 'manual' &&
+      \empty(&buftype) && !exists('w:fdm_last') |
+      \let w:fdm_last=&foldmethod | set foldmethod=manual | endif
+autocmd vimrc InsertLeave,WinLeave * if exists('w:fdm_last') && empty(&buftype) |
+      \let &foldmethod=w:fdm_last | unlet w:fdm_last | endif
+
 " }}}
 " Content:" {{{
 " Split a buffer in a vertical window or a new tab
