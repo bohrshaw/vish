@@ -448,7 +448,7 @@ cnoremap <M-a> <C-d>
 cnoremap <M-w>v <C-\>e'vert '.getcmdline()<CR><CR>
 cnoremap <M-w>t <C-\>e'tab '.getcmdline()<CR><CR>
 " Expand a mixed case command name:" {{{
-cnoremap <M-j> <C-\>e<SID>cmd_expand()<CR><Tab>
+cnoremap <M-s> <C-\>e<SID>cmd_expand()<CR><Tab>
 function! s:cmd_expand()
   let cmd = getcmdline()
   let [range, abbr] = [matchstr(cmd, '^\A*'), matchstr(cmd, '\a.*')]
