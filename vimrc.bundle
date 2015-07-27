@@ -1098,8 +1098,8 @@ endif
 " Browse GitHub events
 if Bundles('junegunn/vim-github-dashboard')
   let g:github_dashboard = {'username': 'bohrshaw'}
-  nnoremap g<Space>G :GHDashboard!<CR>
-  nnoremap g<Space>A :GHActivity!<CR>
+  nnoremap g<Space>hd :GHDashboard!<CR>
+  nnoremap g<Space>ha :GHActivity!<CR>
 endif
 
 " Helpers for UNIX(Windows)
