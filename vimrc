@@ -371,7 +371,7 @@ nnoremap <silent><M-f>b :Be ~/.vim/vimrc.bundle<CR>
 " }}}
 " Switch to a file without reloading it
 command! -nargs=1 -bang Be execute (buflisted(expand(<q-args>))?'b':
-      \filereadable(<q-args>)||<bang>0?'e':'Nop').' '.<q-args>
+      \filereadable(expand(<q-args>))||<bang>0?'e':'Nop').' '.<q-args>
 " Make the file '_' a scratch buffer
 autocmd vimrc BufNewFile,BufReadPost _ set buftype=nofile nobuflisted bufhidden=hide
 autocmd vimrc SessionLoadPost * silent! bwipeout! _
