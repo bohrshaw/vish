@@ -263,7 +263,7 @@ let g:snips_author_email = 'pubohr@gmail.com'
 " Change: {{{1
 
 " Commenting
-if Bundles('tpope/vim-commentary', '-scrooloose/nerdcommenter', '-tomtom/tcomment_vim')
+if Bundles('Tpope/vim-commentary', '-scrooloose/nerdcommenter', '-tomtom/tcomment_vim')
   let commentary_map_backslash = 0 " jd
   let g:tcommentMapLeader1 = '<M-c>'
   let [g:tcommentMapLeader2, g:tcommentMapLeaderCommentAnyway, g:tcommentTextObjectInlineComment] = ['', '', '']
