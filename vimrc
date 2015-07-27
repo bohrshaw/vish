@@ -63,6 +63,8 @@ command! -nargs=1 NXOmap nmap <args><Bar>xmap <args><Bar>omap <args>
 " Allow chained commands, but also check for a " to start a comment
 command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
       \ inoremap <args>
+" A command doing nothing but can be used for quick composition
+command! -nargs=* Nop :
 " }}}
 " Deal with meta-key mappings:" {{{
 if has('nvim')
@@ -368,7 +370,8 @@ nnoremap <silent><M-f>v :Be ~/.vim/vimrc<CR>
 nnoremap <silent><M-f>b :Be ~/.vim/vimrc.bundle<CR>
 " }}}
 " Switch to a file without reloading it
-command! -nargs=1 Be execute (buflisted(expand(<q-args>))?'b':'e').' '.<q-args>
+command! -nargs=1 -bang Be execute (buflisted(expand(<q-args>))?'b':
+      \filereadable(<q-args>)||<bang>0?'e':'Nop').' '.<q-args>
 " Make the file '_' a scratch buffer
 autocmd vimrc BufNewFile,BufReadPost _ set buftype=nofile nobuflisted bufhidden=hide
 autocmd vimrc SessionLoadPost * silent! bwipeout! _
