@@ -777,10 +777,6 @@ command! -range=% Uniqn <line1>,<line2>g/^./
 " }}}
 " Toggle full screen
 NXnoremap <F11> :<C-U>call libcallnr('gvimfullscreen.dll', "ToggleFullScreen", 0)<CR>
-" Search via Google
-command! -nargs=1 Google call netrw#NetrwBrowseX(
-      \ "https://www.google.com/search?q=".expand("<args>"),0)
-xnoremap <Leader>gg "zy:<C-u>Google <C-r>z<CR>
 " Mystify texts
 command! Mystify call misc#mystify()
 " Reverse the selected text
