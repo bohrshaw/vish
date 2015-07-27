@@ -166,9 +166,9 @@ if Bundles('Haya14busa/incsearch.vim', 'Haya14busa/vim-asterisk')
   xmap zh <Esc>zhgv
   " Consistent direction when repeating a search
   NXOnoremap <expr>n incsearch#autocmd#auto_nohlsearch(1).
-        \(v:searchforward ? 'n' : 'N')
+        \(v:searchforward ? 'n' : 'N').'zv'
   NXOnoremap <expr>N incsearch#autocmd#auto_nohlsearch(1).
-        \(v:searchforward ? 'N' : 'n')
+        \(v:searchforward ? 'N' : 'n').'zv'
   " let g:incsearch#consistent_n_direction = 1 " redundant
   " Incremantal search improved with a search specific command line interface
   map g/ <Plug>(incsearch-forward)
@@ -184,10 +184,10 @@ if Bundles('Haya14busa/incsearch.vim', 'Haya14busa/vim-asterisk')
   execute repeat('autocmd bundle VimEnter * ', has('vim_starting')).
         \'call s:incsearch_mapping()'
   " Search literally in visual mode
-  map *   <Plug>(incsearch-nohl)<Plug>(asterisk-*)
-  map #   <Plug>(incsearch-nohl)<Plug>(asterisk-#)
-  map g*  <Plug>(incsearch-nohl)<Plug>(asterisk-g*)
-  map g#  <Plug>(incsearch-nohl)<Plug>(asterisk-g#)
+  map <expr>*  '<Plug>(incsearch-nohl)<Plug>(asterisk-*)zv'
+  map <expr>#  '<Plug>(incsearch-nohl)<Plug>(asterisk-#)zv'
+  map <expr>g* '<Plug>(incsearch-nohl)<Plug>(asterisk-g*)zv'
+  map <expr>g# '<Plug>(incsearch-nohl)<Plug>(asterisk-g#)zv'
   " The cusor would not move
   map z*  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)
   map gz* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
