@@ -789,6 +789,7 @@ endif
 " Markdown runtime files
 if Bundles('tpope/vim-markdown', '-nelstrom/vim-markdown-folding')
   let g:markdown_folding = 1
+  autocmd bundle FileType markdown set foldlevel=1
 endif
 
 " Preview various markup files with external tools
