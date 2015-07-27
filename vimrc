@@ -233,7 +233,20 @@ nnoremap <silent><C-w><M-h> :<C-u>execute 'tabmove-'.v:count1<CR>
 nnoremap <silent><M-Q> :windo quit<CR>
 nmap <silent><C-w>Q <M-Q>
 
-nnoremap <silent><C-w>O <C-w>s<C-w>T
+" Maxmize the current window by duplicate it in a new tab
+nnoremap <silent><C-w><M-t> <C-w>s<C-w>T
+" Maxmize the current window or restore the previously window layout
+nnoremap <silent><C-w>O :call <SID>win_toggle()<CR>
+function! s:win_toggle() " {{{
+  if exists('t:winrestcmd')
+    execute t:winrestcmd
+    unlet t:winrestcmd
+  else
+    let t:winrestcmd = winrestcmd()
+    resize | vertical resize
+    cal winrestcmd()
+  endif
+endfunction " }}}
 
 " Deal with terminal buffers
 if has('nvim')
