@@ -277,9 +277,10 @@ endfunction
 " }}}
 
 " Toggle fold methods
-nnoremap <silent> cof :let &l:foldmethod = tolower(matchstr(
-      \':Manual:marker:indent:syntax:expr:diff',
-      \'\C:\zs'.nr2char(getchar()).'\w*'))\|set foldmethod<CR>
+nnoremap <silent>cof :let &l:foldmethod = tolower(matchstr(
+      \',mmanual,kmarker,iindent,ssyntax,eexpr,ddiff',
+      \','.nr2char(getchar()).'\zs\a*\C'))\|set foldmethod<CR>
+nmap <silent>zfm cof
 " }}}
 " Content:" {{{
 " Split a buffer in a vertical window or a new tab
