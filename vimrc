@@ -689,7 +689,7 @@ function! Vmode()
   return ''
 endfunction
 set noshowmode " hide the mode message on the command line
-set fillchars+=stl::,stlnc:~ " characters to fill the statuslines
+set fillchars+=stl::,stlnc:: " characters to fill the statuslines
 execute (has('vim_starting')?'autocmd vimrc VimEnter * ':'').'call Vstatusline()'
 
 autocmd vimrc ColorScheme * hi User1
