@@ -656,9 +656,9 @@ set laststatus=2 " always display the status line
 " Ensure all plugins are loaded before setting 'statusline'
 function! Vstatusline()
   set statusline=%1*%{Vmode()}%* " mode
-  set statusline+=:%2*%M " modified/modifiable
-  set statusline+=%{&readonly?'=':''}%* " read-only
-  set statusline+=%.30f " file name, truncated if its length > 30
+  set statusline+=:%2*%n " buffer number
+  set statusline+=%{(&modified?'+':'').(&modifiable?'':'-').(&readonly?'=':'')}%*
+  set statusline+=:%.30f " file path, truncated if its length > 30
   set statusline+=:%1*%Y%* " file type
   set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?':'.&fenc:''} " file encoding
   set statusline+=%{&ff!='unix'?':'.&ff:''} " file format
