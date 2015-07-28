@@ -692,7 +692,7 @@ set noshowmode " hide the mode message on the command line
 set fillchars+=stl::,stlnc:~ " characters to fill the statuslines
 execute (has('vim_starting')?'autocmd vimrc VimEnter * ':'').'call Vstatusline()'
 
-autocmd bundle ColorScheme * hi User1
+autocmd vimrc ColorScheme * hi User1
       \ term=bold cterm=bold ctermfg=123 ctermbg=233
       \ gui=bold guifg=#87FFFF guibg=#171717|
       \ hi User2
