@@ -928,7 +928,8 @@ call Bundles('guns/vim-clojure-static')
 call Bundles('tpope/vim-fireplace')
 
 " Static support for Leiningen
-call Bundles('tpope/vim-leiningen')
+if !has('win32unix') && Bundles('tpope/vim-leiningen')
+endif
 
 " Precision Editing for S-expressions
 call Bundles('guns/vim-sexp', 'tpope/vim-sexp-mappings-for-regular-people')
