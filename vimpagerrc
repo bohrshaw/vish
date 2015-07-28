@@ -1,0 +1,20 @@
+" Settings for vimpager - https://github.com/rkitover/vimpager
+"
+" ~/.vimrc would not be sourced.
+"
+" Do I really need this? How about `cat foo|vim -`?
+" Eh! At least the color highlight is welcome.
+
+" let vimpager_less_mode = 0
+" let vimpager_use_gvim = 1
+let vimpager_passthrough = 0
+let vimpager_scrolloff = 1
+
+unmap z
+nnoremap <silent>zh :let v:hlsearch = !v:hlsearch<CR>
+
+" Optimize for speed
+set noloadplugins
+let vimpager_disable_x11 = 1
+
+" vim:ft=vim:
