@@ -1032,7 +1032,8 @@ if Bundles('tpope/vim-fugitive')
   nmap g<Space>ae g<Space>a<Space>:GitBg commit --allow-empty-message -m ''<CR>
   nmap g<Space>aa g<Space>a<Space>:Gcommit --amend -v<CR>
 
-  nnoremap g<Space>A<Space> :wall \| Git add --update<CR>
+  nnoremap g<Space>A<Space> :wall \| GitBg add --update<CR>
+  nnoremap g<Space>AA :wall \| GitBg add --all<CR>
   nnoremap g<Space>Ac :wall \| Gcommit --all -v<CR>
   nnoremap g<Space>Ae :wall \| GitBg commit --all --allow-empty-message -m ''<CR>
   nnoremap g<Space>Aa :wall \| Gcommit --all --amend -v<CR>
