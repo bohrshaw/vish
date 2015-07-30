@@ -462,16 +462,19 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
       \'shougo/neomru.vim', 'shougo/unite-outline', 'tsukkee/unite-tag',
       \'shougo/unite-help', '-shougo/tabpagebuffer.vim')
   command! -nargs=* -complete=customlist,unite#complete#source U Unite <args>
-  " Find a listed buffer(the filter algorithm ignores the order of typing chars)
+  command! -nargs=? -complete=customlist,unite#complete#buffer_name Ur UniteResume <args>
+  " The key <M-b> prefixes all mappings related to 'internal' contents
   nnoremap <silent><M-b>o :Unite -buffer-name=buffer buffer<CR>
-  " Find a HELP buffer
-  nnoremap <silent><Leader>bh :Unite -buffer-name=help -input=.txt\ doc/ buffer:?<CR>
-  " Find files recursively in the project or the CWD
+  nnoremap <silent><M-b>l :Unite line<CR>
+  nnoremap <silent><M-b>L :Unite outline<CR>
+  nnoremap <silent><M-b>j :Unite jump<CR>
+  nnoremap <silent><M-b>c :Unite change<CR>
+  nnoremap <silent><M-b>r :Unite register<CR>
+  nnoremap <silent><M-b>h :Unite -buffer-name=help -input=.txt\ doc/ buffer:?<CR>
+  nnoremap <silent><M-b>H :Unite help<CR>
+  " The key <M-f> relates to 'external' contents
   nnoremap <silent><M-f>o :call <SID>project_files()<CR>
-  " Find recently used files (May consider importing from v:oldfiles.)
-  nnoremap <silent><M-f>r :Unite file_mru<CR>
   function! s:project_files()
-    " The project root is inferred from the current buffer or the CWD
     let git_dir = get(b:, 'git_dir', fugitive#extract_git_dir(getcwd()))
     if !empty(git_dir)
       execute 'lcd '.git_dir[:-6]
@@ -480,9 +483,15 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
       execute 'Unite file_rec/'.(has('nvim')?'neovim':'async')
     endif
   endfunction
-  " Bring up the default Unite buffer
-  nnoremap <Leader>ur :UniteResume default<CR>
-  " Custom mappings for the unite buffer
+  nnoremap <silent><M-f>r :Unite file_mru<CR>
+  nnoremap <silent><M-f>m :Unite bookmark<CR>
+  " The key <M-u> relates to utilities or Unite itself
+  nnoremap <silent><M-u>c :Unite history/command<CR>
+  nnoremap <silent><M-u>m :Unite mapping:%<CR>
+  nnoremap <silent><M-u>f :Unite function<CR>
+  nnoremap <silent><M-u>s :Unite source<CR>
+  nnoremap <silent><M-u>r :UniteResume<CR>
+  " Custom mappings for unite buffers
   autocmd bundle FileType unite call <SID>unite_buffer_mapping()
   function! s:unite_buffer_mapping()
     " Navigation
@@ -515,6 +524,8 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
   call unite#custom#profile('default', 'context', {
         \'start_insert': 1,
         \'direction': 'below',
+        \'prompt_direction': 'top',
+        \'auto_resize': 1,
         \})
   if executable('ag')
     if has('win32')
