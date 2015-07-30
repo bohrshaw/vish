@@ -466,10 +466,10 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
   nnoremap <silent><M-b>o :Unite -buffer-name=buffer buffer<CR>
   " Find a HELP buffer
   nnoremap <silent><Leader>bh :Unite -buffer-name=help -input=.txt\ doc/ buffer:?<CR>
+  " Find files recursively in the project or the CWD
+  nnoremap <silent><M-f>o :call <SID>project_files()<CR>
   " Find recently used files (May consider importing from v:oldfiles.)
   nnoremap <silent><M-f>r :Unite file_mru<CR>
-  " Find files recursively in the project or the CWD
-  nnoremap <silent><M-f>p :call <SID>project_files()<CR>
   function! s:project_files()
     " The project root is inferred from the current buffer or the CWD
     let git_dir = get(b:, 'git_dir', fugitive#extract_git_dir(getcwd()))

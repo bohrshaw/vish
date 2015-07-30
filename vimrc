@@ -336,9 +336,6 @@ nnoremap <silent><M-f>e :edit<CR>
 nnoremap <silent><M-f><M-f>e :edit!<CR>
 nnoremap <M-f>f :filetype detect<CR>
 nnoremap <M-f>c :checktime<CR>
-" Edit a file in the same directory of the current file
-nnoremap <M-f>o :e <C-R>=expand('%:h')<CR>/
-nnoremap <M-f>s :sp <C-R>=expand('%:h')<CR>/
 " Switch to the alternative buffer
 nnoremap <silent><M-a> :buffer #<CR>
 if has('nvim')
