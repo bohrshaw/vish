@@ -334,6 +334,7 @@ nnoremap <silent><M-f><M-f>a :wall!<CR>
 inoremap <M-z> <Esc>ZZ
 nnoremap <silent><M-f>e :edit<CR>
 nnoremap <silent><M-f><M-f>e :edit!<CR>
+cnoremap <M-5> %:h/<Tab>
 nnoremap <M-f>f :filetype detect<CR>
 nnoremap <M-f>c :checktime<CR>
 " Switch to the alternative buffer
