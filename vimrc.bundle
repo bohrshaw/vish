@@ -938,13 +938,15 @@ call Bundles('guns/vim-sexp', 'tpope/vim-sexp-mappings-for-regular-people')
 " call Bundles('guns/vim-clojure-highlight',
 "       \ 'guns/vim-clojure-static', 'tpope/vim-fireplace')
 
-" Better Rainbow Parentheses
-if Bundles('jbnicolai/rainbow_parentheses.vim')
-  let g:rbpt_loadcmd_toggle = 1
-  autocmd bundle VimEnter * call rainbow_parentheses#load(0) |
-        \ autocmd bundle Syntax clojure call rainbow_parentheses#load(0)
-  autocmd bundle ColorScheme * call rainbow_parentheses#activate()
-  nnoremap <Leader>tr :call rainbow_parentheses#toggle()<CR>
+" Simpler Rainbow Parentheses
+if Bundles('junegunn/rainbow_parentheses.vim')
+  autocmd bundle FileType lisp,clojure,scheme RainbowParentheses
+  " Toggle
+  nnoremap <silent><Leader>tr :RainbowParentheses!!<CR>
+  " let g:rainbow#pairs = [['(', ')'], ['[', ']']]
+  " List of colors that you do not want. ANSI code or #RRGGBB
+  " let g:rainbow#blacklist = [233, 234]
+  " let g:rainbow#max_level = 12
 endif
 
 " Others {{{2
