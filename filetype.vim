@@ -8,9 +8,6 @@ if exists("did_load_filetypes")
 endif
 
 augroup filetypedetect
-  " Detect vimperator configuration files
-  au BufNewFile,BufRead *vimperatorrc*,*.vimp setfiletype vimperator
-
-  " Detect nginx configuration files
-  au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/* setfiletype nginx
+  autocmd BufNewFile,BufRead *vimperatorrc*,*.vimp setfiletype vimperator
+  autocmd BufNewFile,BufRead /etc/nginx/*,/usr/local/nginx/conf/* setfiletype nginx
 augroup END

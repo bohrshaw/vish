@@ -16,3 +16,7 @@ call ftplugin#vim_map()
 
 setlocal relativenumber
 setlocal keywordprg=:help " man by default in terminal Vim
+" Fix some window options when open this buffer in an existing window
+augroup help
+  autocmd! BufWinEnter <buffer> set nolist foldmethod=manual
+augroup END
