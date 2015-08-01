@@ -550,13 +550,31 @@ function! s:macro() range
 endfunction
 " Execute a macro on each line in a visual selection
 xnoremap <silent> @ :<C-u>execute ":'<,'>normal! @".nr2char(getchar())<CR>
+" Execute a macro repeatedly within a range of lines, similar a recursive macro
+nnoremap <silent>@R :set operatorfunc=<SID>repeat_macro<CR>g@
+function! s:repeat_macro(...) " {{{
+  let r = v#getchar()
+  if empty(r) | return | endif
+  while line('.') <= line("']") && line('.') >= line("'[")
+    execute 'normal @'.r
+  endwhile
+endfunction " }}}
+" Record and execute a recursive macro
+nnoremap <silent>Q :call <SID>rec_macro()<CR>
+function! s:rec_macro() " {{{
+  let r = v#getchar()
+  if empty(r) | return | endif
+  " Empty the register first
+  execute 'normal! q'.r.'q'
+  " Setup a temporary mapping to terminate and execute the macro
+  execute "nnoremap q q:call setreg('".r."', '@".r."', 'a')<Bar>".
+        \"try<Bar>execute 'normal @".r."'<Bar>".
+        \"finally<Bar>execute 'nunmap q'<Bar>endtry<CR>"
+  execute 'normal! q'.r
+endfunction " }}}
 " Execute a macro without remapping
-NXnoremap <expr> <silent> @2 repeat(
+NXnoremap <expr> <silent> @N repeat(
       \ ':<C-U>normal! <C-R><C-R>'.nr2char(getchar()).'<CR>', v:count1)
-" Finish and execute a recursive macro
-nnoremap <silent>Q q:let _r = v#getchar()\|
-      \call setreg(_r, getreg(_r).'@'._r)\|
-      \execute 'normal! @'._r<CR>
 " Keep the flags when repeating last substitution
 NXnoremap & :&&<CR>
 " Refine the last command
