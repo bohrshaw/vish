@@ -768,6 +768,8 @@ endif
 " }}}
 set showcmd "show partial commands in status line
 " set showmatch matchtime=1 " better using highlighting in plugin/matchparen.vim
+hi MatchParen cterm=underline ctermbg=NONE ctermfg=NONE
+      \ gui=underline guibg=NONE guifg=NONE
 silent! set breakindent " indent wrapped lines
 set linebreak " don't break a word when displaying wrapped lines
 set colorcolumn=+1 " highlight column after 'textwidth'
