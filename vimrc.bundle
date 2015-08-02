@@ -943,7 +943,9 @@ if !has('win32unix') && Bundles('tpope/vim-leiningen')
 endif
 
 " Precision Editing for S-expressions
-call Bundles('guns/vim-sexp', 'tpope/vim-sexp-mappings-for-regular-people')
+if Bundles('guns/vim-sexp', 'tpope/vim-sexp-mappings-for-regular-people')
+  let g:sexp_filetypes = '' " disable default local mapping
+endif
 
 " Extend builtin syntax highlighting to referred and aliased vars
 " call Bundles('guns/vim-clojure-highlight',
