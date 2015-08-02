@@ -346,7 +346,7 @@ nnoremap <silent><C-W><M-s> :sbuffer #<CR>
 nnoremap <silent><C-W><M-v> :vert sbuffer #<CR>
 " Directories to search by `gf, :find, cd, lcd etc.`
 " (dir of the current file, current dir, etc.)
-setglobal path=.,,~,~/.vim
+setglobal path=.,,~,~/.vim,~/.vim/after
 set cdpath=,,.,~
 if has('vim_starting') && 0 == argc() && has('gui_running') && !g:l
   cd $HOME
