@@ -568,9 +568,9 @@ function! s:rec_macro() " {{{
   " Empty the register first
   execute 'normal! q'.r.'q'
   " Setup a temporary mapping to terminate and execute the macro
-  execute "nnoremap q q:call setreg('".r."', '@".r."', 'a')<Bar>".
-        \"try<Bar>execute 'normal @".r."'<Bar>".
-        \"finally<Bar>execute 'nunmap q'<Bar>endtry<CR>"
+  execute printf("nnoremap q q:call setreg('%s', '@%s', 'a')<Bar>".
+        \"try<Bar>execute 'normal @%s'<Bar>".
+        \"finally<Bar>execute 'nunmap q'<Bar>endtry<CR>", r, r, r)
   execute 'normal! q'.r
 endfunction " }}}
 " Execute a macro without remapping
