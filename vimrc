@@ -774,6 +774,7 @@ silent! set breakindent " indent wrapped lines
 set linebreak " don't break a word when displaying wrapped lines
 set colorcolumn=+1 " highlight column after 'textwidth'
 set display+=lastline " ensure the last line is properly displayed
+set guicursor+=a:blinkon0 " don't blink the cursor
 " if has('multi_byte_ime')
 "   highlight CursorIM guifg=NONE guibg=#007500
 " endif
