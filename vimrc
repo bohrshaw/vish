@@ -47,6 +47,7 @@ if has('vim_starting')
   if has('gui_running') || $termencoding ==? 'utf-8'
     set encoding=utf-8 " used inside Vim, allow mapping with the ALT key
   endif
+  if has('win32') | set shellslash | endif " forward slash as the path separator
 endif " }}}
 " set timeoutlen=3000 " mapping delay
 set ttimeoutlen=10 " key code delay (instant escape from Insert mode)
