@@ -779,6 +779,7 @@ set guicursor+=a:blinkon0 " don't blink the cursor
 " if has('multi_byte_ime')
 "   highlight CursorIM guifg=NONE guibg=#007500
 " endif
+set guiheadroom=0 " occupy more screen space on X11
 " }}}
 " Misc:" {{{
 if has('vim_starting')
@@ -829,7 +830,8 @@ command! -range=% Uniqn <line1>,<line2>g/^./
       \ delete | endif <NL> silent! normal! ``
 " }}}
 " Toggle full screen
-NXnoremap <F11> :<C-U>call libcallnr('gvimfullscreen.dll', "ToggleFullScreen", 0)<CR>
+nnoremap <silent><F11> :if has('win32')<Bar>
+      \call libcallnr('gvimfullscreen.dll', "ToggleFullScreen", 0)<Bar>endif<CR>
 " Mystify texts
 command! Mystify call misc#mystify()
 " Reverse the selected text
