@@ -7,6 +7,8 @@
 " Select bundles carefully and customize properly.
 " Be aware of possible autocmd pollution which should be more concerned.
 
+let $MYBUNDLE = expand('<sfile>') " like $MYVIMRC
+
 call bundle#init() " bundle initialization
 
 " Define an autocmd group and clean it
