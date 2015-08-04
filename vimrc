@@ -214,9 +214,12 @@ autocmd vimrc FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
 " }}}
 " }}}
 " View:" {{{
-" Window management (Tab is a collection of windows.)
 
-" The leader key
+" Scroll relative to cursor (@_ suppresses [count] for zt)
+nnoremap <expr>zt v:count > 0 ? '@_zt'.v:count.'<c-y>' : 'zt'
+nnoremap <expr>zb v:count > 0 ? '@_zb'.v:count.'<c-e>' : 'zb'
+
+" The leader key for managing windows and tabs
 NXmap <M-w> <C-W>
 
 nmap <M-j> <C-w>j
