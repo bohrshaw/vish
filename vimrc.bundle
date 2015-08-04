@@ -968,9 +968,6 @@ call Bundles('tpope/vim-jdaddy')
 command! -range=% JSONFormat <line1>,<line2>!jq .
 command! -range=% JSONFormatEncode <line1>,<line2>!python -m json.tool
 
-" Git runtime files
-call Bundles('tpope/vim-git')
-
 " A Vim plugin for Windows PowerShell support
 call Bundles('pprovost/vim-ps1')
 
@@ -1030,7 +1027,7 @@ if Bundles('mattn/webapi-vim')
 endif
 
 " A Git wrapper so awesome, it should be illegal.
-if BundleRun('tpope/vim-fugitive')
+if Bundles('Tpope/vim-git') && BundleRun('tpope/vim-fugitive')
   " Git deserves a convenient leader key for mappings
   nnoremap g<Space>s :Gstatus<CR>
 
@@ -1065,10 +1062,12 @@ if BundleRun('tpope/vim-fugitive')
     call fugitive#repo().git_chomp_in_tree('add', expand('%:p')[len(b:git_dir)-4:])
   endfunction
 
-  " Wrapper using vimproc
+  " A command :G using vimproc, an alternative to :Git
   execute "command! -nargs=1 -bang "
         \ "-complete=customlist,<SNR>".scriptease#scriptid(globpath(&rtp, 'plugin/fugitive.vim'))."_GitComplete"
         \ "G execute 'B'.(<bang>0 ? '!' : '') 'git' (exists('b:git_dir') ? '--git-dir='.b:git_dir.' --work-tree='.b:git_dir[:-6] : '') <q-args>"
+
+  autocmd bundle FileType gitcommit set foldmethod=syntax foldlevel=1
 
   " Git branch management
   " call Bundles('sodapopcan/vim-twiggy')
