@@ -36,7 +36,7 @@ augroup END
 " }}}
 " Vim Starting:" {{{
 if has('vim_starting')
-  set all& " override system vimrc
+  set all& " override system vimrc and cmdline options like --noplugin
   set nocompatible " make Vim behave in a more useful way
 
   " Whether to include the least number of bundles, for shell command line editing
