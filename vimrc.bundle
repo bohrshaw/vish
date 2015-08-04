@@ -36,7 +36,7 @@ function! s:bundle_map()
         \.matchstr(@z, '\v''-?\zs[^'']*')<CR>
   " Activate the bundle under the cursor line
   nnoremap <buffer><silent> <LocalLeader>b mz"zyi'
-        \:call BundleRun(split(@z, '/')[1])<CR>g`z
+        \:call BundleRun(@z)<CR>g`z
 endfunction
 
 " A Vim plugin for Vim plugins

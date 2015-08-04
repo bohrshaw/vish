@@ -57,8 +57,9 @@ function! Bundle(...)
   endif
 endfunction
 
-function! BundleRun(...)
-  for dir in a:000
+function! BundleRun(b)
+  if s:bundle_enabled(a:b) || a:b !~ '/'
+    let dir = split(a:b, '/')[-1]
     call rtp#add(dir) " inject the bundle path to runtime path
     let path = rtp#expand(dir)
     for p in [path,  path.'/after'] " source related files
@@ -68,7 +69,8 @@ function! BundleRun(...)
         endfor
       endfor
     endfor
-  endfor
+    return 1
+  endif
 endfunction
 
 function! BundlePath(b)
