@@ -40,7 +40,7 @@ function! s:bundle_map()
 endfunction
 
 " A Vim plugin for Vim plugins
-call Bundles('tpope/vim-scriptease')
+call BundleRun('tpope/vim-scriptease')
 
 " Shortcuts: {{{1
 
@@ -1002,9 +1002,10 @@ if 0 && s:nvim && Bundles('fmoralesc/nvimfs')
 endif
 
 " An asynchronous execution library
-if Bundles('bohrshaw/vimproc.vim')
-  command! -nargs=+ -bang -complete=shellcmd B execute <bang>0 ?
-        \ 'call vimproc#system_bg(<q-args>)' : 'VimProcBang <args>'
+if Bundles('bohrshaw/vimproc.vim', '-shougo/vimproc.vim')
+  command! -nargs=+ -bang -complete=shellcmd B
+        \ if <bang>0 | call vimproc#system_bg(<q-args>) |
+        \ else | execute 'VimProcBang '.escape(<q-args>, '\/') | endif
   command! -nargs=+ -complete=shellcmd R VimProcRead <args>
 endif
 
@@ -1044,32 +1045,32 @@ if Bundles('mattn/webapi-vim')
 endif
 
 " A Git wrapper so awesome, it should be illegal.
-if Bundles('tpope/vim-fugitive')
+if BundleRun('tpope/vim-fugitive')
   " Git deserves a convenient leader key for mappings
   nnoremap g<Space>s :Gstatus<CR>
 
   nnoremap g<Space>c<Space> :Gcommit -v<CR>
   nnoremap g<Space>ca :Gcommit --amend -v<CR>
-  nnoremap g<Space>ce :GitBg commit --allow-empty-message -m ''<CR>
+  nnoremap g<Space>ce :G! commit --allow-empty-message -m ''<CR>
 
   nnoremap <silent>g<Space>a<Space> :call <SID>git_add_current()<CR>
   nmap g<Space>ac g<Space>a<Space>:Gcommit -v<CR>
-  nmap g<Space>ae g<Space>a<Space>:GitBg commit --allow-empty-message -m ''<CR>
+  nmap g<Space>ae g<Space>a<Space>:G! commit --allow-empty-message -m ''<CR>
   nmap g<Space>aa g<Space>a<Space>:Gcommit --amend -v<CR>
 
-  nnoremap g<Space>A<Space> :wall \| GitBg add --update<CR>
-  nnoremap g<Space>AA :wall \| GitBg add --all<CR>
+  nnoremap g<Space>A<Space> :wall \| G! add --update<CR>
+  nnoremap g<Space>AA :wall \| G! add --all<CR>
   nnoremap g<Space>Ac :wall \| Gcommit --all -v<CR>
-  nnoremap g<Space>Ae :wall \| GitBg commit --all --allow-empty-message -m ''<CR>
+  nnoremap g<Space>Ae :wall \| G! commit --all --allow-empty-message -m ''<CR>
   nnoremap g<Space>Aa :wall \| Gcommit --all --amend -v<CR>
 
   nnoremap g<Space>d :tab sbuffer % \| Gdiff<CR>
   nnoremap g<Space>b :Gblame<CR>
   nnoremap g<Space>l :Glog<CR>
 
-  nnoremap g<Space>ps :GitBg push<CR>
-  nnoremap g<Space>pf :GitBg push -f<CR>
-  nnoremap g<Space>pl :GitBg pull<CR>
+  nnoremap g<Space>ps :G! push<CR>
+  nnoremap g<Space>pf :G! push -f<CR>
+  nnoremap g<Space>pl :G! pull<CR>
 
   nnoremap <expr><M-f>/ ':cd '.b:git_dir[:-6]."<CR>"
   nnoremap <expr><M-f>\ ':lcd '.b:git_dir[:-6]."<CR>"
@@ -1079,19 +1080,16 @@ if Bundles('tpope/vim-fugitive')
     call fugitive#repo().git_chomp_in_tree('add', expand('%:p')[len(b:git_dir)-4:])
   endfunction
 
-  " Asynchronous execution
-  command! -nargs=1 GGit execute
-        \'B git --git-dir='.b:git_dir.' --work-tree='.b:git_dir[:-6].' '.<q-args>
-  command! -nargs=1 GitBg call vimproc#system_bg(
-        \'git --git-dir='.b:git_dir.' --work-tree='.b:git_dir[:-6].' '.<q-args>)
-endif
+  " Wrapper using vimproc
+  execute "command! -nargs=1 -bang "
+        \ "-complete=customlist,<SNR>".scriptease#scriptid(globpath(&rtp, 'plugin/fugitive.vim'))."_GitComplete"
+        \ "G execute 'B'.(<bang>0 ? '!' : '') 'git' (exists('b:git_dir') ? '--git-dir='.b:git_dir.' --work-tree='.b:git_dir[:-6] : '') <q-args>"
 
-" Git branch management
-if Bundles('-sodapopcan/vim-twiggy') && Bundles('tpope/vim-fugitive')
-endif
+  " Git branch management
+  " call Bundles('sodapopcan/vim-twiggy')
 
-" A git repository viewer(a gitk clone)
-if Bundle('gregsexton/gitv', {'c': 'Gitv'}) && Bundles('tpope/vim-fugitive')
+  " A git repository viewer(a gitk clone)
+  call Bundle('gregsexton/gitv', {'c': 'Gitv'})
 endif
 
 " Shows a git diff in the sign column and stages/reverts hunks
