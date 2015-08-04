@@ -49,7 +49,7 @@ if Bundles('Tpope/vim-unimpaired')
   nmap cop <Plug>unimpairedPaste
 endif
 " Mouse could also be enabld in Tmux
-nnoremap <silent> com :let &mouse = empty(&mouse) ? 'a' : ''<CR>
+nnoremap <silent> coM :let &mouse = empty(&mouse) ? 'a' : ''<CR>
 autocmd VimEnter * nnoremap <silent>coh :let v:hlsearch = !v:hlsearch<CR>
 nnoremap <silent> ]d :call search('\cto-\?do:', 's')<CR>
 nnoremap <silent> [d :call search('\cto-\?do:', 'sb')<CR>
