@@ -1115,10 +1115,13 @@ endif
 if Bundles('tpope/vim-eunuch')
   nnoremap <silent><M-f>d :Remove<CR>
   nnoremap <silent><M-f><M-f>d :Remove!<CR>
-  nnoremap <silent><M-f>A :Wall<CR>
-  nnoremap <silent><M-f>W :if has('nvim')\|
-        \echo "Please <C-z>, then run `sudo -v` in a loop."\|
-        \else\|SudoWrite\|endif\|nnoremap <silent><M-f>W :SudoWrite<LT>CR><CR>
+  autocmd VimEnter * command! -bar W if has('nvim') |
+        \ execute "silent !sudo -vn &>/dev/null" |
+        \ if v:shell_error != 0 |
+        \ execute "silent !sudo -vS <<<'".inputsecret('[sudo] password: ')."'" |
+        \ endif |
+        \ SudoWrite | endif
+  nnoremap <silent><M-f>W :W<CR>
 endif
 
 " Tmux basics, insert mode completion of words in adjacent tmux panes
