@@ -45,14 +45,25 @@ call BundleRun('tpope/vim-scriptease')
 " Shortcuts: {{{1
 
 " Pairs of handy bracket mappings
-if Bundles('Tpope/vim-unimpaired')
-  nmap cop <Plug>unimpairedPaste
-endif
-" Mouse could also be enabld in Tmux
-nnoremap <silent> coM :let &mouse = empty(&mouse) ? 'a' : ''<CR>
-autocmd VimEnter * nnoremap <silent>coh :let v:hlsearch = !v:hlsearch<CR>
-nnoremap <silent> ]d :call search('\cto-\?do:', 's')<CR>
-nnoremap <silent> [d :call search('\cto-\?do:', 'sb')<CR>
+call BundleRun('Tpope/vim-unimpaired')
+" Move lines (fix auto-closing folds)
+nnoremap <silent>[e :<C-u>call <SID>move('--', v:count1)<CR>
+nnoremap <silent>]e :<C-u>call <SID>move('+', v:count1)<CR>
+xnoremap <silent>[e :<C-u>call <SID>move("'<--", v:count1)<CR>
+xnoremap <silent>]e :<C-u>call <SID>move("'>+", v:count1)<CR>
+function! s:move(cmd, count) abort
+  normal! m`
+  execute 'set foldmethod=manual|'.
+        \(a:cmd =~ '[<>]'?"'<,'>":'').'move'.a:cmd.a:count.
+        \'|set foldmethod='.&foldmethod
+  normal! ``
+  silent! call repeat#set(a:cmd =~ '+' ? ']e' : '[e', a:count)
+endfunction
+nnoremap <silent>]d :call search('\cto-\?do:', 's')<CR>
+nnoremap <silent>[d :call search('\cto-\?do:', 'sb')<CR>
+nnoremap <silent>coh :let v:hlsearch = !v:hlsearch<CR>
+nnoremap <silent>coM :let &mouse = empty(&mouse) ? 'a' : ''<CR>
+nmap coP <Plug>unimpairedPaste
 
 " Create your own submodes (e.g, g--- instead of g-g-g-)
 " call BundlePath('kana/vim-submode')
