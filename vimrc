@@ -139,6 +139,8 @@ NXOnoremap <expr>\\ nr2char(getchar())
 " noremap g\ ...
 " }}}
 " Motion:" {{{
+set virtualedit=onemore " consistent cursor position on EOL
+set whichwrap& " left/right motions across lines
 " Navigate the jumper list more quickly
 nnoremap <M-i> <C-I>
 nnoremap <M-o> <C-O>
@@ -397,12 +399,12 @@ autocmd vimrc CmdwinEnter * silent! iunmap <buffer> <Tab>
 " }}}
 " CTRL-X completion-sub-mode :" {{{
 " Shortcuts
-imap <M-x> <C-X>
+map! <M-x> <C-x>
 for s:c in split('lnpkti]fdvuos', '\zs')
   execute 'inoremap <C-X>'.s:c.' <C-X><C-'.s:c.'>'
 endfor
-" Insert previously inserted text
-inoremap <C-X>. <C-A>
+" Insert a digraph
+noremap! <C-X>g <C-k>
 " Dictionary files for insert-completion
 let s:dictionaries = '~/.vim/spell/dictionary-oald.txt'
 if filereadable(expand(s:dictionaries))
@@ -618,28 +620,89 @@ endfor
 set viewdir=~/.vim/tmp/view
 " }}}
 " Readline:" {{{
+" Readline style insertion adjusted for Vim
+" - https://github.com/tpope/vim-rsi
+" - https://github.com/bruno-/vim-husk
+
 " Recall older or more recent command-line from history, but the command matches
 " the current command-line
 cnoremap <M-p> <Up>
 cnoremap <M-n> <Down>
+
+" Move the cursor around one character
+noremap! <C-F> <Right>
+noremap! <C-B> <Left>
+" Delete one character after the cursor
+inoremap <expr> <C-D> col('.')>strlen(getline('.'))?"\<Lt>C-D>":"\<Lt>Del>"
+cnoremap <expr> <C-D> getcmdpos()>strlen(getcmdline())?"\<Lt>C-D>":"\<Lt>Del>"
+
+" Move the cursor around one word (break undo)
+inoremap <M-f> <S-Right>
+inoremap <M-b> <S-Left>
+" Move the cursor around one WORD
+inoremap <M-F> <C-o>W
+inoremap <M-B> <C-o>B
+" Delete one word (won't break undo)
+inoremap <M-BS> <C-c>lcb
+" (hack for cursor at column 1)
+inoremap <M-d> <Space><C-c>lce<BS>
+" Delete one WORD
+inoremap <C-w> <C-c>lcB
+inoremap <M-D> <Space><C-c>lcE<BS>
+
+" Word like motions in Command mode differs that in Insert mode. They're more
+" like in Shells so that less motions are needed to go to a specific position,
+" though they are also less granular.
+cnoremap <expr><M-f> <SID>word_fb("\<Right>")
+cnoremap <expr><M-b> <SID>word_fb("\<Left>")
+cnoremap <M-F> <S-Right>
+cnoremap <M-B> <S-Left>
+" Delete till a non-keyword
+cnoremap <expr><M-BS> <SID>word_fb("\<BS>")
+cnoremap <expr><M-d> <SID>word_fb("\<Del>")
+" Delete till a space
+cnoremap <expr><C-w> <SID>word_fb("\<BS>", 0)
+cnoremap <expr><M-D> <SID>word_fb("\<Del>", 0)
+function! s:word_fb(key, ...) " {{{
+  let f = a:key == "\<Right>" || a:key == "\<Del>" ? 1 : 0
+  let db = a:key == "\<Del>" || a:key == "\<BS>" ? 1 : 0
+  let line = getcmdline()
+  let pos = getcmdpos()
+  let pat1 = a:0 == 0 ?
+        \ f ?
+        \   db ? '\W*\w+' : '\W*\w+\W*' :
+        \   '\w+\W*' :
+        \ f ? '\s*\S+' : '\S+\s*'
+  let pat2 = '%'.pos.'c'
+  let pos2 = match(line, '\v'.(f ? pat2.pat1.'\zs' : pat1.pat2)) + 1
+  if db
+    let @- = f ? line[pos-1:pos2-2] : line[pos2-1:pos-2]
+  endif
+  return repeat(a:key, f ? pos2-pos : pos-pos2)
+endfunction " }}}
+
 " Move the cursor around the line
 inoremap <C-A> <C-O>^
 cnoremap <C-A> <Home>
 inoremap <C-E> <End>
-" Move the cursor around one word
-noremap! <M-f> <S-Right>
-noremap! <M-b> <S-Left>
-" Move the cursor around one character
-noremap! <C-F> <Right>
-noremap! <C-B> <Left>
-" Delete one word before the cursor
-noremap! <M-BS> <C-w>
-" Delete one word after the cursor
-inoremap <M-d> <C-O>dw
-cnoremap <M-d> <S-Right><C-W>
-" Delete one character after the cursor
-inoremap <expr> <C-D> col('.')>strlen(getline('.'))?"\<Lt>C-D>":"\<Lt>Del>"
-cnoremap <expr> <C-D> getcmdpos()>strlen(getcmdline())?"\<Lt>C-D>":"\<Lt>Del>"
+" Delete all before the cursor (won't break undo)
+inoremap <C-u> <C-c>cv^
+cnoremap <expr><C-u> <SID>c_u()
+function! s:c_u() " {{{
+  let @- = getcmdline()[:getcmdpos()-2]
+  return "\<C-U>"
+endfunction " }}}
+" Delete all after the cursor
+inoremap <C-k> <C-c>lC
+cnoremap <expr><C-k> <SID>c_k()
+function! s:c_k() " {{{
+  let @- = getcmdline()[getcmdpos()-1:]
+  return repeat("\<Del>", strlen(getcmdline()) - getcmdpos() + 1)
+endfunction " }}}
+
+" Paste the previous deleted text
+noremap! <C-y> <C-r>-
+
 " Transpose two characters around the cursor
 cmap <script><C-T> <SID>transposition<SID>transpose
 noremap! <expr> <SID>transposition getcmdpos() > strlen(getcmdline()) ?
