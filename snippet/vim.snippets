@@ -11,6 +11,22 @@ augroup ${1:group_name}
 augroup END
 endsnippet
 
+snippet didf "ftplugin guard" b
+if (exists("b:did_ftplugin"))
+	finish
+endif
+${1:let b:did_ftplugin = 1}
+$0
+endsnippet
+
+snippet didaf "after/ftplugin guard" b
+if (exists("b:did_after_ftplugin"))
+	finish
+endif
+let b:did_after_ftplugin = 1
+$0
+endsnippet
+
 snippet "- "---line-separator---"
 " ---------------------------------------------------------------------
 $0

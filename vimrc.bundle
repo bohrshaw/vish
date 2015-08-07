@@ -812,6 +812,9 @@ call Bundles('othree/html5.vim')
 " Runtime files for Haml, Sass, and SCSS
 call Bundles('tpope/vim-haml')
 
+" XML
+let g:xml_syntax_folding = 1
+
 " Runtime files for LESS (dynamic CSS)
 call Bundles('groenewege/vim-less')
 
@@ -826,14 +829,6 @@ endif
 " Markdown runtime files
 if Bundles('tpope/vim-markdown', '-nelstrom/vim-markdown-folding')
   let g:markdown_folding = 1
-  " Visually fix imperfect syntax
-  autocmd bundle FileType markdown set foldlevel=1 |
-        \hi def link markdownItalic              NONE |
-        \hi def link markdownItalicDelimiter     NONE |
-        \hi def link markdownBold                NONE |
-        \hi def link markdownBoldDelimiter       NONE |
-        \hi def link markdownBoldItalic          NONE |
-        \hi def link markdownBoldItalicDelimiter NONE
 endif
 
 " Preview various markup files with external tools
@@ -885,7 +880,9 @@ endif
 " Ruby {{{2
 
 " Ruby runtime files (shipped with Vim and fairly updated.)
-call Bundles('Vim-ruby/vim-ruby')
+if Bundles('Vim-ruby/vim-ruby')
+  let g:ruby_fold = 1 " syntax based folding
+endif
 
 " A custom text object for selecting ruby blocks
 call Bundle('Nelstrom/vim-textobj-rubyblock',

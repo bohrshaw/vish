@@ -1,7 +1,7 @@
-" After $VIMRUNTIME\ftplugin\vim.vim
-if exists("b:undo_ftplugin")
-  " Show hidden characters, useful for copying text
-  set conceallevel=0
-  " Avoid re-sourcing ftplugin files when b:did_ftplugin && !b:undo_ftplugin
-  unlet b:undo_ftplugin
+if (exists("b:did_after_ftplugin"))
+  finish
 endif
+let b:did_after_ftplugin = 1
+
+" Show hidden characters, useful for copying text
+setlocal conceallevel=0

@@ -1,8 +1,6 @@
-" Indent width
-set sw=2 ts=2 sts=2
+if (exists("b:did_after_ftplugin"))
+  finish
+endif
+let b:did_after_ftplugin = 1
 
-" Line length above which to break a line
-set textwidth=79
-
-" Enable ruby syntax based folding
-let ruby_fold = 1
+setlocal shiftwidth=2 tabstop=2 softtabstop=2 textwidth=80
