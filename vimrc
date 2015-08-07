@@ -137,6 +137,8 @@ endfunction
 NXOnoremap <expr>\\ nr2char(getchar())
 " Todo: Execte a global key shadowed by the same local one
 " noremap g\ ...
+" A temporary mapping provided to ease the habit transition, use `cl` instead
+nnoremap s<Space> s
 " }}}
 " Motion:" {{{
 set virtualedit=onemore " consistent cursor position on EOL

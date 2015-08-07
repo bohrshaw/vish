@@ -282,8 +282,48 @@ if Bundles('Tpope/vim-commentary', '-scrooloose/nerdcommenter', '-tomtom/tcommen
   let [g:tcommentMapLeader2, g:tcommentMapLeaderCommentAnyway, g:tcommentTextObjectInlineComment] = ['', '', '']
 endif
 
-" Quoting/parenthesizing made simple
-call Bundles('Tpope/vim-surround')
+" Deal with pairs of 'surroundings'
+if Bundles('Tpope/vim-surround')
+  " :help ys
+  nmap s      <Plug>Ysurround
+  nmap ss     <Plug>Yssurround
+  nmap ds     <Plug>Dsurround
+  nmap cs     <Plug>Csurround
+  " :help yS
+  nmap gs     <Plug>YSurround
+  nmap gss    <Plug>YSsurround
+  nmap gcs    <Plug>CSurround
+  " :help vS
+  xmap s      <Plug>VSurround
+  xmap gs     <Plug>VgSurround
+  " :help i_CTRL-G_s
+  imap <C-s>  <Plug>Isurround
+  imap <M-g>s <Plug>ISurround
+
+  " Surround replacements
+  let g:surround_101 = " \r " " e(empty) as <Space>
+  let g:surround_13 = "\n\t\r\n" " <CR>
+  nmap ss<CR> sVl<CR>
+
+  " Surround targets
+  " Delete the nearest <Space>
+  nnoremap dse lB"_ch<C-c>El"_xg`^
+
+  let g:surround_indent = 1
+  let g:surround_no_mappings = 1
+endif
+
+" Switch segments of text with predefined replacements
+if Bundles('andrewradev/switch.vim')
+  let g:switch_mapping = "s<CR>"
+  " let g:switch_custom_definitions = []
+endif
+
+" Transition between multiline and single-line code
+if Bundles('andrewradev/splitjoin.vim')
+  let g:splitjoin_split_mapping = 'cS'
+  let g:splitjoin_join_mapping  = 'cJ'
+endif
 
 " Alignment
 if Bundles('-godlygeek/tabular', 'junegunn/vim-easy-align', '-tommcdo/vim-lion')
@@ -762,18 +802,6 @@ if Bundles('thinca/vim-quickrun')
   xnoremap R :QuickRun -mode v<CR>
   command! -nargs=* -range -complete=customlist,quickrun#complete Run
         \ call quickrun#command(<q-args>, <count>, <line1>, <line2>)
-endif
-
-" Transition between multiline and single-line code
-if Bundles('andrewradev/splitjoin.vim')
-  let g:splitjoin_split_mapping = 'gS'
-  let g:splitjoin_join_mapping  = 'gJ'
-endif
-
-" Switch segments of text with predefined replacements
-if Bundles('andrewradev/switch.vim')
-  let g:switch_mapping = 'gs'
-  " let g:switch_custom_definitions = []
 endif
 
 " Markups {{{2
