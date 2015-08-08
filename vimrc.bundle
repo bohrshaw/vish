@@ -386,15 +386,22 @@ endif
 
 " Repeat: {{{1
 
-" Display your undo history in a graph
-if Bundles('-mbbill/undotree')
-  nnoremap <Leader>tu :UndotreeToggle<CR>
-  let g:undotree_SetFocusWhenToggle=1 " put cursor to undotree when togglling
-endif
-
-" Vim plugin to visualize your Vim undo tree
-if Bundles('sjl/gundo.vim')
-  nnoremap <Leader>tu :GundoToggle<CR>
+" Visualize the undo tree/history
+if Bundles(s:nvim ? 'Simnalamburt/vim-mundo' : 'Sjl/gundo.vim') && Dundles('Sjl/gundo.vim')
+  nnoremap <silent><M-b>u :GundoToggle<CR>
+  nnoremap <silent><M-b>U :GundoRenderGraph<CR>
+  autocmd bundle BufNewFile __gundo*
+        \ nnoremap <buffer><expr><nowait>R
+        \   ':let g:gundo_auto_preview = '.!g:gundo_auto_preview.
+        \   " <Bar> normal r<CR>"|
+        \ nmap <buffer><M-q> q
+  let g:gundo_close_on_revert = 1 " auto-close the Gundo window
+  let g:gundo_auto_preview = 0
+  let g:gundo_playback_delay = 500
+  " let g:gundo_help = 0
+elseif Bundles('mbbill/undotree')
+  nnoremap <silent><M-b>u :UndotreeToggle<CR>
+  let g:undotree_SetFocusWhenToggle = 1 " cursor on the Undo window
 endif
 
 " Enable repeating supported plugin maps with '.'

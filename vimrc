@@ -568,12 +568,18 @@ let s:keymap = {
 " }}}
 " }}}
 " Repeat:" {{{
+" Concisely list the newest leafs in the tree of changes. Er... useless...
+command! UndoList echo join(reverse(map(
+      \ split(scriptease#capture('undolist'), '\n')[-8:],
+      \ "substitute(v:val, '\\s\\+', ' ', 'g')")), ' |')
+
 " Clear undo history (:w to clear the undo file if presented)
 command! -bar UndoClear execute 'set undolevels=-1 |move -1 |'.
       \ 'let [&modified, &undolevels] = ['.&modified.', '.&undolevels.']'
 
 " Repeat last change on each line in a visual selection
 xnoremap . :normal! .<CR>
+
 " Execute a macro on each one in {count} lines
 nnoremap <silent> @. :call <SID>macro()<CR>
 function! s:macro() range
@@ -606,8 +612,10 @@ endfunction " }}}
 " Execute a macro without remapping
 NXnoremap <expr> <silent> @N repeat(
       \ ':<C-U>normal! <C-R><C-R>'.nr2char(getchar()).'<CR>', v:count1)
+
 " Keep the flags when repeating last substitution
 NXnoremap & :&&<CR>
+
 " Refine the last command
 NXnoremap @<Space> @:
 NXnoremap @; :verbose @:<CR>
