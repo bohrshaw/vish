@@ -55,8 +55,9 @@ set ttimeoutlen=10 " key code delay (instant escape from Insert mode)
 " Meta-VimScript:" {{{
 " let mapleader = "\r" " replace <Leader> in a map
 let maplocalleader = "\t" " replace <LocalLeader> in a map
-let g:mapinsertleader = "\<M-g>"
 noremap <Tab> <Nop>
+let g:mapinsertleader = "\<M-g>"
+
 " Commands for defining mappings in several modes
 command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
 command! -nargs=1 NXmap nmap <args><Bar>xmap <args>
@@ -65,6 +66,12 @@ command! -nargs=1 NXOmap nmap <args><Bar>xmap <args><Bar>omap <args>
 " Allow chained commands, but also check for a " to start a comment
 command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
       \ inoremap <args>
+
+" Define a full-id abbreviation with minimal conflict
+command! -nargs=1 Abbr execute substitute(<q-args>, '\v\s+\S+\zs', 'SoXx', '')
+" Complete and trigger a full-id abbreviation
+noremap! <M-]> SoXx<C-]>
+
 " A command doing nothing but can be used for quick composition
 command! -nargs=* Nop :
 " }}}
@@ -149,8 +156,8 @@ nnoremap <M-o> <C-O>
 " Go to the last-accessed or second-newest position in the change list
 nnoremap g. g,g;
 " Print the change list or mark list
-cabbrev chs changes
-cabbrev ms marks
+Abbr cabbr cs changes
+Abbr cabbr ms marks
 set matchpairs+=<:> " character pairs matched by '%'
 if !has('nvim') " nvim put it in plugin/
   runtime macros/matchit.vim " extended pair matching with '%'
@@ -175,10 +182,10 @@ if !&hlsearch|set hlsearch|endif " highlight all matches of a search pattern
 set ignorecase " case insensitive in search patterns and command completion
 set smartcase " case sensitive only when up case characters present
 " Substitute in a visual area:" {{{
-xnoremap cs :s/\%V
+xnoremap sv :s/\%V
 " Substitute in a visual area (eat the for-expanding-space)
 " Hack: Use an expression to save a temporary value.
-cabbrev <expr> sv 's/\%V'.
+Abbr cabbr <expr>sv 's/\%V'.
       \ setreg('z', nr2char(getchar(0)))[1:0].(@z == ' ' ? '' : @z)
 " }}}
 " Grep:" {{{
@@ -327,8 +334,8 @@ command! BufOnly let nc = bufnr('%') |let nl = bufnr('$') |
       \ nl > nc ? (nc+1).','.nl.'bdelete' : ''
 " Wipe out all unlisted buffers
 command! BwipeoutUnlisted call vimrc#bufffer_wipe_unlisted()
-cabbrev vb vert sb
-cabbrev tb tab sb
+Abbr cabbr vb vert sb
+Abbr cabbr tb tab sb
 set autoread " auto-read a file changed outside of Vim
 " set autowrite " auto-write a modified file when switching buffers
 set hidden " hide a modified buffer without using '!' when it's abandoned
@@ -373,8 +380,8 @@ function! s:get_link_targets()
 endfunction
 " }}}
 " Easy access to vimrc files:" {{{
-cabbrev .v ~/.vim/vimrc
-cabbrev .b ~/.vim/vimrc.bundle
+Abbr cabbr v ~/.vim/vimrc
+Abbr cabbr b ~/.vim/vimrc.bundle
 nnoremap <silent><M-f>v :Be ~/.vim/vimrc<CR>
 nnoremap <silent><M-f>b :Be ~/.vim/vimrc.bundle<CR>
 " }}}
@@ -465,16 +472,12 @@ function! s:cmd_expand()
   return range . join(parts, '*')
 endfunction " }}}
 
-" Abbreviations" {{{
-" Trigger abbreviation
-noremap! <M-]> <C-]>
+" Abbreviations
+Abbr abbr bs Bohr Shaw
 
-abbr bs Bohr Shaw
-" }}}
-
-" Type notated keys {{{
+" Type notated keys
 noremap! <expr><M-v> <SID>special_key()
-function! s:special_key()
+function! s:special_key() " {{{
   let c1 = v#getchar(1, 1)
   if empty(c1)
     return ''
