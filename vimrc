@@ -52,7 +52,21 @@ if has('vim_starting')
 endif " }}}
 " set timeoutlen=3000 " mapping delay
 set ttimeoutlen=10 " key code delay (instant escape from Insert mode)
-" Meta-VimScript:" {{{
+" Deal with meta-key mappings:" {{{
+if has('nvim')
+  " Map meta-chords to esc-sequences in terminal
+  for c in split("abcdefghijklmnopqrstuvwxyz,./;'[]\\-=`", '\zs')
+    execute 'tnoremap '.'<M-'.c.'> <Esc>'.c
+  endfor
+  tnoremap <M-CR> <Esc><CR>
+else
+  runtime autoload/key.vim " mappable meta key in terminals
+endif " }}}
+if has('nvim') " skip python check to reduce startup time
+  let [g:python_host_skip_check, g:python3_host_skip_check] = [1, 1]
+endif
+" }}}
+" Meta:" {{{
 " let mapleader = "\r" " replace <Leader> in a map
 let maplocalleader = "\t" " replace <LocalLeader> in a map
 noremap <Tab> <Nop>
@@ -67,27 +81,34 @@ command! -nargs=1 NXOmap nmap <args><Bar>xmap <args><Bar>omap <args>
 command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
       \ inoremap <args>
 
+" Execute a remapped key in its un-remapped(vanilla) state
+NXOnoremap <expr>\\ nr2char(getchar())
+" Execte a global key shadowed by the same local one
+nnoremap <silent>g\ :call <SID>gmap('n')<CR>
+xnoremap <silent>g\ :<C-u>call <SID>gmap('x')<CR>
+function! s:gmap(mode) " {{{
+  let k = v#getchar()
+  let map = maparg(k, a:mode, 0, 1)
+  try
+    execute a:mode.'unmap <buffer>' k
+  catch
+    Echow 'No such local mapping.' | return 1
+  endtry
+  execute 'normal' (a:mode == 'x' ? 'gv' : '').k
+  execute a:mode.(map.noremap?'nore':'').'map'
+        \ map.silent?'<silent>':'' map.expr?'<expr>':'' map.nowait?'<nowait>':''
+        \ '<buffer>' map.lhs map.rhs
+endfunction " }}}
+
 " Define a full-id abbreviation with minimal conflict
 command! -nargs=1 Abbr execute substitute(<q-args>, '\v\s+\S+\zs', 'SoXx', '')
 " Complete and trigger a full-id abbreviation
 noremap! <M-]> SoXx<C-]>
 
+" Echo a warning message
+command! -bar -nargs=1 Echow echohl WarningMsg | echo <args> | echohl None
 " A command doing nothing while accepting args (for quick composition)
 command! -nargs=* Nop :
-" }}}
-" Deal with meta-key mappings:" {{{
-if has('nvim')
-  " Map meta-chords to esc-sequences in terminal
-  for c in split("abcdefghijklmnopqrstuvwxyz,./;'[]\\-=`", '\zs')
-    execute 'tnoremap '.'<M-'.c.'> <Esc>'.c
-  endfor
-  tnoremap <M-CR> <Esc><CR>
-else
-  runtime autoload/key.vim " mappable meta key in terminals
-endif " }}}
-if has('nvim') " skip python check to reduce startup time
-  let [g:python_host_skip_check, g:python3_host_skip_check] = [1, 1]
-endif
 " }}}
 " Shortcuts:" {{{
 " Enter the command line:" {{{
@@ -140,10 +161,6 @@ function! s:insert_bang()
   return cmd.'!'.args
 endfunction
 " }}}
-" Execute a remapped key in its un-remapped(vanilla) state
-NXOnoremap <expr>\\ nr2char(getchar())
-" Todo: Execte a global key shadowed by the same local one
-" noremap g\ ...
 " A temporary mapping provided to ease the habit transition, use `cl` instead
 nnoremap s<Space> s
 " }}}
