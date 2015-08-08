@@ -680,7 +680,8 @@ function! s:word_fb(key, ...) " {{{
   if db
     let @- = f ? line[pos-1:pos2-2] : line[pos2-1:pos-2]
   endif
-  return repeat(a:key, f ? pos2-pos : pos-pos2)
+  return (wildmenumode() ?  " \<BS>" : '').
+        \ repeat(a:key, f ? pos2-pos : pos-pos2)
 endfunction " }}}
 
 " Move the cursor around the line
