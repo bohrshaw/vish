@@ -336,11 +336,8 @@ autocmd vimrc InsertLeave,WinLeave * if exists('w:fdm_last') && empty(&buftype) 
 " Content:" {{{
 " Split a buffer in a vertical window or a new tab
 nnoremap <silent><M-b>d :bdelete<CR>
-nnoremap <silent><M-b><M-b>d :bdelete!<CR>
 nnoremap <silent><M-b>w :bwipeout<CR>
-nnoremap <silent><M-b><M-b>w :bwipeout!<CR>
 nnoremap <silent><M-b>x :Bdelete<CR>
-nnoremap <silent><M-b><M-b>x :Bdelete!<CR>
 " Delete the current buffer without closing its window
 command! -bang Bdelete try|b#|silent! bd<bang>#|catch|bd|endtry
 " Delete all buffers in the buffer list

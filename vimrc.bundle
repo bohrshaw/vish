@@ -61,6 +61,10 @@ function! s:move(cmd, count) abort
 endfunction
 nnoremap <silent>]d :call search('\cto-\?do:', 's')<CR>
 nnoremap <silent>[d :call search('\cto-\?do:', 'sb')<CR>
+nnoremap <silent>[m :set modified<CR>
+nnoremap <silent>]m :set nomodified<CR>
+nnoremap <silent>[r :set readonly<CR>
+nnoremap <silent>]r :set noreadonly<CR>
 nnoremap <silent>coh :let v:hlsearch = !v:hlsearch<CR>
 nnoremap <silent>coM :let &mouse = empty(&mouse) ? 'a' : ''<CR>
 nmap coP <Plug>unimpairedPaste
@@ -1157,7 +1161,7 @@ endif
 " Helpers for UNIX(Windows)
 if Bundles('tpope/vim-eunuch')
   nnoremap <silent><M-f>d :Remove<CR>
-  nnoremap <silent><M-f><M-f>d :Remove!<CR>
+  nnoremap <silent><M-f>x :sbuffer #<Bar>wincmd p<Bar>Remove<CR>
   autocmd VimEnter * command! -bar W if has('nvim') |
         \ execute "silent !sudo -vn &>/dev/null" |
         \ if v:shell_error != 0 |
