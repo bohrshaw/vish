@@ -39,6 +39,18 @@ function! s:bundle_map()
         \:call BundleRun(@z)<CR>g`z
 endfunction
 
+" Profiling
+command! -nargs=? StartupTime execute 'B!'
+      \ empty(<q-args>) ? exepath(v:progpath) : <q-args>
+      \ '--startuptime startup.log +qall!' |
+      \ tab drop startup.log
+command! -nargs=? Profile execute 'B!'
+      \ empty(<q-args>) ? exepath(v:progpath) : <q-args>
+      \ '--cmd "profile start '.getcwd().'/profile.log | profile file *"'
+      \ '-c "profdel file * | qall!"' |
+      \ tab drop profile.log
+command! ProfileTabular call profile#tabular()
+
 " A Vim plugin for Vim plugins
 call BundleRun('tpope/vim-scriptease')
 
