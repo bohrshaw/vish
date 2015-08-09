@@ -1038,7 +1038,7 @@ endif
 " An asynchronous execution library
 if Bundles('bohrshaw/vimproc.vim', '-shougo/vimproc.vim')
   command! -nargs=+ -bang -complete=shellcmd B
-        \ if <bang>0 | call vimproc#system_bg(<q-args>) |
+        \ if <bang>0 | call vimproc#system_bg(escape(<q-args>, '\')) |
         \ else | execute 'VimProcBang '.escape(<q-args>, '\/') | endif
   command! -nargs=+ -complete=shellcmd R VimProcRead <args>
 endif
