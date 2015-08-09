@@ -518,10 +518,13 @@ function! s:special_key() " {{{
   let cc = c1.c2
   if has_key(s:keymap, cc) == 1
     return s:keymap[cc]
+  elseif c1 ==? 'f'
+    let c2 = c2 == 0 ? 1.v#getchar() : c2
+    return '<'.toupper(c1).c2.'>'
   elseif cc =~# 'c.'
     return '<C-'.(c2 =~# '\u' ? 'S-'.tolower(c2_) : c2_).'>'
-  elseif cc =~# 'C.'
-    return 'ctrl-'.c2
+  elseif cc =~# '[Cx].'
+    return 'CTRL-'.toupper(c2)
   elseif cc =~# '[md].'
     return '<'.toupper(c1).'-'.c2_.'>'
   else
@@ -542,6 +545,8 @@ let s:keymap = {
       \'|':      '<Bar>',
       \'bu':     '<buffer>',
       \'no':     '<nowait>',
+      \'nw':     '<nowait>',
+      \'nm':     '<nomodeline>',
       \'si':     '<silent>',
       \'sp':     '<special>',
       \'sc':     '<script>',
