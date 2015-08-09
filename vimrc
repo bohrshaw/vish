@@ -659,9 +659,11 @@ set viewdir=~/.vim/tmp/view
 cnoremap <M-p> <Up>
 cnoremap <M-n> <Down>
 
-" Move the cursor around one character
-noremap! <C-F> <Right>
-noremap! <C-B> <Left>
+" Move the cursor around one character (won't break undo)
+inoremap <C-f> <C-c>la
+inoremap <C-b> <C-c>i
+cnoremap <C-f> <Right>
+cnoremap <C-b> <Left>
 " Delete one character after the cursor
 inoremap <expr> <C-D> col('.')>strlen(getline('.'))?"\<Lt>C-D>":"\<Lt>Del>"
 cnoremap <expr> <C-D> getcmdpos()>strlen(getcmdline())?"\<Lt>C-D>":"\<Lt>Del>"
