@@ -878,7 +878,7 @@ set showcmd "show partial commands in status line
 autocmd vimrc ColorScheme * hi MatchParen cterm=underline ctermbg=NONE ctermfg=NONE
       \ gui=underline guibg=NONE guifg=NONE
 " Enable or disable it due to the cost of frequently executed autocmds
-nnoremap <expr>com ':'.(exists('g:loaded_matchparen') ? 'NoMatchParen' : 'DoMatchParen')."<CR>"
+nnoremap <expr>c<Space>m ':'.(exists('g:loaded_matchparen') ? 'NoMatchParen' : 'DoMatchParen')."<CR>"
 " }}}
 silent! set breakindent " indent wrapped lines
 set linebreak " don't break a word when displaying wrapped lines
