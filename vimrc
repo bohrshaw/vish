@@ -167,20 +167,28 @@ nnoremap s<Space> s
 " Motion:" {{{
 set virtualedit=onemore " consistent cursor position on EOL
 set whichwrap& " left/right motions across lines
-" Navigate the jumper list more quickly
+" Display lines up/down (consecutive motions are quicker)
+nnoremap <C-j> gj
+nnoremap <C-k> gk
+" Jump to the middle of the current written line as opposed to the window width
+nnoremap <silent> gm :call cursor(0, virtcol('$')/2)<CR>|nnoremap gM gm
+set matchpairs+=<:> " character pairs matched by '%'
+if !has('nvim') " nvim put it in plugin/
+  runtime macros/matchit.vim " extended pair matching with '%'
+endif
+
+" Navigate the jumper list
 nnoremap <M-i> <C-I>
 nnoremap <M-o> <C-O>
+" Navigate the change list
+nnoremap <M-;> g;
+nnoremap <M-,> g,
 " Go to the last-accessed or second-newest position in the change list
 nnoremap g. g,g;
 " Print the change list or mark list
 Abbr cabbr cs changes
 Abbr cabbr ms marks
-set matchpairs+=<:> " character pairs matched by '%'
-if !has('nvim') " nvim put it in plugin/
-  runtime macros/matchit.vim " extended pair matching with '%'
-endif
-" Jump to the middle of the current written line as opposed to the window width
-nnoremap <silent> gm :call cursor(0, virtcol('$')/2)<CR>|nnoremap gM gm
+
 " Auto-place the cursor when switching buffers or files:" {{{
 " Don't move the cursor to the start of the line when switching buffers
 augroup vimrc_cursor
