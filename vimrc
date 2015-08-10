@@ -813,13 +813,14 @@ set noshowmode " hide the mode message on the command line
 set fillchars+=stl::,stlnc:: " characters to fill the statuslines
 execute (has('vim_starting')?'autocmd vimrc VimEnter * ':'').'call Vstatusline()'
 
+" Use a highlight group User{N} to apply only the difference to StatusLine to
+" StatusLineNC
 autocmd vimrc ColorScheme * hi User1
       \ term=bold cterm=bold ctermfg=123 ctermbg=233
       \ gui=bold guifg=#87FFFF guibg=#171717|
       \ hi User2
       \ term=bold cterm=bold ctermfg=226 ctermbg=233
       \ gui=bold guifg=#FFFF00 guibg=#171717
-" Ensure the same statusline/tabline highlighting in any color scheme
 autocmd vimrc ColorScheme * hi StatusLine
       \ term=bold cterm=bold ctermfg=40 ctermbg=233
       \ gui=bold guifg=#00d700 guibg=#171717 |
