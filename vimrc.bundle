@@ -1132,6 +1132,7 @@ if Bundles('Tpope/vim-git') && BundleRun('tpope/vim-fugitive')
         \ "G execute 'B'.(<bang>0 ? '!' : '') 'git' (exists('b:git_dir') ? '--git-dir='.b:git_dir.' --work-tree='.b:git_dir[:-6] : '') <q-args>"
 
   autocmd bundle FileType gitcommit set foldmethod=syntax foldlevel=1
+  autocmd bundle FileType git set foldlevel=1
 
   " Git branch management
   " call Bundles('sodapopcan/vim-twiggy')
