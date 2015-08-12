@@ -549,16 +549,19 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
   command! -nargs=* -complete=customlist,unite#complete#source U Unite <args>
   command! -nargs=? -complete=customlist,unite#complete#buffer_name Ur UniteResume <args>
   " The key <M-b> prefixes all mappings related to 'internal' contents
-  nnoremap <silent><M-b>o :Unite -buffer-name=buffer buffer<CR>
-  nnoremap <silent><M-b>l :Unite -prompt-direction=above line<CR>
-  nnoremap <silent><M-b>L :Unite -prompt-direction=above outline<CR>
+  nnoremap <silent><M-b>l :Unite -buffer-name=buffer buffer<CR>
+  nmap <M-b>o <M-b>l
+  nnoremap <silent><M-b>L :Unite -prompt-direction=above line<CR>
+  nnoremap <silent><M-b>O :Unite -prompt-direction=above outline<CR>
   nnoremap <silent><M-b>j :Unite jump<CR>
   nnoremap <silent><M-b>c :Unite change<CR>
   nnoremap <silent><M-b>r :Unite register<CR>
   nnoremap <silent><M-b>h :Unite -buffer-name=help -input=.txt\ doc/ buffer:?<CR>
   nnoremap <silent><M-b>H :Unite help<CR>
   " The key <M-f> relates to 'external' contents
-  nnoremap <silent><M-f>o :call <SID>project_files()<CR>
+  nnoremap <silent><M-f>l :Unite file:<C-r>=expand('%:h')<CR><CR>
+  nnoremap <silent><M-f>L :Unite file<CR>
+  nnoremap <silent><M-f>p :call <SID>project_files()<CR>
   function! s:project_files()
     let git_dir = get(b:, 'git_dir', fugitive#extract_git_dir(getcwd()))
     if !empty(git_dir)
@@ -645,7 +648,7 @@ if Bundle('scrooloose/nerdtree', {'m': [
 endif
 
 " Convenient directory listing and file selection
-if Bundles('tpope/vim-vinegar', '-jeetsukumaran/vim-filebeagle')
+if 0 && Bundles('justinmk/vim-dirvish', '-tpope/vim-vinegar', '-jeetsukumaran/vim-filebeagle')
   nmap <M-f>l <Plug>VinegarUp
   autocmd bundle VimEnter * nunmap -
 endif
