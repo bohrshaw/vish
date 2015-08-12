@@ -39,13 +39,17 @@ function! s:bundle_map()
         \:call BundleRun(@z)<CR>g`z
 endfunction
 
+" Debugging
+command! -nargs=? -complete=command Debug execute 'Start'
+      \ empty(<q-args>) ? expand(exepath(v:progpath)) : <q-args>
+      \ '-Nu NORC --cmd "set rtp-=~/.vim|filetype plugin indent on|syntax enable"'
 " Profiling
-command! -nargs=? StartupTime execute 'B!'
-      \ empty(<q-args>) ? exepath(v:progpath) : <q-args>
+command! -nargs=? -complete=command StartupTime execute 'B!'
+      \ empty(<q-args>) ? expand(exepath(v:progpath)) : <q-args>
       \ '--startuptime startup.log +qall!' |
       \ tab drop startup.log
-command! -nargs=? Profile execute 'B!'
-      \ empty(<q-args>) ? exepath(v:progpath) : <q-args>
+command! -nargs=? -complete=command Profile execute 'B!'
+      \ empty(<q-args>) ? expand(exepath(v:progpath)) : <q-args>
       \ '--cmd "profile start '.getcwd().'/profile.log | profile file *"'
       \ '-c "profdel file * | qall!"' |
       \ tab drop profile.log
