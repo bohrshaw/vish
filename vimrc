@@ -973,4 +973,4 @@ if has('vim_starting')
 endif
 " }}}
 
-" vim:ft=vim tw=80 et sw=2 fdm=marker cms="\ %s:
+" vim:fdm=marker:

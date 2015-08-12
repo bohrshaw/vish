@@ -1287,4 +1287,4 @@ call Bundle('gregsexton/vimcalc', {'c': 'Calc'})
 " call Bundles('aaronbieber/quicktask', 'davidoc/taskpaper.vim',
 "       \ 'davidoc/todo.txt-vim')
 
-" vim:ft=vim tw=80 et sw=2 foldmethod=expr foldexpr=getline(v\:lnum)=~'^\"\ \\a\\+\:\ {'?'>1'\:getline(v\:lnum)=~'^\"\ \\a\\+\ {'?'>2'\:getline(v\:lnum)=~#'\\v^(\ \ )\?(if|fu)'?'a1'\:getline(v\:lnum)=~#'\\v^(\ \ )\?end'?'s1'\:'=':
+" vim:foldmethod=expr foldexpr=getline(v\:lnum)=~'^\"\ \\a\\+\:\ {'?'>1'\:getline(v\:lnum)=~'^\"\ \\a\\+\ {'?'>2'\:getline(v\:lnum)=~#'\\v^(\ \ )\?(if|fu)'?'a1'\:getline(v\:lnum)=~#'\\v^(\ \ )\?end'?'s1'\:'=':
