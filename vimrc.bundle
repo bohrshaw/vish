@@ -95,13 +95,6 @@ nmap coP <Plug>unimpairedPaste
 
 " The missing motion for Vim
 if Bundles('-Justinmk/vim-sneak', 'Bohrshaw/vim-sneak')
-  let g:sneak#streak = 1 " enable streak mode
-  " let g:sneak#streak_esc = "\<CR>" " key to exit streak-mode
-  " let g:sneak#use_ic_scs = 1 " ignorecase and smartcase
-  let sneak#textobject_z = 0 " prevent the default {operator}z mapping
-  " Disable default mappings
-  NXOmap <Plug>_Sneak_s <Plug>Sneak_s
-  NXOmap <Plug>_Sneak_S <Plug>Sneak_S
   " TODO: more precise fFtT motions
   " Mapped fFtT could be slow or buggy in macros, and they conflict with Chinese IME
   " NXOmap f<CR> <Plug>Sneak_f
@@ -148,7 +141,17 @@ if Bundles('-Justinmk/vim-sneak', 'Bohrshaw/vim-sneak')
   xnoremap <silent> z? :<C-U>call sneak#wrap(visualmode(), 99, 1, 2, 1)<CR>
   onoremap <silent> z/ :<C-U>call sneak#wrap(v:operator, 99, 0, 2, 1)<CR>
   onoremap <silent> z? :<C-U>call sneak#wrap(v:operator, 99, 1, 2, 1)<CR>
+  NXOmap <M-;> <Plug>SneakNext
+  NXOmap <M-,> <Plug>SneakPrevious
+  let g:sneak#streak = 1 " enable streak mode
+  " let g:sneak#streak_esc = "\<CR>" " key to exit streak-mode
+  let g:sneak#absolute_dir = 1 " always go forwards or backwards when repeating
+  " let g:sneak#use_ic_scs = 1 " ignorecase and smartcase
   hi! link SneakPluginScope Comment
+  " Disable default mappings
+  NXOmap <Plug>_Sneak_s <Plug>Sneak_s
+  NXOmap <Plug>_Sneak_S <Plug>Sneak_S
+  let sneak#textobject_z = 0 " prevent the default {operator}z mapping
 elseif Bundles('machakann/vim-patternjump')
   let g:patternjump_no_default_key_mappings = 1
 elseif Bundles('lokaltog/vim-easymotion')

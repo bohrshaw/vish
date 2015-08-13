@@ -75,6 +75,8 @@ let g:mapinsertleader = "\<M-g>"
 " Commands for defining mappings in several modes
 command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
 command! -nargs=1 NXmap nmap <args><Bar>xmap <args>
+command! -nargs=1 NOnoremap nnoremap <args><Bar> onoremap <args>
+command! -nargs=1 NOmap nmap <args><Bar>omap <args>
 command! -nargs=1 NXOnoremap nnoremap <args><Bar>xnoremap <args><Bar>onoremap <args>
 command! -nargs=1 NXOmap nmap <args><Bar>xmap <args><Bar>omap <args>
 " Allow chained commands, but also check for a " to start a comment
@@ -167,6 +169,16 @@ nnoremap s<Space> s
 " Motion:" {{{
 set virtualedit=onemore " consistent cursor position on EOL
 set whichwrap& " left/right motions across lines
+" Search forward/backward regardless of the direction of the previous character search"{{{
+if exists('*getcharsearch') " Vim patch 7.4.813
+  NXOnoremap <expr>; getcharsearch().forward ? ';' : ','
+  NXOnoremap <expr>, getcharsearch().forward ? ',' : ';'
+else
+  NOnoremap <silent>F :<C-u>execute 'silent! normal! mzf'.nr2char(getchar()).'g`z'.v:count1.','<CR>
+  xnoremap <silent>F :<C-u>execute 'silent! normal! mzf'.nr2char(getchar()).'g`zgv'.v:count1.','<CR>
+  NOnoremap <silent>T :<C-u>execute 'silent! normal! mzt'.nr2char(getchar()).'g`z'.v:count1.','<CR>
+  xnoremap <silent>T :<C-u>execute 'silent! normal! mzt'.nr2char(getchar()).'g`zgv'.v:count1.','<CR>
+endif "}}}
 " Display lines up/down (consecutive motions are quicker)
 nnoremap <C-j> gj
 nnoremap <C-k> gk
