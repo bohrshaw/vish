@@ -18,6 +18,12 @@ function! v#getchar(...)
   return cs
 endfunction
 
+" Set a variable via an expression/function
+function! v#setvar(var, val)
+  execute 'let' a:var '=' string(a:val)
+  return ''
+endfunction
+
 " Get a list of buffers
 " If argument 1 is empty, listed buffers are displayed.
 " If argument 1 is "!", both listed and non-listed buffers are displayed.
