@@ -919,7 +919,8 @@ endif
 
 " Ruby runtime files (shipped with Vim and fairly updated.)
 if Bundles('Vim-ruby/vim-ruby')
-  let g:ruby_fold = 1 " syntax based folding
+  " Temporaly disabled as it causes Sneak strangely reset 'foldmethod' everytime
+  " let g:ruby_fold = 1 " syntax based folding
 endif
 
 " A custom text object for selecting ruby blocks
