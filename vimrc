@@ -699,10 +699,10 @@ inoremap <M-B> <C-o>B
 " Delete one word (won't break undo)
 inoremap <M-BS> <C-c>lcb
 " (hack for cursor at column 1)
-inoremap <M-d> <Space><C-c>lce<BS>
+inoremap <M-d> <Space><C-c>ce
 " Delete one WORD
 inoremap <C-w> <C-c>lcB
-inoremap <M-D> <Space><C-c>lcE<BS>
+inoremap <M-D> <Space><C-c>cE
 
 " Word like motions in Command mode differs that in Insert mode. They're more
 " like in Shells so that less motions are needed to go to a specific position,
