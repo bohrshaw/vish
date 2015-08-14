@@ -974,6 +974,8 @@ command! -range=% WordFrequency echo vimrc#word_frequency(<line1>, <line2>)
 " Calculate the total lines of source code minus blank lines and comment lines.
 command! -range=% SLOC echo vimrc#count
       \('^[^' . &cms[0] . ']', <line1>, <line2>) | normal ``
+" Print the ASCII table in a split window
+command! -nargs=? ASCII call ascii#print(<f-args>)
 " }}}
 
 silent! source ~/.vimrc.local " machine specific config
