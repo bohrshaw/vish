@@ -995,7 +995,7 @@ command! -nargs=? ASCII call ascii#print(<f-args>)
 command! HelpWrite setlocal buftype= buflisted modifiable noreadonly |
       \ mapclear <buffer> | mapclear! <buffer> |
       \ unlet b:did_ftplugin b:did_after_ftplugin | filetype detect |
-      \ set conceallevel=0
+      \ setlocal conceallevel=0 spell
 
 let $MYVIMRCAFTER = expand('~/.vimrc.after')
 if filereadable($MYVIMRCAFTER)
