@@ -991,6 +991,11 @@ command! -range=% SLOC echo vimrc#count
 " Print the ASCII table in a split window
 command! -nargs=? ASCII call ascii#print(<f-args>)
 " }}}
+" Write HELP docs
+command! HelpWrite setlocal buftype= buflisted modifiable noreadonly |
+      \ mapclear <buffer> | mapclear! <buffer> |
+      \ unlet b:did_ftplugin b:did_after_ftplugin | filetype detect |
+      \ set conceallevel=0
 
 let $MYVIMRCAFTER = expand('~/.vimrc.after')
 if filereadable($MYVIMRCAFTER)

@@ -7,10 +7,11 @@ nnoremap <buffer> <CR> <C-]>
 " :help help-writing
 nnoremap <silent><buffer><M-]> :call ftplugin#help_goto('\*\S\+\*')<CR>
 nnoremap <silent><buffer><M-[> :call ftplugin#help_goto('\*\S\+\*', 'b')<CR>
-nnoremap <silent><buffer>i :call ftplugin#help_goto('\|\S\+\|')<CR>
-nnoremap <silent><buffer>I :call ftplugin#help_goto('\|\S\+\|', 'b')<CR>
-nnoremap <silent><buffer>o :call ftplugin#help_goto('''\l\{2,}''')<CR>
-nnoremap <silent><buffer>O :call ftplugin#help_goto('''\l\{2,}''', 'b')<CR>
+let s:map_pre = 'nnoremap <silent><buffer>'.(&buftype == 'help' ? '' : '<LocalLeader>')
+execute s:map_pre.'i :call ftplugin#help_goto('.string('\|\S\+\|').')<CR>'
+execute s:map_pre.'I :call ftplugin#help_goto('.string('\|\S\+\|').', "b")<CR>'
+execute s:map_pre.'o :call ftplugin#help_goto('.string('''\l\{2,}''').')<CR>'
+execute s:map_pre.'O :call ftplugin#help_goto('.string('''\l\{2,}''').', "b")<CR>'
 " Mappings for executing codes
 call ftplugin#vim_map()
 
