@@ -47,8 +47,22 @@ if has('vim_starting')
   if has('gui_running') || $termencoding ==? 'utf-8'
     set encoding=utf-8 " used inside Vim, allow mapping with the ALT key
   endif
-  " Forward slash as the path separator, troublesome to plugins like vim-gnupg
-  if has('win32') | set shellslash | endif
+
+  let $MYVIMRCPRE = expand('~/.vimrc.pre')
+  if filereadable($MYVIMRCPRE)
+    execute 'silent source' $MYVIMRCPRE
+  endif
+
+  if has('win32')
+    " Wish to use a forward slash for path separator? But 'shellslash' is not
+    " designed to be set alone. Plugins must explicitly cope with it. Wish a
+    " 'internal_shellslash' be available!
+    "
+    " Plugins like 'fugitive' works regardless of this option. While more
+    " plugins like 'gnupg', 'jedi' wouldn't function well when it's set.
+    " Troublesomely, 'unite', 'vimproc' have problems when it's not set.
+    set shellslash&
+  endif
 endif " }}}
 " set timeoutlen=3000 " mapping delay
 set ttimeoutlen=10 " key code delay (instant escape from Insert mode)
@@ -978,7 +992,10 @@ command! -range=% SLOC echo vimrc#count
 command! -nargs=? ASCII call ascii#print(<f-args>)
 " }}}
 
-silent! source ~/.vimrc.local " machine specific config
+let $MYVIMRCAFTER = expand('~/.vimrc.after')
+if filereadable($MYVIMRCAFTER)
+  execute 'silent source' $MYVIMRCAFTER
+endif
 
 if has('vim_starting')
   " Must be after setting 'rtp'
