@@ -75,8 +75,8 @@ function! rtp#add(dir)
       call insert(rtp, path_after, -1)
     endif
     let &rtp = rtp#join(rtp)
-    return 1
   endif
+  return 1
 endfunction
 
 " Invoke :helptags on all non-$VIMRUNTIME doc directories in runtimepath.
