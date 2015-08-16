@@ -334,8 +334,9 @@ if Bundles('Tpope/vim-surround')
   nmap ss<CR> sVl<CR>
 
   " Surround targets
-  " Delete the nearest <Space>
-  nnoremap dse lB"_ch<C-c>El"_xg`^
+  " Delete the nearest <Space>s around the cursor
+  nnoremap <silent>dse mz:execute 'keepp s/\v\s*(\S*%#\S*)\s*/\1'<Bar>
+        \call repeat#set("dse")<CR>g`z
 
   let g:surround_indent = 1
   let g:surround_no_mappings = 1
