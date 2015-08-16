@@ -2,7 +2,9 @@ if exists("b:did_ftplugin")
   finish
 endif
 
-nnoremap <buffer> q <C-W>c
+if &buftype == 'help'
+  nnoremap <buffer> q <C-W>c
+endif
 nnoremap <buffer> <CR> <C-]>
 " :help help-writing
 nnoremap <silent><buffer><M-]> :call ftplugin#help_goto('\*\S\+\*')<CR>
