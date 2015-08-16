@@ -563,7 +563,7 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
   nnoremap <silent><M-b>h :Unite -buffer-name=help -input=.txt\ doc/ buffer:?<CR>
   nnoremap <silent><M-b>H :Unite help<CR>
   " The key <M-f> relates to 'external' contents
-  nnoremap <silent><M-f>l :Unite file:<C-r>=expand('%:h')<CR><CR>
+  nnoremap <silent><M-f>l :Unite file:<C-r>=escape(expand('%:h'), '\')<CR><CR>
   nnoremap <silent><M-f>L :Unite file<CR>
   nnoremap <silent><M-f>p :call <SID>project_files()<CR>
   function! s:project_files()
