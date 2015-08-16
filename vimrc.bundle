@@ -1108,19 +1108,21 @@ if Bundles('Tpope/vim-git') && BundleRun('tpope/vim-fugitive')
   nnoremap g<Space>s :Gstatus<CR>
 
   nnoremap g<Space>c<Space> :Gcommit -v<CR>
-  nnoremap g<Space>ca :Gcommit --amend -v<CR>
-  nnoremap g<Space>ce :G! commit --allow-empty-message -m ''<CR>
+  nnoremap g<Space>ca       :Gcommit --amend -v<CR>
 
+  " Add the current file and commit
   nnoremap <silent>g<Space>a<Space> :call <SID>git_add_current()<CR>
-  nmap g<Space>ac g<Space>a<Space>:Gcommit -v<CR>
-  nmap g<Space>ae g<Space>a<Space>:G! commit --allow-empty-message -m ''<CR>
-  nmap g<Space>aa g<Space>a<Space>:Gcommit --amend -v<CR>
-
+  nmap     g<Space>ac               g<Space>a<Space>:Gcommit -v<CR>
+  nmap     g<Space>aa               g<Space>a<Space>:Gcommit --amend -v<CR>
+  " Add all files and commit
   nnoremap g<Space>A<Space> :wall \| G! add --update<CR>
-  nnoremap g<Space>AA :wall \| G! add --all<CR>
-  nnoremap g<Space>Ac :wall \| Gcommit --all -v<CR>
-  nnoremap g<Space>Ae :wall \| G! commit --all --allow-empty-message -m ''<CR>
-  nnoremap g<Space>Aa :wall \| Gcommit --all --amend -v<CR>
+  nnoremap g<Space>AA       :wall \| G! add --all<CR>
+  nnoremap g<Space>Ac       :wall \| Gcommit --all -v<CR>
+  nnoremap g<Space>Aa       :wall \| Gcommit --all --amend -v<CR>
+  " Commit with an empty message (Rock and Roll)
+  nnoremap g<Space>r<Space> :G! commit --allow-empty-message -m ''<CR>
+  nmap     g<Space>ra       g<Space>a<Space>:G! commit --allow-empty-message -m ''<CR>
+  nnoremap g<Space>rA       :wall \| G! commit --all --allow-empty-message -m ''<CR>
 
   nnoremap g<Space>d :tab sbuffer % \| Gdiff<CR>
   nnoremap g<Space>b :Gblame<CR>
