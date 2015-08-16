@@ -402,6 +402,7 @@ nnoremap <silent><M-f>e :edit<CR>
 nnoremap <silent><M-f><M-f>e :edit!<CR>
 cnoremap <M-h> <C-r>=expand('%:h')<CR>/
 nnoremap <M-f>f :filetype detect<CR>
+nnoremap <M-f>F :silent! unlet b:did_ftplugin b:did_after_ftplugin<Bar>filetype detect<CR>
 nnoremap <M-f>c :checktime<CR>
 " Switch to the alternative buffer
 nnoremap <silent><M-a> :buffer #<CR>
@@ -994,7 +995,7 @@ command! -nargs=? ASCII call ascii#print(<f-args>)
 " Write HELP docs
 command! HelpWrite setlocal buftype= buflisted modifiable noreadonly |
       \ mapclear <buffer> | mapclear! <buffer> |
-      \ unlet b:did_ftplugin b:did_after_ftplugin | filetype detect |
+      \ silent! unlet b:did_ftplugin b:did_after_ftplugin | filetype detect |
       \ setlocal conceallevel=0 spell
 
 let $MYVIMRCAFTER = expand('~/.vimrc.after')
