@@ -820,12 +820,22 @@ if Bundles('majutsushi/tagbar')
 endif
 
 " Documentation/reference viewer
-call Bundles('keithbsmiley/investigate.vim')
-
-if Bundles('-thinca/vim-ref')
+if Bundles('keithbsmiley/investigate.vim')
+  nnoremap <silent>gK :call investigate#Investigate()<CR>
+endif
+if 0 && Bundles('thinca/vim-ref')
   let g:ref_no_default_key_mappings = 1
-  nmap <silent> gK <Plug>(ref-keyword)
-  vmap <silent> gK <Plug>(ref-keyword)
+  nmap gK <Plug>(ref-keyword)
+  xmap gK <Plug>(ref-keyword)
+endif
+" Reference docs using an external tool 'zeal' (poor VimL)
+if Bundle('KabbAmine/zeavim.vim', {'m': ['nnoremap zK :Zeavim<CR>']})
+  " Or set a local docset with :Docset which actually just set b:manualDocset
+  let g:zv_added_files_type = {
+        \ 'python': 'python 3',
+        \ 'ruby': 'ruby 2',
+        \ }
+  let g:zv_disable_mapping = 1
 endif
 
 " Dispatch.vim: asynchronous build and test dispatcher
