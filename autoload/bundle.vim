@@ -18,9 +18,7 @@ endfunction
 
 function! Bundle(...)
   if s:bundle_enabled(a:1)
-    let dirs = map(add((has_key(a:2, 'd') ? a:2['d'] : []), a:1),
-          \ 'matchstr(v:val, ''/\zs.*'')')
-    let bundle_cmd = 'call call("BundleRun",'.string(dirs).')'
+    let bundle_cmd = 'call BundleRun('.string(a:1).')'
     if has_key(a:2, 'm')
       " Get all user-defined mapping commands
       let map_cmds = substitute(

@@ -164,7 +164,7 @@ elseif Bundles('-goldfeld/vim-seek', '-rhysd/clever-f.vim')
 endif
 
 " Create your own text objects
-if BundlePath('kana/vim-textobj-user')
+if BundlePath('Kana/vim-textobj-user')
   call textobj#user#plugin('file', {
         \ 'file': {
         \ 'pattern': '\f\+', 'select': ['af', 'if']
@@ -925,11 +925,8 @@ if Bundles('Vim-ruby/vim-ruby')
 endif
 
 " A custom text object for selecting ruby blocks
-call Bundle('Nelstrom/vim-textobj-rubyblock',
-      \ {'f':'ruby', 'd':['kana/vim-textobj-user']})
-
-" Provide more controls over the above
-if Bundles('-rhysd/vim-textobj-ruby', '-kana/vim-textobj-user')
+if Bundle('Nelstrom/vim-textobj-rubyblock', {'f':'ruby'})
+elseif Bundles('rhysd/vim-textobj-ruby') " provide more controls over the above
   let g:textobj_ruby_more_mappings = 1
 endif
 
