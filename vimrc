@@ -184,6 +184,7 @@ nnoremap s<Space> s
 set virtualedit=onemore " consistent cursor position on EOL
 set whichwrap& " left/right motions across lines
 " Search forward/backward regardless of the direction of the previous character search"{{{
+" Note: These are overwritten in Sneak, but the semantics retains.
 if exists('*getcharsearch') " Vim patch 7.4.813
   NXOnoremap <expr>; getcharsearch().forward ? ';' : ','
   NXOnoremap <expr>, getcharsearch().forward ? ',' : ';'

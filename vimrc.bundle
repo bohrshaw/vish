@@ -95,12 +95,6 @@ nmap coP <Plug>unimpairedPaste
 
 " The missing motion for Vim
 if Bundles('-Justinmk/vim-sneak', 'Bohrshaw/vim-sneak')
-  " TODO: more precise fFtT motions
-  " Mapped fFtT could be slow or buggy in macros, and they conflict with Chinese IME
-  " NXOmap f<CR> <Plug>Sneak_f
-  " NXOmap F<CR> <Plug>Sneak_F
-  " NXOmap t<CR> <Plug>Sneak_t
-  " NXOmap T<CR> <Plug>Sneak_T
   " Arbitrary precise motion
   nnoremap <silent> L :call Sneak('', 0, 'n')<CR>
   xnoremap <silent> L :call Sneak('', 0, 'v')<CR>
@@ -141,8 +135,31 @@ if Bundles('-Justinmk/vim-sneak', 'Bohrshaw/vim-sneak')
   xnoremap <silent> z? :<C-U>call sneak#wrap(visualmode(), 99, 1, 2, 1)<CR>
   onoremap <silent> z/ :<C-U>call sneak#wrap(v:operator, 99, 0, 2, 1)<CR>
   onoremap <silent> z? :<C-U>call sneak#wrap(v:operator, 99, 1, 2, 1)<CR>
-  NXOmap <M-;> <Plug>SneakNext
-  NXOmap <M-,> <Plug>SneakPrevious
+  " Repeat
+  nnoremap <silent>; :<C-u>call SneakRepeat('', 0)<CR>
+  xnoremap <silent>; :<C-u>call SneakRepeat(visualmode(), 0)<CR>
+  onoremap <silent>; :<C-u>call SneakRepeat(v:operator, 0)<CR>
+  nnoremap <silent>, :<C-u>call SneakRepeat('', 1)<CR>
+  xnoremap <silent>, :<C-u>call SneakRepeat(visualmode(), 1)<CR>
+  onoremap <silent>, :<C-u>call SneakRepeat(v:operator, 1)<CR>
+  function! SneakRepeat(op, reverse) abort " adjusted from sneak#rpt()
+    let st = sneak#state()
+    if st.rst
+      execute 'normal!' (a:op =~? "[v\<C-v>]" ? 'gv' : '').v:count1.(a:reverse ?
+            \ !exists('*getcharsearch') || getcharsearch().forward ? ',' : ';' :
+            \ !exists('*getcharsearch') || getcharsearch().forward ? ';' : ',')
+    else
+      call sneak#to(a:op, st.input, st.inputlen, v:count1, 1, a:reverse, st.inclusive, 0)
+    endif
+  endfunction
+  if !exists('*getcharsearch') " Vim patch 7.4.813
+    " To make the repeat direction absolute, it's easy to accomplish this with
+    " the built-in mappings, though I dislike the multi-lines behavior.
+    NXOmap f <Plug>Sneak_f
+    NXOmap F <Plug>Sneak_F
+    NXOmap t <Plug>Sneak_t
+    NXOmap T <Plug>Sneak_T
+  endif "}}}
   let g:sneak#streak = 1 " enable streak mode
   " let g:sneak#streak_esc = "\<CR>" " key to exit streak-mode
   let g:sneak#absolute_dir = 1 " always go forwards or backwards when repeating
