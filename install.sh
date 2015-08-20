@@ -23,10 +23,18 @@ for f in vimrc gvimrc vimperatorrc vimperator; do
 done
 slink $VISH/vimrc $HOME/.nvimrc
 
+# Include spell related files(mostly static and large)
+if [[ ! -d $VISH/spell ]]; then
+    git clone git@git.coding.net:bohrshaw/vish-spell.git $VISH/spell &
+fi
+
+# Sync bundles
 if hash go &>/dev/null; then
   go run $VISH/bin/src/vundle/vundle.go
 else
   $VISH/bin/vundle.rb
 fi
+
+wait
 
 echo "Vim ready!"

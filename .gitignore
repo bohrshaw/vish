@@ -4,6 +4,7 @@
 
 # ignore directories under bundle
 /bundle/
+/spell/
 /tmp/
 /.netrwhist
 /spell/

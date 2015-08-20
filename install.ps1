@@ -45,6 +45,11 @@ New-Link "$VIM_DIR\vimperatorrc" "$HOME\.vimperatorrc"
 New-Link "$VIM_DIR\vimperator" "$HOME\vimperator"
 New-Link "$VIM_DIR\vsvimrc"
 
+# Include spell related files(mostly static and large)
+if (-not (Test-Path '~\.vim\spell' -PathType Container)) {
+    git clone git@git.coding.net:bohrshaw/vish-spell.git $VIM_DIR\spell
+}
+
 # Sync bundles
 if (Get-Command "go.exe" -ErrorAction SilentlyContinue) {
     Invoke-Expression "go run $VIM_DIR\bin\src\vundle\vundle.go"
