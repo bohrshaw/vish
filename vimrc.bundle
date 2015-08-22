@@ -1089,9 +1089,7 @@ if Bundles('bohrshaw/vimproc.vim', '-shougo/vimproc.vim')
         \ if <bang>0 | call vimproc#system_bg(<SID>vimproc_esc(<q-args>)) |
         \ else | execute 'VimProcBang '.<SID>vimproc_esc(<q-args>, '/') | endif
   function! s:vimproc_esc(args, ...)
-    if &shellslash
-      return a:args
-    else " expand %, #, etc. and escape \ and /
+    if has('win32') && !&shellslash " expand %, #, etc. and escape \ and /
       let pat = '\\\@<![%#].*'
       let match = matchstr(a:args, pat)
       return escape(
@@ -1099,6 +1097,7 @@ if Bundles('bohrshaw/vimproc.vim', '-shougo/vimproc.vim')
             \   substitute(a:args, pat, escape(expand(match), '\'), ''),
             \ '\'.get(a:, 1, ''))
     endif
+    return a:args
   endfunction
   command! -nargs=+ -complete=shellcmd R VimProcRead <args>
 endif
