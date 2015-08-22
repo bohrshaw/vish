@@ -887,12 +887,15 @@ set numberwidth=3 " minimal number(2) of columns to use for the line number
 " Font, color, window size:" {{{
 if has('vim_starting')
   if has('gui_running')
-    if has('win32')
-      set guifont=Consolas:h10
-      autocmd vimrc GUIEnter * simalt ~x " maximize window
-    else
-      set guifont=Consolas\ 10
-      set lines=250 columns=200
+    let &guifont = has('win32') ? 'Consolas:h10' : 'Consolas 10'
+    if g:l
+      set lines=40 columns=88
+    else " maximize the window
+      if has('win32')
+        autocmd vimrc GUIEnter * simalt ~x
+      else
+        set lines=250 columns=200
+      endif
     endif
     set linespace=0
   else
