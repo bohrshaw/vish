@@ -339,7 +339,7 @@ if Bundles('Tpope/vim-surround')
   nmap gss    <Plug>YSsurround
   nmap gcs    <Plug>CSurround
   " :help vS
-  xmap s      <Plug>VSurround
+  xmap s      <Plug>VSurround|xnoremap S s
   xmap gs     <Plug>VgSurround
   " :help i_CTRL-G_s
   imap <C-s>  <Plug>Isurround
