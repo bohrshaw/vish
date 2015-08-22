@@ -1086,8 +1086,20 @@ endif
 " An asynchronous execution library
 if Bundles('bohrshaw/vimproc.vim', '-shougo/vimproc.vim')
   command! -nargs=+ -bang -complete=shellcmd B
-        \ if <bang>0 | call vimproc#system_bg(escape(<q-args>, &shellslash?'':'\')) |
-        \ else | execute 'VimProcBang '.escape(<q-args>, &shellslash?'':'\/') | endif
+        \ if <bang>0 | call vimproc#system_bg(<SID>vimproc_esc(<q-args>)) |
+        \ else | execute 'VimProcBang '.<SID>vimproc_esc(<q-args>, '/') | endif
+  function! s:vimproc_esc(args, ...)
+    if &shellslash
+      return a:args
+    else " expand %, #, etc. and escape \ and /
+      let pat = '\\\@<![%#].*'
+      let match = matchstr(a:args, pat)
+      return escape(
+            \ empty(match) ? a:args :
+            \   substitute(a:args, pat, escape(expand(match), '\'), ''),
+            \ '\'.get(a:, 1, ''))
+    endif
+  endfunction
   command! -nargs=+ -complete=shellcmd R VimProcRead <args>
 endif
 
