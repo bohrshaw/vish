@@ -464,22 +464,6 @@ for s:c in split('lnpkti]fdvuos', '\zs')
 endfor
 " Insert a digraph
 noremap! <C-X>g <C-k>
-" Dictionary files for insert-completion
-let s:dictionaries = '~/.vim/spell/dictionary-oald.txt'
-if filereadable(expand(s:dictionaries))
-  let &dictionary = s:dictionaries
-elseif !has('win32')
-  set dictionary=/usr/share/dict/words
-else
-  set dictionary=spell " completion from spelling as an alternative
-endif
-" Thesaurus files for insert-completion
-set thesaurus=~/.vim/spell/thesaurus-mwcd.txt
-" Enable spell checking for particular file types
-autocmd vimrc FileType gitcommit,markdown,txt setlocal spell
-if v:version == 704 && has('patch088') || v:version > 704
-  set spelllang+=cjk " skip spell check for East Asian characters
-endif
 " }}}
 " Auto-reverse letter case in insert mode {{{
 inoremap <M-l> <C-R>=<SID>toggle(1)<CR>
@@ -668,6 +652,28 @@ nnoremap dO :diffoff \| windo if &diff \| hide \| endif<CR>
 " Diff with another file
 command! -nargs=? -complete=buffer DiffWith call vimrc#diffwith(<f-args>)
 " }}}
+" Spell:" {{{
+" Enable spell checking for particular file types
+autocmd vimrc FileType gitcommit,markdown,txt setlocal spell
+if v:version == 704 && has('patch088') || v:version > 704
+  set spelllang+=cjk " skip spell check for East Asian characters
+endif
+" Clean up spell files
+command! SpellCleanup silent runtime spell/cleanadd.vim
+
+" Dictionary files
+let s:dictionaries = '~/.vim/spell/dictionary-oald.txt'
+if filereadable(expand(s:dictionaries))
+  let &dictionary = s:dictionaries
+elseif !has('win32')
+  set dictionary=/usr/share/dict/words
+else
+  set dictionary=spell " completion from spelling as an alternative
+endif
+
+" Thesaurus files
+set thesaurus=~/.vim/spell/thesaurus-mwcd.txt
+"}}}
 " Persistence:" {{{
 let &swapfile = g:l ? 0 : 1 " use a swapfile for the buffer
 set undofile " remember undo history across sessions
