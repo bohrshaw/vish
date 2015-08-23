@@ -102,6 +102,9 @@ if Bundles('-Justinmk/vim-sneak', 'Bohrshaw/vim-sneak')
   nnoremap <silent> H :call Sneak('', 1, 'n')<CR>
   xnoremap <silent> H :call Sneak('', 1, 'v')<CR>
   onoremap <silent> H :call Sneak('', 1, 'o')<CR>
+  " Within the current line
+  NXOmap <expr>9f v#setvar('g:sneak#oneline', 1).'L'
+  NXOmap <expr>8f v#setvar('g:sneak#oneline', 1).'H'
   function! Sneak(pattern, reverse, mode)
     let c = v#getchar()
     if empty(c) |return |endif
@@ -126,6 +129,7 @@ if Bundles('-Justinmk/vim-sneak', 'Bohrshaw/vim-sneak')
     " op, input, inputlen, count, repeatmotion, reverse, inclusive, streak
     " inclusive: 2 means inclusive-exclusive motion like /
     call sneak#to('', '\m'.pattern, 1, 1, 0, a:reverse, 2, 1)
+    let g:sneak#oneline = 0
   endfunction
   " Mimic the native search command / and ?, but literal
   " Function signature: sneak#wrap(op, inputlen, reverse, inclusive, streak)
