@@ -1154,10 +1154,14 @@ if Bundles('Tpope/vim-git') && BundleRun('tpope/vim-fugitive')
   nnoremap g<Space>AA       :wall \| G! add --all<CR>
   nnoremap g<Space>Ac       :wall \| Gcommit --all -v<CR>
   nnoremap g<Space>Aa       :wall \| Gcommit --all --amend -v<CR>
-  " Commit with an empty message (Rock and Roll)
+  " Routine commits
   nnoremap g<Space>r<Space> :G! commit --allow-empty-message -m ''<CR>
   nmap     g<Space>ra       g<Space>a<Space>:G! commit --allow-empty-message -m ''<CR>
   nnoremap g<Space>rA       :wall \| G! commit --all --allow-empty-message -m ''<CR>
+  nmap     g<Space>rt       g<Space>a<Space>:G! commit -m 'Todo'<CR>
+  nmap     g<Space>rd       g<Space>a<Space>:G! commit -m 'Done'<CR>
+  nnoremap <expr>g<Space>rs ':B! git --git-dir='.expand('~/.vim/spell/.git').
+        \ ' --work-tree='.expand('~/.vim/spell')." commit --all -m 'Spell'<CR>"
 
   nnoremap g<Space>d :tab sbuffer % \| Gdiff<CR>
   nnoremap g<Space>b :Gblame<CR>
