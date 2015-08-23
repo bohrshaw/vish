@@ -764,7 +764,8 @@ inoremap <C-A> <C-O>^
 cnoremap <C-A> <Home>
 inoremap <C-E> <End>
 " Delete all before the cursor (won't break undo)
-inoremap <C-u> <C-c>cv^
+inoremap <expr><C-u> "<C-c>cv".
+      \(search('^\s\+\%#', 'bn', line('.')) > 0 ? '0' : '^')
 cnoremap <expr><C-u> <SID>c_u()
 function! s:c_u() " {{{
   let @- = getcmdline()[:getcmdpos()-2]
