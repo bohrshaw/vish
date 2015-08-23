@@ -275,10 +275,10 @@ if s:lua && Bundles('shougo/neocomplete.vim', 'bohrshaw/vimproc.vim')
   let g:neocomplete#data_directory = '~/.vim/tmp/neocomplete'
   " let g:neocomplete#release_cache_time = 1800 " seconds
   " Enable/disable neocomplete
-  nnoremap <expr> c<Space>C neocomplete#is_enabled() ?
+  nnoremap <expr> c\C neocomplete#is_enabled() ?
         \ ':NeoCompleteDisable<CR>' : ':NeoCompleteEnable<CR>'
   " Toggle auto/manual completion for the current buffer
-  nnoremap c<Space>c :NeoCompleteToggle<CR>
+  nnoremap c\c :NeoCompleteToggle<CR>
   inoremap <M-g>tc <C-R>=neocomplete#commands#_toggle_lock()[1:0]<CR>
   " Start manual completion
   inoremap <silent><M-n> <C-O>:call neocomplete#init#enable() \|
@@ -434,8 +434,8 @@ endif
 
 " Visualize the undo tree/history
 if Bundles(s:nvim ? 'Simnalamburt/vim-mundo' : 'Sjl/gundo.vim') && Dundles('Sjl/gundo.vim')
-  nnoremap <silent>c<Space>u :GundoToggle<CR>
-  nnoremap <silent>c<Space>U :GundoRenderGraph<CR>
+  nnoremap <silent>c\u :GundoToggle<CR>
+  nnoremap <silent>c\U :GundoRenderGraph<CR>
   autocmd bundle BufNewFile __gundo*
         \ nnoremap <buffer><expr><nowait>R
         \   ':let g:gundo_auto_preview = '.!g:gundo_auto_preview.
@@ -656,7 +656,7 @@ endif
 
 " A tree explorer plugin for vim
 if Bundle('scrooloose/nerdtree', {'m': [
-      \ 'nnoremap c<Space>d :NERDTreeToggle<CR>',
+      \ 'nnoremap c\d :NERDTreeToggle<CR>',
       \ 'noremap <leader>dd :NERDTree<CR>',
       \ 'noremap <leader>df :NERDTreeFind<CR>']})
   let NERDTreeHijackNetrw=0 " don't replace netrw
@@ -792,7 +792,7 @@ if Bundles('yggdroot/indentline', '-nathanaelkane/vim-indent-guides')
   " let g:indentLine_fileType = ['rb']
   " let g:indentLine_faster = 1
   " let g:indentLine_char = '┊' " |│¦┆┊
-  nnoremap c<Space>i :IndentLinesToggle<CR>
+  nnoremap c\i :IndentLinesToggle<CR>
 endif
 
 " A powerful color tool
@@ -833,7 +833,7 @@ if Bundles('majutsushi/tagbar')
         \ 'ctagsbin' : 'gotags',
         \ 'ctagsargs' : '-sort -silent'
         \ }
-  nnoremap c<Space>t :TagbarToggle<CR>
+  nnoremap c\t :TagbarToggle<CR>
 endif
 
 " Documentation/reference viewer
@@ -1005,7 +1005,7 @@ if s:pythonx && Bundles('davidhalter/jedi-vim')
   let g:jedi#show_call_signatures = 2 " show it in the command line
 
   " let g:jedi#force_py_version = has('python3') ? 3 : 2
-  nnoremap c<Space>p :call jedi#force_py_version_switch()<CR>
+  nnoremap c\p :call jedi#force_py_version_switch()<CR>
 
   " Let g:jedi#auto_initialization = 0
   let g:jedi#auto_vim_configuration = 0
@@ -1049,7 +1049,7 @@ endif
 if Bundles('junegunn/rainbow_parentheses.vim')
   autocmd bundle FileType lisp,clojure,scheme RainbowParentheses
   " Toggle
-  nnoremap <silent>c<Space>r :RainbowParentheses!!<CR>
+  nnoremap <silent>c\r :RainbowParentheses!!<CR>
   " let g:rainbow#pairs = [['(', ')'], ['[', ']']]
   " List of colors that you do not want. ANSI code or #RRGGBB
   " let g:rainbow#blacklist = [233, 234]
