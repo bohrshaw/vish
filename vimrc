@@ -210,8 +210,9 @@ nnoremap <M-o> <C-O>
 " Navigate the change list
 nnoremap <M-;> g;
 nnoremap <M-,> g,
-" Go to the last-accessed or second-newest position in the change list
-nnoremap g. g,g;
+" Go to the second-newest or current position in the change list
+nnoremap <silent>g. :try\|execute 'normal! g,g;'\|
+      \ catch\|execute 'normal! g,'\|endtry<CR>
 " Print the change list or mark list
 Abbr cabbr cs changes
 Abbr cabbr ms marks
