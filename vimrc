@@ -494,7 +494,7 @@ set wildcharm=<Tab> " the key to trigger wildmode expansion in mappings
 set wildmenu wildmode=longest:full,full " command line completion mode
 silent! set wildignorecase " ignore case when completing file names/directories
 " Show all candidates
-cnoremap <M-a> <C-d>
+cnoremap <C-Tab> <C-d>
 " Make a command(e.g. `:h ...`) split vertically or in a new tab.
 cnoremap <M-w>v <C-\>e'vert '.getcmdline()<CR><CR>
 cnoremap <M-w>t <C-\>e'tab '.getcmdline()<CR><CR>
