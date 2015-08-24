@@ -659,6 +659,7 @@ autocmd vimrc FileType gitcommit,markdown,txt setlocal spell
 if v:version == 704 && has('patch088') || v:version > 704
   set spelllang+=cjk " skip spell check for East Asian characters
 endif
+set spellfile=~/.vim/spell/en.utf-8.add
 " Clean up spell files
 command! SpellCleanup silent runtime spell/cleanadd.vim
 
