@@ -24,8 +24,9 @@ done
 slink $VISH/vimrc $HOME/.nvimrc
 
 # Include spell related files(mostly static and large)
-if [[ ! -d $VISH/spell ]]; then
-    git clone git@git.coding.net:bohrshaw/vish-spell.git $VISH/spell &
+if [[ ! -d $VISH/spell/.git ]]; then
+  [[ -d $VISH/spell ]] && mv $VISH/spell $VISH/spell.bak
+  git clone git@git.coding.net:bohrshaw/vish-spell.git $VISH/spell &
 fi
 
 # Sync bundles
