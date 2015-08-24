@@ -98,7 +98,8 @@ command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
       \ inoremap <args>
 
 " Execute a remapped key in its un-remapped(vanilla) state
-NXOnoremap <expr>\\ nr2char(getchar())
+noremap <expr><M-\> nr2char(getchar())
+noremap! <expr><M-\> nr2char(getchar())
 " Execte a global key shadowed by the same local one
 nnoremap <silent>g\ :call <SID>gmap('n')<CR>
 xnoremap <silent>g\ :<C-u>call <SID>gmap('x')<CR>
@@ -720,12 +721,12 @@ inoremap <M-b> <S-Left>
 " Move the cursor around one WORD
 inoremap <M-F> <C-o>W
 inoremap <M-B> <C-o>B
-" Delete one word (won't break undo)
-inoremap <M-BS> <C-c>lcb
-" (hack for cursor at column 1)
+" Delete one word (across lines) (won't break undo)
+" Builtin <C-w> or <C-u> stops once at the start position of insert.
+inoremap <M-BS> <C-w>
 inoremap <M-d> <Space><C-c>ce
 " Delete one WORD
-inoremap <C-w> <C-c>lcB
+inoremap <C-w> <Space><C-c>cvB
 inoremap <M-D> <Space><C-c>cE
 
 " Word like motions in Command mode differs that in Insert mode. They're more
@@ -765,15 +766,15 @@ inoremap <C-A> <C-O>^
 cnoremap <C-A> <Home>
 inoremap <C-E> <End>
 " Delete all before the cursor (won't break undo)
-inoremap <expr><C-u> "<C-c>cv".
-      \(search('^\s\+\%#', 'bn', line('.')) > 0 ? '0' : '^')
+inoremap <expr><C-u> "<Space><C-c>cv".
+      \(search('^\s*\%#', 'bnc', line('.')) > 0 ? '0' : '^')
 cnoremap <expr><C-u> <SID>c_u()
 function! s:c_u() " {{{
   let @- = getcmdline()[:getcmdpos()-2]
   return "\<C-U>"
 endfunction " }}}
 " Delete all after the cursor
-inoremap <C-k> <C-c>lC
+inoremap <C-k> <Space><C-c>C
 cnoremap <expr><C-k> <SID>c_k()
 function! s:c_k() " {{{
   let @- = getcmdline()[getcmdpos()-1:]
