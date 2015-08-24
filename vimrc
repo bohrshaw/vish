@@ -723,11 +723,11 @@ inoremap <M-F> <C-o>W
 inoremap <M-B> <C-o>B
 " Delete one word (across lines) (won't break undo)
 " Builtin <C-w> or <C-u> stops once at the start position of insert.
-inoremap <M-BS> <C-w>
-inoremap <M-d> <Space><C-c>ce
+inoremap <M-BS> <Space><C-c>"_x"-cb
+inoremap <M-d> <Space><C-c>"_x"-ce
 " Delete one WORD
-inoremap <C-w> <Space><C-c>cvB
-inoremap <M-D> <Space><C-c>cE
+inoremap <C-w> <Space><C-c>"_x"-cB
+inoremap <M-D> <Space><C-c>"_x"-cE
 
 " Word like motions in Command mode differs that in Insert mode. They're more
 " like in Shells so that less motions are needed to go to a specific position,
@@ -766,7 +766,7 @@ inoremap <C-A> <C-O>^
 cnoremap <C-A> <Home>
 inoremap <C-E> <End>
 " Delete all before the cursor (won't break undo)
-inoremap <expr><C-u> "<Space><C-c>cv".
+inoremap <expr><C-u> "<Space><C-c>\"_xc".
       \(search('^\s*\%#', 'bnc', line('.')) > 0 ? '0' : '^')
 cnoremap <expr><C-u> <SID>c_u()
 function! s:c_u() " {{{
@@ -774,7 +774,7 @@ function! s:c_u() " {{{
   return "\<C-U>"
 endfunction " }}}
 " Delete all after the cursor
-inoremap <C-k> <Space><C-c>C
+inoremap <C-k> <Space><C-c>"_xC
 cnoremap <expr><C-k> <SID>c_k()
 function! s:c_k() " {{{
   let @- = getcmdline()[getcmdpos()-1:]
