@@ -360,14 +360,16 @@ nnoremap <silent>cof :let &foldmethod = tolower(matchstr(
       \','.nr2char(getchar()).'\zs\a*\C'))\|set foldmethod<CR>
 nmap <silent>zfm cof
 
-" Don't screw up folds when inserting text that might affect them.
-" Also improve speed by avoiding updating expensive folds eagerly.
-" http://vim.wikia.com/wiki/Keep_folds_closed_while_inserting_text
-autocmd vimrc InsertEnter * if &foldmethod != 'manual' &&
-      \empty(&buftype) && !exists('w:fdm_last') |
-      \let w:fdm_last=&foldmethod | set foldmethod=manual | endif
-autocmd vimrc InsertLeave,WinLeave * if exists('w:fdm_last') && empty(&buftype) |
-      \let &foldmethod=w:fdm_last | unlet w:fdm_last | endif
+" Don't screw up folds when inserting text that might affect them. Also improve
+" speed by avoiding updating folds eagerly.
+" autocmd vimrc InsertEnter * if !exists('w:vfdml') &&
+"       \ &foldmethod != 'manual' && empty(&buftype) |
+"       \ let w:vfdml=&foldmethod | set foldmethod=manual | endif
+" However, restoring 'foldmethod' on InsertLeave would cause text under the
+" cursor be closed if the inserted text creates a new fold level.
+" autocmd vimrc InsertLeave * if exists('w:vfdml') && empty(&buftype) |
+"       \ let &foldmethod=w:vfdml | unlet w:vfdml |
+"       \ execute 'silent! normal! zo' |endif
 
 " }}}
 " Content:" {{{
