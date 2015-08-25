@@ -1249,14 +1249,28 @@ if !has('win32') && Bundles('tpope/vim-tbone', 'wellle/tmux-complete.vim')
   let g:tmuxcomplete#trigger = '' " completefunc, omnifunc, or empty
 endif
 
-" Implement transparent editing of gpg encrypted files
-if Dundles('jamessan/vim-gnupg') " a huge plugin file
+" Transparent editing of GPG encrypted files
+if Bundle('Jamessan/vim-gnupg', {'f': '*.{gpg,asc,pgp}'})
+  " For maximum privacy, I'd better edit in a standalone Vim instance with
+  " minimum number of bundles.
+  command! -nargs=? -complete=command GPG
+        \ B! gvim --cmd 'let l=1' -c 'BundleRun vim-gnupg' -c '<args>'
+  " If I would be careful enough or am not concerned with the encrypted file,
+  " it's fine to edit within the current Vim instance. But ensure 'viminfo' is
+  " restored afterwards. 'viminfo' stores info in the whole session even is it's
+  " reset for some time.
+  if !g:l
+    autocmd bundle BufDelete *.{gpg,asc,pgp} let &viminfo = _viminfo
+  endif
   let g:GPGDefaultRecipients = ['Bohr Shaw']
-  command! -bar GPGEnable call BundleRun('vim-gnupg')
-  command! GPGDone let &viminfo = _viminfo
-  command! Diary execute (exists("g:loaded_gnupg") ? '' : 'GPGEnable|').
-        \ 'silent e '.get(g:, 'DIARY_PATH', '').strftime('%Y%m%d').'.gpg|'.
-        \ 'silent! wincmd c|setlocal nolinebreak|Goyo|normal <F11>'
+
+  " For writing encrypted diaries
+  command! -nargs=? -complete=file Diary
+        \ if !exists("g:loaded_gnupg") |BundleRun vim-gnupg |endif |
+        \ execute 'edit' fnamemodify(get(g:, 'DIARY_PATH', ''), ':p').
+        \   (empty(<q-args>) ? strftime('%Y%m%d') : <q-args>).'.gpg'
+  autocmd bundle BufNewFile,BufReadPost */diar{y,ies}/*.{gpg,asc,pgp}
+        \ setlocal nolinebreak spell spelllang=en,cjk
 endif
 
 " Translation

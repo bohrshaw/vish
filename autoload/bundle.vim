@@ -6,7 +6,7 @@ command! BundleInject call rtp#inject('bundle',
       \ map(g:bundles, 'v:val[stridx(v:val,"/")+1:]'))
 
 " Activate a bundle by sourcing its related files
-command! -nargs=1 -complete=file BundleRun call BundleRun(<q-args>)
+command! -nargs=1 -complete=file -bar BundleRun call BundleRun(<q-args>)
 
 " Call this function to source this file
 function! bundle#init()
@@ -14,6 +14,8 @@ function! bundle#init()
   let g:dundles = [] " bundles to be downloaded
 endfunction
 
+" Load bundle on demands.
+" Note: Auto-commands may not be executed until e.g. the file is reedited.
 function! Bundle(...)
   if s:bundle_enabled(a:1)
     let bundle_cmd = 'call BundleRun('.string(a:1).')'
