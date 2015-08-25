@@ -10,8 +10,6 @@ command! -nargs=1 -complete=file BundleRun call BundleRun(<q-args>)
 
 " Call this function to source this file
 function! bundle#init()
-  " Define an auto-group for bundle activation
-  execute 'augroup bundling | augroup END'
   let g:bundles = [] " bundles activated on startup
   let g:dundles = [] " bundles to be downloaded
 endfunction
@@ -47,9 +45,10 @@ function! Bundle(...)
       let pat = a:2['f']
       let event_pat = pat =~ '[*.]' ?
             \ 'BufNewFile,BufReadPre '.pat : 'FileType '.pat
-      " One time autocmd
-      execute 'autocmd bundling '.event_pat.' '.bundle_cmd.
-            \ '|autocmd! bundling '.event_pat
+      execute 'augroup bundle'.s:augroup_count.'|augroup END'
+      execute 'autocmd bundle'.s:augroup_count event_pat bundle_cmd
+            \ '|autocmd! bundle'.s:augroup_count
+      let s:augroup_count += 1
     endif
     return 1
   endif
@@ -110,5 +109,7 @@ function! s:uniqadd(list, item)
     call add(a:list, a:item)
   endif
 endfunction
+
+let s:augroup_count = get(s:, 'augroup_count', 1)
 
 " vim:foldmethod=expr foldexpr=getline(v\:lnum)=~#'^fu'?'a1'\:getline(v\:lnum)=~#'^endf'?'s1'\:'=':
