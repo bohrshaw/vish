@@ -900,9 +900,8 @@ set numberwidth=3 " minimal number(2) of columns to use for the line number
 if has('vim_starting')
   if has('gui_running')
     let &guifont = has('win32') ? 'Consolas:h10' : 'Consolas 10'
-    if g:l
-      set lines=40 columns=88
-    else " maximize the window
+    set lines=40 columns=88
+    if !g:l " maximize the window
       if has('win32')
         autocmd vimrc GUIEnter * simalt ~x
       else
