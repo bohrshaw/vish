@@ -1104,7 +1104,7 @@ if Bundles('bohrshaw/vimproc.vim', '-shougo/vimproc.vim')
   command! -nargs=+ -complete=shellcmd R VimProcRead <args>
 endif
 
-" A powerful shell implemented in Vim Script
+" Shells inside Vim
 if has('nvim')
   " Manage multiple shells
   command! -nargs=? Shell call <SID>shell('<args>')
@@ -1130,7 +1130,10 @@ if has('nvim')
   nnoremap <Leader>bs :Unite -input=term:/\ zsh\|bash\  buffer<CR>
 elseif Bundles('shougo/vimshell.vim', 'bohrshaw/vimproc.vim')
   nnoremap <M-s> :<C-U>VimShell<CR>
-  autocmd bundle FileType vimshell NXInoremap <buffer><silent><M-a> <Esc>:sil b#<CR>
+  let g:vimshell_split_command = 'split'
+  let g:vimshell_prompt = '% '
+  let g:vimshell_secondary_prompt = '> '
+  let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
 endif
 
 " The interface to Web API

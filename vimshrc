@@ -1,0 +1,31 @@
+# Aliases to internal commands
+
+alias .=vimsh
+alias a=alias
+alias wi=which
+alias v=vim
+alias s=sudo
+galias L=less
+
+alias d=cd
+alias gd=gcd
+alias po=popd
+alias pu=cd
+alias mdd=mkcd
+
+alias l='ls -CF'
+alias la='ls -ACF'
+alias ll='ls -l'
+alias lh='ls -lh'
+alias lla='ls -lA'
+
+# Aliases to external commands
+
+alias md=mkdir
+alias rd=rmdir
+
+alias ge=grep
+alias g=git
+alias gs='git status'
+alias va=vagrant
+alias t=tmux
