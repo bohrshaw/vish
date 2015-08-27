@@ -640,7 +640,7 @@ function! s:repeat_macro(...) " {{{
   endwhile
 endfunction " }}}
 " Record and execute a recursive macro
-nnoremap <silent>Q :call <SID>rec_macro()<CR>
+nnoremap <silent>9q :call <SID>rec_macro()<CR>
 function! s:rec_macro() " {{{
   let r = v#getchar()
   if empty(r) | return | endif
