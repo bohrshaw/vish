@@ -69,9 +69,9 @@ func main() {
 func syncBundle(bundle *string) {
 	path := root + "/" + strings.Split(*bundle, "/")[1]
 	_, err := os.Stat(path)
-	path_exist := !os.IsNotExist(err)
+	pathExist := !os.IsNotExist(err)
 
-	if path_exist && !*update {
+	if pathExist && !*update {
 		return
 	}
 
@@ -81,7 +81,7 @@ func syncBundle(bundle *string) {
 	cmdpath, _ := exec.LookPath("git")
 	cmd := &exec.Cmd{Path: cmdpath}
 
-	if !path_exist {
+	if !pathExist {
 		// Clone the repository
 		cmd.Args = []string{"git", "clone", "--depth", "1", "--recursive", "--quiet", url, path}
 		cmd.Run()
