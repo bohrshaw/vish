@@ -77,8 +77,6 @@ function! s:move(cmd, count) abort
 endfunction
 nnoremap <silent>]d :call search('\cto-\?do:', 's')<CR>
 nnoremap <silent>[d :call search('\cto-\?do:', 'sb')<CR>
-nnoremap <silent>[m :set modified<CR>
-nnoremap <silent>]m :set nomodified<CR>
 nnoremap <silent>[r :set readonly<CR>
 nnoremap <silent>]r :set noreadonly<CR>
 nnoremap <silent>coh :let v:hlsearch = !v:hlsearch<CR>
