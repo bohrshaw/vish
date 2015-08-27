@@ -40,9 +40,9 @@ function! s:bundle_map()
 endfunction
 
 " Debugging
-command! -nargs=? -complete=command VimNORC execute 'Start'
+command! -nargs=? -complete=command VimNORC execute 'B!'
       \ empty(<q-args>) ? expand(exepath(v:progpath)) : <q-args>
-      \ '-Nu NORC --cmd "set rtp-=~/.vim|filetype plugin indent on|syntax enable"'
+      \ '-u' expand('~/.vim/vimrc.min')
 " Profiling
 command! -nargs=? -complete=command StartupTime execute 'B!'
       \ empty(<q-args>) ? expand(exepath(v:progpath)) : <q-args>
