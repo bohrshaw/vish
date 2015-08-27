@@ -574,8 +574,8 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
   " The key <M-b> prefixes all mappings related to 'internal' contents
   nnoremap <silent><M-b>l :Unite -buffer-name=buffer buffer<CR>
   nmap <M-b>o <M-b>l
-  nnoremap <silent><M-b>L :Unite -direction=above -prompt-direction=above -no-quit line<CR>
-  nnoremap <silent><M-b>O :Unite -direction=above -prompt-direction=above -no-quit outline<CR>
+  nnoremap <silent><M-b>L :Unite -direction=above -prompt-direction=above line<CR>
+  nnoremap <silent><M-b>O :Unite -direction=above -prompt-direction=above outline<CR>
   nnoremap <silent><M-b>j :Unite jump<CR>
   nnoremap <silent><M-b>c :Unite change<CR>
   nnoremap <silent><M-b>r :Unite register<CR>
