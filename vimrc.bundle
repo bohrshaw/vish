@@ -344,6 +344,7 @@ if Bundles('Tpope/vim-surround')
   xmap s      <Plug>VSurround|xnoremap S s
   xmap gs     <Plug>VgSurround
   " :help i_CTRL-G_s
+  imap <M-s>  <Plug>Isurround
   imap <C-s>  <Plug>Isurround
   imap <M-g>s <Plug>ISurround
 
