@@ -128,7 +128,14 @@ command! -bar -nargs=1 Echow echohl WarningMsg | echo <args> | echohl None
 command! -nargs=* Nop :
 " }}}
 " Shortcuts:" {{{
-" Enter the command line:" {{{
+" Escape
+inoremap <M-i> <Esc>
+if has('nvim')
+  tnoremap <M-i> <C-\><C-N>
+endif
+inoremap <M-o> <C-O>
+
+" Enter the command line
 NXnoremap <Space> :
 inoremap <M-Space> <Esc>:
 inoremap <M-e> <Esc>:
@@ -151,35 +158,31 @@ cnoremap <M-e> <C-F>
 autocmd vimrc CmdwinEnter * noremap <buffer> <F5> <CR>q:|
       \ NXInoremap <buffer> <nowait> <CR> <CR>|
       \ NXInoremap <buffer> <M-q> <C-c><C-c>
-" }}}
-" Escape:" {{{
-inoremap <M-i> <Esc>
-if has('nvim')
-  tnoremap <M-i> <C-\><C-N>
-endif
-inoremap <M-o> <C-O>
-" }}}
+
 " Yank till the line end instead of the whole line
 nnoremap Y y$
+
 " Character-wise visual mode
 nnoremap vv ^vg_
 nnoremap vV vg_
+
 " quick access to GUI/system clipboard
 NXnoremap "<Space> "+
+
+" Copy from the command line
+cabbrev <expr>c getcmdtype() == ':' && getcmdpos() == 2 ? 'copy' : 'c'
+
 " Access to the black hole register
 NXnoremap _ "_
-" Run a command with a bang(!):" {{{
-" For the current command
+
+" Run the current command with a bang(!)
 cnoremap <M-1> <C-\>e<SID>insert_bang()<CR><CR>
-" For the last command
+" Run the last command with a bang
 nnoremap @! :<Up><C-\>e<SID>insert_bang()<CR><CR>
-function! s:insert_bang()
+function! s:insert_bang() " {{{
   let [cmd, args] = split(getcmdline(), '\v(^\a+)@<=\ze(\A|$)', 1)
   return cmd.'!'.args
-endfunction
-" }}}
-" A temporary mapping provided to ease the habit transition, use `cl` instead
-nnoremap s<Space> s
+endfunction " }}}
 " }}}
 " Motion:" {{{
 set virtualedit=onemore " consistent cursor position on EOL
@@ -215,8 +218,8 @@ nnoremap <M-,> g,
 nnoremap <silent>g. :try\|execute 'normal! g,g;'\|
       \ catch\|execute 'normal! g,'\|endtry<CR>
 " Print the change list or mark list
-Abbr cabbr cs changes
-Abbr cabbr ms marks
+cabbrev <expr>cs getcmdtype() == ':' && getcmdpos() == 3 ? 'changes' : 'cs'
+cabbrev <expr>ms getcmdtype() == ':' && getcmdpos() == 3 ? 'marks' : 'ms'
 
 " Auto-place the cursor when switching buffers or files:" {{{
 " Don't move the cursor to the start of the line when switching buffers
@@ -239,8 +242,8 @@ set smartcase " case sensitive only when up case characters present
 xnoremap sv :s/\%V
 " Substitute in a visual area (eat the for-expanding-space)
 " Hack: Use an expression to save a temporary value.
-Abbr cabbr <expr>sv 's/\%V'.
-      \ setreg('z', nr2char(getchar(0)))[1:0].(@z == ' ' ? '' : @z)
+cabbrev <expr>sv getcmdtype() == ':' && getcmdpos() =~ '[38]' ?
+      \ 's/\%V'.setreg('z', nr2char(getchar(0)))[1:0].(@z == ' ' ? '' : @z) : 'sv'
 " }}}
 " Grep:" {{{
 if executable('ag')
@@ -331,6 +334,7 @@ if has('nvim')
   tnoremap <M-w> <C-\><C-n><C-w>
   tnoremap <M-j> <C-\><C-n><C-w>w
   tnoremap <M-k> <C-\><C-n><C-w>W
+  cabbrev <expr>t getcmdtype() == ':' && getcmdpos() == 2 ? 'term' : 't'
   autocmd vimrc BufWinEnter,WinEnter term://* startinsert
   autocmd vimrc BufLeave term://* stopinsert
 endif
@@ -372,7 +376,7 @@ nmap <silent>zfm cof
 "       \ execute 'silent! normal! zo' |endif
 
 " }}}
-" Content:" {{{
+" Buffer:" {{{
 " Split a buffer in a vertical window or a new tab
 nnoremap <silent><M-b>d :bdelete<CR>
 nnoremap <silent><M-b>w :bwipeout<CR>
@@ -387,12 +391,13 @@ command! BufOnly let nc = bufnr('%') |let nl = bufnr('$') |
       \ nl > nc ? (nc+1).','.nl.'bdelete' : ''
 " Wipe out all unlisted buffers
 command! BwipeoutUnlisted call vimrc#bufffer_wipe_unlisted()
-Abbr cabbr vb vert sb
-Abbr cabbr tb tab sb
+cabbrev <expr>vb getcmdtype() == ':' && getcmdpos() == 3 ? 'vert sb' : 'vb'
+cabbrev <expr>tb getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sb' : 'tb'
 set autoread " auto-read a file changed outside of Vim
 " set autowrite " auto-write a modified file when switching buffers
 set hidden " hide a modified buffer without using '!' when it's abandoned
-
+" }}}
+" File:" {{{
 nnoremap <silent><M-f>w :write<CR>
 nnoremap <silent><M-f><M-f>w :write!<CR>
 nnoremap <silent><M-f>u :update<CR>
@@ -405,6 +410,7 @@ nnoremap <silent><M-f><M-f>A :windo update!<CR>
 inoremap <M-z> <Esc>ZZ
 nnoremap <silent><M-f>e :edit<CR>
 nnoremap <silent><M-f><M-f>e :edit!<CR>
+cabbrev <expr>te getcmdtype() == ':' && getcmdpos() == 3 ? 'tabe' : 'te'
 cnoremap <M-h> <C-r>=expand('%:h')<CR>/
 nnoremap <M-f>f :filetype detect<CR>
 nnoremap <M-f>F :silent! unlet b:did_ftplugin b:did_after_ftplugin<Bar>filetype detect<CR>
@@ -416,6 +422,12 @@ if has('nvim')
 endif
 nnoremap <silent><C-W><M-s> :sbuffer #<CR>
 nnoremap <silent><C-W><M-v> :vert sbuffer #<CR>
+
+" Find a file in 'path'
+cabbrev <expr>fi getcmdtype() == ':' && getcmdpos() == 3 ? 'find' : 'fi'
+cabbrev <expr>vf getcmdtype() == ':' && getcmdpos() == 3 ? 'vert sfind' : 'vf'
+cabbrev <expr>tf getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sfind' : 'tf'
+
 " Directories to search by `gf, :find, cd, lcd etc.`
 " (dir of the current file, current dir, etc.)
 setglobal path=.,,~,~/.vim,~/.vim/after
@@ -423,32 +435,37 @@ set cdpath=,,.,~
 if has('vim_starting') && 0 == argc() && has('gui_running') && !g:l
   cd $HOME
 endif
-" Open a destination file of a link:" {{{
+
+" Open a destination file of a link
 cnoremap <M-l> <C-\>e<SID>get_link_targets()<CR><CR>
-function! s:get_link_targets()
+function! s:get_link_targets() " {{{
   let [cmd; links] = split(getcmdline())
   for l in links
     let cmd .= ' '.fnamemodify(resolve(expand(l)), ':~:.')
   endfor
   return cmd
-endfunction
-" }}}
-" Easy access to vimrc files:" {{{
+endfunction " }}}
+
+" Easy access to vimrc files
 Abbr cabbr v ~/.vim/vimrc
 Abbr cabbr b ~/.vim/vimrc.bundle
 nnoremap <silent><M-f>v :Be ~/.vim/vimrc<CR>
 nnoremap <silent><M-f>b :Be ~/.vim/vimrc.bundle<CR>
-" }}}
+
 " Switch to a file without reloading it
 command! -nargs=1 -bang Be execute (buflisted(expand(<q-args>))?'b':
       \filereadable(expand(<q-args>))||<bang>0?'e':'Nop').' '.<q-args>
+
 " Make the file '_' a scratch buffer
 autocmd vimrc BufNewFile,BufReadPost _ set buftype=nofile nobuflisted bufhidden=hide
 autocmd vimrc SessionLoadPost * silent! bwipeout! _
+
 " Recognise a file's encoding in this order
 " set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1
+
 set fileformats=unix,dos,mac " end-of-line formats precedence
 set fileformat=unix " only for the initial unnamed buffer
+
 set nowritebackup " write to symbolic files safely on windows
 " }}}
 " Completion:" {{{
