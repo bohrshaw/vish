@@ -64,6 +64,8 @@ if has('vim_starting')
     set shellslash&
   endif
 endif " }}}
+
+set timeout ttimeout " Nvim has different defaults
 " set timeoutlen=3000 " mapping delay
 set ttimeoutlen=10 " key code delay (instant escape from Insert mode)
 " Deal with meta-key mappings:" {{{
@@ -76,6 +78,7 @@ if has('nvim')
 else
   runtime autoload/key.vim " mappable meta key in terminals
 endif " }}}
+
 if has('nvim') " skip python check to reduce startup time
   let [g:python_host_skip_check, g:python3_host_skip_check] = [1, 1]
 endif
