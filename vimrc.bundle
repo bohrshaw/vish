@@ -197,17 +197,20 @@ if BundlePath('Kana/vim-textobj-user')
         \ })
 endif
 
-" Text objects extended
-if Bundles('-wellle/targets.vim', 'kana/vim-textobj-indent',
-      \ 'gaving/vim-textobj-argument', '-b4winckler/vim-angry',
-      \ '-qstrahl/vim-dentures', 'tommcdo/vim-ninja-feet',
+" Text objects extended, more sensible, and corner cases handled
+" Cheatsheet: ~/.vim/bundle/targets.vim/cheatsheet.md
+if Dundles('Wellle/targets.vim') && Bundles('tommcdo/vim-ninja-feet',
+      \ '-gaving/vim-textobj-argument', '-b4winckler/vim-angry',
+      \ 'kana/vim-textobj-indent', '-qstrahl/vim-dentures',
       \ 'machakann/vim-textobj-delimited', 'coderifous/textobj-word-column.vim')
   " Delay activating this bundle to reduce startup time
-  set updatetime=10
-  augroup bundle_targets
-    autocmd CursorHold * call BundleRun("targets.vim") |
-          \ set updatetime& | autocmd! bundle_targets CursorHold
-  augroup END
+  if has('vim_starting')
+    set updatetime=10
+    augroup bundle_targets
+      autocmd CursorHold * call BundleRun("targets.vim") |
+            \ set updatetime& | autocmd! bundle_targets CursorHold
+    augroup END
+  endif
 endif
 
 " Search: {{{1
