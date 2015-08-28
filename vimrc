@@ -860,7 +860,7 @@ function! Vstatusline()
   set statusline+=%= " left/right separator
   set statusline+=%c:%l/%L:%P " cursor position, line percentage
 endfunction
-function! Vmode()
+function! Vmode() "{{{
   let mode = mode()
   if mode ==# 'i'
     return 'INS'
@@ -876,20 +876,22 @@ function! Vmode()
     return toupper(mode)
   endif
   return ''
-endfunction
+endfunction "}}}
 set noshowmode " hide the mode message on the command line
 set fillchars+=stl::,stlnc:: " characters to fill the statuslines
 execute (has('vim_starting')?'autocmd vimrc VimEnter * ':'').'call Vstatusline()'
 
+" Status line highlight"{{{
 " Use a highlight group User{N} to apply only the difference to StatusLine to
 " StatusLineNC
-autocmd vimrc ColorScheme * hi User1
+autocmd vimrc ColorScheme *
+      \ hi User1
       \ term=bold cterm=bold ctermfg=123 ctermbg=233
       \ gui=bold guifg=#87FFFF guibg=#171717|
       \ hi User2
       \ term=bold cterm=bold ctermfg=226 ctermbg=233
-      \ gui=bold guifg=#FFFF00 guibg=#171717
-autocmd vimrc ColorScheme * hi StatusLine
+      \ gui=bold guifg=#FFFF00 guibg=#171717|
+      \ hi StatusLine
       \ term=bold cterm=bold ctermfg=40 ctermbg=233
       \ gui=bold guifg=#00d700 guibg=#171717 |
       \ hi StatusLineNC
@@ -897,10 +899,10 @@ autocmd vimrc ColorScheme * hi StatusLine
       \ gui=NONE guifg=#be7572 guibg=#171717 |
       \ hi! link TabLineSel StatusLine |
       \ hi! link TabLine StatusLineNC |
-      \ hi! link TabLineFill StatusLineNC |
+      \ hi! link TabLineFill StatusLineNC
 if !has('vim_starting')
   doautocmd vimrc ColorScheme *
-endif
+endif "}}}
 
 " The status line for the quickfix window
 autocmd vimrc FileType qf setlocal statusline=%t
@@ -913,9 +915,16 @@ set rulerformat=%50(%=%m%r%<%f%Y\ %c,%l/%L,%P%)
 let &showtabline = g:l ? 1 : 2
 " set tabline=
 set titlestring=%{getcwd()}
+
+" Make it easy to spot the cursor, especially for Gnome-terminal whose cursor
+" color is not distinguishable.
+set cursorline
+" set cursorcolumn
+
 " set number " print the line number in front of each line
 set relativenumber " show the line number relative to the current line
 set numberwidth=3 " minimal number(2) of columns to use for the line number
+
 " Font, color, window size:" {{{
 if has('vim_starting')
   if has('gui_running')

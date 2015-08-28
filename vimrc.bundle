@@ -743,6 +743,7 @@ if Bundles('Junegunn/seoul256.vim', 'Bohrshaw/vim-colors',
       \ '-flazz/vim-colorschemes', '-daylerees/colour-schemes/vim',
       \ '-chriskempson/vim-tomorrow-theme', 'Chriskempson/base16-vim')
   let g:seoul256_background = has('gui_running') ? 234 : 233
+
   let g:solarized_italic = 0
   let g:solarized_termcolors = &term =~ '256col' ? 256 : 16
   let g:solarized_menu=0
