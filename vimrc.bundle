@@ -94,19 +94,25 @@ nmap coP <Plug>unimpairedPaste
 " The missing motion for Vim
 if Bundles('-Justinmk/vim-sneak', 'Bohrshaw/vim-sneak')
   " Arbitrary precise motion
-  nnoremap <silent> L :call Sneak('', 0, 'n')<CR>
-  xnoremap <silent> L :call Sneak('', 0, 'v')<CR>
-  onoremap <silent> L :call Sneak('', 0, 'o')<CR>
-  nnoremap <silent> H :call Sneak('', 1, 'n')<CR>
-  xnoremap <silent> H :call Sneak('', 1, 'v')<CR>
-  onoremap <silent> H :call Sneak('', 1, 'o')<CR>
+  nnoremap <silent> L :<C-u>call Sneak('', 0, 'n')<CR>
+  xnoremap <silent> L :<C-u>call Sneak('', 0, 'v')<CR>
+  onoremap <silent> L :<C-u>call Sneak('', 0, 'o')<CR>
+  nnoremap <silent> H :<C-u>call Sneak('', 1, 'n')<CR>
+  xnoremap <silent> H :<C-u>call Sneak('', 1, 'v')<CR>
+  onoremap <silent> H :<C-u>call Sneak('', 1, 'o')<CR>
   " Within the current line
   NXOmap <expr>9f v#setvar('g:sneak#oneline', 1).'L'
   NXOmap <expr>8f v#setvar('g:sneak#oneline', 1).'H'
   function! Sneak(pattern, reverse, mode)
+    if a:mode =~# "^[vV\<C-v>]"
+      execute 'normal!' (v:count > 0 ? v:count : '').'gv'
+    endif
+    if v:count > 0
+      execute 'normal!' v:count.(a:reverse == 0 ? 'L' : 'H')
+      return
+    endif
     let c = v#getchar()
     if empty(c) |return |endif
-    if a:mode =~# "^[vV\<C-v>]" |execute 'normal! gv' |endif
     if empty(a:pattern)
       if c =~# '\v^(\d|\a)$' " to match a boundary
         let p = c =~# '\d' ? '\d' : (c =~# '\l' ? '\l' : '\u')
