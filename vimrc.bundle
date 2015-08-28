@@ -40,15 +40,18 @@ function! s:bundle_map()
 endfunction
 
 " Debugging
-command! -nargs=? -complete=command VimNORC execute 'B!'
+command! -nargs=? -complete=command VimNORC execute
+      \ v:progname.<q-args> =~ '^\S*gvim\s' ? "B!" : "Start"
       \ empty(<q-args>) ? expand(exepath(v:progpath)) : <q-args>
       \ '-u' expand('~/.vim/vimrc.min')
 " Profiling
-command! -nargs=? -complete=command StartupTime execute 'B!'
+command! -nargs=? -complete=command StartupTime execute
+      \ v:progname.<q-args> =~ '^\S*gvim\s' ? "B!" : "Start"
       \ empty(<q-args>) ? expand(exepath(v:progpath)) : <q-args>
       \ '--startuptime startup.log +qall!' |
       \ tab drop startup.log
-command! -nargs=? -complete=command Profile execute 'B!'
+command! -nargs=? -complete=command Profile execute
+      \ v:progname.<q-args> =~ '^\S*gvim\s' ? "B!" : "Start"
       \ empty(<q-args>) ? expand(exepath(v:progpath)) : <q-args>
       \ '--cmd "profile start '.getcwd().'/profile.log | profile file *"'
       \ '-c "profdel file * | qall!"' |
