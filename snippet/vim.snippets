@@ -1,6 +1,6 @@
-snippet fun "function with auto-prefixed name" b
-function! ${1:`!v expand('%') =~# 'autoload' ? matchstr(expand('%:p'), 'autoload[/\\]\zs.*\ze\.vim').'#' : ''`${2:function_name}}(${3:args})
-	$4
+snippet f "function with auto-prefixed name" b
+function! `!v matchstr(substitute(expand('%:p'), '[/\\]\|\.vim$', '#', 'g'), '#autoload#\zs.*')`${1:function_name}(${2:args})
+	$0
 endfunction
 endsnippet
 
