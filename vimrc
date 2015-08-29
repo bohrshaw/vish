@@ -7,7 +7,6 @@
 "
 " Author: Bohr Shaw <pubohr@gmail.com>
 
-" Fundamental:" {{{
 " Comments:" {{{
 " Be: healthy, stable, efficient, consistent, intuitive, convenient, accessible!
 
@@ -29,12 +28,9 @@
 " <C-J> is the same as <C-j>, use <C-S-j> instead.
 
 " }}}
-" Define an augroup for all autocmds in this file and empty it:" {{{
-augroup vimrc
-  autocmd!
-augroup END
-" }}}
-" Vim Starting:" {{{
+" Starting:" {{{
+" Define an augroup for all autocmds in this file and empty it
+augroup vimrc | execute 'autocmd!' | augroup END
 if has('vim_starting')
   set all& " override system vimrc and cmdline options like --noplugin
   set nocompatible " make Vim behave in a more useful way
@@ -44,13 +40,28 @@ if has('vim_starting')
         \(empty($TMPPREFIX)?'/tmp/zsh':$TMPPREFIX).'ecl\|'.$TMP.'/bash-fc'
 
   set rtp^=$HOME/.vim rtp+=$HOME/.vim/after " be portable
+
   if has('gui_running') || $termencoding ==? 'utf-8'
     set encoding=utf-8 " used inside Vim, allow mapping with the ALT key
   endif
 
-  let $MYVIMRCPRE = expand('~/.vimrc.pre')
-  if filereadable($MYVIMRCPRE)
-    execute 'silent source' $MYVIMRCPRE
+  set timeout ttimeout " Nvim has different defaults
+  " set timeoutlen=3000 " mapping delay
+  set ttimeoutlen=10 " key code delay (instant escape from Insert mode)
+  " Deal with meta-key mappings:" {{{
+  if has('nvim')
+    " Map meta-chords to esc-sequences in terminals
+    for c in map(range(33, 123) + range(125, 126), 'nr2char(v:val)')
+      execute 'tnoremap '.'<M-'.c.'> <Esc>'.c
+    endfor
+    tnoremap <M-\|> <Esc>\|
+    tnoremap <M-CR> <Esc><CR>
+  else
+    runtime autoload/key.vim " mappable meta key in terminals
+  endif " }}}
+
+  if has('nvim') " skip python check to reduce startup time
+    let [g:python_host_skip_check, g:python3_host_skip_check] = [1, 1]
   endif
 
   if has('win32')
@@ -63,26 +74,12 @@ if has('vim_starting')
     " Troublesomely, 'unite', 'vimproc' have problems when it's not set.
     set shellslash&
   endif
-endif " }}}
 
-set timeout ttimeout " Nvim has different defaults
-" set timeoutlen=3000 " mapping delay
-set ttimeoutlen=10 " key code delay (instant escape from Insert mode)
-" Deal with meta-key mappings:" {{{
-if has('nvim')
-  " Map meta-chords to esc-sequences in terminal
-  for c in split("abcdefghijklmnopqrstuvwxyz,./;'[]\\-=`", '\zs')
-    execute 'tnoremap '.'<M-'.c.'> <Esc>'.c
-  endfor
-  tnoremap <M-CR> <Esc><CR>
-else
-  runtime autoload/key.vim " mappable meta key in terminals
+  let $MYVIMRCPRE = expand('~/.vimrc.pre')
+  if filereadable($MYVIMRCPRE)
+    execute 'silent source' $MYVIMRCPRE
+  endif
 endif " }}}
-
-if has('nvim') " skip python check to reduce startup time
-  let [g:python_host_skip_check, g:python3_host_skip_check] = [1, 1]
-endif
-" }}}
 " Meta:" {{{
 " let mapleader = "\r" " replace <Leader> in a map
 let maplocalleader = "\t" " replace <LocalLeader> in a map
