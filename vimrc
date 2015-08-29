@@ -40,7 +40,7 @@ if has('vim_starting')
   set nocompatible " make Vim behave in a more useful way
 
   " Whether to include the least number of bundles, for shell command line editing
-  let g:l = get(g:, 'l') || argv(0) =~# '^\V'.
+  let g:l = get(g:, 'l', $VL) || argv(0) =~# '^\V'.
         \(empty($TMPPREFIX)?'/tmp/zsh':$TMPPREFIX).'ecl\|'.$TMP.'/bash-fc'
 
   set rtp^=$HOME/.vim rtp+=$HOME/.vim/after " be portable
