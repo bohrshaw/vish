@@ -62,6 +62,6 @@ endfunction
 
 " Pre-bind <M-a..z> <M-A..Z>
 for i in map(range(26), 'nr2char(97 + v:val)') +
-      \ map(range(26), 'nr2char(65 + v:val)') + ['\', ']']
+      \ map(range(26), 'nr2char(65 + v:val)') + ['\', '[', ']']
   call s:bind(i)
 endfor
