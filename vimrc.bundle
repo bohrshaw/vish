@@ -359,6 +359,11 @@ if Bundles('Tpope/vim-surround')
   " :help i_CTRL-G_s
   imap <M-s>  <Plug>Isurround
   imap <M-g>s <Plug>ISurround
+  cnoremap <expr><M-s> <SID>csurround()
+  function! s:csurround()
+    let cs = matchstr(['()b', '[]r', '{}B', '<>a', '""', "''", '``'], v#getchar(1, 1))[:1]
+    return empty(cs) ? '' : cs."\<Left>"
+  endfunction
 
   " Surround replacements
   let g:surround_101 = " \r " " e(empty) as <Space>
