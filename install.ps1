@@ -55,7 +55,7 @@ if (-not (Test-Path $VISH\spell\.git -PathType Container)) {
 
 # Sync bundles
 if (Get-Command "go.exe" -ErrorAction SilentlyContinue) {
-    Invoke-Expression "go run $VISH\bin\src\vundle\vundle.go"
+    Invoke-Expression "go run $VISH\src\vundle\vundle.go"
 } else {
     Invoke-Expression "ruby $VISH\bin\bundle.rb"
 }

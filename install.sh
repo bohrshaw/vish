@@ -31,7 +31,7 @@ fi
 
 # Sync bundles
 if hash go &>/dev/null; then
-  go run $VISH/bin/src/vundle/vundle.go
+  go run $VISH/src/vundle/vundle.go
 else
   $VISH/bin/vundle.rb
 fi

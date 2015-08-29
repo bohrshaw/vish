@@ -13,3 +13,4 @@
 /neovimfs/
 /*.log
 *.exe
+/src/vundle/vundle
