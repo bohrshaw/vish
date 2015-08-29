@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# Build native components of bundles
+
+cd ~/.vim/bundle
+
+sd() { [[ -d "$1" ]] && cd "$1"; }
+
+if sd youcompleteme; then
+pkgs="build-essential cmake python-dev"
+for p in $pkgs; do
+  dpkg -s "$p" &>/dev/null || sudo apt-get -y install "$p"
+done
+./install.sh --gocode-completer # --clang-completer
+fi
+
+if sd vim-go; then
+  git clone --depth 1 git://github.com/golang/tools.git "$GOPATH"/src/golang.org/x/tools
+  [[ -n $TMUX ]] && vim='tmux new-window -d vim' || vim=gvim
+  $vim -c 'execute "GoInstallBinaries"|qall!' &
+fi
+
+if sd go-explorer/src/getool; then
+go install
+fi
