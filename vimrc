@@ -837,6 +837,7 @@ execute 'set listchars=tab:'.s:lcs[0].'\ ,trail:'.s:lcs[1]
 execute 'autocmd vimrc InsertEnter * set listchars-=trail:'.s:lcs[1]
 execute 'autocmd vimrc InsertLeave * set listchars+=trail:'.s:lcs[1]
 " }}}
+
 " Status line(I name it as "Starline"):" {{{
 set laststatus=2 " always display the status line
 " Ensure all plugins are loaded before setting 'statusline'
@@ -909,9 +910,10 @@ autocmd vimrc FileType qf setlocal statusline=%t
 set ruler " not effective when 'statusline' is set
 set rulerformat=%50(%=%m%r%<%f%Y\ %c,%l/%L,%P%)
 " }}}
+
 let &showtabline = g:l ? 1 : 2
-" set tabline=
-set titlestring=%{getcwd()}
+autocmd vimrc VimEnter * let &titlestring = v:servername.
+      \ (g:l ? '(L)' : '').' '.'%{getcwd()}'
 
 " Make it easy to spot the cursor, especially for Gnome-terminal whose cursor
 " color is not distinguishable.

@@ -768,9 +768,10 @@ autocmd bundle VimEnter * nested execute 'silent color'
 if Bundles('tpope/vim-flagship')
   " Tabline
   let g:tabprefix = '%1*'.
-        \(has('nvim') ? matchstr(v:servername, 'nvim.*') : '%{v:servername}').
-        \(empty($SSH_TTY) ? '': '@'.hostname()).
-        \'%*'
+        \ (has('nvim') ? matchstr(v:servername, 'nvim.*') : '%{v:servername}').
+        \ (g:l ? '(L)' : '').
+        \ (empty($SSH_TTY) ? '': '@'.hostname()).
+        \ '%*'
   let g:tabsuffix = "%1*%{Vmode()}%*"
   " Statusline (leave untouched)
   if has('vim_starting')
