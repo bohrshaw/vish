@@ -310,6 +310,7 @@ nmap <silent><C-w>Q <M-Q>
 
 " Maxmize the current window by duplicate it in a new tab
 nnoremap <silent><C-w><M-t> <C-w>s<C-w>T
+nnoremap <silent><C-w><C-t> <C-w>s<C-w>T
 " Maxmize the current window or restore the previously window layout
 nnoremap <silent><C-w>O :call <SID>win_toggle()<CR>
 function! s:win_toggle() " {{{
