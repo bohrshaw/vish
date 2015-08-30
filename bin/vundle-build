@@ -2,9 +2,7 @@
 
 # Build native components of bundles
 
-cd ~/.vim/bundle
-
-sd() { [[ -d "$1" ]] && cd "$1"; }
+sd() { [[ -d "$1" ]] && cd ~/.vim/bundle/"$1"; }
 
 if sd youcompleteme; then
 pkgs="build-essential cmake python-dev"
