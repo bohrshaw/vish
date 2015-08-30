@@ -3,10 +3,11 @@ if exists("b:did_after_ftplugin")
 endif
 let b:did_after_ftplugin = 1
 
-nmap     <buffer>Rr <Plug>(go-run)
-nnoremap <buffer>RR :GoRun<CR>
-nmap     <buffer>Rb <Plug>(go-build)
-nnoremap <buffer>RB :GoBuild<CR>
+" See existing mappings and commands in ~/.vim/bundle/vim-go/ftplugin/go/commands.vim
+
+nmap     <buffer><expr>Rr ":GoRun".(g:go_jump_to_error ? '' : '!')." %<CR>"
+nmap     <buffer><expr>RR ":GoRun".(g:go_jump_to_error ? '' : '!')."<CR>"
+nmap     <buffer>Rb       <Plug>(go-build)
 
 nnoremap <buffer>Rf :GoFmt<CR>
 nnoremap <buffer>Ri :GoImports<CR>
