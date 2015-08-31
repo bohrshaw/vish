@@ -330,22 +330,27 @@ nnoremap <silent><C-w>e :<C-u>execute 'buffer '.winbufnr(v:count1).'\|'
 " Attach the current window bellow the last windows with the same width
 nnoremap <silent><C-w>a :execute 'close\|$wincmd w\|belowright sbuffer '.bufnr('')<CR>
 
+cabbrev <expr>v getcmdtype() == ':' && getcmdpos() == 2 ? 'vert' : 'v'
+cabbrev <expr>t getcmdtype() == ':' && getcmdpos() == 2 ? 'tab' : 't'
+
 " Deal with terminal buffers
 if has('nvim')
   tnoremap <M-w> <C-\><C-n><C-w>
   tnoremap <M-j> <C-\><C-n><C-w>w
   tnoremap <M-k> <C-\><C-n><C-w>W
-  cabbrev <expr>t getcmdtype() == ':' && getcmdpos() == 2 ? 'term' : 't'
+  cabbrev <expr>st getcmdtype() == ':' && getcmdpos() == 3 ? 'new\|te' : 'st'
+  cabbrev <expr>vt getcmdtype() == ':' && getcmdpos() == 3 ? 'vne\|te' : 'vt'
+  cabbrev <expr>tt getcmdtype() == ':' && getcmdpos() == 3 ? 'tab new\|te' : 'tt'
   autocmd vimrc BufWinEnter,WinEnter term://* startinsert
   autocmd vimrc BufLeave term://* stopinsert
 endif
-
+" }}}
+" Fold: "{{{
 " Focus on a region using manual folding (mnemonic: pick)
 nnoremap <silent>zp :set operatorfunc=<SID>fold_others<CR>g@
 xnoremap <silent>zp :<C-u>call <SID>fold_others()<CR>
 nnoremap <silent>zP :call <SID>fold_restore()<CR>
-" {{{
-function! s:fold_others(...)
+function! s:fold_others(...) " {{{
   let [line1, line2] = a:0 == 1 ? ["'[", "']"] : ["'<", "'>"]
   let b:fold_opts = [&fdm, &fdl, &fde]
   set fde=0 fdm=expr | redraw " disable existing folding
@@ -356,8 +361,7 @@ function! s:fold_restore()
   normal! zE
   let [&fdm, &fdl, &fde] = b:fold_opts
   normal! zvzz
-endfunction
-" }}}
+endfunction " }}}
 
 " Toggle fold methods
 nnoremap <silent>cof :let &foldmethod = tolower(matchstr(
@@ -375,8 +379,7 @@ nmap <silent>zfm cof
 " autocmd vimrc InsertLeave * if exists('w:vfdml') && empty(&buftype) |
 "       \ let &foldmethod=w:vfdml | unlet w:vfdml |
 "       \ execute 'silent! normal! zo' |endif
-
-" }}}
+"}}}
 " Buffer:" {{{
 " Split a buffer in a vertical window or a new tab
 nnoremap <silent><M-b>d :bdelete<CR>
@@ -411,7 +414,6 @@ nnoremap <silent><M-f><M-f>A :windo update!<CR>
 inoremap <M-z> <Esc>ZZ
 nnoremap <silent><M-f>e :edit<CR>
 nnoremap <silent><M-f><M-f>e :edit!<CR>
-cabbrev <expr>te getcmdtype() == ':' && getcmdpos() == 3 ? 'tabe' : 'te'
 cnoremap <M-h> <C-r>=expand('%:h')<CR>/
 nnoremap <M-f>f :filetype detect<CR>
 nnoremap <M-f>F :silent! unlet b:did_ftplugin b:did_after_ftplugin<Bar>filetype detect<CR>
@@ -425,9 +427,9 @@ nnoremap <silent><C-W><M-s> :sbuffer #<CR>
 nnoremap <silent><C-W><M-v> :vert sbuffer #<CR>
 
 " Find a file in 'path'
-cabbrev <expr>fi getcmdtype() == ':' && getcmdpos() == 3 ? 'find' : 'fi'
-cabbrev <expr>vf getcmdtype() == ':' && getcmdpos() == 3 ? 'vert sfind' : 'vf'
-cabbrev <expr>tf getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sfind' : 'tf'
+cabbrev <expr>fi getcmdtype() == ':' && getcmdpos() == 3 ? 'fin' : 'fi'
+cabbrev <expr>vf getcmdtype() == ':' && getcmdpos() == 3 ? 'vert sf' : 'vf'
+cabbrev <expr>tf getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sf' : 'tf'
 
 " Directories to search by `gf, :find, cd, lcd etc.`
 " (dir of the current file, current dir, etc.)
