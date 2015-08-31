@@ -13,7 +13,17 @@ done
 fi
 
 if sd vim-go; then
-  git clone --depth 1 git://github.com/golang/tools.git "$GOPATH"/src/golang.org/x/tools
+  if [[ -e "$GOPATH"/src/golang.org/x/tools/.git ]]; then
+    git pull
+  else
+    git clone --depth 1 git://github.com/golang/tools.git "$GOPATH"/src/golang.org/x/tools
+  fi
+
+  # Manually install these binary as golang.org could be unreachable
+  go install golang.org/x/tools/cmd/goimports
+  go install golang.org/x/tools/cmd/oracle
+  go install golang.org/x/tools/cmd/gorename
+
   [[ -n $TMUX ]] && vim='tmux new-window -d vim' || vim=gvim
   $vim -c 'execute "GoInstallBinaries"|qall!' &
 fi
