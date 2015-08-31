@@ -995,7 +995,7 @@ set guioptions=M " skip sourcing menu.vim, before enabling filetype/syntax
 set guioptions+=c " use a console dialog for confirmation instead of a pop-up
 set confirm " prompt for an action instead of fail immediately
 set winminheight=0 " the minimal height of a window
-set history=1000 " maximum number of commands and search patterns to keep
+set history=10000 " maximum number of commands and search patterns to keep
 set synmaxcol=999 " ignore further syntax items to avoid slow redrawing
 silent! set cryptmethod=blowfish cm=blowfish2 " acceptable encryption
 silent! set langnoremap " 'langmap' doesn't apply to characters resulting from a mapping
