@@ -18,8 +18,8 @@ nmap     <buffer>RI <Plug>(go-install)
 
 nmap <buffer>Rt                    <Plug>(go-test)
 nmap <buffer><LocalLeader>t<Space> <Plug>(go-test)
-nmap <buffer><LocalLeader>tt       <Plug>(go-test-func)
-nmap <buffer><LocalLeader>tp       <Plug>(go-test-compile)
+nmap <buffer><LocalLeader>tf       <Plug>(go-test-func)
+nmap <buffer><LocalLeader>tc       <Plug>(go-test-compile)
 nmap <buffer><LocalLeader>tr       <Plug>(go-test-coverage)
 
 nmap     <buffer><LocalLeader>i     <Plug>(go-info)
