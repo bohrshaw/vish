@@ -1129,14 +1129,14 @@ endif
 " Shells inside Vim
 if has('nvim')
   " Manage multiple shells
-  nnoremap <silent><M-s> :<C-u>call <SID>shell('')<CR>
+  nnoremap <silent><M-s> :<C-u>call <SID>shell(v:count1)<CR>
   command! -nargs=? Shell call <SID>shell(<q-args>)
   command! -nargs=? S call <SID>shell(<q-args>)
   cabbrev <expr>sS getcmdtype() == ':' && getcmdpos() == 3 ? 'sb\|S' : 'sS'
   cabbrev <expr>vS getcmdtype() == ':' && getcmdpos() == 3 ? 'vert sb\|S' : 'vS'
   cabbrev <expr>tS getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sb\|S' : 'tS'
   function! s:shell(name)
-    let name = empty(a:name) ? 'shell' : a:name
+    let name = empty(a:name) ? '1' : a:name
     try
       execute 'buffer term://*: :'.name
     catch
