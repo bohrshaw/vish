@@ -1140,7 +1140,7 @@ if has('nvim')
     try
       execute 'buffer term://*: :'.name
     catch
-      enew|call termopen(matchstr(&shell,'\a*$').';: :'.name)|startinsert
+      enew|call termopen('exec '.matchstr(&shell,'\a*$').';: :'.name)|startinsert
     endtry
   endfunction
   tnoremap <M-C-d> <C-\><C-n>:bwipeout!<CR>
