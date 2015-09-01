@@ -29,7 +29,7 @@ func main() {
 	flag.Parse()
 
 	var (
-		bundles = getBundles()
+		bundles = GetBundles()
 		ch      = make(chan string, 9)
 	)
 	var wg sync.WaitGroup // count of goroutines
@@ -40,7 +40,7 @@ func main() {
 		go func() {
 			defer wg.Done()
 			for bundle := range ch {
-				syncBundle(&bundle)
+				SyncBundle(&bundle)
 			}
 		}()
 	}
@@ -55,18 +55,18 @@ func main() {
 	if *clear {
 		wg.Add(1)
 		go func() {
-			cleanBundle(&bundles)
+			CleanBundle(&bundles)
 			wg.Done()
 		}()
 	}
 
 	wg.Wait()
 
-	helptags()
+	Helptags()
 }
 
 // Sync a bundle
-func syncBundle(bundle *string) {
+func SyncBundle(bundle *string) {
 	path := root + "/" + strings.Split(*bundle, "/")[1]
 	_, err := os.Stat(path)
 	pathExist := !os.IsNotExist(err)
@@ -108,7 +108,7 @@ func syncBundle(bundle *string) {
 }
 
 // Remove disabled bundles
-func cleanBundle(bundles *[]string) {
+func CleanBundle(bundles *[]string) {
 	dirs, _ := filepath.Glob(root + "/*")
 	var match bool
 	for _, d := range dirs {
@@ -127,7 +127,7 @@ func cleanBundle(bundles *[]string) {
 }
 
 // Get the bundle list
-func getBundles() []string {
+func GetBundles() []string {
 	args := []string{
 		"-Nesc",
 		"set rtp+=~/.vim | let g:_vim_with_all_features = 1 |" +
@@ -152,7 +152,7 @@ func getBundles() []string {
 }
 
 // Generate help tags
-func helptags() {
+func Helptags() {
 	args := []string{
 		"-Nesu",
 		"NONE",
