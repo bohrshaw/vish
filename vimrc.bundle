@@ -1129,25 +1129,20 @@ endif
 " Shells inside Vim
 if has('nvim')
   " Manage multiple shells
-  command! -nargs=? Shell call <SID>shell('<args>')
-  command! -nargs=? S call <SID>shell('<args>')
+  nnoremap <silent><M-s> :<C-u>call <SID>shell('')<CR>
+  command! -nargs=? Shell call <SID>shell(<q-args>)
+  command! -nargs=? S call <SID>shell(<q-args>)
+  cabbrev <expr>sS getcmdtype() == ':' && getcmdpos() == 3 ? 'sb\|S' : 'sS'
+  cabbrev <expr>vS getcmdtype() == ':' && getcmdpos() == 3 ? 'vert sb\|S' : 'vS'
+  cabbrev <expr>tS getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sb\|S' : 'tS'
   function! s:shell(name)
-    let name = matchstr(empty(a:name) ? 'shell' : a:name,
-          \ '\v-\a *\zs.*|.*\ze *-\a|[^-]+')
+    let name = empty(a:name) ? 'shell' : a:name
     try
-      if a:name =~ '-s'
-        sbuffer
-      elseif a:name =~ '-v'
-        vert sbuffer
-      elseif a:name =~ '-t'
-        tab sbuffer
-      endif
       execute 'buffer term://*: :'.name
     catch
       enew|call termopen(matchstr(&shell,'\a*$').';: :'.name)|startinsert
     endtry
   endfunction
-  nnoremap <M-s> :<C-u>Shell<CR>
   tnoremap <M-C-d> <C-\><C-n>:bwipeout!<CR>
   nnoremap <Leader>bs :Unite -input=term:/\ zsh\|bash\  buffer<CR>
 elseif Bundles('shougo/vimshell.vim', 'bohrshaw/vimproc.vim')
