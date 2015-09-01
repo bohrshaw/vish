@@ -1132,8 +1132,8 @@ if has('nvim')
   command! -nargs=? Shell call <SID>shell('<args>')
   command! -nargs=? S call <SID>shell('<args>')
   function! s:shell(name)
-    let name_part = matchstr(a:name, '\v-\a *\zs.*|.*\ze *-\a|[^-]+')
-    let name = matchstr(&shell,'\a*$').';'.(empty(name_part)?'shell':name_part)
+    let name = matchstr(empty(a:name) ? 'shell' : a:name,
+          \ '\v-\a *\zs.*|.*\ze *-\a|[^-]+')
     try
       if a:name =~ '-s'
         sbuffer
@@ -1142,9 +1142,9 @@ if has('nvim')
       elseif a:name =~ '-t'
         tab sbuffer
       endif
-      execute 'buffer term://*'.name
+      execute 'buffer term://*: :'.name
     catch
-      enew|call termopen(&shell, {'name': name})|startinsert
+      enew|call termopen(matchstr(&shell,'\a*$').';: :'.name)|startinsert
     endtry
   endfunction
   nnoremap <M-s> :<C-u>Shell<CR>
