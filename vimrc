@@ -729,7 +729,9 @@ cnoremap <M-p> <Up>
 cnoremap <M-n> <Down>
 
 " Move the cursor around one character (won't break undo)
+" Trigger the CursorMovedI event
 inoremap <C-f> <C-c>la
+" Won't trigger the CursorMovedI event
 inoremap <C-b> <C-c>i
 cnoremap <C-f> <Right>
 cnoremap <C-b> <Left>
