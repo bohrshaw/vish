@@ -20,7 +20,7 @@ nmap <buffer>Rt                    <Plug>(go-test)
 nmap <buffer><LocalLeader>t<Space> <Plug>(go-test)
 nmap <buffer><LocalLeader>tf       <Plug>(go-test-func)
 nmap <buffer><LocalLeader>tc       <Plug>(go-test-compile)
-nmap <buffer><LocalLeader>tr       <Plug>(go-test-coverage)
+nmap <buffer><LocalLeader>tr       <Plug>(go-coverage)
 
 nmap     <buffer><LocalLeader>i     <Plug>(go-info)
 nmap     <buffer><LocalLeader>d     <Plug>(go-describe)
