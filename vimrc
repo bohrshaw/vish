@@ -346,6 +346,9 @@ if has('nvim')
 endif
 " }}}
 " Fold: "{{{
+" Open the fold the cursor is in, recursively
+nnoremap z<M-o> zczO
+
 " Focus on a region using manual folding (mnemonic: pick)
 nnoremap <silent>zp :set operatorfunc=<SID>fold_others<CR>g@
 xnoremap <silent>zp :<C-u>call <SID>fold_others()<CR>
