@@ -8,7 +8,6 @@ import (
 	"os/exec"
 	"os/user"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"sync"
 )
@@ -29,7 +28,7 @@ func main() {
 	flag.Parse()
 
 	var (
-		bundles = GetBundles()
+		bundles = bundles()
 		ch      = make(chan string, 9)
 	)
 	var wg sync.WaitGroup // count of goroutines
@@ -126,29 +125,42 @@ func CleanBundle(bundles *[]string) {
 	}
 }
 
-// Get the bundle list
-func GetBundles() []string {
+// bundles returns the bundle list in which each item contains the partial URL
+// like "foo/bar" in its whole URL "github.com/foo/bar".
+func bundles(bs ...string) []string {
+	bundles := append(bundlesRaw(), bs...)
+	for i, v := range bundles {
+		// Extract "foo/bar" from "foo/bar/baz/..."
+		if strings.Count(v, "/") > 1 {
+			var slash1 bool
+			idx := strings.IndexFunc(v,
+			func(r rune) (t bool) {
+				if r == '/' {
+					if slash1 == true {
+						t = true
+					}
+					slash1 = true
+				}
+				return
+			})
+			bundles[i] = v[:idx]
+		}
+	}
+	return bundles
+}
+
+// bundlesRaw returns the bundle list from Vim
+func bundlesRaw() []string {
 	args := []string{
 		"-Nesc",
 		"set rtp+=~/.vim | let g:_vim_with_all_features = 1 |" +
 			"runtime vimrc.bundle | put =dundles | 2,p | q!",
 	}
 
-	bundles, _ := exec.Command("vim", args...).Output()
+	out, _ := exec.Command("vim", args...).Output()
+	bundles := strings.Fields(string(out))
 
-	// Extract the partial URL if a bundle includes additional directories
-	extract := func(items []string) []string {
-		matcher := regexp.MustCompile(`/.+?/`)
-		extractor := regexp.MustCompile(`[^/]+?/[^/]+`)
-		for i, v := range items {
-			if matcher.MatchString(v) {
-				items[i] = extractor.FindString(v)
-			}
-		}
-		return items
-	}
-
-	return extract(strings.Fields(string(bundles)))
+	return bundles
 }
 
 // Generate help tags
