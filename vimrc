@@ -683,7 +683,7 @@ command! -nargs=? -complete=buffer DiffWith call vimrc#diffwith(<f-args>)
 " Spell:" {{{
 " Enable spell checking for particular file types
 autocmd vimrc FileType gitcommit,markdown,txt setlocal spell
-if v:version == 704 && has('patch088') || v:version > 704
+if has('patch-7.4.088')
   set spelllang=en,cjk " skip spell check for East Asian characters
 endif
 set spellfile=~/.vim/spell/en.utf-8.add
@@ -733,10 +733,15 @@ cnoremap <M-p> <Up>
 cnoremap <M-n> <Down>
 
 " Move the cursor around one character (won't break undo)
-" Trigger the CursorMovedI event
-inoremap <C-f> <C-c>la
-" Won't trigger the CursorMovedI event
-inoremap <C-b> <C-c>i
+if has('patch-7.4.849')
+  inoremap <C-f> <C-g>U<Right>
+  inoremap <C-b> <C-g>U<Left>
+else
+  " Trigger the CursorMovedI event
+  inoremap <C-f> <C-c>la
+  " Won't trigger the CursorMovedI event
+  inoremap <C-b> <C-c>i
+endif
 cnoremap <C-f> <Right>
 cnoremap <C-b> <Left>
 " Delete one character after the cursor
