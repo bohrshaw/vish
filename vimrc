@@ -584,6 +584,10 @@ let s:keymap_sp = {
 let s:keymap = {
       \' ':      '<Space>',
       \"\<BS>":  '<BS>',
+      \"\<Left>":  '<Left>',
+      \"\<Right>": '<Right>',
+      \"\<Up>":    '<Up>',
+      \"\<Down>":  '<Down>',
       \'<':      '<lt>',
       \'\':      '<Bslash>',
       \'|':      '<Bar>',
