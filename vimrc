@@ -2,8 +2,8 @@
 "  |__| |___ |    |    |  |      |  | | |\/| |
 "  |  | |___ |___ |___ |__| .     \/  | |  | .
 "                           '
-" This is the Vim(Neovim) initialization file, plugin settings are splited into
-" "vimrc.bundle". This file is categorized practically.
+" This is the Vim(Neovim) initialization file categorized practically.
+" Bundle(plugin) dependent configs are splited into "vimrc.bundle".
 "
 " Author: Bohr Shaw <pubohr@gmail.com>
 
