@@ -5,10 +5,9 @@ endif
 if &buftype == 'help'
   nnoremap <buffer> q <C-W>c
 endif
-nnoremap <buffer> <CR> <C-]>
 " :help help-writing
-nnoremap <silent><buffer><M-]> :call ftplugin#help_goto('\*\S\+\*')<CR>
-nnoremap <silent><buffer><M-[> :call ftplugin#help_goto('\*\S\+\*', 'b')<CR>
+nnoremap <silent><buffer><M-]> :call ftplugin#help_goto('\*\S\+\*\s*$')<CR>
+nnoremap <silent><buffer><M-[> :call ftplugin#help_goto('\*\S\+\*\s*$', 'b')<CR>
 let s:map_pre = 'nnoremap <silent><buffer>'.(&buftype == 'help' ? '' : '<LocalLeader>')
 execute s:map_pre.'i :call ftplugin#help_goto('.string('\|\S\+\|').')<CR>'
 execute s:map_pre.'I :call ftplugin#help_goto('.string('\|\S\+\|').', "b")<CR>'

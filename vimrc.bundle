@@ -959,6 +959,7 @@ if Bundles('fatih/vim-go', 'garyburd/go-explorer')
   let g:go_dispatch_enabled = 0
 
   autocmd bundle FileType godoc nnoremap <buffer> q <C-W>q
+  autocmd bundle FileType gedoc nnoremap <buffer> q <C-W>q
 
   let g:go_bin_path = has('win32unix') ?
         \ '/cygdrive/'.tolower($GOPATH[0]).

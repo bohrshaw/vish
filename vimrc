@@ -187,6 +187,7 @@ endfunction " }}}
 " Motion:" {{{
 set virtualedit=onemore " consistent cursor position on EOL
 set whichwrap& " left/right motions across lines
+
 " Search forward/backward regardless of the direction of the previous character search"{{{
 " Note: These are overwritten in Sneak, but the semantics retains.
 if 0 && exists('*getcharsearch') " Vim patch 7.4.813
@@ -198,28 +199,40 @@ elseif 0
   NOnoremap <silent>T :<C-u>execute 'silent! normal! mzt'.nr2char(getchar()).'g`z'.v:count1.','<CR>
   xnoremap <silent>T :<C-u>execute 'silent! normal! mzt'.nr2char(getchar()).'g`zgv'.v:count1.','<CR>
 endif "}}}
+
 " Display lines up/down (consecutive motions are quicker)
 nnoremap <C-j> gj
 nnoremap <C-k> gk
+
 " Jump to the middle of the current written line as opposed to the window width
 nnoremap <silent> gm :call cursor(0, virtcol('$')/2)<CR>|nnoremap gM gm
+
 set matchpairs+=<:> " character pairs matched by '%'
 if !has('nvim') " nvim put it in plugin/
   runtime macros/matchit.vim " extended pair matching with '%'
 endif
 
-" Navigate the jumper list
-nnoremap <M-i> <C-I>
-nnoremap <M-o> <C-O>
+" Sections backword/forward
+nmap <M-[> [[
+nmap <M-]> ]]
+
 " Navigate the change list
 nnoremap <M-;> g;
 nnoremap <M-,> g,
 " Go to the second-newest or current position in the change list
 nnoremap <silent>g. :try\|execute 'normal! g,g;'\|
       \ catch\|execute 'normal! g,'\|endtry<CR>
+
 " Print the change list or mark list
 cabbrev <expr>cs getcmdtype() == ':' && getcmdpos() == 3 ? 'changes' : 'cs'
 cabbrev <expr>ms getcmdtype() == ':' && getcmdpos() == 3 ? 'marks' : 'ms'
+
+" Navigate the jumper list
+nnoremap <M-i> <C-I>
+nnoremap <M-o> <C-O>
+
+" Jump to the definition of the current tag
+NXmap <CR> <C-]>
 
 " Auto-place the cursor when switching buffers or files:" {{{
 " Don't move the cursor to the start of the line when switching buffers
