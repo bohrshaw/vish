@@ -290,14 +290,17 @@ nnoremap <expr>zb v:count > 0 ? '@_zb'.v:count.'<c-e>' : 'zb'
 " The leader key for managing windows and tabs
 NXmap <M-w> <C-W>
 
+" Jump to {count}th next/previous window, able to jump back with <C-w>p
+nnoremap <silent><C-w>j :<C-u>let _w = winnr() + v:count1 \|
+      \ execute (_w > winnr('$') ? _w - winnr('$') : _w).'wincmd w'<CR>
+nnoremap <silent><C-w>k :<C-u>let _w = winnr() - v:count1 \|
+      \ execute (_w < 1 ? _w + winnr('$') : _w).'wincmd w'<CR>
+for i in [2, 3, 4, 5]
+  execute 'nmap <C-w>'.i.'j' i.'<C-w>j'
+  execute 'nmap <C-w>'.i.'k' i.'<C-w>k'
+endfor
 nmap <M-j> <C-w>j
 nmap <M-k> <C-w>k
-nnoremap <silent><expr><C-w>j ':<C-u>'.repeat("wincmd w\|", v:count1)."<CR>"
-nnoremap <silent><expr><C-w>k ':<C-u>'.repeat("wincmd W\|", v:count1)."<CR>"
-for i in [2, 3, 4]
-  execute "nnoremap <C-w>".i."j ".repeat('<C-w>w', i)
-  execute "nnoremap <C-w>".i."k ".repeat('<C-w>W', i)
-endfor
 nnoremap <M-q> <C-W>q
 inoremap <M-q> <Esc><C-W>q
 
