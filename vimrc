@@ -400,25 +400,25 @@ nmap <silent>zfm cof
 "       \ execute 'silent! normal! zo' |endif
 "}}}
 " Buffer:" {{{
-" Split a buffer in a vertical window or a new tab
+set hidden autoread " autowrite
+
 nnoremap <silent><M-b>d :bdelete<CR>
-nnoremap <silent><M-b>w :bwipeout<CR>
-nnoremap <silent><M-b>x :Bdelete<CR>
 " Delete the current buffer without closing its window
+nnoremap <silent><M-b>x :Bdelete<CR>
 command! -bang Bdelete try|b#|silent! bd<bang>#|catch|bd|endtry
-" Delete all buffers in the buffer list
-command! BufDeleteAll execute '1,'.bufnr('$').'bdelete'
-" Delete all buffers in the buffer list except the current one
-command! BufOnly let nc = bufnr('%') |let nl = bufnr('$') |
-      \ silent! execute nc > 1 ? '1,'.(nc-1).'bdelete |' : ''
-      \ nl > nc ? (nc+1).','.nl.'bdelete' : ''
-" Wipe out all unlisted buffers
-command! BwipeoutUnlisted call vimrc#bufffer_wipe_unlisted()
+nnoremap <silent><M-b>w :bwipeout<CR>
+
 cabbrev <expr>vb getcmdtype() == ':' && getcmdpos() == 3 ? 'vert sb' : 'vb'
 cabbrev <expr>tb getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sb' : 'tb'
-set autoread " auto-read a file changed outside of Vim
-" set autowrite " auto-write a modified file when switching buffers
-set hidden " hide a modified buffer without using '!' when it's abandoned
+
+" Delete all buffers in the buffer list except the current one
+command! -bang BufOnly let _b = bufnr('') | let _f = &confirm |
+      \ try | set noconfirm |
+      \   silent! execute '1,'._b.'-bd<bang>|'._b.'+,$bd<bang>' |
+      \ finally | let &confirm = _f | endtry
+
+" Wipe out all unlisted buffers
+command! BwipeoutUnlisted call vimrc#bufffer_wipe_unlisted()
 " }}}
 " File:" {{{
 nnoremap <silent><M-f>w :write<CR>
