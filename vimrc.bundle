@@ -313,8 +313,11 @@ if s:pythonx && Bundle('Sirver/ultisnips',
   let g:UltiSnipsListSnippets='<M-g>['
   let g:UltiSnipsJumpForwardTrigger="<M-j>"
   let g:UltiSnipsJumpBackwardTrigger="<M-k>"
+
   let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippet"]
   let g:UltiSnipsSnippetsDir=expand("~/.vim/snippet") " personal snippets path
+  " let g:UltiSnipsEnableSnipMate = 0 " don't looking for SnipMate snippets
+
   " let g:UltiSnipsEditSplit="horizontal"
   " let g:UltiSnipsUsePythonVersion = has('python3') ? 3 : 2
 
