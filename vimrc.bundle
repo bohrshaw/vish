@@ -954,7 +954,7 @@ endif
 
 " Golang {{{2
 
-if Bundles('fatih/vim-go', 'garyburd/go-explorer')
+if Bundles('Fatih/vim-go', 'garyburd/go-explorer')
   let g:go_auto_type_info = 0
   let g:go_fmt_autosave = 0
   let g:go_dispatch_enabled = 0
