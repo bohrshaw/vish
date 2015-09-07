@@ -35,11 +35,23 @@ if has('vim_starting')
   set all& " override system vimrc and cmdline options like --noplugin
   set nocompatible " make Vim behave in a more useful way
 
-  " Whether to include the least number of bundles, for shell command line editing
-  let g:l = get(g:, 'l', $VL) || argv(0) =~# '^\V'.
-        \(empty($TMPPREFIX)?'/tmp/zsh':$TMPPREFIX).'ecl\|'.$TMP.'/bash-fc'
+  if has('win32')
+    " Wish to use a forward slash for path separator? But 'shellslash' is not
+    " designed to be set alone. Plugins must explicitly cope with it. Wish a
+    " 'internal_shellslash' be available!
+    "
+    " Plugins like 'fugitive' works regardless of this option. While more
+    " plugins like 'gnupg', 'jedi' wouldn't function well when it's set.
+    " Troublesomely, 'unite', 'vimproc' have problems when it's not set.
+    set shellslash&
+  endif
 
-  set rtp^=$HOME/.vim rtp+=$HOME/.vim/after " be portable
+  let $MYVIMRC = empty($MYVIMRC) ? expand('<sfile>:p') : resolve($MYVIMRC)
+  let $MYVIM = fnamemodify($MYVIMRC, ':p:h') " be portable
+  let g:ported = $MYVIM == expand('~/.vim') ? 0 : 1
+
+  " Cross-platform 'runtimepath'
+  set rtp=$MYVIM,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$MYVIM/after
 
   if has('gui_running') || $termencoding ==? 'utf-8'
     set encoding=utf-8 " used inside Vim, allow mapping with the ALT key
@@ -64,18 +76,11 @@ if has('vim_starting')
     let [g:python_host_skip_check, g:python3_host_skip_check] = [1, 1]
   endif
 
-  if has('win32')
-    " Wish to use a forward slash for path separator? But 'shellslash' is not
-    " designed to be set alone. Plugins must explicitly cope with it. Wish a
-    " 'internal_shellslash' be available!
-    "
-    " Plugins like 'fugitive' works regardless of this option. While more
-    " plugins like 'gnupg', 'jedi' wouldn't function well when it's set.
-    " Troublesomely, 'unite', 'vimproc' have problems when it's not set.
-    set shellslash&
-  endif
+  " Whether to include the least number of bundles, for shell command line editing
+  let g:l = get(g:, 'l', $VL) || argv(0) =~# '^\V'.
+        \(empty($TMPPREFIX)?'/tmp/zsh':$TMPPREFIX).'ecl\|'.$TMP.'/bash-fc'
 
-  let $MYVIMRCPRE = expand('~/.vimrc.pre')
+  let $MYVIMRCPRE = g:ported ? $MYVIM.'/vimrc.pre' : $HOME.'/.vimrc.pre'
   if filereadable($MYVIMRCPRE)
     execute 'silent source' $MYVIMRCPRE
   endif
@@ -452,7 +457,7 @@ cabbrev <expr>tf getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sf' : 'tf'
 
 " Directories to search by `gf, :find, cd, lcd etc.`
 " (dir of the current file, current dir, etc.)
-setglobal path=.,,~,~/.vim,~/.vim/after
+let &g:path = '.,,~,'.$MYVIM.','.$MYVIM.'/after'
 set cdpath=,,.,~
 if has('vim_starting') && 0 == argc() && has('gui_running') && !g:l
   cd $HOME
@@ -469,10 +474,10 @@ function! s:get_link_targets() " {{{
 endfunction " }}}
 
 " Easy access to vimrc files
-Abbr cabbr v ~/.vim/vimrc
-Abbr cabbr b ~/.vim/vimrc.bundle
-nnoremap <silent><M-f>v :Be ~/.vim/vimrc<CR>
-nnoremap <silent><M-f>b :Be ~/.vim/vimrc.bundle<CR>
+Abbr cabbr <expr>v $MYVIMRC
+Abbr cabbr <expr>b $MYBUNDLE
+nnoremap <silent><M-f>v :execute 'Be' $MYVIMRC<CR>
+nnoremap <silent><M-f>b :execute 'Be' $MYBUNDLE<CR>
 
 " Switch to a file without reloading it
 command! -nargs=1 -bang Be execute (buflisted(expand(<q-args>))?'b':
@@ -705,14 +710,14 @@ autocmd vimrc FileType gitcommit,markdown,txt setlocal spell
 if has('patch-7.4.088')
   set spelllang=en,cjk " skip spell check for East Asian characters
 endif
-set spellfile=~/.vim/spell/en.utf-8.add
+set spellfile=$MYVIM/spell/en.utf-8.add
 " Clean up spell files
 command! SpellCleanup silent runtime spell/cleanadd.vim
 
 " Dictionary files
-let s:dictionaries = '~/.vim/spell/dictionary-oald.txt'
-if filereadable(expand(s:dictionaries))
-  let &dictionary = s:dictionaries
+let s:dictionary = $MYVIM.'/spell/dictionary-oald.txt'
+if filereadable(s:dictionary)
+  let &dictionary = s:dictionary
 elseif !has('win32')
   set dictionary=/usr/share/dict/words
 else
@@ -720,26 +725,26 @@ else
 endif
 
 " Thesaurus files
-set thesaurus=~/.vim/spell/thesaurus-mwcd.txt
+set thesaurus=$MYVIM/spell/thesaurus-mwcd.txt
 "}}}
 " Persistence:" {{{
 let &swapfile = g:l ? 0 : 1 " use a swapfile for the buffer
 set undofile " remember undo history across sessions
 " Remember uppercase global variables, number of files in which marks are
 " remembered(:oldfiles), ... , and viminfo file name.
-let &viminfo = "!,'444,<50,s10,h,n$HOME/.vim/tmp/viminfo"
+let &viminfo = "!,'444,<50,s10,h,n".$MYVIM.'/tmp/viminfo'
 let _viminfo = &viminfo " for quick interactive restoring
 " Exclude options and mappings and be portable
 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
 set viewoptions=folds,cursor,slash,unix
 " Set default paths of temporary files
 let opts = {'directory': 'swap', 'undodir': 'undo', 'backupdir': 'backup'}
-for [opt, dir] in items(opts)
-  let value = $HOME . '/.vim/tmp/' . dir
-  if !isdirectory(value) | silent! call mkdir(value) | endif
-  execute "set " . opt . "^=" . value
+for [opt, val] in items(opts)
+  let dir = $MYVIM.'/tmp/'.val
+  if !isdirectory(dir) | silent! call mkdir(dir) | endif
+  execute 'set' opt.'^='.dir
 endfor
-set viewdir=~/.vim/tmp/view
+set viewdir=$MYVIM/tmp/view
 " }}}
 " Readline:" {{{
 " Readline style insertion adjusted for Vim
@@ -1074,7 +1079,7 @@ command! HelpWrite setlocal buftype= buflisted modifiable noreadonly |
       \ silent! unlet b:did_ftplugin b:did_after_ftplugin | filetype detect |
       \ setlocal conceallevel=0 spell
 
-let $MYVIMRCAFTER = expand('~/.vimrc.after')
+let $MYVIMRCAFTER = g:ported ? $MYVIM.'/vimrc.after' : $HOME.'/.vimrc.after'
 if filereadable($MYVIMRCAFTER)
   execute 'silent source' $MYVIMRCAFTER
 endif

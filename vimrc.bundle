@@ -44,7 +44,7 @@ endfunction
 command! -nargs=? -complete=command VimNORC execute
       \ v:progname.<q-args> =~ '^\S*gvim\s' ? "B!" : "Start"
       \ empty(<q-args>) ? expand(exepath(v:progpath)) : <q-args>
-      \ '-u' expand('~/.vim/vimrc.min')
+      \ '-u' expand($MYVIM.'/vimrc.min')
 " Profiling
 command! -nargs=? -complete=command StartupTime execute
       \ v:progname.<q-args> =~ '^\S*gvim\s' ? "B!" : "Start"
@@ -202,7 +202,7 @@ if BundlePath('Kana/vim-textobj-user')
 endif
 
 " Text objects extended, more sensible, and corner cases handled
-" Cheatsheet: ~/.vim/bundle/targets.vim/cheatsheet.md
+" Cheatsheet: $MYVIM/bundle/targets.vim/cheatsheet.md
 if Dundles('Wellle/targets.vim') && Bundles('tommcdo/vim-ninja-feet',
       \ '-gaving/vim-textobj-argument', '-b4winckler/vim-angry',
       \ 'kana/vim-textobj-indent', '-qstrahl/vim-dentures',
@@ -287,7 +287,7 @@ if s:lua && Bundles('shougo/neocomplete.vim', 'bohrshaw/vimproc.vim')
   " let g:neocomplete#cursor_hold_i_time = 400 " same as swap saving interval
   let g:neocomplete#lock_iminsert = 1
   " let g:neocomplete#enable_prefetch = 1
-  let g:neocomplete#data_directory = '~/.vim/tmp/neocomplete'
+  let g:neocomplete#data_directory = $MYVIM.'/tmp/neocomplete'
   " let g:neocomplete#release_cache_time = 1800 " seconds
   " Enable/disable neocomplete
   nnoremap <expr> c\C neocomplete#is_enabled() ?
@@ -314,8 +314,8 @@ if s:pythonx && Bundle('Sirver/ultisnips',
   let g:UltiSnipsJumpForwardTrigger="<M-j>"
   let g:UltiSnipsJumpBackwardTrigger="<M-k>"
 
-  let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippet"]
-  let g:UltiSnipsSnippetsDir=expand("~/.vim/snippet") " personal snippets path
+  let g:UltiSnipsSnippetDirectories = ["UltiSnips", "snippet"]
+  let g:UltiSnipsSnippetsDir = $MYVIM.'/snippet' " personal snippets path
   " let g:UltiSnipsEnableSnipMate = 0 " don't looking for SnipMate snippets
 
   " let g:UltiSnipsEditSplit="horizontal"
@@ -503,7 +503,7 @@ endif
 
 " Fuzzy file, buffer, mru, tag, etc finder
 if Bundles('-ctrlpvim/ctrlp.vim')
-  let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/ctrlp'
+  let g:ctrlp_cache_dir = $MYVIM.'/tmp/ctrlp'
   " Set the mode to determine the root searching directory.
   " let g:ctrlp_working_path_mode = 'ra'
   " let g:ctrlp_show_hidden = 1 " scan for dotfiles and dotdirs
@@ -672,9 +672,9 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
   endif
   " call unite#filters#matcher_default#use(['matcher_fuzzy'])
   " let g:unite_source_history_yank_enable = 1 " yank ring
-  let g:unite_data_directory = expand('~/.vim/tmp/unite')
-  let g:neomru#file_mru_path = expand('~/.vim/tmp/unite/mru/files')
-  let g:neomru#directory_mru_path = expand('~/.vim/tmp/unite/mru/directories')
+  let g:unite_data_directory = $MYVIM.'/tmp/unite'
+  let g:neomru#file_mru_path = $MYVIM.'/tmp/unite/mru/files'
+  let g:neomru#directory_mru_path = $MYVIM.'/tmp/unite/mru/directories'
   " Performance tuning
   " let g:neomru#do_validate = 0 " skip checking invalide files for performance
   autocmd VimEnter * silent! autocmd! neomru BufEnter,VimEnter,BufWritePost
@@ -686,7 +686,7 @@ if Bundle('scrooloose/nerdtree', {'m': [
       \ 'noremap <leader>dd :NERDTree<CR>',
       \ 'noremap <leader>df :NERDTreeFind<CR>']})
   let NERDTreeHijackNetrw=0 " don't replace netrw
-  let NERDTreeBookmarksFile=$HOME.'/.vim/tmp/NERDTreeBookmarks'
+  let NERDTreeBookmarksFile=$MYVIM.'/tmp/NERDTreeBookmarks'
   let NERDTreeIgnore=['^\.$', '^\.\.$', '\~$', '\.pyc$', '\.swp$']
   let NERDTreeShowHidden=1
   let NERDTreeShowBookmarks=1
@@ -705,7 +705,7 @@ if Bundles('-mattesGroeger/vim-bookmarks')
   let g:bookmark_sign = 'm'
   let g:bookmark_annotation_sign = 'ma'
   " let g:bookmark_auto_save = 0
-  let g:bookmark_auto_save_file = $HOME.'/.vim/tmp/bookmark'
+  let g:bookmark_auto_save_file = $MYVIM.'/tmp/bookmark'
   " let g:bookmark_highlight_lines = 1
   " let g:bookmark_center = 1
   nmap <Leader>tm <Plug>ToggleBookmark
@@ -730,11 +730,11 @@ if Bundles('bohrshaw/vim-mansion', '-tpope/vim-obsession')
       autocmd CursorMovedI * SessionTrack|autocmd! bundle_mansion
     augroup END
   endif
-  " let g:sessiondir = '~/.vim/session'
+  let g:sessiondir = $MYVIM.'/session'
   " let g:mansion_no_auto_save = 1
   " let g:mansion_no_maps = 1
 elseif Bundles('mhinz/vim-startify')
-  let g:startify_session_dir = '~/.vim/tmp/session'
+  let g:startify_session_dir = $MYVIM.'/session'
   let g:startify_list_order = ['sessions', 'bookmarks', 'files']
   let g:startify_skiplist = ['[Vv]im.*[\/]doc[\/][^\/]\+\.txt']
   let g:startify_custom_header = [
@@ -1187,8 +1187,8 @@ if Bundles('Tpope/vim-git') && BundleRun('tpope/vim-fugitive')
   nnoremap g<Space>rA       :wall \| G! commit --all --allow-empty-message -m ''<CR>
   nmap     g<Space>rt       g<Space>a<Space>:G! commit -m 'Todo'<CR>
   nmap     g<Space>rd       g<Space>a<Space>:G! commit -m 'Done'<CR>
-  nnoremap <expr>g<Space>rs ':B! git --git-dir='.expand('~/.vim/spell/.git').
-        \ ' --work-tree='.expand('~/.vim/spell')." commit --all -m 'Spell'<CR>"
+  nnoremap <expr>g<Space>rs ':B! git --git-dir='.$MYVIM.'/spell/.git'.
+        \ ' --work-tree='.$MYVIM.'/spell'." commit --all -m 'Spell'<CR>"
 
   nnoremap g<Space>d :tab sbuffer % \| Gdiff<CR>
   nnoremap g<Space>b :Gblame<CR>

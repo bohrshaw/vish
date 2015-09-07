@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+
+# Create a portable bundle of Vim environment
+# Credit to https://github.com/junegunn/myvim
+
+set -eu
+
+WHO=$(whoami)
+OUTPUT=v${WHO:0:1}
+MYVIM=~/.vim
+GREPV=cat
+EDIT=0
+COMPRESS=-j
+
+usage() {
+  echo "usage: $0 [-e|--edit] [--exclude PATTERN] [-z] [output]"
+}
+
+while [ $# -gt 0 ]; do
+  case $1 in
+    --myvim)   shift; MYVIM="$1" ;;
+    --exclude) shift; GREPV="grep -v $(printf %q "$1")" ;;
+    -e|--edit) EDIT=1 ;;
+    -j|-z)     COMPRESS=$1 ;;
+    -h|--help) usage; exit 0 ;;
+    -*)        echo "$0: Unrecognized option $1"; exit 1 ;;
+    *)         OUTPUT=$1 ;;
+  esac
+  shift
+done
+
+files() {
+  (cd "$MYVIM" &&
+    find -L . \
+    \( -name .git -o -name .gitignore -o -name .hg -o -name .svn \
+    -o -path ./bin -o -path ./src -o -path ./tmp -o -path ./session \
+    -o -path ./spell -o -path './install*' -o -path './vimperator*' \
+    -o -iregex '.*/tests?' \) -prune \
+    -o ! -type d -print ) |
+  grep -vE '\.(jpg|png|gif|md|markdown|mkd|pyc|ttf)$' |
+  eval "$GREPV"
+}
+
+gitenv() {
+  local NAME EMAIL
+  if which git > /dev/null 2>&1 && NAME=$(git config user.name 2> /dev/null) &&
+     EMAIL=$(git config user.email 2> /dev/null); then
+    echo "export GIT_AUTHOR_NAME=\"$NAME\""
+    echo "export GIT_AUTHOR_EMAIL=\"$EMAIL\""
+    echo 'export GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"'
+    echo 'export GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"'
+  fi
+}
+
+if [ $EDIT -eq 1 ]; then
+  CONF=/tmp/myvim-${WHO}.conf
+  {
+    echo "# EDIT: environment variables"
+    gitenv
+    echo -e "\n# EDIT: the list of files to be archived"
+    files
+  } >> "$CONF"
+  ${EDITOR:-vim} "$CONF"
+  ENV_VARS=$(sed -n '1,/^# EDIT/{/^# EDIT/d; p;}' "$CONF")
+  FILES=$(sed '1,/^# EDIT/d' "$CONF")
+  rm -f "$CONF"
+else
+  ENV_VARS="$(gitenv)"
+  FILES=$(files)
+fi
+
+TEMP=/tmp/myvim-${WHO}.tar.compressed
+tar -C "$MYVIM" -h $COMPRESS -cf $TEMP -T <(echo "$FILES")
+
+echo '#!/usr/bin/env bash
+
+# Portable Vim
+# Created at: '$(date)'
+
+'"$ENV_VARS"'
+
+set -e
+
+BASE=/tmp/myvim-$(whoami)
+
+if [ ! -d $BASE ]; then
+  echo "Extracting Vim environment to $BASE"
+  mkdir -p $BASE
+  sed "1,/^# EOF #$/d" "$0" | tar -C $BASE -x '$COMPRESS'
+fi
+
+[[ $v: =~ vim:$ ]] || { hash nvim &>/dev/null && v=nvim || v=vim; }
+$v -Nu $BASE/vimrc "$@"
+exit $?
+# EOF #' > "$OUTPUT"
+cat "$TEMP" >> "$OUTPUT"
+chmod +x "$OUTPUT"
+echo "Created executable: $OUTPUT"
+rm -f "$TEMP"

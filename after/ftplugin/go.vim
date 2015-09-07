@@ -3,7 +3,7 @@ if exists("b:did_after_ftplugin")
 endif
 let b:did_after_ftplugin = 1
 
-" See existing mappings and commands in ~/.vim/bundle/vim-go/ftplugin/go/commands.vim
+" See existing mappings and commands in $MYVIM/bundle/vim-go/ftplugin/go/commands.vim
 
 nmap     <buffer><expr>Rr ":GoRun".(g:go_jump_to_error ? '' : '!')." %<CR>"
 nmap     <buffer><expr>RR ":GoRun".(g:go_jump_to_error ? '' : '!')."<CR>"
