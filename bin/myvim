@@ -90,8 +90,7 @@ if [ ! -d $BASE ]; then
 fi
 
 [[ $v: =~ vim:$ ]] || { hash nvim &>/dev/null && v=nvim || v=vim; }
-$v -Nu $BASE/vimrc "$@"
-exit $?
+exec -a $v $v -Nu $BASE/vimrc "$@"
 # EOF #' > "$OUTPUT"
 cat "$TEMP" >> "$OUTPUT"
 chmod +x "$OUTPUT"
