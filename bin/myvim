@@ -19,7 +19,7 @@ usage() {
 while [ $# -gt 0 ]; do
   case $1 in
     --myvim)   shift; MYVIM="$1" ;;
-    --exclude) shift; GREPV="grep -v $(printf %q "$1")" ;;
+    -v|--exclude) shift; GREPV="grep -v $(printf %q "$1")" ;;
     -e|--edit) EDIT=1 ;;
     -j|-z)     COMPRESS=$1 ;;
     -h|--help) usage; exit 0 ;;
@@ -59,7 +59,7 @@ if [ $EDIT -eq 1 ]; then
     gitenv
     echo -e "\n# EDIT: the list of files to be archived"
     files
-  } >> "$CONF"
+  } > "$CONF"
   ${EDITOR:-vim} "$CONF"
   ENV_VARS=$(sed -n '1,/^# EDIT/{/^# EDIT/d; p;}' "$CONF")
   FILES=$(sed '1,/^# EDIT/d' "$CONF")
