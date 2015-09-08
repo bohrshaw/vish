@@ -1,3 +1,7 @@
+// Vundle manages Vim bundles(plugins).
+// Related:
+// https://github.com/gpmgo/gopm/blob/master/cmd/get.go
+// https://github.com/sourcegraph/go-vcs
 package main
 
 import (
@@ -12,17 +16,17 @@ import (
 	"sync"
 )
 
+type manager struct{}
+
 var (
 	update   = flag.Bool("u", false, "update bundles")
 	clear    = flag.Bool("c", false, "clear bundles")
 	routines = flag.Int("r", 12, "number of routines")
 	_user, _ = user.Current()
 	root     = _user.HomeDir + "/.vim/bundle"
+	vundle   = &manager{}
 )
 
-// References:
-// https://github.com/gpmgo/gopm/blob/master/cmd/get.go
-// https://github.com/sourcegraph/go-vcs
 func main() {
 	// Parse the command line into the defined flags
 	flag.Parse()
@@ -39,7 +43,7 @@ func main() {
 		go func() {
 			defer wg.Done()
 			for bundle := range ch {
-				SyncBundle(&bundle)
+				vundle.synca(&bundle)
 			}
 		}()
 	}
@@ -54,18 +58,18 @@ func main() {
 	if *clear {
 		wg.Add(1)
 		go func() {
-			CleanBundle(&bundles)
+			vundle.clean(&bundles)
 			wg.Done()
 		}()
 	}
 
 	wg.Wait()
 
-	Helptags()
+	helptags()
 }
 
-// Sync a bundle
-func SyncBundle(bundle *string) {
+// synca install or update a bundle
+func (*manager) synca(bundle *string) {
 	path := root + "/" + strings.Split(*bundle, "/")[1]
 	_, err := os.Stat(path)
 	pathExist := !os.IsNotExist(err)
@@ -106,8 +110,8 @@ func SyncBundle(bundle *string) {
 	}
 }
 
-// Remove disabled bundles
-func CleanBundle(bundles *[]string) {
+// clean removes disabled bundles from the disk
+func (*manager) clean(bundles *[]string) {
 	dirs, _ := filepath.Glob(root + "/*")
 	var match bool
 	for _, d := range dirs {
@@ -126,7 +130,7 @@ func CleanBundle(bundles *[]string) {
 }
 
 // bundles returns the bundle list in which each item contains the partial URL
-// like "foo/bar" in its whole URL "github.com/foo/bar".
+// like "foo/bar" extracted from "github.com/foo/bar[/baz]".
 func bundles(bs ...string) []string {
 	bundles := append(bundlesRaw(), bs...)
 	for i, v := range bundles {
@@ -134,22 +138,22 @@ func bundles(bs ...string) []string {
 		if strings.Count(v, "/") > 1 {
 			var slash1 bool
 			idx := strings.IndexFunc(v,
-			func(r rune) (t bool) {
-				if r == '/' {
-					if slash1 == true {
-						t = true
+				func(r rune) (t bool) {
+					if r == '/' {
+						if slash1 == true {
+							t = true
+						}
+						slash1 = true
 					}
-					slash1 = true
-				}
-				return
-			})
+					return
+				})
 			bundles[i] = v[:idx]
 		}
 	}
 	return bundles
 }
 
-// bundlesRaw returns the bundle list from Vim
+// bundlesRaw returns the bundle list obtained from Vim
 func bundlesRaw() []string {
 	args := []string{
 		"-Nesc",
@@ -163,8 +167,8 @@ func bundlesRaw() []string {
 	return bundles
 }
 
-// Generate help tags
-func Helptags() {
+// helptags generates Vim HELP tags for all bundles
+func helptags() {
 	args := []string{
 		"-Nesu",
 		"NONE",
