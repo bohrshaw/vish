@@ -954,7 +954,7 @@ set rulerformat=%50(%=%m%r%<%f%Y\ %c,%l/%L,%P%)
 " }}}
 
 let &showtabline = g:l ? 1 : 2
-autocmd vimrc VimEnter * let &titlestring = v:servername.
+autocmd vimrc VimEnter * let &titlestring = matchstr(v:servername, '.vim.*\c').
       \ (g:l ? '(L)' : '').' '.'%{getcwd()}'
 
 " Make it easy to spot the cursor, especially for Gnome-terminal whose cursor
