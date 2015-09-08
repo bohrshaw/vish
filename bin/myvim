@@ -31,14 +31,9 @@ done
 
 files() {
   (cd "$MYVIM" &&
-    find -L . \
-    \( -name .git -o -name .gitignore -o -name .hg -o -name .svn \
-    -o -path ./bin -o -path ./src -o -path ./tmp -o -path ./session \
-    -o -path ./spell -o -path './install*' -o -path './vimperator*' \
-    -o -iregex '.*/tests?' \) -prune \
-    -o ! -type d -print ) |
-  grep -vE '\.(jpg|png|gif|md|markdown|mkd|pyc|ttf)$' |
-  eval "$GREPV"
+    find -L . -regextype posix-extended \
+    -regex '\./(bin|src|tmp|session|spell|install.*|vimperator.*)|.*(/\.(git.*|hg|svn)|/tests?|\.(jpg|png|gif|md|markdown|mkd|pyc|ttf))' -prune \
+    -o -type f -print ) | eval "$GREPV"
 }
 
 gitenv() {
