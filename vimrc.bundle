@@ -60,7 +60,7 @@ command! -nargs=? -complete=command Profile execute
 command! ProfileTabular call profile#tabular()
 
 " A Vim plugin for Vim plugins
-call BundleRun('tpope/vim-scriptease')
+call BundleRun('Tpope/vim-scriptease')
 
 " Shortcuts: {{{1
 
