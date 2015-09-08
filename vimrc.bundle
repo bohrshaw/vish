@@ -115,6 +115,10 @@ if Bundles('-Justinmk/vim-sneak', 'Bohrshaw/vim-sneak')
       execute 'normal!' v:count.(a:reverse == 0 ? 'L' : 'H')
       return
     endif
+    " Disable "syntax" 'foldmethod' because `syntax clear` would open folds
+    if &foldmethod[0] == 's'
+      let [fdm, &foldmethod] = [&foldmethod, 'manual']
+    endif
     let c = v#getchar()
     if empty(c) |return |endif
     if empty(a:pattern)
@@ -138,6 +142,9 @@ if Bundles('-Justinmk/vim-sneak', 'Bohrshaw/vim-sneak')
     " inclusive: 2 means inclusive-exclusive motion like /
     call sneak#to('', '\m'.pattern, 1, 1, 0, a:reverse, 2, 1)
     let g:sneak#oneline = 0
+    if exists('l:fdm')
+      let &foldmethod = fdm
+    endif
   endfunction
   " Mimic the native search command / and ?, but literal
   " Function signature: sneak#wrap(op, inputlen, reverse, inclusive, streak)
