@@ -1324,7 +1324,14 @@ call Bundles('bohrshaw/vim-url-shortener')
 " Open a URI with the default browser
 " Another way is `:py import webbrowser; webbrowser.open()`
 if Bundles('tyru/open-browser.vim')
-  NXmap gx <Plug>(openbrowser-smart-search)
+  if !has('unix') " problematic if Chromium is the default browser
+    NXmap gx <Plug>(openbrowser-smart-search)
+    " let g:openbrowser_use_vimproc = 0
+  else
+    " See: $VIMRUNTIME/plugin/netrwPlugin.vim
+    " let g:netrw_nogx = 1 " disable netrw's gx mapping
+  endif
+
   " This will merge into the default one
   let g:openbrowser_search_engines = {
         \ 'google_hk': 'https://google.com.hk/search?q={query}',
@@ -1335,12 +1342,13 @@ if Bundles('tyru/open-browser.vim')
         \ 'stackoverflow': 'https://stackoverflow.com/search?q={query}',
         \ }
   let g:openbrowser_default_search = 'bing'
-  let g:netrw_nogx = 1 " disable netrw's gx mapping
+
   " Remove unused commands
   autocmd bundle VimEnter * delcommand OpenBrowser | delcommand OpenBrowserSearch
 endif
-command! -nargs=1 Google call function(
-      \exists('*netrw#NetrwBrowseX')?'netrw#NetrwBrowseX':'netrw#BrowseX')(
+let NetrwOpen = function(exists('*netrw#NetrwBrowseX') ?
+      \ 'netrw#NetrwBrowseX' : 'netrw#BrowseX')
+command! -nargs=1 Google call NetrwOpen(
       \"https://www.google.com/search?q=".expand("<args>"),0)
 
 " Vimscript for gist
