@@ -16,9 +16,24 @@ map < moveTabLeft
 map > moveTabRight
 map gX closeTabsOnLeft
 map gx closeTabsOnRight
+map gO closeOtherTabs
 
 map <a-h> scrollLeft
 map <a-l> scrollRight
 
+unmap <a-f>
+unmap <c-e>
+unmap <c-y>
+unmap gt
+unmap gT
+unmap K
+unmap J
+unmap X
+unmap <<
+unmap >>
+
 # Characters used for link hints
 asdfjklewioghpqurmvnbtcxzy
+
+# Default search engine
+http://global.bing.com/search?setmkt=en-us&setlang=en-us&q=
