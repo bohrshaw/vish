@@ -40,15 +40,15 @@ function! vimrc#count(...) " {{{1
   return result == "" ? 0 : result
 endfunction " }}}1
 
-" Do something for all files in the quickfix list or a location list
-function! vimrc#errdo(list, cmd) " {{{1
-  let pre = -1
-  for e in a:list == 'q' ? getqflist() : getloclist()
-    let cur = e['bufnr']
-    if cur != pre
-      execute 'silent buffer '.cur.'|silent! '.a:cmd
+" Execute a commad for each file in the quickfix/location list
+function! vimrc#errfdo(cmd, ...) " {{{1
+  let bpre = 0
+  for i in a:0 == 0 ? getqflist() : getloclist()
+    let b = i.bufnr
+    if b != bpre
+      execute 'silent buffer' b '|' a:cmd
     endif
-    let pre = cur
+    let bpre = b
   endfor
 endfunction " }}}1
 
