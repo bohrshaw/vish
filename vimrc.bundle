@@ -368,8 +368,9 @@ if Bundles('Tpope/vim-surround')
   xmap s      <Plug>VSurround|xnoremap S s
   xmap gs     <Plug>VgSurround
   " :help i_CTRL-G_s
-  imap <M-s>  <Plug>Isurround
-  imap <M-g>s <Plug>ISurround
+  imap     <M-s>       <Plug>Isurround
+  imap     <M-s><M-[>  <M-s>]<M-s>[
+  imap     <M-g>s      <Plug>ISurround
   cnoremap <expr><M-s> <SID>csurround()
   function! s:csurround()
     let cs = matchstr(['()b', '[]r', '{}B', '<>a', '""', "''", '``'], v#getchar(1, 1))[:1]
