@@ -214,6 +214,7 @@ if Dundles('Wellle/targets.vim') && Bundles('tommcdo/vim-ninja-feet',
       \ '-gaving/vim-textobj-argument', '-b4winckler/vim-angry',
       \ 'kana/vim-textobj-indent', '-qstrahl/vim-dentures',
       \ 'machakann/vim-textobj-delimited', 'coderifous/textobj-word-column.vim')
+  imap <M-g><BS> <C-c>cid
   " Delay activating this bundle to reduce startup time
   if has('vim_starting')
     set updatetime=10
