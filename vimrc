@@ -353,7 +353,9 @@ nnoremap <silent><C-w>e :<C-u>execute 'buffer '.winbufnr(v:count1).'\|'
 " Attach the current window bellow the last windows with the same width
 nnoremap <silent><C-w>a :execute 'close\|$wincmd w\|belowright sbuffer '.bufnr('')<CR>
 
-cabbrev <expr>v getcmdtype() == ':' && getcmdpos() == 2 ? 'vert' : 'v'
+cabbrev <expr>v getcmdtype() == ':' && getcmdpos() == 2 ?
+      \ 'vert'.v#setvar('g:_t', nr2char(getchar(0))).
+      \   (_t == ' ' ? '' : "<BS><BS><BS>")._t : 'v'
 cabbrev <expr>t getcmdtype() == ':' && getcmdpos() == 2 ? 'tab' : 't'
 
 " Deal with terminal buffers
