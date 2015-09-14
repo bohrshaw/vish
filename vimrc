@@ -46,9 +46,13 @@ if has('vim_starting')
     set shellslash&
   endif
 
-  let $MYVIMRC = empty($MYVIMRC) ? expand('<sfile>:p') : resolve($MYVIMRC)
+  let $MYVIMRC = empty($MYVIMRC) ? expand('<sfile>:p') :
+        \ has('win32') ?
+        \   filereadable($HOME.'/.vim/vimrc') ?
+        \     expand('~/.vim/vimrc') : expand('~/vimfiles/vimrc') :
+        \   resolve($MYVIMRC)
   let $MYVIM = fnamemodify($MYVIMRC, ':p:h') " be portable
-  let g:ported = $MYVIM == expand('~/.vim') ? 0 : 1
+  let g:ported = $MYVIM == expand('~/.vim') || $MYVIM == expand('~/vimfiles') ? 0 : 1
 
   " Cross-platform 'runtimepath'
   set rtp=$MYVIM,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$MYVIM/after
