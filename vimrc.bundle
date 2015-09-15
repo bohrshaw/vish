@@ -313,12 +313,13 @@ elseif 0 && Bundles('ervandew/supertab')
 endif
 
 " Snippet solutions
-if s:pythonx && Bundle('Sirver/ultisnips',
-      \ {'m':['i <M-[>', 'x <M-[>'], 'c':'UltiSnipsEdit', 'f':'*.snippets'}) &&
-      \ Bundles('Honza/vim-snippets')
-  let g:UltiSnipsExpandTrigger='<M-[>'
-  imap <C-s> <M-[>
-  let g:UltiSnipsListSnippets='<M-g>['
+if s:pythonx && Bundle('Sirver/ultisnips', {
+      \ 'm': ['i <M-l>', 'i <M-g>l', 'x <M-l>'],
+      \ 'c': 'UltiSnipsEdit',
+      \ 'f': '*.snippets',
+      \ }) && Bundles('Honza/vim-snippets')
+  let g:UltiSnipsExpandTrigger='<M-l>'
+  let g:UltiSnipsListSnippets='<M-g>l'
   let g:UltiSnipsJumpForwardTrigger="<M-j>"
   let g:UltiSnipsJumpBackwardTrigger="<M-k>"
 

@@ -476,7 +476,7 @@ if has('vim_starting') && 0 == argc() && has('gui_running') && !g:l
 endif
 
 " Open a destination file of a link
-cnoremap <M-l> <C-\>e<SID>get_link_targets()<CR><CR>
+cnoremap <M-g>l <C-\>e<SID>get_link_targets()<CR><CR>
 function! s:get_link_targets() " {{{
   let [cmd; links] = split(getcmdline())
   for l in links
@@ -526,8 +526,8 @@ endfor
 noremap! <C-X>g <C-k>
 " }}}
 " Auto-reverse letter case in insert mode {{{
-inoremap <M-l> <C-R>=<SID>toggle(1)<CR>
-inoremap <M-L> <C-R>=<SID>toggle(2)<CR>
+inoremap <M-c> <C-R>=<SID>toggle(1)<CR>
+inoremap <M-g>c <C-R>=<SID>toggle(2)<CR>
 function! s:toggle(arg)
   let b:case_reverse = get(b:, 'case_reverse') ? 0 : a:arg
   if !exists('#case_reverse#InsertCharPre#<buffer>')
@@ -558,7 +558,7 @@ cnoremap <C-Tab> <C-d>
 cnoremap <M-w>v <C-\>e'vert '.getcmdline()<CR><CR>
 cnoremap <M-w>t <C-\>e'tab '.getcmdline()<CR><CR>
 " Expand a mixed case command name:" {{{
-cnoremap <M-[> <C-\>e<SID>cmd_expand()<CR><Tab>
+cnoremap <M-l> <C-\>e<SID>cmd_expand()<CR><Tab>
 function! s:cmd_expand()
   let cmd = getcmdline()
   let [range, abbr] = [matchstr(cmd, '^\A*'), matchstr(cmd, '\a.*')]
