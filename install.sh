@@ -31,7 +31,7 @@ if vspell=$VISH/spell && [[ ! -d $vspell/.git ]]; then
   git -C $vspell remote set-url origin git@${url/\//:}
   # Neovim doesn't distribute spell files. I would be interrupted by its prompt.
   for f in spl sug; do
-    curl -o en.utf-8.$f \
+    curl -o $vspell/en.utf-8.$f \
       http://ftp.vim.org/pub/vim/runtime/spell/en.utf-8.$f &>/dev/null &
   done
 fi
