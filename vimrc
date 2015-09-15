@@ -84,7 +84,7 @@ if has('vim_starting')
   let g:l = get(g:, 'l', $VL) || argv(0) =~# '^\V'.
         \(empty($TMPPREFIX)?'/tmp/zsh':$TMPPREFIX).'ecl\|'.$TMP.'/bash-fc'
 
-  let $MYVIMRCPRE = g:ported ? $MYVIM.'/vimrc.pre' : $HOME.'/.vimrc.pre'
+  let $MYVIMRCPRE = (g:ported ? $MYVIM.'/' : $HOME.'/.').'vimrc.local.pre'
   if filereadable($MYVIMRCPRE)
     execute 'silent source' $MYVIMRCPRE
   endif
@@ -1091,7 +1091,7 @@ command! HelpWrite setlocal buftype= buflisted modifiable noreadonly |
       \ silent! unlet b:did_ftplugin b:did_after_ftplugin | filetype detect |
       \ setlocal conceallevel=0 spell
 
-let $MYVIMRCAFTER = g:ported ? $MYVIM.'/vimrc.after' : $HOME.'/.vimrc.after'
+let $MYVIMRCAFTER = (g:ported ? $MYVIM.'/' : $HOME.'/.').'vimrc.local'
 if filereadable($MYVIMRCAFTER)
   execute 'silent source' $MYVIMRCAFTER
 endif
