@@ -308,8 +308,8 @@ if s:lua && Bundles('shougo/neocomplete.vim', 'bohrshaw/vimproc.vim')
         \call neocomplete#commands#_lock() \|
         \inoremap <silent><expr><M-n> neocomplete#start_manual_complete()<CR>
         \<C-R>=neocomplete#start_manual_complete()<CR>
-elseif Bundles('valloric/youcompleteme')
-elseif Bundles('ervandew/supertab')
+elseif 0 && Bundles('valloric/youcompleteme')
+elseif 0 && Bundles('ervandew/supertab')
 endif
 
 " Snippet solutions

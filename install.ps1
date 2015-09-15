@@ -57,7 +57,7 @@ if (-not (Test-Path $VISH\spell\.git -PathType Container)) {
 if (Get-Command "go.exe" -ErrorAction SilentlyContinue) {
     Invoke-Expression "go run $VISH\src\vundle\vundle.go"
 } else {
-    Invoke-Expression "ruby $VISH\bin\bundle.rb"
+    echo "Fatal: Vish depends on Golang to install bundles!"
 }
 
 # vim:tw=80 ts=4 sw=4 et fdm=marker:

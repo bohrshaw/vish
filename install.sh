@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Link vimrc-esque files and install Vim plugins
+# Link vimrc files and install Vim plugins
 
 # Get the directory path of this file
 VISH="$( cd `dirname $0` && pwd -P )"
@@ -24,18 +24,24 @@ done
 slink $VISH/vimrc $HOME/.nvimrc
 
 # Include spell related files(mostly static and large)
-if [[ ! -d $VISH/spell/.git ]]; then
-  [[ -d $VISH/spell ]] && mv $VISH/spell $VISH/spell.bak
-  git clone git@git.coding.net:bohrshaw/vish-spell.git $VISH/spell &
+if vspell=$VISH/spell && [[ ! -d $vspell/.git ]]; then
+  [[ -d $vspell ]] && mv $vspell ${vspell}.bak
+  url=git.coding.net/bohrshaw/vish-spell.git
+  git clone https://$url $vspell
+  git -C $vspell remote set-url origin git@${url/\//:}
+  # Neovim doesn't distribute spell files. I would be interrupted by its prompt.
+  for f in spl sug; do
+    curl -o en.utf-8.$f \
+      http://ftp.vim.org/pub/vim/runtime/spell/en.utf-8.$f &>/dev/null &
+  done
 fi
 
 # Sync bundles
 if hash go &>/dev/null; then
   go run $VISH/src/vundle/vundle.go
 else
-  $VISH/bin/vundle.rb
+  echo "Fatal: Vish depends on Golang to install bundles!"
 fi
 
 wait
-
 echo "Vim ready!"
