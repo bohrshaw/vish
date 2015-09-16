@@ -90,11 +90,6 @@ if has('vim_starting')
   endif
 endif " }}}
 " Meta:" {{{
-" let mapleader = "\r" " replace <Leader> in a map
-let maplocalleader = "\t" " replace <LocalLeader> in a map
-noremap <Tab> <Nop>
-let g:mapinsertleader = "\<M-g>"
-
 " Commands for defining mappings in several modes
 command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
 command! -nargs=1 NXmap nmap <args><Bar>xmap <args>
@@ -105,6 +100,11 @@ command! -nargs=1 NXOmap nmap <args><Bar>xmap <args><Bar>omap <args>
 " Allow chained commands, but also check for a " to start a comment
 command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
       \ inoremap <args>
+
+" let mapleader = "\r" " replace <Leader> in a map
+let maplocalleader = "\t" " replace <LocalLeader> in a map
+NXnoremap <Tab> <Nop>
+let g:mapinsertleader = "\<M-g>"
 
 " Execute a remapped key in its un-remapped(vanilla) state
 noremap <expr><M-\> nr2char(getchar())
@@ -220,6 +220,7 @@ set matchpairs+=<:> " character pairs matched by '%'
 if !has('nvim') " nvim put it in plugin/
   runtime macros/matchit.vim " extended pair matching with '%'
 endif
+autocmd vimrc VimEnter * sunmap %|sunmap [%|sunmap ]%|sunmap a%|sunmap g%
 
 " Sections backword/forward
 nmap <M-[> [[

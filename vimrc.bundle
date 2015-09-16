@@ -247,8 +247,8 @@ if Bundles('Haya14busa/incsearch.vim', 'Haya14busa/vim-asterisk')
         \(v:searchforward ? 'N' : 'n').'zv'
   " let g:incsearch#consistent_n_direction = 1 " redundant
   " Incremantal search improved with a search specific command line interface
-  map g/ <Plug>(incsearch-forward)
-  map g? <Plug>(incsearch-backward)
+  NXmap g/ <Plug>(incsearch-forward)
+  NXmap g? <Plug>(incsearch-backward)
   function! s:incsearch_mapping()
     IncSearchNoreMap <M-j> <Over>(incsearch-next)
     IncSearchNoreMap <M-k> <Over>(incsearch-prev)
@@ -260,15 +260,15 @@ if Bundles('Haya14busa/incsearch.vim', 'Haya14busa/vim-asterisk')
   execute repeat('autocmd bundle VimEnter * ', has('vim_starting')).
         \'call s:incsearch_mapping()'
   " Search literally in visual mode
-  map <expr>*  '<Plug>(incsearch-nohl)<Plug>(asterisk-*)zv'
-  map <expr>#  '<Plug>(incsearch-nohl)<Plug>(asterisk-#)zv'
-  map <expr>g* '<Plug>(incsearch-nohl)<Plug>(asterisk-g*)zv'
-  map <expr>g# '<Plug>(incsearch-nohl)<Plug>(asterisk-g#)zv'
+  NXmap <expr>*  '<Plug>(incsearch-nohl)<Plug>(asterisk-*)zv'
+  NXmap <expr>#  '<Plug>(incsearch-nohl)<Plug>(asterisk-#)zv'
+  NXmap <expr>g* '<Plug>(incsearch-nohl)<Plug>(asterisk-g*)zv'
+  NXmap <expr>g# '<Plug>(incsearch-nohl)<Plug>(asterisk-g#)zv'
   " The cusor would not move
-  map z*  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)
-  map gz* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
-  map z#  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)
-  map gz# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
+  NXmap z*  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)
+  NXmap gz* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
+  NXmap z#  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)
+  NXmap gz# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
   let g:incsearch#auto_nohlsearch = 1 " auto-nohlsearch on cursor move
   " Highlight only in the current window (custom hi-group instead of 'Search')
   let g:incsearch#no_inc_hlsearch = 1
@@ -418,7 +418,7 @@ call Bundles('tpope/vim-speeddating')
 " Exchange text flexibly with a text exchange operator
 if Bundles('Tommcdo/vim-exchange')
   " nmap cx <Plug>(Exchange)
-  vmap cx <Plug>(Exchange)
+  xmap cx <Plug>(Exchange)
   " nmap cxc <Plug>(ExchangeClear)
   " nmap cxx <Plug>(ExchangeLine)
   nmap >w cxiwwcxiw
