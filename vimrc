@@ -84,7 +84,7 @@ if has('vim_starting')
   let g:l = get(g:, 'l', $VL) || argv(0) =~# '^\V'.
         \(empty($TMPPREFIX)?'/tmp/zsh':$TMPPREFIX).'ecl\|'.$TMP.'/bash-fc'
 
-  let $MYVIMRCPRE = (g:ported ? $MYVIM.'/' : $HOME.'/.').'vimrc.local.pre'
+  let $MYVIMRCPRE = (g:ported ? $MYVIM.'/' : $HOME.'/.').'vimrc.pre.local'
   if filereadable($MYVIMRCPRE)
     execute 'silent source' $MYVIMRCPRE
   endif
