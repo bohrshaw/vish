@@ -7,15 +7,16 @@ import (
 )
 
 func TestBundles(t *testing.T) {
-	bundles := bundles("foo/bar/baz", "hello/world/you")
+	bspecs := []string{"foo/bar", "foo/bar/baz", "a/b:", "a/b:br", "a/b:br/dir/dir"}
+	bundles := bundles(bspecs...)
 	if len(bundles) == 0 {
 		t.Fatal("No bundles at all!")
 	}
 	if testing.Verbose() {
-		fmt.Println(len(bundles), "Bundles:", bundles)
+		fmt.Printf("%v Bundles(including %v test bundles): %v\n", len(bundles), len(bspecs), bundles)
 	}
-	r := regexp.MustCompile(`^[[:word:]-.]+/[[:word:]-.]+$`)
-	for _, b := range bundles {
+	r := regexp.MustCompile(`^[[:word:]-.]+/[[:word:]-.:]+$`)
+	for _, b := range append(bundles) {
 		if !r.MatchString(b) {
 			t.Fatal("Wrong bundle format:", b)
 		}

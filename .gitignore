@@ -3,6 +3,7 @@
 # and * don't match /
 
 # ignore directories under bundle
+/doc/tags
 /bundle/
 /spell/
 /tmp/

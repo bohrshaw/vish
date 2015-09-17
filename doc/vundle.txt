@@ -1,0 +1,20 @@
+*vundle.txt* A Vim bundle(plugin) manager                        Version 0.1.0
+
+==============================================================================
+Usage                                                           *vundle-usage*
+
+You specify which bundles to include with a function and Vundle will download
+it externally(manually) and ensure Vim loads them.
+
+Generally, you include a bundle with a call to `Bundles('author/repo')`. There
+are several variant functions which are defined in "autoload/bundle.vim".
+
+The bundle format is "author/repo[:[branch]][/sub/directory]". If ":" is
+included but "branch" is not, "branch" defaults to one of "linux_amd64",
+"windows_386", "darwin_amd64" etc. depending on the OS.
+
+`vundle`("src/vundle/vundle.go") is for managing bundles in the File System,
+which including downloading, updating and cleaning bundles.
+
+
+ vim:tw=78:ts=8:ft=help:norl:

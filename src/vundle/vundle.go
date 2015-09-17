@@ -1,7 +1,7 @@
+// Author: Bohr Shaw <pubohr@gmail.com>
+
 // Vundle manages Vim bundles(plugins).
-// Related:
-// https://github.com/gpmgo/gopm/blob/master/cmd/get.go
-// https://github.com/sourcegraph/go-vcs
+// It downloads, updates bundles, clean disabled bundles.
 package main
 
 import (
@@ -12,6 +12,7 @@ import (
 	"os/exec"
 	"os/user"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"sync"
 )
@@ -28,7 +29,6 @@ var (
 )
 
 func main() {
-	// Parse the command line into the defined flags
 	flag.Parse()
 
 	var (
@@ -70,7 +70,21 @@ func main() {
 
 // synca install or update a bundle
 func (*manager) synca(bundle *string) {
-	path := root + "/" + strings.Split(*bundle, "/")[1]
+	var (
+		repo   = *bundle
+		branch = ""
+		bindex = strings.Index(*bundle, ":")
+	)
+	if bindex >= 0 {
+		repo = (*bundle)[:bindex]
+		if len(*bundle) == bindex+1 {
+			branch = runtime.GOOS + "_" + runtime.GOARCH
+		} else {
+			branch = (*bundle)[bindex+1:]
+		}
+	}
+
+	path := root + "/" + strings.Split(repo, "/")[1]
 	_, err := os.Stat(path)
 	pathExist := !os.IsNotExist(err)
 
@@ -78,21 +92,29 @@ func (*manager) synca(bundle *string) {
 		return
 	}
 
-	url := "git://github.com/" + *bundle
-	urlHTTP := "http://github.com/" + *bundle
+	url := "git://github.com/" + repo
+	urlHTTP := "http://github.com/" + repo
 
 	cmdpath, _ := exec.LookPath("git")
 	cmd := &exec.Cmd{Path: cmdpath}
 
+	// Clone or update the repository
 	if !pathExist {
-		// Clone the repository
-		cmd.Args = []string{"git", "clone", "--depth", "1", "--recursive", "--quiet", url, path}
-		cmd.Run()
-		fmt.Println(urlHTTP, "cloned")
+		args := make([]string, 0, 10)
+		args = append(args, "git", "clone", "--depth", "1", "--recursive", "--quiet")
+		if branch != "" {
+			args = append(args, "--branch", branch)
+		}
+		cmd.Args = append(args, url, path)
+
+		if err := cmd.Run(); err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Println(urlHTTP, "cloned")
+		}
 	} else if *update {
 		cmd.Dir = path
 
-		// Update the repository
 		cmd.Args = strings.Fields("git pull")
 		out, _ := cmd.Output()
 
@@ -117,7 +139,7 @@ func (*manager) clean(bundles *[]string) {
 	for _, d := range dirs {
 		match = false
 		for _, b := range *bundles {
-			if string(d[strings.LastIndexAny(d, "/\\")+1:]) == strings.Split(b, "/")[1] {
+			if d[strings.LastIndexAny(d, "/\\")+1:] == strings.Split(b, "/")[1] {
 				match = true
 				break
 			}
@@ -129,12 +151,22 @@ func (*manager) clean(bundles *[]string) {
 	}
 }
 
-// bundles returns the bundle list in which each item contains the partial URL
-// like "foo/bar" extracted from "github.com/foo/bar[/baz]".
+// bundles returns the bundle list obtained from Vim.
+// The format of a bundle is "author/repo[:branch][/sub/directory]", with
+// "/sub/directory" cut off.
 func bundles(bs ...string) []string {
-	bundles := append(bundlesRaw(), bs...)
+	args := []string{
+		"-Nesc",
+		"set rtp+=~/.vim | let g:_vim_with_all_features = 1 |" +
+			"runtime vimrc.bundle | put =dundles | 2,p | q!",
+	}
+	out, err := exec.Command("vim", args...).Output()
+	if err != nil {
+		// log.Fatal(err)
+	}
+	bundles := append(strings.Fields(string(out)), bs...)
+
 	for i, v := range bundles {
-		// Extract "foo/bar" from "foo/bar/baz/..."
 		if strings.Count(v, "/") > 1 {
 			var slash1 bool
 			idx := strings.IndexFunc(v,
@@ -150,20 +182,6 @@ func bundles(bs ...string) []string {
 			bundles[i] = v[:idx]
 		}
 	}
-	return bundles
-}
-
-// bundlesRaw returns the bundle list obtained from Vim
-func bundlesRaw() []string {
-	args := []string{
-		"-Nesc",
-		"set rtp+=~/.vim | let g:_vim_with_all_features = 1 |" +
-			"runtime vimrc.bundle | put =dundles | 2,p | q!",
-	}
-
-	out, _ := exec.Command("vim", args...).Output()
-	bundles := strings.Fields(string(out))
-
 	return bundles
 }
 

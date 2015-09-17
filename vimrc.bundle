@@ -284,7 +284,7 @@ call Bundles('-raimondi/delimitmate', '-cohama/lexima.vim', '-jiangmiao/auto-pai
 call Bundles('tpope/vim-endwise')
 
 " Completions
-if s:lua && Bundles('shougo/neocomplete.vim', 'bohrshaw/vimproc.vim')
+if s:lua && Bundles('shougo/neocomplete.vim')
   let g:neocomplete#enable_at_startup = 0
   let g:neocomplete#max_list = 20
   let g:neocomplete#auto_completion_start_length = 2
@@ -1123,7 +1123,7 @@ if 0 && s:nvim && Bundles('fmoralesc/nvimfs')
 endif
 
 " An asynchronous execution library
-if Bundles('bohrshaw/vimproc.vim', '-shougo/vimproc.vim')
+if Bundles('bohrshaw/vimproc.vim:', '-shougo/vimproc.vim')
   command! -nargs=+ -bang -complete=shellcmd B
         \ if <bang>0 | call vimproc#system_bg(<SID>vimproc_esc(<q-args>)) |
         \ else | execute 'VimProcBang '.<SID>vimproc_esc(<q-args>, '/') | endif
@@ -1160,7 +1160,7 @@ if has('nvim')
   endfunction
   tnoremap <M-C-d> <C-\><C-n>:bwipeout!<CR>
   nnoremap <Leader>bs :Unite -input=term:/\ zsh\|bash\  buffer<CR>
-elseif Bundles('shougo/vimshell.vim', 'bohrshaw/vimproc.vim')
+elseif Bundles('shougo/vimshell.vim')
   nnoremap <M-s> :<C-U>VimShell<CR>
   let g:vimshell_split_command = 'split'
   let g:vimshell_prompt = '% '
