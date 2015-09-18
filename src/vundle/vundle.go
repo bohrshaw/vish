@@ -93,22 +93,35 @@ func (*manager) synca(bundle *string) {
 	}
 
 	url := "git://github.com/" + repo
-	urlHTTP := "http://github.com/" + repo
+	urlHTTP := "https://github.com/" + repo
 
-	cmdpath, _ := exec.LookPath("git")
+	cmdpath, err := exec.LookPath("git")
+	if err != nil {
+		log.Fatal(err)
+	}
 	cmd := &exec.Cmd{Path: cmdpath}
 
 	// Clone or update the repository
 	if !pathExist {
 		args := make([]string, 0, 10)
-		args = append(args, "git", "clone", "--depth", "1", "--recursive", "--quiet")
+		args = append(args, cmdpath, "clone", "--depth", "1", "--recursive", "--quiet")
 		if branch != "" {
 			args = append(args, "--branch", branch)
 		}
 		cmd.Args = append(args, url, path)
 
 		if err := cmd.Run(); err != nil {
-			fmt.Println(err)
+			// Assume the branch doesn't exist and try to clone the default branch
+			if branch != "" {
+				err := exec.Command(cmdpath, append(args[:len(args)-2], url, path)[1:]...).Run()
+				if err != nil {
+					fmt.Println(urlHTTP, "can't be cloned!")
+				} else {
+					fmt.Printf("%v cloned, but the branch %v doesn't exist\n", urlHTTP, branch)
+				}
+			} else {
+				fmt.Println(urlHTTP, "can't be cloned!")
+			}
 		} else {
 			fmt.Println(urlHTTP, "cloned")
 		}
