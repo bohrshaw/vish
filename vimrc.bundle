@@ -1181,6 +1181,7 @@ if Bundles('Tpope/vim-git') && BundleRun('tpope/vim-fugitive')
 
   nnoremap g<Space>c<Space> :Gcommit -v<CR>
   nnoremap g<Space>ca       :Gcommit --amend -v<CR>
+  nnoremap g<Space>cA       :G! commit --amend -C HEAD<CR>
 
   " Add the current file and commit
   nnoremap <silent>g<Space>a<Space> :call <SID>git_add_current()<CR>
