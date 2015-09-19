@@ -6,9 +6,9 @@ import (
 	"testing"
 )
 
-func TestBundles(t *testing.T) {
+func TestGetBundles(t *testing.T) {
 	bspecs := []string{"foo/bar", "foo/bar/baz", "a/b:", "a/b:br", "a/b:br/dir/dir"}
-	bundles := bundles(bspecs...)
+	bundles := getBundles(bspecs...)
 	if len(bundles) == 0 {
 		t.Fatal("No bundles at all!")
 	}
