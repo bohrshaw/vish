@@ -87,60 +87,63 @@ func (*manager) synca(bundle *string) {
 	path := root + "/" + strings.Split(repo, "/")[1]
 	_, err := os.Stat(path)
 	pathExist := !os.IsNotExist(err)
-
 	if pathExist && !*update {
 		return
 	}
 
-	url := "git://github.com/" + repo
-	urlHTTP := "https://github.com/" + repo
-
-	cmdpath, err := exec.LookPath("git")
+	cmdPath, err := exec.LookPath("git")
 	if err != nil {
 		log.Fatal(err)
 	}
-	cmd := &exec.Cmd{Path: cmdpath}
+	cmd := &exec.Cmd{Path: cmdPath}
+	url := "https://github.com/" + repo
 
 	// Clone or update the repository
 	if !pathExist {
 		args := make([]string, 0, 10)
-		args = append(args, cmdpath, "clone", "--depth", "1", "--recursive", "--quiet")
+		args = append(args, cmdPath, "clone", "--depth", "1", "--recursive", "--quiet")
 		if branch != "" {
 			args = append(args, "--branch", branch)
 		}
 		cmd.Args = append(args, url, path)
 
-		if err := cmd.Run(); err != nil {
+		err := cmd.Run()
+		if err != nil {
 			// Assume the branch doesn't exist and try to clone the default branch
 			if branch != "" {
-				err := exec.Command(cmdpath, append(args[:len(args)-2], url, path)[1:]...).Run()
+				// As of go1.5.1 linux/386, a Cmd struct can't be reused after calling its Run, Output or CombinedOutput methods.
+				err := exec.Command(cmdPath, append(args[:len(args)-2], url, path)[1:]...).Run()
 				if err != nil {
-					fmt.Println(urlHTTP, "can't be cloned!")
+					fmt.Println(url, "can't be cloned!")
 				} else {
-					fmt.Printf("%v cloned, but the branch %v doesn't exist\n", urlHTTP, branch)
+					fmt.Printf("%v cloned, but the branch %v doesn't exist\n", url, branch)
 				}
 			} else {
-				fmt.Println(urlHTTP, "can't be cloned!")
+				fmt.Println(url, "can't be cloned!")
 			}
 		} else {
-			fmt.Println(urlHTTP, "cloned")
+			fmt.Println(url, "cloned")
 		}
 	} else if *update {
 		cmd.Dir = path
-
 		cmd.Args = strings.Fields("git pull")
-		out, _ := cmd.Output()
+		out, err := cmd.Output()
+		if err != nil {
+			fmt.Println("git pull error:", err)
+		}
 
 		// Update submodules
 		if _, err := os.Stat(path + "/.gitmodules"); !os.IsNotExist(err) {
-			cmd.Args = strings.Fields("git submodule sync")
-			cmd.Run()
-			cmd.Args = strings.Fields("git submodule update --init --recursive")
-			cmd.Run()
+			exec.Command(cmdPath, "submodule", "sync").Run()
+			err := exec.Command(cmdPath, "submodule", "update", "--init", "--recursive").Run()
+			if err != nil {
+				fmt.Println("git submodule update error:", err)
+			}
 		}
 
+		// The output could be "Already up-to-date."
 		if len(out) != 0 && out[0] != 'A' {
-			fmt.Println(urlHTTP, "updated")
+			fmt.Println(url, "updated")
 		}
 	}
 }
