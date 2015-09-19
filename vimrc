@@ -216,7 +216,9 @@ nnoremap <C-k> gk
 " Jump to the middle of the current written line as opposed to the window width
 nnoremap <silent> gm :call cursor(0, virtcol('$')/2)<CR>|nnoremap gM gm
 
-set matchpairs+=<:> " character pairs matched by '%'
+" Character pairs matched by '%'
+" < and > don't always make a pair, they could appear in <=, ->, etc.
+" set matchpairs+=<:>
 if !has('nvim') " nvim put it in plugin/
   runtime macros/matchit.vim " extended pair matching with '%'
 endif
