@@ -20,13 +20,20 @@ import (
 type manager struct{}
 
 var (
-	update   = flag.Bool("u", false, "update bundles")
-	clear    = flag.Bool("c", false, "clear bundles")
-	routines = flag.Int("r", 12, "number of routines")
-	_user, _ = user.Current()
-	root     = _user.HomeDir + "/.vim/bundle"
-	vundle   = &manager{}
+	update      = flag.Bool("u", false, "update bundles")
+	clear       = flag.Bool("c", false, "clear bundles")
+	routines    = flag.Int("r", 12, "number of routines")
+	_user, _    = user.Current()
+	root        = _user.HomeDir + "/.vim/bundle"
+	vundle      = &manager{}
+	git, giterr = exec.LookPath("git")
 )
+
+func init() {
+	if giterr != nil {
+		log.Fatal(giterr)
+	}
+}
 
 func main() {
 	flag.Parse()
@@ -68,7 +75,7 @@ func main() {
 	helptags()
 }
 
-// synca install or update a bundle
+// synca install or update a bundle.
 func (*manager) synca(bundle *string) {
 	var (
 		repo   = *bundle
@@ -91,17 +98,13 @@ func (*manager) synca(bundle *string) {
 		return
 	}
 
-	cmdPath, err := exec.LookPath("git")
-	if err != nil {
-		log.Fatal(err)
-	}
-	cmd := &exec.Cmd{Path: cmdPath}
+	cmd := &exec.Cmd{Path: git}
 	url := "https://github.com/" + repo
 
 	// Clone or update the repository
 	if !pathExist {
 		args := make([]string, 0, 10)
-		args = append(args, cmdPath, "clone", "--depth", "1", "--recursive", "--quiet")
+		args = append(args, git, "clone", "--depth", "1", "--recursive", "--quiet")
 		if branch != "" {
 			args = append(args, "--branch", branch)
 		}
@@ -112,7 +115,7 @@ func (*manager) synca(bundle *string) {
 			// Assume the branch doesn't exist and try to clone the default branch
 			if branch != "" {
 				// As of go1.5.1 linux/386, a Cmd struct can't be reused after calling its Run, Output or CombinedOutput methods.
-				err := exec.Command(cmdPath, append(args[:len(args)-2], url, path)[1:]...).Run()
+				err := exec.Command(git, append(args[:len(args)-2], url, path)[1:]...).Run()
 				if err != nil {
 					fmt.Println(url, "can't be cloned!")
 				} else {
@@ -124,7 +127,7 @@ func (*manager) synca(bundle *string) {
 		} else {
 			fmt.Println(url, "cloned")
 		}
-	} else if *update {
+	} else {
 		cmd.Dir = path
 		cmd.Args = strings.Fields("git pull")
 		out, err := cmd.Output()
@@ -134,8 +137,8 @@ func (*manager) synca(bundle *string) {
 
 		// Update submodules
 		if _, err := os.Stat(path + "/.gitmodules"); !os.IsNotExist(err) {
-			exec.Command(cmdPath, "submodule", "sync").Run()
-			err := exec.Command(cmdPath, "submodule", "update", "--init", "--recursive").Run()
+			exec.Command(git, "submodule", "sync").Run()
+			err := exec.Command(git, "submodule", "update", "--init", "--recursive").Run()
 			if err != nil {
 				fmt.Println("git submodule update error:", err)
 			}
