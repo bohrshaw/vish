@@ -370,6 +370,8 @@ if has('nvim')
   tnoremap <M-w> <C-\><C-n><C-w>
   tnoremap <M-j> <C-\><C-n><C-w>w
   tnoremap <M-k> <C-\><C-n><C-w>W
+  tnoremap <M-l> <C-\><C-n>gt
+  tnoremap <M-h> <C-\><C-n>gT
   tnoremap <S-PageUp> <C-\><C-n><C-b>
   tnoremap <S-PageDown> <C-\><C-n><C-f>
   tnoremap <C-PageUp> <C-\><C-n><C-b>
@@ -560,6 +562,7 @@ cnoremap <C-Tab> <C-d>
 " Make a command(e.g. `:h ...`) split vertically or in a new tab.
 cnoremap <M-w>v <C-\>e'vert '.getcmdline()<CR><CR>
 cnoremap <M-w>t <C-\>e'tab '.getcmdline()<CR><CR>
+cmap <M-CR> <C-\>e'tab '.getcmdline()<CR><CR>
 " Expand a mixed case command name:" {{{
 cnoremap <M-l> <C-\>e<SID>cmd_expand()<CR><Tab>
 function! s:cmd_expand()
