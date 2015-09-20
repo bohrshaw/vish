@@ -69,6 +69,7 @@ if has('vim_starting')
     " Map meta-chords to esc-sequences in terminals
     for c in map(range(33, 123) + range(125, 126), 'nr2char(v:val)')
       execute 'tnoremap '.'<M-'.c.'> <Esc>'.c
+      execute 'tnoremap '.'<M-C-'.c.'> <Esc><C-'.c.'>'
     endfor
     tnoremap <M-\|> <Esc>\|
     tnoremap <M-CR> <Esc><CR>
