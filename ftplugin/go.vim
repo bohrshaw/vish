@@ -1,7 +1,6 @@
-if exists("b:did_after_ftplugin")
+if exists("b:did_ftplugin")
   finish
 endif
-let b:did_after_ftplugin = 1
 
 " See existing mappings and commands in $MYVIM/bundle/vim-go/ftplugin/go/commands.vim
 
