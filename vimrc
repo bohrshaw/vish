@@ -968,8 +968,15 @@ set rulerformat=%50(%=%m%r%<%f%Y\ %c,%l/%L,%P%)
 " }}}
 
 let &showtabline = g:l ? 1 : 2
-autocmd vimrc VimEnter * let &titlestring = matchstr(v:servername, '.vim.*\c').
-      \ (g:l ? '(L)' : '').' '.'%{getcwd()}'
+
+if exists('$TMUX')
+  " set titlestring=%{fnamemodify(getcwd(),\ ':~')}
+  " autocmd vimrc FocusLost,VimLeavePre * set titlestring=
+else
+  set title " may not be able to be restored
+  autocmd vimrc VimEnter * let &titlestring = matchstr(v:servername, '.vim.*\c').
+        \ (g:l ? '(L)' : '').' '.'%{getcwd()}'
+endif
 
 " Make it easy to spot the cursor, especially for Gnome-terminal whose cursor
 " color is not distinguishable.
