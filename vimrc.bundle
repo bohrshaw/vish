@@ -1189,7 +1189,7 @@ if Bundles('Tpope/vim-git') && BundleRun('tpope/vim-fugitive')
   nmap     g<Space>aa               g<Space>a<Space>:Gcommit --amend -v<CR>
   " Add all files and commit
   nnoremap g<Space>A<Space> :wall \| G! add --update<CR>
-  nnoremap g<Space>AA       :wall \| G! add --all<CR>
+  nnoremap g<Space>A<CR>    :wall \| G! add --all<CR>
   nnoremap g<Space>Ac       :wall \| Gcommit --all -v<CR>
   nnoremap g<Space>Aa       :wall \| Gcommit --all --amend -v<CR>
   " Routine commits
