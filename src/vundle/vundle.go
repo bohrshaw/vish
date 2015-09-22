@@ -116,7 +116,7 @@ func (*Manager) synca(bundle *string) {
 					cmd.Args = strings.Fields("git pull")
 					out, err := cmd.Output()
 					if err != nil {
-						fmt.Println("git pull error:", err)
+						fmt.Println(url, "pull failed:", err)
 					}
 
 					// Update submodules
@@ -124,7 +124,7 @@ func (*Manager) synca(bundle *string) {
 						exec.Command(git, "submodule", "sync").Run()
 						err := exec.Command(git, "submodule", "update", "--init", "--recursive").Run()
 						if err != nil {
-							fmt.Println("git submodule update error:", err)
+							fmt.Println(url, "submodule update failed:", err)
 						}
 					}
 
