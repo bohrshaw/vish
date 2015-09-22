@@ -60,8 +60,10 @@ function! s:bind(c)
   silent! execute 'set '.key."=\<Esc>".a:c
 endfunction
 
-" Pre-bind <M-a..z> <M-A..Z>
+" Pre-bind <M-Alpha>, etc.
+" Note: Keys left out are troublesome, like: '[', "\<BS>", "\<CR>", etc.
 for i in map(range(26), 'nr2char(97 + v:val)') +
-      \ map(range(26), 'nr2char(65 + v:val)') + ['\', '[', ']']
+      \ map(range(26), 'nr2char(65 + v:val)') +
+      \ split('-_=+{]}\;:'',./', '\zs')
   call s:bind(i)
 endfor
