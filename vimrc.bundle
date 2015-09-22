@@ -906,6 +906,7 @@ if Bundles('thinca/vim-quickrun')
   xnoremap R :QuickRun -mode v<CR>
   command! -nargs=* -range -complete=customlist,quickrun#complete Run
         \ call quickrun#command(<q-args>, <count>, <line1>, <line2>)
+  let g:quickrun_config.sh = {'command': 'bash'}
 endif
 
 " Markups {{{2
