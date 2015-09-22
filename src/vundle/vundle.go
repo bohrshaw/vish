@@ -139,13 +139,16 @@ func (*Manager) synca(bundle *string) {
 	}
 }
 
-// clean removes disabled bundles from the disk
+// clean removes disabled bundles from the file system
 func (*Manager) clean(bundles *[]string) {
 	dirs, _ := filepath.Glob(root + "/*")
 	var match bool
 	for _, d := range dirs {
 		match = false
 		for _, b := range *bundles {
+			if i := strings.Index(b, ":"); i >= 0 {
+				b = b[:i]
+			}
 			if d[strings.LastIndexAny(d, "/\\")+1:] == strings.Split(b, "/")[1] {
 				match = true
 				break
