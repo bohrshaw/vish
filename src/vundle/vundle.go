@@ -24,16 +24,17 @@ type Bundle struct {
 }
 
 var (
-	update      = flag.Bool("u", false, "update bundles")
-	clean       = flag.Bool("c", false, "clean bundles")
-	maxRoutines = flag.Int("r", 12, "max number of routines")
-	routines    = 0
-	ch          = make(chan Bundle, 9)
-	wg          = sync.WaitGroup{} // goroutines count
-	vundle      = &Manager{}
-	bundles     = getBundles()
-	_user, _    = user.Current()
-	root        = _user.HomeDir + "/.vim/bundle"
+	update           = flag.Bool("u", false, "update bundles")
+	clean            = flag.Bool("c", false, "clean bundles")
+	dry              = flag.Bool("n", false, "dry run")
+	maxRoutines      = flag.Int("r", 12, "max number of routines")
+	routines         = 0
+	ch               = make(chan Bundle, 9)
+	wg               = sync.WaitGroup{} // goroutines count
+	vundle           = &Manager{}
+	bundles          = getBundles()
+	_user, _         = user.Current()
+	root             = _user.HomeDir + "/.vim/bundle"
 	git, gitNotExist = exec.LookPath("git")
 )
 
@@ -155,8 +156,22 @@ func (*Manager) clean(bundles *[]string) {
 			}
 		}
 		if !match {
-			os.RemoveAll(d)
-			fmt.Println(d, "removed")
+			if *dry {
+				fmt.Println("Would remove", d)
+				return
+			}
+			var err error
+			// Note: on Windows, read-only files woundn't be removed
+			if runtime.GOOS == "windows" {
+				err = exec.Command("cmd.exe", "/C", "rmdir", "/S", "/Q", d).Run()
+			} else {
+				err = os.RemoveAll(d)
+			}
+			if err != nil {
+				fmt.Printf("Fail removing %v: %v\n", d, err)
+			} else {
+				fmt.Println(d, "removed")
+			}
 		}
 	}
 }
