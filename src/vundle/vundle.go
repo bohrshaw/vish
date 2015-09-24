@@ -47,7 +47,7 @@ func init() {
 
 func main() {
 	for _, bundle := range bundles {
-		vundle.synca(&bundle)
+		vundle.synca(bundle)
 	}
 	close(ch)
 
@@ -55,19 +55,19 @@ func main() {
 	helptags()
 
 	if *clean {
-		vundle.clean(&bundles)
+		vundle.clean(bundles)
 	}
 }
 
 // synca install or update a bundle.
-func (*Manager) synca(bundle *string) {
-	b := Bundle{repo: *bundle}
-	if bindex := strings.Index(*bundle, ":"); bindex >= 0 {
-		b.repo = (*bundle)[:bindex]
-		if len(*bundle) == bindex+1 {
+func (*Manager) synca(bundle string) {
+	b := Bundle{repo: bundle}
+	if bindex := strings.Index(bundle, ":"); bindex >= 0 {
+		b.repo = (bundle)[:bindex]
+		if len(bundle) == bindex+1 {
 			b.branch = runtime.GOOS + "_" + runtime.GOARCH
 		} else {
-			b.branch = (*bundle)[bindex+1:]
+			b.branch = (bundle)[bindex+1:]
 		}
 	}
 
@@ -141,12 +141,12 @@ func (*Manager) synca(bundle *string) {
 }
 
 // clean removes disabled bundles from the file system
-func (*Manager) clean(bundles *[]string) {
+func (*Manager) clean(bundles []string) {
 	dirs, _ := filepath.Glob(root + "/*")
 	var match bool
 	for _, d := range dirs {
 		match = false
-		for _, b := range *bundles {
+		for _, b := range bundles {
 			if i := strings.Index(b, ":"); i >= 0 {
 				b = b[:i]
 			}
