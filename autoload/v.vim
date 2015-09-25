@@ -31,6 +31,12 @@ function! v#setvar(var, val)
   return ''
 endfunction
 
+" Execute a command via an expression
+function v#execute(cmd)
+  execute a:cmd
+  return ''
+endfunction
+
 " Get a list of buffers
 " If argument 1 is empty, listed buffers are displayed.
 " If argument 1 is "!", both listed and non-listed buffers are displayed.

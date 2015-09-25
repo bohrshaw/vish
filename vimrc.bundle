@@ -1238,8 +1238,10 @@ if Bundles('Tpope/vim-git') && BundleRun('tpope/vim-fugitive')
     endfor
   endfunction
 
-  nnoremap <expr><M-f>/ ':cd '.b:git_dir[:-6]."<CR>"
-  nnoremap <expr><M-f>\ ':lcd '.b:git_dir[:-6]."<CR>"
+  nnoremap <expr><M-f>/ ':lcd '.b:git_dir[:-6]."<CR>"
+  cnoremap <M-/> <C-r>=v#execute('lcd '.b:git_dir[:-6])<CR>
+  nnoremap <expr><M-f>\ ':cd '.b:git_dir[:-6]."<CR>"
+  cnoremap <M-\>\ <C-r>=v#execute('cd '.b:git_dir[:-6])<CR>
 
   " A command :G using vimproc, an alternative to :Git
   execute "command! -nargs=1 -bang "
