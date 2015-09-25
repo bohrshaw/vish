@@ -132,7 +132,7 @@ command! -nargs=1 Abbr execute substitute(<q-args>, '\v\s+\S+\zs', 'SoXx', '')
 " Complete and trigger a full-id abbreviation
 noremap! <M-]> SoXx<C-]>
 
-" Echo a warning message
+" Echo a warning message. Note: A double-quote in <args> starts a comment.
 command! -bar -nargs=1 Echow echohl WarningMsg | echo <args> | echohl None
 " A command doing nothing while accepting args (for quick composition)
 command! -nargs=* Nop :

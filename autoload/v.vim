@@ -8,10 +8,17 @@ function! v#getchar(...)
     let c = type(c) == type(0) ? nr2char(c) : c
     if "\<C-c>" == c
       return ''
-    elseif "\<Esc>" == c && !exists('a:2')
-      return ''
-    elseif "\<CR>" == c && !exists('a:2')
-      break
+    endif
+    if !exists('a:2')
+      if "\<Esc>" == c
+        return ''
+      endif
+      if "\<CR>" == c
+        if cs == ''
+          return c
+        endif
+        return cs
+      endif
     endif
     let cs .= c
   endfor
