@@ -1069,7 +1069,9 @@ silent! set langnoremap " 'langmap' doesn't apply to characters resulting from a
 " onoremap <silent> w :execute 'normal! '.v:count1.'w'<CR>
 
 " Join lines without any character or with specified characters in between
-command! -range -nargs=? Join <line1>,<line2>-1s/\s*\n\s*/<args>/
+command! -range -nargs=? -bang Join execute
+      \ 'keepp <line1>,'.(<line1> == <line2> ? <line2> : <line2>-1).
+      \ 's/\s*\n\s*/'.(<bang>0 ? <q-args> : ' '.<q-args>.' ' )
 " Remove trailing white spaces
 command! -range=% Trim let _p=getpos('.')|
       \keepj keepp <line1>,<line2>s/\s\+$//| call setpos('.',_p)
