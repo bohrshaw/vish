@@ -122,8 +122,8 @@ func (*Manager) synca(bundle string) {
 
 					// Update submodules
 					if _, err := os.Stat(b.dest + "/.gitmodules"); !os.IsNotExist(err) {
-						exec.Command(git, "submodule", "sync").Run()
-						err := exec.Command(git, "submodule", "update", "--init", "--recursive").Run()
+						exec.Command(git, "-C", b.dest, "submodule", "sync").Run()
+						err := exec.Command(git, "-C", b.dest, "submodule", "update", "--init", "--recursive").Run()
 						if err != nil {
 							fmt.Println(url, "submodule update failed:", err)
 						}
