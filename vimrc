@@ -902,11 +902,13 @@ execute 'autocmd vimrc InsertLeave * set listchars+=trail:'.s:lcs[1]
 set laststatus=2 " always display the status line
 " Ensure all plugins are loaded before setting 'statusline'
 function! Vstatusline()
-  set statusline=%1*%{Vmode()}%* " mode
-  set statusline+=:%2*%n " buffer number
-  set statusline+=%{(&modified?'+':'').(&modifiable?'':'-').(&readonly?'=':'')}%*
-  set statusline+=:%.30f " file path, truncated if its length > 30
-  set statusline+=:%1*%Y%* " file type
+  " Use a highlight group User{N} to apply only the difference to StatusLine to
+  " StatusLineNC
+  set statusline=%1*%{Vmode()} " mode
+  set statusline+=:%n " buffer number
+  set statusline+=%{(&modified?'+':'').(&modifiable?'':'-').(&readonly?'=':'')}
+  set statusline+=%*:%.30f " file path, truncated if its length > 30
+  set statusline+=:%2*%Y%* " file type
   set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?':'.&fenc:''} " file encoding
   set statusline+=%{&ff!='unix'?':'.&ff:''} " file format
   " Git branch name
@@ -939,28 +941,29 @@ set noshowmode " hide the mode message on the command line
 set fillchars+=stl::,stlnc:: " characters to fill the statuslines
 execute (has('vim_starting')?'autocmd vimrc VimEnter * ':'').'call Vstatusline()'
 
-" Status line highlight"{{{
-" Use a highlight group User{N} to apply only the difference to StatusLine to
-" StatusLineNC
-autocmd vimrc ColorScheme *
-      \ hi User1
-      \ term=bold cterm=bold ctermfg=123 ctermbg=233
-      \ gui=bold guifg=#87FFFF guibg=#171717|
-      \ hi User2
-      \ term=bold cterm=bold ctermfg=226 ctermbg=233
-      \ gui=bold guifg=#FFFF00 guibg=#171717|
-      \ hi StatusLine
-      \ term=bold cterm=bold ctermfg=40 ctermbg=233
-      \ gui=bold guifg=#00d700 guibg=#171717 |
-      \ hi StatusLineNC
-      \ term=NONE cterm=NONE ctermfg=131 ctermbg=233
-      \ gui=NONE guifg=#be7572 guibg=#171717 |
-      \ hi! link TabLineSel StatusLine |
-      \ hi! link TabLine StatusLineNC |
-      \ hi! link TabLineFill StatusLineNC
+" Status line highlight
+autocmd vimrc ColorScheme * call <SID>hi()
 if !has('vim_starting')
-  doautocmd vimrc ColorScheme *
-endif "}}}
+  doautocmd <nomodeline> vimrc ColorScheme *
+endif
+function! s:hi() "{{{
+  let [bt, bg, ft, fg, ftn, fgn, ft1, fg1, ft2, fg2] = &background == 'dark' ?
+        \ ['0', '#000000', '40', '#00d700', '131', '#be7572',
+        \ '226', '#FFFF00', '123', '#87FFFF'] :
+        \ ['252', '#d0d0d0', '0', '#000000', '52', '#5f0000',
+        \ '22', '#005f00', '240', '#585858']
+  execute 'hi StatusLine term=bold cterm=bold ctermfg='.ft 'ctermbg='.bt
+        \ 'gui=bold guifg='.fg 'guibg='.bg
+  execute 'hi StatusLineNC term=NONE cterm=NONE ctermfg='.ftn 'ctermbg='.bt
+        \ 'gui=NONE guifg='.fgn 'guibg='.bg
+  execute 'hi User1 term=bold cterm=bold ctermfg='.ft1 'ctermbg='.bt
+        \ 'gui=bold guifg='.fg1 'guibg='.bg
+  execute 'hi User2 term=bold cterm=bold ctermfg='.ft2 'ctermbg='.bt
+        \ 'gui=bold guifg='.fg2 'guibg='.bg
+  hi! link TabLineSel StatusLine
+  hi! link TabLine StatusLineNC
+  hi! link TabLineFill StatusLineNC
+endfunction "}}}
 
 " The status line for the quickfix window
 autocmd vimrc FileType qf setlocal statusline=%t
