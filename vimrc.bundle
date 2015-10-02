@@ -1204,6 +1204,7 @@ if Bundles('Tpope/vim-git') && BundleRun('tpope/vim-fugitive')
         \ 'ps':  'G! push',
         \ 'pf':  'G! push -f',
         \ 'pl':  'G! pull',
+        \ 'r':   'G! roll',
         \ }
   function! s:git()
     let cs = []
