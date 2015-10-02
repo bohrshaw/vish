@@ -1,11 +1,14 @@
 " Choose colors online: http://drpeterjones.com/colorcalc
 
-hi Normal guifg=#77A5B1
-hi Comment guifg=#52737B
-hi Visual ctermbg=233
+if &background == 'dark'
+  hi Normal guifg=#77A5B1
+  hi Visual ctermbg=233
+  hi Comment guifg=#52737B
+  " hi LineNR ctermfg=146 guifg=#004C60
+  hi CurSorLineNR guifg=#509CB0
+else
+endif
 hi CursorLine cterm=NONE gui=NONE
-hi LineNR guifg=#004C60 gui=bold guibg=#002B36 ctermfg=146
-hi CurSorLineNR guifg=#509CB0 gui=bold guibg=#002B36
 hi VertSplit NONE
 hi! link SignColumn LineNr
 
