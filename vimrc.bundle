@@ -971,7 +971,9 @@ endif
 if Bundles('Fatih/vim-go', 'garyburd/go-explorer')
   let g:go_auto_type_info = 0
   let g:go_fmt_autosave = 0
+  " let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
   let g:go_dispatch_enabled = 0
+  let g:go_highlight_string_spellcheck = 0
 
   autocmd bundle FileType godoc nnoremap <buffer> q <C-W>q
   autocmd bundle FileType gedoc nnoremap <buffer> q <C-W>q
