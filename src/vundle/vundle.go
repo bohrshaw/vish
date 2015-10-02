@@ -17,8 +17,8 @@ import (
 	"sync"
 )
 
-type Manager struct{}
-type Bundle struct {
+type manager struct{}
+type bundle struct {
 	repo, branch, dest string
 	ifclone            bool
 }
@@ -29,9 +29,9 @@ var (
 	dry              = flag.Bool("n", false, "dry run")
 	maxRoutines      = flag.Int("r", 12, "max number of routines")
 	routines         = 0
-	ch               = make(chan Bundle, 9)
+	ch               = make(chan bundle, 9)
 	wg               = sync.WaitGroup{} // goroutines count
-	vundle           = &Manager{}
+	vundle           = &manager{}
 	bundles          = getBundles()
 	_user, _         = user.Current()
 	root             = _user.HomeDir + "/.vim/bundle"
@@ -46,8 +46,8 @@ func init() {
 }
 
 func main() {
-	for _, bundle := range bundles {
-		vundle.synca(bundle)
+	for _, b := range bundles {
+		vundle.synca(b)
 	}
 	close(ch)
 
@@ -60,14 +60,14 @@ func main() {
 }
 
 // synca install or update a bundle.
-func (*Manager) synca(bundle string) {
-	b := Bundle{repo: bundle}
-	if bindex := strings.Index(bundle, ":"); bindex >= 0 {
-		b.repo = (bundle)[:bindex]
-		if len(bundle) == bindex+1 {
+func (*manager) synca(bdl string) {
+	b := bundle{repo: bdl}
+	if bindex := strings.Index(bdl, ":"); bindex >= 0 {
+		b.repo = (bdl)[:bindex]
+		if len(bdl) == bindex+1 {
 			b.branch = runtime.GOOS + "_" + runtime.GOARCH
 		} else {
-			b.branch = (bundle)[bindex+1:]
+			b.branch = (bdl)[bindex+1:]
 		}
 	}
 
@@ -141,7 +141,7 @@ func (*Manager) synca(bundle string) {
 }
 
 // clean removes disabled bundles from the file system
-func (*Manager) clean(bundles []string) {
+func (*manager) clean(bundles []string) {
 	dirs, _ := filepath.Glob(root + "/*")
 	var match bool
 	for _, d := range dirs {
