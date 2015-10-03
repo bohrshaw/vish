@@ -225,6 +225,12 @@ if Dundles('Wellle/targets.vim') && Bundles('tommcdo/vim-ninja-feet',
   endif
 endif
 
+" Indent-level based motion
+if Bundles('Jeetsukumaran/vim-indentwise')
+  map [\| <Plug>(IndentWiseBlockScopeBoundaryBegin)
+  map ]\| <Plug>(IndentWiseBlockScopeBoundaryEnd)
+endif
+
 " Search: {{{1
 
 " Search improved
