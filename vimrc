@@ -877,6 +877,9 @@ if has('vim_starting')
 endif
 " }}}
 " Appearance:" {{{
+" Set background color based on day or night
+let &background = has('gui_running') && strftime('%H') < 17 ? 'light' : 'dark'
+
 " List special or abnormal characters:" {{{
 set list " show non-normal spaces, tabs etc.
 if &encoding ==# 'utf-8' || &termencoding ==# 'utf-8'
@@ -1017,7 +1020,6 @@ if has('vim_starting')
     " Allow color schemes do bright colors without forcing bold.
     if &t_Co == 8 && &term !~ '^linux' | set t_Co=16 | endif
   endif
-  set background=dark " assume a dark background for color schemes
 endif
 " }}}
 set showcmd "show partial commands in status line
