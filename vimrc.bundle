@@ -1306,7 +1306,7 @@ if 0 && Bundles('junegunn/vim-github-dashboard')
 endif
 
 " Helpers for UNIX(Windows)
-if Bundles('tpope/vim-eunuch')
+if Bundles('Tpope/vim-eunuch')
   nnoremap <silent><M-f>d :Remove<CR>
   nnoremap <silent><M-f>x :sbuffer #<Bar>wincmd p<Bar>Remove<CR>
   autocmd VimEnter * command! -bar W if has('nvim') |
