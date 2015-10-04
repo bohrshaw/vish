@@ -1191,25 +1191,33 @@ endif
 
 " A Git wrapper so awesome, it should be illegal.
 if Bundles('Tpope/vim-git') && BundleRun('tpope/vim-fugitive')
-  " Invoke multiple git commands
-  nnoremap <silent>g<Space> :call <SID>git()<CR>
+  " Invoke a single git command, mnemonic: '9' in its shape is like 'g'
+  nnoremap <silent>g9 :call <SID>git()<CR>
+  " Invoke multiple git commands, mnemonic: <Space> is to enter the cmdline
+  nnoremap <silent>g<Space> :call <SID>git(9)<CR>
   let s:gcmds = {
         \ 'w':   'update',
         \ 'wa':  'wall',
         \ 's':   'Gstatus',
-        \ 'a':   'update | call fugitive#repo().git_chomp_in_tree("add", expand("%:p")[len(b:git_dir)-4:])',
-        \ 'au':  'G add --update',
-        \ 'aa':  'G add --all',
+        \
+        \ 'a':      'update | call fugitive#repo().git_chomp_in_tree("add", expand("%:p")[len(b:git_dir)-4:])',
+        \ 'au':     'G add --update',
+        \ 'A':      'G add --update',
+        \ 'aa':     'G add --all',
+        \ "\<M-a>": 'G add --all',
+        \
         \ 'c':   'Gcommit -v',
-        \ 'cam': 'Gcommit --all --amend -v',
-        \ 'cma': 'Gcommit --all --amend -v',
-        \ 'ca':  'Gcommit --all -v',
-        \ 'cm':  'Gcommit --amend -v',
-        \ 'cmh': 'G! commit --amend -C HEAD',
+        \ 'cua': 'Gcommit --all --amend -v',
+        \ 'cau': 'Gcommit --all --amend -v',
+        \ 'cu':  'Gcommit --all -v',
+        \ 'C':   'Gcommit --all -v',
+        \ 'ca':  'Gcommit --amend -v',
+        \ 'cah': 'G! commit --amend -C HEAD',
         \ 'ce':  'G! commit --allow-empty-message -m ""',
-        \ 'cae': 'G! commit --all --allow-empty-message -m ""',
-        \ 'cea': 'G! commit --all --allow-empty-message -m ""',
+        \ 'cue': 'G! commit --all --allow-empty-message -m ""',
+        \ 'ceu': 'G! commit --all --allow-empty-message -m ""',
         \ 'cs':  'B! git -C '.$MYVIM.'/spell commit --all -m "Spell"',
+        \
         \ 'd':   'tab sbuffer % | Gdiff',
         \ 'b':   'Gblame',
         \ 'l':   'Glog',
@@ -1218,21 +1226,26 @@ if Bundles('Tpope/vim-git') && BundleRun('tpope/vim-fugitive')
         \ 'pl':  'G! pull',
         \ 'r':   'G! roll',
         \ }
-  function! s:git()
-    let cs = []
+  function! s:git(...)
+    let batch = a:0 > 0 ? 1 : 0
+    let s = ''
     while 1
       let c = v#getchar()
       if c == "\<BS>"
-        call remove(cs, -1)
-        continue
+        let s = s[:-2] | continue
       elseif c =~ "[ ;\<CR>]"
+        if c == ' ' && !batch
+          let batch = 1 | continue
+        endif
         break
       elseif c == ''
         return
       endif
-      call add(cs, c)
+      let s .= c
+      if !batch && exists('s:gcmds["'.s.'"]')
+        break
+      endif
     endwhile
-    let s = join(cs, '')
     let end = len(s)-1
     let [i, j, cmds] = [0, end, []]
     while i <= j
@@ -1278,13 +1291,14 @@ if Bundles('airblade/vim-gitgutter')
   call extend(s:gcmds, {
       \ 'u':  'GitGutter',
       \ 'U':  'GitGutterAll',
-      \ 'ds': 'call gitgutter#toggle()',
       \ })
   nmap [c <Plug>GitGutterPrevHunk
   nmap ]c <Plug>GitGutterNextHunk
   nnoremap <silent>dp :execute &diff ? 'diffput' : 'GitGutterStageHunk'<CR>
   nnoremap <silent>do :execute &diff ? 'diffget' : 'GitGutterRevertHunk'<CR>
   nnoremap dP :GitGutterPreviewHunk<CR>
+  nnoremap <silent>c\s :call gitgutter#signs_toggle()<CR>
+  nnoremap <silent>c\g :call gitgutter#toggle()<CR>
   " let g:gitgutter_enabled = 0
   " let g:gitgutter_signs = 0
   let g:gitgutter_realtime = 0
