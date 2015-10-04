@@ -32,9 +32,9 @@ function! s:bundle_map()
   nnoremap <buffer> <silent> ]<Tab> :call search('[BD]undle\a*(.\zs\C')<CR>
   nnoremap <buffer> <silent> [<Tab> :call search('[BD]undle\a*(.\zs\C', 'b')<CR>
   " Open a bundle's URL in the browser
-  nnoremap <buffer> <silent> gX "zya'
+  nnoremap <buffer> <silent> gX "zyi'
         \:execute 'silent OpenBrowserSmartSearch https://github.com/'
-        \.matchstr(@z, '\v''-?\zs[^'']*')<CR>
+        \.matchstr(@z, '\v-?\zs[^/]*/[^/]*')<CR>
   " Activate the bundle under the cursor line
   nnoremap <buffer><silent> <LocalLeader>b mz"zyi'
         \:call BundleRun(@z)<CR>g`z
