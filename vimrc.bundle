@@ -920,6 +920,7 @@ if Bundles('thinca/vim-quickrun')
   command! -nargs=* -range -complete=customlist,quickrun#complete Run
         \ call quickrun#command(<q-args>, <count>, <line1>, <line2>)
   let g:quickrun_config.sh = {'command': 'bash'}
+  let g:quickrun_config.lua = {'command': 'luajit'}
 endif
 
 " Markups {{{2
