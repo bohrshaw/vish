@@ -63,7 +63,9 @@ if has('vim_starting')
 
   set timeout ttimeout " Nvim has different defaults
   " set timeoutlen=3000 " mapping delay
-  set ttimeoutlen=10 " key code delay (instant escape from Insert mode)
+  if !has('nvim')
+    set ttimeoutlen=10 " key code delay (instant escape from Insert mode)
+  endif
   " Deal with meta-key mappings:" {{{
   if has('nvim')
     " Map meta-chords to esc-sequences in terminals
