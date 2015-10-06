@@ -800,7 +800,7 @@ endif
 " Configurable and extensible tab line and status line
 if Bundles('tpope/vim-flagship')
   " Tabline
-  let g:tabprefix = '%1*'.
+  let g:tabprefix = '%2*'.
         \ (has('nvim') ? matchstr(v:servername, 'nvim.*') : '%{v:servername}').
         \ (g:l ? '(L)' : '').
         \ (empty($SSH_TTY) ? '': '@'.hostname()).
