@@ -911,16 +911,29 @@ call Bundles('tpope/vim-dispatch')
 
 " Execute whole/part of editing file
 if Bundles('thinca/vim-quickrun')
-  let g:quickrun_config = {'_': {'outputter': 'message'}}
-  let g:quickrun_no_default_key_mappings = 1
+  command! -nargs=* -range -complete=customlist,quickrun#complete Run
+        \ call quickrun#command(<q-args>, <count>, <line1>, <line2>)
   nmap R <Plug>(quickrun-op)
   nnoremap <silent> Rr :Run -mode n<CR>
   nnoremap RR :%QuickRun -mode n<CR>
   xnoremap R :QuickRun -mode v<CR>
-  command! -nargs=* -range -complete=customlist,quickrun#complete Run
-        \ call quickrun#command(<q-args>, <count>, <line1>, <line2>)
+
+  " Configure the runner for various file types.
+  " See the value of g:quickrun#default_config for examples.
+  let g:quickrun_config = {'_': {'outputter': 'message'}}
   let g:quickrun_config.sh = {'command': 'bash'}
-  let g:quickrun_config.lua = {'command': 'luajit'}
+  if executable('luajit')
+    let g:quickrun_config.lua = {'command': 'luajit'}
+  endif
+  " Output HTML as message, not opened in the browser
+  if executable('pandoc')
+    let g:quickrun_config.markdown = {
+          \ 'command': 'pandoc',
+          \ 'cmdopt': '-f markdown_github --no-highlight',
+          \ }
+  endif
+
+  let g:quickrun_no_default_key_mappings = 1
 endif
 
 " Markups {{{2
@@ -952,10 +965,16 @@ endif
 
 " Preview various markup files with external tools
 if s:ruby && Bundles('greyblake/vim-preview', '-matthias-guenther/hammer.vim')
+  nnoremap <silent>RE :Preview<CR>
   autocmd VimEnter * nunmap <Leader>P
 endif
-autocmd bundle VimEnter * command! -range=% PreviewMarkdown
-      \ call markdown#preview(<line1>, <line2>)
+" The markdown rendering gem 'redcarpet' is unavailable on Windows
+if has('win32')
+  autocmd bundle VimEnter * command! -range=% PreviewMarkdown
+        \ call markdown#preview(<line1>, <line2>)
+  nnoremap <silent><expr>RE ':Preview'.
+        \ (&filetype == 'markdown' ? 'Markdown' : '')."<CR>"
+endif
 
 " Javascript {{{2
 
