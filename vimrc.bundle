@@ -1087,8 +1087,11 @@ if s:pythonx && Bundles('davidhalter/jedi-vim')
   let g:jedi#completions_command = '' " don't map for omni completion
 endif
 
+" A nicer Python indentation style
+" call Bundles('hynek/vim-python-pep8-indent/')
+
 " A two-way integration between Vim and IPython 0.11+
-call Bundles('-ivanov/vim-ipython')
+" call Bundles('ivanov/vim-ipython')
 
 " Java(JVM) {{{2
 
