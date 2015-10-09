@@ -1,0 +1,31 @@
+" Configuraions for [cVim](https://github.com/1995eaton/chromium-vim)
+
+" Settings:
+
+" Mappings: https://github.com/1995eaton/chromium-vim/blob/master/content_scripts/mappings.js
+map l nextTab
+map h previousTab
+map yf yankUrl
+map R reloadTabUncached
+map m setMark
+map U lastClosedTab
+
+unmap s
+unmap w
+unmap e
+unmap q
+unmap a
+unmap mf
+unmap mr
+unmap my
+unmap gy
+unmap I
+unmap zr
+unmap gR
+unmap ;
+unmap K
+unmap R
+unmap J
+unmap E
+unmap S
+unmap D
