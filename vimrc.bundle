@@ -927,9 +927,16 @@ if Bundles('thinca/vim-quickrun')
   endif
   " Output HTML as message, not opened in the browser
   if executable('pandoc')
-    let g:quickrun_config.markdown = {
+    let g:quickrun_config.markdown = {'type': 'markdown/pandoc'}
+    let g:quickrun_config['markdown/pandoc'] = {
           \ 'command': 'pandoc',
           \ 'cmdopt': '-f markdown_github --no-highlight',
+          \ }
+  endif
+  if executable('cmark')
+    let g:quickrun_config['markdown/cmark'] = {
+          \ 'command': 'cmark',
+          \ 'cmdopt': '--hardbreaks',
           \ }
   endif
 
