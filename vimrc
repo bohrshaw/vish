@@ -880,7 +880,8 @@ endif
 " }}}
 " Appearance:" {{{
 " Set background color based on day or night
-let &background = has('gui_running') && strftime('%H') < 17 ? 'light' : 'dark'
+let s:hour = strftime('%H')
+let &background = has('gui_running') && s:hour < 17 && s:hour > 6 ? 'light' : 'dark'
 
 " List special or abnormal characters:" {{{
 set list " show non-normal spaces, tabs etc.
