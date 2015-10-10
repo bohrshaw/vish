@@ -7,18 +7,18 @@
 " temporary file name and the function name.
 function! vimrc#run(type)
   let tmp = tempname()
-  " When g@ calling, a:type is 'line', 'char' or 'block'.
+  " When called by `g@`, a:type is 'line', 'char' or 'block'.
   " In visual mode, a:type is visualmode() which is 'v', 'V', '<C-v>'.
   if a:type =~# 'line\|V'
     execute 'silent keepalt '.(a:type == 'V' ? "'<,'>" : "'[,']").'write '.tmp
   else " a:type =~# 'char\|v'
-    " note `> or `] is exclusive
+    " Note: `> or `] is exclusive.
     execute 'silent normal! '.(a:type == 'v' ? '`<"zyv`>' : '`["zyv`]')
     keepalt call writefile(split(@z, '\n'), tmp)
   endif
   execute 'source '.tmp
   call delete(tmp)
-  " the mark 'z' should be set before calling this function
+  " The mark 'z' should be set before calling this function
   normal! g`z
 endfunction
 
