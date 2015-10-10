@@ -1058,7 +1058,7 @@ execute has('gui_gtk')||has('gui_motif')||has('gui_athena') ? 'set go+=a' : ''
 " set clipboard+=unnamed " sync the selection register with the unnamed register
 set scrolloff=1 " minimum lines to keep above and below cursor
 set sidescrolloff=5 " minimal number of screen columns to keep around the cursor
-set backspace=indent,eol,start " backspace through anything in insert mode
+set backspace=eol,start " use <C-d> to backspace over autoindent
 silent! set formatoptions+=j " remove a comment leader when joining lines
 set nrformats-=octal " 01 is treated as decimal
 set lazyredraw " don't redraw the screen while executing macros, etc.
