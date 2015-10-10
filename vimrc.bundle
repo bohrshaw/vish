@@ -42,7 +42,7 @@ endfunction
 
 " Debugging
 command! -nargs=? -complete=command VimNORC execute
-      \ v:progname.<q-args> =~ '^\S*gvim\s' ? "B!" : "Start"
+      \ v:progname.<q-args> =~ '^\S*gvim' ? "B!" : "Start"
       \ empty(<q-args>) ? expand(exepath(v:progpath)) : <q-args>
       \ '-u' expand($MYVIM.'/vimrc.min')
 " Profiling
