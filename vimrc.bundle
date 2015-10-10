@@ -920,7 +920,7 @@ if Bundles('thinca/vim-quickrun')
 
   " Preview markdown in a browser
   command! -nargs=* -range=% -complete=customlist,quickrun#complete Preview
-        \ <line1>,<line2>Run -outputter browser -type markdown/pandoc_highlight
+        \ <line1>,<line2>Run -type markdown_preview
   nnoremap <silent>Re :set operatorfunc=<SID>run_preview<CR>g@
   xnoremap <silent>gR :<C-u>call <SID>run_preview(visualmode(), 1)<CR>
   function! s:run_preview(type, ...)
@@ -930,28 +930,33 @@ if Bundles('thinca/vim-quickrun')
 
   " Configure the runner for various file types.
   " See the value of g:quickrun#default_config for examples.
-  let g:quickrun_config = {'_': {'outputter': 'message'}}
-  let g:quickrun_config.sh = {'command': 'bash'}
-  if executable('luajit')
-    let g:quickrun_config.lua = {'command': 'luajit'}
-  endif
-  if executable('pandoc')
-    let g:quickrun_config['markdown/pandoc'] = {
-          \ 'command': 'pandoc',
-          \ 'cmdopt': '--from markdown_github --no-highlight',
-          \ }
-    let g:quickrun_config['markdown/pandoc_highlight'] = {
-          \ 'command': 'pandoc',
-          \ 'cmdopt': '--from markdown_github --standalone',
-          \ }
-  endif
-  if executable('cmark')
-    let g:quickrun_config['markdown/cmark'] = {
-          \ 'command': 'cmark',
-          \ 'cmdopt': '--hardbreaks',
-          \ }
-    " The default markdown type
-    let g:quickrun_config.markdown = {'type': 'markdown/cmark'}
+  let g:quickrun_config = {
+        \ '_': {'outputter': 'message'},
+        \
+        \ 'sh': {'command': 'bash'},
+        \ 'lua': {'command': executable('luajit') ? 'luajit' : 'lua'},
+        \
+        \ 'markdown': {'type':
+        \ executable('cmark') ? 'markdown/cmark' :
+        \ executable('pandoc') ? 'markdown/pandoc' :
+        \ executable('redcarpet') ? 'markdown/redcarpet' : ''
+        \ },
+        \ 'markdown_preview': {
+        \ 'type': executable('pandoc') ? 'markdown/pandoc_highlight' : 'markdown',
+        \ 'outputter': 'browser',
+        \ },
+        \ 'markdown/pandoc': {'command': 'pandoc',
+        \ 'cmdopt': '--from markdown_github --no-highlight',
+        \ },
+        \ 'markdown/pandoc_highlight': {'command': 'pandoc',
+        \ 'cmdopt': '--from markdown_github --standalone',
+        \ },
+        \ 'markdown/cmark': {'command': 'cmark',
+        \ 'cmdopt': '--hardbreaks',
+        \ },
+        \ }
+  if empty(g:quickrun_config.markdown.type)
+    call remove(g:quickrun_config, 'markdown')
   endif
 
   let g:quickrun_no_default_key_mappings = 1
