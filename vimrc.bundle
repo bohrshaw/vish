@@ -33,7 +33,7 @@ function! s:bundle_map()
   nnoremap <buffer> <silent> [<Tab> :call search('[BD]undle\a*(.\zs\C', 'b')<CR>
   " Open a bundle's URL in the browser
   nnoremap <buffer> <silent> gX "zyi'
-        \:execute 'silent OpenBrowserSmartSearch https://github.com/'
+        \:execute 'silent Open https://github.com/'
         \.matchstr(@z, '\v-?\zs[^/]*/[^/]*')<CR>
   " Activate the bundle under the cursor line
   nnoremap <buffer><silent> <LocalLeader>b mz"zyi'
@@ -1433,16 +1433,17 @@ endif
 " URL shortener
 call Bundles('bohrshaw/vim-url-shortener')
 
-" Open a URI with the default browser
-" Another way is `:py import webbrowser; webbrowser.open()`
+" Open a URI with the default browser (or application)
+" Alternatives:
+" - :call netrw#NetrwBrowseX(...) " or netrw#BrowseX
+"   " See: $VIMRUNTIME/plugin/netrwPlugin.vim
+" - :py import webbrowser; webbrowser.open()
 if Bundles('tyru/open-browser.vim')
-  if !has('unix') " problematic if Chromium is the default browser
-    NXmap gx <Plug>(openbrowser-smart-search)
-    " let g:openbrowser_use_vimproc = 0
-  else
-    " See: $VIMRUNTIME/plugin/netrwPlugin.vim
-    " let g:netrw_nogx = 1 " disable netrw's gx mapping
-  endif
+  command! -nargs=+ -complete=customlist,openbrowser#_cmd_complete Open
+        \ call openbrowser#_cmd_open_browser_smart_search(<q-args>)
+  " nmap gx <Plug>NetrwBrowseX
+  " Currently it has issues to find the right URL under cursor
+  NXmap gX <Plug>(openbrowser-smart-search)
 
   " This will merge into the default one
   let g:openbrowser_search_engines = {
@@ -1454,14 +1455,27 @@ if Bundles('tyru/open-browser.vim')
         \ 'stackoverflow': 'https://stackoverflow.com/search?q={query}',
         \ }
   let g:openbrowser_default_search = 'bing'
+  let g:openbrowser_format_message = '' " don't echo messages
+  let g:openbrowser_open_vim_command = 'split'
 
-  " Remove unused commands
-  autocmd bundle VimEnter * delcommand OpenBrowser | delcommand OpenBrowserSearch
+  " Hacker: xdg-open is unreliable when chromium is the default browser, and
+  " chromium wouldn't be brought front.
+  if has('unix')
+    let g:openbrowser_browser_commands = [
+          \ {'name': 'firefox',
+          \ 'args': ['{browser}', '{uri}'],
+          \ 'background': 1},
+          \ {'name': 'chromium-browser',
+          \ 'args': ['{browser}', '{uri}'],
+          \ 'background': 1},
+          \ ]
+  endif
+
+  " Remove unused interfaces
+  let g:openbrowser_no_default_menus = 1
+  autocmd bundle VimEnter * delcommand OpenBrowser |
+        \ delcommand OpenBrowserSearch | delcommand OpenBrowserSmartSearch
 endif
-let NetrwOpen = function(exists('*netrw#NetrwBrowseX') ?
-      \ 'netrw#NetrwBrowseX' : 'netrw#BrowseX')
-command! -nargs=1 Google call NetrwOpen(
-      \"https://www.google.com/search?q=".expand("<args>"),0)
 
 " Vimscript for gist
 if Bundles('mattn/gist-vim', 'mattn/webapi-vim')
