@@ -372,7 +372,13 @@ function! s:win_toggle() " {{{
   endif
 endfunction " }}}
 
+" Exchange the current window with the previous one
+nnoremap <C-w>X <C-w>W<C-w>x<C-w>w
 " Exchange the current window with the {count}th window
+" Note: This differs from <C-w>x in following ways:
+" - The cursor would be on a different window.
+" - Without a {count}, the first window is exchanged.
+" - Mixed vertical and horizontal window splits are allowed.
 nnoremap <silent><C-w>e :<C-u>execute 'buffer '.winbufnr(v:count1).'\|'
       \.v:count1.'wincmd w\|buffer '.winbufnr(0)<CR>
 " Attach the current window bellow the last windows with the same width
