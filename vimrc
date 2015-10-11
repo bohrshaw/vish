@@ -109,24 +109,39 @@ let maplocalleader = "\t" " replace <LocalLeader> in a map
 NXnoremap <Tab> <Nop>
 let g:mapinsertleader = "\<M-g>"
 
-" Execute a remapped key in its un-remapped(vanilla) state
+" Execute a remapped key in its un-remapped(vanilla) state.
+" Note: Use i_CTRL-D to insert a non-digit literally.
 noremap <expr><M-\> nr2char(getchar())
 noremap! <expr><M-\> nr2char(getchar())
-" Execte a global key shadowed by the same local one
+
+" Execte a global mapping shadowed by the same local one
 nnoremap <silent>g\ :call <SID>gmap('n')<CR>
 xnoremap <silent>g\ :<C-u>call <SID>gmap('x')<CR>
 function! s:gmap(mode) " {{{
-  let k = v#getchar()
-  let map = maparg(k, a:mode, 0, 1)
-  try
-    execute a:mode.'unmap <buffer>' k
-  catch
-    Echow 'No such local mapping.' | return 1
-  endtry
-  execute 'normal' (a:mode == 'x' ? 'gv' : '').k
-  execute a:mode.(map.noremap?'nore':'').'map'
-        \ map.silent?'<silent>':'' map.expr?'<expr>':'' map.nowait?'<nowait>':''
-        \ '<buffer>' map.lhs map.rhs
+  let lhs = ''
+  while 1
+    let c = v#getchar()
+    if empty(c)
+      return
+    endif
+    let lhs .= c
+    let map = maparg(lhs, a:mode, 0, 1)
+    if empty(map)
+      continue
+    endif
+    try " the matched mapping may not be local
+      execute a:mode.'unmap <buffer>' lhs
+    catch
+      Echow 'No such local mapping.' | return 1
+    endtry
+    execute 'normal' (a:mode == 'x' ? 'gv' : '').lhs
+    execute a:mode.(map.noremap ? 'noremap' : 'map')
+          \ map.silent ? '<silent>' : ''
+          \ map.expr ? '<expr>' : ''
+          \ map.nowait ? '<nowait>' : ''
+          \ '<buffer>' map.lhs map.rhs
+    return
+  endwhile
 endfunction " }}}
 
 " Define a full-id abbreviation with minimal conflict
