@@ -1263,10 +1263,10 @@ if Bundles('Tpope/vim-git') && BundleRun('tpope/vim-fugitive')
         \ 'cu':  'Gcommit --all -v',
         \ 'C':   'Gcommit --all -v',
         \ 'ca':  'Gcommit --amend -v',
-        \ 'cah': 'G! commit --amend -C HEAD',
-        \ 'ce':  'G! commit --allow-empty-message -m ""',
-        \ 'cue': 'G! commit --all --allow-empty-message -m ""',
-        \ 'ceu': 'G! commit --all --allow-empty-message -m ""',
+        \ 'cah': 'G commit --amend -C HEAD | GitGutterAll',
+        \ 'ce':  "G commit --allow-empty-message -m '' | GitGutterAll",
+        \ 'cue': "G commit --all --allow-empty-message -m '' | GitGutterAll",
+        \ 'ceu': "G commit --all --allow-empty-message -m '' | GitGutterAll",
         \ 'cs':  'B! git -C '.$MYVIM.'/spell commit --all -m "Spell"',
         \
         \ 'd':   'tab sbuffer % | Gdiff',
@@ -1323,9 +1323,12 @@ if Bundles('Tpope/vim-git') && BundleRun('tpope/vim-fugitive')
   cnoremap <M-\>\ <C-r>=v#execute('cd '.b:git_dir[:-6])<CR>
 
   " A command :G using vimproc, an alternative to :Git
-  execute "command! -nargs=1 -bang "
-        \ "-complete=customlist,<SNR>".scriptease#scriptid(globpath(&rtp, 'plugin/fugitive.vim'))."_GitComplete"
-        \ "G execute 'B'.(<bang>0 ? '!' : '') 'git' (exists('b:git_dir') ? '--git-dir='.b:git_dir.' --work-tree='.b:git_dir[:-6] : '') <q-args>"
+  execute "command! -nargs=1 -bang -bar"
+        \ "-complete=customlist,<SNR>".
+        \   scriptease#scriptid(globpath(&rtp, 'plugin/fugitive.vim')).
+        \   "_GitComplete"
+        \ "G execute 'B'.(<bang>0 ? '!' : '') 'git' ".
+        \   "(exists('b:git_dir') ? '-C '.b:git_dir[:-6] : '') <q-args>"
 
   autocmd bundle FileType gitcommit set foldmethod=syntax foldlevel=1
   autocmd bundle FileType git set foldlevel=1
@@ -1351,13 +1354,17 @@ if Bundles('airblade/vim-gitgutter')
   nnoremap <silent>c\s :call gitgutter#signs_toggle()<CR>
   nnoremap <silent>c\g :call gitgutter#toggle()<CR>
   " let g:gitgutter_enabled = 0
-  " let g:gitgutter_signs = 0
+
   let g:gitgutter_realtime = 0
   let g:gitgutter_eager = 0
-  " let g:gitgutter_diff_args = '-w'
-  " let g:gitgutter_highlight_lines = 1
+  " Update after a git-commit
+  autocmd bundle BufDelete COMMIT_EDITMSG GitGutterAll
+
+  " let g:gitgutter_signs = 0
   let g:gitgutter_sign_removed = '-'
   let g:gitgutter_sign_modified_removed = '='
+  " let g:gitgutter_highlight_lines = 1
+  " let g:gitgutter_diff_args = '-w'
   let g:gitgutter_map_keys = 0
 endif
 
