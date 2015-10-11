@@ -1462,7 +1462,7 @@ if Bundles('tyru/open-browser.vim')
         \ 'stackoverflow': 'https://stackoverflow.com/search?q={query}',
         \ }
   let g:openbrowser_default_search = 'bing'
-  let g:openbrowser_format_message = '' " don't echo messages
+  let g:openbrowser_format_message = {'msg': ''} " don't echo messages
   let g:openbrowser_open_vim_command = 'split'
 
   " Hacker: xdg-open is unreliable when chromium is the default browser, and
