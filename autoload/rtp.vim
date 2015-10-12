@@ -141,7 +141,7 @@ endfunction
 
 " Expand a directory or path to full-path
 function! rtp#expand(dir)
-  return expand(a:dir =~ '[/\\]' ? a:dir : $MYVIM.'/bundle/'.a:dir)
+  return expand(a:dir[:1] =~ '[/\\~:]' ? a:dir : $MYVIM.'/bundle/'.a:dir)
 endfunction
 
 " vim:et sw=2 foldmethod=expr foldexpr=getline(v\:lnum)=~#'^fu'?'a1'\:getline(v\:lnum)=~#'^endf'?'s1'\:'=':

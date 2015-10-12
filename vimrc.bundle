@@ -696,6 +696,10 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
   autocmd VimEnter * silent! autocmd! neomru BufEnter,VimEnter,BufWritePost
 endif
 
+" A command-line fuzzy finder
+" if !has('win32') && isdirectory($HOME.'/.fzf/plugin') && rtp#add('~/.fzf')
+" endif
+
 " A tree explorer plugin for vim
 if Bundle('scrooloose/nerdtree', {'m': [
       \ 'nnoremap c\d :NERDTreeToggle<CR>',
