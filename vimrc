@@ -901,8 +901,11 @@ endif
 " }}}
 " Appearance:" {{{
 " Set background color based on day or night
-let s:hour = strftime('%H')
-let &background = has('gui_running') && s:hour < 17 && s:hour > 6 ? 'light' : 'dark'
+if has('vim_starting')
+  let s:hour = strftime('%H')
+  let &background = has('gui_running') && s:hour < 17 && s:hour > 6 ?
+        \ 'light' : 'dark'
+endif
 
 " List special or abnormal characters:" {{{
 set list " show non-normal spaces, tabs etc.
@@ -935,7 +938,7 @@ function! Vstatusline()
   set statusline+=:%n " buffer number
   set statusline+=%{(&modified?'+':'').(&modifiable?'':'-').(&readonly?'=':'')}
   set statusline+=%*:%.30f " file path, truncated if its length > 30
-  set statusline+=:%2*%Y%* " file type
+  set statusline+=:%2*%Y " file type
   set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?':'.&fenc:''} " file encoding
   set statusline+=%{&ff!='unix'?':'.&ff:''} " file format
   " Git branch name
@@ -944,7 +947,7 @@ function! Vstatusline()
   " set statusline+=%{':'.matchstr(getcwd(),'.*[\\/]\\zs\\S*')}
   set statusline+=%{get(b:,'case_reverse',0)?':CAPS':''} " software caps lock
   set statusline+=%w%q " preview, quickfix
-  set statusline+=%= " left/right separator
+  set statusline+=%*%= " left/right separator
   set statusline+=%c:%l/%L:%P " cursor position, line percentage
 endfunction
 function! Vmode() "{{{
@@ -970,15 +973,13 @@ execute (has('vim_starting')?'autocmd vimrc VimEnter * ':'').'call Vstatusline()
 
 " Status line highlight
 autocmd vimrc ColorScheme * call <SID>hi()
-if !has('vim_starting')
-  doautocmd <nomodeline> vimrc ColorScheme *
-endif
 function! s:hi() "{{{
-  let [bt, bg, ft, fg, ftn, fgn, ft1, fg1, ft2, fg2] = &background == 'dark' ?
-        \ ['0', '#000000', '40', '#00d700', '131', '#be7572',
-        \ '226', '#FFFF00', '123', '#87FFFF'] :
-        \ ['252', '#d0d0d0', '0', '#000000', '52', '#5f0000',
-        \ '22', '#005f00', '240', '#585858']
+  let [bt, bg, ft, fg, ftn, fgn,
+        \ ft1, fg1, ft2, fg2, ft9, fg9] = &background == 'dark' ?
+        \ ['237', '#3a3a3a', '214', '#ffaf00', '40', '#00d700',
+        \   '123', '#87FFFF', '218', '#ffafdf', '252', '#d0d0d0'] :
+        \ ['250', '#bcbcbc', '88', '#870000', '22', '#005f00',
+        \   '21', '#0000ff', '92', '#8700d7', '235', '#262626']
   execute 'hi StatusLine term=bold cterm=bold ctermfg='.ft 'ctermbg='.bt
         \ 'gui=bold guifg='.fg 'guibg='.bg
   execute 'hi StatusLineNC term=NONE cterm=NONE ctermfg='.ftn 'ctermbg='.bt
@@ -987,10 +988,15 @@ function! s:hi() "{{{
         \ 'gui=bold guifg='.fg1 'guibg='.bg
   execute 'hi User2 term=bold cterm=bold ctermfg='.ft2 'ctermbg='.bt
         \ 'gui=bold guifg='.fg2 'guibg='.bg
+  execute 'hi User9 term=bold cterm=bold ctermfg='.ft9 'ctermbg='.bt
+        \ 'gui=bold guifg='.fg9 'guibg='.bg
   hi! link TabLineSel StatusLine
   hi! link TabLine StatusLineNC
   hi! link TabLineFill StatusLineNC
 endfunction "}}}
+if !has('vim_starting')
+  doautocmd <nomodeline> vimrc ColorScheme *
+endif
 
 " The status line for the quickfix window
 autocmd vimrc FileType qf setlocal statusline=%t

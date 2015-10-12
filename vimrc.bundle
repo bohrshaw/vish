@@ -773,7 +773,7 @@ endif
 if Bundles('Junegunn/seoul256.vim', 'Bohrshaw/vim-colors',
       \ '-flazz/vim-colorschemes', '-daylerees/colour-schemes/vim',
       \ '-chriskempson/vim-tomorrow-theme', 'Chriskempson/base16-vim')
-  let g:seoul256_background = has('gui_running') ? 234 : 233
+  let g:seoul256_background = 233
 
   let g:solarized_italic = 0
   let g:solarized_underline = 0
@@ -800,12 +800,12 @@ endif
 " Configurable and extensible tab line and status line
 if Bundles('tpope/vim-flagship')
   " Tabline
-  let g:tabprefix = '%2*'.
+  let g:tabprefix = '%9*'.
         \ (has('nvim') ? matchstr(v:servername, 'nvim.*') : '%{v:servername}').
         \ (g:l ? '(L)' : '').
         \ (empty($SSH_TTY) ? '': '@'.hostname()).
-        \ '%*'
-  let g:tabsuffix = "%1*%{Vmode()}%*"
+        \ ':%*'
+  let g:tabsuffix = "%1*-- %{Vmode()} --%*"
   " Statusline (leave untouched)
   if has('vim_starting')
     autocmd User Flags call Vstatusline()
