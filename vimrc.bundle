@@ -780,6 +780,9 @@ if Bundles('Junegunn/seoul256.vim', 'Bohrshaw/vim-colors',
   let g:solarized_termcolors = &term =~ '256col' ? 256 : 16
   let g:solarized_menu=0
   autocmd bundle ColorScheme solarized runtime colors/solarized_additional.vim
+
+  autocmd bundle ColorScheme github
+        \ hi CursorLine cterm=NONE gui=NONE ctermbg=253 guibg=#D8D8DD
 endif
 autocmd bundle VimEnter * nested execute 'silent color'
       \ has('gui_running') ?
