@@ -773,15 +773,24 @@ endif
 set thesaurus=$MYVIM/spell/thesaurus-mwcd.txt
 "}}}
 " Persistence:" {{{
-let &swapfile = g:l ? 0 : 1 " use a swapfile for the buffer
-set undofile " remember undo history across sessions
-" Remember uppercase global variables, number of files in which marks are
-" remembered(:oldfiles), ... , and viminfo file name.
-let &viminfo = "!,'444,<50,s10,h,n".$MYVIM.'/tmp/viminfo'
-let _viminfo = &viminfo " for quick interactive restoring
+
+" - Remember UPPER_CASE global variables
+" - Max number of files in which marks are remembered (:oldfiles)
+" - Paths for which no marks will be remembered
+" - Max number of lines saved for each register
+" - Maximum size of an item contents in KiB
+" - viminfo(shada) file name
+let &viminfo = "!,'1000,r".$TMP.',<1000,s100,'.
+      \ 'n'.$MYVIM.'/tmp/'.(has('nvim')?'n':'').'viminfo'
+let _viminfo = &viminfo " for easy restoration
+
 " Exclude options and mappings and be portable
 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize,slash,unix
 set viewoptions=folds,cursor,slash,unix
+
+let &swapfile = g:l ? 0 : 1 " use a swapfile for the buffer
+set undofile " undo history across sessions
+
 " Set default paths of temporary files
 let opts = {'directory': 'swap', 'undodir': 'undo', 'backupdir': 'backup'}
 for [opt, val] in items(opts)
@@ -790,6 +799,7 @@ for [opt, val] in items(opts)
   execute 'set' opt.'^='.dir
 endfor
 set viewdir=$MYVIM/tmp/view
+
 " }}}
 " Readline:" {{{
 " Readline style insertion adjusted for Vim
