@@ -968,6 +968,9 @@ if Bundles('thinca/vim-quickrun')
 
   let g:quickrun_no_default_key_mappings = 1
 endif
+" Echo the value of an expression
+nnoremap <silent>Re :set operatorfunc=run#eval<CR>g@
+xnoremap <silent>gR "zy:call run#eval('v')<CR>
 
 " Markups {{{2
 

@@ -6,15 +6,6 @@ function! ftplugin#vim_map()
   nnoremap <buffer> RR :source %<CR>
   nnoremap <buffer><expr> R% ':'.(g:loaded_scriptease?'Runtime':'source %').'<CR>'
   xnoremap <buffer><silent> R mz:<C-U>call vimrc#run(visualmode())<CR>
-
-  " Echo the value of an expression
-  nnoremap <buffer><silent>Re :set operatorfunc=<SID>eval<CR>g@
-  xnoremap <buffer><silent>gR "zy:echo eval(@z)<CR>
-endfunction
-
-function! s:eval(type, ...)
-  normal! `["zyv`]
-  echo eval(@z)
 endfunction
 
 " Goto a position specified with a pattern 'count' times.
