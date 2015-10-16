@@ -1444,7 +1444,7 @@ if Bundles('bohrshaw/vim-trance', 'mattn/webapi-vim')
         \ }
   " let g:trance#youdao_target = 'dict' " 'translate', 'dict' or ''(both)
   " let g:trance#truncate = 0 " truncate long output to be unobtrusive
-  NXmap t<CR> <Plug>trance
+  NXmap d<BS> <Plug>trance
 endif
 
 " URL shortener
