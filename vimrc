@@ -781,7 +781,7 @@ set thesaurus=$MYVIM/spell/thesaurus-mwcd.txt
 " - Maximum size of an item contents in KiB
 " - viminfo(shada) file name
 let &viminfo = "!,'1000,r".$TMP.',<1000,s100,'.
-      \ 'n'.$MYVIM.'/tmp/'.(has('nvim')?'n':'').'viminfo'
+      \ 'n'.$MYVIM.'/tmp/'.(has('nvim')?'shada':'viminfo')
 let _viminfo = &viminfo " for easy restoration
 
 " Exclude options and mappings and be portable
