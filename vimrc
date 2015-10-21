@@ -926,7 +926,7 @@ if &encoding ==# 'utf-8' || &termencoding ==# 'utf-8'
   " ¬ ¶ ⏎ ↲ ↪ ␣ ¨ ⣿ │ ░ ▒ ⇥ → ← ⇉ ⇇ ❯ ❮ » « ↓ ↑
   " ◉ ○ ● • · ■ □ ¤ ▫ ♦ ◆ ◇ ▶ ► ▲ ▸ ✚ ★ ✸ ✿ ✜ ☯ ☢ ❀ ✨ ♥ ♣ ♠
   let s:lcs = split(s:is_win_ssh ? '· · » « ▫' : '· ␣ ❯ ❮ ▫')
-  let &showbreak = s:is_win_ssh ? '→' : '∟' " τ Ŀ
+  let &showbreak = s:is_win_ssh ? '→' : '╰' " └ ∟ ╰ ╘ ╙ τ Ŀ
   set fillchars=vert:│,fold:-,diff:-
 else
   let s:lcs = ['>', '-', '>', '<', '+']
