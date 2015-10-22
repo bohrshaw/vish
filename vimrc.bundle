@@ -790,8 +790,8 @@ if Bundles('Junegunn/seoul256.vim', 'Bohrshaw/vim-colors',
 endif
 autocmd bundle VimEnter * nested execute 'silent color'
       \ has('gui_running') ?
-      \ &background == 'light' ? 'solarized' : 'seoul256' :
-      \ has('win32') ? '' : 'seoul256'
+      \   &background == 'light' ? 'github' : 'seoul256' :
+      \   has('win32') ? '' : 'github'
 
 " All 256 xterm colors with their RGB equivalents, right in Vim!
 if Bundle('guns/xterm-color-table.vim', {'c': 'XtermColorTable'})
