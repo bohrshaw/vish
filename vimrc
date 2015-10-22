@@ -1046,7 +1046,7 @@ if has('vim_starting')
       if has('win32')
         autocmd vimrc GUIEnter * simalt ~x
       else
-        set lines=250 columns=200
+        set lines=400 columns=300
       endif
     endif
     set linespace=0
