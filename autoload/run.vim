@@ -1,5 +1,9 @@
 " Echo the value of an expression
 function! run#eval(type)
+  if &filetype == 'markdown'
+    execute (a:type == 'v' ? "'<,'>" : "'[,']").'Preview'
+    return
+  endif
   if a:type != 'v'
     normal! `["zyv`]
   endif

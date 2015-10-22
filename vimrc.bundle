@@ -925,15 +925,13 @@ if Bundles('thinca/vim-quickrun')
   nnoremap <silent>Rr :.Run -mode n<CR>
   nnoremap <silent>RR :Run -mode n<CR>
 
+  " Echo the value of an expression, or preview markdown
+  nnoremap <silent>Re :set operatorfunc=run#eval<CR>g@
+  nnoremap <silent>RE :Preview<CR>
+  xnoremap <silent>gR "zy:call run#eval('v')<CR>
   " Preview markdown in a browser
   command! -nargs=* -range=% -complete=customlist,quickrun#complete Preview
         \ <line1>,<line2>Run -type markdown_preview
-  nnoremap <silent>Re :set operatorfunc=<SID>run_preview<CR>g@
-  xnoremap <silent>gR :<C-u>call <SID>run_preview(visualmode(), 1)<CR>
-  function! s:run_preview(type, ...)
-    execute (a:0 ? "'<,'>" : "'[,']").'Preview'
-  endfunction
-  nnoremap <silent>RE :Preview<CR>
 
   " Configure the runner for various file types.
   " See the value of g:quickrun#default_config for examples.
@@ -968,9 +966,6 @@ if Bundles('thinca/vim-quickrun')
 
   let g:quickrun_no_default_key_mappings = 1
 endif
-" Echo the value of an expression
-nnoremap <silent>Re :set operatorfunc=run#eval<CR>g@
-xnoremap <silent>gR "zy:call run#eval('v')<CR>
 
 " Markups {{{2
 
