@@ -118,6 +118,7 @@ func (*manager) synca(bdl string) {
 					out, err := cmd.Output()
 					if err != nil {
 						fmt.Println(url, "pull failed:", err)
+						continue
 					}
 
 					// Update submodules
@@ -131,7 +132,11 @@ func (*manager) synca(bdl string) {
 
 					// The output could be "Already up-to-date."
 					if len(out) != 0 && out[0] != 'A' {
-						fmt.Println(url, "updated")
+						fmt.Println("============", url, "updated")
+						out, _ := exec.Command(git, "-C", b.dest, "log", "--oneline", "ORIG_HEAD..HEAD").Output()
+						if len(out) != 0 {
+							fmt.Println(string(out))
+						}
 					}
 				}
 			}
