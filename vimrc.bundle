@@ -1475,16 +1475,12 @@ if Bundles('tyru/open-browser.vim')
   let g:openbrowser_format_message = {'msg': ''} " don't echo messages
   let g:openbrowser_open_vim_command = 'split'
 
-  " Hacker: xdg-open is unreliable when chromium is the default browser, and
-  " chromium wouldn't be brought front.
+  " Don't open *in background* as Chromium on Ubuntu wouldn't open.
+  " And `xdg-open` is unreliable if Chromium is the default browser.
   if has('unix')
     let g:openbrowser_browser_commands = [
-          \ {'name': 'firefox',
-          \ 'args': ['{browser}', '{uri}'],
-          \ 'background': 1},
-          \ {'name': 'chromium-browser',
-          \ 'args': ['{browser}', '{uri}'],
-          \ 'background': 1},
+          \ {'name': 'chromium-browser', 'args': ['{browser}', '{uri}']},
+          \ {'name': 'firefox', 'args': ['{browser}', '{uri}']},
           \ ]
   endif
 
