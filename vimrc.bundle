@@ -942,10 +942,10 @@ if Bundles('thinca/vim-quickrun')
         \ 'lua': {'command': executable('luajit') ? 'luajit' : 'lua'},
         \
         \ 'markdown': {'type':
-        \ executable('cmark') ? 'markdown/cmark' :
         \ executable('pandoc') ? 'markdown/pandoc' :
-        \ executable('redcarpet') ? 'markdown/redcarpet' : ''
-        \ },
+        \ executable('cmark') ? 'markdown/cmark' :
+        \ executable('redcarpet') ? 'markdown/redcarpet' :
+        \ ''},
         \ 'markdown_preview': {
         \ 'type': executable('pandoc') ? 'markdown/pandoc_highlight' : 'markdown',
         \ 'outputter': 'browser',
