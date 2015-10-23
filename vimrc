@@ -234,13 +234,16 @@ nnoremap <C-k> gk
 " Jump to the middle of the current written line as opposed to the window width
 nnoremap <silent> gm :call cursor(0, virtcol('$')/2)<CR>|nnoremap gM gm
 
-" Character pairs matched by '%'
-" < and > don't always make a pair, they could appear in <=, ->, etc.
-" set matchpairs+=<:>
-if !has('nvim') " nvim put it in plugin/
-  runtime macros/matchit.vim " extended pair matching with '%'
+" `%` jump between characters in 'matchpairs'
+" set matchpairs+=<:> " < and > could appear in <=, ->, etc.
+" Extended pair matching with the bundled plugin "matchit"
+let g:loaded_matchit = 1 " disabled as `dV%` is unsupported, see matchit-v_%
+if has('vim_starting') && !g:loaded_matchit
+  if !has('nvim') " nvim put it in plugin/
+    runtime macros/matchit.vim
+  endif
+  autocmd vimrc VimEnter * sunmap %|sunmap [%|sunmap ]%|sunmap a%|sunmap g%
 endif
-autocmd vimrc VimEnter * sunmap %|sunmap [%|sunmap ]%|sunmap a%|sunmap g%
 
 " Sections backword/forward
 nmap <M-[> [[
