@@ -8,7 +8,9 @@ function! run#eval(type)
     normal! `["zyv`]
   endif
   if &filetype == 'vim'
-    echo eval(@z)
+    " Should evaluate in the global scope as un-prefixed variables default to
+    " the function local scope here.
+    doautocmd User VimEval
   elseif &filetype =~ 'z\?sh'
     echo system(($ft == 'sh' ? 'bash' : 'zsh').' -c '.shellescape('echo '.@z))
   elseif &filetype == 'ruby'
@@ -32,3 +34,8 @@ function! run#eval(type)
     endif
   endif
 endfunction
+
+augroup vim_eval
+  autocmd!
+  autocmd User VimEval echo eval(@z)
+augroup END

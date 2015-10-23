@@ -917,7 +917,7 @@ endif
 call Bundles('tpope/vim-dispatch')
 
 " Execute whole/part of editing file
-if Bundles('thinca/vim-quickrun')
+if Bundles('Thinca/vim-quickrun')
   command! -nargs=* -range=% -complete=customlist,quickrun#complete Run
         \ call quickrun#command(<q-args>, <count>, <line1>, <line2>)
   nmap R <Plug>(quickrun-op)
