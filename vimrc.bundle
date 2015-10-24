@@ -1108,7 +1108,6 @@ if s:pythonx && Bundles('davidhalter/jedi-vim')
   " let g:jedi#use_splits_not_buffers = 'winwidth'
 
   " Completion
-  autocmd bundle FileType python setlocal completeopt=menuone,longest,preview
   let g:jedi#show_call_signatures = 2 " show it in the command line
 
   " let g:jedi#force_py_version = has('python3') ? 3 : 2

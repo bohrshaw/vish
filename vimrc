@@ -544,6 +544,7 @@ set fileformat=unix " only for the initial unnamed buffer
 set nowritebackup " write to symbolic files safely on windows
 " }}}
 " Completion:" {{{
+
 " Practical interface to various kinds of completions
 " {{{
 inoremap <expr><Tab> getline('.')[col('.')-2] =~# '\S' ?
@@ -568,6 +569,23 @@ inoremap <C-X>g <C-k>
 inoremap <M-h> <C-x><C-o>
 " }}}
 
+" Completion behavior tweak
+" {{{
+" Insert mode
+" 'menuone': Omni-completion may show additinal info in the popup menu.
+" 'longest': Without it, it's quicker to complete an adjacent word.
+" 'preview': Showing extra info is useful for learning a language.
+set completeopt=menuone,preview
+set infercase " auto-adjust case
+set complete-=i " don't scan included files when do <C-n> or <C-p>
+set pumheight=15 " max number of items to show in the popup menu
+
+" Command-line mode
+set wildcharm=<Tab> " the key to trigger wildmode expansion in mappings
+set wildmenu wildmode=longest:full,full
+silent! set wildignorecase " ignore case when completing file names/directories
+" }}}
+
 " Auto-reverse letter case in insert mode
 inoremap <M-c> <C-R>=<SID>toggle(1)<CR>
 inoremap <M-g>c <C-R>=<SID>toggle(2)<CR>
@@ -587,17 +605,6 @@ function! s:toggle(arg) " {{{
   endif
   return ''
 endfunction " }}}
-
-" Insert mode completion
-set completeopt=menu " insert-completion mode
-set infercase " auto-adjust case
-set complete-=i " don't scan included files when insert-completing by <C-N/P>
-set pumheight=15 " max candidates on insert-mode completion
-
-" Command-line mode completion
-set wildcharm=<Tab> " the key to trigger wildmode expansion in mappings
-set wildmenu wildmode=longest:full,full " command line completion mode
-silent! set wildignorecase " ignore case when completing file names/directories
 
 " Make a command(e.g. `:h ...`) split vertically or in a new tab.
 cnoremap <M-w>v <C-\>e'vert '.getcmdline()<CR><CR>
