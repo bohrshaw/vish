@@ -162,10 +162,9 @@ if has('nvim')
 endif
 inoremap <M-o> <C-O>
 
-" Enter the command line
+" The command line and the command line window
+" {{{
 NXnoremap <Space> :
-inoremap <M-Space> <Esc>:
-inoremap <M-e> <Esc>:
 if has('nvim')
   tnoremap <M-Space> <C-\><C-N>:
 endif
@@ -175,16 +174,18 @@ autocmd vimrc BufWinEnter option-window autocmd CursorMoved option-window
       \ unmap <buffer><Space>|
       \ autocmd! CursorMoved option-window
 
-" The command line window
 NXnoremap <M-Space> q:
 NXnoremap <M-e> q:
 NXnoremap <M-/> q/
 " set cedit=<C-G>
 cnoremap <M-Space> <C-F>
 cnoremap <M-e> <C-F>
+cnoremap <M-;> <C-F>
+inoremap <M-;> <Esc>:<C-F>
 autocmd vimrc CmdwinEnter * noremap <buffer> <F5> <CR>q:|
       \ NXInoremap <buffer> <nowait> <CR> <CR>|
       \ NXInoremap <buffer> <M-q> <C-c><C-c>
+"}}}
 
 " Yank till the line end instead of the whole line
 nnoremap Y y$
@@ -543,7 +544,7 @@ set fileformat=unix " only for the initial unnamed buffer
 set nowritebackup " write to symbolic files safely on windows
 " }}}
 " Completion:" {{{
-" The most frequently pressed completion keys
+" Practical interface to various kinds of completions
 " {{{
 inoremap <expr><Tab> getline('.')[col('.')-2] =~# '\S' ?
       \ (pumvisible() ? '<C-n>' : '<C-x><C-p>') : '<Tab>'
@@ -553,16 +554,18 @@ autocmd vimrc CmdwinEnter * silent! iunmap <buffer> <Tab>
 
 inoremap <expr><M-n> pumvisible() ? ' <BS><C-n>' : '<C-n>'
 inoremap <expr><M-p> pumvisible() ? ' <BS><C-p>' : '<C-p>'
-" }}}
 
 " CTRL-X completion-sub-mode
-" {{{
-map! <M-x> <C-x>
+" Mnemonic: Expand
+imap <M-e> <C-x>
+imap <M-x> <C-x>
 for s:c in split('lnpkti]fdvuos', '\zs')
   execute 'inoremap <C-X>'.s:c.' <C-X><C-'.s:c.'>'
 endfor
-" Insert a digraph
-noremap! <C-X>g <C-k>
+" Mnemonic: diGraph
+inoremap <C-X>g <C-k>
+" Mnemonic: omni-completion would show Help info
+inoremap <M-h> <C-x><C-o>
 " }}}
 
 " Auto-reverse letter case in insert mode
