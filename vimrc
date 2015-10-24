@@ -543,16 +543,20 @@ set fileformat=unix " only for the initial unnamed buffer
 set nowritebackup " write to symbolic files safely on windows
 " }}}
 " Completion:" {{{
-" A smart and light <Tab> to do insert-completion:" {{{
-inoremap <expr> <Tab> getline('.')[col('.')-2] !~ '^\s\?$' \|\| pumvisible()
-      \ ? '<C-N>' : '<Tab>'
-inoremap <expr> <S-Tab> pumvisible() \|\| getline('.')[col('.')-2] !~ '^\s\?$'
-      \ ? '<C-P>' : '<Tab>'
-" Remove auto-definded mappings
+" The most frequently pressed completion keys
+" {{{
+inoremap <expr><Tab> getline('.')[col('.')-2] =~# '\S' ?
+      \ (pumvisible() ? '<C-n>' : '<C-x><C-n>') : '<Tab>'
+inoremap <expr><S-Tab> pumvisible() ? '<C-p>' : '<C-x><C-p>'
+" Remove built-in mappings
 autocmd vimrc CmdwinEnter * silent! iunmap <buffer> <Tab>
+
+inoremap <expr><M-n> pumvisible() ? ' <BS><C-n>' : '<C-n>'
+inoremap <expr><M-p> pumvisible() ? ' <BS><C-p>' : '<C-p>'
 " }}}
-" CTRL-X completion-sub-mode :" {{{
-" Shortcuts
+
+" CTRL-X completion-sub-mode
+" {{{
 map! <M-x> <C-x>
 for s:c in split('lnpkti]fdvuos', '\zs')
   execute 'inoremap <C-X>'.s:c.' <C-X><C-'.s:c.'>'
@@ -560,10 +564,11 @@ endfor
 " Insert a digraph
 noremap! <C-X>g <C-k>
 " }}}
-" Auto-reverse letter case in insert mode {{{
+
+" Auto-reverse letter case in insert mode
 inoremap <M-c> <C-R>=<SID>toggle(1)<CR>
 inoremap <M-g>c <C-R>=<SID>toggle(2)<CR>
-function! s:toggle(arg)
+function! s:toggle(arg) " {{{
   let b:case_reverse = get(b:, 'case_reverse') ? 0 : a:arg
   if !exists('#case_reverse#InsertCharPre#<buffer>')
     augroup case_reverse
@@ -578,24 +583,26 @@ function! s:toggle(arg)
     augroup END
   endif
   return ''
-endfunction
-" }}}
+endfunction " }}}
+
+" Insert mode completion
 set completeopt=menu,longest " insert-completion mode
 set complete-=i " don't scan included files when insert-completing by <C-N/P>
 set pumheight=15 " max candidates on insert-mode completion
 
+" Command-line mode completion
 set wildcharm=<Tab> " the key to trigger wildmode expansion in mappings
 set wildmenu wildmode=longest:full,full " command line completion mode
 silent! set wildignorecase " ignore case when completing file names/directories
-" Show all candidates
-cnoremap <C-Tab> <C-d>
+
 " Make a command(e.g. `:h ...`) split vertically or in a new tab.
 cnoremap <M-w>v <C-\>e'vert '.getcmdline()<CR><CR>
 cnoremap <M-w>t <C-\>e'tab '.getcmdline()<CR><CR>
 cmap <M-CR> <C-\>e'tab '.getcmdline()<CR><CR>
-" Expand a mixed case command name:" {{{
+
+" Expand a mixed case command name
 cnoremap <M-l> <C-\>e<SID>cmd_expand()<CR><Tab>
-function! s:cmd_expand()
+function! s:cmd_expand() " {{{
   let cmd = getcmdline()
   let [range, abbr] = [matchstr(cmd, '^\A*'), matchstr(cmd, '\a.*')]
   let parts = map(split(abbr, abbr =~ '\s' ? '\s' : '\zs'), 'toupper(v:val[0]).v:val[1:]')
@@ -688,6 +695,7 @@ let s:keymap = {
       \'fa':     '<f-args>',
       \}
 " }}}
+
 " }}}
 " Repeat:" {{{
 " Concisely list the newest leafs in the tree of changes. Er... useless...
