@@ -546,8 +546,8 @@ set nowritebackup " write to symbolic files safely on windows
 " The most frequently pressed completion keys
 " {{{
 inoremap <expr><Tab> getline('.')[col('.')-2] =~# '\S' ?
-      \ (pumvisible() ? '<C-n>' : '<C-x><C-n>') : '<Tab>'
-inoremap <expr><S-Tab> pumvisible() ? '<C-p>' : '<C-x><C-p>'
+      \ (pumvisible() ? '<C-n>' : '<C-x><C-p>') : '<Tab>'
+inoremap <expr><S-Tab> pumvisible() ? '<C-p>' : '<C-x><C-n>'
 " Remove built-in mappings
 autocmd vimrc CmdwinEnter * silent! iunmap <buffer> <Tab>
 
