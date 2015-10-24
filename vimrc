@@ -587,6 +587,7 @@ endfunction " }}}
 
 " Insert mode completion
 set completeopt=menu " insert-completion mode
+set infercase " auto-adjust case
 set complete-=i " don't scan included files when insert-completing by <C-N/P>
 set pumheight=15 " max candidates on insert-mode completion
 
