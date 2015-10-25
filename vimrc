@@ -547,11 +547,12 @@ set nowritebackup " write to symbolic files safely on windows
 
 " Practical interface to various kinds of completions
 " {{{
+" Hacker: `a<BS>` to make the selected entry inserted.
 inoremap <expr><Tab> getline('.')[col('.')-2] =~# '\S' ?
-      \ (pumvisible() ? '<C-n>' : '<C-x><C-p>') : '<Tab>'
-inoremap <expr><S-Tab> pumvisible() ? '<C-p>' : '<C-x><C-n>'
+      \ (pumvisible() ? '<C-n>' : '<C-x><C-p>a<BS><C-p>') : '<Tab>'
+inoremap <expr><S-Tab> pumvisible() ? '<C-p>' : '<C-x><C-n>a<BS><C-n>'
 " Remove built-in mappings
-autocmd vimrc CmdwinEnter * silent! iunmap <buffer> <Tab>
+autocmd vimrc CmdwinEnter [:>] silent! iunmap <buffer><Tab>
 
 inoremap <expr><M-n> pumvisible() ? ' <BS><C-n>' : '<C-n>'
 inoremap <expr><M-p> pumvisible() ? ' <BS><C-p>' : '<C-p>'
@@ -573,9 +574,9 @@ inoremap <M-h> <C-x><C-o>
 " {{{
 " Insert mode
 " 'menuone': Omni-completion may show additinal info in the popup menu.
-" 'longest': Without it, it's quicker to complete an adjacent word.
+" 'longest': Applied to all except for <Tab>.
 " 'preview': Showing extra info is useful for learning a language.
-set completeopt=menuone,preview
+set completeopt=menuone,longest,preview
 set infercase " auto-adjust case
 set complete-=i " don't scan included files when do <C-n> or <C-p>
 set pumheight=15 " max number of items to show in the popup menu
@@ -898,7 +899,7 @@ endfunction " }}}
 " Move the cursor around the line
 inoremap <C-A> <C-O>^
 cnoremap <C-A> <Home>
-inoremap <C-E> <End>
+inoremap <expr><C-e> pumvisible() ? "<C-e>" : "<End>"
 " Delete all before the cursor (won't break undo)
 inoremap <expr><C-u> "<Space><C-c>\"_xc".
       \(search('^\s*\%#', 'bnc', line('.')) > 0 ? '0' : '^')
@@ -916,7 +917,8 @@ function! s:c_k() " {{{
 endfunction " }}}
 
 " Paste the previous deleted text
-noremap! <C-y> <C-r>-
+inoremap <expr><C-y> pumvisible() ? "<C-y>" : "<C-r>-"
+cnoremap <C-y> <C-r>-
 
 " Transpose two characters around the cursor
 cmap <script><C-T> <SID>transposition<SID>transpose
