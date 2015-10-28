@@ -29,7 +29,7 @@ command! BundleInject call rtp#inject('bundle',
 function! Bundle(...)
   let b = s:bundle(a:1)
   if s:ifbundle(b)
-    let bundle_cmd = 'call BundleRun('.string(b).')'
+    let bundle_cmd = 'call _bundle_activate('.string(b).')'
     if has_key(a:2, 'm')
       " Get all user-defined mapping commands
       let map_cmds = substitute(
@@ -65,6 +65,10 @@ function! Bundle(...)
     endif
     return 1
   endif
+endfunction
+function! _bundle_activate(b)
+  call BundleRun(a:b)
+  execute 'doautocmd <nomodeline> User bundle_'.tolower(split(a:b, '/')[1])
 endfunction
 let s:augroup_count = get(s:, 'augroup_count', 1)
 
