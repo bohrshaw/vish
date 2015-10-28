@@ -10,7 +10,7 @@ function! run#eval(type)
   if &filetype == 'vim'
     " Should evaluate in the global scope as un-prefixed variables default to
     " the function local scope here.
-    doautocmd User VimEval
+    doautocmd <nomodeline> User VimEval
   elseif &filetype =~ 'z\?sh'
     echo system(($ft == 'sh' ? 'bash' : 'zsh').' -c '.shellescape('echo '.@z))
   elseif &filetype == 'ruby'

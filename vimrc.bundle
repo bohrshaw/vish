@@ -283,8 +283,7 @@ endif
 " Completion: {{{1
 
 " Provides insert mode auto-completion for quotes, parens, brackets, etc.
-" Currently there're problems with 'repeat' or 'undo'.
-call Bundles('-raimondi/delimitmate', '-cohama/lexima.vim', '-jiangmiao/auto-pairs')
+" call Bundles('-raimondi/delimitmate', '-cohama/lexima.vim', '-jiangmiao/auto-pairs')
 
 " Wisely add 'end' in ruby, endfunction/endif/more in vim script, etc
 call Bundles('tpope/vim-endwise')
@@ -376,18 +375,38 @@ if Bundles('Tpope/vim-surround')
   xmap s      <Plug>VSurround|xnoremap S s
   xmap gs     <Plug>VgSurround
   " :help i_CTRL-G_s
-  imap     <M-s>       <Plug>Isurround
-  imap     <M-s><M-[>  <M-s>]<M-s>[
+  " imap     <M-s>       <Plug>Isurround
   imap     <M-g>s      <Plug>ISurround
-  cnoremap <expr><M-s> <SID>csurround()
-  function! s:csurround()
-    let cs = matchstr(['()b', '[]r', '{}B', '<>a', '""', "''", '``'], v#getchar(1, 1))[:1]
-    return empty(cs) ? '' : cs."\<Left>"
+  noremap! <expr><M-s> <SID>surround()
+  function! s:surround()
+    let k = v#getchar()
+    if empty(k)
+      return ''
+    endif
+    let pair = has_key(g:surround_pairs, k) ? g:surround_pairs[k] : k.k
+    return pair.repeat(
+          \ mode()[0] == 'c' ? "\<Left>" : "\<C-g>U\<Left>", len(pair)/2)
   endfunction
+  let g:surround_pairs = {
+        \ '(': '(  )', ')': '()', 'b': '()',
+        \ '[': '[  ]', ']': '[]', 'r': '[]',
+        \ '{': '{  }', '}': '{}', 'B': '{}',
+        \ '<': '<>', '>': '<>', 'a': '<>',
+        \ "\<M-9>": '((  ))',
+        \ "\<M-[>": '[[  ]]',
+        \ "\<M-'>": "''''''",
+        \ "\<M-">": '""""""', "\<M-\">": '""""""',
+        \ "~": '``````',
+        \ "\<M-8>": '****',
+        \ "\<M-->": '____',
+        \ }
 
   " Surround replacements
-  let g:surround_101 = " \r " " e(empty) as <Space>
-  let g:surround_13 = "\n\t\r\n" " <CR>
+  let g:surround_{char2nr("\<M-[>")} = "[[ \r ]]"
+  let g:surround_{char2nr("\<M-9>")} = "(( \r ))"
+  let g:surround_{char2nr('e')} = " \r " " e(empty) as <Space>
+  let g:surround_{char2nr("\<CR>")} = "\n\t\r\n"
+  " Won't insert indents
   nmap ss<CR> sVl<CR>
 
   " Surround targets
