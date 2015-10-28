@@ -107,7 +107,7 @@ command! -bar -nargs=1 NXInoremap nnoremap <args><Bar> xnoremap <args><Bar>
 " let mapleader = "\r" " replace <Leader> in a map
 let maplocalleader = "\t" " replace <LocalLeader> in a map
 NXnoremap <Tab> <Nop>
-let g:mapinsertleader = "\<M-g>"
+let g:mapinsertleader = "\<C-g>" " this is personal convention
 
 " Execute a remapped key in its un-remapped(vanilla) state.
 " Note: Use i_CTRL-D to insert a non-digit literally.
@@ -512,7 +512,7 @@ if has('vim_starting') && 0 == argc() && has('gui_running') && !g:l
 endif
 
 " Open a destination file of a link
-cnoremap <M-g>l <C-\>e<SID>get_link_targets()<CR><CR>
+cnoremap <C-g>l <C-\>e<SID>get_link_targets()<CR><CR>
 function! s:get_link_targets() " {{{
   let [cmd; links] = split(getcmdline())
   for l in links
@@ -589,7 +589,8 @@ silent! set wildignorecase " ignore case when completing file names/directories
 
 " Auto-reverse letter case in insert mode
 inoremap <M-c> <C-R>=<SID>toggle(1)<CR>
-inoremap <M-g>c <C-R>=<SID>toggle(2)<CR>
+inoremap <M-C> <C-R>=<SID>toggle(2)<CR>
+inoremap <C-g>c <C-R>=<SID>toggle(2)<CR>
 function! s:toggle(arg) " {{{
   let b:case_reverse = get(b:, 'case_reverse') ? 0 : a:arg
   if !exists('#case_reverse#InsertCharPre#<buffer>')
