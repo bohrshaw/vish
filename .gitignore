@@ -3,6 +3,7 @@
 # and * don't match /
 
 # ignore directories under bundle
+/init.vim
 /doc/tags
 /bundle/
 /spell/

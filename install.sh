@@ -2,43 +2,48 @@
 # Link vimrc files and install Vim plugins
 
 # Get the directory path of this file
-VISH="$( cd `dirname $0` && pwd -P )"
+VISH="$(cd "$(dirname "$0")" && pwd -P)"
+VIM="$HOME/.vim"
+NVIM="${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
 
 # Smart and safe linking
 slink () {
-  # Return if the target doesn't exist or the same link already exists
-  ( [[ ! -e $1 ]] || [[ $1 == `readlink $2` ]] ) && return
-  mkdir -p ${2%/*} # ensure the link directory exists
-  # Backup only if not a link
-  [[ -e $2 ]] && [[ ! -L $2 ]] && mv $2 $2.$(date +%F-%T)
-  ln -sfn $1 $2
+  [[ ! -e $1 || $1 == $(readlink "$2") || $1 == "$2" ]] &&
+    return
+  mkdir -p "${2%/*}"
+  # Make a backup only if not a link
+  [[ -e $2 && ! -L $2 ]] && mv "$2" "$2.$(date +%F-%T)"
+  ln -sfn "$1" "$2"
 }
 
-# Link to $HOME/.vim, but avoid self-linking
-[[ $VISH == $HOME'/.vim' ]] || slink $VISH $HOME/.vim
+# Link the repository root
+slink "$VISH" "$VIM"
+slink "$VISH" "$NVIM"
 
 # Link vimrc files
 for f in vimrc gvimrc vimperatorrc vimperator; do
-  slink $VISH/$f $HOME/.$f
+  slink "$VISH/$f" "$HOME/.$f"
 done
-slink $VISH/vimrc $HOME/.nvimrc
+slink "$VISH/vimrc" "$NVIM/init.vim"
 
 # Include spell related files(mostly static and large)
 if vspell=$VISH/spell && [[ ! -d $vspell/.git ]]; then
-  [[ -d $vspell ]] && mv $vspell ${vspell}.bak
+  [[ -d $vspell ]] && mv "$vspell" "${vspell}.bak"
   url=git.coding.net/bohrshaw/vish-spell.git
-  git clone https://$url $vspell
-  git -C $vspell remote set-url origin git@${url/\//:}
+  git clone "https://$url" "$vspell"
+  git -C "$vspell" remote set-url origin "git@${url/\//:}"
   # Neovim doesn't distribute spell files. I would be interrupted by its prompt.
   for f in spl sug; do
-    curl -o $vspell/en.utf-8.$f \
+    curl -o "$vspell/en.utf-8.$f" \
       http://ftp.vim.org/pub/vim/runtime/spell/en.utf-8.$f &>/dev/null &
   done
 fi
 
 # Sync bundles
-if hash go &>/dev/null; then
-  go run $VISH/src/vundle/vundle.go
+if hash vundle &>/dev/null; then
+  vundle
+elif hash go &>/dev/null; then
+  go run "$VISH/src/vundle/vundle.go"
 else
   echo "Fatal: Vish depends on Golang to install bundles!"
 fi
