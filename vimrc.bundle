@@ -1080,10 +1080,11 @@ endif
 if Bundles('Vim-ruby/vim-ruby')
 endif
 
-" A custom text object for selecting ruby blocks
-if Bundle('Nelstrom/vim-textobj-rubyblock', {'f':'ruby'})
-elseif Bundles('rhysd/vim-textobj-ruby') " provide more controls over the above
+" Ruby text objects
+if Bundle('Rhysd/vim-textobj-ruby', {'f': 'ruby'})
+  " Omap irr(any), iro(object), irc(control), ird(do), irl(loop)
   let g:textobj_ruby_more_mappings = 1
+elseif Bundle('Nelstrom/vim-textobj-rubyblock', {'f': 'ruby'})
 endif
 
 " Runs RuboCop(A robust Ruby code analyzer) and displays the results in Vim
