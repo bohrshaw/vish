@@ -94,6 +94,7 @@ if has('vim_starting')
 endif " }}}
 " Meta:" {{{
 " Commands for defining mappings in several modes
+" Note: Adjust syntax/vim.vim if these command names change
 command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
 command! -nargs=1 NXmap nmap <args><Bar>xmap <args>
 command! -nargs=1 NOnoremap nnoremap <args><Bar> onoremap <args>
