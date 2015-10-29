@@ -333,15 +333,17 @@ if s:pythonx && Bundle('Sirver/ultisnips', {
   let g:UltiSnipsSnippetsDir = $MYVIM.'/snippet' " personal snippets path
   " let g:UltiSnipsEnableSnipMate = 0 " don't looking for SnipMate snippets
 
-  " let g:UltiSnipsEditSplit="horizontal"
+  let g:UltiSnipsEditSplit = 'context'
   " let g:UltiSnipsUsePythonVersion = has('python3') ? 3 : 2
 
-  " Hacking (due to the limitation of Bundle())
-  autocmd bundle BufNewFile,BufRead *.snippets setf snippets
+  " 'filetype' could already be detected and set to `conf`
+  autocmd bundle BufNewFile,BufRead *.snippets if &filetype != 'snippets' |
+        \ set filetype=snippets | endif
+
   " Performance
   let g:UltiSnipsRemoveSelectModeMappings = 0
   let b:did_after_plugin_ultisnips_after = 1 " I don't have SuperTab
-  autocmd User bundle_ultisnips autocmd! UltiSnips_AutoTrigger
+  autocmd User BundleUltisnips autocmd! UltiSnips_AutoTrigger
 elseif Bundles('garbas/vim-snipmate', 'marcweber/vim-addon-mw-utils',
       \ 'tomtom/tlib_vim', 'honza/vim-snippets')
   command! -nargs=1 SImap imap <args>|smap <args>
@@ -725,8 +727,8 @@ endif
 " A tree explorer plugin for vim
 if Bundle('scrooloose/nerdtree', {'m': [
       \ 'nnoremap c\d :NERDTreeToggle<CR>',
-      \ 'noremap <leader>dd :NERDTree<CR>',
-      \ 'noremap <leader>df :NERDTreeFind<CR>']})
+      \ 'nnoremap <leader>dd :NERDTree<CR>',
+      \ 'nnoremap <leader>df :NERDTreeFind<CR>']})
   let NERDTreeHijackNetrw=0 " don't replace netrw
   let NERDTreeBookmarksFile=$MYVIM.'/tmp/NERDTreeBookmarks'
   let NERDTreeIgnore=['^\.$', '^\.\.$', '\~$', '\.pyc$', '\.swp$']

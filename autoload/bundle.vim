@@ -10,6 +10,11 @@ function! bundle#init()
   let g:dundles = [] " bundles to be downloaded
 endfunction
 
+" Inject paths of bundles from g:bundles to 'rtp'
+function! bundle#done()
+  call rtp#inject('bundle', map(g:bundles, 'v:val[stridx(v:val,"/")+1:]'))
+endfunction
+
 " Populate the list: g:bundles
 function! Bundles(...)
   for b in a:000
@@ -20,60 +25,82 @@ function! Bundles(...)
   endfor
   return get(l:, 'if_config') ? 1 : 0
 endfunction
-" Inject paths of bundles from g:bundles to 'rtp'
-command! BundleInject call rtp#inject('bundle',
-      \ map(g:bundles, 'v:val[stridx(v:val,"/")+1:]'))
 
-" Load bundle on demands.
-" Note: Auto-commands may not be executed until e.g. the file is reedited.
+" Lazily load a bundle (on demand loading)
+" Note: Some auto-commands introduced by a bundle need to be manually triggered
+" by defining a User auto-command like `autocmd User bundle_foo ...` where `foo`
+" is the lowercase bundle directory name.
 function! Bundle(...)
+  if !has('vim_starting')
+    return
+  endif
   let b = s:bundle(a:1)
   if s:ifbundle(b)
-    let bundle_cmd = 'call _bundle_activate('.string(b).')'
+    let bundle_cmd = 'call BundleRun('.string(b).')'
     if has_key(a:2, 'm')
-      " Get all user-defined mapping commands
+      " Chain user-defined mappings which has a `rhs`, like:
+      "   `nnoremap <M-x> :call BundleFoo()<CR>`
+      " as opposed to ones defined by a bundle, which needn't have a `rhs`:
+      "   `imap <M-l>`, or just `i <M-l>`
+      "   Note: Need to write `i <expr><M-l>` instead of `i <expr> <M-l>` to
+      "   make pasing logic simple.
       let map_cmds = substitute(
             \ join(filter(copy(a:2['m']), 'v:val =~ ''\s\S\+\s'''), '\|'),
             \ '<', '<lt>', 'g')
-      for map in a:2['m']
-        let key = split(map)[1]
-        let map_key = map[0].'map <silent> '.key.' '
-        let map_activate = ':<C-U>'.bundle_cmd.
-              \ '\|doautocmd FileType\|'.map_cmds.'<CR>'
-        if map =~# '^[ic]\|^\a\{-}!'
-          execute map_key.'<Esc>'.map_activate.'a'.key
+
+      for m in a:2['m']
+        let [map, key] = split(m)[:1]
+        if len(map) == 1
+          let map .= 'map'
+        elseif map =~# 'nore'
+          let map = join(split(map, 'nore'), '')
+        endif
+        let lhs = '<silent>'.key
+        let rhs = ':<C-u>'.bundle_cmd.'\|'.map_cmds.'<CR>'
+        if map =~# '[ic!]'
+          if map =~# '[i!]'
+            execute 'imap' lhs '<C-\><C-o>'.rhs.key
+          endif
+          if map =~# '[c!]'
+            execute 'cmap' lhs '<C-\>esetreg("z", getcmdline())[1]<CR>'.rhs.
+                  \ ':<C-r>z'.key
+          endif
         else
-          execute map_key.map_activate.key
-          if map =~# '^no'
-            execute 'xmap '.key.' '.map_activate.key
+          if map =~# 'n\|^map'
+            execute 'nmap' lhs rhs.key
+          endif
+          if map =~# 'x\|^map'
+            execute 'xmap' lhs rhs.'gv'.key
           endif
         endif
       endfor
     end
+
     if has_key(a:2, 'c')
       let cmd = a:2['c']
-      execute 'command! '.cmd.' '.bundle_cmd.'|'.cmd
+      execute 'command! -nargs=* -bang '.cmd.' '.bundle_cmd.
+            \ '|'.cmd.'<bang> <args>'
     endif
+
     if has_key(a:2, 'f')
       let pat = a:2['f']
       let event_pat = pat =~ '[*.]' ?
-            \ 'BufNewFile,BufReadPre '.pat : 'FileType '.pat
-      execute 'augroup bundle'.s:augroup_count.'|augroup END'
-      execute 'autocmd bundle'.s:augroup_count event_pat bundle_cmd
-            \ '|autocmd! bundle'.s:augroup_count
+            \ 'BufNewFile,BufRead '.pat : 'FileType '.pat
+      execute 'augroup bundle'.s:augroup_count
+      " Note: Be cautious about nesting auto-commands
+      execute 'autocmd!' event_pat 'call BundleRun('.string(b).', 0)'
+            \ '| autocmd! bundle'.s:augroup_count
+      execute 'augroup END'
       let s:augroup_count += 1
     endif
+
     return 1
   endif
-endfunction
-function! _bundle_activate(b)
-  call BundleRun(a:b)
-  execute 'doautocmd <nomodeline> User bundle_'.tolower(split(a:b, '/')[1])
 endfunction
 let s:augroup_count = get(s:, 'augroup_count', 1)
 
 " Inject the path of a bundle to &rtp and Load(source) it
-function! BundleRun(b)
+function! BundleRun(b, ...)
   let b = s:bundle(a:b)
   if s:ifbundle(b) || b !~ '/'
     let dir = split(b, '/')[-1]
@@ -86,6 +113,21 @@ function! BundleRun(b)
         endfor
       endfor
     endfor
+
+    " Apply auto-commands if not during Vim start-up
+    if !has('vim_starting')
+      " Apply bundle specific User auto-commands
+      let pat = 'Bundle'.toupper(dir[0]).tolower(dir[1:])
+      if exists('#User#'.pat)
+        execute 'doautocmd <nomodeline> User' pat '|autocmd! User' pat
+      endif
+      " Apply newly defined auto-commands for most common events
+      filetype detect
+      if !a:0
+        doautocmd FileType
+      endif
+    endif
+
     return 1
   endif
 endfunction
@@ -125,7 +167,9 @@ function! s:ifbundle(b)
   if a:b[0] == '-'
     return
   endif
-  call s:uniqadd(g:dundles, a:b) " add a bundle to the bundle downloading list
+  if has('vim_starting')
+    call s:uniqadd(g:dundles, a:b) " add a bundle to the bundle downloading list
+  endif
   if a:b[0] =~# '\u' || !get(g:, 'l')
     return 1
   endif

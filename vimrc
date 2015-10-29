@@ -931,7 +931,7 @@ noremap! <expr> <SID>transpose "\<BS>\<Right>"
 " Bundles:" {{{
 if has('vim_starting')
   runtime vimrc.bundle " bundle configuration
-  BundleInject " inject bundle paths to 'rtp'
+  call bundle#done() " inject bundle paths to 'rtp'
 endif
 " }}}
 " Appearance:" {{{
