@@ -124,7 +124,7 @@ func (*manager) synca(bdl string) {
 						output.WriteString(sep + url + " pull failed: " + err.Error())
 					} else if len(out) != 0 && out[0] != 'A' { // out isn't "Already up-to-date"
 						output.WriteString(sep + url + " updated.\n")
-						log, _ := exec.Command(git, "-C", b.dest, "log", "--oneline", "ORIG_HEAD..HEAD").Output()
+						log, _ := exec.Command(git, "-C", b.dest, "log", "--no-merges", "--oneline", "ORIG_HEAD..HEAD").Output()
 						output.Write(bytes.TrimSpace(log))
 						// Update submodules
 						if _, err := os.Stat(b.dest + "/.gitmodules"); !os.IsNotExist(err) {
