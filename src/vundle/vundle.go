@@ -5,6 +5,7 @@
 package main
 
 import (
+	"bytes"
 	"flag"
 	"fmt"
 	"log"
@@ -36,6 +37,7 @@ var (
 	_user, _         = user.Current()
 	root             = _user.HomeDir + "/.vim/bundle"
 	git, gitNotExist = exec.LookPath("git")
+	sep              = "============ "
 )
 
 func init() {
@@ -87,6 +89,7 @@ func (*manager) synca(bdl string) {
 			for b := range ch {
 				cmd := &exec.Cmd{Path: git}
 				url := "https://github.com/" + b.repo
+				var output bytes.Buffer
 				if b.ifclone { // clone
 					args := make([]string, 0, 10)
 					args = append(args, git, "clone", "--depth", "1", "--recursive", "--quiet")
@@ -95,6 +98,7 @@ func (*manager) synca(bdl string) {
 					}
 					cmd.Args = append(args, url, b.dest)
 
+					output.WriteString(sep + url + " ")
 					err := cmd.Run()
 					if err != nil {
 						// Assume the branch doesn't exist and try to clone the default branch
@@ -102,42 +106,38 @@ func (*manager) synca(bdl string) {
 							// As of go1.5.1 linux/386, a Cmd struct can't be reused after calling its Run, Output or CombinedOutput methods.
 							err := exec.Command(git, append(args[:len(args)-2], url, b.dest)[1:]...).Run()
 							if err != nil {
-								fmt.Println(url, "can't be cloned!")
+								output.WriteString("can't be cloned!")
 							} else {
-								fmt.Printf("%v cloned, but the branch %v doesn't exist\n", url, b.branch)
+								output.WriteString("cloned, but the branch " + b.branch + " doesn't exist.")
 							}
 						} else {
-							fmt.Println(url, "can't be cloned!")
+							output.WriteString("can't be cloned!")
 						}
 					} else {
-						fmt.Println(url, "cloned")
+						output.WriteString("cloned.")
 					}
 				} else { // update
 					cmd.Dir = b.dest
 					cmd.Args = strings.Fields("git pull")
 					out, err := cmd.Output()
 					if err != nil {
-						fmt.Println(url, "pull failed:", err)
-						continue
-					}
-
-					// Update submodules
-					if _, err := os.Stat(b.dest + "/.gitmodules"); !os.IsNotExist(err) {
-						exec.Command(git, "-C", b.dest, "submodule", "sync").Run()
-						err := exec.Command(git, "-C", b.dest, "submodule", "update", "--init", "--recursive").Run()
-						if err != nil {
-							fmt.Println(url, "submodule update failed:", err)
+						output.WriteString(sep + url + " pull failed: " + err.Error())
+					} else if len(out) != 0 && out[0] != 'A' { // out isn't "Already up-to-date"
+						output.WriteString(sep + url + " updated.\n")
+						log, _ := exec.Command(git, "-C", b.dest, "log", "--oneline", "ORIG_HEAD..HEAD").Output()
+						output.Write(bytes.TrimSpace(log))
+						// Update submodules
+						if _, err := os.Stat(b.dest + "/.gitmodules"); !os.IsNotExist(err) {
+							exec.Command(git, "-C", b.dest, "submodule", "sync").Run()
+							err := exec.Command(git, "-C", b.dest, "submodule", "update", "--init", "--recursive").Run()
+							if err != nil {
+								output.WriteString("\n------------ Submodule update failed: " + err.Error())
+							}
 						}
 					}
-
-					// The output could be "Already up-to-date."
-					if len(out) != 0 && out[0] != 'A' {
-						fmt.Println("============", url, "updated")
-						out, _ := exec.Command(git, "-C", b.dest, "log", "--oneline", "ORIG_HEAD..HEAD").Output()
-						if len(out) != 0 {
-							fmt.Println(string(out))
-						}
-					}
+				}
+				if o := output.String(); len(o) != 0 {
+					fmt.Println(o)
 				}
 			}
 		}()
@@ -161,8 +161,9 @@ func (*manager) clean(bundles []string) {
 			}
 		}
 		if !match {
+			fmt.Print(sep)
 			if *dry {
-				fmt.Println("Would remove", d)
+				fmt.Println(d, "would be removed.")
 				return
 			}
 			var err error
@@ -175,7 +176,7 @@ func (*manager) clean(bundles []string) {
 			if err != nil {
 				fmt.Printf("Fail removing %v: %v\n", d, err)
 			} else {
-				fmt.Println(d, "removed")
+				fmt.Println(d, "removed.")
 			}
 		}
 	}
