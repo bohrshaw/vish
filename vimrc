@@ -487,6 +487,7 @@ nnoremap <silent><M-f><M-f>A :windo update!<CR>
 inoremap <M-z> <Esc>ZZ
 nnoremap <silent><M-f>e :edit<CR>
 nnoremap <silent><M-f><M-f>e :edit!<CR>
+cabbrev <expr>tw getcmdtype() == ':' && getcmdpos() == 3 ? 'tabe' : 'tw'
 cnoremap <M-h> <C-r>=expand('%:h')<CR>/
 nnoremap <M-f>f :filetype detect<CR>
 nnoremap <M-f>F :silent! unlet b:did_ftplugin b:did_after_ftplugin<Bar>filetype detect<CR>
