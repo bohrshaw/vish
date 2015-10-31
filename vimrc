@@ -847,11 +847,11 @@ else
   " Won't trigger the CursorMovedI event
   inoremap <C-b> <C-c>i
 endif
-cnoremap <C-f> <Right>
+cnoremap <expr><C-f> getcmdpos() > strlen(getcmdline()) ? "<C-f>" : "<Right>"
 cnoremap <C-b> <Left>
 " Delete one character after the cursor
-inoremap <expr> <C-D> col('.')>strlen(getline('.'))?"\<Lt>C-D>":"\<Lt>Del>"
-cnoremap <expr> <C-D> getcmdpos()>strlen(getcmdline())?"\<Lt>C-D>":"\<Lt>Del>"
+inoremap <expr> <C-D> col('.') > strlen(getline('.')) ? "<C-D>" : "<Del>"
+cnoremap <expr> <C-D> getcmdpos() > strlen(getcmdline()) ? "<C-D>" : "<Del>"
 
 " Move the cursor around one word (break undo)
 inoremap <M-f> <S-Right>
