@@ -552,8 +552,8 @@ set nowritebackup " write to symbolic files safely on windows
 " Practical interface to various kinds of completions
 " {{{
 " Hacker: `a<BS>` to make the selected entry inserted.
-inoremap <expr><Tab> getline('.')[col('.')-2] =~# '\S' ?
-      \ (pumvisible() ? '<C-n>' : '<C-x><C-p>a<BS><C-p>') : '<Tab>'
+inoremap <expr><Tab> pumvisible() ? '<C-n>' :
+      \ getline('.')[col('.')-2] =~# '\S' ? '<C-x><C-p>a<BS><C-p>' : '<Tab>'
 inoremap <expr><S-Tab> pumvisible() ? '<C-p>' : '<C-x><C-n>a<BS><C-n>'
 " Remove built-in mappings
 autocmd vimrc CmdwinEnter [:>] silent! iunmap <buffer><Tab>
