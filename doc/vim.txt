@@ -1,0 +1,10 @@
+*vim.txt*  Vim additional helps
+
+==============================================================================
+Vim additional helps                                    *vim-additional-helps*
+
+
+See |v:count| and |v:count1|                                      *:map-count*
+
+
+ vim:tw=78:ts=8:ft=help:norl:

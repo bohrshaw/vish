@@ -492,8 +492,8 @@ cnoremap <M-h> <C-r>=expand('%:h')<CR>/
 nnoremap <M-f>f :filetype detect<CR>
 nnoremap <M-f>F :silent! unlet b:did_ftplugin b:did_after_ftplugin<Bar>filetype detect<CR>
 nnoremap <M-f>c :checktime<CR>
-" Switch to the alternative buffer
-nnoremap <silent><M-a> :buffer #<CR>
+" Switch to the alternative or {count}th buffer
+nnoremap <expr><silent><M-a> ':buffer '.(v:count ? v:count : '#')."<CR>"
 if has('nvim')
   tnoremap <silent><M-a> <C-\><C-n>:buffer #<CR>
 endif
