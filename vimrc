@@ -360,6 +360,8 @@ nnoremap <silent><C-w><M-l> :<C-u>execute 'tabmove+'.v:count1<CR>
 nnoremap <silent><C-w><M-h> :<C-u>execute 'tabmove-'.v:count1<CR>
 nnoremap <silent><M-Q> :windo quit<CR>
 nmap <silent><C-w>Q <M-Q>
+nnoremap <silent><C-w><M-c> :cclose<CR>
+nnoremap <silent><C-w><M-l> :lclose<CR>
 
 " Maxmize the current window by duplicate it in a new tab
 nnoremap <silent><C-w><M-t> <C-w>s<C-w>T
