@@ -24,6 +24,7 @@ let s:nvim = s:vf ? 1 : has('nvim')
 let s:pythonx = s:vf ? 1 : (has('python') || has('python3'))
 let s:ruby = s:vf ? 1 : has('ruby')
 let s:lua = s:vf ? 1 : has('lua')
+let s:win = has('win32') || has('win32unix')
 
 " Mappings for managing bundles
 autocmd bundle BufReadPost {.,}vimrc.bundle call s:bundle_map()
@@ -884,7 +885,7 @@ if Bundles('yggdroot/indentline', '-nathanaelkane/vim-indent-guides')
 endif
 
 " Toggle full screen
-if has('win32')
+if s:win
   if Bundles('bohrshaw/wimproved.vim:', '-kkoenig/wimproved.vim')
     nnoremap <silent><F11> :WToggleFullscreen<CR>
     autocmd GUIEnter * WToggleFullscreen
