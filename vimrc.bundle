@@ -883,6 +883,18 @@ if Bundles('yggdroot/indentline', '-nathanaelkane/vim-indent-guides')
   nnoremap c\i :IndentLinesToggle<CR>
 endif
 
+" Toggle full screen
+if has('win32')
+  if Bundles('bohrshaw/wimproved.vim:', '-kkoenig/wimproved.vim')
+    nnoremap <silent><F11> :WToggleFullscreen<CR>
+    autocmd GUIEnter * WToggleFullscreen
+  elseif executable('gvimfullscreen.dll')
+    nnoremap <silent><F11> :call libcallnr('gvimfullscreen.dll', "ToggleFullScreen", 0)<CR>
+  endif
+elseif has('unix')
+  nnoremap <silent><F11> :call system('wmctrl -ir '.v:windowid.' -b toggle,fullscreen')<CR>
+endif
+
 " FileTypes: {{{1
 
 " Mixed {{{2

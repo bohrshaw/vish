@@ -1159,12 +1159,6 @@ command! -range=% Uniqn <line1>,<line2>g/^./
       \ if search('^\V'.escape(getline('.'),'\').'\$', 'bW') |
       \ delete | endif <NL> silent! normal! ``
 " }}}
-" Toggle full screen
-nnoremap <silent><F11> :if has('win32') \|
-      \ call libcallnr('gvimfullscreen.dll', "ToggleFullScreen", 0) \|
-      \ elseif has('unix') \|
-      \ call system('wmctrl -ir '.v:windowid.' -b toggle,fullscreen') \|
-      \ endif<CR>
 " Mystify texts
 command! Mystify call misc#mystify()
 " Reverse the selected text
