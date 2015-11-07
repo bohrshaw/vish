@@ -942,7 +942,7 @@ endif
 " Set background color based on day or night
 if has('vim_starting')
   let s:hour = strftime('%H')
-  let &background = s:hour < 17 && s:hour > 6 ?
+  let &background = 0 && s:hour < 17 && s:hour > 6 ?
         \ 'light' : 'dark'
 endif
 
@@ -1069,7 +1069,8 @@ set numberwidth=3 " minimal number(2) of columns to use for the line number
 " Font, color, window size:" {{{
 if has('vim_starting')
   if has('gui_running')
-    let &guifont = has('win32') ? 'Consolas:h10' : 'Consolas 10'
+    let &guifont = has('win32') ? 'Consolas:h9' : 'Consolas 9'
+    set linespace=-1
     set lines=40 columns=88
     if !g:l " maximize the window
       if has('win32')
@@ -1078,7 +1079,6 @@ if has('vim_starting')
         set lines=400 columns=300
       endif
     endif
-    set linespace=0
   else
     " Assume 256 colors
     if &term =~ '\v(xterm|screen)$' | let &term .= '-256color' | endif

@@ -888,7 +888,6 @@ endif
 if s:win
   if Bundles('bohrshaw/wimproved.vim:', '-kkoenig/wimproved.vim')
     nnoremap <silent><F11> :WToggleFullscreen<CR>
-    autocmd GUIEnter * WToggleFullscreen
   elseif executable('gvimfullscreen.dll')
     nnoremap <silent><F11> :call libcallnr('gvimfullscreen.dll', "ToggleFullScreen", 0)<CR>
   endif
