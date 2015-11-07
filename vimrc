@@ -1046,7 +1046,7 @@ set ruler " not effective when 'statusline' is set
 set rulerformat=%50(%=%m%r%<%f%Y\ %c,%l/%L,%P%)
 " }}}
 
-let &showtabline = g:l ? 1 : 2
+let &showtabline = 1 || g:l ? 1 : 2
 
 if exists('$TMUX')
   " set titlestring=%{fnamemodify(getcwd(),\ ':~')}
