@@ -188,7 +188,7 @@ func (*manager) clean(bundles []string) {
 func getBundles(bs ...string) []string {
 	args := []string{
 		"-Nesc",
-		"set rtp+=~/.vim | let g:_vim_with_all_features = 1 |" +
+		"set rtp+=~/.vim | let g:_vundle = 1 |" +
 			"runtime vimrc.bundle | put =dundles | 2,p | q!",
 	}
 	out, err := exec.Command("vim", args...).Output()
