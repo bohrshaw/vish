@@ -811,7 +811,7 @@ if Bundles('Junegunn/seoul256.vim', 'Bohrshaw/vim-colors',
   let g:solarized_underline = 0
   let g:solarized_termcolors = &term =~ '256col' ? 256 : 16
   let g:solarized_menu=0
-  autocmd bundle ColorScheme solarized runtime colors/solarized_additional.vim
+  autocmd bundle ColorScheme solarized runtime autoload/solarized_custom.vim
 
   autocmd bundle ColorScheme github
         \ hi CursorLine cterm=NONE gui=NONE ctermbg=253 guibg=#D8D8DD
