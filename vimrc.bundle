@@ -96,7 +96,7 @@ nmap coP <Plug>unimpairedPaste
 " Motion: {{{1
 
 " The missing motion for Vim
-if Bundles('-Justinmk/vim-sneak', 'Bohrshaw/vim-sneak')
+if Bundles('Bohrshaw/vim-sneak') " 'Justinmk/vim-sneak'
   " Arbitrary precise motion
   nnoremap <silent> L :<C-u>call Sneak('', 0, 'n')<CR>
   xnoremap <silent> L :<C-u>call Sneak('', 0, 'v')<CR>
@@ -192,7 +192,7 @@ elseif Bundles('machakann/vim-patternjump')
   let g:patternjump_no_default_key_mappings = 1
 elseif Bundles('lokaltog/vim-easymotion')
   let g:EasyMotion_leader_key = 'g<CR>'
-elseif Bundles('-goldfeld/vim-seek', '-rhysd/clever-f.vim')
+elseif Bundles('goldfeld/vim-seek', 'rhysd/clever-f.vim')
   let g:SeekKey = 'f<CR>'
   let g:SeekBackKey = 'f<BS>'
   " let g:seek_enable_jumps = 1
@@ -458,9 +458,8 @@ if Bundles('Tommcdo/vim-exchange')
   nmap >a cxiaf,lcxia
   nmap <a cxiaF,hcxia
 endif
-
 " Exchange(swap) text directly/quickly with mappings
-if Bundles('-kurkale6ka/vim-swap')
+if 0 && Bundles('kurkale6ka/vim-swap')
   " let g:swap_custom_ops = []
   xmap c: <plug>SwapSwapOperands
   xmap c\| <plug>SwapSwapPivotOperands
@@ -542,7 +541,7 @@ endif
 " Content: {{{1
 
 " Fuzzy file, buffer, mru, tag, etc finder
-if Bundles('-ctrlpvim/ctrlp.vim')
+if 0 && Bundles('ctrlpvim/ctrlp.vim')
   let g:ctrlp_cache_dir = $MYVIM.'/tmp/ctrlp'
   " Set the mode to determine the root searching directory.
   " let g:ctrlp_working_path_mode = 'ra'
@@ -745,7 +744,7 @@ if 0 && Bundles('justinmk/vim-dirvish', '-tpope/vim-vinegar', '-jeetsukumaran/vi
 endif
 
 " Bookmarks independent from Vim marks
-if Bundles('-mattesGroeger/vim-bookmarks')
+if 0 && Bundles('mattesGroeger/vim-bookmarks')
   let g:bookmark_sign = 'm'
   let g:bookmark_annotation_sign = 'ma'
   " let g:bookmark_auto_save = 0
@@ -765,7 +764,7 @@ endif
 " call Bundles('tpope/vim-projectionist')
 
 " Buffer Explorer/Browser
-call Bundles('-vim-scripts/bufexplorer.zip', '-jeetsukumaran/vim-buffergator')
+" call Bundles('-vim-scripts/bufexplorer.zip', '-jeetsukumaran/vim-buffergator')
 
 " Session management
 if Bundles('bohrshaw/vim-mansion', '-tpope/vim-obsession')
@@ -847,7 +846,7 @@ if Bundles('tpope/vim-flagship')
 endif
 
 " Lean & mean statusline for vim that's light as air
-if Bundles('-bling/vim-airline')
+if 0 && Bundles('bling/vim-airline')
   " Remove separators, the different colors already make it easy to distinguish.
   let [g:airline_left_sep, g:airline_right_sep] = ['', '']
   " let g:airline_paste_symbol = 'P'
@@ -870,7 +869,7 @@ endif
 " call Bundles('bling/vim-bufferline')
 
 " Toggle, display and navigate marks
-if Bundles('-kshenoy/vim-signature')
+if 0 && Bundles('kshenoy/vim-signature')
   let g:SignatureEnabledAtStartup = 0
   let g:SignatureMenu = 0
 endif
@@ -1004,6 +1003,10 @@ if Bundles('Thinca/vim-quickrun')
 
   let g:quickrun_no_default_key_mappings = 1
 endif
+" Run code on codepad.org
+if Bundles('mattn/codepad-vim', 'mattn/webapi-vim')
+  NXnoremap <Leader>R :CodePadRun<CR>
+endif
 
 " Markups {{{2
 
@@ -1106,12 +1109,11 @@ endif
 " Runs RuboCop(A robust Ruby code analyzer) and displays the results in Vim
 if Bundles('ngmy/vim-rubocop')
   let g:vimrubocop_keymap = 0
-  autocmd bundle FileType ruby nnoremap <silent> <buffer> <nowait>
-        \ <LocalLeader>r :RuboCop<CR>
+  autocmd bundle FileType ruby nnoremap <silent><buffer> Rl :RuboCop<CR>
 endif
 
 " Bindings for the gem recording the results of every line of code
-if Bundles('hwartig/vim-seeing-is-believing')
+if 0 && Bundles('hwartig/vim-seeing-is-believing')
   autocmd bundle FileType ruby
         \ NXInoremap <buffer> <F5> <Plug>(seeing-is-believing-run)|
         \ NXInoremap <buffer> <F4> <Plug>(seeing-is-believing-mark)
@@ -1232,7 +1234,7 @@ if 0 && s:nvim && Bundles('fmoralesc/nvimfs')
 endif
 
 " An asynchronous execution library
-if Bundles('bohrshaw/vimproc.vim:', '-shougo/vimproc.vim')
+if Bundles('bohrshaw/vimproc.vim:') " 'shougo/vimproc.vim'
   command! -nargs=+ -bang -complete=shellcmd B
         \ if <bang>0 | call vimproc#system_bg(<SID>vimproc_esc(<q-args>)) |
         \ else | execute 'VimProcBang '.<SID>vimproc_esc(<q-args>, '/') | endif
@@ -1410,7 +1412,6 @@ if Bundles('airblade/vim-gitgutter')
   " let g:gitgutter_diff_args = '-w'
   let g:gitgutter_map_keys = 0
 endif
-
 " Show a VCS diff using Vim's sign column
 if 0 && Bundles('mhinz/vim-signify')
   " let g:signify_disable_by_default = 1
@@ -1525,13 +1526,8 @@ if Bundles('tyru/open-browser.vim')
 endif
 
 " Vimscript for gist
-if Bundles('mattn/gist-vim', 'mattn/webapi-vim')
+if 0 && Bundles('mattn/gist-vim', 'mattn/webapi-vim')
   let g:gist_post_private = 1
-endif
-
-" Run code on codepad.org
-if Bundles('mattn/codepad-vim', 'mattn/webapi-vim')
-  NXnoremap <Leader>R :CodePadRun<CR>
 endif
 
 " Interact with the simplenote service
@@ -1545,7 +1541,7 @@ endif
 " AlternativeUsages: {{{1
 
 " Personal Wiki for Vim
-if Bundles('-vimwiki/vimwiki')
+if 0 && Bundles('vimwiki/vimwiki')
   " Restrict vimwiki's operation to only those paths listed in g:vimwiki_list.
   let g:vimwiki_global_ext = 0
   " Don't conceal characters
@@ -1557,7 +1553,7 @@ if Bundles('-vimwiki/vimwiki')
 endif
 
 " A calendar application
-if Bundles('itchyny/calendar.vim')
+if Bundle('itchyny/calendar.vim', {'c': 'Calendar'})
   " let g:calendar_google_calendar = 1
   " let g:calendar_google_task = 1
 endif
