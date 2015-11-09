@@ -4,12 +4,12 @@
 
 map ' Marks.activateGotoMode
 
-map gm LinkHints.activateModeWithQueue
 map go LinkHints.activateModeToOpenInNewForegroundTab
+map gm LinkHints.activateModeWithQueue
 map gd LinkHints.activateModeToDownloadLink
 map ga LinkHints.activateModeToOpenIncognito
 
-map l nextTab
+map l nextTab
 map h previousTab
 map U restoreTab
 map < moveTabLeft
@@ -17,10 +17,16 @@ map > moveTabRight
 map gX closeTabsOnLeft
 map gx closeTabsOnRight
 map gO closeOtherTabs
+map B activateBookmarks
 
 map <a-h> scrollLeft
 map <a-l> scrollRight
 
+map ]f nextFrame
+map [f mainFrame
+
+unmap t
+unmap b
 unmap <a-f>
 unmap <c-e>
 unmap <c-y>
