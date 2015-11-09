@@ -10,6 +10,8 @@
 
 let $MYBUNDLE = expand('<sfile>') " like $MYVIMRC
 
+" g:l is initialized in vimrc which is not sourced when executing `vundle`
+let g:l = get(g:, 'l')
 call bundle#init() " bundle initialization
 
 " Define an autocmd group and clean it

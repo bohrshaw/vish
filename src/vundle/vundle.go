@@ -187,7 +187,7 @@ func (*manager) clean(bundles []string) {
 // "/sub/directory" cut off.
 func getBundles(bs ...string) []string {
 	args := []string{
-		"-Nesc",
+		"-Nesc", // vimrc won't be sourced
 		"set rtp+=~/.vim | let g:_vundle = 1 |" +
 			"runtime vimrc.bundle | put =dundles | 2,p | q!",
 	}

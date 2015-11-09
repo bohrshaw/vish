@@ -9,6 +9,7 @@ function! bundle#init()
   let g:bundles = [] " bundles activated on startup
   let g:dundles = [] " bundles to be downloaded
 endfunction
+let s:vundle = get(g:, '_vundle') " indicate if `vundle` is running
 
 " Inject paths of bundles from g:bundles to 'rtp'
 function! bundle#done()
@@ -143,12 +144,18 @@ function! BundlePath(b)
 endfunction
 
 " Add a bundle to the list of bundles to be downloaded
-function! Dundles(...)
-  for b in a:000
-    call s:uniqadd(g:dundles, b)
-  endfor
-  return 1
-endfunction
+if s:vundle
+  function! Dundles(...)
+    for b in a:000
+      call s:uniqadd(g:dundles, b)
+    endfor
+    return 1
+  endfunction
+else
+  function! Dundles(...)
+    return 1
+  endfunction
+endif
 
 " Return the bundle with the branch part cut off
 function! s:bundle(b)
@@ -162,18 +169,21 @@ function! s:bundle(b)
   return a:b
 endfunction
 
-" Determine if the bundle is enabled. Otherwise, it also won't be downloaded.
-function! s:ifbundle(b)
-  if a:b[0] == '-'
-    return
-  endif
-  if has('vim_starting')
-    call s:uniqadd(g:dundles, a:b) " add a bundle to the bundle downloading list
-  endif
-  if a:b[0] =~# '\u' || !get(g:, 'l')
-    return 1
-  endif
-endfunction
+" Determine if the bundle is enabled, or should be downloaded.
+if !s:vundle
+  function! s:ifbundle(b)
+    if a:b[0] != '-' && !g:l || a:b[0] =~# '\u'
+      return 1
+    endif
+  endfunction
+else
+  function! s:ifbundle(b)
+    if a:b[0] != '-'
+      call s:uniqadd(g:dundles, a:b)
+      return 1
+    endif
+  endfunction
+endif
 
 " Add an item to a list only if it doesn't contain the item yet
 function! s:uniqadd(list, item)
@@ -182,4 +192,4 @@ function! s:uniqadd(list, item)
   endif
 endfunction
 
-" vim:foldmethod=expr foldexpr=getline(v\:lnum)=~#'^fu'?'a1'\:getline(v\:lnum)=~#'^endf'?'s1'\:'=':
+" vim:foldmethod=expr foldexpr=getline(v\:lnum)=~#'\\v^%(fu\|if)'?'a1'\:getline(v\:lnum)=~#'^end'?'s1'\:'=':
