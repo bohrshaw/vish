@@ -232,6 +232,23 @@ if Bundles('Jeetsukumaran/vim-indentwise')
   map ]\| <Plug>(IndentWiseBlockScopeBoundaryEnd)
 endif
 
+" Rich line marks independent from built-in marks
+if 0 && Bundles('mattesGroeger/vim-bookmarks')
+  let g:bookmark_sign = 'm'
+  let g:bookmark_annotation_sign = 'ma'
+  " let g:bookmark_auto_save = 0
+  let g:bookmark_auto_save_file = $MYVIM.'/tmp/bookmark'
+  " let g:bookmark_highlight_lines = 1
+  " let g:bookmark_center = 1
+  nmap <Leader>tm <Plug>ToggleBookmark
+  nmap ma <Plug>Annotate
+  nmap ]m <Plug>NextBookmark
+  nmap [m <Plug>PrevBookmark
+  nmap <Leader>ml <Plug>ShowAllBookmarks
+  nmap <Leader>mc <Plug>ClearBookmarks
+  nmap <Leader>mC <Plug>ClearAllBookmarks
+endif
+
 " Search: {{{1
 
 " Search improved
@@ -536,7 +553,7 @@ if Bundle('roman/golden-ratio', {'m': [
   let g:golden_ratio_autocommand = 0
 endif
 
-" Content: {{{1
+" Interface: {{{1
 
 " Fuzzy file, buffer, mru, tag, etc finder
 if 0 && Bundles('ctrlpvim/ctrlp.vim')
@@ -623,7 +640,6 @@ if 0 && Bundles('ctrlpvim/ctrlp.vim')
     nnoremap <Leader>fg :CtrlPModified<CR>
   endif
 endif
-
 " Unite and create user interfaces
 if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
       \'shougo/neomru.vim', 'shougo/unite-outline', 'tsukkee/unite-tag',
@@ -716,7 +732,6 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
   " let g:neomru#do_validate = 0 " skip checking invalide files for performance
   autocmd VimEnter * silent! autocmd! neomru BufEnter,VimEnter,BufWritePost
 endif
-
 " A command-line fuzzy finder
 " if !has('win32') && isdirectory($HOME.'/.fzf/plugin') && rtp#add('~/.fzf')
 " endif
@@ -734,28 +749,14 @@ if Bundle('scrooloose/nerdtree', {'m': [
   let NERDTreeQuitOnOpen=1
   let NERDTreeMouseMode=2
 endif
-
-" Convenient directory listing and file selection
-if 0 && Bundles('justinmk/vim-dirvish', '-tpope/vim-vinegar', '-jeetsukumaran/vim-filebeagle')
-  nmap <M-f>l <Plug>VinegarUp
+" A minimalist directory viewer intended to be composable
+if Bundles('justinmk/vim-dirvish')
+  nmap <silent><M-f>h :Dirvish %<CR>
+  nmap <M-f>- <M-f>h
+  nmap <silent><M-f>. :Dirvish<CR>
+elseif Bundles('tpope/vim-vinegar', '-jeetsukumaran/vim-filebeagle')
+  nmap <M-f>h <Plug>VinegarUp
   autocmd bundle VimEnter * nunmap -
-endif
-
-" Bookmarks independent from Vim marks
-if 0 && Bundles('mattesGroeger/vim-bookmarks')
-  let g:bookmark_sign = 'm'
-  let g:bookmark_annotation_sign = 'ma'
-  " let g:bookmark_auto_save = 0
-  let g:bookmark_auto_save_file = $MYVIM.'/tmp/bookmark'
-  " let g:bookmark_highlight_lines = 1
-  " let g:bookmark_center = 1
-  nmap <Leader>tm <Plug>ToggleBookmark
-  nmap ma <Plug>Annotate
-  nmap ]m <Plug>NextBookmark
-  nmap [m <Plug>PrevBookmark
-  nmap <Leader>ml <Plug>ShowAllBookmarks
-  nmap <Leader>mc <Plug>ClearBookmarks
-  nmap <Leader>mC <Plug>ClearAllBookmarks
 endif
 
 " Project configuration
@@ -763,6 +764,8 @@ endif
 
 " Buffer Explorer/Browser
 " call Bundles('-vim-scripts/bufexplorer.zip', '-jeetsukumaran/vim-buffergator')
+
+" Workflow: {{{1
 
 " Session management
 if Bundles('bohrshaw/vim-mansion', '-tpope/vim-obsession')
