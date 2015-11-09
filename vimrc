@@ -418,22 +418,19 @@ endif
 " Open the fold the cursor is in, recursively
 nnoremap z<M-o> zczO
 
-" Focus on a region using manual folding (mnemonic: pick)
-nnoremap <silent>zp :set operatorfunc=<SID>fold_others<CR>g@
-xnoremap <silent>zp :<C-u>call <SID>fold_others()<CR>
-nnoremap <silent>zP :call <SID>fold_restore()<CR>
-function! s:fold_others(...) " {{{
-  let [line1, line2] = a:0 == 1 ? ["'[", "']"] : ["'<", "'>"]
-  let b:fold_opts = [&fdm, &fdl, &fde]
-  set fde=0 fdm=expr | redraw " disable existing folding
-  set fdm=manual
-  execute '1,'.line1.'-1fold|'.line2.'+1,$'.'fold'
-endfunction
-function! s:fold_restore()
-  normal! zE
-  let [&fdm, &fdl, &fde] = b:fold_opts
-  normal! zvzz
-endfunction " }}}
+" Focus on a region(range of lines) by folding the rest (mnemonic: pick)
+nnoremap <silent>zp :set operatorfunc=fold#pick<CR>g@
+xnoremap <silent>zp :<C-u>call fold#pick()<CR>
+nnoremap <silent>zq :call fold#restore()<CR>
+
+" Edit a region in an isolated buffer (mnemonic: Part)
+" This is especially useful for embedded file types.
+nnoremap <silent>zP :set operatorfunc=fold#part<CR>g@
+xnoremap <silent>zP :call fold#part()<CR>
+command! -range -nargs=* Part <line1>,<line2>call
+      \ fold#part('', <q-args>) " support setting 'filetype'
+" Should be invoked from the parted buffer, equivalent to `:w`
+nnoremap <silent>zQ :call fold#join()<CR>
 
 " Toggle fold methods
 nnoremap <silent>cof :let &foldmethod = tolower(matchstr(
