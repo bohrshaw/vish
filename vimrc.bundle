@@ -283,12 +283,6 @@ endif
 
 " Completion: {{{1
 
-" Provides insert mode auto-completion for quotes, parens, brackets, etc.
-" call Bundles('-raimondi/delimitmate', '-cohama/lexima.vim', '-jiangmiao/auto-pairs')
-
-" Wisely add 'end' in ruby, endfunction/endif/more in vim script, etc
-call Bundles('tpope/vim-endwise')
-
 " Completions
 if 0 && s:lua && Bundles('shougo/neocomplete.vim')
   let g:neocomplete#enable_at_startup = 0
@@ -422,6 +416,10 @@ if Bundles('Tpope/vim-surround')
   let g:surround_indent = 1
   let g:surround_no_mappings = 1
 endif
+" Provides insert mode auto-completion for quotes, parens, brackets, etc.
+" call Bundles('-raimondi/delimitmate', '-cohama/lexima.vim', '-jiangmiao/auto-pairs')
+" Wisely add 'end' in ruby, endfunction/endif/more in vim script, etc
+call Bundles('tpope/vim-endwise')
 
 " Switch segments of text with predefined replacements
 if Bundles('andrewradev/switch.vim')
