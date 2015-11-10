@@ -424,13 +424,15 @@ xnoremap <silent>zp :<C-u>call fold#pick()<CR>
 nnoremap <silent>zq :call fold#restore()<CR>
 
 " Edit a region in an isolated buffer (mnemonic: Part)
+" A second invocation overrides the parted buffer.
 " This is especially useful for embedded file types.
 nnoremap <silent>zP :set operatorfunc=fold#part<CR>g@
 xnoremap <silent>zP :call fold#part()<CR>
 command! -range -nargs=* Part <line1>,<line2>call
       \ fold#part('', <q-args>) " support setting 'filetype'
-" Should be invoked from the parted buffer, equivalent to `:w`
-nnoremap <silent>zQ :call fold#join()<CR>
+" Finish the current parted editing. Use `:w` to stage changes periodically.
+" Should avoid editing the complete buffer before a merging.
+nnoremap <silent>zQ :call fold#join(1)<CR>
 
 " Toggle fold methods
 nnoremap <silent>cof :let &foldmethod = tolower(matchstr(
