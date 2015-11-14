@@ -726,35 +726,16 @@ command! -bar UndoClear execute 'set undolevels=-1 |move -1 |'.
 " Repeat last change on each line in a visual selection
 xnoremap . :normal! .<CR>
 
-" Execute a macro on each one in {count} lines
-nnoremap <silent> @. :call <SID>macro()<CR>
-function! s:macro() range
-  execute a:firstline.','.a:lastline.'normal! @'.nr2char(getchar())
-endfunction
-" Execute a macro on each line in a visual selection
-xnoremap <silent> @ :<C-u>execute ":'<,'>normal! @".nr2char(getchar())<CR>
-" Execute a macro repeatedly within a range of lines, similar a recursive macro
-nnoremap <silent>@R :set operatorfunc=<SID>repeat_macro<CR>g@
-function! s:repeat_macro(...) " {{{
-  let r = v#getchar()
-  if empty(r) | return | endif
-  while line('.') <= line("']") && line('.') >= line("'[")
-    execute 'normal @'.r
-  endwhile
-endfunction " }}}
 " Record and execute a recursive macro
-nnoremap <silent>9q :call <SID>rec_macro()<CR>
-function! s:rec_macro() " {{{
-  let r = v#getchar()
-  if empty(r) | return | endif
-  " Empty the register first
-  execute 'normal! q'.r.'q'
-  " Setup a temporary mapping to terminate and execute the macro
-  execute printf("nnoremap q q:call setreg('%s', '@%s', 'a')<Bar>".
-        \"try<Bar>execute 'normal @%s'<Bar>".
-        \"finally<Bar>execute 'nunmap q'<Bar>endtry<CR>", r, r, r)
-  execute 'normal! q'.r
-endfunction " }}}
+nnoremap <silent>9q :call macro#recur<CR>
+" Execute a macro repeatedly within a region
+nnoremap <silent>@R :set operatorfunc=macro#repeat<CR>g@
+xnoremap <silent>@R :<C-u>call macro#repeat()<CR>
+" Execute a macro on each line within a region
+nnoremap <expr>@L v:count1 == 1 ?
+      \ ":set operatorfunc=macro#line<CR>g@" :
+      \ ":call macro#line()<CR>"
+xnoremap <silent>@L :call macro#line()<CR>
 " Execute a macro without remapping
 NXnoremap <expr> <silent> @N repeat(
       \ ':<C-U>normal! <C-R><C-R>'.nr2char(getchar()).'<CR>', v:count1)
