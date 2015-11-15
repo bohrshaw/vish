@@ -562,13 +562,13 @@ inoremap <expr><M-p> pumvisible() ? ' <BS><C-p>' : '<C-p>'
 
 " CTRL-X completion-sub-mode
 " Mnemonic: Expand
+map! <M-x> <C-x>
 imap <M-e> <C-x>
-imap <M-x> <C-x>
 for s:c in split('lnpkti]fdvuos', '\zs')
   execute 'inoremap <C-X>'.s:c.' <C-X><C-'.s:c.'>'
 endfor
 " Mnemonic: diGraph
-inoremap <C-X>g <C-k>
+noremap! <C-X>g <C-k>
 " Mnemonic: omni-completion would show Help info
 inoremap <M-h> <C-x><C-o>
 " }}}
