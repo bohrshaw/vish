@@ -860,25 +860,22 @@ cnoremap <M-B> <S-Left>
 cnoremap <expr><M-BS> <SID>word_fb("\<BS>")
 cnoremap <expr><M-d> <SID>word_fb("\<Del>")
 " Delete till a space
-cnoremap <expr><C-w> <SID>word_fb("\<BS>", 0)
-cnoremap <expr><M-D> <SID>word_fb("\<Del>", 0)
+cnoremap <expr><C-w> <SID>word_fb("\<BS>", 1)
+cnoremap <expr><M-D> <SID>word_fb("\<Del>", 1)
 function! s:word_fb(key, ...) " {{{
   let f = a:key == "\<Right>" || a:key == "\<Del>" ? 1 : 0
-  let db = a:key == "\<Del>" || a:key == "\<BS>" ? 1 : 0
-  let line = getcmdline()
-  let pos = getcmdpos()
-  let pat1 = a:0 == 0 ?
-        \ f ?
-        \   db ? '\W*\w+' : '\W*\w+\W*' :
-        \   '\w+\W*' :
+  let d = a:key == "\<Del>" || a:key == "\<BS>" ? 1 : 0
+  " For matching multi-bytes characters
+  let [isf, &isfname] = [&isfname, '@,48-57,_']
+  let pat = !a:0 ?
+        \ f ? (d ? '\W*\f+' : '\W*\f+\W*') : '\f+\W*' :
         \ f ? '\s*\S+' : '\S+\s*'
-  let pat2 = '%'.pos.'c'
-  let pos2 = match(line, '\v'.(f ? pat2.pat1.'\zs' : pat1.pat2)) + 1
-  if db
-    let @- = f ? line[pos-1:pos2-2] : line[pos2-1:pos-2]
-  endif
+  let cur = '%'.getcmdpos().'c'
+  let str = matchstr(getcmdline(), '\v'.(f ? cur.pat : pat.cur))
+  let &isfname = isf
+  if d | let @- = str | endif
   return (wildmenumode() ?  " \<BS>" : '').
-        \ repeat(a:key, f ? pos2-pos : pos-pos2)
+        \ repeat(a:key, strchars(str))
 endfunction " }}}
 
 " Move the cursor around the line
@@ -898,7 +895,7 @@ inoremap <C-k> <Space><C-c>"_xC
 cnoremap <expr><C-k> <SID>c_k()
 function! s:c_k() " {{{
   let @- = getcmdline()[getcmdpos()-1:]
-  return repeat("\<Del>", strlen(getcmdline()) - getcmdpos() + 1)
+  return repeat("\<Del>", strchars(@-))
 endfunction " }}}
 
 " Paste the previous deleted text
