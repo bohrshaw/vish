@@ -32,5 +32,5 @@ function! markdown#preview(line1, line2)
     echo 'No supported external markdown tools found.'
     return -1
   endif
-  call v#open(html)
+  call os#open(html)
 endfunction

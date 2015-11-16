@@ -330,8 +330,8 @@ autocmd vimrc FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
       \ nnoremap <buffer> <M-w>t <C-W><CR><C-W>T
 if !has('patch-7.4.858') "{{{
   " Execute a command in each buffer in the quickfix or location list
-  command! -nargs=1 -complete=command Cfdo call vimrc#errfdo(<q-args>)
-  command! -nargs=1 -complete=command Lfdo call vimrc#errfdo(<q-args>, 1)
+  command! -nargs=1 -complete=command Cfdo call qf#fdo(<q-args>)
+  command! -nargs=1 -complete=command Lfdo call qf#fdo(<q-args>, 1)
 endif "}}}
 " }}}
 " }}}
@@ -478,7 +478,7 @@ command! -bang BufOnly let _b = bufnr('') | let _f = &confirm |
       \ finally | let &confirm = _f | endtry
 
 " Wipe out all unlisted buffers
-command! BwipeoutUnlisted call vimrc#bufffer_wipe_unlisted()
+command! BwipeoutUnlisted call buf#wipe_unlisted()
 " }}}
 " File:" {{{
 nnoremap <silent><M-f>w :write<CR>
@@ -760,7 +760,7 @@ nnoremap <silent> du :execute &diff ? 'diffupdate' : ''<CR>
 " Switch off diff mode and close other diff panes
 nnoremap dO :diffoff \| windo if &diff \| hide \| endif<CR>
 " Diff with another file
-command! -nargs=? -complete=buffer DiffWith call vimrc#diffwith(<f-args>)
+command! -nargs=? -complete=buffer DiffWith call diff#with(<f-args>)
 " }}}
 " Spell:" {{{
 " Enable spell checking for particular file types
@@ -1122,17 +1122,17 @@ command! -range=% Uniqn <line1>,<line2>g/^./
       \ delete | endif <NL> silent! normal! ``
 " }}}
 " Mystify texts
-command! Mystify call misc#mystify()
+command! Mystify call crypt#mystify()
 " Reverse the selected text
 xnoremap cR c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
 " Statistics:" {{{
 " Count anything in a range of lines
-command! -range=% -nargs=? Count echo vimrc#count
+command! -range=% -nargs=? Count echo stat#count
       \(<q-args>, <line1>, <line2>) | normal ``
 " Calculate words frequency
-command! -range=% WordFrequency echo vimrc#word_frequency(<line1>, <line2>)
+command! -range=% WordFrequency echo stat#word_frequency(<line1>, <line2>)
 " Calculate the total lines of source code minus blank lines and comment lines.
-command! -range=% SLOC echo vimrc#count
+command! -range=% SLOC echo stat#count
       \('^[^' . &cms[0] . ']', <line1>, <line2>) | normal ``
 " Print the ASCII table in a split window
 command! -nargs=? ASCII call ascii#print(<f-args>)

@@ -1,6 +1,6 @@
 " Encrypt or decrypt a file. You must provide the indented password, otherwise
 " the behavior is unpredictable.
-function! misc#mystify()
+function! crypt#mystify()
   call inputsave()
   let p = inputsecret('Password: ')
   call inputrestore()
