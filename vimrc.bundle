@@ -1182,15 +1182,17 @@ call Bundles('tpope/vim-classpath')
 call Bundles('guns/vim-clojure-static')
 " let g:clojure_fold = 1 " Fold list/vector/map that extends over multi-lines
 
-" Clojure REPL tease
-call Bundles('tpope/vim-fireplace')
+" Clojure REPL support
+call Bundle('tpope/vim-fireplace', {'f': 'clojure'})
 
 " Static support for Leiningen
-if (s:vundle || !has('win32unix')) && Bundles('tpope/vim-leiningen')
+if (s:vundle || !has('win32unix')) &&
+      \ Bundle('tpope/vim-leiningen', {'f': 'clojure'})
 endif
 
 " Precision Editing for S-expressions
-if Bundles('guns/vim-sexp', 'tpope/vim-sexp-mappings-for-regular-people')
+if Bundle('guns/vim-sexp', {'f': 'clojure'}) &&
+      \ Bundle('tpope/vim-sexp-mappings-for-regular-people', {'f': 'clojure'})
   let g:sexp_filetypes = '' " disable default local mapping
 endif
 
