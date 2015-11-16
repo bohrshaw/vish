@@ -416,6 +416,7 @@ if has('nvim')
   cabbrev <expr>tt getcmdtype() == ':' && getcmdpos() == 3 ? 'tab new\|te' : 'tt'
   autocmd vimrc BufWinEnter,WinEnter term://* startinsert
   autocmd vimrc BufLeave term://* stopinsert
+  autocmd vimrc TermClose * call feedkeys(' ')
 endif
 " }}}
 " Fold: "{{{
