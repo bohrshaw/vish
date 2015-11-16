@@ -814,44 +814,36 @@ set viewdir=$MYVIM/tmp/view
 " - https://github.com/tpope/vim-rsi
 " - https://github.com/bruno-/vim-husk
 
-" Recall older or more recent command-line from history, but the command matches
-" the current command-line
-cnoremap <M-p> <Up>
-cnoremap <M-n> <Down>
-
-" Move the cursor around one character (won't break undo)
-if has('patch-7.4.849')
-  inoremap <C-f> <C-g>U<Right>
-  inoremap <C-b> <C-g>U<Left>
-else
-  " Trigger the CursorMovedI event
-  inoremap <C-f> <C-c>la
-  " Won't trigger the CursorMovedI event
-  inoremap <C-b> <C-c>i
-endif
+" Character wise
+execute 'inoremap <C-f>' (has('patch-7.4.849') ? '<C-g>U' : '').'<Right>'
+execute 'inoremap <C-b>' (has('patch-7.4.849') ? '<C-g>U' : '').'<Left>'
 cnoremap <expr><C-f> getcmdpos() > strlen(getcmdline()) ? "<C-f>" : "<Right>"
 cnoremap <C-b> <Left>
-" Delete one character after the cursor
 inoremap <expr> <C-D> col('.') > strlen(getline('.')) ? "<C-D>" : "<Del>"
 cnoremap <expr> <C-D> getcmdpos() > strlen(getcmdline()) ? "<C-D>" : "<Del>"
+" Transpose two characters around the cursor
+cmap <script><C-t> <SID>transposition<SID>transpose
+noremap! <expr><SID>transposition getcmdpos() > strlen(getcmdline()) ?
+      \ "\<Left>" : getcmdpos()>1 ? '' : "\<Right>"
+noremap! <expr><SID>transpose "\<BS>\<Right>"
+      \ . matchstr(getcmdline()[0 : getcmdpos()-2], '.$')
 
-" Move the cursor around one word (break undo)
+" Word wise in Insert Mode
 inoremap <M-f> <S-Right>
 inoremap <M-b> <S-Left>
-" Move the cursor around one WORD
-inoremap <M-F> <C-o>W
-inoremap <M-B> <C-o>B
-" Delete one word (across lines) (won't break undo)
-" Builtin <C-w> or <C-u> stops once at the start position of insert.
-inoremap <M-BS> <Space><C-c>"_x"-cb
-inoremap <M-d> <Space><C-c>"_x"-ce
-" Delete one WORD
-inoremap <C-w> <Space><C-c>"_x"-cB
-inoremap <M-D> <Space><C-c>"_x"-cE
+inoremap <M-F> <C-\><C-o>W
+inoremap <M-B> <C-\><C-o>B
+inoremap <C-BS> <C-\><C-o>"-db
+inoremap <M-d>  <C-\><C-o>"-de
+inoremap <C-w>  <C-\><C-o>"-dB
+inoremap <M-D>  <C-\><C-o>"-dE
+" To not split undo, invode built-in <C-w> and <C-u>. But be aware they stops
+" once at the start position of insert.
+inoremap <M-BS> <C-w>
 
-" Word like motions in Command mode differs that in Insert mode. They're more
-" like in Shells so that less motions are needed to go to a specific position,
-" though they are also less granular.
+" Word wise in Cmdline Mode
+" Compared to in Insert Mode, they behave like in Shells so that less motions
+" are needed to go to a specific position.
 cnoremap <expr><M-f> <SID>word_fb("\<Right>")
 cnoremap <expr><M-b> <SID>word_fb("\<Left>")
 cnoremap <M-F> <S-Right>
@@ -878,36 +870,29 @@ function! s:word_fb(key, ...) " {{{
         \ repeat(a:key, strchars(str))
 endfunction " }}}
 
-" Move the cursor around the line
+" In-line wise
 inoremap <C-A> <C-O>^
 cnoremap <C-A> <Home>
 inoremap <expr><C-e> pumvisible() ? "<C-e>" : "<End>"
-" Delete all before the cursor (won't break undo)
-inoremap <expr><C-u> "<Space><C-c>\"_xc".
+inoremap <expr><C-u> "<C-\><C-o>d".
       \(search('^\s*\%#', 'bnc', line('.')) > 0 ? '0' : '^')
 cnoremap <expr><C-u> <SID>c_u()
 function! s:c_u() " {{{
   let @- = getcmdline()[:getcmdpos()-2]
   return "\<C-U>"
 endfunction " }}}
-" Delete all after the cursor
-inoremap <C-k> <Space><C-c>"_xC
+inoremap <C-k> <C-\><C-o>D
 cnoremap <expr><C-k> <SID>c_k()
 function! s:c_k() " {{{
   let @- = getcmdline()[getcmdpos()-1:]
   return repeat("\<Del>", strchars(@-))
 endfunction " }}}
 
-" Paste the previous deleted text
 inoremap <expr><C-y> pumvisible() ? "<C-y>" : "<C-r>-"
 cnoremap <C-y> <C-r>-
 
-" Transpose two characters around the cursor
-cmap <script><C-T> <SID>transposition<SID>transpose
-noremap! <expr> <SID>transposition getcmdpos() > strlen(getcmdline()) ?
-      \ "\<Left>" : getcmdpos()>1 ? '' : "\<Right>"
-noremap! <expr> <SID>transpose "\<BS>\<Right>"
-      \ . matchstr(getcmdline()[0 : getcmdpos()-2], '.$')
+cnoremap <M-p> <Up>
+cnoremap <M-n> <Down>
 " }}}
 " Bundles:" {{{
 if has('vim_starting')
