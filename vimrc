@@ -940,10 +940,10 @@ function! Vstatusline()
   " Use a highlight group User{N} to apply only the difference to StatusLine to
   " StatusLineNC
   set statusline=%1*%{Vmode()} " mode
-  set statusline+=:%n " buffer number
+  set statusline+=%n " buffer number
   set statusline+=%{(&modified?'+':'').(&modifiable?'':'-').(&readonly?'=':'')}
-  set statusline+=%*:%.30f " file path, truncated if its length > 30
-  set statusline+=:%2*%Y " file type
+  set statusline+=:%*%.30f " file path, truncated if its length > 30
+  set statusline+=%2*:%Y " file type
   set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?':'.&fenc:''} " file encoding
   set statusline+=%{&ff!='unix'?':'.&ff:''} " file format
   " Git branch name
@@ -956,21 +956,16 @@ function! Vstatusline()
   set statusline+=%c:%l/%L:%P " cursor position, line percentage
 endfunction
 function! Vmode() "{{{
-  let mode = mode()
-  if mode ==# 'i'
-    return 'INS'
-  elseif mode ==# 'R'
-    return 'REP'
-  elseif mode ==# 't'
-    return 'TERM'
-  elseif mode =~# '[VS]'
-    return mode.'L'
-  elseif mode =~# "[\<C-v>\<C-s>]"
-    return strtrans(mode)[1].'B'
+  let m = mode()
+  if m ==# 'n'
+    return ''
+  elseif m =~# '[VS]'
+    return m.'L:'
+  elseif m =~# "[\<C-v>\<C-s>]"
+    return strtrans(m)[1].'B:'
   else
-    return toupper(mode)
+    return toupper(m).':'
   endif
-  return ''
 endfunction "}}}
 set noshowmode " hide the mode message on the command line
 set fillchars+=stl::,stlnc:: " characters to fill the statuslines
