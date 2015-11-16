@@ -183,9 +183,13 @@ cnoremap <M-Space> <C-F>
 cnoremap <M-e> <C-F>
 cnoremap <M-;> <C-F>
 inoremap <M-;> <Esc>:<C-F>
-autocmd vimrc CmdwinEnter * noremap <buffer> <F5> <CR>q:|
-      \ NXInoremap <buffer> <nowait> <CR> <CR>|
-      \ NXInoremap <buffer> <M-q> <C-c><C-c>
+autocmd vimrc CmdwinEnter *
+      \ NXInoremap <buffer><M-q> <C-c><C-c>|
+      \ noremap <buffer><F5> <CR>q:|
+      \ NXInoremap <buffer><nowait><CR> <CR>|
+      \ setlocal laststatus=0 norelativenumber nocursorline scrolloff=0
+autocmd vimrc CmdwinLeave * set laststatus=2 scrolloff=1
+set cmdwinheight=5
 "}}}
 
 " Yank till the line end instead of the whole line
@@ -1085,7 +1089,7 @@ set mouse=a " enable mouse in all modes
 " Sync visual mode selection with the selection register(*) in supported GUI
 execute has('gui_gtk')||has('gui_motif')||has('gui_athena') ? 'set go+=a' : ''
 " set clipboard+=unnamed " sync the selection register with the unnamed register
-set scrolloff=1 " minimum lines to keep above and below cursor
+set scrolloff=1 " also set in CmdwinLeave
 set sidescrolloff=5 " minimal number of screen columns to keep around the cursor
 set backspace=indent,eol,start " backspace through anything in insert mode
 silent! set formatoptions+=j " remove a comment leader when joining lines

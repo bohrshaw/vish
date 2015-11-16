@@ -438,7 +438,9 @@ endif
 " Provides insert mode auto-completion for quotes, parens, brackets, etc.
 " call Bundles('-raimondi/delimitmate', '-cohama/lexima.vim', '-jiangmiao/auto-pairs')
 " Wisely add 'end' in ruby, endfunction/endif/more in vim script, etc
-call Bundles('tpope/vim-endwise')
+if Bundles('tpope/vim-endwise')
+  autocmd bundle VimEnter * autocmd! endwise CmdwinEnter
+endif
 
 " Switch segments of text with predefined replacements
 if Bundles('andrewradev/switch.vim')
