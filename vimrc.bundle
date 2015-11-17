@@ -1520,15 +1520,6 @@ if Bundles('tyru/open-browser.vim')
   let g:openbrowser_format_message = {'msg': ''} " don't echo messages
   let g:openbrowser_open_vim_command = 'split'
 
-  " Don't open *in background* as Chromium on Ubuntu wouldn't open.
-  " And `xdg-open` is unreliable if Chromium is the default browser.
-  if has('unix')
-    let g:openbrowser_browser_commands = [
-          \ {'name': 'chromium-browser', 'args': ['{browser}', '{uri}']},
-          \ {'name': 'firefox', 'args': ['{browser}', '{uri}']},
-          \ ]
-  endif
-
   " Remove unused interfaces
   let g:openbrowser_no_default_menus = 1
   autocmd bundle VimEnter * delcommand OpenBrowser |
