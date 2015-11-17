@@ -491,7 +491,10 @@ call Bundles('salsifis/vim-transpose')
 call Bundles('Tpope/vim-abolish')
 
 " True Sublime Text style multiple selections for Vim
-call Bundles('kristijanhusak/vim-multiple-cursors')
+if Bundles('terryma/vim-multiple-cursors')
+  " let g:multi_cursor_exit_from_visual_mode = 0
+  let g:multi_cursor_exit_from_insert_mode = 0
+endif
 
 " Preview contents of the registers when ", @, i_CTRL-R
 " call Dundles('junegunn/vim-peekaboo')
