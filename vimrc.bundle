@@ -283,8 +283,8 @@ if Bundles('Haya14busa/incsearch.vim', 'Haya14busa/vim-asterisk')
     IncSearchNoreMap <Tab> <Over>(buffer-complete)
     IncSearchNoreMap <S-Tab> <Over>(buffer-complete-prev)
   endfunction
-  execute repeat('autocmd bundle VimEnter * ', has('vim_starting')).
-        \'call s:incsearch_mapping()'
+  execute has('vim_starting') ? 'autocmd bundle User Bundle' : ''
+        \ 'call s:incsearch_mapping()'
   " Search literally in visual mode
   NXmap <expr>*  '<Plug>(incsearch-nohl)<Plug>(asterisk-*)zv'
   NXmap <expr>#  '<Plug>(incsearch-nohl)<Plug>(asterisk-#)zv'
@@ -356,7 +356,7 @@ if s:pythonx && Bundle('Sirver/ultisnips', {
   " Performance
   let g:UltiSnipsRemoveSelectModeMappings = 0
   let b:did_after_plugin_ultisnips_after = 1 " I don't have SuperTab
-  autocmd User BundleUltisnips autocmd! UltiSnips_AutoTrigger
+  autocmd bundle User BundleUltisnips autocmd! UltiSnips_AutoTrigger
 elseif Bundles('garbas/vim-snipmate', 'marcweber/vim-addon-mw-utils',
       \ 'tomtom/tlib_vim', 'honza/vim-snippets')
   command! -nargs=1 SImap imap <args>|smap <args>
@@ -439,7 +439,7 @@ endif
 " call Bundles('-raimondi/delimitmate', '-cohama/lexima.vim', '-jiangmiao/auto-pairs')
 " Wisely add 'end' in ruby, endfunction/endif/more in vim script, etc
 if Bundles('tpope/vim-endwise')
-  autocmd bundle VimEnter * autocmd! endwise CmdwinEnter
+  autocmd bundle User Bundle autocmd! endwise CmdwinEnter
 endif
 
 " Switch segments of text with predefined replacements
@@ -455,10 +455,15 @@ if Bundles('andrewradev/splitjoin.vim')
 endif
 
 " Alignment
-if Bundles('-godlygeek/tabular', 'junegunn/vim-easy-align', '-tommcdo/vim-lion')
+if Bundles('junegunn/vim-easy-align')
   command! -nargs=* -range -bang Align <line1>,<line2>EasyAlign <args>
   NXmap zl <Plug>(EasyAlign)
   NXmap Zl <Plug>(LiveEasyAlign)
+endif
+if 0 && Bundles('godlygeek/tabular') " 'tommcdo/vim-lion'
+  AddTabularPipeline! spaces /\s/
+        \ map(a:lines, "substitute(v:val, '  *', ' ', 'g')") |
+        \ tabular#TabularizeStrings(a:lines, '\s', 'l0')
 endif
 
 " Use CTRL-A/CTRL-X to increment dates, times, and more
@@ -737,7 +742,7 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
   let g:neomru#directory_mru_path = $MYVIM.'/tmp/unite/mru/directories'
   " Performance tuning
   " let g:neomru#do_validate = 0 " skip checking invalide files for performance
-  autocmd VimEnter * silent! autocmd! neomru BufEnter,VimEnter,BufWritePost
+  autocmd bundle User Bundle silent! autocmd! neomru BufEnter,VimEnter,BufWritePost
 endif
 " A command-line fuzzy finder
 " if !has('win32') && isdirectory($HOME.'/.fzf/plugin') && rtp#add('~/.fzf')
@@ -763,7 +768,7 @@ if Bundles('justinmk/vim-dirvish')
   nmap <silent><M-f>. :Dirvish<CR>
 elseif Bundles('tpope/vim-vinegar', '-jeetsukumaran/vim-filebeagle')
   nmap <M-f>h <Plug>VinegarUp
-  autocmd bundle VimEnter * nunmap -
+  autocmd bundle User Bundle nunmap -
 endif
 
 " Project configuration
@@ -822,7 +827,7 @@ if Bundles('Junegunn/seoul256.vim', 'Bohrshaw/vim-colors',
   autocmd bundle ColorScheme github
         \ hi CursorLine cterm=NONE gui=NONE ctermbg=253 guibg=#D8D8DD
 endif
-autocmd bundle VimEnter * nested execute 'silent color'
+autocmd bundle User Bundle nested execute 'silent color'
       \ has('gui_running') || !has('win32') ?
       \   &background == 'light' ? 'github' : 'seoul256' :
       \   ''
@@ -853,7 +858,7 @@ if Bundles('tpope/vim-flagship')
   let g:tabsuffix = "%1*-- %{Vmode()} --%*"
   " Statusline (leave untouched)
   if has('vim_starting')
-    autocmd User Flags call Vstatusline()
+    autocmd bundle User Flags call Vstatusline()
   endif
 endif
 
@@ -1051,10 +1056,10 @@ endif
 " Note: This is superseded by QuickRun.
 if 0 && Bundles('greyblake/vim-preview', '-matthias-guenther/hammer.vim')
   nnoremap <silent>RE :Preview<CR>
-  autocmd VimEnter * nunmap <Leader>P
+  autocmd User Bundle nunmap <Leader>P
   " The markdown rendering gem 'redcarpet' is unavailable on Windows
   if has('win32')
-    autocmd bundle VimEnter * command! -range=% PreviewMarkdown
+    autocmd bundle User Bundle command! -range=% PreviewMarkdown
           \ call markdown#preview(<line1>, <line2>)
     nnoremap <silent><expr>RE ':Preview'.
           \ (&filetype == 'markdown' ? 'Markdown' : '')."<CR>"
@@ -1148,7 +1153,7 @@ if 0 && Bundles('klen/python-mode')
   " Escape syntastic check for python
   call add(get(get(g:, 'syntastic_mode_map', {}), 'passive_filetypes', []), 'python')
   let g:pymode_python = 'python3'
-  autocmd bundle VimEnter * set shellslash&
+  autocmd bundle User Bundle set shellslash&
 endif
 
 " Bindings for the python auto-completion library 'jedi'
@@ -1444,13 +1449,17 @@ endif
 if Bundles('Tpope/vim-eunuch')
   nnoremap <silent><M-f>d :Remove<CR>
   nnoremap <silent><M-f>x :sbuffer #<Bar>wincmd p<Bar>Remove<CR>
-  autocmd VimEnter * command! -bar W if has('nvim') |
-        \ execute "silent !sudo -vn &>/dev/null" |
-        \ if v:shell_error != 0 |
-        \ execute "silent !sudo -vS <<<'".inputsecret('[sudo] password: ')."'" |
-        \ endif |
-        \ SudoWrite | endif
   nnoremap <silent><M-f>W :W<CR>
+  if has('nvim')
+    command! -bar W
+          \ execute "silent !sudo -vn &>/dev/null" |
+          \ if v:shell_error != 0 |
+          \   execute "silent !sudo -vS <<<'".inputsecret('[sudo] password: ')."'" |
+          \ endif |
+          \ SudoWrite
+  else
+    command! -bar W SudoWrite
+  endif
 endif
 
 " Tmux basics, insert mode completion of words in adjacent tmux panes
@@ -1526,7 +1535,7 @@ if Bundles('tyru/open-browser.vim')
 
   " Remove unused interfaces
   let g:openbrowser_no_default_menus = 1
-  autocmd bundle VimEnter * delcommand OpenBrowser |
+  autocmd bundle User Bundle delcommand OpenBrowser |
         \ delcommand OpenBrowserSearch | delcommand OpenBrowserSmartSearch
 endif
 

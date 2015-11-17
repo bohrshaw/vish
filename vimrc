@@ -248,7 +248,7 @@ if has('vim_starting') && !g:loaded_matchit
   if !has('nvim') " nvim put it in plugin/
     runtime macros/matchit.vim
   endif
-  autocmd vimrc VimEnter * sunmap %|sunmap [%|sunmap ]%|sunmap a%|sunmap g%
+  autocmd vimrc User Vimrc sunmap %|sunmap [%|sunmap ]%|sunmap a%|sunmap g%
 endif
 
 " Sections backword/forward
@@ -970,7 +970,7 @@ function! Vmode() "{{{
 endfunction "}}}
 set noshowmode " hide the mode message on the command line
 set fillchars+=stl::,stlnc:: " characters to fill the statuslines
-execute (has('vim_starting')?'autocmd vimrc VimEnter * ':'').'call Vstatusline()'
+execute (has('vim_starting')?'autocmd vimrc User Vimrc ':'').'call Vstatusline()'
 
 " Status line highlight
 autocmd vimrc ColorScheme * call <SID>hi()
