@@ -838,6 +838,10 @@ endif
 " Make gvim-only colorschemes work transparently in terminal vim
 " call Bundles('godlygeek/csapprox')
 
+" Enhances Vim's integration with the terminal in several ways
+if 0 && !has('gui_running') && Bundles('wincent/terminus')
+endif
+
 " Configurable and extensible tab line and status line
 if Bundles('tpope/vim-flagship')
   " Tabline
