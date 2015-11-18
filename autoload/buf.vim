@@ -6,7 +6,7 @@ function! buf#nrs(...)
   return map(s:ls(get(a:, 1, '')), 'matchstr(v:val, ''\d\+'')')
 endfunction
 function! buf#names(...)
-  return map(s:ls(get(a:, 1, '')), 'bufname(v:val+0)')
+  return map(buf#nrs(get(a:, 1, '')), 'bufname(v:val+0)')
 endfunction
 function! s:ls(...)
   let a1 = get(a:, 1, '')
