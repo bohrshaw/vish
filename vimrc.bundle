@@ -339,8 +339,11 @@ if s:pythonx && Bundle('Sirver/ultisnips', {
       \ }) && Bundles('Honza/vim-snippets')
   let g:UltiSnipsExpandTrigger='<M-l>'
   let g:UltiSnipsListSnippets='<C-g>l'
-  let g:UltiSnipsJumpForwardTrigger="<M-j>"
-  let g:UltiSnipsJumpBackwardTrigger="<M-k>"
+  let g:UltiSnipsJumpForwardTrigger='<M-j>'
+  let g:UltiSnipsJumpBackwardTrigger='<M-k>'
+  " When not during a snippet expansion
+  inoremap <M-j> <Nop>
+  inoremap <M-k> <Nop>
 
   let g:UltiSnipsSnippetDirectories = ["UltiSnips", "snippet"]
   let g:UltiSnipsSnippetsDir = $MYVIM.'/snippet' " personal snippets path
