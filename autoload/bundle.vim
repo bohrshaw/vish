@@ -50,27 +50,25 @@ function! Bundle(...)
             \ '<', '<lt>', 'g')
 
       for m in a:2['m']
-        let [map, key] = split(m)[:1]
-        if len(map) == 1
-          let map .= 'map'
-        elseif map =~# 'nore'
-          let map = join(split(map, 'nore'), '')
-        endif
-        let lhs = '<silent>'.key
+        let [mode, lhs] = split(m)[:1]
+        let mode = split(mode, '\v%(nore)?map')[0]
+        let i = match(lhs, '\v%(\<%(buffer|nowait|silent|special|script|expr|unique)\>)+\zs')
+        let key = i < 0 ? lhs : strpart(lhs, i)
+        let lhs = '<silent>'.lhs
         let rhs = ':<C-u>'.bundle_cmd.'\|'.map_cmds.'<CR>'
-        if map =~# '[ic!]'
-          if map =~# '[i!]'
+        if mode =~# '[ic!]'
+          if mode =~# '[i!]'
             execute 'imap' lhs '<C-\><C-o>'.rhs.key
           endif
-          if map =~# '[c!]'
+          if mode =~# '[c!]'
             execute 'cmap' lhs '<C-\>esetreg("z", getcmdline())[1]<CR>'.rhs.
                   \ ':<C-r>z'.key
           endif
         else
-          if map =~# 'n\|^map'
+          if mode =~# 'n\|^$'
             execute 'nmap' lhs rhs.key
           endif
-          if map =~# 'x\|^map'
+          if mode =~# 'x\|^$'
             execute 'xmap' lhs rhs.'gv'.key
           endif
         endif
