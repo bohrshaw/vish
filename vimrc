@@ -596,9 +596,9 @@ silent! set wildignorecase " ignore case when completing file names/directories
 " }}}
 
 " Auto-reverse letter case in insert mode
-inoremap <M-c> <C-R>=<SID>toggle(1)<CR>
-inoremap <M-C> <C-R>=<SID>toggle(2)<CR>
-inoremap <C-g>c <C-R>=<SID>toggle(2)<CR>
+inoremap <M-u> <C-R>=<SID>toggle(1)<CR>
+inoremap <M-U> <C-R>=<SID>toggle(2)<CR>
+inoremap <C-g>u <C-R>=<SID>toggle(2)<CR>
 function! s:toggle(arg) " {{{
   let b:case_reverse = get(b:, 'case_reverse') ? 0 : a:arg
   if !exists('#case_reverse#InsertCharPre#<buffer>')
