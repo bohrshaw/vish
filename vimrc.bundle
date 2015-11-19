@@ -559,9 +559,9 @@ if Bundles('Junegunn/goyo.vim', 'Junegunn/limelight.vim')
   " autocmd bundle User GoyoLeave Limelight!
 endif
 
-" Resize windows automatically using the Golden Ratio
+" Resize windows using Golden Ratio (Mnemonic: golden :only)
 if Bundle('roman/golden-ratio', {'m': [
-      \'nmap <C-w><M-g> <Plug>(golden_ratio_toggle)']})
+      \'nmap <silent><C-w>go <Plug>(golden_ratio_toggle)']})
   let g:golden_ratio_autocommand = 0
 endif
 
