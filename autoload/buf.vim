@@ -1,3 +1,11 @@
+" Edit a buffer if existed, otherwise a file
+function! buf#edit(bufile, ...)
+  let cmds = bufexists(expand(a:bufile)) ?
+        \ ['b', 'sb', 'vert sb', 'tab sb'] : ['e', 'sp', 'vs', 'tabe']
+  let i = get(a:, 1)
+  execute 'silent' cmds[i == 0 ? 0 : i-1] a:bufile
+endfunction
+
 " Get a list of buffers
 " If argument 1 is empty, listed buffers are displayed.
 " If argument 1 is "!", both listed and non-listed buffers are displayed.

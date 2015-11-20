@@ -485,12 +485,8 @@ cnoremap <C-g>l <C-\>ecmd#link_targets()<CR><CR>
 " Easy access to vimrc files
 Abbr cabbr <expr>v $MYVIMRC
 Abbr cabbr <expr>b $MYBUNDLE
-nnoremap <silent><M-f>v :execute 'Be' $MYVIMRC<CR>
-nnoremap <silent><M-f>b :execute 'Be' $MYBUNDLE<CR>
-
-" Switch to a file without reloading it
-command! -nargs=1 -bang Be execute (buflisted(expand(<q-args>))?'b':
-      \filereadable(expand(<q-args>))||<bang>0?'e':'Nop').' '.<q-args>
+nnoremap <silent><M-f>v :<C-u>call buf#edit($MYVIMRC, v:count)<CR>
+nnoremap <silent><M-f>b :<C-u>call buf#edit($MYBUNDLE, v:count)<CR>
 
 " Make the file '_' a scratch buffer
 autocmd vimrc BufNewFile,BufReadPost _ set buftype=nofile nobuflisted bufhidden=hide
