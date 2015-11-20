@@ -76,7 +76,7 @@ if has('vim_starting')
     tnoremap <M-\|> <Esc>\|
     tnoremap <M-CR> <Esc><CR>
   else
-    runtime autoload/key.vim " mappable meta key in terminals
+    runtime autoload/keymeta.vim " mappable meta key in terminals
   endif " }}}
 
   if has('nvim') " skip python check to reduce startup time
