@@ -116,34 +116,8 @@ noremap <expr><M-\> nr2char(getchar())
 noremap! <expr><M-\> nr2char(getchar())
 
 " Execte a global mapping shadowed by the same local one
-nnoremap <silent>g\ :call <SID>gmap('n')<CR>
-xnoremap <silent>g\ :<C-u>call <SID>gmap('x')<CR>
-function! s:gmap(mode) " {{{
-  let lhs = ''
-  while 1
-    let c = v#getchar()
-    if empty(c)
-      return
-    endif
-    let lhs .= c
-    let map = maparg(lhs, a:mode, 0, 1)
-    if empty(map)
-      continue
-    endif
-    try " the matched mapping may not be local
-      execute a:mode.'unmap <buffer>' lhs
-    catch
-      Echow 'No such local mapping.' | return 1
-    endtry
-    execute 'normal' (a:mode == 'x' ? 'gv' : '').lhs
-    execute a:mode.(map.noremap ? 'noremap' : 'map')
-          \ map.silent ? '<silent>' : ''
-          \ map.expr ? '<expr>' : ''
-          \ map.nowait ? '<nowait>' : ''
-          \ '<buffer>' map.lhs map.rhs
-    return
-  endwhile
-endfunction " }}}
+nnoremap <silent>g\ :call map#global('n')<CR>
+xnoremap <silent>g\ :<C-u>call map#global('x')<CR>
 
 " Define a full-id abbreviation with minimal conflict
 command! -nargs=1 Abbr execute substitute(<q-args>, '\v\s+\S+\zs', 'SoXx', '')
@@ -209,13 +183,9 @@ cabbrev <expr>c getcmdtype() == ':' && getcmdpos() == 2 ? 'copy' : 'c'
 NXnoremap _ "_
 
 " Run the current command with a bang(!)
-cnoremap <M-1> <C-\>e<SID>insert_bang()<CR><CR>
+cnoremap <M-1> <C-\>ecmd#bang()<CR><CR>
 " Run the last command with a bang
-nnoremap @! :<Up><C-\>e<SID>insert_bang()<CR><CR>
-function! s:insert_bang() " {{{
-  let [cmd, args] = split(getcmdline(), '\v(^\a+)@<=\ze(\A|$)', 1)
-  return cmd.'!'.args
-endfunction " }}}
+nnoremap @! :<Up><C-\>ecmd#bang()<CR><CR>
 " }}}
 " Motion:" {{{
 set virtualedit=onemore " consistent cursor position on EOL
@@ -371,17 +341,7 @@ nnoremap <silent><C-w><M-l> :lclose<CR>
 nnoremap <silent><C-w><M-t> <C-w>s<C-w>T
 nnoremap <silent><C-w><C-t> <C-w>s<C-w>T
 " Maxmize the current window or restore the previously window layout
-nnoremap <silent><C-w>O :call <SID>win_toggle()<CR>
-function! s:win_toggle() " {{{
-  if exists('t:winrestcmd')
-    execute t:winrestcmd
-    unlet t:winrestcmd
-  else
-    let t:winrestcmd = winrestcmd()
-    resize | vertical resize
-    cal winrestcmd()
-  endif
-endfunction " }}}
+nnoremap <silent><C-w>O :call win#max()<CR>
 
 " Exchange the current window with the previous one
 nnoremap <C-w>X <C-w>W<C-w>x<C-w>w
@@ -519,15 +479,8 @@ if has('vim_starting') && 0 == argc() && has('gui_running') && !g:l
   cd $HOME
 endif
 
-" Open a destination file of a link
-cnoremap <C-g>l <C-\>e<SID>get_link_targets()<CR><CR>
-function! s:get_link_targets() " {{{
-  let [cmd; links] = split(getcmdline())
-  for l in links
-    let cmd .= ' '.fnamemodify(resolve(expand(l)), ':~:.')
-  endfor
-  return cmd
-endfunction " }}}
+" Open links' destination files
+cnoremap <C-g>l <C-\>ecmd#link_targets()<CR><CR>
 
 " Easy access to vimrc files
 Abbr cabbr <expr>v $MYVIMRC
@@ -596,25 +549,9 @@ silent! set wildignorecase " ignore case when completing file names/directories
 " }}}
 
 " Auto-reverse letter case in insert mode
-inoremap <M-u> <C-R>=<SID>toggle(1)<CR>
-inoremap <M-U> <C-R>=<SID>toggle(2)<CR>
-inoremap <C-g>u <C-R>=<SID>toggle(2)<CR>
-function! s:toggle(arg) " {{{
-  let b:case_reverse = get(b:, 'case_reverse') ? 0 : a:arg
-  if !exists('#case_reverse#InsertCharPre#<buffer>')
-    augroup case_reverse
-      autocmd InsertCharPre <buffer> if b:case_reverse|
-            \ let v:char = v:char =~# '\l' ? toupper(v:char) : tolower(v:char)|
-            \ endif|
-            \ if b:case_reverse == 1 && v:char !~ '\h'|
-            \ let b:case_reverse = 0|
-            \ endif
-      " Wouldn't be triggered if leaving insert mode with <C-C>
-      autocmd InsertLeave <buffer> let b:case_reverse = 0| autocmd! case_reverse
-    augroup END
-  endif
-  return ''
-endfunction " }}}
+inoremap <M-u> <C-R>=key#case(1)<CR>
+inoremap <M-U> <C-R>=key#case(2)<CR>
+inoremap <C-g>u <C-R>=key#case(2)<CR>
 
 " Make a command(e.g. `:h ...`) split vertically or in a new tab.
 cnoremap <M-w>v <C-\>e'vert '.getcmdline()<CR><CR>
@@ -622,100 +559,13 @@ cnoremap <M-w>t <C-\>e'tab '.getcmdline()<CR><CR>
 cmap <M-CR> <C-\>e'tab '.getcmdline()<CR><CR>
 
 " Expand a mixed case command name
-cnoremap <M-l> <C-\>e<SID>cmd_expand()<CR><Tab>
-function! s:cmd_expand() " {{{
-  let cmd = getcmdline()
-  let [range, abbr] = [matchstr(cmd, '^\A*'), matchstr(cmd, '\a.*')]
-  let parts = map(split(abbr, abbr =~ '\s' ? '\s' : '\zs'), 'toupper(v:val[0]).v:val[1:]')
-  return range . join(parts, '*')
-endfunction " }}}
+cnoremap <M-l> <C-\>ecmd#expand()<CR><Tab>
 
 " Abbreviations
 Abbr abbr bs Bohr Shaw
 
-" Type notated keys
-noremap! <expr><M-v> <SID>special_key()
-function! s:special_key() " {{{
-  let c1 = v#getchar(1, 1)
-  if empty(c1)
-    return ''
-  endif
-  if strtrans(c1)[0] == '^'
-    let c1_2 = strtrans(c1)[1]
-    if c1_2 == 'i'
-      return '<Tab>'
-    elseif c1_2 == 'm'
-      return '<CR>'
-    elseif c1_2 == '['
-      return '<Esc>'
-    else
-      return '<C-'.tolower(c1_2).'>'
-    endif
-  elseif has_key(s:keymap, c1) == 1
-    return s:keymap[c1]
-  endif
-  let c2 = v#getchar(1, 1)
-  if empty(c2)
-    return ''
-  endif
-  let c2_ = has_key(s:keymap_sp, c2) ? s:keymap_sp[c2] : c2
-  let cc = c1.c2
-  if has_key(s:keymap, cc) == 1
-    return s:keymap[cc]
-  elseif c1 ==? 'f'
-    let c2 = c2 == 0 ? 1.v#getchar() : c2
-    return '<'.toupper(c1).c2.'>'
-  elseif cc =~# 'c.'
-    return '<C-'.(c2 =~# '\u' ? 'S-'.tolower(c2_) : c2_).'>'
-  elseif cc =~# '[Cx].'
-    return 'CTRL-'.toupper(c2)
-  elseif cc =~# '[md].'
-    return '<'.toupper(c1).'-'.c2_.'>'
-  else
-    return ''
-  endif
-endfunction
-let s:keymap_sp = {
-      \"\<Tab>": 'Tab',
-      \' ':      'Space',
-      \"\<CR>":  'CR',
-      \"\<BS>":  'BS',
-      \}
-let s:keymap = {
-      \' ':      '<Space>',
-      \"\<BS>":  '<BS>',
-      \"\<Left>":  '<Left>',
-      \"\<Right>": '<Right>',
-      \"\<Up>":    '<Up>',
-      \"\<Down>":  '<Down>',
-      \'<':      '<lt>',
-      \'\':      '<Bslash>',
-      \'|':      '<Bar>',
-      \'bu':     '<buffer>',
-      \'no':     '<nowait>',
-      \'nw':     '<nowait>',
-      \'nm':     '<nomodeline>',
-      \'si':     '<silent>',
-      \'sp':     '<special>',
-      \'sc':     '<script>',
-      \'ex':     '<expr>',
-      \'un':     '<unique>',
-      \'L':      '<Leader>',
-      \'ll':     '<LocalLeader>',
-      \'lL':     '<LocalLeader>',
-      \'P':      '<Plug>',
-      \'S':      '<SID>',
-      \'N':      '<Nop>',
-      \'l1':     '<line1>',
-      \'l2':     '<line2>',
-      \'co':     '<count>',
-      \'re':     '<reg>',
-      \'ba':     '<bang>',
-      \'ar':     '<args>',
-      \'qa':     '<q-args>',
-      \'fa':     '<f-args>',
-      \}
-" }}}
+" Type notated keys (:help key-notation)
+noremap! <expr><M-v> key#notate()
 
 " }}}
 " Repeat:" {{{
@@ -849,31 +699,16 @@ inoremap <M-BS> <C-w>
 " Word wise in Cmdline Mode
 " Compared to in Insert Mode, they behave like in Shells so that less motions
 " are needed to go to a specific position.
-cnoremap <expr><M-f> <SID>word_fb("\<Right>")
-cnoremap <expr><M-b> <SID>word_fb("\<Left>")
+cnoremap <expr><M-f> readline#word("\<Right>")
+cnoremap <expr><M-b> readline#word("\<Left>")
 cnoremap <M-F> <S-Right>
 cnoremap <M-B> <S-Left>
 " Delete till a non-keyword
-cnoremap <expr><M-BS> <SID>word_fb("\<BS>")
-cnoremap <expr><M-d> <SID>word_fb("\<Del>")
+cnoremap <expr><M-BS> readline#word("\<BS>")
+cnoremap <expr><M-d> readline#word("\<Del>")
 " Delete till a space
-cnoremap <expr><C-w> <SID>word_fb("\<BS>", 1)
-cnoremap <expr><M-D> <SID>word_fb("\<Del>", 1)
-function! s:word_fb(key, ...) " {{{
-  let f = a:key == "\<Right>" || a:key == "\<Del>" ? 1 : 0
-  let d = a:key == "\<Del>" || a:key == "\<BS>" ? 1 : 0
-  " For matching multi-bytes characters
-  let [isf, &isfname] = [&isfname, '@,48-57,_']
-  let pat = !a:0 ?
-        \ f ? (d ? '\W*\f+' : '\W*\f+\W*') : '\f+\W*' :
-        \ f ? '\s*\S+' : '\S+\s*'
-  let cur = '%'.getcmdpos().'c'
-  let str = matchstr(getcmdline(), '\v'.(f ? cur.pat : pat.cur))
-  let &isfname = isf
-  if d | let @- = str | endif
-  return (wildmenumode() ?  " \<BS>" : '').
-        \ repeat(a:key, strchars(str))
-endfunction " }}}
+cnoremap <expr><C-w> readline#word("\<BS>", 1)
+cnoremap <expr><M-D> readline#word("\<Del>", 1)
 
 " In-line wise
 inoremap <C-A> <C-O>^
@@ -881,17 +716,9 @@ cnoremap <C-A> <Home>
 inoremap <expr><C-e> pumvisible() ? "<C-e>" : "<End>"
 inoremap <expr><C-u> "<C-\><C-o>d".
       \(search('^\s*\%#', 'bnc', line('.')) > 0 ? '0' : '^')
-cnoremap <expr><C-u> <SID>c_u()
-function! s:c_u() " {{{
-  let @- = getcmdline()[:getcmdpos()-2]
-  return "\<C-U>"
-endfunction " }}}
+cnoremap <expr><C-u> readline#head()
 inoremap <C-k> <C-\><C-o>D
-cnoremap <expr><C-k> <SID>c_k()
-function! s:c_k() " {{{
-  let @- = getcmdline()[getcmdpos()-1:]
-  return repeat("\<Del>", strchars(@-))
-endfunction " }}}
+cnoremap <expr><C-k> readline#tail()
 
 inoremap <expr><C-y> pumvisible() ? "<C-y>" : "<C-r>-"
 cnoremap <C-y> <C-r>-

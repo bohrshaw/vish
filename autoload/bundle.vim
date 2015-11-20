@@ -6,15 +6,11 @@
 
 " Call this function to source this file
 function! bundle#init()
-  let g:bundles = [] " bundles activated on startup
-  let g:dundles = [] " bundles to be downloaded
 endfunction
+let g:bundles = [] " bundles activated on startup
+let g:dundles = [] " bundles to be downloaded
 let s:vundle = get(g:, '_vundle') " indicate if `vundle` is running
-
-" Inject paths of bundles from g:bundles to 'rtp'
-function! bundle#done()
-  call rtp#inject('bundle', map(g:bundles, 'v:val[stridx(v:val,"/")+1:]'))
-endfunction
+let s:augroup_count = get(s:, 'augroup_count', 1)
 
 " Populate the list: g:bundles
 function! Bundles(...)
@@ -96,7 +92,6 @@ function! Bundle(...)
     return 1
   endif
 endfunction
-let s:augroup_count = get(s:, 'augroup_count', 1)
 
 " Inject the path of a bundle to &rtp and Load(source) it
 function! BundleRun(b, ...)
@@ -139,6 +134,25 @@ function! BundlePath(b)
     call rtp#add(b[stridx(b,"/")+1:])
     return 1
   endif
+endfunction
+
+" Inject paths of bundles from g:bundles to 'rtp'
+function! bundle#done()
+  call rtp#inject('bundle', map(g:bundles, 'v:val[stridx(v:val,"/")+1:]'))
+endfunction
+
+" Define local mappings for managing bundles
+function! bundle#map()
+  " Move between bundles
+  nnoremap <buffer> <silent> ]<Tab> :call search('[BD]undle\a*(.\zs\C')<CR>
+  nnoremap <buffer> <silent> [<Tab> :call search('[BD]undle\a*(.\zs\C', 'b')<CR>
+  " Open a bundle's URL in the browser
+  nnoremap <buffer> <silent> gX "zyi'
+        \:execute 'silent Open https://github.com/'
+        \.matchstr(@z, '\v-?\zs[^/]*/[^/]*')<CR>
+  " Activate the bundle under the cursor line
+  nnoremap <buffer><silent> <LocalLeader>b mz"zyi'
+        \:call BundleRun(@z)<CR>g`z
 endfunction
 
 " Add a bundle to the list of bundles to be downloaded

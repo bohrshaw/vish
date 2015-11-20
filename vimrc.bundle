@@ -14,9 +14,11 @@ let $MYBUNDLE = expand('<sfile>') " like $MYVIMRC
 let g:l = get(g:, 'l')
 call bundle#init() " bundle initialization
 
-" Define an autocmd group and clean it
+" Clean the autocmd group and define local mappings
 augroup bundle
   autocmd!
+  execute 'autocmd BufReadPost {.,}'.fnamemodify($MYBUNDLE, ':t')
+        \ 'call bundle#map()'
 augroup END
 
 " Let the bundle manager define a variable to download ALL bundles even if the
@@ -26,21 +28,6 @@ let s:nvim = s:vundle ? 1 : has('nvim')
 let s:pythonx = s:vundle ? 1 : (has('python') || has('python3'))
 let s:ruby = s:vundle ? 1 : has('ruby')
 let s:lua = s:vundle ? 1 : has('lua')
-
-" Mappings for managing bundles
-autocmd bundle BufReadPost {.,}vimrc.bundle call s:bundle_map()
-function! s:bundle_map()
-  " Move between bundles
-  nnoremap <buffer> <silent> ]<Tab> :call search('[BD]undle\a*(.\zs\C')<CR>
-  nnoremap <buffer> <silent> [<Tab> :call search('[BD]undle\a*(.\zs\C', 'b')<CR>
-  " Open a bundle's URL in the browser
-  nnoremap <buffer> <silent> gX "zyi'
-        \:execute 'silent Open https://github.com/'
-        \.matchstr(@z, '\v-?\zs[^/]*/[^/]*')<CR>
-  " Activate the bundle under the cursor line
-  nnoremap <buffer><silent> <LocalLeader>b mz"zyi'
-        \:call BundleRun(@z)<CR>g`z
-endfunction
 
 " Debugging
 command! -nargs=? -complete=command VimNORC execute
@@ -69,18 +56,10 @@ call BundleRun('Tpope/vim-scriptease')
 " Pairs of handy bracket mappings
 call BundleRun('Tpope/vim-unimpaired')
 " Move lines (fix auto-closing folds)
-nnoremap <silent>[e :<C-u>call <SID>move('--', v:count1)<CR>
-nnoremap <silent>]e :<C-u>call <SID>move('+', v:count1)<CR>
-xnoremap <silent>[e :<C-u>call <SID>move("'<--", v:count1)<CR>
-xnoremap <silent>]e :<C-u>call <SID>move("'>+", v:count1)<CR>
-function! s:move(cmd, count) abort
-  normal! m`
-  execute 'set foldmethod=manual|'.
-        \(a:cmd =~ '[<>]'?"'<,'>":'').'move'.a:cmd.a:count.
-        \'|set foldmethod='.&foldmethod
-  normal! ``
-  silent! call repeat#set(a:cmd =~ '+' ? ']e' : '[e', a:count)
-endfunction
+nnoremap <silent>[e :<C-u>call b#unimpaired#move('--', v:count1)<CR>
+nnoremap <silent>]e :<C-u>call b#unimpaired#move('+', v:count1)<CR>
+xnoremap <silent>[e :<C-u>call b#unimpaired#move("'<--", v:count1)<CR>
+xnoremap <silent>]e :<C-u>call b#unimpaired#move("'>+", v:count1)<CR>
 nnoremap <silent>]d :call search('\cto-\?do:', 's')<CR>
 nnoremap <silent>[d :call search('\cto-\?do:', 'sb')<CR>
 nnoremap <silent>[r :set readonly<CR>
@@ -100,54 +79,15 @@ nmap coP <Plug>unimpairedPaste
 " The missing motion for Vim
 if Bundles('Bohrshaw/vim-sneak') " 'Justinmk/vim-sneak'
   " Arbitrary precise motion
-  nnoremap <silent> L :<C-u>call Sneak('', 0, 'n')<CR>
-  xnoremap <silent> L :<C-u>call Sneak('', 0, 'v')<CR>
-  onoremap <silent> L :<C-u>call Sneak('', 0, 'o')<CR>
-  nnoremap <silent> H :<C-u>call Sneak('', 1, 'n')<CR>
-  xnoremap <silent> H :<C-u>call Sneak('', 1, 'v')<CR>
-  onoremap <silent> H :<C-u>call Sneak('', 1, 'o')<CR>
+  nnoremap <silent> L :<C-u>call b#sneak#('', 0, 'n')<CR>
+  xnoremap <silent> L :<C-u>call b#sneak#('', 0, 'v')<CR>
+  onoremap <silent> L :<C-u>call b#sneak#('', 0, 'o')<CR>
+  nnoremap <silent> H :<C-u>call b#sneak#('', 1, 'n')<CR>
+  xnoremap <silent> H :<C-u>call b#sneak#('', 1, 'v')<CR>
+  onoremap <silent> H :<C-u>call b#sneak#('', 1, 'o')<CR>
   " Within the current line
   NXOmap <expr>9f v#setvar('g:sneak#oneline', 1).'L'
   NXOmap <expr>8f v#setvar('g:sneak#oneline', 1).'H'
-  function! Sneak(pattern, reverse, mode)
-    if a:mode =~# "^[vV\<C-v>]"
-      execute 'normal!' (v:count > 0 ? v:count : '').'gv'
-    endif
-    if v:count > 0
-      execute 'normal!' v:count.(a:reverse == 0 ? 'L' : 'H')
-      return
-    endif
-    " Disable "syntax" 'foldmethod' because `syntax clear` would open folds
-    if &foldmethod[0] == 's'
-      let [fdm, &foldmethod] = [&foldmethod, 'manual']
-    endif
-    let c = v#getchar()
-    if empty(c) |return |endif
-    if empty(a:pattern)
-      if c =~# '\v^(\d|\a)$' " to match a boundary
-        let p = c =~# '\d' ? '\d' : (c =~# '\l' ? '\l' : '\u')
-        let pattern = '\v'.p.'@<!'.c.'|'.c.p.'@!'
-      elseif c == "\<BS>" " get a new character, to match a non-boundary
-        let c = v#getchar()
-        let p = c =~# '\d' ? '\d' : (c =~# '\l' ? '\l' : '\u')
-        let pattern = '\v'.p.'\zs'.c.'\ze'.p
-      elseif c == "\<CR>" " to match the first non-blank character of a line
-        let pattern = '\_^\s*\zs'
-      else " to match a literal
-        let c = escape(c, '\')
-        let pattern = '\V'.c.'\@<!'.c.'\|'.c.c.'\@!'
-      endif
-    else
-      let pattern = substitute(a:pattern, '\CIN', c, 'g')
-    endif
-    " op, input, inputlen, count, repeatmotion, reverse, inclusive, streak
-    " inclusive: 2 means inclusive-exclusive motion like /
-    call sneak#to('', '\m'.pattern, 1, 1, 0, a:reverse, 2, 1)
-    let g:sneak#oneline = 0
-    if exists('l:fdm')
-      let &foldmethod = fdm
-    endif
-  endfunction
   " Mimic the native search command / and ?, but literal
   " Function signature: sneak#wrap(op, inputlen, reverse, inclusive, streak)
   nnoremap <silent> z/ :<C-U>call sneak#wrap('', 99, 0, 2, 1)<CR>
@@ -157,22 +97,12 @@ if Bundles('Bohrshaw/vim-sneak') " 'Justinmk/vim-sneak'
   onoremap <silent> z/ :<C-U>call sneak#wrap(v:operator, 99, 0, 2, 1)<CR>
   onoremap <silent> z? :<C-U>call sneak#wrap(v:operator, 99, 1, 2, 1)<CR>
   " Repeat
-  nnoremap <silent>; :<C-u>call SneakRepeat('', 0)<CR>
-  xnoremap <silent>; :<C-u>call SneakRepeat(visualmode(), 0)<CR>
-  onoremap <silent>; :<C-u>call SneakRepeat(v:operator, 0)<CR>
-  nnoremap <silent>, :<C-u>call SneakRepeat('', 1)<CR>
-  xnoremap <silent>, :<C-u>call SneakRepeat(visualmode(), 1)<CR>
-  onoremap <silent>, :<C-u>call SneakRepeat(v:operator, 1)<CR>
-  function! SneakRepeat(op, reverse) abort " adjusted from sneak#rpt()
-    let st = sneak#state()
-    if st.rst
-      execute 'normal!' (a:op =~? "[v\<C-v>]" ? 'gv' : '').v:count1.(a:reverse ?
-            \ !exists('*getcharsearch') || getcharsearch().forward ? ',' : ';' :
-            \ !exists('*getcharsearch') || getcharsearch().forward ? ';' : ',')
-    else
-      call sneak#to(a:op, st.input, st.inputlen, v:count1, 1, a:reverse, st.inclusive, 0)
-    endif
-  endfunction
+  nnoremap <silent>; :<C-u>call b#sneak#repeat('', 0)<CR>
+  xnoremap <silent>; :<C-u>call b#sneak#repeat(visualmode(), 0)<CR>
+  onoremap <silent>; :<C-u>call b#sneak#repeat(v:operator, 0)<CR>
+  nnoremap <silent>, :<C-u>call b#sneak#repeat('', 1)<CR>
+  xnoremap <silent>, :<C-u>call b#sneak#repeat(visualmode(), 1)<CR>
+  onoremap <silent>, :<C-u>call b#sneak#repeat(v:operator, 1)<CR>
   if !exists('*getcharsearch') " Vim patch 7.4.813
     " To make the repeat direction absolute, it's easy to accomplish this with
     " the built-in mappings, though I dislike the multi-lines behavior.
@@ -398,29 +328,7 @@ if Bundles('Tpope/vim-surround')
   " imap     <M-s>       <Plug>Isurround
   imap     <M-S>       <Plug>ISurround
   imap     <C-g>s      <Plug>ISurround
-  noremap! <expr><M-s> <SID>surround()
-  function! s:surround()
-    let k = v#getchar()
-    if empty(k)
-      return ''
-    endif
-    let pair = has_key(g:surround_pairs, k) ? g:surround_pairs[k] : k.k
-    return pair.repeat(
-          \ mode()[0] == 'c' ? "\<Left>" : "\<C-g>U\<Left>", len(pair)/2)
-  endfunction
-  let g:surround_pairs = {
-        \ '(': '(  )', ')': '()', 'b': '()',
-        \ '[': '[  ]', ']': '[]', 'r': '[]',
-        \ '{': '{  }', '}': '{}', 'B': '{}',
-        \ '<': '<>', '>': '<>', 'a': '<>',
-        \ "\<M-9>": '((  ))',
-        \ "\<M-[>": '[[  ]]',
-        \ "\<M-'>": "''''''",
-        \ "\<M-">": '""""""', "\<M-\">": '""""""',
-        \ "~": '``````',
-        \ "\<M-8>": '****',
-        \ "\<M-->": '____',
-        \ }
+  noremap! <expr><M-s> b#surround#()
 
   " Surround replacements
   let g:surround_{char2nr("\<M-[>")} = "[[ \r ]]"
@@ -634,14 +542,7 @@ if 0 && Bundles('ctrlpvim/ctrlp.vim')
   if 0 && s:pythonx && Bundles('felikz/ctrlp-py-matcher')
     let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
   elseif Bundles('tpope/vim-haystack') " better fuzzy matching algorithm
-    function! Haystack_matcher(items, str, limit, mmode, ispath, crfile, regex) abort
-      let items = copy(a:items)
-      if a:ispath
-        call filter(items, 'v:val !=# a:crfile')
-      endif
-      return haystack#filter(items, a:str)
-    endfunction
-    let g:ctrlp_match_func = {'match': 'Haystack_matcher'}
+    let g:ctrlp_match_func = {'match': 'b#haystack#'}
   endif
   " Extensions
   let g:ctrlp_extensions = []
@@ -674,16 +575,7 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
   " The key <M-f> relates to 'external' contents
   nnoremap <silent><M-f>l :Unite file:<C-r>=escape(expand('%:h'), '\')<CR><CR>
   nnoremap <silent><M-f>L :Unite file<CR>
-  nnoremap <silent><M-f>p :call <SID>project_files()<CR>
-  function! s:project_files()
-    let git_dir = get(b:, 'git_dir', fugitive#extract_git_dir(getcwd()))
-    if !empty(git_dir)
-      execute 'lcd '.git_dir[:-6]
-      Unite file_rec/git:--cached:--others:--exclude-standard
-    else
-      execute 'Unite file_rec/'.(has('nvim')?'neovim':'async')
-    endif
-  endfunction
+  nnoremap <silent><M-f>p :call b#unite#files_project()<CR>
   nnoremap <silent><M-f>r :Unite file_mru<CR>
   nnoremap <silent><M-f>m :Unite bookmark<CR>
   " The key <M-u> relates to utilities or Unite itself
@@ -695,35 +587,7 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
   nnoremap <silent>]<M-u> :UniteNext<CR>
   nnoremap <silent>[<M-u> :UnitePrevious<CR>
   " Custom mappings for unite buffers
-  autocmd bundle FileType unite call <SID>unite_buffer_mapping()
-  function! s:unite_buffer_mapping()
-    " Navigation
-    " Note <Esc> is mapped to <Plug>(unite_insert_leave) which just moves the curosr
-    imap <buffer><M-x> <Esc>x
-    imap <buffer><M-j> <Plug>(unite_select_next_line)
-    imap <buffer><M-k> <Plug>(unite_select_previous_line)
-    " Action
-    inoremap <silent><buffer><expr><M-w>s unite#do_action('split')
-    inoremap <silent><buffer><expr><M-w>v unite#do_action('vsplit')
-    inoremap <silent><buffer><expr><M-w>t unite#do_action('tabopen')
-    inoremap <silent><buffer><expr><M-e> unite#do_action('edit')
-    " Mark
-    unmap <buffer><Space>|unmap <buffer><S-Space>
-    nmap <buffer>m <Plug>(unite_toggle_mark_current_candidate)
-    nmap <buffer>M <Plug>(unite_toggle_mark_current_candidate_up)
-    xmap <buffer>m v_<Plug>(unite_toggle_mark_selected_candidates)
-    unmap! <buffer><Space>|unmap! <buffer><S-Space>
-    imap <expr><buffer>m unite#smart_map('m', "\<Plug>(unite_toggle_mark_current_candidate)")
-    imap <expr><buffer>M unite#smart_map('M', "\<Plug>(unite_toggle_mark_current_candidate_up)")
-    " Quit
-    imap <buffer><M-q> <Plug>(unite_exit)
-    nmap <buffer><M-q> <Plug>(unite_exit)
-    imap <buffer><M-Q> <Esc><Plug>(unite_all_exit)
-    nmap <buffer>R <Plug>(unite_restart)
-    " Others
-    nmap <buffer>C <Plug>(unite_disable_max_candidates)
-    imap <buffer><M-Space> <Esc>:
-  endfunction
+  autocmd bundle FileType unite call b#unite#map()
   call unite#custom#profile('default', 'context', {
         \'start_insert': 1,
         \'direction': 'belowright',
@@ -1258,39 +1122,20 @@ endif
 " An asynchronous execution library
 if Bundles('bohrshaw/vimproc.vim:') " 'shougo/vimproc.vim'
   command! -nargs=+ -bang -complete=shellcmd B
-        \ if <bang>0 | call vimproc#system_bg(<SID>vimproc_esc(<q-args>)) |
-        \ else | execute 'VimProcBang '.<SID>vimproc_esc(<q-args>, '/') | endif
-  function! s:vimproc_esc(args, ...)
-    if has('win32') && !&shellslash " expand %, #, etc. and escape \ and /
-      let pat = '\\\@<![%#].*'
-      let match = matchstr(a:args, pat)
-      return escape(
-            \ empty(match) ? a:args :
-            \   substitute(a:args, pat, escape(expand(match), '\'), ''),
-            \ '\'.get(a:, 1, ''))
-    endif
-    return a:args
-  endfunction
+        \ if <bang>0 | call vimproc#system_bg(b#vimproc#esc(<q-args>)) |
+        \ else | execute 'VimProcBang '.b#vimproc#esc(<q-args>, '/') | endif
   command! -nargs=+ -complete=shellcmd R VimProcRead <args>
 endif
 
 " Shells inside Vim
 if has('nvim')
   " Manage multiple shells
-  nnoremap <silent><M-s> :<C-u>call <SID>shell(v:count1)<CR>
-  command! -nargs=? Shell call <SID>shell(<q-args>)
-  command! -nargs=? S call <SID>shell(<q-args>)
+  nnoremap <silent><M-s> :<C-u>call term#shell(v:count1)<CR>
+  command! -nargs=? Shell call term#shell(<q-args>)
+  command! -nargs=? S call term#shell(<q-args>)
   cabbrev <expr>sS getcmdtype() == ':' && getcmdpos() == 3 ? 'sb\|S' : 'sS'
   cabbrev <expr>vS getcmdtype() == ':' && getcmdpos() == 3 ? 'vert sb\|S' : 'vS'
   cabbrev <expr>tS getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sb\|S' : 'tS'
-  function! s:shell(name)
-    let name = empty(a:name) ? '1' : a:name
-    try
-      execute 'buffer term://*;#;'.name
-    catch
-      enew|call termopen(matchstr(&shell,'\a*$').';#;'.name)|startinsert
-    endtry
-  endfunction
   tnoremap <M-C-d> <C-\><C-n>:bwipeout!<CR>
   nnoremap <Leader>bs :Unite -input=term:/\ zsh\|bash\  buffer<CR>
 elseif Bundles('shougo/vimshell.vim')
@@ -1310,79 +1155,9 @@ endif
 " A Git wrapper so awesome, it should be illegal.
 if Bundles('Tpope/vim-git') && BundleRun('tpope/vim-fugitive')
   " Invoke a single git command, mnemonic: '9' in its shape is like 'g'
-  nnoremap <silent>g9 :call <SID>git()<CR>
+  nnoremap <silent>g9 :call git#run()<CR>
   " Invoke multiple git commands, mnemonic: <Space> is to enter the cmdline
-  nnoremap <silent>g<Space> :call <SID>git(9)<CR>
-  let s:gcmds = {
-        \ 'w':   'update',
-        \ 'wa':  'wall',
-        \ 's':   'Gstatus',
-        \
-        \ 'a':      'update | call fugitive#repo().git_chomp_in_tree("add", expand("%:p")[len(b:git_dir)-4:])',
-        \ 'au':     'G add --update',
-        \ 'A':      'G add --update',
-        \ 'aa':     'G add --all',
-        \ "\<M-a>": 'G add --all',
-        \
-        \ 'c':   'Gcommit -v',
-        \ 'cua': 'Gcommit --all --amend -v',
-        \ 'cau': 'Gcommit --all --amend -v',
-        \ 'cu':  'Gcommit --all -v',
-        \ 'C':   'Gcommit --all -v',
-        \ 'ca':  'Gcommit --amend -v',
-        \ 'cah': 'G commit --amend -C HEAD | GitGutterAll',
-        \ 'ce':  "G commit --allow-empty-message -m '' | GitGutterAll",
-        \ 'cue': "G commit --all --allow-empty-message -m '' | GitGutterAll",
-        \ 'ceu': "G commit --all --allow-empty-message -m '' | GitGutterAll",
-        \ 'cs':  'B! git -C '.$MYVIM.'/spell commit --all -m "Spell"',
-        \
-        \ 'd':   'tab sbuffer % | Gdiff',
-        \ 'b':   'Gblame',
-        \ 'l':   'Glog',
-        \ 'ps':  'G! push',
-        \ 'pf':  'G! push -f',
-        \ 'pl':  'G! pull',
-        \ 'r':   'G! roll',
-        \ }
-  function! s:git(...)
-    let batch = a:0 > 0 ? 1 : 0
-    let s = ''
-    while 1
-      let c = v#getchar()
-      if c == "\<BS>"
-        let s = s[:-2] | continue
-      elseif c =~ "[ ;\<CR>]"
-        if c == ' ' && !batch
-          let batch = 1 | continue
-        endif
-        break
-      elseif c == ''
-        return
-      endif
-      let s .= c
-      if !batch && exists('s:gcmds["'.s.'"]')
-        break
-      endif
-    endwhile
-    let end = len(s)-1
-    let [i, j, cmds] = [0, end, []]
-    while i <= j
-      while j >= i
-        let c = s[i : j]
-        if exists('s:gcmds["'.c.'"]')
-          call add(cmds, c)
-          let [i, j] = [j+1, end]
-        elseif j > i
-          let j -= 1
-        else
-          Echow 'Invalid git commands!' | return
-        endif
-      endwhile
-    endwhile
-    for c in cmds
-      execute s:gcmds[c]
-    endfor
-  endfunction
+  nnoremap <silent>g<Space> :call git#run(9)<CR>
 
   nnoremap <expr><M-f>/ ':lcd '.b:git_dir[:-6]."<CR>"
   cnoremap <M-/> <C-r>=v#execute('lcd '.b:git_dir[:-6])<CR>
@@ -1409,10 +1184,6 @@ endif
 
 " Shows a git diff in the sign column and stages/reverts hunks
 if Bundles('airblade/vim-gitgutter')
-  call extend(s:gcmds, {
-      \ 'u':  'GitGutter',
-      \ 'U':  'GitGutterAll',
-      \ })
   nmap [c <Plug>GitGutterPrevHunk
   nmap ]c <Plug>GitGutterNextHunk
   nnoremap <silent>dp :execute &diff ? 'diffput' : 'GitGutterStageHunk'<CR>
