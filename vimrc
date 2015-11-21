@@ -111,7 +111,7 @@ NXnoremap <Tab> <Nop>
 let g:mapinsertleader = "\<C-g>" " this is personal convention
 
 " Execute a remapped key in its un-remapped(vanilla) state.
-" Note: Use i_CTRL-D to insert a non-digit literally.
+" Note: Don't be confused with i_CTRL-V.
 noremap <expr><M-\> nr2char(getchar())
 noremap! <expr><M-\> nr2char(getchar())
 
