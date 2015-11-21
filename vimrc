@@ -120,10 +120,9 @@ noremap! <expr><M-\> nr2char(getchar())
 nnoremap <silent>g\ :call map#global('n')<CR>
 xnoremap <silent>g\ :<C-u>call map#global('x')<CR>
 
-" Define a full-id abbreviation with minimal conflict
-command! -nargs=1 Abbr execute substitute(<q-args>, '\v\s+\S+\zs', 'SoXx', '')
-" Complete and trigger a full-id abbreviation
-noremap! <M-]> SoXx<C-]>
+" Complete an abbreviation with suffix 'soxx'(Suo Xie) and expand it.
+" Note: This is to restrict unexpected expansion of abbreviations.
+noremap! <M-]> soxx<C-]>
 
 " Echo a warning message. Note: A double-quote in <args> starts a comment.
 command! -bar -nargs=1 Echow echohl WarningMsg | echo <args> | echohl None
@@ -508,8 +507,8 @@ endif
 cnoremap <C-g>l <C-\>ecmd#link_targets()<CR><CR>
 
 " Easy access to vimrc files
-Abbr cabbr <expr>v $MYVIMRC
-Abbr cabbr <expr>b $MYBUNDLE
+cabbr <expr>vsoxx $MYVIMRC
+cabbr <expr>bsoxx $MYBUNDLE
 nnoremap <silent><M-f>v :<C-u>call buf#edit($MYVIMRC, v:count)<CR>
 nnoremap <silent><M-f>b :<C-u>call buf#edit($MYBUNDLE, v:count)<CR>
 
@@ -583,7 +582,7 @@ cmap <M-CR> <C-\>e'tab '.getcmdline()<CR><CR>
 cnoremap <M-l> <C-\>ecmd#expand()<CR><Tab>
 
 " Abbreviations
-Abbr abbr bs Bohr Shaw
+abbr bssoxx Bohr Shaw
 
 " Type notated keys (:help key-notation)
 noremap! <expr><M-v> key#notate()
