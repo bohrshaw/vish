@@ -731,7 +731,8 @@ cnoremap <expr><M-D> readline#word("\<Del>", 1)
 inoremap <C-A> <C-O>^
 cnoremap <C-A> <Home>
 cnoremap <C-x>a <C-a>
-inoremap <expr><C-e> pumvisible() ? "<C-e>" : "<End>"
+inoremap <C-e> <End>
+inoremap <C-g><C-e> <C-e>
 inoremap <expr><C-u> "<C-\><C-o>d".
       \(search('^\s*\%#', 'bnc', line('.')) > 0 ? '0' : '^')
 cnoremap <expr><C-u> readline#head()
@@ -740,6 +741,8 @@ cnoremap <expr><C-k> readline#tail()
 
 inoremap <expr><C-y> pumvisible() ? "<C-y>" : "<C-r>-"
 cnoremap <C-y> <C-r>-
+inoremap <C-g><C-y> <C-y>
+inoremap <C-g><C-b> <C-y>
 
 cnoremap <M-p> <Up>
 cnoremap <M-n> <Down>
