@@ -714,6 +714,7 @@ cnoremap <expr><M-D> readline#word("\<Del>", 1)
 " In-line wise
 inoremap <C-A> <C-O>^
 cnoremap <C-A> <Home>
+cnoremap <C-x>a <C-a>
 inoremap <expr><C-e> pumvisible() ? "<C-e>" : "<End>"
 inoremap <expr><C-u> "<C-\><C-o>d".
       \(search('^\s*\%#', 'bnc', line('.')) > 0 ? '0' : '^')
