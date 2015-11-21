@@ -246,7 +246,10 @@ nnoremap <M-i> <C-I>
 nnoremap <M-o> <C-O>
 
 " Jump to the definition of the current tag
-NXmap <CR> <C-]>
+nnoremap <silent><CR> :<C-u>try \| execute v:count1.'tag' expand('<cword>')
+      \ \| catch \| endtry<CR>
+xnoremap <silent><CR> "zy:<C-u>try \| execute v:count1.'tag' @z
+      \ \| catch \| endtry<CR>
 
 " Auto-place the cursor when switching buffers or files:" {{{
 " Don't move the cursor to the start of the line when switching buffers
