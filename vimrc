@@ -116,6 +116,7 @@ noremap <expr><M-\> nr2char(getchar())
 noremap! <expr><M-\> nr2char(getchar())
 
 " Execte a global mapping shadowed by the same local one
+" Note: This is a design-not or an unprivileged back door. Better redo mappings.
 nnoremap <silent>g\ :call map#global('n')<CR>
 xnoremap <silent>g\ :<C-u>call map#global('x')<CR>
 
