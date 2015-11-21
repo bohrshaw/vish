@@ -126,8 +126,13 @@ noremap! <M-]> SoXx<C-]>
 
 " Echo a warning message. Note: A double-quote in <args> starts a comment.
 command! -bar -nargs=1 Echow echohl WarningMsg | echo <args> | echohl None
+
 " A command doing nothing while accepting args (for quick composition)
 command! -nargs=* Nop :
+
+" Pre-define autocmd groups for interactive use
+augroup tmp | augroup t
+augroup END
 " }}}
 " Shortcuts:" {{{
 " Escape
