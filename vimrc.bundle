@@ -64,7 +64,6 @@ nnoremap <silent>]d :call search('\cto-\?do:', 's')<CR>
 nnoremap <silent>[d :call search('\cto-\?do:', 'sb')<CR>
 nnoremap <silent>[r :set readonly<CR>
 nnoremap <silent>]r :set noreadonly<CR>
-nnoremap <silent>coh :let v:hlsearch = !v:hlsearch<CR>
 nnoremap <silent>coM :let &mouse = empty(&mouse) ? 'a' : ''<CR>
 nmap coP <Plug>unimpairedPaste
 
@@ -185,29 +184,14 @@ endif
 
 " Search improved
 if Bundles('Haya14busa/incsearch.vim', 'Haya14busa/vim-asterisk')
-  " Highlight will auto-suspend on cursor move after a search
-  nnoremap <expr>/ incsearch#autocmd#auto_nohlsearch(1).'ms/'
-  nnoremap <expr>? incsearch#autocmd#auto_nohlsearch(1).'ms?'
-  xnoremap <expr>/ incsearch#autocmd#auto_nohlsearch(1).'/'
-  xnoremap <expr>? incsearch#autocmd#auto_nohlsearch(1).'?'
-  onoremap <expr>/ incsearch#autocmd#auto_nohlsearch(1).'/'
-  onoremap <expr>? incsearch#autocmd#auto_nohlsearch(1).'?'
-  " Suspend or temporarily resume highlight, primarily for :s, :g
-  nnoremap <silent>zh :<C-u>if v:hlsearch \|nohlsearch \|
-        \else \|call incsearch#autocmd#auto_nohlsearch(0) \|set hlsearch \|endif<CR>
-  xmap zh <Esc>zhgv
-  " Consistent direction when repeating a search
-  NXOnoremap <expr>n incsearch#autocmd#auto_nohlsearch(1).
-        \(v:searchforward ? 'n' : 'N').'zv'
-  NXOnoremap <expr>N incsearch#autocmd#auto_nohlsearch(1).
-        \(v:searchforward ? 'N' : 'n').'zv'
-  " let g:incsearch#consistent_n_direction = 1 " redundant
   " Incremantal search improved with a search specific command line interface
   NXmap g/ <Plug>(incsearch-forward)
   NXmap g? <Plug>(incsearch-backward)
   function! s:incsearch_mapping()
     IncSearchNoreMap <M-j> <Over>(incsearch-next)
     IncSearchNoreMap <M-k> <Over>(incsearch-prev)
+    IncSearchNoreMap <M-f> <Over>(incsearch-scroll-f)
+    IncSearchNoreMap <M-b> <Over>(incsearch-scroll-b)
     IncSearchNoreMap <C-f> <Over>(incsearch-scroll-f)
     IncSearchNoreMap <C-b> <Over>(incsearch-scroll-b)
     IncSearchNoreMap <Tab> <Over>(buffer-complete)
@@ -215,16 +199,18 @@ if Bundles('Haya14busa/incsearch.vim', 'Haya14busa/vim-asterisk')
   endfunction
   execute has('vim_starting') ? 'autocmd bundle User Bundle' : ''
         \ 'call s:incsearch_mapping()'
+
   " Search literally in visual mode
-  NXmap <expr>*  '<Plug>(incsearch-nohl)<Plug>(asterisk-*)zv'
-  NXmap <expr>#  '<Plug>(incsearch-nohl)<Plug>(asterisk-#)zv'
-  NXmap <expr>g* '<Plug>(incsearch-nohl)<Plug>(asterisk-g*)zv'
-  NXmap <expr>g# '<Plug>(incsearch-nohl)<Plug>(asterisk-g#)zv'
-  " The cusor would not move
-  NXmap z*  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)
-  NXmap gz* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
-  NXmap z#  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)
-  NXmap gz# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
+  NXmap <expr>*  search#hl(1).'<Plug>(asterisk-*)zv'
+  NXmap <expr>#  search#hl(1).'<Plug>(asterisk-#)zv'
+  NXmap <expr>g* search#hl(1).'<Plug>(asterisk-g*)zv'
+  NXmap <expr>g# search#hl(1).'<Plug>(asterisk-g#)zv'
+  " The cusor would not move (`z*` is reserved for toggling 'ignorecase'.)
+  NXmap <expr>s*  search#hl().'<Plug>(asterisk-z*)'
+  NXmap <expr>gs* search#hl().'<Plug>(asterisk-gz*)'
+  NXmap <expr>s#  search#hl().'<Plug>(asterisk-z#)'
+  NXmap <expr>gs# search#hl().'<Plug>(asterisk-gz#)'
+
   let g:incsearch#auto_nohlsearch = 1 " auto-nohlsearch on cursor move
   " Highlight only in the current window (custom hi-group instead of 'Search')
   let g:incsearch#no_inc_hlsearch = 1

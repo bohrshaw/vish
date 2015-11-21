@@ -261,10 +261,27 @@ autocmd vimrc BufRead * silent! normal! g`"
 " }}}
 " }}}
 " Search:" {{{
-set incsearch " show matches when typing the search pattern
-if !&hlsearch|set hlsearch|endif " highlight all matches of a search pattern
-set ignorecase " case insensitive in search patterns and command completion
-set smartcase " case sensitive only when up case characters present
+set incsearch
+set ignorecase smartcase " also apply to command completion
+
+if !&hlsearch | set hlsearch | endif " related: :nohlsearch, v:hlsearch
+" Temporary highlight, will suspend after moving the cursor
+NXOnoremap <expr>/ search#hl(1).'/'
+NXOnoremap <expr>? search#hl(1).'?'
+" Suspend or (temporarily) resume highlight
+nnoremap <silent>gl :<C-u>let g:hlsearch = 0 \|
+      \ if v:hlsearch \|nohlsearch \|
+      \ else \|call search#hl() \|set hlsearch \|endif<CR>
+xmap gl <Esc>glgv
+" Persist highlight
+nnoremap <silent>gL :let g:hlsearch = 1 \|set hlsearch \|autocmd! search_hl<CR>
+" For :s and :g
+cnoremap <silent><M-j> <CR>:nohlsearch<CR>
+
+" Consistent direction when repeating a search
+NXOnoremap <expr>n search#hl(1).(v:searchforward ? 'n' : 'N').'zv'
+NXOnoremap <expr>N search#hl(1).(v:searchforward ? 'N' : 'n').'zv'
+
 " Substitute in a visual area:" {{{
 xnoremap sv :s/\%V
 " Substitute in a visual area (eat the for-expanding-space)
