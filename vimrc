@@ -830,6 +830,9 @@ function! Vstatusline()
   set statusline+=%c:%l/%L:%P " cursor position, line percentage
 endfunction
 function! Vmode() "{{{
+  if bufnr('%') != get(g:, 'actual_curbuf')
+    return ''
+  endif
   let m = mode()
   if m ==# 'n'
     return ''
