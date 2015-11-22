@@ -698,12 +698,13 @@ endif
 " Configurable and extensible tab line and status line
 if Bundles('tpope/vim-flagship')
   " Tabline
-  let g:tabprefix = '%9*'.
+  let g:tabprefix = '%#StatusLineNC#'.
         \ (has('nvim') ? matchstr(v:servername, 'nvim.*') : '%{v:servername}').
         \ (g:l ? '(L)' : '').
         \ (empty($SSH_TTY) ? '': '@'.hostname()).
         \ ':%*'
-  let g:tabsuffix = "%1*-- %{Vmode()} --%*"
+  " Time info is especially useful in full screen
+  let g:tabsuffix = '%{strftime("%c")}'
   " Statusline (leave untouched)
   if has('vim_starting')
     autocmd bundle User Flags call Vstatusline()
