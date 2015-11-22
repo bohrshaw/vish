@@ -8,6 +8,7 @@
 " Author: Bohr Shaw <pubohr@gmail.com>
 
 " Comments:" {{{
+
 " Be: healthy, stable, efficient, consistent, intuitive, convenient, accessible!
 
 " First and foremost, master the help system. (:h helphelp)
@@ -29,6 +30,7 @@
 
 " }}}
 " Starting:" {{{
+
 " Define an augroup for all autocmds in this file and empty it
 augroup vimrc | execute 'autocmd!' | augroup END
 if has('vim_starting')
@@ -91,8 +93,11 @@ if has('vim_starting')
   if filereadable($MYVIMRCPRE)
     execute 'silent source' $MYVIMRCPRE
   endif
-endif " }}}
+endif
+
+" }}}
 " Meta:" {{{
+
 " Commands for defining mappings in several modes
 " Note: Adjust syntax/vim.vim if these command names change
 command! -nargs=1 NXnoremap nnoremap <args><Bar> xnoremap <args>
@@ -133,8 +138,10 @@ command! -nargs=* Nop :
 " Pre-define autocmd groups for interactive use
 augroup tmp | augroup t
 augroup END
+
 " }}}
 " Shortcuts:" {{{
+
 " Escape
 inoremap <M-i> <Esc>
 if has('nvim')
@@ -142,7 +149,7 @@ if has('nvim')
 endif
 inoremap <M-o> <C-O>
 
-" The command line and the command line window
+" Interact with the command line and the command line window
 " {{{
 NXnoremap <Space> :
 if has('nvim')
@@ -191,8 +198,10 @@ NXnoremap _ "_
 cnoremap <M-1> <C-\>ecmd#bang()<CR><CR>
 " Run the last command with a bang
 nnoremap @! :<Up><C-\>ecmd#bang()<CR><CR>
+
 " }}}
 " Motion:" {{{
+
 set virtualedit=onemore " consistent cursor position on EOL
 set whichwrap& " left/right motions across lines
 
@@ -262,8 +271,10 @@ augroup END
 " Jump to the last known position in a file just after opening it
 autocmd vimrc BufRead * silent! normal! g`"
 " }}}
+
 " }}}
 " Search:" {{{
+
 set incsearch
 set ignorecase smartcase " also apply to command completion
 
@@ -351,6 +362,7 @@ if !has('patch-7.4.858') "{{{
   command! -nargs=1 -complete=command Lfdo call qf#fdo(<q-args>, 1)
 endif "}}}
 " }}}
+
 " }}}
 " View:" {{{
 
@@ -424,8 +436,10 @@ if has('nvim')
   autocmd vimrc BufLeave term://* stopinsert
   autocmd vimrc TermClose * call feedkeys(' ')
 endif
+
 " }}}
 " Fold: "{{{
+
 " Open the fold the cursor is in, recursively
 nnoremap z<M-o> zczO
 
@@ -461,8 +475,10 @@ nmap <silent>zfm cof
 " autocmd vimrc InsertLeave * if exists('w:vfdml') && empty(&buftype) |
 "       \ let &foldmethod=w:vfdml | unlet w:vfdml |
 "       \ execute 'silent! normal! zo' |endif
+
 "}}}
 " Buffer:" {{{
+
 set hidden autoread " autowrite
 
 nnoremap <silent><M-b>d :bdelete<CR>
@@ -485,8 +501,10 @@ command! -bang BufOnly let _b = bufnr('') | let _f = &confirm |
 
 " Wipe out all unlisted buffers
 command! BwipeoutUnlisted call buf#wipe_unlisted()
+
 " }}}
 " File:" {{{
+
 nnoremap <silent><M-f>w :write<CR>
 nnoremap <silent><M-f><M-f>w :write!<CR>
 nnoremap <silent><M-f>u :update<CR>
@@ -545,6 +563,7 @@ set fileformats=unix,dos,mac " end-of-line formats precedence
 set fileformat=unix " only for the initial unnamed buffer
 
 set nowritebackup " write to symbolic files safely on windows
+
 " }}}
 " Completion:" {{{
 
@@ -611,6 +630,7 @@ noremap! <expr><M-v> key#notate()
 
 " }}}
 " Repeat:" {{{
+
 " Concisely list the newest leafs in the tree of changes. Er... useless...
 command! UndoList echo join(reverse(map(
       \ split(scriptease#capture('undolist'), '\n')[-8:],
@@ -644,8 +664,10 @@ NXnoremap & :&&<CR>
 NXnoremap @<Space> @:
 NXnoremap @; :verbose @:<CR>
 NXnoremap @: :Verbose @:<CR>
+
 " }}}
 " Diff:" {{{
+
 xnoremap <silent> do :execute &diff ? "'<,'>diffget" : ''<CR>
 xnoremap <silent> dp :execute &diff ? "'<,'>diffput" : ''<CR>
 nnoremap <silent> du :execute &diff ? 'diffupdate' : ''<CR>
@@ -653,8 +675,10 @@ nnoremap <silent> du :execute &diff ? 'diffupdate' : ''<CR>
 nnoremap dO :diffoff \| windo if &diff \| hide \| endif<CR>
 " Diff with another file
 command! -nargs=? -complete=buffer DiffWith call diff#with(<f-args>)
+
 " }}}
 " Spell:" {{{
+
 " Enable spell checking for particular file types
 autocmd vimrc FileType gitcommit,markdown,txt setlocal spell
 if has('patch-7.4.088')
@@ -676,6 +700,7 @@ endif
 
 " Thesaurus files
 set thesaurus=$MYVIM/spell/thesaurus-mwcd.txt
+
 "}}}
 " Persistence:" {{{
 
@@ -707,6 +732,7 @@ set viewdir=$MYVIM/tmp/view
 
 " }}}
 " Readline:" {{{
+
 " Readline style insertion adjusted for Vim
 " - https://github.com/tpope/vim-rsi
 " - https://github.com/bruno-/vim-husk
@@ -771,22 +797,41 @@ inoremap <C-g><C-b> <C-y>
 
 cnoremap <M-p> <Up>
 cnoremap <M-n> <Down>
+
 " }}}
 " Bundles:" {{{
+
 if has('vim_starting')
   runtime vimrc.bundle " bundle configuration
   call bundle#done() " inject bundle paths to 'rtp'
 endif
+
 " }}}
 " Appearance:" {{{
-" Set background color based on day or night
-if has('vim_starting')
-  let s:hour = strftime('%H')
-  let &background = 0 && s:hour < 17 && s:hour > 6 ?
-        \ 'light' : 'dark'
-endif
 
-" List special or abnormal characters:" {{{
+" Make it easy to spot the cursor, especially for Gnome-terminal whose cursor
+" color is not distinguishable.
+set cursorline " 'cursorcolumn'
+set guicursor+=a:blinkon0 " don't blink the cursor
+" if has('multi_byte_ime')
+"   highlight CursorIM guifg=NONE guibg=#007500
+" endif
+
+set relativenumber " 'number'
+set numberwidth=3 " narrowed
+set colorcolumn=+1 " highlight column after 'textwidth'
+
+set showcmd " show partial typings of a mapping or command
+" Show matching pairs like (), [], etc.
+" {{{
+" set showmatch matchtime=1 " highlighting in plugin/matchparen.vim is better
+autocmd vimrc ColorScheme * hi MatchParen cterm=underline ctermbg=NONE ctermfg=NONE
+      \ gui=underline guibg=NONE guifg=NONE
+" Enable or disable it due to the cost of frequently executed autocmds
+nnoremap <expr>c\m ':'.(exists('g:loaded_matchparen') ? 'NoMatchParen' : 'DoMatchParen')."<CR>"
+" }}}
+" List special or abnormal characters
+" {{{
 set list " show non-normal spaces, tabs etc.
 if &encoding ==# 'utf-8' || &termencoding ==# 'utf-8'
   " No reliable way to detect putty
@@ -806,11 +851,50 @@ execute 'set listchars=tab:'.s:lcs[0].'\ ,trail:'.s:lcs[1]
 execute 'autocmd vimrc InsertEnter * set listchars-=trail:'.s:lcs[1]
 execute 'autocmd vimrc InsertLeave * set listchars+=trail:'.s:lcs[1]
 " }}}
+silent! set breakindent linebreak
 
-" Status line(I name it as "Starline"):" {{{
-set laststatus=2 " always display the status line
+" Set background color based on day or night
+if has('vim_starting') "{{{
+  let s:hour = strftime('%H')
+  let &background = 0 && s:hour < 17 && s:hour > 6 ?
+        \ 'light' : 'dark'
+endif "}}}
+
+" Font and window size
+if has('vim_starting') && has('gui_running') "{{{
+  let &guifont = has('win32') ? 'Consolas:h9' : 'Consolas 9'
+  set linespace=-1
+  set lines=40 columns=88
+  if !g:l " maximize the window
+    if has('win32')
+      autocmd vimrc GUIEnter * simalt ~x
+    else
+      set lines=400 columns=300
+    endif
+  endif
+endif "}}}
+
+" Setup and forget
+set display+=lastline
+set guiheadroom=0 " occupy more screen space on X11
+" Terminal hacks
+if has('vim_starting') && !has('gui_running') "{{{
+  " Assume 256 colors
+  if &term =~ '\v(xterm|screen)$' | let &term .= '-256color' | endif
+  " Disable Background Color Erase (BCE) so that color schemes
+  " render properly when inside 256-color tmux and GNU screen.
+  " See also http://snk.tuxfamily.org/log/vim-256color-bce.html
+  if &term =~ '256col' | set t_ut= | endif
+  " Allow color schemes do bright colors without forcing bold.
+  if &t_Co == 8 && &term !~ '^linux' | set t_Co=16 | endif
+endif "}}}
+
+" }}}
+" Helpline:" {{{
+
 " Ensure all plugins are loaded before setting 'statusline'
-function! Statusline()
+execute has('vim_starting') ? 'autocmd vimrc User Vimrc' : '' 'call Statusline()'
+function! Statusline() "{{{
   " Use a highlight group User{N} to apply only the difference to StatusLine to
   " StatusLineNC
   set statusline=%1*%{Mode()} " mode
@@ -828,7 +912,11 @@ function! Statusline()
   set statusline+=%w%q " preview, quickfix
   set statusline+=%*%= " left/right separator
   set statusline+=%c:%l/%L:%P " cursor position, line percentage
-endfunction
+  set fillchars+=stl::,stlnc:: " characters to fill the statuslines
+endfunction "}}}
+set laststatus=2 " always display the status line
+
+" Return a character indicating the current mode
 function! Mode() "{{{
   if bufnr('%') != get(g:, 'actual_curbuf')
     return ''
@@ -845,22 +933,20 @@ function! Mode() "{{{
   endif
 endfunction "}}}
 set noshowmode " hide the mode message on the command line
-set fillchars+=stl::,stlnc:: " characters to fill the statuslines
-execute (has('vim_starting')?'autocmd vimrc User Vimrc ':'').'call Statusline()'
 
 " Status line highlight
-autocmd vimrc ColorScheme * call <SID>hi()
+execute has('vim_starting') ? 'autocmd vimrc ColorScheme *' : '' 'call s:hi()'
 function! s:hi() "{{{
-  let [bt, bg, ft, fg, ftn, fgn,
-        \ ft1, fg1, ft2, fg2, ft9, fg9] = &background == 'dark' ?
-        \ ['237', '#3a3a3a', '214', '#ffaf00', '40', '#00d700',
-        \   '123', '#87FFFF', '218', '#ffafdf', '252', '#d0d0d0'] :
-        \ ['250', '#bcbcbc', '88', '#870000', '22', '#005f00',
-        \   '21', '#0000ff', '92', '#8700d7', '235', '#262626']
+  let [bt, bg, ft, fg, ftn, fgn] = &background == 'dark' ?
+        \ ['237', '#3a3a3a', '214', '#ffaf00', '40', '#00d700'] :
+        \ ['250', '#bcbcbc', '88', '#870000', '22', '#005f00']
   execute 'hi StatusLine term=bold cterm=bold ctermfg='.ft 'ctermbg='.bt
         \ 'gui=bold guifg='.fg 'guibg='.bg
   execute 'hi StatusLineNC term=NONE cterm=NONE ctermfg='.ftn 'ctermbg='.bt
         \ 'gui=NONE guifg='.fgn 'guibg='.bg
+  let [ft1, fg1, ft2, fg2, ft9, fg9] = &background == 'dark' ?
+        \ ['123', '#87FFFF', '218', '#ffafdf', '252', '#d0d0d0'] :
+        \ ['21', '#0000ff', '92', '#8700d7', '235', '#262626']
   execute 'hi User1 term=bold cterm=bold ctermfg='.ft1 'ctermbg='.bt
         \ 'gui=bold guifg='.fg1 'guibg='.bg
   execute 'hi User2 term=bold cterm=bold ctermfg='.ft2 'ctermbg='.bt
@@ -871,9 +957,6 @@ function! s:hi() "{{{
   hi! link TabLine StatusLineNC
   hi! link TabLineFill StatusLineNC
 endfunction "}}}
-if !has('vim_starting')
-  doautocmd <nomodeline> vimrc ColorScheme *
-endif
 
 " The status line for the quickfix window
 autocmd vimrc FileType qf setlocal statusline=%t
@@ -882,8 +965,8 @@ autocmd vimrc FileType qf setlocal statusline=%t
 " Use CTRL-G, G_CTRL-G to see file and cursor information manually
 set ruler " not effective when 'statusline' is set
 set rulerformat=%50(%=%m%r%<%f%Y\ %c,%l/%L,%P%)
-" }}}
 
+" 'tabline' is set in the bundle "vim-flagship"
 let &showtabline = 1 || g:l ? 1 : 2
 
 if exists('$TMUX')
@@ -895,59 +978,9 @@ else
         \ (g:l ? '(L)' : '').' '.'%{getcwd()}'
 endif
 
-" Make it easy to spot the cursor, especially for Gnome-terminal whose cursor
-" color is not distinguishable.
-set cursorline
-" set cursorcolumn
-
-" set number " print the line number in front of each line
-set relativenumber " show the line number relative to the current line
-set numberwidth=3 " minimal number(2) of columns to use for the line number
-
-" Font, color, window size:" {{{
-if has('vim_starting')
-  if has('gui_running')
-    let &guifont = has('win32') ? 'Consolas:h9' : 'Consolas 9'
-    set linespace=-1
-    set lines=40 columns=88
-    if !g:l " maximize the window
-      if has('win32')
-        autocmd vimrc GUIEnter * simalt ~x
-      else
-        set lines=400 columns=300
-      endif
-    endif
-  else
-    " Assume 256 colors
-    if &term =~ '\v(xterm|screen)$' | let &term .= '-256color' | endif
-    " Disable Background Color Erase (BCE) so that color schemes
-    " render properly when inside 256-color tmux and GNU screen.
-    " See also http://snk.tuxfamily.org/log/vim-256color-bce.html
-    if &term =~ '256col' | set t_ut= | endif
-    " Allow color schemes do bright colors without forcing bold.
-    if &t_Co == 8 && &term !~ '^linux' | set t_Co=16 | endif
-  endif
-endif
-" }}}
-set showcmd "show partial commands in status line
-" Show matching pairs like (), [], etc." {{{
-" set showmatch matchtime=1 " highlighting in plugin/matchparen.vim is better
-autocmd vimrc ColorScheme * hi MatchParen cterm=underline ctermbg=NONE ctermfg=NONE
-      \ gui=underline guibg=NONE guifg=NONE
-" Enable or disable it due to the cost of frequently executed autocmds
-nnoremap <expr>c\m ':'.(exists('g:loaded_matchparen') ? 'NoMatchParen' : 'DoMatchParen')."<CR>"
-" }}}
-silent! set breakindent " indent wrapped lines
-set linebreak " don't break a word when displaying wrapped lines
-set colorcolumn=+1 " highlight column after 'textwidth'
-set display+=lastline " ensure the last line is properly displayed
-set guicursor+=a:blinkon0 " don't blink the cursor
-" if has('multi_byte_ime')
-"   highlight CursorIM guifg=NONE guibg=#007500
-" endif
-set guiheadroom=0 " occupy more screen space on X11
 " }}}
 " Misc:" {{{
+
 if has('vim_starting')
   set autoindent " indent at the same level of the previous line
   set shiftwidth=4 " number of spaces to use for each step of (auto)indent
@@ -1029,6 +1062,7 @@ if has('vim_starting')
   filetype plugin indent on
   syntax enable
 endif
+
 " }}}
 
 " vim:fdm=marker:
