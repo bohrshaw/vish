@@ -200,12 +200,7 @@ if Bundles('Haya14busa/incsearch.vim', 'Haya14busa/vim-asterisk')
   execute has('vim_starting') ? 'autocmd bundle User Bundle' : ''
         \ 'call s:incsearch_mapping()'
 
-  " Search literally in visual mode
-  NXmap <expr>*  search#hl(1).'<Plug>(asterisk-*)zv'
-  NXmap <expr>#  search#hl(1).'<Plug>(asterisk-#)zv'
-  NXmap <expr>g* search#hl(1).'<Plug>(asterisk-g*)zv'
-  NXmap <expr>g# search#hl(1).'<Plug>(asterisk-g#)zv'
-  " The cusor would not move (`z*` is reserved for toggling 'ignorecase'.)
+  " The cusor would not move (An alternative prefix would be `(count 0).)
   NXmap <expr>s*  search#hl().'<Plug>(asterisk-z*)'
   NXmap <expr>gs* search#hl().'<Plug>(asterisk-gz*)'
   NXmap <expr>s#  search#hl().'<Plug>(asterisk-z#)'
