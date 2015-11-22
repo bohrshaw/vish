@@ -810,10 +810,10 @@ execute 'autocmd vimrc InsertLeave * set listchars+=trail:'.s:lcs[1]
 " Status line(I name it as "Starline"):" {{{
 set laststatus=2 " always display the status line
 " Ensure all plugins are loaded before setting 'statusline'
-function! Vstatusline()
+function! Statusline()
   " Use a highlight group User{N} to apply only the difference to StatusLine to
   " StatusLineNC
-  set statusline=%1*%{Vmode()} " mode
+  set statusline=%1*%{Mode()} " mode
   set statusline+=%n " buffer number
   set statusline+=%{(&modified?'+':'').(&modifiable?'':'-').(&readonly?'=':'')}
   set statusline+=:%*%.30f " file path, truncated if its length > 30
@@ -829,7 +829,7 @@ function! Vstatusline()
   set statusline+=%*%= " left/right separator
   set statusline+=%c:%l/%L:%P " cursor position, line percentage
 endfunction
-function! Vmode() "{{{
+function! Mode() "{{{
   if bufnr('%') != get(g:, 'actual_curbuf')
     return ''
   endif
@@ -846,7 +846,7 @@ function! Vmode() "{{{
 endfunction "}}}
 set noshowmode " hide the mode message on the command line
 set fillchars+=stl::,stlnc:: " characters to fill the statuslines
-execute (has('vim_starting')?'autocmd vimrc User Vimrc ':'').'call Vstatusline()'
+execute (has('vim_starting')?'autocmd vimrc User Vimrc ':'').'call Statusline()'
 
 " Status line highlight
 autocmd vimrc ColorScheme * call <SID>hi()
