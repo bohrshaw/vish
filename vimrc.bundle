@@ -201,10 +201,10 @@ if Bundles('Haya14busa/incsearch.vim', 'Haya14busa/vim-asterisk')
         \ 'call s:incsearch_mapping()'
 
   " The cusor would not move (An alternative prefix would be `(count 0).)
-  NXmap <expr>s*  search#hl().'<Plug>(asterisk-z*)'
-  NXmap <expr>gs* search#hl().'<Plug>(asterisk-gz*)'
-  NXmap <expr>s#  search#hl().'<Plug>(asterisk-z#)'
-  NXmap <expr>gs# search#hl().'<Plug>(asterisk-gz#)'
+  NXmap <expr>s*  search#hl(0).'<Plug>(asterisk-z*)'
+  NXmap <expr>gs* search#hl(0).'<Plug>(asterisk-gz*)'
+  NXmap <expr>s#  search#hl(0).'<Plug>(asterisk-z#)'
+  NXmap <expr>gs# search#hl(0).'<Plug>(asterisk-gz#)'
 
   let g:incsearch#auto_nohlsearch = 1 " auto-nohlsearch on cursor move
   " Highlight only in the current window (custom hi-group instead of 'Search')

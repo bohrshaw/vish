@@ -3,7 +3,7 @@
 "   $MYVIM/bundle/incsearch.vim/autoload/incsearch/autocmd.vim
 function! search#hl(...)
   if get(g:, 'hlsearch') | return '' | endif
-  let s:delay = get(a:, 1)
+  let s:delay = get(a:, 1, 1)
   augroup search_hl
     autocmd!
     " Direct :nohlsearch doesn't work. (:help autocmd-searchpat)

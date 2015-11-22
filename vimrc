@@ -268,39 +268,39 @@ set incsearch
 set ignorecase smartcase " also apply to command completion
 
 " Temporary highlight, will suspend after moving the cursor
-NXOnoremap <expr>/ search#hl(1).'/'
-NXOnoremap <expr>? search#hl(1).'?'
+NXOnoremap <expr>/ search#hl().'/'
+NXOnoremap <expr>? search#hl().'?'
 
-nnoremap <expr>*  search#hl(1)."*zv:echo '/'.@/\<CR>"
-nnoremap <expr>#  search#hl(1)."#zv:echo '?'.@/\<CR>"
-nnoremap <expr>g* search#hl(1)."g*zv:echo '/'.@/\<CR>"
-nnoremap <expr>g# search#hl(1)."g#zv:echo '?'.@/\<CR>"
+nnoremap <expr>*  search#hl()."*zv:echo '/'.@/\<CR>"
+nnoremap <expr>#  search#hl()."#zv:echo '?'.@/\<CR>"
+nnoremap <expr>g* search#hl()."g*zv:echo '/'.@/\<CR>"
+nnoremap <expr>g# search#hl()."g#zv:echo '?'.@/\<CR>"
 " Search case sensitively
-nnoremap <silent>z* :set noignorecase \| call search#hl(1)<CR>*/<Up>\C<C-c>:
-      \ set ignorecase \| let @/ .= '\C' \| echo '/'.@/<CR>
-nnoremap <silent>z# :set noignorecase \| call search#hl(1)<CR>#/<Up>\C<C-c>:
-      \ set ignorecase \| let @/ .= '\C' \| echo '?'.@/<CR>
-nnoremap <silent>gz* :set noignorecase \| call search#hl(1)<CR>g*/<Up>\C<C-c>:
-      \ set ignorecase \| let @/ .= '\C' \| echo '/'.@/<CR>
-nnoremap <silent>gz# :set noignorecase \| call search#hl(1)<CR>g#/<Up>\C<C-c>:
-      \ set ignorecase \| let @/ .= '\C' \| echo '?'.@/<CR>
+nnoremap <silent>z* :set noignorecase \| call search#hl()<CR>*/<Up>\C<C-c>
+      \:set ignorecase \| let @/ .= '\C' \| echo '/'.@/<CR>
+nnoremap <silent>z# :set noignorecase \| call search#hl()<CR>#/<Up>\C<C-c>
+      \:set ignorecase \| let @/ .= '\C' \| echo '?'.@/<CR>
+nnoremap <silent>gz* :set noignorecase \| call search#hl()<CR>g*/<Up>\C<C-c>
+      \:set ignorecase \| let @/ .= '\C' \| echo '/'.@/<CR>
+nnoremap <silent>gz# :set noignorecase \| call search#hl()<CR>g#/<Up>\C<C-c>
+      \:set ignorecase \| let @/ .= '\C' \| echo '?'.@/<CR>
 " Search literally (case sensitively)
 " Note: Keys to search with word boundary is swapped to be practical.
-xnoremap * "zy/\V<C-r>=search#hl(1).escape(@z, '\')<CR>\C<CR>zv
-xnoremap # "zy?\V<C-r>=search#hl(1).escape(@z, '\')<CR>\C<CR>zv
-xnoremap g* "zy/\V\<<C-r>=search#hl(1).escape(@z, '\')<CR>\>\C<CR>zv
-xnoremap g# "zy?\V\<<C-r>=search#hl(1).escape(@z, '\')<CR>\>\C<CR>zv
+xnoremap * "zy/\V<C-r>=search#hl().escape(@z, '\')<CR>\C<CR>zv
+xnoremap # "zy?\V<C-r>=search#hl().escape(@z, '\')<CR>\C<CR>zv
+xnoremap g* "zy/\V\<<C-r>=search#hl().escape(@z, '\')<CR>\>\C<CR>zv
+xnoremap g# "zy?\V\<<C-r>=search#hl().escape(@z, '\')<CR>\>\C<CR>zv
 
 " Consistent direction when repeating a search
-NXOnoremap <expr>n search#hl(1).(v:searchforward ? 'n' : 'N').'zv'
-NXOnoremap <expr>N search#hl(1).(v:searchforward ? 'N' : 'n').'zv'
+NXOnoremap <expr>n search#hl().(v:searchforward ? 'n' : 'N').'zv'
+NXOnoremap <expr>N search#hl().(v:searchforward ? 'N' : 'n').'zv'
 
 " Highlight
 if !&hlsearch | set hlsearch | endif " related: :nohlsearch, v:hlsearch
 " Suspend or (temporarily) resume highlight
 nnoremap <silent>gl :<C-u>let g:hlsearch = 0 \|
       \ if v:hlsearch \|nohlsearch \|
-      \ else \|call search#hl() \|set hlsearch \|endif<CR>
+      \ else \|call search#hl(0) \|set hlsearch \|endif<CR>
 xmap gl <Esc>glgv
 " Persist highlight
 nnoremap <silent>gL :let g:hlsearch = 1 \|set hlsearch \|autocmd! search_hl<CR>
