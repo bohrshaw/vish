@@ -1016,7 +1016,7 @@ silent! set langnoremap " 'langmap' doesn't apply to characters resulting from a
 " Join lines without any character or with specified characters in between
 command! -range -nargs=? -bang J execute
       \ 'keepp <line1>,'.(<line1> == <line2> ? <line2> : <line2>-1).
-      \ 's/\s*\n\s*/'.(<bang>0 ? <q-args> : ' '.<q-args>.' ' )
+      \ 's/\s*\n\s*/'.escape(<bang>0 ? <q-args> : ' '.<q-args>.' ', '/\&~')
 " Remove trailing white spaces
 command! -range=% Trim let _p=getpos('.')|
       \keepj keepp <line1>,<line2>s/\s\+$//| call setpos('.',_p)
