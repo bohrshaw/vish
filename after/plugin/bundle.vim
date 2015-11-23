@@ -1,4 +1,9 @@
-" Config after (built-in) bundles are loaded
-doautocmd User Vimrc
-" Configure bundles after they are loaded
-doautocmd User Bundle
+" Config after vimrc or (built-in) bundles are loaded
+if exists('#User#Vimrc')
+  doautocmd User Vimrc
+endif
+
+" Config after bundles are loaded
+if exists('#User#Bundle')
+  doautocmd User Bundle
+endif
