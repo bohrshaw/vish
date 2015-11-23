@@ -67,14 +67,21 @@ if has('vim_starting')
   " set timeoutlen=3000 " mapping delay
   set ttimeoutlen=10 " key code delay (instant escape from Insert mode)
   " Deal with meta-key mappings:" {{{
-  if has('nvim')
-    " Map meta-chords to esc-sequences in terminals
+  if has('gui_running') || has('nvim')
     for c in map(range(33, 123) + range(125, 126), 'nr2char(v:val)')
-      execute 'tnoremap '.'<M-'.c.'> <Esc>'.c
-      execute 'tnoremap '.'<M-C-'.c.'> <Esc><C-'.c.'>'
+      execute 'noremap! '.'<M-'.c.'>' '<Nop>'
+      execute 'noremap! '.'<M-C-'.c.'>' '<Nop>'
     endfor
-    tnoremap <M-\|> <Esc>\|
-    tnoremap <M-CR> <Esc><CR>
+    noremap! <M-\|> <Nop>
+    noremap! <M-CR> <Nop>
+    if has('nvim')
+      for c in map(range(33, 123) + range(125, 126), 'nr2char(v:val)')
+        execute 'tnoremap '.'<M-'.c.'> <Esc>'.c
+        execute 'tnoremap '.'<M-C-'.c.'> <Esc><C-'.c.'>'
+      endfor
+      tnoremap <M-\|> <Esc>\|
+      tnoremap <M-CR> <Esc><CR>
+    endif
   else
     runtime autoload/keymeta.vim " mappable meta key in terminals
   endif " }}}
