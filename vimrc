@@ -142,17 +142,11 @@ augroup END
 
 " Escape
 inoremap <M-i> <Esc>
-if has('nvim')
-  tnoremap <M-i> <C-\><C-N>
-endif
 inoremap <M-o> <C-O>
 
 " Interact with the command line and the command line window
 " {{{
 NXnoremap <Space> :
-if has('nvim')
-  tnoremap <M-Space> <C-\><C-N>:
-endif
 " Resolve local mapping conflicts with <Space>
 autocmd vimrc BufWinEnter option-window autocmd CursorMoved option-window
       \ execute 'nnoremap <silent><buffer><LocalLeader>r '.maparg("<Space>")|
@@ -415,25 +409,6 @@ cabbrev <expr>v getcmdtype() == ':' && getcmdpos() == 2 ?
       \ 'vert'.v#setvar('g:_t', nr2char(getchar(0))).
       \   (_t == ' ' ? '' : "<BS><BS><BS>")._t : 'v'
 cabbrev <expr>t getcmdtype() == ':' && getcmdpos() == 2 ? 'tab' : 't'
-
-" Deal with terminal buffers
-if has('nvim')
-  tnoremap <M-w> <C-\><C-n><C-w>
-  tnoremap <M-j> <C-\><C-n><C-w>w
-  tnoremap <M-k> <C-\><C-n><C-w>W
-  tnoremap <M-l> <C-\><C-n>gt
-  tnoremap <M-h> <C-\><C-n>gT
-  tnoremap <S-PageUp> <C-\><C-n><C-b>
-  tnoremap <S-PageDown> <C-\><C-n><C-f>
-  tnoremap <C-PageUp> <C-\><C-n><C-b>
-  tnoremap <C-PageDown> <C-\><C-n><C-f>
-  cabbrev <expr>st getcmdtype() == ':' && getcmdpos() == 3 ? 'new\|te' : 'st'
-  cabbrev <expr>vt getcmdtype() == ':' && getcmdpos() == 3 ? 'vne\|te' : 'vt'
-  cabbrev <expr>tt getcmdtype() == ':' && getcmdpos() == 3 ? 'tab new\|te' : 'tt'
-  autocmd vimrc BufWinEnter,WinEnter term://* startinsert
-  autocmd vimrc BufLeave term://* stopinsert
-  autocmd vimrc TermClose * call feedkeys(' ')
-endif
 
 " }}}
 " Fold: "{{{
@@ -977,6 +952,48 @@ else
 endif
 
 " }}}
+" Terminal:"{{{
+
+if has('nvim')
+  tnoremap <M-i> <C-\><C-N>
+  tnoremap <M-Space> <C-\><C-N>:
+
+  tnoremap <M-w> <C-\><C-n><C-w>
+  tnoremap <M-j> <C-\><C-n><C-w>w
+  tnoremap <M-k> <C-\><C-n><C-w>W
+  tmap <M-a> <C-\><C-n><M-a>
+  tnoremap <M-l> <C-\><C-n>gt
+  tnoremap <M-h> <C-\><C-n>gT
+
+  tnoremap <S-PageUp> <C-\><C-n><C-b>
+  tnoremap <S-PageDown> <C-\><C-n><C-f>
+  tnoremap <C-PageUp> <C-\><C-n><C-b>
+  tnoremap <C-PageDown> <C-\><C-n><C-f>
+
+  cabbrev <expr>st getcmdtype() == ':' && getcmdpos() == 3 ? 'new\|te' : 'st'
+  cabbrev <expr>vt getcmdtype() == ':' && getcmdpos() == 3 ? 'vne\|te' : 'vt'
+  cabbrev <expr>tt getcmdtype() == ':' && getcmdpos() == 3 ? 'tab new\|te' : 'tt'
+
+  autocmd vimrc BufWinEnter,WinEnter term://* startinsert
+  autocmd vimrc BufLeave term://* stopinsert
+  autocmd vimrc TermClose * call feedkeys(' ')
+endif
+
+"}}}
+" Shell:"{{{
+
+if has('nvim')
+  nnoremap <silent><M-s> :<C-u>call term#shell(v:count1)<CR>
+
+  command! -nargs=? S call term#shell(<q-args>)
+  cabbrev <expr>sS getcmdtype() == ':' && getcmdpos() == 3 ? 'sb\|S' : 'sS'
+  cabbrev <expr>vS getcmdtype() == ':' && getcmdpos() == 3 ? 'vert sb\|S' : 'vS'
+  cabbrev <expr>tS getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sb\|S' : 'tS'
+
+  nnoremap <Leader>bs :Unite -input=term:/\ zsh\|bash\  buffer<CR>
+endif
+
+"}}}
 " Misc:" {{{
 
 if has('vim_starting')

@@ -1110,17 +1110,7 @@ if Bundles('bohrshaw/vimproc.vim:') " 'shougo/vimproc.vim'
 endif
 
 " Shells inside Vim
-if has('nvim')
-  " Manage multiple shells
-  nnoremap <silent><M-s> :<C-u>call term#shell(v:count1)<CR>
-  command! -nargs=? Shell call term#shell(<q-args>)
-  command! -nargs=? S call term#shell(<q-args>)
-  cabbrev <expr>sS getcmdtype() == ':' && getcmdpos() == 3 ? 'sb\|S' : 'sS'
-  cabbrev <expr>vS getcmdtype() == ':' && getcmdpos() == 3 ? 'vert sb\|S' : 'vS'
-  cabbrev <expr>tS getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sb\|S' : 'tS'
-  tnoremap <M-C-d> <C-\><C-n>:bwipeout!<CR>
-  nnoremap <Leader>bs :Unite -input=term:/\ zsh\|bash\  buffer<CR>
-elseif Bundles('shougo/vimshell.vim')
+if !has('nvim') && Bundles('shougo/vimshell.vim')
   nnoremap <M-s> :<C-U>VimShell<CR>
   let g:vimshell_split_command = 'split'
   let g:vimshell_prompt = '% '
