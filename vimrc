@@ -398,7 +398,7 @@ nnoremap <silent><C-w>C :lclose \| cclose<CR>
 
 " Split the current window to a new tab.
 " Default to open a tab left so that when closed we are on the previous tab.
-nnoremap <silent><M-t> :<C-u>tab sbuffer \| if v:count == 0 \| tabmove -1 \|
+nnoremap <silent><M-t> :<C-u>tab sbuffer % \| if v:count == 0 \| tabmove -1 \|
       \ elseif v:count == 1 \| 0tabmove \|
       \ elseif v:count == 9 \| $tabmove \| endif<CR>
 nmap <C-t> <M-t>
