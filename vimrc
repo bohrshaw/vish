@@ -383,6 +383,8 @@ for i in [2, 3, 4, 5]
 endfor
 nmap <M-j> <C-w>j
 nmap <M-k> <C-w>k
+nnoremap <M-s> <C-w>s
+nnoremap <M-v> <C-w>v
 nnoremap <M-q> <C-W>q
 inoremap <M-q> <Esc><C-W>q
 
@@ -394,9 +396,12 @@ nnoremap <silent><M-Q> :windo quit<CR>
 nmap <silent><C-w>Q <M-Q>
 nnoremap <silent><C-w>C :lclose \| cclose<CR>
 
-" Maxmize the current window by duplicate it in a new tab
-nnoremap <silent><C-w><M-t> <C-w>s<C-w>T
-nnoremap <silent><C-w><C-t> <C-w>s<C-w>T
+" Split the current window to a new tab.
+" Default to open a tab left so that when closed we are on the previous tab.
+nnoremap <silent><M-t> :<C-u>tab sbuffer \| if v:count == 0 \| tabmove -1 \|
+      \ elseif v:count == 1 \| 0tabmove \|
+      \ elseif v:count == 9 \| $tabmove \| endif<CR>
+nmap <C-t> <M-t>
 " Maxmize the current window or restore the previously window layout
 nnoremap <silent><C-w>O :call win#max()<CR>
 
@@ -996,7 +1001,8 @@ endif
 " Shell:"{{{
 
 if has('nvim')
-  nnoremap <silent><M-s> :<C-u>call term#shell(v:count1)<CR>
+  " mnemonic: SheO
+  nnoremap <silent>so :<C-u>call term#shell(v:count1)<CR>
 
   command! -nargs=? S call term#shell(<q-args>)
   cabbrev <expr>sS getcmdtype() == ':' && getcmdpos() == 3 ? 'sb\|S' : 'sS'

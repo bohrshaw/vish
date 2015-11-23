@@ -1101,7 +1101,7 @@ endif
 
 " Shells inside Vim
 if !has('nvim') && Bundles('shougo/vimshell.vim')
-  nnoremap <M-s> :<C-U>VimShell<CR>
+  nnoremap <silent>so :<C-u>VimShell<CR>
   let g:vimshell_split_command = 'split'
   let g:vimshell_prompt = '% '
   let g:vimshell_secondary_prompt = '> '
