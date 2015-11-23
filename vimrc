@@ -518,8 +518,8 @@ cnoremap <C-g>l <C-\>ecmd#link_targets()<CR><CR>
 " Easy access to vimrc files
 cabbr <expr>vsoxx $MYVIMRC
 cabbr <expr>bsoxx $MYBUNDLE
-nnoremap <silent><M-f>v :<C-u>call buf#edit($MYVIMRC, v:count)<CR>
-nnoremap <silent><M-f>b :<C-u>call buf#edit($MYBUNDLE, v:count)<CR>
+nnoremap <silent><M-f>v :<C-u>call buf#edit($MYVIMRC, v:count, 1)<CR>
+nnoremap <silent><M-f>b :<C-u>call buf#edit($MYBUNDLE, v:count, 1)<CR>
 
 " Make the file '_' a scratch buffer
 autocmd vimrc BufNewFile,BufReadPost _ set buftype=nofile nobuflisted bufhidden=hide

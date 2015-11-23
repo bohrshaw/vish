@@ -2,8 +2,8 @@
 function! buf#edit(bufile, ...)
   let cmds = bufexists(expand(a:bufile)) ?
         \ ['b', 'sb', 'vert sb', 'tab sb'] : ['e', 'sp', 'vs', 'tabe']
-  let i = get(a:, 1)
-  execute 'silent' cmds[i == 0 ? 0 : i-1] a:bufile
+  let [idx, keepj] = [get(a:, 1), get(a:, 2)]
+  execute 'silent' keepj ? 'keepjumps' : '' cmds[idx == 0 ? 0 : idx-1] a:bufile
 endfunction
 
 " Get a list of buffers
