@@ -410,6 +410,16 @@ cabbrev <expr>v getcmdtype() == ':' && getcmdpos() == 2 ?
       \   (_t == ' ' ? '' : "<BS><BS><BS>")._t : 'v'
 cabbrev <expr>t getcmdtype() == ':' && getcmdpos() == 2 ? 'tab' : 't'
 
+" Full screen
+nnoremap <silent><F11> :let g:_fullscreen = !get(g:, '_fullscreen') \|
+      \ let &showtabline = g:_fullscreen ? 2 : 1 \| FullScreen<CR>
+" In case <F11> is captured by the terminal
+nmap <S-F11> <F11>
+if has('unix')
+  command! FullScreen call system('wmctrl -ir '.
+        \ (has('nvim') ? $WINDOWID : v:windowid).' -b toggle,fullscreen')
+endif
+
 " }}}
 " Fold: "{{{
 

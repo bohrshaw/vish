@@ -749,12 +749,10 @@ endif
 " Toggle full screen
 if has('win32') || s:vundle && has('win32unix')
   if Bundles('bohrshaw/wimproved.vim:') " 'kkoenig/wimproved.vim'
-    nnoremap <silent><F11> :WToggleFullscreen<CR>
+    command! FullScreen WToggleFullscreen
   elseif executable('gvimfullscreen.dll')
-    nnoremap <silent><F11> :call libcallnr('gvimfullscreen.dll', "ToggleFullScreen", 0)<CR>
+    command! FullScreen call libcallnr('gvimfullscreen.dll', "ToggleFullScreen", 0)
   endif
-elseif has('unix')
-  nnoremap <silent><F11> :call system('wmctrl -ir '.v:windowid.' -b toggle,fullscreen')<CR>
 endif
 
 " FileTypes: {{{1
