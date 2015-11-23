@@ -610,9 +610,9 @@ silent! set wildignorecase " ignore case when completing file names/directories
 " }}}
 
 " Auto-reverse letter case in insert mode
-inoremap <M-u> <C-R>=key#case(1)<CR>
-inoremap <M-U> <C-R>=key#case(2)<CR>
-inoremap <C-g>u <C-R>=key#case(2)<CR>
+inoremap <silent><M-u> <C-R>=key#case(1)<CR>
+inoremap <silent><M-U> <C-R>=key#case(2)<CR>
+inoremap <silent><C-g>u <C-R>=key#case(2)<CR>
 
 " Make a command(e.g. `:h ...`) split vertically or in a new tab.
 cnoremap <M-w>v <C-\>e'vert '.getcmdline()<CR><CR>
@@ -1008,7 +1008,7 @@ set confirm " prompt for an action instead of fail immediately
 set winminheight=0 " the minimal height of a window
 set history=10000 " maximum number of commands and search patterns to keep
 set synmaxcol=999 " ignore further syntax items to avoid slow redrawing
-silent! set cryptmethod=blowfish cm=blowfish2 " acceptable encryption
+silent! set cryptmethod=blowfish cryptmethod=blowfish2 " medium strong
 silent! set langnoremap " 'langmap' doesn't apply to characters resulting from a mapping
 " Make 'cw' consistent with 'dw'
 " onoremap <silent> w :execute 'normal! '.v:count1.'w'<CR>
