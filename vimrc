@@ -474,7 +474,8 @@ nmap <silent>zfm cof
 "}}}
 " Buffer:" {{{
 
-set hidden autoread " autowrite
+set hidden autoread " 'autowrite'
+set switchbuf=split
 
 nnoremap <silent><M-b>d :bdelete<CR>
 " Delete the current buffer without closing its window
