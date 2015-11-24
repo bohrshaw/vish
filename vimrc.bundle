@@ -1,17 +1,24 @@
 " This is the Vim(Neovim) initialization file dependent on various bundles.
 " It's sourced in "vimrc".
+" Note:
+" Pick bundles carefully and customize them properly!
+" Especially, be aware of possible autocmds pollution.
 "
 " Author: Bohr Shaw <pubohr@gmail.com>
 
-" Fundamental: {{{1
-
-" Select bundles carefully and customize properly.
-" Be aware of possible autocmd pollution which should be more concerned.
+" Initialization: {{{1
 
 let $MYBUNDLE = expand('<sfile>') " like $MYVIMRC
 
 " g:l is initialized in vimrc which is not sourced when executing `vundle`
 let g:l = get(g:, 'l')
+" Let the bundle manager define a variable to download ALL bundles even if the
+" invoked Vim binary doesn't have all these features.
+let s:vundle = get(g:, '_vundle')
+let s:nvim = s:vundle ? 1 : has('nvim')
+let s:pythonx = s:vundle ? 1 : (has('python') || has('python3'))
+let s:ruby = s:vundle ? 1 : has('ruby')
+let s:lua = s:vundle ? 1 : has('lua')
 call bundle#init() " bundle initialization
 
 " Clean the autocmd group and define local mappings
@@ -21,13 +28,10 @@ augroup bundle
         \ 'call bundle#map()'
 augroup END
 
-" Let the bundle manager define a variable to download ALL bundles even if the
-" invoked Vim binary doesn't have all these features.
-let s:vundle = get(g:, '_vundle')
-let s:nvim = s:vundle ? 1 : has('nvim')
-let s:pythonx = s:vundle ? 1 : (has('python') || has('python3'))
-let s:ruby = s:vundle ? 1 : has('ruby')
-let s:lua = s:vundle ? 1 : has('lua')
+" Meta: {{{1
+
+" A Vim plugin for Vim plugins
+call BundleRun('Tpope/vim-scriptease')
 
 " Debugging
 command! -nargs=? -complete=command VimNORC execute
@@ -47,9 +51,6 @@ command! -nargs=? -complete=command Profile execute
       \ '-c "profdel file * | qall!"' |
       \ tab drop profile.log
 command! ProfileTabular call profile#tabular()
-
-" A Vim plugin for Vim plugins
-call BundleRun('Tpope/vim-scriptease')
 
 " Shortcuts: {{{1
 
