@@ -884,51 +884,46 @@ endif "}}}
 " }}}
 " Helpline:" {{{
 
-" Ensure all plugins are loaded before setting 'statusline'
-execute has('vim_starting') ? 'autocmd vimrc User Vimrc' : '' 'call Statusline()'
+set statusline=%!Statusline()
 function! Statusline() "{{{
-  " Use a highlight group User{N} to apply only the difference to StatusLine to
-  " StatusLineNC
-  set statusline=%1*%{Mode()} " mode
-  set statusline+=%n " buffer number
-  set statusline+=%{(&modified?'+':'').(&modifiable?'':'-').(&readonly?'=':'')}
-  set statusline+=:%*%.30f " file path, truncated if its length > 30
-  set statusline+=%2*:%Y " file type
-  set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?':'.&fenc:''} " file encoding
-  set statusline+=%{&ff!='unix'?':'.&ff:''} " file format
-  " Git branch name
-  let &statusline .= exists('*fugitive#head') ?
-        \ "%{exists('b:git_dir')?':'.fugitive#head(7):''}" : ''
-  " set statusline+=%{':'.matchstr(getcwd(),'.*[\\/]\\zs\\S*')}
-  set statusline+=%{get(b:,'case_reverse',0)?':CAPS':''} " software caps lock
-  set statusline+=%w%q " preview, quickfix
-  set statusline+=%*%= " left/right separator
-  set statusline+=%c:%l/%L:%P " cursor position, line percentage
-  set fillchars+=stl::,stlnc:: " characters to fill the statuslines
-endfunction "}}}
+  let m = mode()
+  " Character[s] indicating the current mode
+  let c = m ==# 'n' ? '' :
+        \ m =~# '[VS]' ? m.'L' :
+        \ m =~# "[\<C-v>\<C-s>]" ? strtrans(m)[1].'B' :
+        \ toupper(m)
+  " Modes highlight
+  " (Use a User highlight group so that only the current statusline is bold.)
+  let hl = c ==# '' ? '' :
+        \ c =~# '[IT]' ? 2 :
+        \ c =~# '[VS]' ? 1 :
+        \ c ==# 'R' ? 3 : ''
+  " To be used in %{} which is evaluated in a dedicated window context
+  let g:_stlm = c == '' ? '' : c.':'
+  " The mode is shown in windows holding the current buffer. (only I/R/T)
+  " Note: Nvim would have cursor jump due to evaluation of g:actual_curbuf.
+  return "%".hl."*%{bufnr('%')!=get(g:,'actual_curbuf')?'':g:_stlm}%*".s:stl
+endfunction
+set noshowmode " mode message hides normal messages and is redundant
+let s:stl = "%1*%n" " buffer number
+let s:stl .= "%{(&modified?'+':'').(&modifiable?'':'-').(&readonly?'=':'')}"
+let s:stl .= ":%*%.30f" " file path, truncated if its length > 30
+let s:stl .= "%1*:%Y" " file type
+let s:stl .= "%{(&fenc!='utf-8'&&&fenc!='')?':'.&fenc:''}" " file encoding
+let s:stl .= "%{&ff!='unix'?':'.&ff:''}" " file format
+let s:stl .= "%{exists('b:git_dir')?':'.fugitive#head(7):''}"
+" let s:stl .= "%{':'.matchstr(getcwd(),'.*[\\/]\\zs\\S*')}"
+let s:stl .= "%{get(b:,'case_reverse',0)?':CAPS':''}" " software caps lock
+let s:stl .= "%w%q" " preview, quickfix
+let s:stl .= "%*%=" " left/right separator
+let s:stl .= "%c:%l/%L:%P" " cursor position, line percentage
+set fillchars+=stl::,stlnc:: " characters to fill the statuslines
+"}}}
 set laststatus=2 " always display the status line
 
-" Return a character indicating the current mode
-function! Mode() "{{{
-  if bufnr('%') != get(g:, 'actual_curbuf')
-    return ''
-  endif
-  let m = mode()
-  if m ==# 'n'
-    return ''
-  elseif m =~# '[VS]'
-    return m.'L:'
-  elseif m =~# "[\<C-v>\<C-s>]"
-    return strtrans(m)[1].'B:'
-  else
-    return toupper(m).':'
-  endif
-endfunction "}}}
-set noshowmode " hide the mode message on the command line
-
 " Status line highlight
-execute has('vim_starting') ? 'autocmd vimrc ColorScheme *' : '' 'call s:hi()'
 function! s:hi() "{{{
+  " Gray, DarkYellow, Green
   let [bt, bg, ft, fg, ftn, fgn] = &background == 'dark' ?
         \ ['237', '#3a3a3a', '214', '#ffaf00', '40', '#00d700'] :
         \ ['250', '#bcbcbc', '88', '#870000', '22', '#005f00']
@@ -936,19 +931,21 @@ function! s:hi() "{{{
         \ 'gui=bold guifg='.fg 'guibg='.bg
   execute 'hi StatusLineNC term=NONE cterm=NONE ctermfg='.ftn 'ctermbg='.bt
         \ 'gui=NONE guifg='.fgn 'guibg='.bg
-  let [ft1, fg1, ft2, fg2, ft9, fg9] = &background == 'dark' ?
-        \ ['123', '#87FFFF', '218', '#ffafdf', '252', '#d0d0d0'] :
-        \ ['21', '#0000ff', '92', '#8700d7', '235', '#262626']
+  hi! link TabLineSel StatusLine
+  hi! link TabLine StatusLineNC
+  hi! link TabLineFill StatusLineNC
+  " Cyan/Blue, Magenta/Purple, Red
+  let [ft1, fg1, ft2, fg2, ft3, fg3] = &background == 'dark' ?
+        \ ['123', '#87FFFF', '218', '#ffafdf', '9', '#ff6666'] :
+        \ ['21', '#0000ff', '92', '#8700d7', '196', '#ff0000']
   execute 'hi User1 term=bold cterm=bold ctermfg='.ft1 'ctermbg='.bt
         \ 'gui=bold guifg='.fg1 'guibg='.bg
   execute 'hi User2 term=bold cterm=bold ctermfg='.ft2 'ctermbg='.bt
         \ 'gui=bold guifg='.fg2 'guibg='.bg
-  execute 'hi User9 term=bold cterm=bold ctermfg='.ft9 'ctermbg='.bt
-        \ 'gui=bold guifg='.fg9 'guibg='.bg
-  hi! link TabLineSel StatusLine
-  hi! link TabLine StatusLineNC
-  hi! link TabLineFill StatusLineNC
+  execute 'hi User3 term=bold cterm=bold ctermfg='.ft3 'ctermbg='.bt
+        \ 'gui=bold guifg='.fg3 'guibg='.bg
 endfunction "}}}
+execute has('vim_starting') ? 'autocmd vimrc ColorScheme *' : '' 'call s:hi()'
 
 " The status line for the quickfix window
 autocmd vimrc FileType qf setlocal statusline=%t

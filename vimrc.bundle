@@ -699,7 +699,7 @@ if Bundles('tpope/vim-flagship')
   let g:tabsuffix = '%{strftime("%c")}'
   " Statusline (leave untouched)
   if has('vim_starting')
-    autocmd bundle User Flags call Statusline()
+    autocmd bundle User Flags set statusline=%!Statusline()
   endif
 endif
 
