@@ -9,6 +9,7 @@
 " Initialization: {{{1
 
 let $MYBUNDLE = expand('<sfile>') " like $MYVIMRC
+let g:statusline = [] " flags to be inserted into 'statusline'
 
 " g:l is initialized in vimrc which is not sourced when executing `vundle`
 let g:l = get(g:, 'l')
@@ -1135,6 +1136,7 @@ if Bundles('Tpope/vim-git') && BundleRun('tpope/vim-fugitive')
         \ "G execute 'B'.(<bang>0 ? '!' : '') 'git' ".
         \   "(exists('b:git_dir') ? '-C '.b:git_dir[:-6] : '') <q-args>"
 
+  call insert(g:statusline, "%{exists('b:git_dir')?':'.fugitive#head(7):''}")
   autocmd bundle FileType gitcommit set foldmethod=syntax foldlevel=1
   autocmd bundle FileType git set foldlevel=1
 
