@@ -885,14 +885,15 @@ endif "}}}
 " Helpline:" {{{
 
 set statusline=%!Statusline()
-function! Statusline() "{{{
+"{{{
+function! Statusline()
   let m = mode()
   " Character[s] indicating the current mode
   let c = m ==# 'n' ? '' :
         \ m =~# '[VS]' ? m.'L' :
         \ m =~# "[\<C-v>\<C-s>]" ? strtrans(m)[1].'B' :
         \ toupper(m)
-  " Modes highlight
+  " Mode highlight
   " (Use a User highlight group so that only the current statusline is bold.)
   let hl = c ==# '' ? '' :
         \ c =~# '[IT]' ? 2 :
@@ -900,12 +901,13 @@ function! Statusline() "{{{
         \ c ==# 'R' ? 3 : ''
   " To be used in %{} which is evaluated in a dedicated window context
   let g:_stlm = c == '' ? '' : c.':'
-  " The mode is shown in windows holding the current buffer. (only I/R/T)
-  " Note: Nvim would have cursor jump due to evaluation of g:actual_curbuf.
-  return "%".hl."*%{bufnr('%')!=get(g:,'actual_curbuf')?'':g:_stlm}%*".s:stl
+  return '%'.hl.'*'.s:stl
 endfunction
+" The mode is shown in windows holding the current buffer. (only I/R/T)
+" Note: Nvim would have cursor jump due to evaluation of g:actual_curbuf.
+let s:stl1 = "%{bufnr('%')!=get(g:,'actual_curbuf')?'':g:_stlm}"
 set noshowmode " mode message hides normal messages and is redundant
-let s:stl1 = "%1*%w%q" " preview, quickfix
+let s:stl1 .= "%1*%w%q" " preview, quickfix
 let s:stl1 .= "%n" " buffer number
 let s:stl1 .= "%{(&modified?'+':'').(&modifiable?'':'-').(&readonly?'=':'')}"
 let s:stl1 .= ":%*%.30f" " file path, truncated if its length > 30
