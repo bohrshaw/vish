@@ -905,7 +905,8 @@ function! Statusline() "{{{
   return "%".hl."*%{bufnr('%')!=get(g:,'actual_curbuf')?'':g:_stlm}%*".s:stl
 endfunction
 set noshowmode " mode message hides normal messages and is redundant
-let s:stl = "%1*%n" " buffer number
+let s:stl = "%1*%w%q" " preview, quickfix
+let s:stl .= "%n" " buffer number
 let s:stl .= "%{(&modified?'+':'').(&modifiable?'':'-').(&readonly?'=':'')}"
 let s:stl .= ":%*%.30f" " file path, truncated if its length > 30
 let s:stl .= "%1*:%Y" " file type
@@ -914,7 +915,6 @@ let s:stl .= "%{&ff!='unix'?':'.&ff:''}" " file format
 let s:stl .= "%{exists('b:git_dir')?':'.fugitive#head(7):''}"
 " let s:stl .= "%{':'.matchstr(getcwd(),'.*[\\/]\\zs\\S*')}"
 let s:stl .= "%{get(b:,'case_reverse',0)?':CAPS':''}" " software caps lock
-let s:stl .= "%w%q" " preview, quickfix
 let s:stl .= "%*%=" " left/right separator
 let s:stl .= "%c:%l/%L:%P" " cursor position, line percentage
 set fillchars+=stl::,stlnc:: " characters to fill the statuslines
