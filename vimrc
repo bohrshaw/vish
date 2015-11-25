@@ -31,10 +31,14 @@
 " }}}
 " Starting:" {{{
 
+" To skip sourcing system-vimrc, use `vim -u foo_vimrc`.
+" Don't `set all&` to try to override system-vimrc as it resets cmdline options.
+
 " Define an augroup for all autocmds in this file and empty it
-augroup vimrc | execute 'autocmd!' | augroup END
+augroup vimrc | autocmd!
+augroup END
+
 if has('vim_starting')
-  set all& " override system vimrc and cmdline options like --noplugin
   set nocompatible " make Vim behave in a more useful way
 
   if has('win32')
