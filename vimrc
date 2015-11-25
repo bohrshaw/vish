@@ -90,13 +90,17 @@ if has('vim_starting')
     runtime autoload/keymeta.vim " mappable meta key in terminals
   endif " }}}
 
+  " g:l, if true, means "Lightweight" indicating less bundles to be enabled.
+  " It's true when the cmdline option '-l' is specified; when invoked with like
+  " <C-x><C-e> for editing a shell command; etc.
+  let g:l = get(g:, 'l', &lisp || (empty($VL) ? 0 : 1) ||
+        \ argv(0) =~# '^\V'.(empty($TMPPREFIX) ? '/tmp/zsh' : $TMPPREFIX).'ecl'.
+        \   '\|'.$TMP.'/bash-fc')
+  set lisp& showmatch& " reset cmdline option '-l'
+
   if has('nvim') " skip python check to reduce startup time
     let [g:python_host_skip_check, g:python3_host_skip_check] = [1, 1]
   endif
-
-  " Whether to include the least number of bundles, for shell command line editing
-  let g:l = get(g:, 'l', $VL) || argv(0) =~# '^\V'.
-        \(empty($TMPPREFIX)?'/tmp/zsh':$TMPPREFIX).'ecl\|'.$TMP.'/bash-fc'
 
   let $MYVIMRCPRE = (g:ported ? $MYVIM.'/' : $HOME.'/.').'vimrc.pre.local'
   if filereadable($MYVIMRCPRE)
