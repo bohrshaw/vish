@@ -212,8 +212,8 @@ nnoremap @! :<Up><C-\>ecmd#bang()<CR><CR>
 set virtualedit=onemore " consistent cursor position on EOL
 set whichwrap& " left/right motions across lines
 
-" Search forward/backward regardless of the direction of the previous character search"{{{
-" Note: These are overwritten in Sneak, but the semantics retains.
+" `;` always forward, `,` always backward
+" Note: These are overwritten in Sneak, but the semantics retains. "{{{
 if 0 && exists('*getcharsearch') " Vim patch 7.4.813
   NXOnoremap <expr>; getcharsearch().forward ? ';' : ','
   NXOnoremap <expr>, getcharsearch().forward ? ',' : ';'
@@ -232,6 +232,7 @@ nnoremap <C-k> gk
 nnoremap <silent> gm :call cursor(0, virtcol('$')/2)<CR>|nnoremap gM gm
 
 " `%` jump between characters in 'matchpairs'
+" {{{
 " set matchpairs+=<:> " < and > could appear in <=, ->, etc.
 " Extended pair matching with the bundled plugin "matchit"
 let g:loaded_matchit = 1 " disabled as `dV%` is unsupported, see matchit-v_%
@@ -241,6 +242,7 @@ if has('vim_starting') && !g:loaded_matchit
   endif
   autocmd vimrc User Vimrc sunmap %|sunmap [%|sunmap ]%|sunmap a%|sunmap g%
 endif
+" }}}
 
 " Sections backword/forward
 nmap <M-[> [[
@@ -267,15 +269,15 @@ nnoremap <silent><CR> :<C-u>try \| execute v:count1.'tag' expand('<cword>')
 xnoremap <silent><CR> "zy:<C-u>try \| execute v:count1.'tag' @z
       \ \| catch \| endtry<CR>
 
-" Auto-place the cursor when switching buffers or files:" {{{
-" Don't move the cursor to the start of the line when switching buffers
-augroup vimrc_cursor
+" Auto-place the cursor when opening buffers or files
+" " {{{
+" Don't move the cursor to the start of the line
+augroup vimrc_sol
   autocmd!
-  autocmd BufLeave * set nostartofline|
-        \autocmd vimrc_cursor CursorMoved * set startofline|
-        \autocmd! vimrc_cursor CursorMoved
+  autocmd BufLeave * set nostartofline |
+        \ autocmd CursorMoved * set startofline | autocmd! vimrc_sol
 augroup END
-" Jump to the last known position in a file just after opening it
+" Jump to the last position
 autocmd vimrc BufRead * silent! normal! g`"
 " }}}
 
