@@ -5,8 +5,8 @@ endfunction
 endsnippet
 
 snippet aug "autocmd group" b
-augroup ${1:group_name}
-	autocmd!$0
+augroup ${1:group} | autocmd!
+	${VISUAL}$0
 augroup END
 endsnippet
 
