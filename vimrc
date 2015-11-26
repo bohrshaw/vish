@@ -34,10 +34,6 @@
 " To skip sourcing system-vimrc, use `vim -u foo_vimrc`.
 " Don't `set all&` to try to override system-vimrc as it resets cmdline options.
 
-" Define an augroup for all autocmds in this file and empty it
-augroup vimrc | autocmd!
-augroup END
-
 if has('vim_starting')
   set nocompatible " make Vim behave in a more useful way
 
@@ -163,10 +159,12 @@ inoremap <M-o> <C-O>
 " {{{
 NXnoremap <Space> :
 " Resolve local mapping conflicts with <Space>
-autocmd vimrc BufWinEnter option-window autocmd CursorMoved option-window
-      \ execute 'nnoremap <silent><buffer><LocalLeader>r '.maparg("<Space>")|
-      \ unmap <buffer><Space>|
-      \ autocmd! CursorMoved option-window
+augroup vimrc_optwin | autocmd!
+  autocmd BufWinEnter option-window autocmd CursorMoved option-window
+        \ execute 'nnoremap <silent><buffer><LocalLeader>r '.maparg("<Space>")|
+        \ unmap <buffer><Space>|
+        \ autocmd! CursorMoved option-window
+augroup END
 
 NXnoremap <M-Space> q:
 NXnoremap <M-e> q:
@@ -176,12 +174,14 @@ cnoremap <M-Space> <C-F>
 cnoremap <M-e> <C-F>
 cnoremap <M-;> <C-F>
 inoremap <M-;> <Esc>:<C-F>
-autocmd vimrc CmdwinEnter *
-      \ NXInoremap <buffer><M-q> <C-c><C-c>|
-      \ noremap <buffer><F5> <CR>q:|
-      \ NXInoremap <buffer><nowait><CR> <CR>|
-      \ setlocal laststatus=0 norelativenumber nocursorline scrolloff=0
-autocmd vimrc CmdwinLeave * set laststatus=2 scrolloff=1
+augroup vimrc_cmdwin | autocmd!
+  autocmd CmdwinEnter *
+        \ NXInoremap <buffer><M-q> <C-c><C-c>|
+        \ noremap <buffer><F5> <CR>q:|
+        \ NXInoremap <buffer><nowait><CR> <CR>|
+        \ setlocal laststatus=0 norelativenumber nocursorline scrolloff=0
+  autocmd CmdwinLeave * set laststatus=2 scrolloff=1
+augroup END
 set cmdwinheight=5
 "}}}
 
@@ -240,7 +240,9 @@ if has('vim_starting') && !g:loaded_matchit
   if !has('nvim') " nvim put it in plugin/
     runtime macros/matchit.vim
   endif
-  autocmd vimrc User Vimrc sunmap %|sunmap [%|sunmap ]%|sunmap a%|sunmap g%
+  augroup vimrc_matchit | autocmd!
+    autocmd User Vimrc sunmap %|sunmap [%|sunmap ]%|sunmap a%|sunmap g%
+  augroup END
 endif
 " }}}
 
@@ -271,14 +273,14 @@ xnoremap <silent><CR> "zy:<C-u>try \| execute v:count1.'tag' @z
 
 " Auto-place the cursor when opening buffers or files
 " " {{{
-" Don't move the cursor to the start of the line
-augroup vimrc_sol
-  autocmd!
+augroup vimrc_cursor_restore | autocmd!
+  " Don't move the cursor to the start of the line
   autocmd BufLeave * set nostartofline |
-        \ autocmd CursorMoved * set startofline | autocmd! vimrc_sol
+        \ autocmd CursorMoved * set startofline |
+        \ autocmd! vimrc_cursor_restore CursorMoved
+  " Jump to the last position
+  autocmd BufRead * silent! normal! g`"
 augroup END
-" Jump to the last position
-autocmd vimrc BufRead * silent! normal! g`"
 " }}}
 
 " }}}
@@ -361,10 +363,12 @@ command! -nargs=1 BufGrep cexpr [] | bufdo vimgrepadd <args> %
 " Clear the current quickfix list
 command! -bar Cclear call setqflist([])
 " Mappings/options for a quickfix/location window
-autocmd vimrc FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
-      \ nnoremap <buffer> q <C-W>c|
-      \ nnoremap <buffer> <M-w>v <C-W><CR><C-W>H|
-      \ nnoremap <buffer> <M-w>t <C-W><CR><C-W>T
+augroup vimrc_qf_map | autocmd!
+  autocmd FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
+        \ nnoremap <buffer> q <C-W>c|
+        \ nnoremap <buffer> <M-w>v <C-W><CR><C-W>H|
+        \ nnoremap <buffer> <M-w>t <C-W><CR><C-W>T
+augroup END
 if !has('patch-7.4.858') "{{{
   " Execute a command in each buffer in the quickfix or location list
   command! -nargs=1 -complete=command Cfdo call qf#fdo(<q-args>)
@@ -472,14 +476,16 @@ nmap <silent>zfm cof
 
 " Don't screw up folds when inserting text that might affect them. Also improve
 " speed by avoiding updating folds eagerly.
-" autocmd vimrc InsertEnter * if !exists('w:vfdml') &&
-"       \ &foldmethod != 'manual' && empty(&buftype) |
-"       \ let w:vfdml=&foldmethod | set foldmethod=manual | endif
 " However, restoring 'foldmethod' on InsertLeave would cause text under the
 " cursor be closed if the inserted text creates a new fold level.
-" autocmd vimrc InsertLeave * if exists('w:vfdml') && empty(&buftype) |
-"       \ let &foldmethod=w:vfdml | unlet w:vfdml |
-"       \ execute 'silent! normal! zo' |endif
+" augroup vimrc_fold_lazily | autocmd!
+"   autocmd InsertEnter * if !exists('w:vfdml') &&
+"         \ &foldmethod != 'manual' && empty(&buftype) |
+"         \ let w:vfdml=&foldmethod | set foldmethod=manual | endif
+"   autocmd InsertLeave * if exists('w:vfdml') && empty(&buftype) |
+"         \ let &foldmethod=w:vfdml | unlet w:vfdml |
+"         \ execute 'silent! normal! zo' |endif
+" augroup END
 
 "}}}
 " Buffer:" {{{
@@ -555,8 +561,10 @@ nnoremap <silent><M-f>v :<C-u>call buf#edit($MYVIMRC, v:count, 1)<CR>
 nnoremap <silent><M-f>b :<C-u>call buf#edit($MYBUNDLE, v:count, 1)<CR>
 
 " Make the file '_' a scratch buffer
-autocmd vimrc BufNewFile,BufReadPost _ set buftype=nofile nobuflisted bufhidden=hide
-autocmd vimrc SessionLoadPost * silent! bwipeout! _
+augroup vimrc_scratch | autocmd!
+  autocmd BufNewFile,BufReadPost _ set buftype=nofile nobuflisted bufhidden=hide
+  autocmd SessionLoadPost * silent! bwipeout! _
+augroup END
 
 " Recognise a file's encoding in this order
 " set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1
@@ -576,7 +584,9 @@ inoremap <expr><Tab> pumvisible() ? '<C-n>' :
       \ getline('.')[col('.')-2] =~# '\S' ? '<C-x><C-p>a<BS><C-p>' : '<Tab>'
 inoremap <expr><S-Tab> pumvisible() ? '<C-p>' : '<C-x><C-n>a<BS><C-n>'
 " Remove built-in mappings
-autocmd vimrc CmdwinEnter [:>] silent! iunmap <buffer><Tab>
+augroup vimrc_cmdwin_completion | autocmd!
+  autocmd CmdwinEnter [:>] silent! iunmap <buffer><Tab>
+augroup END
 
 inoremap <expr><M-n> pumvisible() ? ' <BS><C-n>' : '<C-n>'
 inoremap <expr><M-p> pumvisible() ? ' <BS><C-p>' : '<C-p>'
@@ -682,7 +692,9 @@ command! -nargs=? -complete=buffer DiffWith call diff#with(<f-args>)
 " Spell:" {{{
 
 " Enable spell checking for particular file types
-autocmd vimrc FileType gitcommit,markdown,txt setlocal spell
+augroup vimrc_spell | autocmd!
+  autocmd FileType gitcommit,markdown,txt setlocal spell
+augroup END
 if has('patch-7.4.088')
   set spelllang=en,cjk " skip spell check for East Asian characters
 endif
@@ -827,8 +839,10 @@ set showcmd " show partial typings of a mapping or command
 " Show matching pairs like (), [], etc.
 " {{{
 " set showmatch matchtime=1 " highlighting in plugin/matchparen.vim is better
-autocmd vimrc ColorScheme * hi MatchParen cterm=underline ctermbg=NONE ctermfg=NONE
-      \ gui=underline guibg=NONE guifg=NONE
+augroup vimrc_matchparen | autocmd!
+  autocmd ColorScheme * hi MatchParen cterm=underline ctermbg=NONE ctermfg=NONE
+        \ gui=underline guibg=NONE guifg=NONE
+augroup END
 " Enable or disable it due to the cost of frequently executed autocmds
 nnoremap <expr>c\m ':'.(exists('g:loaded_matchparen') ? 'NoMatchParen' : 'DoMatchParen')."<CR>"
 " }}}
@@ -850,8 +864,10 @@ endif
 execute 'set listchars=tab:'.s:lcs[0].'\ ,trail:'.s:lcs[1]
       \ .',extends:'.s:lcs[2].',precedes:'.s:lcs[3].',nbsp:'.s:lcs[4]
 " Avoid showing trailing whitespace when in insert mode
-execute 'autocmd vimrc InsertEnter * set listchars-=trail:'.s:lcs[1]
-execute 'autocmd vimrc InsertLeave * set listchars+=trail:'.s:lcs[1]
+augroup vimrc_listchars | autocmd!
+  execute 'autocmd InsertEnter * set listchars-=trail:'.s:lcs[1]
+  execute 'autocmd InsertLeave * set listchars+=trail:'.s:lcs[1]
+augroup END
 " }}}
 silent! set breakindent linebreak
 
@@ -869,7 +885,9 @@ if has('vim_starting') && has('gui_running') "{{{
   set lines=40 columns=88
   if !g:l " maximize the window
     if has('win32')
-      autocmd vimrc GUIEnter * simalt ~x
+      augroup vimrc_max_vim | autocmd!
+        autocmd GUIEnter * simalt ~x
+      augroup END
     else
       set lines=400 columns=300
     endif
@@ -929,13 +947,18 @@ let s:stl2 = "%{get(b:,'case_reverse',0)?':CAPS':''}" " software caps lock
 let s:stl2 .= "%*%=" " left/right separator
 let s:stl2 .= "%c:%l/%L:%P" " cursor position, line percentage
 " The array g:statusline contains flags inserted by bundles
-execute has('vim_starting') ? 'autocmd vimrc User Vimrc' : ''
-      \ "let s:stl = s:stl1.join(get(g:, 'statusline', []), '').s:stl2"
+augroup vimrc_statusline | autocmd!
+  autocmd User Vimrc
+        \ let s:stl = s:stl1.join(get(g:, 'statusline', []), '').s:stl2
+augroup END
 set fillchars+=stl::,stlnc:: " characters to fill the statuslines
 "}}}
 set laststatus=2 " always display the status line
 
 " Status line highlight
+augroup vimrc_color | autocmd!
+  autocmd ColorScheme * call s:hi()
+augroup END
 function! s:hi() "{{{
   " Gray, DarkYellow, Green
   let [bt, bg, ft, fg, ftn, fgn] = &background == 'dark' ?
@@ -959,11 +982,12 @@ function! s:hi() "{{{
   execute 'hi User3 term=bold cterm=bold ctermfg='.ft3 'ctermbg='.bt
         \ 'gui=bold guifg='.fg3 'guibg='.bg
 endfunction "}}}
-execute has('vim_starting') ? 'autocmd vimrc ColorScheme *' : '' 'call s:hi()'
 
 " The status line for the quickfix window
-autocmd vimrc FileType qf setlocal statusline=%t
-      \%{strpart('\ '.get(w:,'quickfix_title',''),0,66)}%=\ %11.(%c,%l/%L,%P%)
+augroup vimrc_qf_statusline | autocmd!
+  autocmd FileType qf setlocal statusline=%t
+        \%{strpart('\ '.get(w:,'quickfix_title',''),0,66)}%=\ %11.(%c,%l/%L,%P%)
+augroup END
 
 " Use CTRL-G, G_CTRL-G to see file and cursor information manually
 set ruler " not effective when 'statusline' is set
@@ -977,8 +1001,10 @@ if exists('$TMUX')
   " autocmd vimrc FocusLost,VimLeavePre * set titlestring=
 else
   set title " may not be able to be restored
-  autocmd vimrc VimEnter * let &titlestring = matchstr(v:servername, '.vim.*\c').
-        \ (g:l ? '(L)' : '').' '.'%{getcwd()}'
+  augroup vimrc_title | autocmd!
+    autocmd VimEnter * let &titlestring = matchstr(v:servername, '.vim.*\c').
+          \ (g:l ? '(L)' : '').' '.'%{getcwd()}'
+  augroup END
 endif
 
 " }}}
@@ -1004,9 +1030,11 @@ if has('nvim')
   cabbrev <expr>vt getcmdtype() == ':' && getcmdpos() == 3 ? 'vne\|te' : 'vt'
   cabbrev <expr>tt getcmdtype() == ':' && getcmdpos() == 3 ? 'tab new\|te' : 'tt'
 
-  autocmd vimrc BufWinEnter,WinEnter term://* startinsert
-  autocmd vimrc BufLeave term://* stopinsert
-  autocmd vimrc TermClose * call feedkeys(' ')
+  augroup vimrc_term | autocmd!
+    autocmd BufWinEnter,WinEnter term://* startinsert
+    autocmd BufLeave term://* stopinsert
+    autocmd TermClose * call feedkeys(' ')
+  augroup END
 endif
 
 "}}}

@@ -22,9 +22,8 @@ let s:ruby = s:vundle ? 1 : has('ruby')
 let s:lua = s:vundle ? 1 : has('lua')
 call bundle#init() " bundle initialization
 
-" Clean the autocmd group and define local mappings
-augroup bundle
-  autocmd!
+" Define local mappings
+augroup bundle_map | autocmd!
   execute 'autocmd BufReadPost {.,}'.fnamemodify($MYBUNDLE, ':t')
         \ 'call bundle#map()'
 augroup END
@@ -154,7 +153,7 @@ if Dundles('Wellle/targets.vim') && Bundles('tommcdo/vim-ninja-feet',
     set updatetime=10
     augroup bundle_targets
       autocmd CursorHold * call BundleRun("targets.vim") |
-            \ set updatetime& | autocmd! bundle_targets CursorHold
+            \ set updatetime& | autocmd! bundle_targets
     augroup END
   endif
 endif
@@ -189,6 +188,7 @@ if Bundles('Haya14busa/incsearch.vim', 'Haya14busa/vim-asterisk')
   " Incremantal search improved with a search specific command line interface
   NXmap g/ <Plug>(incsearch-forward)
   NXmap g? <Plug>(incsearch-backward)
+  autocmd User Bundle call s:incsearch_mapping()
   function! s:incsearch_mapping()
     IncSearchNoreMap <M-j> <Over>(incsearch-next)
     IncSearchNoreMap <M-k> <Over>(incsearch-prev)
@@ -199,8 +199,6 @@ if Bundles('Haya14busa/incsearch.vim', 'Haya14busa/vim-asterisk')
     IncSearchNoreMap <Tab> <Over>(buffer-complete)
     IncSearchNoreMap <S-Tab> <Over>(buffer-complete-prev)
   endfunction
-  execute has('vim_starting') ? 'autocmd bundle User Bundle' : ''
-        \ 'call s:incsearch_mapping()'
 
   " The cusor would not move (An alternative prefix would be `(count 0).)
   NXmap <expr>s*  search#hl(0).'<Plug>(asterisk-z*)'
@@ -263,13 +261,15 @@ if s:pythonx && Bundle('Sirver/ultisnips', {
   " let g:UltiSnipsUsePythonVersion = has('python3') ? 3 : 2
 
   " 'filetype' could already be detected and set to `conf`
-  autocmd bundle BufNewFile,BufRead *.snippets if &filetype != 'snippets' |
-        \ set filetype=snippets | endif
+  augroup bundle_ultisnips | autocmd!
+    autocmd BufNewFile,BufRead *.snippets if &filetype != 'snippets' |
+          \ set filetype=snippets | endif
+  augroup END
 
   " Performance
   let g:UltiSnipsRemoveSelectModeMappings = 0
   let b:did_after_plugin_ultisnips_after = 1 " I don't have SuperTab
-  autocmd bundle User BundleUltisnips autocmd! UltiSnips_AutoTrigger
+  autocmd! User BundleUltisnips autocmd! UltiSnips_AutoTrigger
 elseif Bundles('garbas/vim-snipmate', 'marcweber/vim-addon-mw-utils',
       \ 'tomtom/tlib_vim', 'honza/vim-snippets')
   command! -nargs=1 SImap imap <args>|smap <args>
@@ -330,7 +330,7 @@ endif
 " call Bundles('-raimondi/delimitmate', '-cohama/lexima.vim', '-jiangmiao/auto-pairs')
 " Wisely add 'end' in ruby, endfunction/endif/more in vim script, etc
 if Bundles('tpope/vim-endwise')
-  autocmd bundle User Bundle autocmd! endwise CmdwinEnter
+  autocmd User Bundle autocmd! endwise CmdwinEnter
 endif
 
 " Switch segments of text with predefined replacements
@@ -417,11 +417,13 @@ endif
 if Bundles(s:nvim ? 'Simnalamburt/vim-mundo' : 'Sjl/gundo.vim') && Dundles('Sjl/gundo.vim')
   nnoremap <silent>c\u :GundoToggle<CR>
   nnoremap <silent>c\U :GundoRenderGraph<CR>
-  autocmd bundle BufNewFile __gundo*
+  augroup bundle_gundo | autocmd!
+    autocmd BufNewFile __gundo*
         \ nnoremap <buffer><expr><nowait>R
         \   ':let g:gundo_auto_preview = '.!g:gundo_auto_preview.
         \   " <Bar> normal r<CR>"|
         \ nmap <buffer><M-q> q
+  augroup END
   let g:gundo_close_on_revert = 1 " auto-close the Gundo window
   let g:gundo_auto_preview = 0
   let g:gundo_playback_delay = 500
@@ -446,8 +448,8 @@ if Bundles('Junegunn/goyo.vim', 'Junegunn/limelight.vim')
   let g:goyo_margin_bottom = 2
   " let g:goyo_linenr = 1
   nnoremap <silent><C-W><M-o> :Goyo<CR>
-  " autocmd bundle User GoyoEnter Limelight
-  " autocmd bundle User GoyoLeave Limelight!
+  " autocmd User GoyoEnter Limelight
+  " autocmd User GoyoLeave Limelight!
 endif
 
 " Resize windows using Golden Ratio (Mnemonic: golden :only)
@@ -567,7 +569,9 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
   nnoremap <silent>]<M-u> :UniteNext<CR>
   nnoremap <silent>[<M-u> :UnitePrevious<CR>
   " Custom mappings for unite buffers
-  autocmd bundle FileType unite call b#unite#map()
+  augroup bundle_unite | autocmd!
+    autocmd FileType unite call b#unite#map()
+  augroup END
   call unite#custom#profile('default', 'context', {
         \'start_insert': 1,
         \'direction': 'belowright',
@@ -589,7 +593,7 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
   let g:neomru#directory_mru_path = $MYVIM.'/tmp/unite/mru/directories'
   " Performance tuning
   " let g:neomru#do_validate = 0 " skip checking invalide files for performance
-  autocmd bundle User Bundle silent! autocmd! neomru BufEnter,VimEnter,BufWritePost
+  autocmd User Bundle silent! autocmd! neomru BufEnter,VimEnter,BufWritePost
 endif
 " A command-line fuzzy finder
 " if !has('win32') && isdirectory($HOME.'/.fzf/plugin') && rtp#add('~/.fzf')
@@ -615,7 +619,7 @@ if Bundles('justinmk/vim-dirvish')
   nmap <silent><M-f>. :Dirvish<CR>
 elseif Bundles('tpope/vim-vinegar', '-jeetsukumaran/vim-filebeagle')
   nmap <M-f>h <Plug>VinegarUp
-  autocmd bundle User Bundle nunmap -
+  autocmd User Bundle nunmap -
 endif
 
 " Project configuration
@@ -643,7 +647,9 @@ elseif Bundles('mhinz/vim-startify')
         \ ''
         \ ]
   " Prevent CtrlP open a split
-  autocmd bundle FileType startify setlocal nospell buftype=
+  augroup bundle_startify | autocmd!
+    autocmd FileType startify setlocal nospell buftype=
+  augroup END
 endif
 
 " Appearance: {{{1
@@ -655,21 +661,23 @@ endif
 if Bundles('Junegunn/seoul256.vim', 'Bohrshaw/vim-colors',
       \ '-flazz/vim-colorschemes', '-daylerees/colour-schemes/vim',
       \ '-chriskempson/vim-tomorrow-theme', 'Chriskempson/base16-vim')
-  let g:seoul256_background = 233
-  autocmd bundle ColorScheme seoul256
-        \ hi VertSplit term=NONE cterm=NONE ctermfg=16 ctermbg=237
-        \   gui=NONE guifg=#777777 guibg=#3a3a3a
+  augroup bundle_color | autocmd!
+    let g:seoul256_background = 233
+    autocmd ColorScheme seoul256
+          \ hi VertSplit term=NONE cterm=NONE ctermfg=16 ctermbg=237
+          \   gui=NONE guifg=#777777 guibg=#3a3a3a
 
-  let g:solarized_italic = 0
-  let g:solarized_underline = 0
-  let g:solarized_termcolors = &term =~ '256col' ? 256 : 16
-  let g:solarized_menu=0
-  autocmd bundle ColorScheme solarized runtime autoload/solarized_custom.vim
+    let g:solarized_italic = 0
+    let g:solarized_underline = 0
+    let g:solarized_termcolors = &term =~ '256col' ? 256 : 16
+    let g:solarized_menu=0
+    autocmd ColorScheme solarized runtime autoload/solarized_custom.vim
 
-  autocmd bundle ColorScheme github
-        \ hi CursorLine cterm=NONE gui=NONE ctermbg=253 guibg=#D8D8DD
+    autocmd ColorScheme github
+          \ hi CursorLine cterm=NONE gui=NONE ctermbg=253 guibg=#D8D8DD
+  augroup END
 endif
-autocmd bundle User Bundle nested execute 'silent color'
+autocmd User Bundle nested execute 'silent color'
       \ has('gui_running') || !has('win32') ?
       \   &background == 'light' ? 'github' : 'seoul256' :
       \   ''
@@ -701,7 +709,7 @@ if Bundles('tpope/vim-flagship')
   let g:tabsuffix = '%{strftime("%c")}'
   " Statusline (leave untouched)
   if has('vim_starting')
-    autocmd bundle User Flags set statusline=%!Statusline()
+    autocmd User Flags set statusline=%!Statusline()
   endif
 endif
 
@@ -900,7 +908,7 @@ if 0 && Bundles('greyblake/vim-preview', '-matthias-guenther/hammer.vim')
   autocmd User Bundle nunmap <Leader>P
   " The markdown rendering gem 'redcarpet' is unavailable on Windows
   if has('win32')
-    autocmd bundle User Bundle command! -range=% PreviewMarkdown
+    autocmd User Bundle command! -range=% PreviewMarkdown
           \ call markdown#preview(<line1>, <line2>)
     nnoremap <silent><expr>RE ':Preview'.
           \ (&filetype == 'markdown' ? 'Markdown' : '')."<CR>"
@@ -926,8 +934,11 @@ call Bundles('kchmck/vim-coffee-script')
 if Bundles('rust-lang/rust.vim')
   let g:rust_fold = 1 " folds are defined but opened
   " let g:rust_conceal = 1
-  autocmd bundle FileType rust nnoremap <buffer>RR :RustRun<CR>|
-        \nnoremap <buffer>R<Space> :RustRun
+  augroup bundle_rust | autocmd!
+    autocmd FileType rust
+          \ nnoremap <buffer>RR :RustRun<CR>|
+          \ nnoremap <buffer>R<Space> :RustRun
+  augroup END
 endif
 
 " Golang {{{2
@@ -939,8 +950,9 @@ if Bundles('Fatih/vim-go', 'garyburd/go-explorer')
   let g:go_dispatch_enabled = 0
   let g:go_highlight_string_spellcheck = 0
 
-  autocmd bundle FileType godoc nnoremap <buffer> q <C-W>q
-  autocmd bundle FileType gedoc nnoremap <buffer> q <C-W>q
+  augroup bundle_go | autocmd!
+    autocmd FileType godoc nnoremap <buffer>q <C-W>q
+  augroup END
 
   let g:go_bin_path = has('win32unix') ?
         \ '/cygdrive/'.tolower($GOPATH[0]).
@@ -967,14 +979,18 @@ endif
 " Runs RuboCop(A robust Ruby code analyzer) and displays the results in Vim
 if Bundles('ngmy/vim-rubocop')
   let g:vimrubocop_keymap = 0
-  autocmd bundle FileType ruby nnoremap <silent><buffer> Rl :RuboCop<CR>
+  augroup bundle_rubocop | autocmd!
+    autocmd FileType ruby nnoremap <silent><buffer> Rl :RuboCop<CR>
+  augroup END
 endif
 
 " Bindings for the gem recording the results of every line of code
 if 0 && Bundles('hwartig/vim-seeing-is-believing')
-  autocmd bundle FileType ruby
+  augroup bundle_seeing_is_believing | autocmd!
+    autocmd FileType ruby
         \ NXInoremap <buffer> <F5> <Plug>(seeing-is-believing-run)|
         \ NXInoremap <buffer> <F4> <Plug>(seeing-is-believing-mark)
+  augroup END
 endif
 
 " Vim plugin for debugging Ruby applications (using ruby-debug-ide gem)
@@ -994,7 +1010,7 @@ if 0 && Bundles('klen/python-mode')
   " Escape syntastic check for python
   call add(get(get(g:, 'syntastic_mode_map', {}), 'passive_filetypes', []), 'python')
   let g:pymode_python = 'python3'
-  autocmd bundle User Bundle set shellslash&
+  autocmd User Bundle set shellslash&
 endif
 
 " Bindings for the python auto-completion library 'jedi'
@@ -1057,7 +1073,9 @@ endif
 
 " Simpler Rainbow Parentheses
 if Bundles('junegunn/rainbow_parentheses.vim')
-  autocmd bundle FileType lisp,clojure,scheme RainbowParentheses
+  augroup bundle_rainbow_parentheses | autocmd!
+    autocmd FileType lisp,clojure,scheme RainbowParentheses
+  augroup END
   " Toggle
   nnoremap <silent>c\r :RainbowParentheses!!<CR>
   " let g:rainbow#pairs = [['(', ')'], ['[', ']']]
@@ -1070,7 +1088,9 @@ endif
 
 " JSON runtime files
 if Bundles('elzr/vim-json')
-  autocmd bundle FileType json setlocal foldmethod=syntax
+  augroup bundle_json | autocmd!
+    autocmd FileType json setlocal foldmethod=syntax
+  augroup END
 endif
 
 " JSON manipulation and pretty printing
@@ -1137,8 +1157,10 @@ if Bundles('Tpope/vim-git') && BundleRun('tpope/vim-fugitive')
         \   "(exists('b:git_dir') ? '-C '.b:git_dir[:-6] : '') <q-args>"
 
   call insert(g:statusline, "%{exists('b:git_dir')?':'.fugitive#head(7):''}")
-  autocmd bundle FileType gitcommit set foldmethod=syntax foldlevel=1
-  autocmd bundle FileType git set foldlevel=1
+  augroup bundle_fugitive | autocmd!
+    autocmd FileType gitcommit set foldmethod=syntax foldlevel=1
+    autocmd FileType git set foldlevel=1
+  augroup END
 
   " Git branch management
   " call Bundles('sodapopcan/vim-twiggy')
@@ -1161,7 +1183,9 @@ if Bundles('airblade/vim-gitgutter')
   let g:gitgutter_realtime = 0
   let g:gitgutter_eager = 0
   " Update after a git-commit
-  autocmd bundle BufDelete COMMIT_EDITMSG GitGutterAll
+  augroup bundle_gitgutter | autocmd!
+    autocmd BufDelete COMMIT_EDITMSG GitGutterAll
+  augroup END
 
   " let g:gitgutter_signs = 0
   let g:gitgutter_sign_removed = '-'
@@ -1218,7 +1242,9 @@ if Bundle('Jamessan/vim-gnupg', {'f': '*.{gpg,asc,pgp}'})
   " restored afterwards. 'viminfo' stores info in the whole session even is it's
   " reset for some time.
   if !g:l
-    autocmd bundle BufDelete *.{gpg,asc,pgp} let &viminfo = _viminfo
+    augroup bundle_gnupg | autocmd!
+      autocmd BufDelete *.{gpg,asc,pgp} let &viminfo = _viminfo
+    augroup END
   endif
   let g:GPGDefaultRecipients = ['Bohr Shaw']
 
@@ -1227,8 +1253,10 @@ if Bundle('Jamessan/vim-gnupg', {'f': '*.{gpg,asc,pgp}'})
         \ if !exists("g:loaded_gnupg") |BundleRun vim-gnupg |endif |
         \ edit `=fnamemodify(get(g:, 'DIARY_PATH', ''), ':p').
         \   (empty(<q-args>) ? strftime('%Y%m%d') : <q-args>).'.gpg'`
-  autocmd bundle BufNewFile,BufReadPost */diar{y,ies}/*.{gpg,asc,pgp}
+  augroup bundle_diary | autocmd!
+    autocmd BufNewFile,BufReadPost */diar{y,ies}/*.{gpg,asc,pgp}
         \ setlocal nolinebreak spell spelllang=en,cjk
+  augroup END
 endif
 
 " Translation
@@ -1274,7 +1302,7 @@ if Bundles('tyru/open-browser.vim')
 
   " Remove unused interfaces
   let g:openbrowser_no_default_menus = 1
-  autocmd bundle User Bundle delcommand OpenBrowser |
+  autocmd User Bundle delcommand OpenBrowser |
         \ delcommand OpenBrowserSearch | delcommand OpenBrowserSmartSearch
 endif
 
