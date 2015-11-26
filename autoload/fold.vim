@@ -20,9 +20,16 @@ function! fold#part(...) range
         \ [line("'["), line("']")] : [a:firstline, a:lastline]
   let b:lines_part = {'line1': line1, 'line2': line2}
   let bufnr = bufnr('')
-  let ft = empty(get(a:, 2, '')) ? &filetype : a:2
+  let bufname = bufname('')
 
-  execute 'drop' bufname('').'.part'
+  let ft = empty(get(a:, 2, '')) ? &filetype : a:2
+  if &filetype == ft
+    execute 'drop' fnamemodify(bufname, ':h').'/part/'.fnamemodify(bufname, ':t')
+    call setline(1, getbufline(bufnr, '$')) " modeline
+    doautocmd BufRead " BufRead isn't triggered when a file doesn't exist
+  else
+    execute 'drop' bufname.'.part'
+  endif
   if &filetype != ft | let &filetype = ft | endif
   set buftype=acwrite
   autocmd! BufWriteCmd <buffer> call fold#join()
@@ -32,6 +39,7 @@ function! fold#part(...) range
   %delete _
   call setline(1, getbufline(bufnr, line1, line2))
   setlocal undolevels& nomodified
+  normal! zv
 endfunction
 
 " Replace marked lines in the complete buffer with the current buffer.
