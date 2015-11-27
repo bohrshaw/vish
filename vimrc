@@ -947,10 +947,8 @@ let s:stl2 = "%{get(b:,'case_reverse',0)?':CAPS':''}" " software caps lock
 let s:stl2 .= "%*%=" " left/right separator
 let s:stl2 .= "%c:%l/%L:%P" " cursor position, line percentage
 " The array g:statusline contains flags inserted by bundles
-augroup vimrc_statusline | autocmd!
-  autocmd User Vimrc
-        \ let s:stl = s:stl1.join(get(g:, 'statusline', []), '').s:stl2
-augroup END
+execute has('vim_starting') ? 'autocmd User Vimrc' : ''
+        \ "let s:stl = s:stl1.join(get(g:, 'statusline', []), '').s:stl2"
 set fillchars+=stl::,stlnc:: " characters to fill the statuslines
 "}}}
 set laststatus=2 " always display the status line
