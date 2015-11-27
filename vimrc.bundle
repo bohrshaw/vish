@@ -620,7 +620,7 @@ if Bundle('scrooloose/nerdtree', {'m': [
   let NERDTreeMouseMode=2
 endif
 " A minimalist directory viewer intended to be composable
-if Bundle('justinmk/vim-dirvish', {'c': 'Dirvish'})
+if Bundles('justinmk/vim-dirvish')
   nmap <silent><M-f>h :Dirvish %<CR>
   nmap <M-f>- <M-f>h
   nmap <silent><M-f>. :Dirvish<CR>
