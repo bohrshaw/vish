@@ -10,6 +10,7 @@ endfunction
 let g:bundles = [] " bundles activated on startup
 let g:dundles = [] " bundles to be downloaded
 let s:vundle = get(g:, '_vundle') " indicate if `vundle` is running
+let s:rtp_ftdetect = [] " for sourcing ftdetect/*.vim in bundles
 let s:augroup_count = get(s:, 'augroup_count', 1)
 
 " Populate the list: g:bundles
@@ -25,8 +26,8 @@ endfunction
 
 " Lazily load a bundle (on demand loading)
 " Note: Some auto-commands introduced by a bundle need to be manually triggered
-" by defining a User auto-command like `autocmd User bundle_foo ...` where `foo`
-" is the lowercase bundle directory name.
+" by defining a User auto-command like `autocmd User BundleFoo ...` where `Foo`
+" is a capitalized bundle directory name.
 function! Bundle(bundle, trigger, ...)
   if !has('vim_starting')
     return
@@ -34,11 +35,11 @@ function! Bundle(bundle, trigger, ...)
   let b = s:bundle(a:bundle)
   if s:ifbundle(b)
     if !a:0
-      for f in glob(rtp#expand(split(b, '/')[-1]).'/ftdetect/*.vim' , 1 , 1)
-        augroup filetypedetect
-          execute  'source' f
-        augroup END
-      endfor
+      let p = rtp#expand(split(b, '/')[-1])
+      if isdirectory(p.'/ftdetect')
+        " Don't glob and source now, as repetitive globings are quite slow
+        call add(s:rtp_ftdetect, p)
+      endif
     endif
 
     let bundle_cmd = 'call BundleRun('.string(b).')'
@@ -146,6 +147,14 @@ endfunction
 " Inject paths of bundles from g:bundles to 'rtp'
 function! bundle#done()
   call rtp#inject('bundle', map(g:bundles, 'v:val[stridx(v:val,"/")+1:]'))
+
+  " Source ftdetect scripts gathered in Bundle()
+  augroup filetypedetect
+    " Or use globpath()
+    let rtp = &rtp
+    let &rtp = join(s:rtp_ftdetect, ',') | runtime! ftdetect/*.vim
+    let &rtp = rtp
+  augroup END
 endfunction
 
 " Define local mappings for managing bundles
