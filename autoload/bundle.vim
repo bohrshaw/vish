@@ -43,6 +43,7 @@ function! Bundle(bundle, trigger, ...)
 
     let bundle_cmd = 'call BundleRun('.string(b).')'
     if has_key(a:trigger, 'm')
+      let maps = type(a:trigger.m) == 1 ? [a:trigger.m] : a:trigger.m
       " Chain user-defined mappings which has a `rhs`, like:
       "   `nnoremap <M-x> :call BundleFoo()<CR>`
       " as opposed to ones defined by a bundle, which needn't have a `rhs`:
@@ -50,10 +51,10 @@ function! Bundle(bundle, trigger, ...)
       "   Note: Need to write `i <expr><M-l>` instead of `i <expr> <M-l>` to
       "   make pasing logic simple.
       let map_cmds = substitute(
-            \ join(filter(copy(a:trigger['m']), 'v:val =~ ''\s\S\+\s'''), '\|'),
+            \ join(filter(copy(maps), 'v:val =~ ''\s\S\+\s'''), '\|'),
             \ '<', '<lt>', 'g')
 
-      for m in a:trigger['m']
+      for m in maps
         let [mode, lhs] = split(m)[:1]
         let mode = split(mode, '\v%(nore)?map')[0]
         let i = match(lhs, '\v%(\<%(buffer|nowait|silent|special|script|expr|unique)\>)+\zs')
@@ -80,9 +81,10 @@ function! Bundle(bundle, trigger, ...)
     endif
 
     if has_key(a:trigger, 'c')
-      let cmd = a:trigger['c']
-      execute 'command! -nargs=* -bang '.cmd.' '.bundle_cmd.
-            \ '|'.cmd.'<bang> <args>'
+      for c in type(a:trigger.c) == 1 ? [a:trigger.c] : a:trigger.c
+        execute 'command! -nargs=* -bang '.c.' '.bundle_cmd.
+              \ '|'.c.'<bang> <args>'
+      endfor
     endif
 
     if has_key(a:trigger, 'f')

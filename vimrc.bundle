@@ -327,14 +327,17 @@ endif
 " Provides insert mode auto-completion for quotes, parens, brackets, etc.
 " call Bundles('-raimondi/delimitmate', '-cohama/lexima.vim', '-jiangmiao/auto-pairs')
 " Wisely add 'end' in ruby, endfunction/endif/more in vim script, etc
-if Bundles('tpope/vim-endwise')
+if Bundles('Tpope/vim-endwise')
   autocmd User Bundle autocmd! endwise CmdwinEnter
 endif
 
 " Switch segments of text with predefined replacements
-if Bundles('andrewradev/switch.vim')
-  let g:switch_mapping = "s<CR>"
+if Bundle('Andrewradev/switch.vim', {'c': ['Switch', 'SwitchReverse']})
+  nnoremap <silent>s<CR> :Switch<CR>
+  nnoremap <silent>s<BS> :SwitchReverse<CR>
   " let g:switch_custom_definitions = []
+  let g:switch_mapping = ''
+  let g:switch_reverse_mapping = ''
 endif
 
 " Transition between multiline and single-line code
@@ -385,7 +388,7 @@ call Bundles('salsifis/vim-transpose')
 call Bundles('Tpope/vim-abolish')
 
 " True Sublime Text style multiple selections for Vim
-if Bundles('terryma/vim-multiple-cursors')
+if Bundle('terryma/vim-multiple-cursors', {'m': ['n <C-n>', 'x <C-n>']})
   " let g:multi_cursor_exit_from_visual_mode = 0
   let g:multi_cursor_exit_from_insert_mode = 0
 endif
@@ -394,7 +397,8 @@ endif
 " call Dundles('junegunn/vim-peekaboo')
 
 " Make the handling of unicode and digraphs easier
-if Bundles('chrisbra/unicode.vim', 'tpope/vim-characterize')
+call Bundle('tpope/vim-characterize', {'m': 'n ga'})
+if Bundles('chrisbra/unicode.vim')
   imap <C-x><M-u> <Plug>(UnicodeComplete)
   imap <C-x><M-d> <Plug>(DigraphComplete)
   nmap gA <Plug>(UnicodeGA)
@@ -412,9 +416,12 @@ endif
 " Repeat: {{{1
 
 " Visualize the undo tree/history
-if Bundles(s:nvim ? 'Simnalamburt/vim-mundo' : 'Sjl/gundo.vim') && Dundles('Sjl/gundo.vim')
-  nnoremap <silent>c\u :GundoToggle<CR>
-  nnoremap <silent>c\U :GundoRenderGraph<CR>
+if s:nvim ? Bundle('Simnalamburt/vim-mundo', {'m': [
+      \ 'nnoremap <silent>c\u :GundoToggle<CR>',
+      \ 'nnoremap <silent>c\U :GundoRenderGraph<CR>']}) :
+      \ Bundle('Sjl/gundo.vim', {'m':
+      \ 'nnoremap <silent>c\u :GundoToggle<CR>'}) &&
+      \ Dundles('Sjl/gundo.vim')
   augroup bundle_gundo | autocmd!
     autocmd BufNewFile __gundo*
         \ nnoremap <buffer><expr><nowait>R
@@ -426,7 +433,8 @@ if Bundles(s:nvim ? 'Simnalamburt/vim-mundo' : 'Sjl/gundo.vim') && Dundles('Sjl/
   let g:gundo_auto_preview = 0
   let g:gundo_playback_delay = 500
   " let g:gundo_help = 0
-elseif Bundles('mbbill/undotree')
+endif
+if 0 && Bundles('mbbill/undotree')
   nnoremap <silent><M-b>u :UndotreeToggle<CR>
   let g:undotree_SetFocusWhenToggle = 1 " cursor on the Undo window
 endif
@@ -440,7 +448,8 @@ call Bundles('Tpope/vim-repeat')
 " View: {{{1
 
 " Distraction-free, hyper-focus writing
-if Bundles('Junegunn/goyo.vim', 'Junegunn/limelight.vim')
+if Bundle('junegunn/goyo.vim', {'c': 'Goyo'}) &&
+      \ Bundle('junegunn/limelight.vim', {'c': 'Limelight'})
   " let g:goyo_width = 100
   let g:goyo_margin_top = 2
   let g:goyo_margin_bottom = 2
@@ -451,8 +460,8 @@ if Bundles('Junegunn/goyo.vim', 'Junegunn/limelight.vim')
 endif
 
 " Resize windows using Golden Ratio (Mnemonic: golden :only)
-if Bundle('roman/golden-ratio', {'m': [
-      \'nmap <silent><C-w>go <Plug>(golden_ratio_toggle)']})
+if Bundle('roman/golden-ratio', {'m':
+      \ 'nmap <silent><C-w>go <Plug>(golden_ratio_toggle)'})
   let g:golden_ratio_autocommand = 0
 endif
 
@@ -611,7 +620,7 @@ if Bundle('scrooloose/nerdtree', {'m': [
   let NERDTreeMouseMode=2
 endif
 " A minimalist directory viewer intended to be composable
-if Bundles('justinmk/vim-dirvish')
+if Bundle('justinmk/vim-dirvish', {'c': 'Dirvish'})
   nmap <silent><M-f>h :Dirvish %<CR>
   nmap <M-f>- <M-f>h
   nmap <silent><M-f>. :Dirvish<CR>
@@ -741,19 +750,21 @@ if 0 && Bundles('kshenoy/vim-signature')
 endif
 
 " Displaying indent levels visually
-if Bundles('yggdroot/indentline', '-nathanaelkane/vim-indent-guides')
+if Bundle('yggdroot/indentline', {'m':
+      \ 'nnoremap <silent>c\i :IndentLinesToggle<CR>'})
+  " 'nathanaelkane/vim-indent-guides'
   let g:indentLine_enabled = 0
   let g:indentLine_fileTypeExclude = ['help']
   let g:indentLine_noConcealCursor = ''
   " let g:indentLine_fileType = ['rb']
   " let g:indentLine_faster = 1
   " let g:indentLine_char = '┊' " |│¦┆┊
-  nnoremap c\i :IndentLinesToggle<CR>
 endif
 
 " Toggle full screen
 if has('win32') || s:vundle && has('win32unix')
-  if Bundles('bohrshaw/wimproved.vim:') " 'kkoenig/wimproved.vim'
+  if Bundle('bohrshaw/wimproved.vim:', {'c': 'WToggleFullscreen'})
+    " 'kkoenig/wimproved.vim'
     command! FullScreen WToggleFullscreen
   elseif executable('gvimfullscreen.dll')
     command! FullScreen call libcallnr('gvimfullscreen.dll', "ToggleFullScreen", 0)
@@ -774,13 +785,13 @@ if Bundles('scrooloose/syntastic')
 endif
 
 " Format codes with external code formatters
-if Bundles('chiel92/vim-autoformat')
+if Bundle('chiel92/vim-autoformat', {'c': 'Autoformat'})
 endif
 
 " Vim plugin that displays tags in a window, ordered by class etc
-if Bundles('majutsushi/tagbar')
-  nnoremap <silent>c\t :TagbarToggle<CR>
-  nnoremap c\T :TagbarTogglePause<CR>
+if Bundle('majutsushi/tagbar', {'m': [
+      \ 'nnoremap <silent>c\t :TagbarToggle<CR>',
+      \ 'nnoremap <silent>c\T :TagbarTogglePause<CR>']})
   let g:tagbar_map_toggleautoclose = "C"
   let g:tagbar_autoclose = 1
 
@@ -796,8 +807,8 @@ if Bundles('majutsushi/tagbar')
 endif
 
 " Documentation/reference viewer
-if Bundles('keithbsmiley/investigate.vim')
-  nnoremap <silent>gK :call investigate#Investigate()<CR>
+if Bundle('keithbsmiley/investigate.vim',
+      \ {'m': 'nnoremap <silent>gK :call investigate#Investigate()<CR>'})
 endif
 if 0 && Bundles('thinca/vim-ref')
   let g:ref_no_default_key_mappings = 1
@@ -805,7 +816,7 @@ if 0 && Bundles('thinca/vim-ref')
   xmap gK <Plug>(ref-keyword)
 endif
 " Reference docs using an external tool 'zeal' (poor VimL)
-if Bundle('KabbAmine/zeavim.vim', {'m': ['nnoremap zK :Zeavim<CR>']})
+if Bundle('KabbAmine/zeavim.vim', {'m': 'nnoremap <silent>zK :Zeavim<CR>'})
   " Or set a local docset with :Docset which actually just set b:manualDocset
   let g:zv_added_files_type = {
         \ 'python': 'python 3',
@@ -818,7 +829,7 @@ endif
 call Bundles('tpope/vim-dispatch')
 
 " Execute whole/part of editing file
-if Bundles('Thinca/vim-quickrun')
+if Bundles('thinca/vim-quickrun')
   command! -nargs=* -range=% -complete=customlist,quickrun#complete Run
         \ call quickrun#command(<q-args>, <count>, <line1>, <line2>)
   nmap R <Plug>(quickrun-op)
@@ -868,26 +879,40 @@ if Bundles('Thinca/vim-quickrun')
   let g:quickrun_no_default_key_mappings = 1
 endif
 " Run code on codepad.org
-if Bundles('mattn/codepad-vim', 'mattn/webapi-vim')
-  NXnoremap <Leader>R :CodePadRun<CR>
+if Bundle('mattn/codepad-vim', {'m': [
+      \ 'nnoremap <Leader>R :CodePadRun<CR>',
+      \ 'xnoremap <Leader>R :CodePadRun<CR>']})
+endif
+
+" Rainbow Parentheses
+if Bundle('junegunn/rainbow_parentheses.vim', {
+      \ 'm': 'nnoremap <silent>c\r :call rainbow_parentheses#toggle()<CR>',
+      \ 'c': 'RainbowParentheses'})
+  augroup bundle_rainbow_parentheses | autocmd!
+    autocmd FileType lisp,clojure,scheme RainbowParentheses
+  augroup END
+  " let g:rainbow#pairs = [['(', ')'], ['[', ']']]
+  " List of colors that you do not want. ANSI code or #RRGGBB
+  " let g:rainbow#blacklist = [233, 234]
+  " let g:rainbow#max_level = 12
 endif
 
 " Markups {{{2
 
 " HTML5 omnicomplete and syntax
-call Bundles('othree/html5.vim')
+call Bundle('othree/html5.vim', {'f': 'html'})
 
 " Runtime files for Haml, Sass, and SCSS
-call Bundles('tpope/vim-haml')
+call Bundle('tpope/vim-haml', {'f': 'haml,sass,scss'})
 
 " XML
 let g:xml_syntax_folding = 1
 
 " Runtime files for LESS (dynamic CSS)
-call Bundles('groenewege/vim-less')
+call Bundle('groenewege/vim-less', {'f': 'less'})
 
 " Improves HTML & CSS workflow: http://emmet.io
-if Bundles('mattn/emmet-vim')
+if Bundle('mattn/emmet-vim', {'m': 'i <C-x>e'})
   let g:user_emmet_mode='i' " only enabled in insert mode
   let g:user_emmet_leader_key = '<C-x>e' " mnemonic of 'expand'
   " let g:user_emmet_install_global = 0 " enabled only for certain file types
@@ -895,7 +920,7 @@ if Bundles('mattn/emmet-vim')
 endif
 
 " Markdown runtime files
-if Bundles('tpope/vim-markdown', '-nelstrom/vim-markdown-folding')
+if Bundle('tpope/vim-markdown', {'f': 'markdown'})
   let g:markdown_folding = 1
 endif
 
@@ -916,7 +941,7 @@ endif
 " Javascript {{{2
 
 " Vastly improved Javascript indentation and syntax support
-call Bundles('pangloss/vim-javascript')
+call Bundle('pangloss/vim-javascript', {'f': 'javascript'})
 
 " A plugin that integrates JSHint with Vim
 " call Bundles('walm/jshint.vim')
@@ -925,11 +950,11 @@ call Bundles('pangloss/vim-javascript')
 " call Bundles('marijnh/tern_for_vim')
 
 " CoffeeScript support for vim
-call Bundles('kchmck/vim-coffee-script')
+call Bundle('kchmck/vim-coffee-script', {'f': 'coffee'})
 
-" C Family {{{2
+" CFamily {{{2
 
-if Bundles('rust-lang/rust.vim')
+if Bundle('rust-lang/rust.vim', {'f': 'rust'})
   let g:rust_fold = 1 " folds are defined but opened
   " let g:rust_conceal = 1
   augroup bundle_rust | autocmd!
@@ -941,7 +966,8 @@ endif
 
 " Golang {{{2
 
-if Bundles('Fatih/vim-go', 'garyburd/go-explorer')
+if Bundle('fatih/vim-go', {'f': 'go'}) &&
+      \ Bundle('garyburd/go-explorer', {'f': 'go'})
   let g:go_auto_type_info = 0
   let g:go_fmt_autosave = 0
   " let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
@@ -963,19 +989,19 @@ endif
 
 " Ruby {{{2
 
-" Ruby runtime files (shipped with Vim and fairly updated.)
-if Bundles('Vim-ruby/vim-ruby')
+" Ruby runtime files (more updated than the one shipped with Vim)
+if Bundle('vim-ruby/vim-ruby', {'f': 'ruby'})
 endif
 
 " Ruby text objects
-if Bundle('Rhysd/vim-textobj-ruby', {'f': 'ruby'})
+if Bundle('rhysd/vim-textobj-ruby', {'f': 'ruby'})
   " Omap irr(any), iro(object), irc(control), ird(do), irl(loop)
   let g:textobj_ruby_more_mappings = 1
 elseif Bundle('Nelstrom/vim-textobj-rubyblock', {'f': 'ruby'})
 endif
 
-" Runs RuboCop(A robust Ruby code analyzer) and displays the results in Vim
-if Bundles('ngmy/vim-rubocop')
+" Runs RuboCop(A robust Ruby code analyzer)
+if Bundle('ngmy/vim-rubocop', {'f': 'ruby'})
   let g:vimrubocop_keymap = 0
   augroup bundle_rubocop | autocmd!
     autocmd FileType ruby nnoremap <silent><buffer> Rl :RuboCop<CR>
@@ -995,7 +1021,7 @@ endif
 " call Bundles('astashov/vim-ruby-debugger')
 
 " It's like rails.vim without the rails
-call Bundle('tpope/vim-rake', {'f':'ruby'})
+call Bundle('tpope/vim-rake', {'f': 'ruby'})
 
 " Python {{{2
 
@@ -1012,7 +1038,7 @@ if 0 && Bundles('klen/python-mode')
 endif
 
 " Bindings for the python auto-completion library 'jedi'
-if s:pythonx && Bundles('davidhalter/jedi-vim')
+if s:pythonx && Bundle('davidhalter/jedi-vim', {'f': 'python'})
   let g:jedi#goto_assignments_command = 'gd'
   let g:jedi#goto_command = 'gD'
   let g:jedi#rename_command = '<LocalLeader>r'
@@ -1037,18 +1063,18 @@ endif
 " A two-way integration between Vim and IPython 0.11+
 " call Bundles('ivanov/vim-ipython')
 
-" Java(JVM) {{{2
+" JavaJVM {{{2
 
 " Set 'path' from the Java class path
-call Bundles('tpope/vim-classpath')
+call Bundle('tpope/vim-classpath', {'f': 'clojure,groovy,java,scala'})
 
 " My work on integration of Scala into Vim - not a ton here, but useful for me
 " call Bundles('derekwyatt/vim-scala')
 
 " Clojure {{{2
 
-" Clojure runtime files (shipped with Vim versions 7.3.803+)
-call Bundles('guns/vim-clojure-static')
+" Clojure runtime files (shipped with Vim)
+call Bundle('guns/vim-clojure-static', {'f': 'clojure'})
 " let g:clojure_fold = 1 " Fold list/vector/map that extends over multi-lines
 
 " Clojure REPL support
@@ -1066,44 +1092,30 @@ if Bundle('guns/vim-sexp', {'f': 'clojure'}) &&
 endif
 
 " Extend builtin syntax highlighting to referred and aliased vars
-" call Bundles('guns/vim-clojure-highlight',
-"       \ 'guns/vim-clojure-static', 'tpope/vim-fireplace')
-
-" Simpler Rainbow Parentheses
-if Bundles('junegunn/rainbow_parentheses.vim')
-  augroup bundle_rainbow_parentheses | autocmd!
-    autocmd FileType lisp,clojure,scheme RainbowParentheses
-  augroup END
-  " Toggle
-  nnoremap <silent>c\r :RainbowParentheses!!<CR>
-  " let g:rainbow#pairs = [['(', ')'], ['[', ']']]
-  " List of colors that you do not want. ANSI code or #RRGGBB
-  " let g:rainbow#blacklist = [233, 234]
-  " let g:rainbow#max_level = 12
-endif
+" call Bundles('guns/vim-clojure-highlight')
 
 " Others {{{2
 
 " JSON runtime files
-if Bundles('elzr/vim-json')
+if Bundle('elzr/vim-json', {'f': 'json'})
   augroup bundle_json | autocmd!
     autocmd FileType json setlocal foldmethod=syntax
   augroup END
 endif
 
 " JSON manipulation and pretty printing
-call Bundles('tpope/vim-jdaddy')
+call Bundle('tpope/vim-jdaddy', {'f': 'json'})
 command! -range=% JSONFormat <line1>,<line2>!jq .
 command! -range=% JSONFormatEncode <line1>,<line2>!python -m json.tool
 
 " A Vim plugin for Windows PowerShell support
-call Bundles('pprovost/vim-ps1')
+call Bundle('pprovost/vim-ps1', {'f': 'ps1,ps1xml'})
 
 " Syntax file for nginx
-call Bundles('vim-scripts/nginx.vim')
+call Bundle('vim-scripts/nginx.vim', {'f': 'nginx'})
 
 " A mirror to the official vimperator's syntax file
-call Bundles('bohrshaw/vim-vimperator-syntax')
+call Bundle('bohrshaw/vim-vimperator-syntax', {'f': 'vimperator'})
 
 " ExternalInteraction: {{{1
 
@@ -1120,8 +1132,8 @@ if Bundles('bohrshaw/vimproc.vim:') " 'shougo/vimproc.vim'
 endif
 
 " Shells inside Vim
-if !has('nvim') && Bundles('shougo/vimshell.vim')
-  nnoremap <silent>so :<C-u>VimShell<CR>
+if !has('nvim') && Bundle('shougo/vimshell.vim',
+      \ {'m': 'nnoremap <silent>so :<C-u>VimShell<CR>'})
   let g:vimshell_split_command = 'split'
   let g:vimshell_prompt = '% '
   let g:vimshell_secondary_prompt = '> '
@@ -1258,7 +1270,10 @@ if Bundle('Jamessan/vim-gnupg', {'f': '*.{gpg,asc,pgp}'})
 endif
 
 " Translation
-if Bundles('bohrshaw/vim-trance', 'mattn/webapi-vim')
+if Bundle('bohrshaw/vim-trance', {'m': [
+      \ 'nmap d<BS> <Plug>trance',
+      \ 'xmap d<BS> <Plug>trance'],
+      \ 'c': 'Trance'})
   " let g:trance#default = 'iciba'
   " Translation services
   let g:trance = {
@@ -1267,11 +1282,10 @@ if Bundles('bohrshaw/vim-trance', 'mattn/webapi-vim')
         \ }
   " let g:trance#youdao_target = 'dict' " 'translate', 'dict' or ''(both)
   " let g:trance#truncate = 0 " truncate long output to be unobtrusive
-  NXmap d<BS> <Plug>trance
 endif
 
 " URL shortener
-call Bundles('bohrshaw/vim-url-shortener')
+call Bundle('bohrshaw/vim-url-shortener', {'c': 'URLShorten'})
 
 " Open a URI with the default browser (or application)
 " Alternatives:
