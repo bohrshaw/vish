@@ -27,14 +27,22 @@ endfunction
 " Note: Some auto-commands introduced by a bundle need to be manually triggered
 " by defining a User auto-command like `autocmd User bundle_foo ...` where `foo`
 " is the lowercase bundle directory name.
-function! Bundle(...)
+function! Bundle(bundle, trigger, ...)
   if !has('vim_starting')
     return
   endif
-  let b = s:bundle(a:1)
+  let b = s:bundle(a:bundle)
   if s:ifbundle(b)
+    if !a:0
+      for f in glob(rtp#expand(split(b, '/')[-1]).'/ftdetect/*.vim' , 1 , 1)
+        augroup filetypedetect
+          execute  'source' f
+        augroup END
+      endfor
+    endif
+
     let bundle_cmd = 'call BundleRun('.string(b).')'
-    if has_key(a:2, 'm')
+    if has_key(a:trigger, 'm')
       " Chain user-defined mappings which has a `rhs`, like:
       "   `nnoremap <M-x> :call BundleFoo()<CR>`
       " as opposed to ones defined by a bundle, which needn't have a `rhs`:
@@ -42,10 +50,10 @@ function! Bundle(...)
       "   Note: Need to write `i <expr><M-l>` instead of `i <expr> <M-l>` to
       "   make pasing logic simple.
       let map_cmds = substitute(
-            \ join(filter(copy(a:2['m']), 'v:val =~ ''\s\S\+\s'''), '\|'),
+            \ join(filter(copy(a:trigger['m']), 'v:val =~ ''\s\S\+\s'''), '\|'),
             \ '<', '<lt>', 'g')
 
-      for m in a:2['m']
+      for m in a:trigger['m']
         let [mode, lhs] = split(m)[:1]
         let mode = split(mode, '\v%(nore)?map')[0]
         let i = match(lhs, '\v%(\<%(buffer|nowait|silent|special|script|expr|unique)\>)+\zs')
@@ -69,16 +77,16 @@ function! Bundle(...)
           endif
         endif
       endfor
-    end
+    endif
 
-    if has_key(a:2, 'c')
-      let cmd = a:2['c']
+    if has_key(a:trigger, 'c')
+      let cmd = a:trigger['c']
       execute 'command! -nargs=* -bang '.cmd.' '.bundle_cmd.
             \ '|'.cmd.'<bang> <args>'
     endif
 
-    if has_key(a:2, 'f')
-      let pat = a:2['f']
+    if has_key(a:trigger, 'f')
+      let pat = a:trigger['f']
       let event_pat = pat =~ '[*.]' ?
             \ 'BufNewFile,BufRead '.pat : 'FileType '.pat
       execute 'augroup bundle'.s:augroup_count
@@ -101,10 +109,8 @@ function! BundleRun(b, ...)
     call rtp#add(dir) " inject the bundle path to runtime path
     let path = rtp#expand(dir)
     for p in [path,  path.'/after'] " source related files
-      for d in ['ftdetect', 'plugin']
-        for f in glob(p.'/'.d.'/**/*.vim',1,1)
-          execute  filereadable(f) ? 'source '.f : ''
-        endfor
+      for f in glob(p.'/plugin/**/*.vim' , 1 , 1)
+        execute  'source' f
       endfor
     endfor
 
@@ -116,7 +122,6 @@ function! BundleRun(b, ...)
         execute 'doautocmd <nomodeline> User' pat '|autocmd! User' pat
       endif
       " Apply newly defined auto-commands for most common events
-      filetype detect
       if !a:0
         doautocmd FileType
       endif
