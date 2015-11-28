@@ -11,7 +11,8 @@ let g:bundles = [] " bundles activated on startup
 let g:dundles = [] " bundles to be downloaded
 let s:vundle = get(g:, '_vundle') " indicate if `vundle` is running
 let s:rtp_ftdetect = [] " for sourcing ftdetect/*.vim in bundles
-let s:augroup_count = get(s:, 'augroup_count', 1)
+let s:dirs_activated = [] " for avoiding activating a bundle twice
+let s:augroup_count = get(s:, 'augroup_count')
 
 " Populate the list: g:bundles
 function! Bundles(...)
@@ -32,17 +33,33 @@ function! Bundle(bundle, trigger, ...)
   if !has('vim_starting')
     return
   endif
+
   let b = s:bundle(a:bundle)
   if s:ifbundle(b)
+    let dir = split(b, '/')[-1]
+
     if !a:0
-      let p = rtp#expand(split(b, '/')[-1])
+      let p = rtp#expand(dir)
       if isdirectory(p.'/ftdetect')
         " Don't glob and source now, as repetitive globings are quite slow
         call add(s:rtp_ftdetect, p)
       endif
     endif
 
-    let bundle_cmd = 'call BundleRun('.string(b).')'
+    if has_key(a:trigger, 'f')
+      let s:augroup_count += 1
+      let aug = 'bundle'.s:augroup_count
+      let bundle_cmd = 'call BundleActivate('.string(dir).', '.string(aug).')'
+
+      execute 'augroup' aug
+      execute 'autocmd' a:trigger.f =~ '[*.]' ?
+            \ 'BufNewFile,BufRead '.a:trigger.f : 'FileType '.a:trigger.f
+            \ bundle_cmd
+      execute 'augroup END'
+    else
+      let bundle_cmd = 'call BundleActivate('.string(dir).')'
+    endif
+
     if has_key(a:trigger, 'm')
       let maps = type(a:trigger.m) == 1 ? [a:trigger.m] : a:trigger.m
       " Chain user-defined mappings which has a `rhs`, like:
@@ -88,54 +105,45 @@ function! Bundle(bundle, trigger, ...)
       endfor
     endif
 
-    if has_key(a:trigger, 'f')
-      let pat = a:trigger['f']
-      let event_pat = pat =~ '[*.]' ?
-            \ 'BufNewFile,BufRead '.pat : 'FileType '.pat
-      execute 'augroup bundle'.s:augroup_count
-      " Note: Be cautious about nesting auto-commands
-      execute 'autocmd!' event_pat 'call BundleRun('.string(b).', 0)'
-            \ '| autocmd! bundle'.s:augroup_count
-      execute 'augroup END'
-      let s:augroup_count += 1
-    endif
-
     return 1
   endif
 endfunction
 
-" Inject the path of a bundle to &rtp and Load(source) it
-function! BundleRun(b, ...)
+" Like BundleRun, but also deal with auto-commands
+function! BundleActivate(dir, ...)
+  if index(s:dirs_activated, a:dir) < 0
+    call s:run(a:dir)
+    call add(s:dirs_activated, a:dir)
+  else
+    return
+  endif
+
+  " Clean any termporary autocmds, avoid recursive nesting
+  if a:0
+    execute 'autocmd!' a:1
+  endif
+  " Apply bundle specific User autocmds
+  let pat = 'Bundle'.toupper(a:dir[0]).tolower(a:dir[1:])
+  if exists('#User#'.pat)
+    execute 'doautocmd <nomodeline> User' pat '|autocmd! User' pat
+  endif
+  " Apply newly defined auto-commands
+  " Even if we are already in the process of a FileType autocmd, newly added
+  " FileType autocmds would not be run. So run it anyway ignoring duplicates.
+  doautocmd FileType
+endfunction
+
+" Inject a bundle to &rtp and source it
+function! BundleRun(b)
   let b = s:bundle(a:b)
   if s:ifbundle(b) || b !~ '/'
-    let dir = split(b, '/')[-1]
-    call rtp#add(dir) " inject the bundle path to runtime path
-    let path = rtp#expand(dir)
-    for p in [path,  path.'/after'] " source related files
-      for f in glob(p.'/plugin/**/*.vim' , 1 , 1)
-        execute  'source' f
-      endfor
-    endfor
-
-    " Apply auto-commands if not during Vim start-up
-    if !has('vim_starting')
-      " Apply bundle specific User auto-commands
-      let pat = 'Bundle'.toupper(dir[0]).tolower(dir[1:])
-      if exists('#User#'.pat)
-        execute 'doautocmd <nomodeline> User' pat '|autocmd! User' pat
-      endif
-      " Apply newly defined auto-commands for most common events
-      if !a:0
-        doautocmd FileType
-      endif
-    endif
-
+    call s:run(split(b, '/')[-1])
     return 1
   endif
 endfunction
 command! -nargs=1 -complete=file -bar BundleRun call BundleRun(<q-args>)
 
-" Inject the path of a bundle to &rtp
+" Inject a bundle to &rtp
 function! BundlePath(b)
   let b = s:bundle(a:b)
   if s:ifbundle(b)
@@ -144,8 +152,9 @@ function! BundlePath(b)
   endif
 endfunction
 
-" Inject paths of bundles from g:bundles to 'rtp'
+" Finish bundling
 function! bundle#done()
+  " Inject bundles from g:bundles to 'rtp'
   call rtp#inject('bundle', map(g:bundles, 'v:val[stridx(v:val,"/")+1:]'))
 
   " Source ftdetect scripts gathered in Bundle()
@@ -212,6 +221,17 @@ else
     endif
   endfunction
 endif
+
+" Inject a directory to &rtp and source it
+function! s:run(dir)
+  call rtp#add(a:dir)
+  let path = rtp#expand(a:dir)
+  for p in [path,  path.'/after'] " source related files
+    for f in glob(p.'/plugin/**/*.vim' , 1 , 1)
+      execute  'source' f
+    endfor
+  endfor
+endfunction
 
 " Add an item to a list only if it doesn't contain the item yet
 function! s:uniqadd(list, item)
