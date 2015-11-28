@@ -1,10 +1,36 @@
-snippet f "function with auto-prefixed name" b
-function! `!v matchstr(substitute(expand('%:p'), '[/\\]\|\.vim$', '#', 'g'), '#autoload#\zs.*')`${1:function_name}(${2:args})
+snippet if "if , . endif" b
+if $1
+	${VISUAL}$0
+endif
+endsnippet
+
+snippet for "for , in , . endfor" b
+for $1 in $2
+	${VISUAL}$0
+endfor
+endsnippet
+
+snippet while "while , . endwhile" b
+while $1
+	${VISUAL}$0
+endwhile
+endsnippet
+
+snippet try "try , catch , . endtry" b
+try
+	${VISUAL}$1
+catch$2
 	$0
+endtry
+endsnippet
+
+snippet f "function ,(,) . endfunction" b
+function! `!v matchstr(substitute(expand('%:p'), '[/\\]\|\.vim$', '#', 'g'), '#autoload#\zs.*')`$1($2)
+	${VISUAL}$0
 endfunction
 endsnippet
 
-snippet aug "autocmd group" b
+snippet aug "augroup" b
 augroup ${1:group} | autocmd!
 	${VISUAL}$0
 augroup END
