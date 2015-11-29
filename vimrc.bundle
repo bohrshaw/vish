@@ -416,12 +416,12 @@ endif
 " Repeat: {{{1
 
 " Visualize the undo tree/history
-if s:nvim ? Bundle('Simnalamburt/vim-mundo', {'m': [
+if Dundles('Sjl/gundo.vim') && s:nvim ?
+      \ Bundle('Simnalamburt/vim-mundo', {'m': [
       \ 'nnoremap <silent>c\u :GundoToggle<CR>',
       \ 'nnoremap <silent>c\U :GundoRenderGraph<CR>']}) :
       \ Bundle('Sjl/gundo.vim', {'m':
-      \ 'nnoremap <silent>c\u :GundoToggle<CR>'}) &&
-      \ Dundles('Sjl/gundo.vim')
+      \ 'nnoremap <silent>c\u :GundoToggle<CR>'})
   augroup bundle_gundo | autocmd!
     autocmd BufNewFile __gundo*
         \ nnoremap <buffer><expr><nowait>R
