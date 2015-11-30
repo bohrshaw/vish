@@ -1,6 +1,8 @@
 " Edit a buffer if existed, otherwise a file
 function! buf#edit(bufile, ...)
-  let cmds = bufexists(expand(a:bufile)) ?
+  " Note `:b foo` would open the buffer "foobar" if "foo" existed but unlisted.
+  " So don't use bufexists().
+  let cmds = buflisted(expand(a:bufile)) ?
         \ ['b', 'sb', 'vert sb', 'tab sb'] : ['e', 'sp', 'vs', 'tabe']
   let [idx, keepj] = [get(a:, 1), get(a:, 2)]
   execute 'silent' keepj ? 'keepjumps' : '' cmds[idx == 0 ? 0 : idx-1] a:bufile
