@@ -86,6 +86,7 @@ if Bundles('Bohrshaw/vim-sneak') " 'Justinmk/vim-sneak'
   xnoremap <silent> H :<C-u>call b#sneak#('', 1, 'v')<CR>
   onoremap <silent> H :<C-u>call b#sneak#('', 1, 'o')<CR>
   " Within the current line
+  " Note: Don't map `f<CR>`, otherwise IME would be inactive after `f`.
   NXOmap <expr>9f v#setvar('g:sneak#oneline', 1).'L'
   NXOmap <expr>8f v#setvar('g:sneak#oneline', 1).'H'
   " Mimic the native search command / and ?, but literal
