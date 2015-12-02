@@ -185,6 +185,10 @@ endif
 " Search: {{{1
 
 " Search improved
+if 0 && Bundles('junegunn/vim-oblique', 'junegunn/vim-pseudocl')
+endif
+
+" Search improved
 if Bundles('Haya14busa/incsearch.vim', 'Haya14busa/vim-asterisk')
   " Incremantal search improved with a search specific command line interface
   NXmap g/ <Plug>(incsearch-forward)
