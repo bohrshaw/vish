@@ -553,7 +553,8 @@ endif
 " Unite and create user interfaces
 if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
       \'shougo/neomru.vim', 'shougo/unite-outline', 'tsukkee/unite-tag',
-      \'shougo/unite-help', '-shougo/tabpagebuffer.vim')
+      \'shougo/unite-help', '-shougo/tabpagebuffer.vim',
+      \'-kopischke/unite-spell-suggest')
   command! -nargs=* -complete=customlist,unite#complete#source U Unite <args>
   command! -nargs=? -complete=customlist,unite#complete#buffer_name Ur UniteResume <args>
   " The key <M-b> prefixes all mappings related to 'internal' contents
