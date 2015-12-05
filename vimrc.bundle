@@ -1248,20 +1248,21 @@ endif
 
 " Transparent editing of GPG encrypted files
 if Bundle('Jamessan/vim-gnupg', {'f': '*.{gpg,asc,pgp}'})
-  autocmd User BundleVim-gnupg doautocmd FileReadCmd
+  autocmd User BundleVim-gnupg doautocmd BufReadCmd
+
   " For maximum privacy, I'd better edit in a standalone Vim instance with
   " minimum number of bundles.
   command! -nargs=? -complete=command GPG
         \ B! gvim --cmd 'let l=1' -c 'BundleRun vim-gnupg' -c '<args>'
-  " If I would be careful enough or am not concerned with the encrypted file,
-  " it's fine to edit within the current Vim instance. But ensure 'viminfo' is
-  " restored afterwards. 'viminfo' stores info in the whole session even is it's
-  " reset for some time.
+
+  " Note: 'viminfo' only takes effect when its file is read or written. Thus
+  " it's meaningless to empty it temporarily.
   if !g:l
     augroup bundle_gnupg | autocmd!
-      autocmd BufDelete *.{gpg,asc,pgp} let &viminfo = _viminfo
+      autocmd User GnuPG let &viminfo = _viminfo
     augroup END
   endif
+
   let g:GPGDefaultRecipients = ['Bohr Shaw']
 
   " For writing encrypted diaries
