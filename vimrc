@@ -366,22 +366,29 @@ command! -nargs=1 BufGrep cexpr [] | bufdo vimgrepadd <args> %
 "       \ execute "bufdo silent! g/<args>/caddexpr
 "       \ expand('%').':'.line('.').':'.getline('.')" | normal `Z
 " }}}
+
+" }}}
 " QuickFix:" {{{
-" Clear the current quickfix list
-command! -bar Cclear call setqflist([])
-" Mappings/options for a quickfix/location window
-augroup vimrc_qf_map | autocmd!
+
+augroup vimrc_qf | autocmd!
+  " Mappings/options for a quickfix/location window
   autocmd FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
         \ nnoremap <buffer> q <C-W>c|
         \ nnoremap <buffer> <M-w>v <C-W><CR><C-W>H|
         \ nnoremap <buffer> <M-w>t <C-W><CR><C-W>T
+  " Open the quickfix-window automatically
+  autocmd QuickFixCmdPost [^l]* cwindow
+  autocmd QuickFixCmdPost    l* lwindow
 augroup END
+
+" Clear the current quickfix list
+command! -bar Cclear call setqflist([])
+
 if !has('patch-7.4.858') "{{{
   " Execute a command in each buffer in the quickfix or location list
   command! -nargs=1 -complete=command Cfdo call qf#fdo(<q-args>)
   command! -nargs=1 -complete=command Lfdo call qf#fdo(<q-args>, 1)
 endif "}}}
-" }}}
 
 " }}}
 " View:" {{{
