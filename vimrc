@@ -94,7 +94,14 @@ if has('vim_starting')
         \   '\|'.$TMP.'/bash-fc')
   set lisp& showmatch& " reset cmdline option '-l'
 
-  if has('nvim') " skip python check to reduce startup time
+  if has('nvim')
+    " https://github.com/neovim/neovim/wiki/FAQ
+    if exists('$KONSOLE_PROFILE_NAME') && !exists('$TMUX')
+      " https://gist.github.com/XVilka/8346728
+      let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
+    endif
+    let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+    " Skip python check to reduce startup time
     let [g:python_host_skip_check, g:python3_host_skip_check] = [1, 1]
   endif
 
