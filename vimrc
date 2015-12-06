@@ -382,11 +382,9 @@ command! -nargs=1 BufGrep cexpr [] | bufdo vimgrepadd <args> %
 " QuickFix:" {{{
 
 augroup vimrc_qf | autocmd!
-  " Mappings/options for a quickfix/location window
-  autocmd FileType qf nnoremap <buffer> <nowait> <CR> <CR>|
-        \ nnoremap <buffer> q <C-W>c|
-        \ nnoremap <buffer> <M-w>v <C-W><CR><C-W>H|
-        \ nnoremap <buffer> <M-w>t <C-W><CR><C-W>T
+  " Note it would be a little slower if it's "ftplugin/qf.vim".
+  autocmd FileType qf call qf#window()
+
   " Open the quickfix-window automatically
   autocmd QuickFixCmdPost [^l]* cwindow
   autocmd QuickFixCmdPost    l* lwindow
@@ -1006,12 +1004,6 @@ function! s:hi() "{{{
   execute 'hi User3 term=bold cterm=bold ctermfg='.ft3 'ctermbg='.bt
         \ 'gui=bold guifg='.fg3 'guibg='.bg
 endfunction "}}}
-
-" The status line for the quickfix window
-augroup vimrc_qf_statusline | autocmd!
-  autocmd FileType qf setlocal statusline=%t
-        \%{strpart('\ '.get(w:,'quickfix_title',''),0,66)}%=\ %11.(%c,%l/%L,%P%)
-augroup END
 
 " Use CTRL-G, G_CTRL-G to see file and cursor information manually
 set ruler " not effective when 'statusline' is set
