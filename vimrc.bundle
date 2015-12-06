@@ -1154,7 +1154,7 @@ if Bundles('mattn/webapi-vim')
 endif
 
 " A Git wrapper so awesome, it should be illegal.
-if Bundles('Tpope/vim-git') && BundleRun('tpope/vim-fugitive')
+if BundleRun('tpope/vim-fugitive') && Bundles('Tpope/vim-git', 'tpope/vim-rhubarb')
   " Invoke a single git command, mnemonic: '9' in its shape is like 'g'
   nnoremap <silent>g9 :call git#run()<CR>
   " Invoke multiple git commands, mnemonic: <Space> is to enter the cmdline
