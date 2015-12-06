@@ -349,8 +349,8 @@ cabbrev <expr>sv getcmdtype() == ':' && getcmdpos() =~ '[38]' ?
 let g:greps = {}
 " Note, as of ag version 0.31, the filename of a single file is not printed;
 " thus /dev/null is added just like the default. (-nocolor --nobreak implicitly)
-let greps.grep = 'grep -n'.(has('win32') ? '' : ' $* /dev/null')
-let greps.ag = 'ag --column'.(has('win32') ? '' : ' $* /dev/null')
+let greps.grep = 'grep -n $* '.(has('win32') ? 'NUL' : '/dev/null')
+let greps.ag = 'ag --column $* '.(has('win32') ? 'NUL' : '/dev/null')
 let greps.pt = 'pt --column'
 let greps.ack = (executable('ack') ? 'ack' : 'ack-grep').' --column -H'
 let &grepprg = executable('ag') ? greps.ag :

@@ -15,7 +15,7 @@ endfunction
 function! qf#title()
   if exists('w:quickfix_title')
     let i = match(w:quickfix_title, '\s\zs[^-]')
-    let j = match(w:quickfix_title, '\ze/dev/null') - i - 1
+    let j = match(w:quickfix_title, '\v\ze%(/dev/null|NUL)') - i - 1
     let w:qf_ptn = strpart(w:quickfix_title , i , j >= 0 && j < 50 ? j : 50)
     let w:qf_prg = strpart(w:quickfix_title , 0 , i-1)
   else
