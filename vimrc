@@ -336,36 +336,47 @@ nnoremap <silent>gL :let g:hlsearch = 1 \|set hlsearch \|autocmd! search_hl<CR>
 " For :s and :g
 cnoremap <silent><M-j> <CR>:nohlsearch<CR>
 
-" Substitute in a visual area:" {{{
+" Substitute in a visual area
 xnoremap sv :s/\%V
 " Substitute in a visual area (eat the for-expanding-space)
 " Hack: Use an expression to save a temporary value.
 cabbrev <expr>sv getcmdtype() == ':' && getcmdpos() =~ '[38]' ?
       \ 's/\%V'.setreg('z', nr2char(getchar(0)))[1:0].(@z == ' ' ? '' : @z) : 'sv'
+
 " }}}
-" Grep:" {{{
-if executable('ag')
-  set grepprg=ag\ --column " --nocolor --nobreak implicitly
-  set grepformat^=%f:%l:%c:%m " the output format when not running interactively
-elseif executable('ack')
-  set grepprg=ack\ --column
-  set grepformat^=%f:%l:%c:%m
-endif
-" A wrapper around grep using 'ag' or 'ack' without affecting 'grepprg' and
-" 'grepformat'. Notice that a grep command like :grep, :lgrep, :grepadd etc.
-" still needs to be explicitly specified.
-command! -bar -nargs=+ -complete=file WithAg call grep#grep('ag', <q-args>)
-command! -bar -nargs=+ -complete=file WithAck call grep#grep('ack', <q-args>)
-" Grep all HELP docs preferably with ag, ack, helpgrep, in this order
+" GREP:" {{{
+
+let g:greps = {}
+" Note, as of ag version 0.31, the filename of a single file is not printed;
+" thus /dev/null is added just like the default. (-nocolor --nobreak implicitly)
+let greps.grep = 'grep -n'.(has('win32') ? '' : ' $* /dev/null')
+let greps.ag = 'ag --column'.(has('win32') ? '' : ' $* /dev/null')
+let greps.pt = 'pt --column'
+let greps.ack = (executable('ack') ? 'ack' : 'ack-grep').' --column -H'
+let &grepprg = executable('ag') ? greps.ag :
+      \ executable('pt') ? greps.pt :
+      \ (executable('ack') || executable('ack-grep')) ? greps.ack :
+      \ &grepprg
+" Note the output format may be different when not running interactively
+set grepformat^=%f:%l:%c:%m
+set grepformat+=%f " '-g' search only file names
+
+" Grep without affecting 'grepprg' and 'grepformat'.
+" Examples: Ag pattern .; Ag =lgrepadd pattern %
+command! -bar -nargs=+ -complete=file Grep call grep#grep('grep', <q-args>)
+command! -bar -nargs=+ -complete=file Ag call grep#grep('ag', <q-args>)
+command! -bar -nargs=+ -complete=file Pt call grep#grep('pt', <q-args>)
+command! -bar -nargs=+ -complete=file Ack call grep#grep('ack', <q-args>)
+
+" Grep all HELP docs with the best available greper (with a multiline pattern)
 command! -nargs=+ -complete=command Help call grep#help(<q-args>)
-" A shortcut to ":Help grep"
+" A shortcut to `:Help grep`
 command! -nargs=+ -complete=command Helpgrep call grep#help('grep '.<q-args>)
-" Grep through all buffers
+
 command! -nargs=1 BufGrep cexpr [] | bufdo vimgrepadd <args> %
 " command! -nargs=1 BufGrep cexpr [] | mark Z |
 "       \ execute "bufdo silent! g/<args>/caddexpr
 "       \ expand('%').':'.line('.').':'.getline('.')" | normal `Z
-" }}}
 
 " }}}
 " QuickFix:" {{{

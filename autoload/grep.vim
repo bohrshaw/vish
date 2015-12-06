@@ -1,53 +1,40 @@
-" Grep using 'ag' or 'ack'
 function! grep#grep(prg, cmd)
-  if a:prg == 'ag'
-    if a:cmd =~# '^\w\+\s\+-g\s' " search only file names
-      let grepprg = 'ag --nocolor'
-      let grepformat = "%f"
-    else
-      let grepprg = 'ag --column'
-      let grepformat = '%f:%l:%c:%m'
-    endif
-  elseif a:prg == 'ack'
-    if a:cmd =~# '^\w\+\s\+-g\s'
-      let grepprg = 'ack --nocolor'
-      let grepformat = "%f"
-    else
-      let grepprg = 'ack --column'
-      let grepformat = '%f:%l:%c:%m'
-    endif
-  endif
-  let grepformat_bak=&grepformat
+  let grepprg_bak = &l:grepprg
+  let &l:grepprg = a:prg == 'grep' ? g:greps.grep :
+        \ a:prg == 'ag' ? g:greps.ag :
+        \ a:prg == 'pt' ? g:greps.pt :
+        \ a:prg == 'ack' ? g:greps.ack :
+        \ &grepprg
+
   try
-    let &l:grepprg=grepprg
-    let &grepformat=grepformat
-    execute escape(a:cmd, '%#')
+    execute escape(a:cmd[0] == '=' ? a:cmd[1:] : 'grep '.a:cmd, '%#')
   finally
-    setlocal grepprg=
-    let &grepformat=grepformat_bak
+    let &l:grepprg = grepprg_bak
   endtry
 endfunction
 
-" Grep HELP files for a pattern(multiline supported) through external programs
 function! grep#help(cmd)
   let grepprg_bak = &grepprg
-  try
-    if executable('ag')
-      set grepprg=ag\ -UG\ .*\\.txt
-    elseif executable('ack')
-      set grepprg=ack\ --noenv\ --type-set=txt:ext:txt\ --txt
-    else
-      execute 'helpgrep '.matchstr(a:cmd, '\v\s+\zs.*')
-      return
+  if executable('ag')
+    let &grepprg = "ag -UG '.*\.txt'"
+  elseif executable('pt')
+    let &grepprg = "pt -UG '.*\.txt'"
+  elseif executable('ack')
+    let &grepprg = "ack --noenv --type-set=txt:ext:txt --txt"
+  else
+    execute 'helpgrep '.matchstr(a:cmd, '\v\s+\zs.*')
+    return
+  endif
+
+  let path = ''
+  for entry in split(&rtp, ',')
+    let entry_doc = entry.'/doc'
+    if isdirectory(entry_doc) && entry !~# '[/\\]after[/\\]\?$'
+      let path .= ' '.entry_doc
     endif
-    let path = ''
-    for entry in split(&rtp, ',')
-      let entry_doc = entry.'/doc'
-      if isdirectory(entry_doc) && entry !~# '[/\\]after[/\\]\?$'
-        let path .= ' '.entry_doc
-      endif
-    endfor
-    execute a:cmd . path
+  endfor
+  try
+    execute a:cmd path
   finally
     let &grepprg = grepprg_bak
   endtry
