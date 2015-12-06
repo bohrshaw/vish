@@ -468,7 +468,8 @@ nnoremap <silent><F11> :let g:_fullscreen = !get(g:, '_fullscreen') \|
 nmap <S-F11> <F11>
 if has('unix')
   command! FullScreen call system('wmctrl -ir '.
-        \ (has('nvim') ? $WINDOWID : v:windowid).' -b toggle,fullscreen')
+        \ (has('nvim') ? $WINDOWID : v:windowid).' -b toggle,fullscreen') |
+        \ execute "normal! \<C-l>"
 endif
 
 " }}}
