@@ -7,7 +7,7 @@ function! grep#grep(prg, cmd)
         \ &grepprg
 
   try
-    execute escape(a:cmd[0] == '=' ? a:cmd[1:] : 'grep '.a:cmd, '%#')
+    execute 'silent' escape(a:cmd[0] == '=' ? a:cmd[1:] : 'grep '.a:cmd, '%#')
   finally
     let &l:grepprg = grepprg_bak
   endtry
@@ -34,7 +34,7 @@ function! grep#help(cmd)
     endif
   endfor
   try
-    execute a:cmd path
+    execute 'silent' a:cmd path
   finally
     let &grepprg = grepprg_bak
   endtry
