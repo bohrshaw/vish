@@ -65,6 +65,7 @@ nnoremap <silent>]d :call search('\cto-\?do:', 's')<CR>
 nnoremap <silent>[d :call search('\cto-\?do:', 'sb')<CR>
 nnoremap <silent>[r :set readonly<CR>
 nnoremap <silent>]r :set noreadonly<CR>
+nnoremap <silent>cot :let &showtabline = &showtabline == 2 ? 1 : 2<CR>
 nnoremap <silent>coM :let &mouse = empty(&mouse) ? 'a' : ''<CR>
 nmap coP <Plug>unimpairedPaste
 
