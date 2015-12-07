@@ -40,6 +40,19 @@ function! git#run(...)
   endfor
 endfunction
 
+" Imitate s:GitComplete()
+function! git#compcmd(A, L, P) abort
+  return s:compcmd(a:A, a:L, a:P)
+endfunction
+let s:compcmd = function("<SNR>".
+        \ scriptease#scriptid(globpath(&rtp, 'plugin/fugitive.vim')).
+        \ '_GitComplete')
+
+" Imitate s:EditComplete()
+function! git#compfile(A, L, P) abort
+  return map(fugitive#repo().superglob(a:A), 'fnameescape(v:val)')
+endfunction
+
 let s:cmds = {
       \ 'w':   'update',
       \ 'wa':  'wall',

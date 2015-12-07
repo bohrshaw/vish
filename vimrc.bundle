@@ -1166,10 +1166,7 @@ if BundleRun('tpope/vim-fugitive') && Bundles('Tpope/vim-git', 'tpope/vim-rhubar
   cnoremap <M-\>\ <C-r>=v#execute('cd '.b:git_dir[:-6])<CR>
 
   " A command :G using vimproc, an alternative to :Git
-  execute "command! -nargs=1 -bang -bar"
-        \ "-complete=customlist,<SNR>".
-        \   scriptease#scriptid(globpath(&rtp, 'plugin/fugitive.vim')).
-        \   "_GitComplete"
+  execute "command! -nargs=1 -bang -bar -complete=customlist,git#compcmd"
         \ "G execute 'B'.(<bang>0 ? '!' : '') 'git' ".
         \   "(exists('b:git_dir') ? '-C '.b:git_dir[:-6] : '') <q-args>"
 
