@@ -1,23 +1,29 @@
 " Source lines of Viml
-" Note: In the context of a function, `:@` is not a solution. And newly defined
-" autoloaded functions can't yet be sourced because of a mismatch between the
-" temporary file name and the function name.
+" Note: In the context of a function, `:@` is not a solution.
 function! run#viml(type)
-  let tmp = tempname()
+  " Note: 'path' must match an autoload function name; 'file' may not yet exists.
+  let file = matchstr(fnamemodify(bufname(''), ':p'), '\v<autoload[/\\]\zs.*|[^/\\]*$')
+  let path = s:tmpdir.'/'.file
+  if file =~ '[/\\]'
+    call mkdir(fnamemodify(path, ':h'), 'p')
+  endif
   " When called by `g@`, a:type is 'line', 'char' or 'block'.
   " In visual mode, a:type is visualmode() which is 'v', 'V', '<C-v>'.
+  " Note: :silent! to suppress warning of an existing swap file.
   if a:type =~# 'line\|V'
-    execute 'silent keepalt '.(a:type == 'V' ? "'<,'>" : "'[,']").'write '.tmp
+    execute 'silent! keepalt '.
+          \(a:type == 'V' ? "'<,'>" : "'[,']").'write! '.path
   else " a:type =~# 'char\|v'
     " Note: `> or `] is exclusive.
     execute 'silent normal! '.(a:type == 'v' ? '`<"zyv`>' : '`["zyv`]')
-    keepalt call writefile(split(@z, '\n'), tmp)
+    keepalt call writefile(split(@z, '\n'), path)
   endif
-  execute 'source '.tmp
-  call delete(tmp)
+  execute 'source' path
+  " call delete(path) " will be deleted upon Vim exit, due to tempname()
   " The mark 'z' should be set before calling this function
   normal! g`z
 endfunction
+let s:tmpdir = fnamemodify(tempname(), ':h')
 
 function! run#map()
   nnoremap <buffer><silent> R mz:set operatorfunc=run#viml<CR>g@
