@@ -1,29 +1,42 @@
 " Source lines of Viml
 " Note: In the context of a function, `:@` is not a solution.
+if !exists('*run#viml')
+  " On Linux, s:tmpdir will be deleted when Vim exits, :help tempname()
+  let s:tmpdir = has('win32') ? tempname().'.vim.run' : fnamemodify(tempname(), ':h')
+  if has('win32')
+    if !isdirectory(s:tmpdir)
+      call mkdir(s:tmpdir, 'p')
+    endif
+    augroup run_viml | autocmd!
+      autocmd! VimLeavePre * call os#delete(s:tmpdir)
+    augroup END
+  endif
+endif
 function! run#viml(type)
   " Note: 'path' must match an autoload function name; 'file' may not yet exists.
   let file = matchstr(fnamemodify(bufname(''), ':p'), '\v<autoload[/\\]\zs.*|[^/\\]*$')
   let path = s:tmpdir.'/'.file
   if file =~ '[/\\]'
-    call mkdir(fnamemodify(path, ':h'), 'p')
+    let dir = fnamemodify(path, ':h')
+    if !isdirectory(dir)
+      call mkdir(dir, 'p')
+    endif
   endif
   " When called by `g@`, a:type is 'line', 'char' or 'block'.
   " In visual mode, a:type is visualmode() which is 'v', 'V', '<C-v>'.
   " Note: :silent! to suppress warning of an existing swap file.
   if a:type =~# 'line\|V'
-    execute 'silent! keepalt '.
+    execute 'silent! noautocmd keepalt '.
           \(a:type == 'V' ? "'<,'>" : "'[,']").'write! '.path
   else " a:type =~# 'char\|v'
     " Note: `> or `] is exclusive.
     execute 'silent normal! '.(a:type == 'v' ? '`<"zyv`>' : '`["zyv`]')
-    keepalt call writefile(split(@z, '\n'), path)
+    noautocmd keepalt call writefile(split(@z, '\n'), path)
   endif
   execute 'source' path
-  " call delete(path) " will be deleted upon Vim exit, due to tempname()
   " The mark 'z' should be set before calling this function
   normal! g`z
 endfunction
-let s:tmpdir = fnamemodify(tempname(), ':h')
 
 function! run#map()
   nnoremap <buffer><silent> R mz:set operatorfunc=run#viml<CR>g@

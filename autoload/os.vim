@@ -19,3 +19,12 @@ function! os#open(...)
     call system('open '.a:1)
   endif
 endfunction
+
+" Delete a directory recursively
+function! os#delete(dir)
+  if has('win32')
+    call system('cmd.exe /C rmdir /S /Q '.a:dir)
+  else
+    echohl WarningMsg | echo 'No methods to remove a directory!' | echohl None
+  endif
+endfunction
