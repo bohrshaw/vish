@@ -1,17 +1,18 @@
 function! grep#grep(prg, cmd)
-  let grepprg = &grepprg
-  let &grepprg =
-        \ a:prg == 'git' ? 'git --git-dir='.get(b:, 'git_dir', '.').' grep -n' :
+  let grepprg = &l:grepprg " local 'grepprg' will be used if not empty
+  " Note: expand() converts '/' to '\' on Windows.
+  let &l:grepprg =
+        \ a:prg == 'git' ? 'git --git-dir='.expand(get(b:, 'git_dir', '.')).' grep -n' :
         \ a:prg == 'grep' ? g:greps.grep :
         \ a:prg == 'ag' ? g:greps.ag :
         \ a:prg == 'pt' ? g:greps.pt :
         \ a:prg == 'ack' ? g:greps.ack :
-        \ &grepprg
+        \ &l:grepprg
 
   try
     execute 'silent' escape(a:cmd[0] == '=' ? a:cmd[1:] : 'grep '.a:cmd, '%#')
   finally
-    let &grepprg = grepprg
+    let &l:grepprg = grepprg
   endtry
 endfunction
 
