@@ -1154,7 +1154,8 @@ if Bundles('mattn/webapi-vim')
 endif
 
 " A Git wrapper so awesome, it should be illegal.
-if BundleRun('tpope/vim-fugitive') && Bundles('Tpope/vim-git', 'tpope/vim-rhubarb')
+if Bundles('Tpope/vim-git') &&
+      \ Bundles('tpope/vim-fugitive', 'tpope/vim-rhubarb')
   " Invoke a single git command, mnemonic: '9' in its shape is like 'g'
   nnoremap <silent>g9 :call git#run()<CR>
   " Invoke multiple git commands, mnemonic: <Space> is to enter the cmdline
@@ -1175,6 +1176,9 @@ if BundleRun('tpope/vim-fugitive') && Bundles('Tpope/vim-git', 'tpope/vim-rhubar
     autocmd FileType gitcommit set foldmethod=syntax foldlevel=1
     autocmd FileType git set foldlevel=1
   augroup END
+
+  " It would be `hub` which currently has :Git completion problem.
+  autocmd User Bundle let g:fugitive_git_executable = 'git'
 
   " Git branch management
   " call Bundles('sodapopcan/vim-twiggy')
