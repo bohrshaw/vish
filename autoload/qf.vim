@@ -5,7 +5,8 @@ function! qf#window()
   nnoremap <buffer><C-w><C-t> <C-W><CR><C-W>T
 
   setlocal statusline=%1*%t
-        \%*%{qf#title().w:qf_ptn}%1*%{w:qf_prg}
+        \%*%{qf#title().w:qf_ptn}
+        \%1*:%<%{w:qf_prg}
         \%*%=%11.(%c:%l/%L:%P%)
   let b:did_ftplugin = 1 " override $VIMRUNTIME/ftplugin/qf.vim
 
@@ -14,10 +15,20 @@ endfunction
 
 function! qf#title()
   if exists('w:quickfix_title')
-    let i = match(w:quickfix_title, '\s\zs[^-]')
-    let j = match(w:quickfix_title, '\v\ze%(/dev/null|NUL)') - i - 1
-    let w:qf_ptn = strpart(w:quickfix_title , i , j >= 0 && j < 50 ? j : 50)
-    let w:qf_prg = strpart(w:quickfix_title , 0 , i-1)
+    if w:quickfix_title =~# '\v^.%(git|hub)'
+      " Example: :git --git-dir=/home/bohr/.vim/.git grep -n foo
+      let w:qf_ptn = matchstr(w:quickfix_title, 'grep.\{-} \zs[^-].*').' '.
+            \ fnamemodify(matchstr(w:quickfix_title,
+            \   '\vgit-dir.\zs.{-}\ze[/\\](\.git)? '), ':~:.')
+      let w:qf_prg = w:quickfix_title[1:4].
+            \ matchstr(w:quickfix_title, 'grep.\{-}\ze [^-]')
+    else
+      " Example: :ag --column foo . /dev/null
+      let i = match(w:quickfix_title, '\s\zs[^-]')
+      let j = match(w:quickfix_title, '\v\ze%(/dev/null|NUL)') - i - 1
+      let w:qf_ptn = strpart(w:quickfix_title , i , j >= 0 && j < 50 ? j : 50)
+      let w:qf_prg = strpart(w:quickfix_title , 1 , i-1)
+    endif
   else
     let [w:qf_ptn, w:qf_prg] = ['', '']
   endif
