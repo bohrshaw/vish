@@ -346,11 +346,15 @@ cabbrev <expr>sv getcmdtype() == ':' && getcmdpos() =~ '[38]' ?
 " }}}
 " GREP:" {{{
 
-" Note, as of `ag` version 0.31, the filename of a single file is not printed;
-" thus /dev/null is added just like the default. (-nocolor --nobreak implicitly)
+" Related: https://github.com/mhinz/vim-grepper/blob/master/autoload/grepper.vim
+
+" Note: A single file may not be printed; thus /dev/null is added.
+" -nocolor --nobreak are usally implicitly set when running non-interactively.
+" `grep` is non-recursive by default and this inconsistency is preferable.
+" Use short options as they would be shown on qf-statusline.
 let g:greps = {
       \ 'grep': 'grep -n $* '.(has('win32') ? 'NUL' : '/dev/null'),
-      \ 'ag': 'ag --column $* '.(has('win32') ? 'NUL' : '/dev/null'),
+      \ 'ag': 'ag --vimgrep',
       \ 'pt': 'pt --column',
       \ 'ack': (executable('ack') ? 'ack' : 'ack-grep').' --column -H',
       \ }
@@ -358,7 +362,6 @@ let &grepprg = executable('ag') ? greps.ag :
       \ executable('pt') ? greps.pt :
       \ (executable('ack') || executable('ack-grep')) ? greps.ack :
       \ &grepprg
-" Note the output format may be different when not running interactively
 set grepformat^=%f:%l:%c:%m
 set grepformat+=%f " '-g' search only file names
 
