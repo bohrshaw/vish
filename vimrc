@@ -884,7 +884,7 @@ if &encoding ==# 'utf-8' || &termencoding ==# 'utf-8'
   " No reliable way to detect putty
   let s:is_win_ssh = has('win32') || !empty($SSH_TTY)
   " Special unicode characters/symbols:
-  " ¬ ¶ ⏎ ↲ ↪ ␣ ¨ ⣿ │ ░ ▒ ⇥ → ← ⇉ ⇇ ❯ ❮ » « ↓ ↑
+  " ¬ ¶ ⏎ ↲ ↪ ␣ ¨⠉⠒⠤⣀ ⣿ │ ░ ▒ ⇥ → ← ⇉ ⇇ ❯ ❮ » « ↓ ↑
   " ◉ ○ ● • · ■ □ ¤ ▫ ♦ ◆ ◇ ▶ ► ▲ ▸ ✚ ★ ✸ ✿ ✜ ☯ ☢ ❀ ✨ ♥ ♣ ♠
   let s:lcs = split(s:is_win_ssh ? '· · » « ▫' : '· ␣ ❯ ❮ ▫')
   let &showbreak = s:is_win_ssh ? '→' : '╰' " └ ∟ ╰ ╘ ╙ τ Ŀ
