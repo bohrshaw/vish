@@ -1,6 +1,6 @@
 function! grep#grep(prg, cmd)
-  let grepprg_bak = &l:grepprg
-  let &l:grepprg =
+  let grepprg = &grepprg
+  let &grepprg =
         \ a:prg == 'git' ? 'git --git-dir='.get(b:, 'git_dir', '.').' grep -n' :
         \ a:prg == 'grep' ? g:greps.grep :
         \ a:prg == 'ag' ? g:greps.ag :
@@ -11,12 +11,12 @@ function! grep#grep(prg, cmd)
   try
     execute 'silent' escape(a:cmd[0] == '=' ? a:cmd[1:] : 'grep '.a:cmd, '%#')
   finally
-    let &l:grepprg = grepprg_bak
+    let &grepprg = grepprg
   endtry
 endfunction
 
 function! grep#help(cmd)
-  let grepprg_bak = &grepprg
+  let grepprg = &grepprg
   if executable('ag')
     let &grepprg = "ag -UG '.*\.txt'"
   elseif executable('pt')
@@ -38,6 +38,6 @@ function! grep#help(cmd)
   try
     execute 'silent' a:cmd path
   finally
-    let &grepprg = grepprg_bak
+    let &grepprg = grepprg
   endtry
 endfunction
