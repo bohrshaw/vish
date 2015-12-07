@@ -1,6 +1,8 @@
 function! grep#grep(prg, cmd)
   let grepprg_bak = &l:grepprg
-  let &l:grepprg = a:prg == 'grep' ? g:greps.grep :
+  let &l:grepprg =
+        \ a:prg == 'git' ? 'git --git-dir='.get(b:, 'git_dir', '.').' grep -n' :
+        \ a:prg == 'grep' ? g:greps.grep :
         \ a:prg == 'ag' ? g:greps.ag :
         \ a:prg == 'pt' ? g:greps.pt :
         \ a:prg == 'ack' ? g:greps.ack :

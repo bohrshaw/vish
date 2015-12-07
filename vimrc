@@ -346,13 +346,14 @@ cabbrev <expr>sv getcmdtype() == ':' && getcmdpos() =~ '[38]' ?
 " }}}
 " GREP:" {{{
 
-let g:greps = {}
-" Note, as of ag version 0.31, the filename of a single file is not printed;
+" Note, as of `ag` version 0.31, the filename of a single file is not printed;
 " thus /dev/null is added just like the default. (-nocolor --nobreak implicitly)
-let greps.grep = 'grep -n $* '.(has('win32') ? 'NUL' : '/dev/null')
-let greps.ag = 'ag --column $* '.(has('win32') ? 'NUL' : '/dev/null')
-let greps.pt = 'pt --column'
-let greps.ack = (executable('ack') ? 'ack' : 'ack-grep').' --column -H'
+let g:greps = {
+      \ 'grep': 'grep -n $* '.(has('win32') ? 'NUL' : '/dev/null'),
+      \ 'ag': 'ag --column $* '.(has('win32') ? 'NUL' : '/dev/null'),
+      \ 'pt': 'pt --column',
+      \ 'ack': (executable('ack') ? 'ack' : 'ack-grep').' --column -H',
+      \ }
 let &grepprg = executable('ag') ? greps.ag :
       \ executable('pt') ? greps.pt :
       \ (executable('ack') || executable('ack-grep')) ? greps.ack :
@@ -367,6 +368,8 @@ command! -bar -nargs=+ -complete=file Grep call grep#grep('grep', <q-args>)
 command! -bar -nargs=+ -complete=file Ag call grep#grep('ag', <q-args>)
 command! -bar -nargs=+ -complete=file Pt call grep#grep('pt', <q-args>)
 command! -bar -nargs=+ -complete=file Ack call grep#grep('ack', <q-args>)
+" Grep only available in a `git` repository
+command! -bar -nargs=+ -complete=file Gg call grep#grep('git', <q-args>)
 
 " Grep all HELP docs with the best available greper (with a multiline pattern)
 command! -nargs=+ -complete=command Help call grep#help(<q-args>)
