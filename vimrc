@@ -156,41 +156,12 @@ augroup tmp | augroup t
 augroup END
 
 " }}}
-" Shortcuts:" {{{
+" Normal:" {{{
+" Correspond to Cmdline. (not Normal Mode)
 
 " Escape
 inoremap <M-i> <Esc>
 inoremap <M-o> <C-O>
-
-" Interact with the command line and the command line window
-" {{{
-NXnoremap <Space> :
-" Resolve local mapping conflicts with <Space>
-augroup vimrc_optwin | autocmd!
-  autocmd BufWinEnter option-window autocmd CursorMoved option-window
-        \ execute 'nnoremap <silent><buffer><LocalLeader>r '.maparg("<Space>")|
-        \ unmap <buffer><Space>|
-        \ autocmd! CursorMoved option-window
-augroup END
-
-NXnoremap <M-Space> q:
-NXnoremap <M-e> q:
-NXnoremap <M-/> q/
-" set cedit=<C-G>
-cnoremap <M-Space> <C-F>
-cnoremap <M-e> <C-F>
-cnoremap <M-;> <C-F>
-inoremap <M-;> <Esc>:<C-F>
-augroup vimrc_cmdwin | autocmd!
-  autocmd CmdwinEnter *
-        \ NXInoremap <buffer><M-q> <C-c><C-c>|
-        \ noremap <buffer><F5> <CR>q:|
-        \ NXInoremap <buffer><nowait><CR> <CR>|
-        \ setlocal laststatus=0 norelativenumber nocursorline scrolloff=0
-  autocmd CmdwinLeave * set laststatus=2 scrolloff=1
-augroup END
-set cmdwinheight=5
-"}}}
 
 " Yank till the line end instead of the whole line
 nnoremap Y y$
@@ -202,18 +173,46 @@ nnoremap vV vg_
 " quick access to GUI/system clipboard
 NXnoremap "<Space> "+
 
-" Copy from the command line
-cabbrev <expr>c getcmdtype() == ':' && getcmdpos() == 2 ? 'copy' : 'c'
-
 " Access to the black hole register
 NXnoremap _ "_
+
+" }}}
+" Cmdline:" {{{
+
+NXnoremap <Space> :
+" Resolve local mapping conflicts with <Space> {{{
+augroup vimrc_optwin | autocmd!
+  autocmd BufWinEnter option-window autocmd CursorMoved option-window
+        \ execute 'nnoremap <silent><buffer><LocalLeader>r '.maparg("<Space>")|
+        \ unmap <buffer><Space>|
+        \ autocmd! CursorMoved option-window
+augroup END "}}}
+
+NXnoremap <M-Space> q:
+NXnoremap <M-e> q:
+NXnoremap <M-/> q/
+" set cedit=<C-G>
+cnoremap <M-Space> <C-F>
+cnoremap <M-e> <C-F>
+augroup vimrc_cmdwin | autocmd!
+  autocmd CmdwinEnter *
+        \ NXInoremap <buffer><M-q> <C-c><C-c>|
+        \ noremap <buffer><F5> <CR>q:|
+        \ NXInoremap <buffer><nowait><CR> <CR>|
+        \ setlocal laststatus=0 norelativenumber nocursorline scrolloff=0
+  autocmd CmdwinLeave * set laststatus=2 scrolloff=1
+augroup END
+set cmdwinheight=5
+
+" Copy from the command line
+cabbrev <expr>c getcmdtype() == ':' && getcmdpos() == 2 ? 'copy' : 'c'
 
 " Run the current command with a bang(!)
 cnoremap <M-1> <C-\>ecmd#bang()<CR><CR>
 " Run the last command with a bang
 nnoremap @! :<Up><C-\>ecmd#bang()<CR><CR>
 
-" }}}
+"}}}
 " Motion:" {{{
 
 set virtualedit=onemore " consistent cursor position on EOL
