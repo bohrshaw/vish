@@ -545,14 +545,11 @@ command! BwipeoutUnlisted call buf#wipe_unlisted()
 " }}}
 " File:" {{{
 
-nnoremap <silent><M-f>w :write<CR>
-nnoremap <silent><M-f><M-f>w :write!<CR>
-nnoremap <silent><M-f>u :update<CR>
-nnoremap <silent><M-f><M-f>u :update!<CR>
-nnoremap <silent><M-f>a :wall<CR>
-nnoremap <silent><M-f><M-f>a :wall!<CR>
-nnoremap <silent><M-f>A :windo update<CR>
-nnoremap <silent><M-f><M-f>A :windo update!<CR>
+nnoremap <silent><M-f>w :noautocmd write<CR>
+nnoremap <silent><M-f>u :noautocmd update<CR>
+nnoremap <silent><M-f>a :noautocmd wall<CR>
+nnoremap <silent><M-f>A :let @z = winnr() \|
+      \ execute 'windo noautocmd update' \| execute @z.'wincmd w'<CR>
 " Quick save and exit, useful when editing the shell command line
 inoremap <M-z> <Esc>ZZ
 nnoremap <silent><M-f>e :edit<CR>
