@@ -1232,8 +1232,8 @@ endif
 " Helpers for UNIX(Windows)
 if Bundles('Tpope/vim-eunuch')
   nnoremap <silent><M-f>d :Remove<CR>
-  nnoremap <silent><M-f>x :if buflisted(0) \| below sbuffer # \|
-        \ else \| below sbprevious \| endif \| wincmd p \| Remove<CR>
+  nnoremap <silent><M-f>x :execute 'silent below'
+        \ buflisted(0) ? 'sbuffer #' : 'sbprevious' \| wincmd p \| Remove<CR>
   nnoremap <silent><M-f>W :W<CR>
   if has('nvim')
     command! -bar W

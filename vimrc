@@ -525,8 +525,9 @@ set hidden autoread " 'autowrite'
 nnoremap <silent><M-b>d :bdelete<CR>
 " Delete the current buffer without closing its window
 nnoremap <silent><M-b>x :Bdelete<CR>
-command! -bang Bdelete if buflisted(0) | buffer # | bdelete<bang> # |
-      \ else | bprevious | bdelete<bang> # | endif
+nnoremap <silent><M-b>X :Bdelete!<CR>
+command! -bang Bdelete execute 'silent' buflisted(0) ? 'buffer #' : 'bprevious' |
+      \ execute (<bang>0 ? 'bwipeout' : 'bdelete') '#'
 nnoremap <silent><M-b>w :bwipeout<CR>
 
 cabbrev <expr>vb getcmdtype() == ':' && getcmdpos() == 3 ? 'vert sb' : 'vb'
