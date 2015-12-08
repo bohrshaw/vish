@@ -17,28 +17,28 @@ function! grep#grep(prg, cmd)
 endfunction
 
 function! grep#help(cmd)
-  let grepprg = &grepprg
+  let grepprg = &l:grepprg
   if executable('ag')
-    let &grepprg = "ag -UG '.*\.txt'"
+    let &l:grepprg = g:greps['ag'].' -G '.shellescape('.*\.txt')
   elseif executable('pt')
-    let &grepprg = "pt -UG '.*\.txt'"
+    let &l:grepprg = g:greps['pt'].' -G '.shellescape('.*\.txt')
   elseif executable('ack')
-    let &grepprg = "ack --noenv --type-set=txt:ext:txt --txt"
+    let &l:grepprg = "ack --noenv --type-set=txt:ext:txt --txt"
   else
     execute 'helpgrep '.matchstr(a:cmd, '\v\s+\zs.*')
     return
   endif
 
-  let path = ''
-  for entry in split(&rtp, ',')
-    let entry_doc = entry.'/doc'
-    if isdirectory(entry_doc) && entry !~# '[/\\]after[/\\]\?$'
-      let path .= ' '.entry_doc
+  let paths = ''
+  for r in split(&rtp, ',')
+    let doc = expand(r.'/doc')
+    if isdirectory(doc) && r !~# '[/\\]after[/\\]\?$'
+      let paths .= ' '.shellescape(doc)
     endif
   endfor
   try
-    execute 'silent' a:cmd path
+    execute 'silent' a:cmd paths
   finally
-    let &grepprg = grepprg
+    let &l:grepprg = grepprg
   endtry
 endfunction
