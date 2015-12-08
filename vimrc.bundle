@@ -1204,8 +1204,9 @@ if Bundles('airblade/vim-gitgutter')
   let g:gitgutter_realtime = 0
   let g:gitgutter_eager = 0
   " Update after a git-commit
-  augroup bundle_gitgutter | autocmd!
-    autocmd BufDelete COMMIT_EDITMSG GitGutterAll
+  augroup bundle_gitgutter_tmp | augroup bundle_gitgutter | autocmd!
+    autocmd BufDelete COMMIT_EDITMSG autocmd bundle_gitgutter_tmp CursorMoved *
+          \ GitGutterAll | autocmd! bundle_gitgutter_tmp
   augroup END
 
   " let g:gitgutter_signs = 0
