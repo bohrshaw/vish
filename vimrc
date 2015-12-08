@@ -180,6 +180,8 @@ NXnoremap _ "_
 " Cmdline:" {{{
 
 NXnoremap <Space> :
+cnoremap <F5> <CR>:<Up>
+cmap <M-m> <F5>
 " Resolve local mapping conflicts with <Space> {{{
 augroup vimrc_optwin | autocmd!
   autocmd BufWinEnter option-window autocmd CursorMoved option-window
