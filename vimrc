@@ -367,13 +367,10 @@ set grepformat+=%f " '-g' search only file names
 
 " Grep without affecting 'grepprg' and 'grepformat'.
 " Examples: Ag pattern .; Ag =lgrepadd pattern %
-command! -bar -nargs=+ -complete=file Grep call grep#grep('grep', <q-args>)
-command! -bar -nargs=+ -complete=file Ag call grep#grep('ag', <q-args>)
-command! -bar -nargs=+ -complete=file Pt call grep#grep('pt', <q-args>)
-command! -bar -nargs=+ -complete=file Ack call grep#grep('ack', <q-args>)
-" Grep only available in a `git` repository
-command! -bar -nargs=+ -complete=customlist,git#compfile
-      \ Gg call grep#grep('git', <q-args>)
+command! -nargs=+ -complete=file Grep call grep#grep('grep', <q-args>)
+command! -nargs=+ -complete=file Ag call grep#grep('ag', <q-args>)
+command! -nargs=+ -complete=file Pt call grep#grep('pt', <q-args>)
+command! -nargs=+ -complete=file Ack call grep#grep('ack', <q-args>)
 
 " Grep all HELP docs with the best available greper (with a multiline pattern)
 command! -nargs=+ -complete=command Help call grep#help(<q-args>)

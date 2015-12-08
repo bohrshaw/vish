@@ -1,5 +1,7 @@
 " Depend on `git` related bundles like "vim-fugitive".
 
+let s:fugisid = "<SNR>".scriptease#scriptid(globpath(&rtp, 'plugin/fugitive.vim'))
+
 function! git#run(...)
   let batch = a:0 > 0 ? 1 : 0
   let s = ''
@@ -44,9 +46,7 @@ endfunction
 function! git#compcmd(A, L, P) abort
   return s:compcmd(a:A, a:L, a:P)
 endfunction
-let s:compcmd = function("<SNR>".
-        \ scriptease#scriptid(globpath(&rtp, 'plugin/fugitive.vim')).
-        \ '_GitComplete')
+let s:compcmd = function(s:fugisid.'_GitComplete')
 
 " Imitate s:EditComplete()
 function! git#compfile(A, L, P) abort
