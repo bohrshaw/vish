@@ -54,8 +54,8 @@ function! git#compfile(A, L, P) abort
 endfunction
 
 let s:cmds = {
-      \ 'w':   'update',
-      \ 'wa':  'wall',
+      \ 'w':   'noautocmd update',
+      \ 'wa':  'noautocmd wall',
       \ 's':   'Gstatus',
       \
       \ 'a':      'update | call fugitive#repo().git_chomp_in_tree("add", expand("%:p")[len(b:git_dir)-4:])',
