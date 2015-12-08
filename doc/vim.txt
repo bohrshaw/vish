@@ -5,6 +5,7 @@ Vim additional helps                                    *vim-additional-helps*
 
 
 See |v:count| and |v:count1|                                      *:map-count*
+See https://msdn.microsoft.com/en-us/library/fe06s4ak.aspx *strftime()-format*
 
 
  vim:tw=78:ts=8:ft=help:norl:

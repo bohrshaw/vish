@@ -722,7 +722,7 @@ if Bundles('tpope/vim-flagship')
         \ (empty($SSH_TTY) ? '': '@'.hostname()).
         \ ':%*'
   " Time info is especially useful in full screen
-  let g:tabsuffix = '%{strftime("%c")}'
+  let g:tabsuffix = '%{strftime("%a %m/%d/%Y %H:%M:%S")}'
   " Statusline (leave untouched)
   if has('vim_starting')
     autocmd User Flags set statusline=%!Statusline()
