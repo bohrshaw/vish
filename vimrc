@@ -391,7 +391,9 @@ augroup vimrc_qf | autocmd!
 
   " Open the quickfix-window automatically
   autocmd QuickFixCmdPost [^l]* cwindow
-  autocmd QuickFixCmdPost    l* lwindow
+  autocmd QuickFixCmdPost l* lwindow
+  " Then avoid the hit-enter prompt showing duplicate info
+  autocmd QuickFixCmdPost * call feedkeys('@_')
 augroup END
 
 " Clear the current quickfix list
