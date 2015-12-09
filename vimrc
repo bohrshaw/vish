@@ -1015,7 +1015,7 @@ set ruler " not effective when 'statusline' is set
 set rulerformat=%50(%=%m%r%<%f%Y\ %c,%l/%L,%P%)
 
 " 'tabline' is set in the bundle "vim-flagship"
-let &showtabline = 1 || g:l ? 1 : 2
+let &showtabline = g:l ? 1 : 2
 
 if exists('$TMUX')
   " set titlestring=%{fnamemodify(getcwd(),\ ':~')}
