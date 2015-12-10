@@ -971,10 +971,11 @@ let s:stl1 .= ":%*%.30f" " file path, truncated if its length > 30
 let s:stl1 .= "%1*:%Y" " file type
 let s:stl1 .= "%{(&fenc!='utf-8'&&&fenc!='')?':'.&fenc:''}" " file encoding
 let s:stl1 .= "%{&ff!='unix'?':'.&ff:''}" " file format
-" let s:stl1 .= "%{':'.matchstr(getcwd(),'.*[\\/]\\zs\\S*')}"
 let s:stl2 = "%{get(b:,'case_reverse',0)?':CAPS':''}" " software caps lock
 let s:stl2 .= "%*%=" " left/right separator
-let s:stl2 .= "%c:%l/%L:%P" " cursor position, line percentage
+let s:stl2 .= "%1*%{bufnr('%')==get(g:,'actual_curbuf')?".
+      \ "pathshorten(fnamemodify(getcwd(),':~')).(haslocaldir()?'(L)':''):''}"
+let s:stl2 .= "%*:%c:%l/%L:%P" " cursor position, line percentage
 " The array g:statusline contains flags inserted by bundles
 execute has('vim_starting') ? 'autocmd User Vimrc' : ''
         \ "let s:stl = s:stl1.join(get(g:, 'statusline', []), '').s:stl2"
