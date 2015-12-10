@@ -765,7 +765,7 @@ let &swapfile = g:l ? 0 : 1 " use a swapfile for the buffer
 set undofile " undo history across sessions
 
 " Set default paths of temporary files
-let opts = {'directory': 'swap', 'undodir': 'undo', 'backupdir': 'backup'}
+let opts = {'directory': 'swap//', 'undodir': 'undo', 'backupdir': 'backup'}
 for [opt, val] in items(opts)
   let dir = $MYVIM.'/tmp/'.val
   if !isdirectory(dir) | silent! call mkdir(dir) | endif
