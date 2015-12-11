@@ -1188,7 +1188,7 @@ if Bundles('Tpope/vim-git') &&
   augroup END
 
   " It would be `hub` which currently has :Git completion problem.
-  autocmd User Bundle let g:fugitive_git_executable = 'git'
+  " autocmd User Bundle let g:fugitive_git_executable = 'git'
 
   " Git branch management
   " call Bundles('sodapopcan/vim-twiggy')
