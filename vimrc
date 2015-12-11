@@ -467,8 +467,9 @@ cabbrev <expr>v getcmdtype() == ':' && getcmdpos() == 2 ?
 cabbrev <expr>t getcmdtype() == ':' && getcmdpos() == 2 ? 'tab' : 't'
 
 " Full screen
-nnoremap <silent><F11> :let g:_fullscreen = !get(g:, '_fullscreen') \|
-      \ let &showtabline = g:_fullscreen ? 2 : 1 \| FullScreen<CR>
+nnoremap <silent><F11> :execute 'FullScreen' \|
+      \ let g:_fullscreen = !get(g:, '_fullscreen') \|
+      \ if g:_fullscreen \| set showtabline=2 \| endif<CR>
 " In case <F11> is captured by the terminal
 nmap <S-F11> <F11>
 if has('unix')
@@ -842,14 +843,6 @@ cnoremap <M-p> <Up>
 cnoremap <M-n> <Down>
 
 " }}}
-" Bundles:" {{{
-
-if has('vim_starting')
-  runtime vimrc.bundle " bundle configuration
-  call bundle#done() " inject bundle paths to 'rtp'
-endif
-
-" }}}
 " Appearance:" {{{
 
 " Make it easy to spot the cursor, especially for Gnome-terminal whose cursor
@@ -941,6 +934,15 @@ endif "}}}
 " }}}
 " Helpline:" {{{
 
+" Reusable components in 'statusline', 'rulerformat', 'tabline', 'titlestring'
+" {{{
+let g:hl_head =
+      \ (has('nvim') ? toupper(v:progname) : '%{v:servername}').
+      \ (g:l ? '[L]' : '').
+      \ (empty($SSH_TTY) ? '': '@'.hostname()).
+      \ " [%{fnamemodify(v:this_session, ':t:r')}]"
+" }}}
+
 set statusline=%!Statusline()
 "{{{
 function! Statusline()
@@ -958,10 +960,10 @@ function! Statusline()
         \ c =~# '[VS]' ? 1 :
         \ c ==# 'R' ? 3 : ''
   " To be used in %{} which is evaluated in a dedicated window context
-  let g:_stlm = c.':'
+  let g:hl_mode = c.':'
   " The mode is shown in windows holding the current buffer. (only I/R/T)
   " Note: Nvim would have cursor jump due to evaluation of g:actual_curbuf.
-  return "%".hl."*%{bufnr('%')!=get(g:,'actual_curbuf')?'':g:_stlm}".s:stl
+  return "%".hl."*%{bufnr('%')!=get(g:,'actual_curbuf')?'':g:hl_mode}".s:stl
 endfunction
 set noshowmode " mode message hides normal messages and is redundant
 let s:stl1 = "%1*%w%q" " preview, quickfix
@@ -974,7 +976,7 @@ let s:stl1 .= "%{&ff!='unix'?':'.&ff:''}" " file format
 let s:stl2 = "%{get(b:,'case_reverse',0)?':CAPS':''}" " software caps lock
 let s:stl2 .= "%*%=" " left/right separator
 let s:stl2 .= "%1*%{bufnr('%')==get(g:,'actual_curbuf')?".
-      \ "pathshorten(fnamemodify(getcwd(),':~')).(haslocaldir()?'(L)':''):''}"
+      \"pathshorten(fnamemodify(getcwd(),':~')). (haslocaldir()?':L':''):''}"
 let s:stl2 .= "%*:%c:%l/%L:%P" " cursor position, line percentage
 " The array g:statusline contains flags inserted by bundles
 execute has('vim_starting') ? 'autocmd User Vimrc' : ''
@@ -983,11 +985,24 @@ set fillchars+=stl::,stlnc:: " characters to fill the statuslines
 "}}}
 set laststatus=2 " always display the status line
 
-" Status line highlight
+" Use CTRL-G, G_CTRL-G to see file and cursor information manually
+set ruler " not effective when 'statusline' is set
+set rulerformat=%50(%=%m%r%<%f%Y\ %c,%l/%L,%P%)
+
+" 'tabline' is set in the bundle "vim-flagship"
+let &showtabline = g:l ? 1 : 2
+
+" 'titlestring' is also set in "vim-flagship"
+if exists('$TMUX')
+  " autocmd vimrc FocusLost,VimLeavePre * set titlestring=
+else
+  set title " may not be able to be restored
+endif
+
 augroup vimrc_color | autocmd!
-  autocmd ColorScheme * call s:hi()
+  autocmd ColorScheme * call s:hl_highlight()
 augroup END
-function! s:hi() "{{{
+function! s:hl_highlight() "{{{
   " Gray, DarkYellow, Green
   let [bt, bg, ft, fg, ftn, fgn] = &background == 'dark' ?
         \ ['237', '#3a3a3a', '214', '#ffaf00', '40', '#00d700'] :
@@ -1010,24 +1025,6 @@ function! s:hi() "{{{
   execute 'hi User3 term=bold cterm=bold ctermfg='.ft3 'ctermbg='.bt
         \ 'gui=bold guifg='.fg3 'guibg='.bg
 endfunction "}}}
-
-" Use CTRL-G, G_CTRL-G to see file and cursor information manually
-set ruler " not effective when 'statusline' is set
-set rulerformat=%50(%=%m%r%<%f%Y\ %c,%l/%L,%P%)
-
-" 'tabline' is set in the bundle "vim-flagship"
-let &showtabline = g:l ? 1 : 2
-
-if exists('$TMUX')
-  " set titlestring=%{fnamemodify(getcwd(),\ ':~')}
-  " autocmd vimrc FocusLost,VimLeavePre * set titlestring=
-else
-  set title " may not be able to be restored
-  augroup vimrc_title | autocmd!
-    autocmd VimEnter * let &titlestring = matchstr(v:servername, '.vim.*\c').
-          \ (g:l ? '(L)' : '').' '.'%{getcwd()}'
-  augroup END
-endif
 
 " }}}
 " Terminal:"{{{
@@ -1075,6 +1072,14 @@ if has('nvim')
 endif
 
 "}}}
+" Bundles:" {{{
+
+if has('vim_starting')
+  runtime vimrc.bundle " bundle configuration
+  call bundle#done() " inject bundle paths to 'rtp'
+endif
+
+" }}}
 " Misc:" {{{
 
 if has('vim_starting')

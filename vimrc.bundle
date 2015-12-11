@@ -65,7 +65,6 @@ nnoremap <silent>]d :call search('\cto-\?do:', 's')<CR>
 nnoremap <silent>[d :call search('\cto-\?do:', 'sb')<CR>
 nnoremap <silent>[r :set readonly<CR>
 nnoremap <silent>]r :set noreadonly<CR>
-nnoremap <silent>cot :let &showtabline = &showtabline == 2 ? 1 : 2<CR>
 nnoremap <silent>coM :let &mouse = empty(&mouse) ? 'a' : ''<CR>
 nmap coP <Plug>unimpairedPaste
 
@@ -714,19 +713,27 @@ if 0 && !has('gui_running') && Bundles('wincent/terminus')
 endif
 
 " Configurable and extensible tab line and status line
-if Bundles('tpope/vim-flagship')
-  " Tabline
-  let g:tabprefix = '%#StatusLineNC#'.
-        \ (has('nvim') ? matchstr(v:servername, 'nvim.*') : '%{v:servername}').
-        \ (g:l ? '(L)' : '').
-        \ (empty($SSH_TTY) ? '': '@'.hostname()).
-        \ ':%*'
+if Bundles('Tpope/vim-flagship')
+  " g:flagship_cwd is the global CWD, or use flagship#cwd(0, 'shorten').
+  let s:hl_prefix = g:hl_head.
+        \ " [%{pathshorten(fnamemodify(g:flagship_cwd,':~'))}]"
+
+  let g:tabprefix = '%#StatusLineNC#'.s:hl_prefix.'%*'
   " Time info is especially useful in full screen
   let g:tabsuffix = '%{strftime("%a %m/%d/%Y %H:%M:%S")}'
-  " Statusline (leave untouched)
-  if has('vim_starting')
-    autocmd User Flags set statusline=%!Statusline()
-  endif
+
+  function! s:titlestring()
+    let &titlestring = &showtabline == 2 ? toupper(v:progname) : s:hl_prefix
+  endfunction
+  call s:titlestring()
+
+  nnoremap <silent>cot :let &showtabline = &showtabline == 2 ? 1 : 2 \|
+        \ call <SID>titlestring()<CR>
+
+  " Leave 'statusline' unchanged
+  augroup bundle_flagship | autocmd!
+    autocmd User Flags set statusline=%!Statusline() | autocmd! bundle_flagship
+  augroup END
 endif
 
 " Lean & mean statusline for vim that's light as air
