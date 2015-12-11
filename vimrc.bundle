@@ -16,7 +16,6 @@ let g:l = get(g:, 'l')
 " Let the bundle manager define a variable to download ALL bundles even if the
 " invoked Vim binary doesn't have all these features.
 let s:vundle = get(g:, '_vundle')
-let s:nvim = s:vundle ? 1 : has('nvim')
 let s:pythonx = s:vundle ? 1 : (has('python') || has('python3'))
 let s:ruby = s:vundle ? 1 : has('ruby')
 let s:lua = s:vundle ? 1 : has('lua')
@@ -423,7 +422,7 @@ endif
 " Repeat: {{{1
 
 " Visualize the undo tree/history
-if Dundles('Sjl/gundo.vim') && s:nvim ?
+if Dundles('Simnalamburt/vim-mundo') && has('nvim') ?
       \ Bundle('Simnalamburt/vim-mundo', {'m': [
       \ 'nnoremap <silent>c\u :GundoToggle<CR>',
       \ 'nnoremap <silent>c\U :GundoRenderGraph<CR>']}) :
@@ -792,13 +791,22 @@ endif
 " Mixed {{{2
 
 " Syntax checking hacks for vim
-if Bundles('scrooloose/syntastic')
+if !has('nvim') && Bundles('scrooloose/syntastic') && Dundles('benekastah/neomake')
   let g:syntastic_mode_map = { 'mode': 'active',
         \ 'active_filetypes': [],
         \ 'passive_filetypes': [] }
   let g:syntastic_auto_loc_list = 0
   " let g:syntastic_always_populate_loc_list = 1
   " let g:syntastic_auto_jump = 3 " auto-jump to the first error
+elseif Bundles('benekastah/neomake')
+  command! -nargs=* -bang -bar -complete=customlist,neomake#CompleteMakers M
+        \ Neomake<bang> <args>
+  augroup bundle_neomake | autocmd!
+    autocmd BufWritePost * Neomake
+    autocmd BufWinEnter * call neomake#ProcessCurrentBuffer()
+    autocmd User Bundle autocmd! neomake
+  augroup END
+  nnoremap <silent>sm :call neomake#EchoCurrentError()<CR>
 endif
 
 " Format codes with external code formatters
@@ -1137,7 +1145,7 @@ call Bundle('bohrshaw/vim-vimperator-syntax', {'f': 'vimperator'})
 " ExternalInteraction: {{{1
 
 " Communicate with Nvim through FUSE(user space file system)
-if 0 && s:nvim && Bundles('fmoralesc/nvimfs')
+if 0 && Bundles('fmoralesc/nvimfs')
 endif
 
 " An asynchronous execution library
