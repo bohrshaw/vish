@@ -730,7 +730,9 @@ if Bundles('Tpope/vim-flagship')
         \ call <SID>titlestring()<CR>
 
   " Leave 'statusline' unchanged
+  let g:flagship_skip = '.' " skip injecting flags into `statusline`
   augroup bundle_flagship | autocmd!
+    " This disalbes the plumbing codes in `statusline`, which may cause dysfunction.
     autocmd User Flags set statusline=%!Statusline() | autocmd! bundle_flagship
   augroup END
 endif
