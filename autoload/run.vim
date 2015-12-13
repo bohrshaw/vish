@@ -42,8 +42,9 @@ function! run#map()
   nnoremap <buffer><silent> R mz:set operatorfunc=run#viml<CR>g@
   " use :normal to support mapping count
   nmap <buffer><silent> Rr :normal RVl<CR>
-  nnoremap <buffer> RR :source %<CR>
-  nnoremap <buffer><expr> R% ':'.(g:loaded_scriptease?'Runtime':'source %').'<CR>'
+  nnoremap <buffer>RR :noautocmd silent update \| source %<CR>
+  nnoremap <buffer>R% :noautocmd silent update \|
+        \ <C-r>=g:loaded_scriptease ? 'Runtime' : 'source %'<CR><CR>
   xnoremap <buffer><silent> R mz:<C-U>call run#viml(visualmode())<CR>
 endfunction
 
