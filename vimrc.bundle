@@ -1327,9 +1327,8 @@ call Bundle('bohrshaw/vim-url-shortener', {'c': 'URLShorten'})
 if Bundles('tyru/open-browser.vim')
   command! -nargs=+ -complete=customlist,openbrowser#_cmd_complete Open
         \ call openbrowser#_cmd_open_browser_smart_search(<q-args>)
-  " nmap gx <Plug>NetrwBrowseX
-  " Currently it has issues to find the right URL under cursor
-  NXmap gX <Plug>(openbrowser-smart-search)
+  NXmap gx <Plug>(openbrowser-smart-search)
+  nmap gX <Plug>NetrwBrowseX
 
   " This will merge into the default one
   let g:openbrowser_search_engines = {
