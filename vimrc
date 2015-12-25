@@ -301,6 +301,9 @@ set ignorecase smartcase " also apply to command completion
 NXOnoremap <expr>/ search#hl().'/'
 NXOnoremap <expr>? search#hl().'?'
 
+" The nmap is just for temporary search highlight.
+" The xmap is to search literally with "\C\V".
+"   Note: Keys to search with word boundary is swapped to be practical.
 " The omap is a shortcut to "*Ncgn", etc.
 NXOnoremap <expr>* search#star('*')
 NXOnoremap <expr># search#star('#')

@@ -28,8 +28,6 @@ function! search#star(star, ...)
             \   (slash == '/' ? 'n' : 'N') : '')
     endif
   else
-    " Search literally (case sensitively)
-    " Note: Keys to search with word boundary is swapped to be practical.
     return '"zy'.slash.'\C\V'.
           \ (a:star[0] == 'g' ? '\<' : '').
           \ "\<C-r>=escape(@z, '\\')\<CR>".
