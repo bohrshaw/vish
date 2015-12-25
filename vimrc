@@ -300,26 +300,18 @@ set ignorecase smartcase " also apply to command completion
 " Temporary highlight, will suspend after moving the cursor
 NXOnoremap <expr>/ search#hl().'/'
 NXOnoremap <expr>? search#hl().'?'
-
-nnoremap <expr>*  search#hl()."*zv:echo '/'.@/\<CR>"
-nnoremap <expr>#  search#hl()."#zv:echo '?'.@/\<CR>"
-nnoremap <expr>g* search#hl()."g*zv:echo '/'.@/\<CR>"
-nnoremap <expr>g# search#hl()."g#zv:echo '?'.@/\<CR>"
+NXnoremap <expr>* search#star('*')
+NXnoremap <expr># search#star('#')
+NXnoremap <expr>g* search#star('g*')
+NXnoremap <expr>g# search#star('g#')
 " Search case sensitively
-nnoremap <silent>z* :set noignorecase \| call search#hl()<CR>*/<Up>\C<C-c>
-      \:set ignorecase \| let @/ .= '\C' \| echo '/'.@/<CR>
-nnoremap <silent>z# :set noignorecase \| call search#hl()<CR>#/<Up>\C<C-c>
-      \:set ignorecase \| let @/ .= '\C' \| echo '?'.@/<CR>
-nnoremap <silent>gz* :set noignorecase \| call search#hl()<CR>g*/<Up>\C<C-c>
-      \:set ignorecase \| let @/ .= '\C' \| echo '/'.@/<CR>
-nnoremap <silent>gz# :set noignorecase \| call search#hl()<CR>g#/<Up>\C<C-c>
-      \:set ignorecase \| let @/ .= '\C' \| echo '?'.@/<CR>
-" Search literally (case sensitively)
-" Note: Keys to search with word boundary is swapped to be practical.
-xnoremap * "zy/\V<C-r>=search#hl().escape(@z, '\')<CR>\C<CR>zv
-xnoremap # "zy?\V<C-r>=search#hl().escape(@z, '\')<CR>\C<CR>zv
-xnoremap g* "zy/\V\<<C-r>=search#hl().escape(@z, '\')<CR>\>\C<CR>zv
-xnoremap g# "zy?\V\<<C-r>=search#hl().escape(@z, '\')<CR>\>\C<CR>zv
+nnoremap <expr>z* search#star('*', 'C')
+nnoremap <expr>z# search#star('#', 'C')
+nnoremap <expr>gz* search#star('g*', 'C')
+nnoremap <expr>gz# search#star('g#', 'C')
+
+" A shortcut to "*Ncgn", etc.
+NXnoremap <expr>sc search#cgn()
 
 " Consistent direction when repeating a search
 NXOnoremap <expr>n search#hl().(v:searchforward ? 'n' : 'N').'zv'
