@@ -2,7 +2,9 @@ function! search#star(star, ...)
   let flag = get(a:, 1, '')
   let mode = mode(1)
   let isop = mode[1] == 'o'
-  if !isop
+  if isop
+    autocmd! search_hl
+  else
     let delay = 1
     for t in [flag == 's', mode != 'n']
       if t
@@ -61,3 +63,5 @@ endfunction
 nnoremap <silent><Plug>_nohlsearch :<C-u>nohlsearch<CR>
 xnoremap <silent><Plug>_nohlsearch :<C-u>nohlsearch<CR>gv
 snoremap <silent><Plug>_nohlsearch <Esc>:nohlsearch<CR>gv<C-g>
+" This may break redo; thus don't break silently.
+" inoremap <silent><Plug>_nohlsearch <C-\><C-o>:nohlsearch<CR>
