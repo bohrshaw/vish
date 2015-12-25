@@ -300,10 +300,12 @@ set ignorecase smartcase " also apply to command completion
 " Temporary highlight, will suspend after moving the cursor
 NXOnoremap <expr>/ search#hl().'/'
 NXOnoremap <expr>? search#hl().'?'
-NXnoremap <expr>* search#star('*')
-NXnoremap <expr># search#star('#')
-NXnoremap <expr>g* search#star('g*')
-NXnoremap <expr>g# search#star('g#')
+
+" The omap is a shortcut to "*Ncgn", etc.
+NXOnoremap <expr>* search#star('*')
+NXOnoremap <expr># search#star('#')
+NXOnoremap <expr>g* search#star('g*')
+NXOnoremap <expr>g# search#star('g#')
 " Search case sensitively
 nnoremap <expr>z* search#star('*', 'C')
 nnoremap <expr>z# search#star('#', 'C')
@@ -314,9 +316,6 @@ NXnoremap <expr>s*  search#star('*', 's')
 NXnoremap <expr>gs* search#star('g*', 's')
 NXnoremap <expr>s#  search#star('#', 's')
 NXnoremap <expr>gs# search#star('g#', 's')
-
-" A shortcut to "*Ncgn", etc.
-NXnoremap <expr>sc search#cgn()
 
 " Consistent direction when repeating a search
 NXOnoremap <expr>n search#hl().(v:searchforward ? 'n' : 'N').'zv'

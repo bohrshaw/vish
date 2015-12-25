@@ -1,7 +1,8 @@
 function! search#star(star, ...)
   let flag = get(a:, 1, '')
-  let mode = mode()
-  if flag != -1
+  let mode = mode(1)
+  let isop = mode[1] == 'o'
+  if !isop
     let delay = 1
     for t in [flag == 's', mode != 'n']
       if t
@@ -11,15 +12,18 @@ function! search#star(star, ...)
     call search#hl(delay)
   endif
   let slash = a:star =~ '*' ? '/' : '?'
-  if mode == 'n'
+  if mode =~ '^n'
     let echoptn = 'echo '.string(slash).'.@/'
     if flag == 'C'
       set noignorecase
       return a:star."/\<Up>\\C\<C-c>".
             \ ':set ignorecase | let @/ .= "\\C" | '.echoptn."\<CR>"
     else
-      return a:star.'zv:'.echoptn."\<CR>".
-            \ (flag == 's' ? 'N' : '')
+      return (isop ? "\<Esc>" : '').
+            \ a:star.'zv:'.echoptn."\<CR>".
+            \ (flag == 's' || isop ? 'N' : '').
+            \ (isop ? '"'.v:register.v:count1.v:operator.'g'.
+            \   (slash == '/' ? 'n' : 'N') : '')
     endif
   else
     " Search literally (case sensitively)
@@ -30,18 +34,6 @@ function! search#star(star, ...)
           \ (a:star[0] == 'g' ? '\m\>' : '').
           \ "\<CR>zv".(flag == 's' ? 'N' : '')
   endif
-endfunction
-
-function! search#cgn()
-  let c = v#getchar()
-  if c == 'g'
-    let c .= v#getchar()
-  endif
-  if c !~ '[*#]'
-    return ''
-  endif
-  return (mode() == 'n' ? c : search#star(c, -1)).
-        \ 'Ncg'.(c =~ '*' ? 'n' : 'N')
 endfunction
 
 " Temporarily turn on search highlighting
