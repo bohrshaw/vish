@@ -1,24 +1,34 @@
-" Note: Pay attention to when to invoke search#hl()
 function! search#star(star, ...)
+  let flag = get(a:, 1, '')
+  let mode = mode()
+  if flag != -1
+    let delay = 1
+    for t in [flag == 's', mode != 'n']
+      if t
+        let delay += 1
+      endif
+    endfor
+    call search#hl(delay)
+  endif
   let slash = a:star =~ '*' ? '/' : '?'
-  if mode() == 'n'
-    call search#hl()
+  if mode == 'n'
     let echoptn = 'echo '.string(slash).'.@/'
-    if a:0 " match case
+    if flag == 'C'
       set noignorecase
       return a:star."/\<Up>\\C\<C-c>".
             \ ':set ignorecase | let @/ .= "\\C" | '.echoptn."\<CR>"
     else
-      return a:star.'zv:'.echoptn."\<CR>"
+      return a:star.'zv:'.echoptn."\<CR>".
+            \ (flag == 's' ? 'N' : '')
     endif
   else
     " Search literally (case sensitively)
     " Note: Keys to search with word boundary is swapped to be practical.
     return '"zy'.slash.'\C\V'.
           \ (a:star[0] == 'g' ? '\<' : '').
-          \ "\<C-r>=".(a:0 ? '' : 'search#hl().')."escape(@z, '\\')\<CR>".
+          \ "\<C-r>=escape(@z, '\\')\<CR>".
           \ (a:star[0] == 'g' ? '\m\>' : '').
-          \ "\<CR>zv"
+          \ "\<CR>zv".(flag == 's' ? 'N' : '')
   endif
 endfunction
 
@@ -48,7 +58,7 @@ function! search#hl(...)
     " Note: Be considerate with the current state(CursorMoved) and mode.
     autocmd CursorMoved *
           \ if s:delay |
-          \   let s:delay = 0 |
+          \   let s:delay -= 1 |
           \ else |
           \   call feedkeys("\<Plug>_nohlsearch") |
           \   execute 'autocmd! search_hl' |

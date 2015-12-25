@@ -309,6 +309,11 @@ nnoremap <expr>z* search#star('*', 'C')
 nnoremap <expr>z# search#star('#', 'C')
 nnoremap <expr>gz* search#star('g*', 'C')
 nnoremap <expr>gz# search#star('g#', 'C')
+" The cusor would not move (Or map "`*" as "`" is before "1".)
+NXnoremap <expr>s*  search#star('*', 's')
+NXnoremap <expr>gs* search#star('g*', 's')
+NXnoremap <expr>s#  search#star('#', 's')
+NXnoremap <expr>gs# search#star('g#', 's')
 
 " A shortcut to "*Ncgn", etc.
 NXnoremap <expr>sc search#cgn()
