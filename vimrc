@@ -1051,8 +1051,14 @@ if has('nvim')
   cabbrev <expr>tt getcmdtype() == ':' && getcmdpos() == 3 ? 'tab new\|te' : 'tt'
 
   augroup vimrc_term | autocmd!
-    autocmd BufWinEnter,WinEnter term://* startinsert
+    autocmd BufWinEnter,WinEnter term://*
+          \ if !get(b:, 'term_no_insert') | startinsert | endif
+    " Prevent from entering Insert Mode in a non-terminal buffer, when e.g.
+    " a session is being restored in which `startinsert` is delayed.
     autocmd BufLeave term://* stopinsert
+    autocmd TermOpen * nnoremap <silent><buffer><LocalLeader>i
+          \ :let b:term_no_insert = !get(b:, 'term_no_insert') \|
+          \ echo (b:term_no_insert ? 'no ' : '').'auto-insert'<CR>
     autocmd TermClose * call feedkeys(' ')
   augroup END
 endif
