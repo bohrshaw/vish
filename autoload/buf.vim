@@ -1,12 +1,10 @@
-" Edit a buffer if existed, otherwise a file
-function! buf#edit(bufile, ...)
-  " Note `:b foo` would open the buffer "foobar" if "foo" existed but unlisted.
-  " So don't use bufexists().
-  let cmds = buflisted(expand(a:bufile)) ?
-        \ ['b', 'sb', 'vert sb', 'tab sb'] : ['e', 'sp', 'vs', 'tabe']
-  let [idx, keepj] = [get(a:, 1), get(a:, 2)]
-  execute 'silent' keepj ? 'keepjumps' : '' cmds[idx == 0 ? 0 : idx-1] a:bufile
+" Edit a buffer if listed, otherwise a file
+function! buf#edit(bufile)
+  " Note: Don't use bufexists() as `:b foo` would open the buffer `foobar`.
+  execute 'silent keepjumps'
+        \ s:ecmds[buflisted(expand(a:bufile))][v:count1 - 1] a:bufile
 endfunction
+let s:ecmds = [['e', 'sp', 'vs', 'tabe'], ['b', 'sb', 'vert sb', 'tab sb']]
 
 " Get a list of buffers
 " If argument 1 is empty, listed buffers are displayed.
