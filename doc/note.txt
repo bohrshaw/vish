@@ -1,0 +1,36 @@
+*note.txt*  Vim notes
+
+==============================================================================
+Notes                                                                  *notes*
+
+
+Be healthy, stable, efficient, consistent, intuitive, convenient, accessible!
+
+- First and foremost, master the HELP system. |helphelp|
+- See |quickref|, |index| for an overview of HELP.
+- Could view and set all options via |:options|.
+- Analyse startup performance with `vim-profile.sh`.
+- There's a community maintained minimal sensible vimrc(not for `nvim`):
+    https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim
+
+Mapping                                                         *note-mapping*
+-------
+
+- :help |map-which-keys|                                            *note-key*
+  - Potentially unused keys: \ <Space> <CR> <BS> Z Q R S X _ !
+  - Keys waiting for a second key: f t d c g z v y m q ' [ ]
+  - Keys like <CR>, <BS>, q are often mapped solely.
+  - keys like Caps Lock, <C-1>, <C-S-1> are not mappable.
+- <Tab>/<C-I>, <CR>/<C-M>, <Esc>/<C-[> are pairs of exactly same keys.
+- <C-J> is the same as <C-j>, use <C-S-j> instead.
+
+- Use <C-c> instead of <Esc> to cancel a mapping.
+
+Bundle                                                           *note-bundle*
+------
+
+- Pick bundles carefully and customize them properly!
+- Especially be aware of possible autocmds pollution.
+
+
+ vim:tw=78:ts=8:sw=2:ft=help:norl:

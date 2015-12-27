@@ -7,28 +7,6 @@
 "
 " Author: Bohr Shaw <pubohr@gmail.com>
 
-" Comments:" {{{
-
-" Be: healthy, stable, efficient, consistent, intuitive, convenient, accessible!
-
-" First and foremost, master the help system. (:h helphelp)
-" For an overview, :h quickref, :h index
-" Could view and set all options. (:h :options)
-" See minimal sensible settings: https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim
-" Analyse startup performance with vim-profile.sh
-
-" Mapping notes:
-" Use <C-c> instead of <Esc> to cancel a mapping
-" :h map-which-keys
-" Potentially unused keys: "\ <Space> <CR> <BS> Z Q R S X _ !"
-" Keys waiting for a second key: "f t d c g z v y m q ' [ ]"
-" Special keys like <CR>, <BS> are often mapped solely, as well as 'q' which is
-" often mapped to quit a window.
-" <Tab>/<C-I>, <CR>/<C-M>, <Esc>/<C-[> are pairs of exactly same keys.
-" Some keys like Caps Lock, <C-1>, <C-S-1> etc. are not mappable.
-" <C-J> is the same as <C-j>, use <C-S-j> instead.
-
-" }}}
 " Starting:" {{{
 
 " To skip sourcing system-vimrc, use `vim -u foo_vimrc`.

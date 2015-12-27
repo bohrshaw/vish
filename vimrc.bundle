@@ -1,8 +1,5 @@
 " This is the Vim(Neovim) initialization file dependent on various bundles.
 " It's sourced in "vimrc".
-" Note:
-" Pick bundles carefully and customize them properly!
-" Especially, be aware of possible autocmds pollution.
 "
 " Author: Bohr Shaw <pubohr@gmail.com>
 
