@@ -939,7 +939,7 @@ let g:hl_head =
       \ (has('nvim') ? toupper(v:progname) : '%{v:servername}').
       \ (g:l ? '[L]' : '').
       \ (empty($SSH_TTY) ? '': '@'.hostname()).
-      \ " [%{fnamemodify(v:this_session, ':t:r')}]"
+      \ ":%{fnamemodify(v:this_session, ':t:r')}"
 " }}}
 
 set statusline=%!Statusline()

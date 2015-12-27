@@ -709,9 +709,9 @@ endif
 if Bundles('Tpope/vim-flagship')
   " g:flagship_cwd is the global CWD, or use flagship#cwd(0, 'shorten').
   let s:hl_prefix = g:hl_head.
-        \ " [%{pathshorten(fnamemodify(g:flagship_cwd,':~'))}]"
+        \ ":%{pathshorten(fnamemodify(g:flagship_cwd,':~'))}"
 
-  let g:tabprefix = '%#StatusLineNC#'.s:hl_prefix.'%*'
+  let g:tabprefix = '%#StatusLineNC#'.s:hl_prefix.'%1*:%*'
   " Time info is especially useful in full screen
   let g:tabsuffix = '%{strftime("%a %m/%d/%Y %H:%M:%S")}'
 
