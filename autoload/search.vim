@@ -30,7 +30,7 @@ function! search#star(star, ...)
   else
     return '"zy'.slash.'\C\V'.
           \ (a:star[0] == 'g' ? '\<' : '').
-          \ "\<C-r>=escape(@z, '\\')\<CR>".
+          \ "\<C-r>=escape(@z, '/\\')\<CR>".
           \ (a:star[0] == 'g' ? '\m\>' : '').
           \ "\<CR>zv".(flag == 's' ? 'N' : '')
   endif
