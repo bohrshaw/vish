@@ -35,7 +35,9 @@ $lua = "D:\Workspaces\builds\luajit\src"
 
 # Source Code Preparation {{{1
 if((git config --get-regex remote.*url) -match '.*vim/vim.*') {
-  git clean -dxfq; git reset --hard
+  git clean -dxfq
+  git diff-index --quiet HEAD
+  if (-not $?) { git reset --hard }
   git pull
 }
 else {
