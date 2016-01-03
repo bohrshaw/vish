@@ -153,6 +153,7 @@ NXnoremap "<Space> "+
 
 " Access to the black hole register
 NXnoremap _ "_
+xnoremap _p "_xP
 
 " }}}
 " Cmdline:" {{{
