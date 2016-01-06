@@ -101,7 +101,7 @@ function! Bundle(bundle, trigger, ...)
     if has_key(a:trigger, 'c')
       for c in type(a:trigger.c) == 1 ? [a:trigger.c] : a:trigger.c
         execute 'command! -nargs=* -range -bang' c bundle_cmd '|'
-              \ '<line1>,<line2>'.c.'<bang> <args>'
+              \ (c[0] == ' ' ? '<line1>,<line2>' : '').c.'<bang> <args>'
       endfor
     endif
 

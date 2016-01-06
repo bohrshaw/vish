@@ -344,7 +344,7 @@ endif
 " Alignment
 if Bundle('junegunn/vim-easy-align',
       \ {'m': ['nx <Plug>(EasyAlign)', 'nx <Plug>(LiveEasyAlign)'],
-      \ 'c': 'EasyAlign'})
+      \ 'c': ' EasyAlign'})
   command! -nargs=* -range -bang Align <line1>,<line2>EasyAlign<bang> <args>
   NXmap zl <Plug>(EasyAlign)
   NXmap Zl <Plug>(LiveEasyAlign)
