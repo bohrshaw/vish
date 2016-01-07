@@ -1,7 +1,7 @@
 "  _  _ ____ _    _    ____   _  _ _ _  _
 "  |__| |___ |    |    |  |   |  | | |\/|
 "  |  | |___ |___ |___ |__|    \/  | |  |  :simle
-"                           
+"
 " This is the Vim(Neovim) initialization file categorized practically.
 " Bundle(plugin) dependent configs are splited into "vimrc.bundle".
 "
