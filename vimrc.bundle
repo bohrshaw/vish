@@ -664,26 +664,21 @@ endif
 " A color scheme editor: http://bytefluent.com/vivify/
 " Create, view and edit terminal color schemes: http://terminal.sexy/
 if Bundles('Bohrshaw/vim-colors')
-  augroup bundle_color | autocmd!
-    let g:seoul256_background = 233
-    autocmd ColorScheme seoul256
-          \ hi VertSplit term=NONE cterm=NONE ctermfg=16 ctermbg=237
-          \   gui=NONE guifg=#777777 guibg=#3a3a3a
-
-    let g:solarized_italic = 0
-    let g:solarized_underline = 0
-    let g:solarized_termcolors = &term =~ '256col' ? 256 : 16
-    let g:solarized_menu=0
-    autocmd ColorScheme solarized runtime autoload/solarized_custom.vim
-
-    autocmd ColorScheme github
-          \ hi CursorLine cterm=NONE gui=NONE ctermbg=253 guibg=#D8D8DD
+  autocmd User Bundle nested execute 'silent color'
+        \ has('gui_running') || !has('win32') ?
+        \   &background == 'light' ? 'github' : 'seoul256' :
+        \   ''
+  augroup bundle_colors | autocmd!
+    autocmd ColorScheme * call b#colors#()
   augroup END
+
+  let g:seoul256_background = 233
+
+  let g:solarized_italic = 0
+  let g:solarized_underline = 0
+  let g:solarized_termcolors = &term =~ '256col' ? 256 : 16
+  let g:solarized_menu=0
 endif
-autocmd User Bundle nested execute 'silent color'
-      \ has('gui_running') || !has('win32') ?
-      \   &background == 'light' ? 'github' : 'seoul256' :
-      \   ''
 
 " All 256 xterm colors with their RGB equivalents, right in Vim!
 if Bundle('guns/xterm-color-table.vim', {'c': 'XtermColorTable'})

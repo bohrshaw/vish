@@ -1,5 +1,3 @@
-" Choose colors online: http://drpeterjones.com/colorcalc
-
 if &background == 'dark'
   hi Normal guifg=#77A5B1
   hi Visual ctermbg=233
