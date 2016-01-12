@@ -9,6 +9,7 @@ map gm LinkHints.activateModeWithQueue
 map gd LinkHints.activateModeToDownloadLink
 map ga LinkHints.activateModeToOpenIncognito
 
+map <a-t> createTab
 map l nextTab
 map h previousTab
 map U restoreTab
