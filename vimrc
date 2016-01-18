@@ -52,7 +52,7 @@ if has('vim_starting')
     endfor
     noremap! <M-\|> <Nop>
     noremap! <M-CR> <Nop>
-    if has('nvim')
+    if 0 && has('nvim')
       for c in map(range(33, 123) + range(125, 126), 'nr2char(v:val)')
         execute 'tnoremap '.'<M-'.c.'> <Esc>'.c
         execute 'tnoremap '.'<M-C-'.c.'> <Esc><C-'.c.'>'
@@ -1034,9 +1034,10 @@ if has('nvim')
     " Prevent from entering Insert Mode in a non-terminal buffer, when e.g.
     " a session is being restored in which `startinsert` is delayed.
     autocmd BufLeave term://* stopinsert
-    autocmd TermOpen * nnoremap <silent><buffer><LocalLeader>i
-          \ :let b:term_no_insert = !get(b:, 'term_no_insert') \|
-          \ echo (b:term_no_insert ? 'no ' : '').'auto-insert'<CR>
+    autocmd TermOpen * setlocal nolist |
+          \ nnoremap <silent><buffer><LocalLeader>i
+          \   :let b:term_no_insert = !get(b:, 'term_no_insert') \|
+          \   echo (b:term_no_insert ? 'no ' : '').'auto-insert'<CR>
     autocmd TermClose * call feedkeys(' ')
   augroup END
 endif
