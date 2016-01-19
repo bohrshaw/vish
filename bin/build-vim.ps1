@@ -83,6 +83,5 @@ mkdir $dir -ErrorAction Ignore
 rm -r $dir".bak" -ErrorAction Ignore
 mv $dir $dir".bak"
 cp -r runtime $dir
-invoke-expression $dir"/gvim.exe"
 
 # vim:tw=0 ts=2 sw=2 et fdm=marker:
