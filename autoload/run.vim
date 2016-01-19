@@ -8,7 +8,7 @@ if !exists('*run#viml')
       call mkdir(s:tmpdir, 'p')
     endif
     augroup run_viml | autocmd!
-      autocmd! VimLeavePre * call os#delete(s:tmpdir)
+      autocmd! VimLeavePre * call delete(s:tmpdir, 'rf')
     augroup END
   endif
 endif
