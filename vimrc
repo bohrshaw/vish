@@ -199,6 +199,9 @@ nnoremap @! :<Up><C-\>ecmd#bang()<CR><CR>
 set virtualedit=onemore " consistent cursor position on EOL
 set whichwrap& " left/right motions across lines
 
+" Go to the end of any previous line, depends on 'virtualedit'
+onoremap <silent>g= :<C-u>execute 'normal!' v:count1.'k$l'<CR>
+
 " `;` always forward, `,` always backward
 " Note: These are overwritten in Sneak, but the semantics retains. "{{{
 if 0 && exists('*getcharsearch') " Vim patch 7.4.813
