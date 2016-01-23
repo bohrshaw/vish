@@ -660,9 +660,6 @@ endif
 " Appearance: {{{1
 
 " Color Schemes
-" Screenshots for various schemes: http://vimcolors.com/
-" A color scheme editor: http://bytefluent.com/vivify/
-" Create, view and edit terminal color schemes: http://terminal.sexy/
 if Bundles('Bohrshaw/vim-colors')
   autocmd User Bundle nested execute 'silent color'
         \ has('gui_running') || !has('win32') ?
