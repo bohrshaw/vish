@@ -3,7 +3,7 @@ function! search#star(star, ...)
   let mode = mode(1)
   let isop = mode[1] == 'o'
   if isop
-    autocmd! search_hl
+    silent! autocmd! search_hl
   else
     let delay = 1
     for t in [flag == 's', mode != 'n']
