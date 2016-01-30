@@ -26,13 +26,19 @@ for f in vimrc gvimrc vimperatorrc vimperator; do
 done
 slink "$VISH/vimrc" "$NVIM/init.vim"
 
+clone() {
+  if [ -e ~/.ssh/id_rsa ]; then
+    git clone git@git.coding.net:bohrshaw/$1 $2
+  else
+    git clone https://git.coding.net/bohrshaw/$1 $2
+    git -C $2 remote set-url origin git@${1/\//:}
+  fi
+}
+
 # Include spell related files(mostly static and large)
-if vspell=$VISH/spell && [[ ! -d $vspell/.git ]]; then
+if vspell=$VISH/spell && [[ ! -e $vspell/.git ]]; then
   [[ -d $vspell ]] && mv "$vspell" "${vspell}.bak"
-  url=git.coding.net/bohrshaw/vish-spell.git
-  git clone "https://$url" "$vspell"
-  git -C "$vspell" remote set-url origin "git@${url/\//:}"
-  # Neovim doesn't distribute spell files. I would be interrupted by its prompt.
+  clone vish-spell "$vspell"
   for f in spl sug; do
     curl -o "$vspell/en.utf-8.$f" \
       http://ftp.vim.org/pub/vim/runtime/spell/en.utf-8.$f &>/dev/null &
