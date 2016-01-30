@@ -52,7 +52,7 @@ if has('vim_starting')
     endfor
     noremap! <M-\|> <Nop>
     noremap! <M-CR> <Nop>
-    if 0 && has('nvim')
+    if has('nvim') && $OSNAME == 'archlinux'
       for c in map(range(33, 123) + range(125, 126), 'nr2char(v:val)')
         execute 'tnoremap '.'<M-'.c.'> <Esc>'.c
         execute 'tnoremap '.'<M-C-'.c.'> <Esc><C-'.c.'>'
