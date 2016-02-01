@@ -1016,12 +1016,10 @@ if has('nvim')
   tnoremap <M-i> <C-\><C-N>
   tnoremap <M-Space> <C-\><C-N>:
 
-  tnoremap <M-w> <C-\><C-n><C-w>
-  tnoremap <M-j> <C-\><C-n><C-w>w
-  tnoremap <M-k> <C-\><C-n><C-w>W
-  tmap <M-a> <C-\><C-n><M-a>
-  tnoremap <M-l> <C-\><C-n>gt
-  tnoremap <M-h> <C-\><C-n>gT
+  tnoremap <expr><M-w> winnr('$') == 1 ? "\<Esc>w" : "\<C-\>\<C-n>\<C-w>"
+  tnoremap <expr><M-j> winnr('$') == 1 ? "\<Esc>j" : "\<C-\>\<C-n>\<C-w>w"
+  tnoremap <expr><M-k> winnr('$') == 1 ? "\<Esc>k" : "\<C-\>\<C-n>\<C-w>W"
+  tmap     <expr><M-a> winnr('$') == 1 ? "\<Esc>a" : "\<C-\>\<C-n>\<M-a>"
 
   tnoremap <S-PageUp> <C-\><C-n><C-b>
   tnoremap <S-PageDown> <C-\><C-n><C-f>
