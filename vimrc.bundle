@@ -385,7 +385,7 @@ call Bundles('salsifis/vim-transpose')
 call Bundles('Tpope/vim-abolish')
 
 " True Sublime Text style multiple selections for Vim
-if Bundle('terryma/vim-multiple-cursors', {'m': ['n <C-n>', 'x <C-n>']})
+if 0 && Bundle('terryma/vim-multiple-cursors', {'m': ['n <C-n>', 'x <C-n>']})
   " let g:multi_cursor_exit_from_visual_mode = 0
   let g:multi_cursor_exit_from_insert_mode = 0
 endif
