@@ -670,7 +670,7 @@ xnoremap . :normal! .<CR>
 nnoremap <silent>9q :call macro#recur<CR>
 " Execute a macro repeatedly within a region
 nnoremap <silent>@R :set operatorfunc=macro#repeat<CR>g@
-xnoremap <silent>@R :<C-u>call macro#repeat()<CR>
+xnoremap <silent>@ :<C-u>call macro#repeat()<CR>
 " Execute a macro on each line within a region
 nnoremap <expr>@L v:count1 == 1 ?
       \ ":set operatorfunc=macro#line<CR>g@" :

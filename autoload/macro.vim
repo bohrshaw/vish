@@ -9,15 +9,7 @@ function! macro#recur()
 endfunction
 
 function! macro#repeat(...)
-  let r = v#getchar() | if empty(r) | return | endif
-  let [start, end] = a:0 ? [getpos("'["), getpos("']")] :
-        \ [getpos("'<"), getpos("'>")]
-  let [line, col] = getpos('.')[1:2]
-  while line >= start[1] && line <= end[1] &&
-        \ col >= start[2] && col <= end[2]
-    execute 'normal @'.r
-    let [line, col] = getpos('.')[1:2]
-  endwhile
+  execute (a:0 ? "'[,']" : "'<,'>").'normal @'.nr2char(getchar())
 endfunction
 
 function! macro#line(...) range
