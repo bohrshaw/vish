@@ -660,7 +660,7 @@ endif
 " Appearance: {{{1
 
 " Color Schemes
-if Bundles('Bohrshaw/vim-colors')
+if Bundles('Bohrshaw/vim-colors', 'Chriskempson/base16-vim')
   autocmd User Bundle nested execute 'silent color'
         \ has('gui_running') || !has('win32') ?
         \   &background == 'light' ? 'github' : 'seoul256' :
