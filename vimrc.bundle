@@ -1221,6 +1221,9 @@ if 0 && Bundles('mhinz/vim-signify')
   let g:signify_sign_delete = '-'
 endif
 
+" A git commit browser
+call Bundle('junegunn/gv.vim', {'c': 'GV'})
+
 " Browse GitHub events
 if 0 && Bundles('junegunn/vim-github-dashboard')
   let g:github_dashboard = {'username': 'bohrshaw'}
