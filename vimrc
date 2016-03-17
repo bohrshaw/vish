@@ -1090,6 +1090,9 @@ silent! set formatoptions+=jm " deal with comments and multi-bytes
 set nrformats-=octal " 01 is treated as decimal
 set lazyredraw " don't redraw the screen while executing macros, etc.
 set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
+if has('patch-7.4.1570')
+  set shortmess+=F
+endif
 " autocmd vimrc GUIEnter * set vb t_vb= " disable error beep and screen flash
 set guioptions=M " skip sourcing menu.vim, before enabling filetype/syntax
 set guioptions+=c " use a console dialog for confirmation instead of a pop-up
