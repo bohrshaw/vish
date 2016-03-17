@@ -147,11 +147,18 @@ if Dundles('Wellle/targets.vim') && Bundles('tommcdo/vim-ninja-feet',
   imap <C-g><C-w> <Esc>cid
   " Delay activating this bundle to reduce startup time
   if has('vim_starting')
-    set updatetime=10
-    augroup bundle_targets
-      autocmd CursorHold * call BundleRun("targets.vim") |
-            \ set updatetime& | autocmd! bundle_targets
-    augroup END
+    if has('timers')
+      function! BundleTargets(t)
+        call BundleRun("targets.vim")
+      endfunction
+      call timer_start(10, 'BundleTargets')
+    else
+      set updatetime=10
+      augroup bundle_targets
+        autocmd CursorHold * call BundleRun("targets.vim") |
+              \ set updatetime& | autocmd! bundle_targets
+      augroup END
+    endif
   endif
 endif
 
