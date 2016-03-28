@@ -32,7 +32,6 @@ if has('vim_starting')
         \     expand('~/.vim/vimrc') : expand('~/vimfiles/vimrc') :
         \   resolve($MYVIMRC)
   let $MYVIM = fnamemodify($MYVIMRC, ':p:h') " be portable
-  let g:ported = $MYVIM == expand('~/.vim') || $MYVIM == expand('~/vimfiles') ? 0 : 1
 
   " Cross-platform 'runtimepath'
   set rtp=$MYVIM,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$MYVIM/after
@@ -83,7 +82,7 @@ if has('vim_starting')
     let [g:python_host_skip_check, g:python3_host_skip_check] = [1, 1]
   endif
 
-  let $MYVIMRCPRE = (g:ported ? $MYVIM.'/' : $HOME.'/.').'vimrc.pre.local'
+  let $MYVIMRCPRE = expand('~/.vimrc.pre.local')
   if filereadable($MYVIMRCPRE)
     execute 'silent source' $MYVIMRCPRE
   endif
@@ -1144,7 +1143,7 @@ command! HelpWrite setlocal buftype= buflisted modifiable noreadonly |
       \ silent! unlet b:did_ftplugin b:did_after_ftplugin | filetype detect |
       \ setlocal conceallevel=0 spell
 
-let $MYVIMRCAFTER = (g:ported ? $MYVIM.'/' : $HOME.'/.').'vimrc.local'
+let $MYVIMRCAFTER = expand('~/.vimrc.local')
 if filereadable($MYVIMRCAFTER)
   execute 'silent source' $MYVIMRCAFTER
 endif
