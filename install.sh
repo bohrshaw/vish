@@ -25,6 +25,7 @@ for f in vimrc gvimrc vimperatorrc vimperator; do
   slink "$VISH/$f" "$HOME/.$f"
 done
 slink "$VISH/vimrc" "$NVIM/init.vim"
+slink "$VISH/vimfx" "$HOME/.config/vimfx"
 
 clone() {
   if [ -e ~/.ssh/id_rsa ]; then
