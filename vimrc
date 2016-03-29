@@ -1007,7 +1007,7 @@ endfunction "}}}
 
 if has('nvim')
   tnoremap <M-i> <C-\><C-N>
-  tnoremap <M-Space> <C-\><C-N>:
+  tnoremap <M-I> <C-\><C-N>:
 
   tnoremap <expr><M-w> winnr('$') == 1 ? "\<Esc>w" : "\<C-\>\<C-n>\<C-w>"
   tnoremap <expr><M-j> winnr('$') == 1 ? "\<Esc>j" : "\<C-\>\<C-n>\<C-w>w"
