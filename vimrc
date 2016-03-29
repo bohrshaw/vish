@@ -572,7 +572,7 @@ augroup vimrc_scratch | autocmd!
 augroup END
 
 " Recognise a file's encoding in this order
-" set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,latin1
+set fileencodings=ucs-bom,utf-8,default,cp936,gb18030,big5,latin1
 
 set fileformats=unix,dos,mac " end-of-line formats precedence
 set fileformat=unix " only for the initial unnamed buffer
