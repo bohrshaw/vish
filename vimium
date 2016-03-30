@@ -1,15 +1,15 @@
 # Vimium for Chrome/Chromium config backup
-
-# Custom key mappings
+#
+# https://github.com/philc/vimium/blob/master/background_scripts/commands.coffee
 
 map ' Marks.activateGotoMode
 
-map go LinkHints.activateModeToOpenInNewForegroundTab
+map t LinkHints.activateModeToOpenInNewForegroundTab
 map gm LinkHints.activateModeWithQueue
 map gd LinkHints.activateModeToDownloadLink
 map ga LinkHints.activateModeToOpenIncognito
 
-map <a-t> createTab
+map T createTab
 map l nextTab
 map h previousTab
 map U restoreTab
@@ -17,8 +17,9 @@ map < moveTabLeft
 map > moveTabRight
 map gX closeTabsOnLeft
 map gx closeTabsOnRight
-map gO closeOtherTabs
-map B activateBookmarks
+map go closeOtherTabs
+map <a-t> Vomnibar.activateTabSelection
+map <a-b> Vomnibar.activateBookmarks
 
 map <a-h> scrollLeft
 map <a-l> scrollRight
@@ -26,7 +27,6 @@ map <a-l> scrollRight
 map ]f nextFrame
 map [f mainFrame
 
-unmap t
 unmap b
 unmap <a-f>
 unmap <c-e>
