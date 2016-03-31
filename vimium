@@ -15,9 +15,10 @@ map h previousTab
 map U restoreTab
 map < moveTabLeft
 map > moveTabRight
-map gX closeTabsOnLeft
 map gx closeTabsOnRight
+map gX closeTabsOnLeft
 map go closeOtherTabs
+map zp togglePinTab
 map <a-t> Vomnibar.activateTabSelection
 map <a-b> Vomnibar.activateBookmarks
 
@@ -40,7 +41,7 @@ unmap <<
 unmap >>
 
 # Characters used for link hints
-asdfjklewioghpqurmvnb
+fjdkslagheiworuvmbncxzqpty
 
 # Default search engine
 http://global.bing.com/search?setmkt=en-us&setlang=en-us&q=

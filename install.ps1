@@ -41,6 +41,7 @@ if($VISH -ne (Convert-Path '~\.vim')) {
 # Link vimrc files
 New-Link "$VISH\vimrc" "$HOME\.vimrc"
 New-Link "$VISH\gvimrc" "$HOME\.gvimrc"
+New-Link "$VISH\vimfx" "$HOME\.config\vimfx"
 New-Link "$VISH\vimperatorrc" "$HOME\.vimperatorrc"
 New-Link "$VISH\vimperator" "$HOME\vimperator"
 New-Link "$VISH\vsvimrc"

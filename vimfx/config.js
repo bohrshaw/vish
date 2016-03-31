@@ -10,6 +10,7 @@
 // https://github.com/lydell/dotfiles/blob/master/.vimfx/config.js
 
 vimfx.set('hint_chars', 'fjdkslagheiworuvmbncxzqpty')
+vimfx.set('mode.ignore.exit', '<s-escape> <a-i>')
 vimfx.set('prevent_autofocus', true)
 vimfx.set('scroll.last_position_mark', "'")
 
