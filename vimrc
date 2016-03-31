@@ -953,7 +953,7 @@ let s:stl2 .= "%*%=" " left/right separator
 " different CWDs, which I think doesn't worth fixing.
 let s:stl2 .= "%1*%{bufnr('%')==get(g:,'actual_curbuf')?".
       \"pathshorten(fnamemodify(getcwd(),':~')). (haslocaldir()?':L':''):''}"
-let s:stl2 .= "%*:%c:%l/%L:%P" " cursor position, line percentage
+let s:stl2 .= "%*:%l/%L:%P" " cursor position, line percentage
 " The array g:statusline contains flags inserted by bundles
 execute has('vim_starting') ? 'autocmd User Vimrc' : ''
         \ "let s:stl = s:stl1.join(get(g:, 'statusline', []), '').s:stl2"
