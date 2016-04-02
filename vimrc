@@ -604,6 +604,7 @@ for s:c in split('lnpkti]fdvuos', '\zs')
   execute 'inoremap <C-X>'.s:c.' <C-X><C-'.s:c.'>'
 endfor
 " Mnemonic: diGraph
+noremap! <M-k> <C-k>
 noremap! <C-X>g <C-k>
 " Mnemonic: omni-completion would show Help info
 inoremap <M-h> <C-x><C-o>
