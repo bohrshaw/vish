@@ -1041,15 +1041,10 @@ endif
 " Shell:"{{{
 
 if has('nvim')
-  " mnemonic: SheO
-  nnoremap <silent>so :<C-u>call term#shell(v:count1)<CR>
-
   command! -nargs=? S call term#shell(<q-args>)
-  cabbrev <expr>sS getcmdtype() == ':' && getcmdpos() == 3 ? 'sb\|S' : 'sS'
-  cabbrev <expr>vS getcmdtype() == ':' && getcmdpos() == 3 ? 'vert sb\|S' : 'vS'
-  cabbrev <expr>tS getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sb\|S' : 'tS'
-
-  nnoremap <Leader>bs :Unite -input=term:/\ zsh\|bash\  buffer<CR>
+  " mnemonic: SheO
+  nnoremap <silent>so :<C-u>S <C-r>=v:count ? ';'.v:count : ''<CR><CR>
+  nnoremap s<Space> :S<Space>
 endif
 
 "}}}
