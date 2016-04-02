@@ -13,9 +13,9 @@ function! term#shell(name)
     catch
       keepjumps enew
       keepjumps call termopen(matchstr(&shell, '\a*$').';#'.name)
-      startinsert
     endtry
   endif
+  startinsert
   if !empty(cmd)
     call feedkeys(cmd."\<CR>")
   endif
