@@ -1119,7 +1119,8 @@ command! -range=% Uniqn <line1>,<line2>g/^./
 " Mystify texts
 command! Mystify call crypt#mystify()
 " Reverse the selected text
-xnoremap cR c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
+command! -range Reverse execute "normal! `<dv`>" | set revins |
+      \ execute 'normal! i<C-R>"' | set norevins
 " Statistics:" {{{
 " Count anything in a range of lines
 command! -range=% -nargs=? Count echo stat#count
