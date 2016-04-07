@@ -168,6 +168,9 @@ NXnoremap <M-/> q/
 " set cedit=<C-G>
 cnoremap <M-Space> <C-F>
 cnoremap <M-e> <C-F>
+cnoremap <C-r><C-l> <C-r>=getline('.')<CR>
+cnoremap <C-r><C-s> <C-r>=getline('.')<CR>
+
 augroup vimrc_cmdwin | autocmd!
   autocmd CmdwinEnter *
         \ NXInoremap <buffer><M-q> <C-c><C-c>|
