@@ -1012,6 +1012,8 @@ endfunction "}}}
 if has('nvim')
   tnoremap <M-i> <C-\><C-N>
   tnoremap <M-I> <C-\><C-N>:
+  " tnoremap <expr><M-v> getchar()
+  tnoremap <silent><M-v> <C-\><C-N>:call feedkeys('i'.getchar(), 'nt')<CR>
 
   tnoremap <expr><M-w> winnr('$') == 1 ? "\<Esc>w" : "\<C-\>\<C-n>\<C-w>"
   tnoremap <expr><M-j> winnr('$') == 1 ? "\<Esc>j" : "\<C-\>\<C-n>\<C-w>w"
