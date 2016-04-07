@@ -302,7 +302,7 @@ if Bundles('Tpope/vim-surround')
   nmap gss    <Plug>YSsurround
   nmap gcs    <Plug>CSurround
   " :help vS
-  xmap s      <Plug>VSurround|xnoremap S s
+  xmap s      <Plug>VSurround
   xmap gs     <Plug>VgSurround
   " :help i_CTRL-G_s
   " imap     <M-s>       <Plug>Isurround
@@ -367,10 +367,6 @@ call Bundles('tpope/vim-speeddating')
 
 " Exchange text flexibly with a text exchange operator
 if Bundles('Tommcdo/vim-exchange')
-  " nmap cx <Plug>(Exchange)
-  xmap cx <Plug>(Exchange)
-  " nmap cxc <Plug>(ExchangeClear)
-  " nmap cxx <Plug>(ExchangeLine)
   nmap >w cxiwwcxiw
   nmap <w cxiwbcxiw
   nmap >W cxiWWcxiW
