@@ -1025,9 +1025,9 @@ if has('nvim')
   tnoremap <C-PageUp> <C-\><C-n><C-b>
   tnoremap <C-PageDown> <C-\><C-n><C-f>
 
-  cabbrev <expr>st getcmdtype() == ':' && getcmdpos() == 3 ? 'new\|te' : 'st'
-  cabbrev <expr>vt getcmdtype() == ':' && getcmdpos() == 3 ? 'vne\|te' : 'vt'
-  cabbrev <expr>tt getcmdtype() == ':' && getcmdpos() == 3 ? 'tab new\|te' : 'tt'
+  cabbrev <expr>st getcmdtype() == ':' && getcmdpos() == 3 ? 'new +te' : 'st'
+  cabbrev <expr>vt getcmdtype() == ':' && getcmdpos() == 3 ? 'vne +te' : 'vt'
+  cabbrev <expr>tt getcmdtype() == ':' && getcmdpos() == 3 ? 'tab new +te' : 'tt'
 
   augroup vimrc_term | autocmd!
     autocmd BufWinEnter,WinEnter term://*
