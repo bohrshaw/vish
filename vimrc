@@ -1045,12 +1045,17 @@ endif
 
 "}}}
 " Shell:"{{{
+" Note: This section deals with the terminal text, not necessarily a shell.
 
 if has('nvim')
   command! -nargs=? S call term#shell(<q-args>)
   " mnemonic: SheO
   nnoremap <silent>so :<C-u>S <C-r>=v:count ? ';'.v:count : ''<CR><CR>
   nnoremap s<Space> :S<Space><C-v><C-u>
+
+  nnoremap <silent>S :set operatorfunc=term#send<CR>g@
+  nmap Ss SVl
+  xnoremap <silent>S :<C-u>call term#send(visualmode())<CR>
 endif
 
 "}}}

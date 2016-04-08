@@ -17,6 +17,17 @@ function! term#shell(name)
   endif
   startinsert
   if !empty(cmd)
-    call feedkeys(cmd."\<CR>")
+    call feedkeys(cmd =~ "\n$" ? cmd : cmd."\<CR>")
   endif
+endfunction
+
+function! term#send(type)
+    let [wise, mode] =
+          \ a:type ==# 'line' ? ["'", '[]'] :
+          \ a:type ==# 'char' ? ["`", '[]'] :
+          \ a:type ==# 'V' ? ["'", '<>'] :
+          \ a:type ==# 'v' ? ["`", '<>'] : ['', '']
+    execute 'normal! '.wise.mode[0].'"zy'.(wise == '`' ? 'v' : '').wise.mode[1]
+  call term#shell(@z)
+  call feedkeys("\<C-\>\<C-n>\<C-w>p")
 endfunction
