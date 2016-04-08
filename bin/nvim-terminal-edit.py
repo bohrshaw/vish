@@ -1,5 +1,6 @@
 #!/usr/bin/env python2
 
+# https://github.com/mhinz/neovim-remote/blob/master/bin/nvr
 # https://gist.github.com/tarruda/37f7a3e22996addf8921
 # http://www.reddit.com/r/neovim/comments/30kvl3/ive_been_using_the_experimental_terminal_mode_and/
 
