@@ -5,6 +5,10 @@
 " This is the Vim(Neovim) initialization file categorized practically.
 " Bundle(plugin) dependent configs are splited into "vimrc.bundle".
 "
+" - This file is not splitted as I find it convenient to grasp and review the
+"   whole interface between Vim and me.
+" - Comments, especially for options, are written for keywords search.
+"
 " Author: Bohr Shaw <pubohr@gmail.com>
 
 " Starting:" {{{
