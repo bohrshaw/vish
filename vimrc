@@ -1147,6 +1147,8 @@ command! HelpWrite setlocal buftype= buflisted modifiable noreadonly |
       \ mapclear <buffer> | mapclear! <buffer> |
       \ silent! unlet b:did_ftplugin b:did_after_ftplugin | filetype detect |
       \ setlocal conceallevel=0 spell
+" Toggle automation of state toggle of IME(Fcitx)
+nnoremap <silent>c<Leader>i :call ime#auto()<CR>
 
 let $MYVIMRCAFTER = expand('~/.vimrc.local')
 if filereadable($MYVIMRCAFTER)
