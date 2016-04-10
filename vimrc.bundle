@@ -230,11 +230,11 @@ if 0 && s:lua && Bundles('shougo/neocomplete.vim')
   let g:neocomplete#data_directory = $MYVIM.'/tmp/neocomplete'
   " let g:neocomplete#release_cache_time = 1800 " seconds
   " Enable/disable neocomplete
-  nnoremap <expr> c\C neocomplete#is_enabled() ?
+  nnoremap <expr> c<Leader>C neocomplete#is_enabled() ?
         \ ':NeoCompleteDisable<CR>' : ':NeoCompleteEnable<CR>'
   " Toggle auto/manual completion for the current buffer
-  nnoremap c\c :NeoCompleteToggle<CR>
-  inoremap <C-g>tc <C-R>=neocomplete#commands#_toggle_lock()[1:0]<CR>
+  nnoremap c<LocalLeader>c :NeoCompleteToggle<CR>
+  inoremap <C-g>cc <C-R>=neocomplete#commands#_toggle_lock()[1:0]<CR>
   " Start manual completion
   inoremap <silent><M-n> <C-O>:call neocomplete#init#enable() \|
         \call neocomplete#commands#_lock() \|
@@ -378,7 +378,7 @@ endif
 if 0 && Bundles('kurkale6ka/vim-swap')
   " let g:swap_custom_ops = []
   xmap c: <plug>SwapSwapOperands
-  xmap c\| <plug>SwapSwapPivotOperands
+  xmap c<Leader>\| <plug>SwapSwapPivotOperands
 endif
 
 " Transpose matrices of text (swap lines with columns)
@@ -418,10 +418,10 @@ endif
 " Visualize the undo tree/history
 if Dundles('Simnalamburt/vim-mundo') && has('nvim') ?
       \ Bundle('Simnalamburt/vim-mundo', {'m': [
-      \ 'nnoremap <silent>c\u :GundoToggle<CR>',
-      \ 'nnoremap <silent>c\U :GundoRenderGraph<CR>']}) :
+      \ 'nnoremap <silent>c<LocalLeader>u :GundoToggle<CR>',
+      \ 'nnoremap <silent>c<LocalLeader>U :GundoRenderGraph<CR>']}) :
       \ Bundle('Sjl/gundo.vim', {'m':
-      \ 'nnoremap <silent>c\u :GundoToggle<CR>'})
+      \ 'nnoremap <silent>c<LocalLeader>u :GundoToggle<CR>'})
   augroup bundle_gundo | autocmd!
     autocmd BufNewFile __gundo*
         \ nnoremap <buffer><expr><nowait>R
@@ -609,7 +609,7 @@ endif
 
 " A tree explorer plugin for vim
 if Bundle('scrooloose/nerdtree', {'m': [
-      \ 'nnoremap c\d :NERDTreeToggle<CR>',
+      \ 'nnoremap c<Leader>d :NERDTreeToggle<CR>',
       \ 'nnoremap <leader>dd :NERDTree<CR>',
       \ 'nnoremap <leader>df :NERDTreeFind<CR>']})
   let NERDTreeHijackNetrw=0 " don't replace netrw
@@ -752,7 +752,7 @@ endif
 
 " Displaying indent levels visually
 if Bundle('yggdroot/indentline', {'m':
-      \ 'nnoremap <silent>c\i :IndentLinesToggle<CR>'})
+      \ 'nnoremap <silent>c<LocalLeader>d :IndentLinesToggle<CR>'})
   " 'nathanaelkane/vim-indent-guides'
   let g:indentLine_enabled = 0
   let g:indentLine_fileTypeExclude = ['help']
@@ -801,8 +801,8 @@ endif
 
 " Vim plugin that displays tags in a window, ordered by class etc
 if Bundle('majutsushi/tagbar', {'m': [
-      \ 'nnoremap <silent>c\t :TagbarToggle<CR>',
-      \ 'nnoremap <silent>c\T :TagbarTogglePause<CR>']})
+      \ 'nnoremap <silent>c<Leader>t :TagbarToggle<CR>',
+      \ 'nnoremap <silent>c<Leader>T :TagbarTogglePause<CR>']})
   let g:tagbar_map_toggleautoclose = "C"
   let g:tagbar_autoclose = 1
 
@@ -897,7 +897,7 @@ endif
 
 " Rainbow Parentheses
 if Bundle('junegunn/rainbow_parentheses.vim', {
-      \ 'm': 'nnoremap <silent>c\r :call rainbow_parentheses#toggle()<CR>',
+      \ 'm': 'nnoremap <silent>c<LocalLeader>r :call rainbow_parentheses#toggle()<CR>',
       \ 'c': 'RainbowParentheses'})
   augroup bundle_rainbow_parentheses | autocmd!
     autocmd FileType lisp,clojure,scheme RainbowParentheses
@@ -1061,7 +1061,7 @@ if s:pythonx && Bundle('davidhalter/jedi-vim', {'f': 'python'})
   let g:jedi#show_call_signatures = 2 " show it in the command line
 
   " let g:jedi#force_py_version = has('python3') ? 3 : 2
-  nnoremap c\p :call jedi#force_py_version_switch()<CR>
+  nnoremap c<Leader>p :call jedi#force_py_version_switch()<CR>
 
   " Let g:jedi#auto_initialization = 0
   let g:jedi#auto_vim_configuration = 0
@@ -1198,8 +1198,8 @@ if Bundles('airblade/vim-gitgutter')
   nnoremap <silent>dp :execute &diff ? 'diffput' : 'GitGutterStageHunk'<CR>
   nnoremap <silent>do :execute &diff ? 'diffget' : 'GitGutterRevertHunk'<CR>
   nnoremap dP :GitGutterPreviewHunk<CR>
-  nnoremap <silent>c\s :call gitgutter#signs_toggle()<CR>
-  nnoremap <silent>c\g :call gitgutter#toggle()<CR>
+  nnoremap <silent>c<Leader>s :call gitgutter#signs_toggle()<CR>
+  nnoremap <silent>c<Leader>g :call gitgutter#toggle()<CR>
   " let g:gitgutter_enabled = 0
 
   let g:gitgutter_realtime = 0
