@@ -831,9 +831,9 @@ cnoremap <M-n> <Down>
 " color is not distinguishable.
 set cursorline " 'cursorcolumn'
 set guicursor+=a:blinkon0 " don't blink the cursor
-" if has('multi_byte_ime')
-"   highlight CursorIM guifg=NONE guibg=#007500
-" endif
+if has('multi_byte_ime')
+  highlight CursorIM guifg=NONE guibg=green
+endif
 
 set relativenumber " 'number'
 set numberwidth=3 " narrowed
