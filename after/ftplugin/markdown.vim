@@ -3,7 +3,7 @@ if exists("b:did_after_ftplugin")
 endif
 let b:did_after_ftplugin = 1
 
-setlocal foldlevel=1
+setlocal foldlevel=2
 setlocal shiftwidth=4 tabstop=4 softtabstop=4
 
 " Visually ignore imperfect syntax
