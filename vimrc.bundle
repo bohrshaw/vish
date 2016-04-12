@@ -978,13 +978,14 @@ endif
 
 " Golang {{{2
 
-if Bundle('fatih/vim-go', {'f': 'go'}) &&
-      \ Bundle('garyburd/go-explorer', {'f': 'go'})
+if Bundles('fatih/vim-go') && Bundle('garyburd/go-explorer', {'f': 'go'})
   let g:go_auto_type_info = 0
   let g:go_fmt_autosave = 0
   " let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
   let g:go_dispatch_enabled = 0
   let g:go_highlight_string_spellcheck = 0
+  let g:go_highlight_trailing_whitespace_error = 0 " covered by 'listchars'
+  let g:go_term_mode = "split"
 
   augroup bundle_go | autocmd!
     autocmd FileType godoc nnoremap <buffer>q <C-W>q
