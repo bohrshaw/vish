@@ -1043,7 +1043,7 @@ if has('nvim')
           \ nnoremap <silent><buffer><LocalLeader>i
           \   :let b:term_no_insert = !get(b:, 'term_no_insert') \|
           \   echo (b:term_no_insert ? 'no ' : '').'auto-insert'<CR>
-    autocmd TermClose * call feedkeys(' ')
+    autocmd TermClose *#* call feedkeys(' ')
   augroup END
 endif
 
