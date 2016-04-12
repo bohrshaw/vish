@@ -6,9 +6,10 @@ endif
 " $MYVIM/bundle/vim-go/ftplugin/go/mappings.vim
 " $MYVIM/bundle/vim-go/ftplugin/go/commands.vim
 
-nmap     <buffer><expr>Rr ":GoRun".(g:go_jump_to_error ? '' : '!')." %<CR>"
-nmap     <buffer><expr>RR ":GoRun".(g:go_jump_to_error ? '' : '!')."<CR>"
-nmap     <buffer>Rb       <Plug>(go-build)
+nmap     <buffer><silent>Rr :noautocmd update \| GoRun %<CR>
+nmap     <buffer><silent>RR :noautocmd update \| GoRun<CR>
+nmap     <buffer><silent>Rb :noautocmd update \| GoBuild %<CR>
+nmap     <buffer><silent>RB :noautocmd update \| GoBuild<CR>
 
 nnoremap <buffer>Rf :GoFmt<CR>
 nnoremap <buffer>Ri :GoImports<CR>
