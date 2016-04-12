@@ -133,8 +133,9 @@ function! BundleActivate(dir, ...)
   doautocmd FileType
 endfunction
 
-" Inject a bundle to &rtp and source it
-function! BundleRun(b)
+" Inject a bundle to &rtp and source it.
+" Extra arguments usally contain a timer ID.
+function! BundleRun(b, ...)
   let b = s:bundle(a:b)
   if s:ifbundle(b) || b !~ '/'
     call s:run(split(b, '/')[-1])
