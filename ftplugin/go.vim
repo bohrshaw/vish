@@ -17,6 +17,7 @@ nmap     <buffer>Rg <Plug>(go-generate)
 
 nmap     <buffer>RI <Plug>(go-install)
 
+nmap <buffer><silent><BS> :GoAlternate<CR>
 nmap <buffer>Rt                    <Plug>(go-test)
 nmap <buffer><LocalLeader>t<Space> <Plug>(go-test)
 nmap <buffer><LocalLeader>tf       <Plug>(go-test-func)
