@@ -462,6 +462,10 @@ endif
 " }}}
 " Fold: "{{{
 
+if has('vim_starting')
+  set foldlevel=2 " semi-opend folds are common
+endif
+
 " Open the fold the cursor is in, recursively
 nnoremap z<M-o> zczO
 
