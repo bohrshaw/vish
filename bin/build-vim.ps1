@@ -3,6 +3,8 @@
 # Reference:
 # src/INSTALLpc.txt, src/Make_mvc.mak
 #
+# Official:
+# https://github.com/vim/vim-win32-installer/blob/master/appveyor.bat
 # Similar works:
 # http://tuxproject.de/projects/vim/_compile.bat.php
 # http://wyw.dcweb.cn/#download
