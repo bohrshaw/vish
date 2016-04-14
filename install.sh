@@ -21,7 +21,7 @@ slink "$VISH" "$VIM"
 slink "$VISH" "$NVIM"
 
 # Link vimrc files
-for f in vimrc gvimrc vimperatorrc vimperator; do
+for f in vimrc gvimrc; do
   slink "$VISH/$f" "$HOME/.$f"
 done
 slink "$VISH/vimrc" "$NVIM/init.vim"

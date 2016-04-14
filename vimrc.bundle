@@ -1125,9 +1125,6 @@ call Bundle('pprovost/vim-ps1', {'f': 'ps1,ps1xml'})
 " Syntax file for nginx
 call Bundle('vim-scripts/nginx.vim', {'f': 'nginx'})
 
-" A mirror to the official vimperator's syntax file
-call Bundle('bohrshaw/vim-vimperator-syntax', {'f': 'vimperator'})
-
 " ExternalInteraction: {{{1
 
 " Communicate with Nvim through FUSE(user space file system)

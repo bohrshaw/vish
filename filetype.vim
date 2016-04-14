@@ -10,6 +10,5 @@ augroup filetypedetect
   autocmd BufNewFile,BufRead *.snippets setfiletype snippets
 
   " New file types
-  autocmd BufNewFile,BufRead *vimperatorrc*,*.vimp setfiletype vimperator
   autocmd BufNewFile,BufRead /etc/nginx/*,/usr/local/nginx/conf/* setfiletype nginx
 augroup END
