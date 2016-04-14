@@ -308,6 +308,7 @@ if Bundles('Tpope/vim-surround')
   noremap! <expr><M-s> b#surround#()
 
   " Surround replacements
+  " let g:surround_{char2nr('s')} = '`\r`' " doesn't work
   let g:surround_{char2nr("\<M-[>")} = "[[ \r ]]"
   let g:surround_{char2nr("\<M-9>")} = "(( \r ))"
   let g:surround_{char2nr('e')} = " \r " " e(empty) as <Space>
