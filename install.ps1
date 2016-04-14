@@ -41,8 +41,8 @@ if($VISH -ne (Convert-Path '~\.vim')) {
 # Link vimrc files
 New-Link "$VISH\vimrc" "$HOME\.vimrc"
 New-Link "$VISH\gvimrc" "$HOME\.gvimrc"
-New-Link "$VISH\vimfx" "$HOME\.config\vimfx"
-New-Link "$VISH\vsvimrc"
+New-Link "$VISH\external\vimfx" "$HOME\.config\vimfx"
+New-Link "$VISH\external\vsvimrc"
 
 # Include spell related files(mostly static and large)
 if (-not (Test-Path $VISH\spell\.git -PathType Container)) {
