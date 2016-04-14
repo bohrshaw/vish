@@ -9,7 +9,6 @@ function! bundle#init()
 endfunction
 let g:bundles = [] " bundles activated on startup
 let g:dundles = [] " bundles to be downloaded
-let s:vundle = get(g:, '_vundle') " indicate if `vundle` is running
 let s:rtp_ftdetect = [] " for sourcing ftdetect/*.vim in bundles
 let s:dirs_activated = [] " for avoiding activating a bundle twice
 let s:augroup_count = get(s:, 'augroup_count')
@@ -182,7 +181,7 @@ function! bundle#map()
 endfunction
 
 " Add a bundle to the list of bundles to be downloaded
-if s:vundle
+if g:vundle
   function! Dundles(...)
     for b in a:000
       call s:uniqadd(g:dundles, b)
@@ -208,7 +207,7 @@ function! s:bundle(b)
 endfunction
 
 " Determine if the bundle is enabled, or should be downloaded.
-if !s:vundle
+if !g:vundle
   function! s:ifbundle(b)
     if a:b[0] != '-' && !g:l || a:b[0] =~# '\u'
       return 1

@@ -8,14 +8,11 @@
 let $MYBUNDLE = expand('<sfile>') " like $MYVIMRC
 let g:statusline = [] " flags to be inserted into 'statusline'
 
-" g:l is initialized in vimrc which is not sourced when executing `vundle`
-let g:l = get(g:, 'l')
-" Let the bundle manager define a variable to download ALL bundles even if the
-" invoked Vim binary doesn't have all these features.
-let s:vundle = get(g:, '_vundle')
-let s:pythonx = s:vundle ? 1 : (has('python') || has('python3'))
-let s:ruby = s:vundle ? 1 : has('ruby')
-let s:lua = s:vundle ? 1 : has('lua')
+" Let the bundle manager download ALL bundles even if the invoked Vim binary
+" doesn't have all these features.
+let s:pythonx = g:vundle ? 1 : (has('python') || has('python3'))
+let s:ruby = g:vundle ? 1 : has('ruby')
+let s:lua = g:vundle ? 1 : has('lua')
 call bundle#init() " bundle initialization
 
 " Define local mappings
@@ -762,7 +759,7 @@ if Bundle('yggdroot/indentline', {'m':
 endif
 
 " Toggle full screen
-if has('win32') || s:vundle && has('win32unix')
+if has('win32') || g:vundle && has('win32unix')
   if Bundle('bohrshaw/wimproved.vim:', {'c': 'WToggleFullscreen'})
     " 'kkoenig/wimproved.vim'
     command! FullScreen WToggleFullscreen
@@ -1092,7 +1089,7 @@ call Bundle('guns/vim-clojure-static', {'f': 'clojure'})
 call Bundle('tpope/vim-fireplace', {'f': 'clojure'})
 
 " Static support for Leiningen
-if (s:vundle || !has('win32unix')) &&
+if (g:vundle || !has('win32unix')) &&
       \ Bundle('tpope/vim-leiningen', {'f': 'clojure'})
 endif
 
@@ -1251,7 +1248,7 @@ if Bundles('Tpope/vim-eunuch')
 endif
 
 " Tmux basics, insert mode completion of words in adjacent tmux panes
-if (s:vundle || !has('win32')) &&
+if (g:vundle || !has('win32')) &&
       \ Bundles('tpope/vim-tbone', 'wellle/tmux-complete.vim')
   let g:tmuxcomplete#trigger = '' " completefunc, omnifunc, or empty
 endif

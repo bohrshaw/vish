@@ -14,5 +14,4 @@
 /neovimfs/
 /*.log
 *.exe
-/src/vundle/vundle
 /pythonx/__pycache__/

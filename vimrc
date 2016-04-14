@@ -17,6 +17,8 @@
 " Don't `set all&` to try to override system-vimrc as it resets cmdline options.
 
 if has('vim_starting')
+  let g:vundle = get(g:, 'vundle')
+
   set nocompatible " make Vim behave in a more useful way
 
   if has('win32')
@@ -1071,7 +1073,12 @@ endif
 
 if has('vim_starting')
   runtime vimrc.bundle " bundle configuration
-  call bundle#done() " inject bundle paths to 'rtp'
+  if g:vundle
+    set noloadplugins
+    finish
+  else
+    call bundle#done() " inject bundle paths to 'rtp'
+  endif
 endif
 
 " }}}

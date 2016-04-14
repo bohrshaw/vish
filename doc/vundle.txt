@@ -1,7 +1,7 @@
-*vundle.txt* A Vim bundle(plugin) manager                        Version 0.1.0
+*bundle.txt* A Vim bundle(plugin) manager                        Version 0.1.0
 
 ==============================================================================
-Quick Start                                                           *vundle*
+Quick Start                                                           *bundle*
 
 Preparation: >
 
@@ -34,7 +34,7 @@ Indicate all bundles are defined, thus we integrate them into Vim: >
 
 Finally, we need to download the bundles. In a shell, run: >
 
-    go install src/vundle/vundle.go && vundle
+    go get -u github.com/bohrshaw/vundle
 
 Run `vundle -h` to see its capabilities.
 

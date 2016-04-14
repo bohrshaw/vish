@@ -50,7 +50,8 @@ fi
 if hash vundle &>/dev/null; then
   vundle
 elif hash go &>/dev/null; then
-  go run "$VISH/src/vundle/vundle.go"
+  go get -u github.com/bohrshaw/vundle
+  vundle
 else
   echo "Fatal: Vish depends on Golang to install bundles!"
 fi
