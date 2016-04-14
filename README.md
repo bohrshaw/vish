@@ -1,3 +1,3 @@
-[![Stories in Ready](https://badge.waffle.io/bohrshaw/vish.png?label=ready&title=Ready)](https://waffle.io/bohrshaw/vish)
+# Vigorous VIM
 
-Personal Vim files
+Here are my personal Vim(Neovim) files, shared for continuing growth with the community.
