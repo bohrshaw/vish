@@ -6,10 +6,10 @@ endif
 " $MYVIM/bundle/vim-go/ftplugin/go/mappings.vim
 " $MYVIM/bundle/vim-go/ftplugin/go/commands.vim
 
-nmap     <buffer><silent>Rr :noautocmd update \| GoRun %<CR>
-nmap     <buffer><silent>RR :noautocmd update \| GoRun<CR>
-nmap     <buffer><silent>Rb :noautocmd update \| GoBuild %<CR>
-nmap     <buffer><silent>RB :noautocmd update \| GoBuild<CR>
+nmap     <buffer><silent>Rr <Plug>(update):GoRun %<CR>
+nmap     <buffer><silent>RR <Plug>(update):GoRun<CR>
+nmap     <buffer><silent>Rb <Plug>(update):GoBuild %<CR>
+nmap     <buffer><silent>RB <Plug>(update):GoBuild<CR>
 
 nnoremap <buffer>Rf :GoFmt<CR>
 nnoremap <buffer>Ri :GoImports<CR>
@@ -18,11 +18,11 @@ nmap     <buffer>Rg <Plug>(go-generate)
 nmap     <buffer>RI <Plug>(go-install)
 
 nmap <buffer><silent><BS> :GoAlternate<CR>
-nmap <buffer>Rt                    <Plug>(go-test)
-nmap <buffer><LocalLeader>t<Space> <Plug>(go-test)
-nmap <buffer><LocalLeader>tf       <Plug>(go-test-func)
-nmap <buffer><LocalLeader>tc       <Plug>(go-test-compile)
-nmap <buffer><LocalLeader>tr       <Plug>(go-coverage)
+nmap <buffer>Rt                    <Plug>(update)<Plug>(go-test)
+nmap <buffer><LocalLeader>t<Space> <Plug>(update)<Plug>(go-test)
+nmap <buffer><LocalLeader>tf       <Plug>(update)<Plug>(go-test-func)
+nmap <buffer><LocalLeader>tc       <Plug>(update)<Plug>(go-test-compile)
+nmap <buffer><LocalLeader>tr       <Plug>(update)<Plug>(go-coverage)
 
 nmap     <buffer><LocalLeader>i     <Plug>(go-info)
 nmap     <buffer><LocalLeader>d     <Plug>(go-describe)
@@ -40,5 +40,7 @@ nmap     <buffer><LocalLeader>p     <Plug>(go-channelpeers)
 nmap     <buffer><LocalLeader>L     <Plug>(go-metalinter)
 nnoremap <buffer><LocalLeader>l     :GoLint<CR>
 nmap     <buffer><LocalLeader>v     <Plug>(go-vet)
+
+nnoremap <buffer><silent><Plug>(update) :noautocmd update<CR>
 
 setlocal shiftwidth=4 tabstop=4 softtabstop=4 noexpandtab
