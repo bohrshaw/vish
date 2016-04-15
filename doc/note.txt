@@ -1,10 +1,20 @@
-*note.txt*  Vim notes
+*note.txt*  Vim notes by Bohr Shaw
+
+An useless reminder ~
+Be HEALTHY, STABLE, EFFICIENT, CONSISTENT, INTUITIVE, CONVENIENT, ACCESSIBLE!
 
 ==============================================================================
 Notes                                                                  *notes*
 
+Purposes ~
+- Provide extra entry points(tags) to the HELP docs.
+- Remind myself of forgettable things.
+- Explain the obscure.
+- Provide usage rationale.
+- (Mirror the Vim in myself is a non-purpose.)
 
-Be healthy, stable, efficient, consistent, intuitive, convenient, accessible!
+==============================================================================
+Advices and reminders in a jumble                                 *note-notes*
 
 - First and foremost, master the HELP system. |helphelp|
 - See |quickref|, |index| for an overview of HELP.
@@ -13,21 +23,29 @@ Be healthy, stable, efficient, consistent, intuitive, convenient, accessible!
 - There's a community maintained minimal sensible vimrc(not for `nvim`):
     https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim
 
+==============================================================================
 Mapping                                                         *note-mapping*
--------
 
-- :help |map-which-keys|                                            *note-key*
+                                                      *note-map-local*
+Local mapping means the implementation is localized, not the key which should
+be kept consistent across filetypes. There could be unique local mappings
+uncommon in other buffers, in which case define unique keys in a
+could-be-generalized anticipation.
+
+                                                      *note-map-conflict*
+See <Leader>, <LocalLeader>, <SID>, <Plug>.
+
+- :help |map-which-keys|                              *note-key*
   - Potentially unused keys: \ <Space> <CR> <BS> Z Q R S X _ !
   - Keys waiting for a second key: f t d c g z v y m q ' [ ]
   - Keys like <CR>, <BS>, q are often mapped solely.
   - keys like Caps Lock, <C-1>, <C-S-1> are not mappable.
 - <Tab>/<C-I>, <CR>/<C-M>, <Esc>/<C-[> are pairs of exactly same keys.
 - <C-J> is the same as <C-j>, use <C-S-j> instead.
-
 - Use <C-c> instead of <Esc> to cancel a mapping.
 
+==============================================================================
 Bundle                                                           *note-bundle*
-------
 
 - Pick bundles carefully and customize them properly!
 - Especially be aware of possible autocmds pollution.
