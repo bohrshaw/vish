@@ -1,19 +1,18 @@
 function! readline#word(key, ...)
-  let f = a:key == "\<Right>" || a:key == "\<Del>" ? 1 : 0
-  let d = a:key == "\<Del>" || a:key == "\<BS>" ? 1 : 0
-  let pat = !a:0 ?
-        \ f ? (d ? '\W*\f+' : '\W*\f+\W*') : '\f+\W*' :
-        \ f ? '\s*\S+' : '\S+\s*'
+  let fwd = a:key == "\<Right>" || a:key == "\<Del>" ? 1 : 0
+  let del = a:key == "\<Del>" || a:key == "\<BS>" ? 1 : 0
+  let word = !a:0 ?
+        \ fwd ? (del ? '\W*\f+' : '\W*\f+\W*') : '\f+\W*' :
+        \ fwd ? '\s*\S+' : '\S+\s*'
   let cur = '%'.getcmdpos().'c'
-  let cmd = getcmdline()
   " For matching multi-bytes characters
   let [isf, &isfname] = [&isfname, '@,48-57,_']
-  let str = matchstr(cmd, '\v'.(f ? cur.pat : pat.cur))
+  for p in [word, '\s+']
+    let str = matchstr(getcmdline(), '\v'.(fwd ? cur.p : p.cur))
+    if str != '' | break | endif
+  endfor
   let &isfname = isf
-  if str == ''
-    let str = matchstr(cmd, '\v'.(f ? cur.'\s+' : '\s+'.cur))
-  endif
-  if d | let @- = str | endif
+  if del | let @- = str | endif
   return (wildmenumode() ?  " \<BS>" : '').
         \ repeat(a:key, strchars(str))
 endfunction
