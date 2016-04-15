@@ -973,7 +973,8 @@ endif
 
 " Golang {{{2
 
-if Bundles('fatih/vim-go') && Bundle('garyburd/go-explorer', {'f': 'go'})
+if Bundles('fatih/vim-go') &&
+      \ Bundle('garyburd/go-explorer', {'c': 'GeDoc', 'f': 'go'})
   let g:go_auto_type_info = 0
   let g:go_fmt_autosave = 0
   " let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
