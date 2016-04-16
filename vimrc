@@ -1093,7 +1093,7 @@ if has('vim_starting')
   set expandtab " expand a tab to spaces
   set smarttab " <Tab> in front of a line inserts blanks according to 'shiftwidth'
 endif
-set mouse=a " enable mouse in all modes
+set mouse=vi " exclude Normal mode as I was disturbed with many mis-touches.
 " Sync visual mode selection with the selection register(*) in supported GUI
 execute has('gui_gtk')||has('gui_motif')||has('gui_athena') ? 'set go+=a' : ''
 " set clipboard+=unnamed " sync the selection register with the unnamed register
