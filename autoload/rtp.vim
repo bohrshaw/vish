@@ -83,9 +83,9 @@ endfunction
 function! rtp#helptags(...) abort
   for dir in rtp#split(&rtp)
     let dir = expand(dir.'/doc/')
-    if dir[0:strlen($VIMRUNTIME)] !=# $VIMRUNTIME.path#slash() &&
-          \filewritable(dir) == 2 && !empty(glob(dir.'*.txt')) &&
-          \(!filereadable(dir.'tags') || get(a:, 1) == 1)
+    if filewritable(dir) == 2 &&
+          \ strpart(dir, 0, strlen($VIMRUNTIME)) !=# $VIMRUNTIME &&
+          \ (!filereadable(dir.'tags') || get(a:, 1) == 1)
       silent! execute 'helptags' fnameescape(dir)
     endif
   endfor
