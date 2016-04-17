@@ -20,6 +20,9 @@ python3 import fcitx
 " python3 import importlib; importlib.reload(fcitx)
 
 " The efficiency is about 1ms. And I may still want to disable this.
+" 'imactivatefunc'(removed in Neovim) has control over 'imsearch', but it would
+" be more expensive as it does unconditional switches. Thus the state is also
+" not remembered.
 function! ime#auto(...)
   if !exists('s:ime_auto') || get(a:, 1)
     augroup ime | autocmd!
@@ -29,14 +32,10 @@ function! ime#auto(...)
             \ "python3 fcitx.toggle('o')" : ''
     augroup END
     let s:ime_auto = 1
-    if !a:0
-      echo 'IME: auto-switch is on.'
-    endif
+    echo 'IME: auto-switch is on.'
   else
     autocmd! ime
     unlet s:ime_auto
-    if !a:0
-      echo 'IME: auto-switch is off.'
-    endif
+    echo 'IME: auto-switch is off.'
   endif
 endfunction

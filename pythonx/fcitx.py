@@ -1,5 +1,8 @@
 """Fcitx state toggle"""
-# Original work: https://github.com/lilydjwg/fcitx.vim/blob/master/plugin/fcitx.py
+
+# Similar implementations:
+#   https://github.com/lilydjwg/fcitx.vim/blob/master/plugin/fcitx.py
+#   https://github.com/cohama/.vim/blob/master/fcitx-python/fcitx-py.py
 
 import os
 import glob
