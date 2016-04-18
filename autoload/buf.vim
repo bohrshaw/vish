@@ -6,6 +6,24 @@ function! buf#edit(bufile)
 endfunction
 let s:ecmds = [['e', 'sp', 'vs', 'tabe'], ['b', 'sb', 'vert sb', 'tab sb']]
 
+" Like :bufdo, but with a pattern matching buffers.
+" Unlike :bufdo, the buffers are not focused one by one.
+" A pattern 'unlisted' match all unlisted buffers.
+" The match is inverse if a third argument is true.
+function! buf#do(pat, act, ...)
+  let inverse = get(a:, 1)
+  for b in range(1, bufnr('$'))
+    if !bufexists(b)
+      continue
+    endif
+    let match = bufname(b) =~? a:pat ||
+          \ (a:pat ==? 'unlisted' && !buflisted(b))
+    if match || (!match && inverse)
+      execute a:act b
+    endif
+  endfor
+endfunction
+
 " Get a list of buffers
 " If argument 1 is empty, listed buffers are displayed.
 " If argument 1 is "!", both listed and non-listed buffers are displayed.
@@ -27,13 +45,4 @@ function! s:ls(...)
   else
     return buflist
   endif
-endfunction
-
-" Wipe out all unlisted buffers
-function! buf#wipe_unlisted()
-  for b in range(1, bufnr('$'))
-    if bufexists(b) && ! buflisted(b)
-      exe 'bw' . b
-    endif
-  endfor
 endfunction

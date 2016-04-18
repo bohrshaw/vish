@@ -364,10 +364,10 @@ command! -nargs=+ -complete=command Help call grep#help(<q-args>)
 " A shortcut to `:Help grep`
 command! -nargs=+ -complete=command Helpgrep call grep#help('grep '.<q-args>)
 
-command! -nargs=1 BufGrep cexpr [] | bufdo vimgrepadd <args> %
-" command! -nargs=1 BufGrep cexpr [] | mark Z |
-"       \ execute "bufdo silent! g/<args>/caddexpr
-"       \ expand('%').':'.line('.').':'.getline('.')" | normal `Z
+command! -nargs=1 Bufgrep cexpr [] | bufdo vimgrepadd <args> %
+" command! -nargs=1 Bufgrep cexpr [] | mark Z |
+"       \ execute "bufdo silent! g/<args>/caddexpr ".
+"       \   "expand('%').':'.line('.').':'.getline('.')" | normal `Z
 
 " }}}
 " QuickFix:" {{{
@@ -516,24 +516,23 @@ set hidden autoread " 'autowrite'
 " set switchbuf=split " would make :Vsplit split two times
 
 nnoremap <silent><M-b>d :bdelete<CR>
+nnoremap <silent><M-b>w :bwipeout<CR>
+
 " Delete the current buffer without closing its window
 nnoremap <silent><M-b>x :Bdelete<CR>
-nnoremap <silent><M-b>X :Bdelete!<CR>
-command! -bang Bdelete execute 'silent' buflisted(0) ? 'buffer #' : 'bprevious' |
-      \ execute 'silent!' (<bang>0 ? 'bwipeout' : 'bdelete').'! #'
-nnoremap <silent><M-b>w :bwipeout<CR>
+nnoremap <silent><M-b>X :Bwipeout<CR>
+command! -bang Bdelete execute 'silent'
+      \ buflisted(0) ? 'buffer #' : 'bprevious' | silent! bdelete! #
+command! -bang Bwipeout execute 'silent'
+      \ buflisted(0) ? 'buffer #' : 'bprevious' | silent! bwipeout! #
 
 cabbrev <expr>vb getcmdtype() == ':' && getcmdpos() == 3 ? 'vert sb' : 'vb'
 cabbrev <expr>tb getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sb' : 'tb'
 
-" Delete all buffers in the buffer list except the current one
-command! -bang BufOnly let _b = bufnr('') | let _f = &confirm |
-      \ try | set noconfirm |
-      \   silent! execute '1,'._b.'-bd<bang>|'._b.'+,$bd<bang>' |
-      \ finally | let &confirm = _f | endtry
-
-" Wipe out all unlisted buffers
-command! BwipeoutUnlisted call buf#wipe_unlisted()
+" Like :bufdo, but with a pattern matching buffers, a bang reverses the match.
+" Example: `Bufdo /tmp bw!`
+command! -bang -nargs=1 Bufdo call
+      \ call('buf#do', split(<f-args>, ' \ze\S\+$') + [<bang>0])
 
 " }}}
 " File:" {{{
