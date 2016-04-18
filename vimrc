@@ -583,8 +583,7 @@ nnoremap <silent><M-f>b :<C-u>call buf#edit($MYBUNDLE)<CR>
 
 " Make the file '_' a scratch buffer
 augroup vimrc_scratch | autocmd!
-  autocmd BufNewFile,BufReadPost _ set buftype=nofile nobuflisted bufhidden=hide
-  autocmd SessionLoadPost * silent! bwipeout! _
+  autocmd BufNewFile,BufReadPost _,_.* set buftype=nofile nobuflisted bufhidden=hide
 augroup END
 
 " Recognise a file's encoding in this order
