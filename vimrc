@@ -135,22 +135,18 @@ augroup END
 " }}}
 " Normal:" {{{
 " Correspond to Cmdline. (not Normal Mode)
+" These mappings are mostly for the typing convenience.
 
-" Escape
 inoremap <M-i> <Esc>
 inoremap <M-o> <C-O>
 
-" Yank till the line end instead of the whole line
 nnoremap Y y$
 
-" Character-wise visual mode
 nnoremap vv ^vg_
 nnoremap vV vg_
 
-" quick access to GUI/system clipboard
+NXnoremap "" "0
 NXnoremap "<Space> "+
-
-" Access to the black hole register
 NXnoremap _ "_
 
 " }}}
