@@ -152,7 +152,6 @@ NXnoremap "<Space> "+
 
 " Access to the black hole register
 NXnoremap _ "_
-xnoremap _p "_xP
 
 " }}}
 " Cmdline:" {{{
@@ -201,8 +200,16 @@ nnoremap @! :<Up><C-\>ecmd#bang()<CR><CR>
 set virtualedit=onemore " consistent cursor position on EOL
 set whichwrap& " left/right motions across lines
 
+" Line objects
+xnoremap i<CR> 0og_
+xnoremap I<CR> ^og_
+onoremap <silent>i<CR> :<C-u>normal! 0vg_<CR>
+onoremap <silent>I<CR> :<C-u>normal! ^vg_<CR>
+
+" Only useful in a character wise motion
+onoremap - v-
 " Go to the end of any previous line, depends on 'virtualedit'
-onoremap <silent>g= :<C-u>execute 'normal!' v:count1.'k$l'<CR>
+onoremap <silent>_ :<C-u>execute 'normal!' v:count1.'k$l'<CR>
 
 " `;` always forward, `,` always backward
 " Note: These are overwritten in Sneak, but the semantics retains. "{{{
