@@ -540,6 +540,7 @@ if 0 && Bundles('ctrlpvim/ctrlp.vim')
     nnoremap <Leader>fg :CtrlPModified<CR>
   endif
 endif
+
 " Unite and create user interfaces
 if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
       \'shougo/neomru.vim', 'shougo/unite-outline', 'tsukkee/unite-tag',
@@ -598,9 +599,16 @@ if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
   " let g:neomru#do_validate = 0 " skip checking invalide files for performance
   autocmd User Bundle silent! autocmd! neomru BufEnter,VimEnter,BufWritePost
 endif
+
 " A command-line fuzzy finder
-" if !has('win32') && isdirectory($HOME.'/.fzf/plugin') && rtp#add('~/.fzf')
-" endif
+if 0 && !has('win32') && Bundles('junegunn/fzf.vim') &&
+      \ (isdirectory($HOME.'/.fzf/plugin') && rtp#add('~/.fzf') ||
+      \   Bundles('junegunn/fzf'))
+  let g:fzf_command_prefix = 'F'
+  command! -nargs=? Fm call fzf#vim#maps(<f-args>)
+
+  let $FZF_DEFAULT_OPTS = '--exact --multi --cycle'
+endif
 
 " A tree explorer plugin for vim
 if Bundle('scrooloose/nerdtree', {'m': [
