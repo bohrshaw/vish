@@ -260,11 +260,12 @@ cabbrev <expr>ms getcmdtype() == ':' && getcmdpos() == 3 ? 'marks' : 'ms'
 nnoremap <M-i> <C-I>
 nnoremap <M-o> <C-O>
 
-" Jump to the definition of the current tag
+" Jump to the definition of the current tag, fail silently
 nnoremap <silent><CR> :<C-u>try \| execute v:count1.'tag' expand('<cword>')
       \ \| catch \| endtry<CR>
 xnoremap <silent><CR> "zy:<C-u>try \| execute v:count1.'tag' @z
       \ \| catch \| endtry<CR>
+nnoremap <BS> <C-t>
 
 " Auto-place the cursor when opening buffers or files
 " " {{{
@@ -431,7 +432,6 @@ nnoremap <silent><C-w>C :lclose \| cclose<CR>
 nnoremap <silent><M-t> :<C-u>tab sbuffer % \| if v:count == 0 \| tabmove -1 \|
       \ elseif v:count == 1 \| 0tabmove \|
       \ elseif v:count == 9 \| $tabmove \| endif<CR>
-nmap <C-t> <M-t>
 " Maxmize the current window or restore the previously window layout
 nnoremap <silent><C-w>O :call win#max()<CR>
 

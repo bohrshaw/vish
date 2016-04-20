@@ -993,6 +993,13 @@ if Bundles('fatih/vim-go') &&
 
   augroup bundle_go | autocmd!
     autocmd FileType godoc nnoremap <buffer>q <C-W>q
+    " For :GeDoc
+    autocmd BufReadCmd godoc://*
+          \ nmap <buffer><CR> <C-]>|
+          \ nmap <buffer><BS> <C-t>|
+          \ nmap <buffer><LocalLeader>p <C-a>|
+          \ nnoremap <buffer>q <C-w>q|
+          \ stopinsert
   augroup END
 
   let g:go_bin_path = has('win32unix') ?
