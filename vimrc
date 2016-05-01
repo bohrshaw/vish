@@ -19,7 +19,9 @@
 if has('vim_starting')
   let g:vundle = get(g:, 'vundle')
 
-  set nocompatible " make Vim behave in a more useful way
+  if !has('nvim')
+    set nocompatible " make Vim behave in a more useful way
+  endif
 
   if has('win32')
     " Wish to use a forward slash for path separator? But 'shellslash' is not
@@ -1167,7 +1169,7 @@ if filereadable($MYVIMRCAFTER)
   execute 'silent source' $MYVIMRCAFTER
 endif
 
-if has('vim_starting')
+if has('vim_starting') && !has('nvim')
   " Must be after setting 'rtp'
   filetype plugin indent on
   syntax enable
