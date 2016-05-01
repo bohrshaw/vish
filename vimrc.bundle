@@ -927,7 +927,7 @@ let g:xml_syntax_folding = 1
 call Bundle('groenewege/vim-less', {'f': 'less'})
 
 " Improves HTML & CSS workflow: http://emmet.io
-if Bundle('mattn/emmet-vim', {'m': 'i <C-x>e'})
+if Bundle('mattn/emmet-vim', {'m': 'i <C-x>e'}) " rstacruz/sparkup
   let g:user_emmet_mode='i' " only enabled in insert mode
   let g:user_emmet_leader_key = '<C-x>e' " mnemonic of 'expand'
   " let g:user_emmet_install_global = 0 " enabled only for certain file types
