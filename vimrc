@@ -1169,7 +1169,7 @@ if filereadable($MYVIMRCAFTER)
   execute 'silent source' $MYVIMRCAFTER
 endif
 
-if has('vim_starting') && !has('nvim')
+if has('vim_starting')
   " Must be after setting 'rtp'
   filetype plugin indent on
   syntax enable
