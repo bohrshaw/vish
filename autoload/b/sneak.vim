@@ -31,7 +31,7 @@ function! b#sneak#(pattern, reverse, mode)
   endif
   " op, input, inputlen, count, repeatmotion, reverse, inclusive, streak
   " inclusive: 2 means inclusive-exclusive motion like /
-  call sneak#to('', '\m'.pattern, 1, 1, 0, a:reverse, 2, 1)
+  call sneak#to(a:mode, '\m'.pattern, 1, 1, 0, a:reverse, 2, 1)
   let g:sneak#oneline = 0
   if exists('l:fdm')
     let &foldmethod = fdm

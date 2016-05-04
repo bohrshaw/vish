@@ -72,10 +72,10 @@ nmap coP <Plug>unimpairedPaste
 " The missing motion for Vim
 if Bundles('Bohrshaw/vim-sneak') " 'Justinmk/vim-sneak'
   " Arbitrary precise motion
-  nnoremap <silent> L :<C-u>call b#sneak#('', 0, 'n')<CR>
+  nnoremap <silent> L :<C-u>call b#sneak#('', 0, '')<CR>
   xnoremap <silent> L :<C-u>call b#sneak#('', 0, 'v')<CR>
   onoremap <silent> L :<C-u>call b#sneak#('', 0, 'o')<CR>
-  nnoremap <silent> H :<C-u>call b#sneak#('', 1, 'n')<CR>
+  nnoremap <silent> H :<C-u>call b#sneak#('', 1, '')<CR>
   xnoremap <silent> H :<C-u>call b#sneak#('', 1, 'v')<CR>
   onoremap <silent> H :<C-u>call b#sneak#('', 1, 'o')<CR>
   " Within the current line
@@ -97,14 +97,6 @@ if Bundles('Bohrshaw/vim-sneak') " 'Justinmk/vim-sneak'
   nnoremap <silent>, :<C-u>call b#sneak#repeat('', 1)<CR>
   xnoremap <silent>, :<C-u>call b#sneak#repeat(visualmode(), 1)<CR>
   onoremap <silent>, :<C-u>call b#sneak#repeat(v:operator, 1)<CR>
-  if !exists('*getcharsearch') " Vim patch 7.4.813
-    " To make the repeat direction absolute, it's easy to accomplish this with
-    " the built-in mappings, though I dislike the multi-lines behavior.
-    NXOmap f <Plug>Sneak_f
-    NXOmap F <Plug>Sneak_F
-    NXOmap t <Plug>Sneak_t
-    NXOmap T <Plug>Sneak_T
-  endif "}}}
   let g:sneak#streak = 1 " enable streak mode
   " let g:sneak#streak_esc = "\<CR>" " key to exit streak-mode
   let g:sneak#absolute_dir = 1 " always go forwards or backwards when repeating

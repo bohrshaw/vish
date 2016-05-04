@@ -215,11 +215,6 @@ onoremap <silent>_ :<C-u>execute 'normal!' v:count1.'k$l'<CR>
 if 0 && exists('*getcharsearch') " Vim patch 7.4.813
   NXOnoremap <expr>; getcharsearch().forward ? ';' : ','
   NXOnoremap <expr>, getcharsearch().forward ? ',' : ';'
-elseif 0
-  NOnoremap <silent>F :<C-u>execute 'silent! normal! mzf'.nr2char(getchar()).'g`z'.v:count1.','<CR>
-  xnoremap <silent>F :<C-u>execute 'silent! normal! mzf'.nr2char(getchar()).'g`zgv'.v:count1.','<CR>
-  NOnoremap <silent>T :<C-u>execute 'silent! normal! mzt'.nr2char(getchar()).'g`z'.v:count1.','<CR>
-  xnoremap <silent>T :<C-u>execute 'silent! normal! mzt'.nr2char(getchar()).'g`zgv'.v:count1.','<CR>
 endif "}}}
 
 " Display lines up/down (consecutive motions are quicker)
