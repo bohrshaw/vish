@@ -1115,6 +1115,9 @@ set history=10000 " maximum number of commands and search patterns to keep
 set synmaxcol=999 " ignore further syntax items to avoid slow redrawing
 silent! set cryptmethod=blowfish cryptmethod=blowfish2 " medium strong
 silent! set langnoremap " 'langmap' doesn't apply to characters resulting from a mapping
+if 0 && has('win32') " disabled due to non-decent performance
+  set renderoptions=type:directx
+endif
 " Make 'cw' consistent with 'dw'
 " onoremap <silent> w :execute 'normal! '.v:count1.'w'<CR>
 
