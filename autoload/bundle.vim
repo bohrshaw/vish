@@ -174,7 +174,7 @@ function! bundle#map()
   " Open a bundle's URL in the browser
   nnoremap <buffer> <silent> gX "zyi'
         \:execute 'silent Open https://github.com/'
-        \.matchstr(@z, '\v-?\zs[^/]*/[^/]*')<CR>
+        \.matchstr(@z, '\v-?\zs[^/]*/[^/:]*')<CR>
   " Activate the bundle under the cursor line
   nnoremap <buffer><silent> <LocalLeader>b mz"zyi'
         \:call BundleRun(@z)<CR>g`z
