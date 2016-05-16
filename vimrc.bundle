@@ -785,7 +785,7 @@ elseif Bundles('benekastah/neomake')
         \ Neomake<bang> <args>
   augroup bundle_neomake | autocmd!
     autocmd BufWritePost * Neomake
-    autocmd BufWinEnter * call neomake#ProcessCurrentBuffer()
+    autocmd BufWinEnter * call neomake#ProcessCurrentWindow()
     autocmd User Bundle autocmd! neomake
   augroup END
   nnoremap <silent>sm :call neomake#EchoCurrentError()<CR>
