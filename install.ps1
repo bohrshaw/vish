@@ -32,15 +32,18 @@ function Invoke-MKLink { cmd /c mklink $args }
 
 # Environment variables
 $VISH = Split-Path $script:MyInvocation.MyCommand.Path
+$NVIM = "$HOME\AppData\Local\nvim"
 
-# Link this repository if its path isn't ~/.vim
+# Link the repository root
 if($VISH -ne (Convert-Path '~\.vim')) {
     New-Link $VISH $HOME\.vim
 }
+New-Link $VISH $NVIM
 
 # Link vimrc files
 New-Link "$VISH\vimrc" "$HOME\.vimrc"
 New-Link "$VISH\gvimrc" "$HOME\.gvimrc"
+New-Link "$VISH\vimrc" "$NVIM\init.vim"
 New-Link "$VISH\external\vimfx" "$HOME\.config\vimfx"
 New-Link "$VISH\external\vsvimrc"
 
