@@ -768,6 +768,13 @@ if has('win32') || g:vundle && has('win32unix')
   endif
 endif
 
+" Neovim-qt: helper GUI commands and functions
+if Dundles('equalsraf/neovim-gui-shim') &&
+      \ has('nvim') && has('win32') && Bundles('equalsraf/neovim-gui-shim')
+  command! FullScreen execute g:GuiWindowFullScreen ?
+        \ GuiWindowFullScreen(0)[9] : GuiWindowFullScreen(1)[9]
+endif
+
 " FileTypes: {{{1
 
 " Mixed {{{2
