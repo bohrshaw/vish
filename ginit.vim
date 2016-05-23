@@ -7,4 +7,5 @@ endif
 
 GuiFont Consolas:h09
 call GuiWindowMaximized(1)
-color seoul256
+" This wuold not be effective if set earlier.
+execute 'color' &background == 'light' ? 'gruvbox' : 'seoul256'

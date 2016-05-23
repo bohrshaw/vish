@@ -884,7 +884,7 @@ silent! set breakindent linebreak
 " Set background color based on day or night
 if has('vim_starting') "{{{
   let s:hour = strftime('%H')
-  let &background = 0 && s:hour < 17 && s:hour > 6 ?
+  let &background = s:hour < 17 && s:hour > 6 ?
         \ 'light' : 'dark'
 endif "}}}
 

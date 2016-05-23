@@ -662,7 +662,7 @@ endif
 if Bundles('Bohrshaw/vim-colors', 'Chriskempson/base16-vim')
   autocmd User Bundle nested execute 'silent color'
         \ has('gui_running') || !has('win32') ?
-        \   &background == 'light' ? 'github' : 'seoul256' :
+        \   &background == 'light' ? 'gruvbox' : 'seoul256' :
         \   ''
   augroup bundle_colors | autocmd!
     autocmd ColorScheme * call b#colors#()
