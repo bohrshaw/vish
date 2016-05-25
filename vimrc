@@ -918,6 +918,8 @@ if has('vim_starting') && !has('gui_running') "{{{
   " Allow color schemes do bright colors without forcing bold.
   if &t_Co == 8 && &term !~ '^linux' | set t_Co=16 | endif
 endif "}}}
+" 24bit colors in Neovim
+let &termguicolors = s:is_win_ssh ? 0 : 1
 
 " }}}
 " Helpline:" {{{
