@@ -135,7 +135,7 @@ if Dundles('Wellle/targets.vim') && Bundles('tommcdo/vim-ninja-feet',
   imap <C-g><C-w> <Esc>cid
   " Delay activating this bundle to reduce startup time
   if has('vim_starting')
-    if has('timers')
+    if has('timers') && !has('nvim') " function() in Neovim is not patched yet
       call timer_start(10, function('BundleRun', ['targets.vim']))
     else
       set updatetime=10
