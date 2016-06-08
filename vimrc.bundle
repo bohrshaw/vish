@@ -1289,7 +1289,7 @@ if Bundle('Jamessan/vim-gnupg', {'f': '*.{gpg,asc,pgp}'})
         \   (empty(<q-args>) ? strftime('%Y%m%d') : <q-args>).'.gpg'`
   augroup bundle_diary | autocmd!
     autocmd BufNewFile,BufReadPost */diar{y,ies}/*.{gpg,asc,pgp}
-        \ setlocal nolinebreak spell spelllang=en,cjk
+        \ setlocal nolinebreak nocursorline spell spelllang=en,cjk
   augroup END
 endif
 
