@@ -879,7 +879,7 @@ augroup vimrc_listchars | autocmd!
   execute 'autocmd InsertLeave * set listchars+=trail:'.s:lcs[1]
 augroup END
 " }}}
-silent! set breakindent linebreak
+silent! set breakindent linebreak " don't wrap lines at the screen end
 
 " Set background color based on day or night
 if has('vim_starting') "{{{
