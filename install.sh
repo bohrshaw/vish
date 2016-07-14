@@ -48,10 +48,10 @@ fi
 
 # Sync bundles
 if hash vundle &>/dev/null; then
-  vundle
+  vundle -U
 elif hash go &>/dev/null; then
   go get -u github.com/bohrshaw/vundle
-  vundle
+  vundle -U
 else
   echo "Fatal: Vish depends on Golang to install bundles!"
 fi

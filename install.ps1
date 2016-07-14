@@ -57,10 +57,10 @@ if (-not (Test-Path $VISH\spell\.git -PathType Container)) {
 
 # Sync bundles
 if (Get-Command "vundle.exe" -ErrorAction SilentlyContinue) {
-    Invoke-Expression "vundle"
+    Invoke-Expression "vundle -U"
 } elseif (Get-Command "go.exe" -ErrorAction SilentlyContinue) {
     Invoke-Expression "go get -u github.com/bohrshaw/vundle"
-    Invoke-Expression "vundle"
+    Invoke-Expression "vundle -U"
 } else {
     echo "Fatal: Vish depends on Golang to install bundles!"
 }
