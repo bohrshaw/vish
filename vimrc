@@ -619,8 +619,7 @@ endfor
 " Mnemonic: diGraph
 noremap! <M-k> <C-k>
 noremap! <C-X>g <C-k>
-" Mnemonic: omni-completion would show Help info
-inoremap <M-h> <C-x><C-o>
+inoremap <M-O> <C-x><C-o>
 " }}}
 
 " Completion behavior tweak

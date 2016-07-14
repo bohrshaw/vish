@@ -201,7 +201,12 @@ endif
 " Completion: {{{1
 
 " Completions
-if 0 && s:lua && Bundles('shougo/neocomplete.vim')
+if has('nvim') && Bundles('shougo/deoplete.nvim')
+  inoremap <expr><M-h> deoplete#manual_complete()
+  let g:deoplete#enable_at_startup = 1
+  let g:deoplete#disable_auto_complete = 1
+  nnoremap <expr>c\c deoplete#toggle()[1:0]
+elseif 0 && s:lua && Bundles('shougo/neocomplete.vim')
   let g:neocomplete#enable_at_startup = 0
   let g:neocomplete#max_list = 20
   let g:neocomplete#auto_completion_start_length = 2

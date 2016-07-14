@@ -9,6 +9,7 @@
 /spell/
 /tmp/
 /.netrwhist
+.vimrc-rplugin~
 /spell/
 /session/
 /neovimfs/
