@@ -777,7 +777,10 @@ call Dundles('equalsraf/neovim-gui-shim')
 
 " FileTypes: {{{1
 
-" Mixed {{{2
+" A collection of language packs
+" call Bundle('sheerun/vim-polyglot')
+
+" Tools {{{2
 
 " Syntax checking hacks for vim
 if !has('nvim') && Bundles('scrooloose/syntastic') && Dundles('benekastah/neomake')
