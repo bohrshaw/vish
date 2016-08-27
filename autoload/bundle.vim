@@ -9,6 +9,8 @@ function! bundle#init()
 endfunction
 let g:bundles = [] " bundles activated on startup
 let g:dundles = [] " bundles to be downloaded
+let g:dundles_file = expand('~/.vim/tmp/dundles')
+command! Dundle call writefile(uniq(sort(g:dundles)), g:dundles_file)
 let s:rtp_ftdetect = [] " for sourcing ftdetect/*.vim in bundles
 let s:dirs_activated = [] " for avoiding activating a bundle twice
 let s:augroup_count = get(s:, 'augroup_count')
@@ -136,7 +138,7 @@ endfunction
 " Extra arguments usally contain a timer ID.
 function! BundleRun(b, ...)
   let b = s:bundle(a:b)
-  if s:ifbundle(b) || b !~ '/'
+  if b !~ '/' || s:ifbundle(b)
     call s:run(split(b, '/')[-1])
     return 1
   endif
@@ -181,18 +183,10 @@ function! bundle#map()
 endfunction
 
 " Add a bundle to the list of bundles to be downloaded
-if g:vundle
-  function! Dundles(...)
-    for b in a:000
-      call s:uniqadd(g:dundles, b)
-    endfor
-    return 1
-  endfunction
-else
-  function! Dundles(...)
-    return 1
-  endfunction
-endif
+function! Dundles(...)
+  call extend(g:dundles, a:000)
+  return 1
+endfunction
 
 " Return the bundle with the branch part cut off
 function! s:bundle(b)
@@ -207,20 +201,14 @@ function! s:bundle(b)
 endfunction
 
 " Determine if the bundle is enabled, or should be downloaded.
-if !g:vundle
-  function! s:ifbundle(b)
-    if a:b[0] != '-' && !g:l || a:b[0] =~# '\u'
+function! s:ifbundle(b)
+  if a:b[0] != '-'
+    call add(g:dundles, a:b)
+    if !g:l || a:b[0] =~# '\u'
       return 1
     endif
-  endfunction
-else
-  function! s:ifbundle(b)
-    if a:b[0] != '-'
-      call s:uniqadd(g:dundles, a:b)
-      return 1
-    endif
-  endfunction
-endif
+  endif
+endfunction
 
 " Inject a directory to &rtp and source it
 function! s:run(dir)

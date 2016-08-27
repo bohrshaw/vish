@@ -10,9 +10,9 @@ let g:statusline = [] " flags to be inserted into 'statusline'
 
 " Let the bundle manager download ALL bundles even if the invoked Vim binary
 " doesn't have all these features.
-let s:pythonx = g:vundle ? 1 : (has('python') || has('python3'))
-let s:ruby = g:vundle ? 1 : has('ruby')
-let s:lua = g:vundle ? 1 : has('lua')
+let s:pythonx = (has('python') || has('python3'))
+let s:ruby = has('ruby')
+let s:lua = has('lua')
 call bundle#init() " bundle initialization
 
 " Define local mappings
@@ -763,7 +763,7 @@ if Bundle('yggdroot/indentline', {'m':
 endif
 
 " Toggle full screen
-if has('win32') || g:vundle && has('win32unix')
+if has('win32')
   if Bundle('bohrshaw/wimproved.vim:', {'c': 'WToggleFullscreen'})
     " 'kkoenig/wimproved.vim'
     command! FullScreen WToggleFullscreen
@@ -1107,8 +1107,7 @@ call Bundle('guns/vim-clojure-static', {'f': 'clojure'})
 call Bundle('tpope/vim-fireplace', {'f': 'clojure'})
 
 " Static support for Leiningen
-if (g:vundle || !has('win32unix')) &&
-      \ Bundle('tpope/vim-leiningen', {'f': 'clojure'})
+if !has('win32unix') && Bundle('tpope/vim-leiningen', {'f': 'clojure'})
 endif
 
 " Precision Editing for S-expressions
@@ -1266,8 +1265,7 @@ if Bundles('Tpope/vim-eunuch')
 endif
 
 " Tmux basics, insert mode completion of words in adjacent tmux panes
-if (g:vundle || !has('win32')) &&
-      \ Bundles('tpope/vim-tbone', 'wellle/tmux-complete.vim')
+if !has('win32') && Bundles('tpope/vim-tbone', 'wellle/tmux-complete.vim')
   let g:tmuxcomplete#trigger = '' " completefunc, omnifunc, or empty
 endif
 
