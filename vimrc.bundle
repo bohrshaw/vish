@@ -158,7 +158,7 @@ if 0 && Bundles('mattesGroeger/vim-bookmarks')
   let g:bookmark_sign = 'm'
   let g:bookmark_annotation_sign = 'ma'
   " let g:bookmark_auto_save = 0
-  let g:bookmark_auto_save_file = $MYVIM.'/tmp/bookmark'
+  let g:bookmark_auto_save_file = $MYTMP.'bookmark'
   " let g:bookmark_highlight_lines = 1
   " let g:bookmark_center = 1
   nmap <Leader>tm <Plug>ToggleBookmark
@@ -217,7 +217,7 @@ elseif 0 && s:lua && Bundles('shougo/neocomplete.vim')
   " let g:neocomplete#cursor_hold_i_time = 400 " same as swap saving interval
   let g:neocomplete#lock_iminsert = 1
   " let g:neocomplete#enable_prefetch = 1
-  let g:neocomplete#data_directory = $MYVIM.'/tmp/neocomplete'
+  let g:neocomplete#data_directory = $MYTMP.'neocomplete'
   " let g:neocomplete#release_cache_time = 1800 " seconds
   " Enable/disable neocomplete
   nnoremap <expr> c<Leader>C neocomplete#is_enabled() ?
@@ -460,7 +460,7 @@ endif
 
 " Fuzzy file, buffer, mru, tag, etc finder
 if 0 && Bundles('ctrlpvim/ctrlp.vim')
-  let g:ctrlp_cache_dir = $MYVIM.'/tmp/ctrlp'
+  let g:ctrlp_cache_dir = $MYTMP.'ctrlp'
   " Set the mode to determine the root searching directory.
   " let g:ctrlp_working_path_mode = 'ra'
   " let g:ctrlp_show_hidden = 1 " scan for dotfiles and dotdirs
@@ -588,9 +588,9 @@ if 0 && BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
   endif
   " call unite#filters#matcher_default#use(['matcher_fuzzy'])
   " let g:unite_source_history_yank_enable = 1 " yank ring
-  let g:unite_data_directory = $MYVIM.'/tmp/unite'
-  let g:neomru#file_mru_path = $MYVIM.'/tmp/unite/mru/files'
-  let g:neomru#directory_mru_path = $MYVIM.'/tmp/unite/mru/directories'
+  let g:unite_data_directory = $MYTMP.'unite'
+  let g:neomru#file_mru_path = $MYTMP.'unite/mru/files'
+  let g:neomru#directory_mru_path = $MYTMP.'unite/mru/directories'
   " Performance tuning
   " let g:neomru#do_validate = 0 " skip checking invalide files for performance
   autocmd User Bundle silent! autocmd! neomru BufEnter,VimEnter,BufWritePost
@@ -612,7 +612,7 @@ if Bundle('scrooloose/nerdtree', {'m': [
       \ 'nnoremap <leader>dd :NERDTree<CR>',
       \ 'nnoremap <leader>df :NERDTreeFind<CR>']})
   let NERDTreeHijackNetrw=0 " don't replace netrw
-  let NERDTreeBookmarksFile=$MYVIM.'/tmp/NERDTreeBookmarks'
+  let NERDTreeBookmarksFile=$MYTMP.'NERDTreeBookmarks'
   let NERDTreeIgnore=['^\.$', '^\.\.$', '\~$', '\.pyc$', '\.swp$']
   let NERDTreeShowHidden=1
   let NERDTreeShowBookmarks=1

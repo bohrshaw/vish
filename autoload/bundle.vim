@@ -9,7 +9,7 @@ function! bundle#init()
 endfunction
 let g:bundles = [] " bundles activated on startup
 let g:dundles = [] " bundles to be downloaded
-let g:dundles_file = expand('~/.vim/tmp/dundles')
+let g:dundles_file = expand($MYTMP.'dundles')
 command! Dundle call writefile(uniq(sort(g:dundles)), g:dundles_file)
 let s:rtp_ftdetect = [] " for sourcing ftdetect/*.vim in bundles
 let s:dirs_activated = [] " for avoiding activating a bundle twice

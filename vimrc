@@ -733,6 +733,11 @@ set thesaurus=$MYVIM/spell/thesaurus-mwcd.txt
 "}}}
 " Persistence:" {{{
 
+" A directory for storing temporary files, whose location is outside of $MYVIM
+" as $MYVIM could be shared between OSs such as in the case of WSL.
+let $MYTMP = expand('~/.vimtmp/')
+if !isdirectory($MYTMP) | call mkdir($MYTMP) | endif
+
 " - Remember UPPER_CASE global variables
 " - Max number of files in which marks are remembered (:oldfiles)
 " - Paths for which no marks will be remembered
@@ -740,7 +745,7 @@ set thesaurus=$MYVIM/spell/thesaurus-mwcd.txt
 " - Maximum size of an item contents in KiB
 " - viminfo(shada) file name
 let &viminfo = "!,'1000,r".$TMP.',<1000,s100,'.
-      \ 'n'.$MYVIM.'/tmp/viminfo'.(has('nvim')?'.shada':'')
+      \ 'n'.$MYTMP.'viminfo'.(has('nvim')?'.shada':'')
 let _viminfo = &viminfo " for easy restoration
 
 " Exclude options and mappings and be portable
@@ -753,11 +758,11 @@ set undofile " undo history across sessions
 " Set default paths of temporary files
 let opts = {'directory': 'swap//', 'undodir': 'undo', 'backupdir': 'backup'}
 for [opt, val] in items(opts)
-  let dir = $MYVIM.'/tmp/'.val
+  let dir = $MYTMP.val
   if !isdirectory(dir) | silent! call mkdir(dir) | endif
   execute 'set' opt.'^='.dir
 endfor
-set viewdir=$MYVIM/tmp/view
+set viewdir=$MYTMP/view
 
 " }}}
 " Readline:" {{{
