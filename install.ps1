@@ -4,7 +4,7 @@ Param ( [Switch] $Force=$false )
 function New-Link {
     param([String]$target, [String]$link)
 
-    # Generate the line path ifomitted.
+    # Generate the line path if omitted.
     if(! $link) {
         $link = "$HOME\." + $target.split('\')[-1]
     }
@@ -44,7 +44,7 @@ New-Link $VISH $NVIM
 New-Link "$VISH\vimrc" "$HOME\.vimrc"
 New-Link "$VISH\gvimrc" "$HOME\.gvimrc"
 New-Link "$VISH\vimrc" "$NVIM\init.vim"
-New-Link "$VISH\external\vimfx" "$HOME\.config\vimfx"
+New-Link "$VISH\external\vimfx" "$HOME\AppData\Local\vimfx"
 New-Link "$VISH\external\vsvimrc"
 
 # Include spell related files(mostly static and large)
