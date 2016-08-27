@@ -538,7 +538,7 @@ if 0 && Bundles('ctrlpvim/ctrlp.vim')
 endif
 
 " Unite and create user interfaces
-if BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
+if 0 && BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
       \'shougo/neomru.vim', 'shougo/unite-outline', 'tsukkee/unite-tag',
       \'shougo/unite-help', '-shougo/tabpagebuffer.vim',
       \'-kopischke/unite-spell-suggest')
