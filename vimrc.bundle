@@ -1172,7 +1172,7 @@ endif
 " A Git wrapper so awesome, it should be illegal.
 if Bundles('Tpope/vim-git') &&
       \ Bundles('tpope/vim-fugitive', 'tpope/vim-rhubarb')
-  " Invoke a single git command, mnemonic: '9' in its shape is like 'g'
+  " Invoke a single git command, mnemonic: '9' resembles the shape of 'g'
   nnoremap <silent>g9 :call git#run()<CR>
   " Invoke multiple git commands, mnemonic: <Space> is to enter the cmdline
   nnoremap <silent>g<Space> :call git#run(9)<CR>
