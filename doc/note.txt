@@ -19,7 +19,6 @@ Advices and reminders in a jumble                                 *note-notes*
 - First and foremost, master the HELP system. |helphelp|
 - See |quickref|, |index| for an overview of HELP.
 - Could view and set all options via |:options|.
-- Analyse startup performance with `vim-profile.sh`.
 - There's a community maintained minimal sensible vimrc(not for `nvim`):
     https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim
 
