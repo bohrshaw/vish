@@ -1154,13 +1154,13 @@ if Bundles('bohrshaw/vimproc.vim:') " 'shougo/vimproc.vim'
 endif
 
 " Shells inside Vim
-if !has('nvim') && Bundle('shougo/vimshell.vim',
+if 0 && !has('nvim') && Bundle('shougo/vimshell.vim',
       \ {'m': 'nnoremap <silent>so :<C-u>VimShell<CR>'})
   let g:vimshell_split_command = 'split'
   let g:vimshell_prompt = '% '
   let g:vimshell_secondary_prompt = '> '
   let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
-  let g:vimshell_vimshrc_path = expand($MYVIM.'/external/vimshrc')
+  let g:vimshell_vimshrc_path = expand($MYVIM.'/autoload/vimshrc')
 endif
 
 " The interface to Web API
