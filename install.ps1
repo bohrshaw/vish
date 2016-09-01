@@ -45,8 +45,6 @@ New-Link "$VISH\vimrc" "$HOME\.vimrc"
 New-Link "$VISH\gvimrc" "$HOME\.gvimrc"
 # Link into a directory of $XDG_CONFIG_DIRS as it would also be linked in WSL.
 New-Link "$VISH\vimrc" "$HOME\.config\init.vim"
-New-Link "$VISH\external\vimfx" "$HOME\AppData\Local\vimfx"
-New-Link "$VISH\external\vsvimrc"
 
 # Include spell related files(mostly static and large)
 if (-not (Test-Path $VISH\spell\.git -PathType Container)) {
