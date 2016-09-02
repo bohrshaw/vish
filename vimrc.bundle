@@ -201,7 +201,7 @@ endif
 " Completion: {{{1
 
 " Completions
-if has('nvim') && Bundles('shougo/deoplete.nvim')
+if 0 && has('nvim') && Bundles('shougo/deoplete.nvim')
   inoremap <expr><M-h> deoplete#manual_complete()
   let g:deoplete#enable_at_startup = 1
   let g:deoplete#disable_auto_complete = 1
@@ -1265,7 +1265,7 @@ if Bundles('Tpope/vim-eunuch')
 endif
 
 " Tmux basics, insert mode completion of words in adjacent tmux panes
-if !has('win32') && Bundles('tpope/vim-tbone', 'wellle/tmux-complete.vim')
+if !has('win32') && Bundles('tpope/vim-tbone', '-wellle/tmux-complete.vim')
   let g:tmuxcomplete#trigger = '' " completefunc, omnifunc, or empty
 endif
 
