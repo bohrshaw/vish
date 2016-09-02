@@ -18,12 +18,12 @@ let s:augroup_count = get(s:, 'augroup_count')
 " Populate the list: g:bundles
 function! Bundles(...)
   for b in a:000
-    if s:ifbundle(b)
+    if s:active(b)
       call s:uniqadd(g:bundles, s:bundle(b))
-      let if_config = 1
+      let act = 1
     endif
   endfor
-  return get(l:, 'if_config') ? 1 : 0
+  return get(l:, 'act') ? 1 : 0
 endfunction
 
 " Lazily load a bundle (on demand loading)
@@ -35,8 +35,8 @@ function! Bundle(bundle, trigger, ...)
     return
   endif
 
-  let b = s:bundle(a:bundle)
-  if s:ifbundle(b)
+  if s:active(a:bundle)
+    let b = s:bundle(a:bundle)
     let dir = split(b, '/')[-1]
 
     if !a:0
@@ -137,8 +137,9 @@ endfunction
 " Inject a bundle to &rtp and source it.
 " Extra arguments usally contain a timer ID.
 function! BundleRun(b, ...)
-  let b = s:bundle(a:b)
-  if b !~ '/' || s:ifbundle(b)
+  " the bundle could be a pathless directory
+  if a:b !~ '/' || s:active(a:b)
+    let b = s:bundle(a:b)
     call s:run(split(b, '/')[-1])
     return 1
   endif
@@ -147,8 +148,8 @@ command! -nargs=1 -complete=file -bar BundleRun call BundleRun(<q-args>)
 
 " Inject a bundle to &rtp
 function! BundlePath(b)
-  let b = s:bundle(a:b)
-  if s:ifbundle(b)
+  if s:active(a:b)
+    let b = s:bundle(a:b)
     call rtp#add(b[stridx(b,"/")+1:])
     return 1
   endif
@@ -200,13 +201,11 @@ function! s:bundle(b)
   return a:b
 endfunction
 
-" Determine if the bundle is enabled, or should be downloaded.
-function! s:ifbundle(b)
-  if a:b[0] != '-'
-    call add(g:dundles, a:b)
-    if !g:l || a:b[0] =~# '\u'
-      return 1
-    endif
+" Determine if the bundle is active. Meanwhile add it to the download list.
+function! s:active(b)
+  call add(g:dundles, a:b)
+  if !g:l || a:b[0] =~# '\u'
+    return 1
   endif
 endfunction
 

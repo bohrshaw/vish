@@ -13,6 +13,7 @@ let g:statusline = [] " flags to be inserted into 'statusline'
 let s:pythonx = (has('python') || has('python3'))
 let s:ruby = has('ruby')
 let s:lua = has('lua')
+
 call bundle#init() " bundle initialization
 
 " Define local mappings
@@ -127,9 +128,9 @@ endif
 
 " Text objects extended, more sensible, and corner cases handled
 " Cheatsheet: $MYVIM/bundle/targets.vim/cheatsheet.md
-if Dundles('Wellle/targets.vim') && Bundles('tommcdo/vim-ninja-feet',
-      \ '-gaving/vim-textobj-argument', '-b4winckler/vim-angry',
-      \ 'kana/vim-textobj-indent', '-qstrahl/vim-dentures',
+" 'gaving/vim-textobj-argument', 'b4winckler/vim-angry', 'qstrahl/vim-dentures'
+if Dundles('Wellle/targets.vim') &&
+      \ Bundles('tommcdo/vim-ninja-feet', 'kana/vim-textobj-indent',
       \ 'machakann/vim-textobj-delimited', 'coderifous/textobj-word-column.vim')
   imap <C-g><BS> <Esc>cid
   imap <C-g><C-w> <Esc>cid
@@ -274,7 +275,8 @@ let g:snips_author_email = 'pubohr@gmail.com'
 " Change: {{{1
 
 " Commenting
-if Bundles('Tpope/vim-commentary', '-scrooloose/nerdcommenter', '-tomtom/tcomment_vim')
+" 'scrooloose/nerdcommenter', 'tomtom/tcomment_vim'
+if Bundles('Tpope/vim-commentary')
   let commentary_map_backslash = 0 " jd
   let g:tcommentMapLeader1 = '<M-c>'
   let [g:tcommentMapLeader2, g:tcommentMapLeaderCommentAnyway, g:tcommentTextObjectInlineComment] = ['', '', '']
@@ -318,7 +320,7 @@ if Bundles('Tpope/vim-surround')
   let g:surround_no_mappings = 1
 endif
 " Provides insert mode auto-completion for quotes, parens, brackets, etc.
-" call Bundles('-raimondi/delimitmate', '-cohama/lexima.vim', '-jiangmiao/auto-pairs')
+" call Bundles('raimondi/delimitmate', 'cohama/lexima.vim', 'jiangmiao/auto-pairs')
 " Wisely add 'end' in ruby, endfunction/endif/more in vim script, etc
 if Bundles('Tpope/vim-endwise')
   autocmd User Bundle autocmd! endwise CmdwinEnter
@@ -538,10 +540,10 @@ if 0 && Bundles('ctrlpvim/ctrlp.vim')
 endif
 
 " Unite and create user interfaces
+" 'shougo/tabpagebuffer.vim', 'kopischke/unite-spell-suggest'
 if 0 && BundlePath('shougo/unite.vim') && Bundles('thinca/vim-unite-history',
       \'shougo/neomru.vim', 'shougo/unite-outline', 'tsukkee/unite-tag',
-      \'shougo/unite-help', '-shougo/tabpagebuffer.vim',
-      \'-kopischke/unite-spell-suggest')
+      \'shougo/unite-help')
   command! -nargs=* -complete=customlist,unite#complete#source U Unite <args>
   command! -nargs=? -complete=customlist,unite#complete#buffer_name Ur UniteResume <args>
   " The key <M-b> prefixes all mappings related to 'internal' contents
@@ -625,7 +627,7 @@ if Bundles('Justinmk/vim-dirvish')
   nmap <M--> <M-f>h
   nmap <silent><M-f>. :Dirvish<CR>
   autocmd User Bundle nunmap -
-elseif Bundles('tpope/vim-vinegar', '-jeetsukumaran/vim-filebeagle')
+elseif Bundles('tpope/vim-vinegar') " 'jeetsukumaran/vim-filebeagle'
   nmap <M-f>h <Plug>VinegarUp
   autocmd User Bundle nunmap -
 endif
@@ -634,12 +636,12 @@ endif
 " call Bundles('tpope/vim-projectionist')
 
 " Buffer Explorer/Browser
-" call Bundles('-vim-scripts/bufexplorer.zip', '-jeetsukumaran/vim-buffergator')
+" call Bundles('vim-scripts/bufexplorer.zip', 'jeetsukumaran/vim-buffergator')
 
 " Workflow: {{{1
 
 " Session management
-if Bundles('bohrshaw/vim-mansion', '-tpope/vim-obsession')
+if Bundles('bohrshaw/vim-mansion') " 'tpope/vim-obsession'
   let g:sessiondir = $MYVIM.'/session'
   " let g:mansion_no_auto_save = 1
   " let g:mansion_no_maps = 1
@@ -943,7 +945,7 @@ endif
 
 " Preview various markup files with external tools
 " Note: This is superseded by QuickRun.
-if 0 && Bundles('greyblake/vim-preview', '-matthias-guenther/hammer.vim')
+if 0 && Bundles('greyblake/vim-preview') " 'matthias-guenther/hammer.vim'
   nnoremap <silent>RE :Preview<CR>
   autocmd User Bundle nunmap <Leader>P
   " The markdown rendering gem 'redcarpet' is unavailable on Windows
@@ -1265,7 +1267,7 @@ if Bundles('Tpope/vim-eunuch')
 endif
 
 " Tmux basics, insert mode completion of words in adjacent tmux panes
-if !has('win32') && Bundles('tpope/vim-tbone', '-wellle/tmux-complete.vim')
+if !has('win32') && Bundles('tpope/vim-tbone') " 'wellle/tmux-complete.vim'
   let g:tmuxcomplete#trigger = '' " completefunc, omnifunc, or empty
 endif
 
