@@ -1011,6 +1011,7 @@ if Bundles('fatih/vim-go') &&
         \   substitute($GOPATH[2:], '\\', '/', 'g').'/bin/' :
         \ expand("$GOPATH/bin/")
   let g:go_disable_autoinstall = 1 " run in another instance to be asynchronous
+  let g:go#use_vimproc = 0 " path problem on Windows
 
   " call add(g:syntastic_mode_map['passive_filetypes'], 'go')
 endif
