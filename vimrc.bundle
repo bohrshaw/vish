@@ -985,8 +985,7 @@ endif
 
 " Golang {{{2
 
-if Bundles('fatih/vim-go') &&
-      \ Bundle('garyburd/go-explorer', {'c': 'GeDoc'}) " abandoned
+if Bundles('fatih/vim-go')
   let g:go_auto_type_info = 0
   let g:go_fmt_autosave = 0
   " let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
@@ -1012,8 +1011,12 @@ if Bundles('fatih/vim-go') &&
         \ expand("$GOPATH/bin/")
   let g:go_disable_autoinstall = 1 " run in another instance to be asynchronous
   let g:go#use_vimproc = 0 " path problem on Windows
-
   " call add(g:syntastic_mode_map['passive_filetypes'], 'go')
+
+  if Bundle('garyburd/go-explorer', {'c': 'GeDoc'}) " abandoned
+    command! -nargs=* -complete=customlist,ge#complete#complete_package_id
+          \ GoD GeDoc <args>
+  endif
 endif
 
 " Ruby {{{2
