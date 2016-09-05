@@ -8,9 +8,6 @@
 function! bundle#init()
 endfunction
 let g:bundles = [] " bundles activated on startup
-let g:dundles = [] " bundles to be downloaded
-let g:dundles_file = expand($MYTMP.'dundles')
-command! Dundle call writefile(uniq(sort(g:dundles)), g:dundles_file)
 let s:rtp_ftdetect = [] " for sourcing ftdetect/*.vim in bundles
 let s:dirs_activated = [] " for avoiding activating a bundle twice
 let s:augroup_count = get(s:, 'augroup_count')
@@ -155,6 +152,16 @@ function! BundlePath(b)
   endif
 endfunction
 
+" These functions are for disabling bundles without commenting out codes.
+function! Dundles(...)
+endfunction
+function! Dundle(...)
+endfunction
+function! DundlePath(...)
+endfunction
+function! DundleRun(...)
+endfunction
+
 " Finish bundling
 function! bundle#done()
   " Inject bundles from g:bundles to 'rtp'
@@ -183,12 +190,6 @@ function! bundle#map()
         \:call BundleRun(@z)<CR>g`z
 endfunction
 
-" Add a bundle to the list of bundles to be downloaded
-function! Dundles(...)
-  call extend(g:dundles, a:000)
-  return 1
-endfunction
-
 " Return the bundle with the branch part cut off
 function! s:bundle(b)
   if a:b =~ ':'
@@ -203,7 +204,6 @@ endfunction
 
 " Determine if the bundle is active. Meanwhile add it to the download list.
 function! s:active(b)
-  call add(g:dundles, a:b)
   if !g:l || a:b[0] =~# '\u'
     return 1
   endif

@@ -1,5 +1,8 @@
 # Vigorous VIM
 
-Here are my personal Vim(Neovim) files, shared for continuing growth with the community.
+Here are my personal Vim(Neovim) files. Together with the community!
 
-(This is not tested on MacOS.)
+## Note
+
+- <https://github.com/bohrshaw/vundle> is used for managing bundles.
+- This is not tested on MacOS.
