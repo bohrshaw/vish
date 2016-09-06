@@ -1294,7 +1294,7 @@ if Bundle('Jamessan/vim-gnupg', {'f': '*.{gpg,asc,pgp}'})
   " For writing encrypted diaries
   command! -nargs=? -complete=file Diary
         \ if !exists("g:loaded_gnupg") |BundleRun vim-gnupg |endif |
-        \ edit `=fnamemodify(get(g:, 'DIARY_PATH', ''), ':p').
+        \ edit `=fnamemodify(get(g:, 'DIARY_PATH', ''), ':p').'/'.
         \   (empty(<q-args>) ? strftime('%Y%m%d') : <q-args>).'.gpg'`
   augroup bundle_diary | autocmd!
     autocmd BufNewFile,BufReadPost */diar{y,ies}/*.{gpg,asc,pgp}
