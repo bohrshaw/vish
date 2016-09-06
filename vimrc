@@ -87,6 +87,9 @@ if has('vim_starting')
   if filereadable($MYVIMRCPRE)
     execute 'silent source' $MYVIMRCPRE
   endif
+
+  " No reliable way to detect putty
+  let s:is_win_ssh = has('win32') || !empty($SSH_TTY)
 endif
 
 " }}}
@@ -863,8 +866,6 @@ nnoremap <expr>c\m ':'.(exists('g:loaded_matchparen') ? 'NoMatchParen' : 'DoMatc
 " {{{
 set list " show non-normal spaces, tabs etc.
 if &encoding ==# 'utf-8' || &termencoding ==# 'utf-8'
-  " No reliable way to detect putty
-  let s:is_win_ssh = has('win32') || !empty($SSH_TTY)
   " Special unicode characters/symbols:
   " ¬ ¶ ⏎ ↲ ↪ ␣ ¨⠉⠒⠤⣀ ⣿ │ ░ ▒ ⇥ → ← ⇉ ⇇ ❯ ❮ » « ↓ ↑
   " ◉ ○ ● • · ■ □ ¤ ▫ ♦ ◆ ◇ ▶ ► ▲ ▸ ✚ ★ ✸ ✿ ✜ ☯ ☢ ❀ ✨ ♥ ♣ ♠
