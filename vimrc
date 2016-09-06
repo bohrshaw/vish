@@ -83,7 +83,7 @@ if has('vim_starting')
     let [g:python_host_skip_check, g:python3_host_skip_check] = [1, 1]
   endif
 
-  let $MYVIMRCPRE = expand('~/.vimrc.pre.local')
+  let $MYVIMRCPRE = expand('~/.vimrc.local.pre')
   if filereadable($MYVIMRCPRE)
     execute 'silent source' $MYVIMRCPRE
   endif
