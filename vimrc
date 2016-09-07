@@ -565,7 +565,7 @@ cabbrev <expr>tf getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sf' : 'tf'
 
 " Directories to search by `gf, :find, cd, lcd etc.`
 " (dir of the current file, current dir, etc.)
-let &g:path = '.,,~,'.$MYVIM.','.$MYVIM.'/after'
+let &g:path = '.,,~,'.$MYVIM.','.$MYVIM.'/after,'.$MYVIM.'/bundle'
 set cdpath=,,.,~
 if has('vim_starting') && 0 == argc() && has('gui_running') && !g:l
   cd $HOME
