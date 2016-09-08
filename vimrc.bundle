@@ -1327,7 +1327,7 @@ call Bundle('bohrshaw/vim-url-shortener', {'c': 'URLShorten'})
 " - :py import webbrowser; webbrowser.open()
 if Bundles('tyru/open-browser.vim')
   command! -nargs=+ -complete=customlist,openbrowser#_cmd_complete Open
-        \ call openbrowser#_cmd_open_browser_smart_search(<q-args>)
+        \ call openbrowser#smart_search(<q-args>)
   NXmap gx <Plug>(openbrowser-smart-search)
   nmap gX <Plug>NetrwBrowseX
 
