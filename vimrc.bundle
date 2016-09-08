@@ -699,7 +699,7 @@ if Bundles('Tpope/vim-flagship')
   let s:hl_prefix = g:hl_head.
         \ ":%{pathshorten(fnamemodify(g:flagship_cwd,':~'))}"
 
-  let g:tabprefix = '%#StatusLineNC#'.s:hl_prefix.'%1*:%*'
+  let g:tabprefix = '%#StatusLineNC#'.s:hl_prefix.':%*'
   " Time info is especially useful in full screen
   let g:tabsuffix = '%{strftime("%a %m/%d/%Y %H:%M:%S")}'
 

@@ -952,9 +952,7 @@ function! Statusline()
         \ toupper(m)
   " Mode highlight
   " (Use a User highlight group so that only the current statusline is bold.)
-  let hl = c =~# '[IT]' ? 2 :
-        \ c =~# '[VS]' ? 1 :
-        \ c ==# 'R' ? 3 : ''
+  let hl = c =~# '[VS]' ? 1 : ''
   " To be used in %{} which is evaluated in a dedicated window context
   let g:hl_mode = c.':'
   " The mode is shown in windows holding the current buffer. (only I/R/T)
@@ -1000,31 +998,8 @@ else
 endif
 
 augroup vimrc_color | autocmd!
-  autocmd ColorScheme * call s:hl_highlight()
+  autocmd ColorScheme * call color#highlight()
 augroup END
-function! s:hl_highlight() "{{{
-  " Gray, DarkYellow, Green
-  let [bt, bg, ft, fg, ftn, fgn] = &background == 'dark' ?
-        \ ['237', '#3a3a3a', '214', '#ffaf00', '40', '#00d700'] :
-        \ ['250', '#bcbcbc', '88', '#870000', '22', '#005f00']
-  execute 'hi StatusLine term=bold cterm=bold ctermfg='.ft 'ctermbg='.bt
-        \ 'gui=bold guifg='.fg 'guibg='.bg
-  execute 'hi StatusLineNC term=NONE cterm=NONE ctermfg='.ftn 'ctermbg='.bt
-        \ 'gui=NONE guifg='.fgn 'guibg='.bg
-  hi! link TabLineSel StatusLine
-  hi! link TabLine StatusLineNC
-  hi! link TabLineFill StatusLineNC
-  " Cyan/Blue, Magenta/Purple, Red
-  let [ft1, fg1, ft2, fg2, ft3, fg3] = &background == 'dark' ?
-        \ ['123', '#87FFFF', '218', '#ffafdf', '9', '#ff6666'] :
-        \ ['21', '#0000ff', '92', '#8700d7', '196', '#ff0000']
-  execute 'hi User1 term=bold cterm=bold ctermfg='.ft1 'ctermbg='.bt
-        \ 'gui=bold guifg='.fg1 'guibg='.bg
-  execute 'hi User2 term=bold cterm=bold ctermfg='.ft2 'ctermbg='.bt
-        \ 'gui=bold guifg='.fg2 'guibg='.bg
-  execute 'hi User3 term=bold cterm=bold ctermfg='.ft3 'ctermbg='.bt
-        \ 'gui=bold guifg='.fg3 'guibg='.bg
-endfunction "}}}
 
 " }}}
 " Terminal:"{{{
