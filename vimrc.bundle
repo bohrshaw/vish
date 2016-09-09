@@ -762,7 +762,7 @@ endif
 
 " Toggle full screen
 if has('win32')
-  if Bundle('bohrshaw/wimproved.vim:', {'c': 'WToggleFullscreen'})
+  if Dundle('bohrshaw/wimproved.vim:', {'c': 'WToggleFullscreen'})
     " 'kkoenig/wimproved.vim'
     command! FullScreen WToggleFullscreen
   elseif executable('gvimfullscreen.dll')
