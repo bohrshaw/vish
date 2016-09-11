@@ -1207,7 +1207,7 @@ if Bundles('Tpope/vim-git') &&
 endif
 
 " Shows a git diff in the sign column and stages/reverts hunks
-if Bundles('airblade/vim-gitgutter')
+if $OSNAME != 'android' && Bundles('airblade/vim-gitgutter')
   nmap [c <Plug>GitGutterPrevHunk
   nmap ]c <Plug>GitGutterNextHunk
   nnoremap <silent>dp :execute &diff ? 'diffput' : 'GitGutterStageHunk'<CR>
