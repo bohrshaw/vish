@@ -930,67 +930,18 @@ endif
 " }}}
 " Helpline:" {{{
 
-" Reusable components in 'statusline', 'rulerformat', 'tabline', 'titlestring'
-" {{{
-let g:hl_head =
-      \ (has('nvim') ? toupper(v:progname) : '%{v:servername}').
-      \ (g:l ? '[L]' : '').
-      \ (empty($SSH_TTY) ? '': '@'.hostname()).
-      \ ":%{fnamemodify(v:this_session, ':t:r')}"
-" }}}
-
-set statusline=%!Statusline()
-"{{{
-function! Statusline()
-  let m = mode()
-  if m ==# 'n' " hide Normal mode as it's normal
-    return s:stl
-  endif
-  " Character[s] indicating the current mode
-  let c = m =~# '[VS]' ? m.'L' :
-        \ m =~# "[\<C-v>\<C-s>]" ? strtrans(m)[1].'B' :
-        \ toupper(m)
-  " Mode highlight
-  " (Use a User highlight group so that only the current statusline is bold.)
-  let hl = c =~# '[VS]' ? 1 : ''
-  " To be used in %{} which is evaluated in a dedicated window context
-  let g:hl_mode = c.':'
-  " The mode is shown in windows holding the current buffer. (only I/R/T)
-  " Note: Nvim would have cursor jump due to evaluation of g:actual_curbuf.
-  return "%".hl."*%{bufnr('%')!=get(g:,'actual_curbuf')?'':g:hl_mode}".s:stl
-endfunction
-set noshowmode " mode message hides normal messages and is redundant
-let s:stl1 = "%1*%w%q" " preview, quickfix
-let s:stl1 .= "%n" " buffer number
-let s:stl1 .= "%<" " at this point to truncate
-" g:statusline would be inserted here.
-let s:stl2 = ":%{&filetype}" " file type
-let s:stl2 .= "%{(&fenc!='utf-8'&&&fenc!='')?':'.&fenc:''}" " file encoding
-let s:stl2 .= "%{&ff!='unix'?':'.&ff:''}" " file format
-let s:stl2 .= ":%*%.30f" " file path
-let s:stl2 .= "%1*%m%{(&modifiable?'':'-').(&readonly?'=':'')}"
-let s:stl2 .= "%{get(b:,'case_reverse',0)?':CAPS':''}" " software caps lock
-let s:stl2 .= "%*%=" " left/right separator
-" Note this isn't correct when two windows holding the same buffer have
-" different CWDs, which I think doesn't worth fixing.
-" let s:stl2 .= "%1*%{bufnr('%')==get(g:,'actual_curbuf')?".
-"       \"pathshorten(fnamemodify(getcwd(),':~')). (haslocaldir()?':L':''):''}"
-let s:stl2 .= "%*:%l/%L:%P" " cursor position, line percentage
-" The array g:statusline contains flags inserted by bundles
-execute has('vim_starting') ? 'autocmd User Vimrc' : ''
-        \ "let s:stl = s:stl1.join(get(g:, 'statusline', []), '').s:stl2"
+set statusline=%!helpline#statusline()
 set fillchars+=stl::,stlnc:: " characters to fill the statuslines
-"}}}
+set noshowmode " mode message hides normal messages and is redundant
 set laststatus=2 " always display the status line
 
 " Use CTRL-G, G_CTRL-G to see file and cursor information manually
 set ruler " not effective when 'statusline' is set
 set rulerformat=%50(%=%m%r%<%f%Y\ %c,%l/%L,%P%)
 
-" 'tabline' is set in the bundle "vim-flagship"
+set tabline=%!helpline#tabline()
 let &showtabline = g:l ? 1 : 2
 
-" 'titlestring' is also set in "vim-flagship"
 if exists('$TMUX')
   " autocmd vimrc FocusLost,VimLeavePre * set titlestring=
 else

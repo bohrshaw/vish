@@ -693,32 +693,6 @@ endif
 if !has('gui_running') && Dundles('wincent/terminus')
 endif
 
-" Configurable and extensible tab line and status line
-if Bundles('Tpope/vim-flagship')
-  " g:flagship_cwd is the global CWD, or use flagship#cwd(0, 'shorten').
-  let s:hl_prefix = g:hl_head.
-        \ ":%{pathshorten(fnamemodify(g:flagship_cwd,':~'))}"
-
-  let g:tabprefix = '%#StatusLineNC#'.s:hl_prefix.':%*'
-  " Time info is especially useful in full screen
-  let g:tabsuffix = '%{strftime("%a %m/%d/%Y %H:%M:%S")}'
-
-  function! s:titlestring()
-    let &titlestring = &showtabline == 2 ? toupper(v:progname) : s:hl_prefix
-  endfunction
-  call s:titlestring()
-
-  nnoremap <silent>cot :let &showtabline = &showtabline == 2 ? 1 : 2 \|
-        \ call <SID>titlestring()<CR>
-
-  " Leave 'statusline' unchanged
-  let g:flagship_skip = '.' " skip injecting flags into `statusline`
-  augroup bundle_flagship | autocmd!
-    " This disalbes the plumbing codes in `statusline`, which may cause dysfunction.
-    autocmd User Flags set statusline=%!Statusline() | autocmd! bundle_flagship
-  augroup END
-endif
-
 " Lean & mean statusline for vim that's light as air
 if Dundles('bling/vim-airline')
   " Remove separators, the different colors already make it easy to distinguish.
