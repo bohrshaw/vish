@@ -41,10 +41,8 @@ if($VISH -ne (Convert-Path '~\.vim')) {
 New-Link $VISH $NVIM
 
 # Link vimrc files
-New-Link "$VISH\vimrc" "$HOME\.vimrc"
+New-Link "$VISH\init.vim" "$HOME\.vimrc"
 New-Link "$VISH\gvimrc" "$HOME\.gvimrc"
-# Link into a directory of $XDG_CONFIG_DIRS as it would also be linked in WSL.
-New-Link "$VISH\vimrc" "$HOME\.config\init.vim"
 
 # Include spell related files(mostly static and large)
 if (-not (Test-Path $VISH\spell\.git -PathType Container)) {
@@ -56,10 +54,10 @@ if (-not (Test-Path $VISH\spell\.git -PathType Container)) {
 
 # Sync bundles
 if (Get-Command "vundle.exe" -ErrorAction SilentlyContinue) {
-    Invoke-Expression "vundle -U"
+    Invoke-Expression "vundle"
 } elseif (Get-Command "go.exe" -ErrorAction SilentlyContinue) {
     Invoke-Expression "go get -u github.com/bohrshaw/vundle"
-    Invoke-Expression "vundle -U"
+    Invoke-Expression "vundle"
 } else {
     echo "Fatal: Vish depends on Golang to install bundles!"
 }

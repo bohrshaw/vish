@@ -33,11 +33,8 @@ if has('vim_starting')
     set shellslash&
   endif
 
-  let $MYVIMRC = empty($MYVIMRC) ? expand('<sfile>:p') :
-        \ has('win32') ?
-        \   filereadable($HOME.'/.vim/vimrc') ?
-        \     expand('~/.vim/vimrc') : expand('~/vimfiles/vimrc') :
-        \   resolve($MYVIMRC)
+  let $MYVIMRC = empty($MYVIMRC) ?
+        \ expand('<sfile>:p') : expand('~/.vim/init.vim')
   let $MYVIM = fnamemodify($MYVIMRC, ':p:h') " be portable
 
   " Cross-platform 'runtimepath'

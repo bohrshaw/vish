@@ -21,10 +21,9 @@ slink "$VISH" "$VIM"
 slink "$VISH" "$NVIM"
 
 # Link vimrc files
-for f in vimrc gvimrc; do
-  slink "$VISH/$f" "$HOME/.$f"
-done
-slink "$VISH/vimrc" "$NVIM/init.vim"
+slink "$VISH/init.vim" "$HOME/.vimrc"
+slink "$VISH/init.vim" "$VISH/vimrc"
+slink "$VISH/gvimrc" "$HOME/.gvimrc"
 
 clone() {
   if [ -e ~/.ssh/id_rsa ]; then
@@ -47,10 +46,10 @@ fi
 
 # Sync bundles
 if hash vundle &>/dev/null; then
-  vundle -U
+  vundle
 elif hash go &>/dev/null; then
   go get -u github.com/bohrshaw/vundle
-  vundle -U
+  vundle
 else
   echo "Fatal: Vish depends on Golang to install bundles!"
 fi
