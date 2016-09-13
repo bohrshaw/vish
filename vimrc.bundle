@@ -663,7 +663,7 @@ endif
 " Color Schemes
 if Bundles('Bohrshaw/vim-colors', 'Chriskempson/base16-vim')
   autocmd User Bundle nested execute 'silent color'
-        \ has('gui_running') || !has('win32') ?
+        \ has('nvim') || has('gui_running') || !has('win32') ?
         \   &background == 'light' ? 'gruvbox' : 'seoul256' :
         \   ''
   augroup bundle_colors | autocmd!
@@ -745,7 +745,7 @@ if has('win32')
 endif
 
 " Neovim-qt: helper GUI commands and functions (bundled in ginit.vim)
-call Dundles('equalsraf/neovim-gui-shim')
+Nop call Bundles('equalsraf/neovim-gui-shim')
 
 " FileTypes: {{{1
 
