@@ -605,7 +605,7 @@ if !has('win32') && Dundles('junegunn/fzf.vim') &&
 endif
 
 " A tree explorer plugin for vim
-if Bundle('scrooloose/nerdtree', {'m': [
+if Dundle('scrooloose/nerdtree', {'m': [
       \ 'nnoremap c<Leader>d :NERDTreeToggle<CR>',
       \ 'nnoremap <leader>dd :NERDTree<CR>',
       \ 'nnoremap <leader>df :NERDTreeFind<CR>']})
