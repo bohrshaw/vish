@@ -525,6 +525,7 @@ command! -bang Bwipeout execute 'silent'
 
 cabbrev <expr>vb getcmdtype() == ':' && getcmdpos() == 3 ? 'vert sb' : 'vb'
 cabbrev <expr>tb getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sb' : 'tb'
+cabbrev <expr>ag getcmdtype() == ':' && getcmdpos() == 3 ? 'argu' : 'ag'
 
 " Like :bufdo, but with a pattern matching buffers, a bang reverses the match.
 " Example: `Bufdo /tmp bw!`
