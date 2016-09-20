@@ -7,5 +7,7 @@ function! b#colors#()
     runtime autoload/b/colors/solarized.vim
   elseif c == 'github'
     hi CursorLine cterm=NONE gui=NONE ctermbg=253 guibg=#D8D8DD
+  elseif c == 'zenburn'
+    hi Comment gui=none
   endif
 endfunction
