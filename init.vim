@@ -575,7 +575,8 @@ cnoremap <C-g>l <C-\>ecmd#link_targets()<CR><CR>
 " Easy access to vimrc files
 cabbr <expr>vsoxx $MYVIMRC
 cabbr <expr>bsoxx $MYBUNDLE
-nnoremap <silent><M-f>v :<C-u>call buf#edit($MYVIMRC)<CR>
+nnoremap <silent><M-f>i :<C-u>call buf#edit($MYVIMRC)<CR>
+nmap <M-f>v <M-f>i
 nnoremap <silent><M-f>b :<C-u>call buf#edit($MYBUNDLE)<CR>
 
 " Make scratch buffers
