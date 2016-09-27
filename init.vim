@@ -338,11 +338,13 @@ cabbrev <expr>sv getcmdtype() == ':' && getcmdpos() =~ '[38]' ?
 " Use short options as they would be shown on qf-statusline.
 let g:greps = {
       \ 'grep': 'grep -n $* '.(has('win32') ? 'NUL' : '/dev/null'),
+      \ 'rg': 'rg --vimgrep',
       \ 'ag': 'ag --vimgrep',
       \ 'pt': 'pt --column',
       \ 'ack': (executable('ack') ? 'ack' : 'ack-grep').' --column -H',
       \ }
 let &grepprg = executable('ag') ? greps.ag :
+      \ executable('rg') ? greps.rg :
       \ executable('pt') ? greps.pt :
       \ (executable('ack') || executable('ack-grep')) ? greps.ack :
       \ &grepprg

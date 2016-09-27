@@ -197,6 +197,11 @@ if Bundles('Haya14busa/incsearch.vim') " 'Haya14busa/vim-asterisk'
   let g:incsearch#no_inc_hlsearch = 1
 endif
 
+" Grep asynchronously
+if Bundles('mhinz/vim-grepper')
+  cabbrev <expr>ge getcmdtype() == ':' && getcmdpos() == 3 ? 'Grepper -query' : 'ge'
+endif
+
 " Completion: {{{1
 
 " Completions
