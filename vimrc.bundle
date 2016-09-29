@@ -259,11 +259,6 @@ if s:pythonx && Bundle('Sirver/ultisnips', {
   " Performance
   let g:UltiSnipsRemoveSelectModeMappings = 0
   let b:did_after_plugin_ultisnips_after = 1 " I don't have SuperTab
-  autocmd User BundleUltisnips autocmd! UltiSnips_AutoTrigger
-
-  " Hack
-  " See: $MYVIM/bundle/ultisnips/ftdetect/UltiSnips.vim
-  autocmd User BundleUltisnips autocmd FileType * call UltiSnips#FileTypeChanged()
 elseif Dundles('garbas/vim-snipmate', 'marcweber/vim-addon-mw-utils', 'tomtom/tlib_vim', 'honza/vim-snippets')
   command! -nargs=1 SImap imap <args>|smap <args>
   SImap <M-j> <Plug>snipMateNextOrTrigger
