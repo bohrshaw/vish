@@ -1,6 +1,6 @@
 " Minimal and sensible vimrc for debugging
 " Examples:
-" vim -u ~/.vim/vimrc.min --cmd 'set rtp+=~/.vim/bundle/vim-xxx'
+" vim -u ~/.vim/init.min.vim --cmd 'set rtp+=~/.vim/bundle/vim-xxx'
 
 set nocompatible
 

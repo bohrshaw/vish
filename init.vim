@@ -3,7 +3,7 @@
 "  |  | |___ |___ |___ |__|    \/  | |  |
 "
 " This is the Vim(Neovim) initialization file, practically categorized.
-" Bundle(plugin) dependent configs are splited into "vimrc.bundle".
+" Bundle(plugin) dependent configs are splited into "init..vim".
 "
 " Rationale:
 "
@@ -1009,7 +1009,7 @@ endif
 " Bundles:" {{{
 
 if has('vim_starting')
-  runtime vimrc.bundle " bundle configuration
+  runtime init..vim " bundle configuration
   call bundle#done() " inject bundle paths to 'rtp'
 endif
 
