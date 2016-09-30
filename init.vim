@@ -14,7 +14,7 @@
 
 " Starting:" {{{
 
-" To skip sourcing system-vimrc, use `vim -u foo_vimrc`.
+" To skip sourcing system-vimrc, use `vim -u init.foo.vim`.
 " Don't `set all&` to try to override system-vimrc as it resets cmdline options.
 
 if has('vim_starting')
@@ -36,6 +36,9 @@ if has('vim_starting')
   let $MYVIMRC = empty($MYVIMRC) ?
         \ expand('<sfile>:p') : expand('~/.vim/init.vim')
   let $MYVIM = fnamemodify($MYVIMRC, ':p:h') " be portable
+  " A directory for storing temporary files, whose location is outside of $MYVIM
+  " as $MYVIM could be shared between OSs such as in the case of WSL.
+  let $MYTMP = expand('~/.vimtmp/')
 
   " Cross-platform 'runtimepath'
   set rtp=$MYVIM,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$MYVIM/after
@@ -80,7 +83,7 @@ if has('vim_starting')
     let [g:python_host_skip_check, g:python3_host_skip_check] = [1, 1]
   endif
 
-  let $MYVIMRCPRE = expand('~/.vimrc.local.pre')
+  let $MYVIMRCPRE = expand($MYTMP.'init-.vim')
   if filereadable($MYVIMRCPRE)
     execute 'silent source' $MYVIMRCPRE
   endif
@@ -157,7 +160,7 @@ NXnoremap <Space> :
 cnoremap <F5> <CR>:<Up>
 cmap <M-m> <F5>
 " Resolve local mapping conflicts with <Space> {{{
-augroup vimrc_optwin | autocmd!
+augroup init_optwin | autocmd!
   autocmd BufWinEnter option-window autocmd CursorMoved option-window
         \ execute 'nnoremap <silent><buffer><LocalLeader>r '.maparg("<Space>")|
         \ unmap <buffer><Space>|
@@ -173,7 +176,7 @@ cnoremap <M-e> <C-F>
 " Get the Entire current line
 cnoremap <C-r><C-e> <C-r>=getline('.')<CR>
 
-augroup vimrc_cmdwin | autocmd!
+augroup init_cmdwin | autocmd!
   autocmd CmdwinEnter *
         \ NXInoremap <buffer><M-q> <C-c><C-c>|
         \ noremap <buffer><F5> <CR>q:|
@@ -231,8 +234,8 @@ if has('vim_starting') && !g:loaded_matchit
   if !has('nvim') " nvim put it in plugin/
     runtime macros/matchit.vim
   endif
-  augroup vimrc_matchit | autocmd!
-    autocmd User Vimrc sunmap %|sunmap [%|sunmap ]%|sunmap a%|sunmap g%
+  augroup init_matchit | autocmd!
+    autocmd User Init sunmap %|sunmap [%|sunmap ]%|sunmap a%|sunmap g%
   augroup END
 endif
 " }}}
@@ -265,11 +268,11 @@ nnoremap <BS> <C-t>
 
 " Auto-place the cursor when opening buffers or files
 " " {{{
-augroup vimrc_cursor_restore | autocmd!
+augroup init_cursor_restore | autocmd!
   " Don't move the cursor to the start of the line
   autocmd BufLeave * set nostartofline |
         \ autocmd CursorMoved * set startofline |
-        \ autocmd! vimrc_cursor_restore CursorMoved
+        \ autocmd! init_cursor_restore CursorMoved
   " Jump to the last position
   autocmd BufRead * silent! normal! g`"
 augroup END
@@ -371,7 +374,7 @@ command! -nargs=1 Bufgrep cexpr [] | bufdo vimgrepadd <args> %
 " }}}
 " QuickFix:" {{{
 
-augroup vimrc_qf | autocmd!
+augroup init_qf | autocmd!
   " Note it would be a little slower if it's "ftplugin/qf.vim".
   autocmd FileType qf call qf#window()
 
@@ -499,7 +502,7 @@ nmap <silent>zfm cof
 " speed by avoiding updating folds eagerly.
 " However, restoring 'foldmethod' on InsertLeave would cause text under the
 " cursor be closed if the inserted text creates a new fold level.
-" augroup vimrc_fold_lazily | autocmd!
+" augroup init_fold_lazily | autocmd!
 "   autocmd InsertEnter * if !exists('w:vfdml') &&
 "         \ &foldmethod != 'manual' && empty(&buftype) |
 "         \ let w:vfdml=&foldmethod | set foldmethod=manual | endif
@@ -574,15 +577,16 @@ endif
 " Open links' destination files
 cnoremap <C-g>l <C-\>ecmd#link_targets()<CR><CR>
 
-" Easy access to vimrc files
+" Easy access to init files
 cabbr <expr>vsoxx $MYVIMRC
 cabbr <expr>bsoxx $MYBUNDLE
 nnoremap <silent><M-f>i :<C-u>call buf#edit($MYVIMRC)<CR>
 nmap <M-f>v <M-f>i
-nnoremap <silent><M-f>b :<C-u>call buf#edit($MYBUNDLE)<CR>
+nnoremap <silent><M-f>I :<C-u>call buf#edit($MYBUNDLE)<CR>
+nmap <M-f>b <M-f>I
 
 " Make scratch buffers
-augroup vimrc_scratch | autocmd!
+augroup init_scratch | autocmd!
   autocmd BufNew,BufNewFile,BufReadPost _,_.*
         \ set buftype=nofile nobuflisted bufhidden=hide
 augroup END
@@ -605,7 +609,7 @@ inoremap <expr><Tab> pumvisible() ? '<C-n>' :
       \ getline('.')[col('.')-2] =~# '\S' ? '<C-x><C-p>a<BS><C-p>' : '<Tab>'
 inoremap <expr><S-Tab> pumvisible() ? '<C-p>' : '<C-x><C-n>a<BS><C-n>'
 " Remove built-in mappings
-augroup vimrc_cmdwin_completion | autocmd!
+augroup init_cmdwin_completion | autocmd!
   autocmd CmdwinEnter [:>] silent! iunmap <buffer><Tab>
 augroup END
 
@@ -712,7 +716,7 @@ command! -nargs=? -complete=buffer DiffWith call diff#with(<f-args>)
 " Spell:" {{{
 
 " Enable spell checking for particular file types
-augroup vimrc_spell | autocmd!
+augroup init_spell | autocmd!
   autocmd FileType gitcommit,markdown,txt setlocal spell
 augroup END
 if has('patch-7.4.088')
@@ -738,9 +742,6 @@ set thesaurus=$MYVIM/spell/thesaurus-mwcd.txt
 "}}}
 " Persistence:" {{{
 
-" A directory for storing temporary files, whose location is outside of $MYVIM
-" as $MYVIM could be shared between OSs such as in the case of WSL.
-let $MYTMP = expand('~/.vimtmp/')
 if !isdirectory($MYTMP) | call mkdir($MYTMP) | endif
 
 " - Remember UPPER_CASE global variables
@@ -856,7 +857,7 @@ set showcmd " show partial typings of a mapping or command
 " Show matching pairs like (), [], etc.
 " {{{
 " set showmatch matchtime=1 " highlighting in plugin/matchparen.vim is better
-augroup vimrc_matchparen | autocmd!
+augroup init_matchparen | autocmd!
   autocmd ColorScheme * hi MatchParen cterm=underline ctermbg=NONE ctermfg=NONE
         \ gui=underline guibg=NONE guifg=NONE
 augroup END
@@ -879,7 +880,7 @@ endif
 execute 'set listchars=tab:'.s:lcs[0].'\ ,trail:'.s:lcs[1]
       \ .',extends:'.s:lcs[2].',precedes:'.s:lcs[3].',nbsp:'.s:lcs[4]
 " Avoid showing trailing whitespace when in insert mode
-augroup vimrc_listchars | autocmd!
+augroup init_listchars | autocmd!
   execute 'autocmd InsertEnter * set listchars-=trail:'.s:lcs[1]
   execute 'autocmd InsertLeave * set listchars+=trail:'.s:lcs[1]
 augroup END
@@ -900,7 +901,7 @@ if has('vim_starting') && has('gui_running') "{{{
   set lines=40 columns=88
   if !g:l " maximize the window
     if has('win32')
-      augroup vimrc_max_vim | autocmd!
+      augroup init_max_vim | autocmd!
         autocmd GUIEnter * simalt ~x
       augroup END
     else
@@ -944,12 +945,12 @@ set tabline=%!helpline#tabline()
 let &showtabline = g:l ? 1 : 2
 
 if exists('$TMUX')
-  " autocmd vimrc FocusLost,VimLeavePre * set titlestring=
+  " autocmd init FocusLost,VimLeavePre * set titlestring=
 else
   set title " may not be able to be restored
 endif
 
-augroup vimrc_color | autocmd!
+augroup init_color | autocmd!
   autocmd ColorScheme * call color#highlight()
 augroup END
 
@@ -976,7 +977,7 @@ if has('nvim')
   cabbrev <expr>vt getcmdtype() == ':' && getcmdpos() == 3 ? 'vne\|te' : 'vt'
   cabbrev <expr>tt getcmdtype() == ':' && getcmdpos() == 3 ? 'tab new\|te' : 'tt'
 
-  augroup vimrc_term | autocmd!
+  augroup init_term | autocmd!
     autocmd BufWinEnter,WinEnter term://*
           \ if !get(b:, 'term_no_insert') | startinsert | endif
     " Prevent from entering Insert Mode in a non-terminal buffer, when e.g.
@@ -1040,7 +1041,7 @@ set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
 if has('patch-7.4.1570')
   set shortmess+=F
 endif
-" autocmd vimrc GUIEnter * set vb t_vb= " disable error beep and screen flash
+" autocmd init GUIEnter * set vb t_vb= " disable error beep and screen flash
 set guioptions=M " skip sourcing menu.vim, before enabling filetype/syntax
 set guioptions+=c " use a console dialog for confirmation instead of a pop-up
 set confirm " prompt for an action instead of fail immediately
@@ -1097,7 +1098,7 @@ command! HelpWrite setlocal buftype= buflisted modifiable noreadonly |
 " Toggle automation of state toggle of IME(Fcitx)
 nnoremap <silent>c<Leader>i :call ime#auto()<CR>
 
-let $MYVIMRCAFTER = expand('~/.vimrc.local')
+let $MYVIMRCAFTER = expand($MYTMP.'init+.vim')
 if filereadable($MYVIMRCAFTER)
   execute 'silent source' $MYVIMRCAFTER
 endif

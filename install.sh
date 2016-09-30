@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Link vimrc files and install Vim plugins
+# Link init/vimrc files and install Vim plugins
 
 # Get the directory path of this file
 VISH="$(cd "$(dirname "$0")" && pwd -P)"
@@ -20,7 +20,7 @@ slink () {
 slink "$VISH" "$VIM"
 slink "$VISH" "$NVIM"
 
-# Link vimrc files
+# Link init files
 slink "$VISH/init.vim" "$HOME/.vimrc"
 slink "$VISH/init.vim" "$VISH/vimrc"
 slink "$VISH/gvimrc" "$HOME/.gvimrc"

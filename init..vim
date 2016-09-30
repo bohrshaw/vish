@@ -1,5 +1,5 @@
 " This is the Vim(Neovim) initialization file dependent on various bundles.
-" It's sourced in "vimrc".
+" It's sourced in "init.vim".
 "
 " Author: Bohr Shaw <pubohr@gmail.com>
 
@@ -31,7 +31,7 @@ call BundleRun('Tpope/vim-scriptease')
 command! -nargs=? -complete=command VimNORC execute
       \ v:progname.<q-args> =~ '^\S*gvim' ? "B!" : "Start"
       \ empty(<q-args>) ? expand(exepath(v:progpath)) : <q-args>
-      \ '-u' expand($MYVIM.'/vimrc.min')
+      \ '-u' expand($MYVIM.'/init.min.vim')
 " Profiling
 command! -nargs=? -complete=command StartupTime execute
       \ v:progname.<q-args> =~ '^\S*gvim' ? "B!" : "Start"

@@ -35,7 +35,7 @@ let s:stl2 .= "%*%=" " left/right separator
 "       \"pathshorten(fnamemodify(getcwd(),':~')). (haslocaldir()?':L':''):''}"
 let s:stl2 .= "%*:%l/%L:%P" " cursor position, line percentage
 " The array g:statusline contains flags inserted by bundles
-execute has('vim_starting') ? 'autocmd User Vimrc' : ''
+execute has('vim_starting') ? 'autocmd User Init' : ''
         \ "let s:stl = s:stl1.join(get(g:, 'statusline', []), '').s:stl2"
 
 function! helpline#tabline()

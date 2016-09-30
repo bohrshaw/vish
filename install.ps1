@@ -40,7 +40,7 @@ if($VISH -ne (Convert-Path '~\.vim')) {
 }
 New-Link $VISH $NVIM
 
-# Link vimrc files
+# Link init files
 New-Link "$VISH\init.vim" "$HOME\.vimrc"
 New-Link "$VISH\gvimrc" "$HOME\.gvimrc"
 
