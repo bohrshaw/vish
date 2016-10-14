@@ -817,6 +817,9 @@ endif
 " Dispatch.vim: asynchronous build and test dispatcher
 call Bundles('tpope/vim-dispatch')
 
+" Run Async Shell Commands in Vim 8.0
+" call Bundles('skywind3000/asyncrun.vim')
+
 " Execute whole/part of editing file
 if Bundles('thinca/vim-quickrun')
   command! -nargs=* -range=% -complete=customlist,quickrun#complete Run
