@@ -156,6 +156,7 @@ NXnoremap _ "_
 " }}}
 " Cmdline:" {{{
 
+" Note ':' should not be mapped as it would be used in the rhs of a remap.
 NXnoremap <Space> :
 cnoremap <F5> <CR>:<Up>
 cmap <M-m> <F5>
@@ -173,9 +174,6 @@ NXnoremap <M-/> q/
 " set cedit=<C-G>
 cnoremap <M-Space> <C-F>
 cnoremap <M-e> <C-F>
-" Get the Entire current line
-cnoremap <C-r><C-e> <C-r>=getline('.')<CR>
-
 augroup init_cmdwin | autocmd!
   autocmd CmdwinEnter *
         \ NXInoremap <buffer><M-q> <C-c><C-c>|
@@ -186,9 +184,10 @@ augroup init_cmdwin | autocmd!
 augroup END
 set cmdwinheight=5
 
+" Get the Entire current line
+cnoremap <C-r><C-e> <C-r>=getline('.')<CR>
 " Copy from the command line
 cnoreabbrev <expr>c getcmdtype() == ':' && getcmdpos() == 2 ? 'copy' : 'c'
-
 " Run the current command with a bang(!)
 cnoremap <M-1> <C-\>ecmd#bang()<CR><CR>
 " Run the last command with a bang
