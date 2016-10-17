@@ -199,7 +199,7 @@ endif
 
 " Grep asynchronously
 if Bundles('mhinz/vim-grepper')
-  cabbrev <expr>ge getcmdtype() == ':' && getcmdpos() == 3 ? 'Grepper -query' : 'ge'
+  cnoreabbrev <expr>ge getcmdtype() == ':' && getcmdpos() == 3 ? 'Grepper -query' : 'ge'
 endif
 
 " Completion: {{{1

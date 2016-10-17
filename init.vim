@@ -187,7 +187,7 @@ augroup END
 set cmdwinheight=5
 
 " Copy from the command line
-cabbrev <expr>c getcmdtype() == ':' && getcmdpos() == 2 ? 'copy' : 'c'
+cnoreabbrev <expr>c getcmdtype() == ':' && getcmdpos() == 2 ? 'copy' : 'c'
 
 " Run the current command with a bang(!)
 cnoremap <M-1> <C-\>ecmd#bang()<CR><CR>
@@ -252,8 +252,8 @@ nnoremap <silent>g. :try\|execute 'normal! g,g;'\|
       \ catch\|execute 'normal! g,'\|endtry<CR>
 
 " Print the change list or mark list
-cabbrev <expr>cs getcmdtype() == ':' && getcmdpos() == 3 ? 'changes' : 'cs'
-cabbrev <expr>ms getcmdtype() == ':' && getcmdpos() == 3 ? 'marks' : 'ms'
+cnoreabbrev <expr>cs getcmdtype() == ':' && getcmdpos() == 3 ? 'changes' : 'cs'
+cnoreabbrev <expr>ms getcmdtype() == ':' && getcmdpos() == 3 ? 'marks' : 'ms'
 
 " Navigate the jumper list
 nnoremap <M-i> <C-I>
@@ -327,7 +327,7 @@ cnoremap <silent><M-j> <CR>:nohlsearch<CR>
 xnoremap sv :s/\%V
 " Substitute in a visual area (eat the for-expanding-space)
 " Hack: Use an expression to save a temporary value.
-cabbrev <expr>sv getcmdtype() == ':' && getcmdpos() =~ '[38]' ?
+cnoreabbrev <expr>sv getcmdtype() == ':' && getcmdpos() =~ '[38]' ?
       \ 's/\%V'.setreg('z', nr2char(getchar(0)))[1:0].(@z == ' ' ? '' : @z) : 'sv'
 
 " }}}
@@ -449,10 +449,10 @@ nnoremap <silent><C-w>e :<C-u>execute 'buffer '.winbufnr(v:count1).'\|'
 " Attach the current window bellow the last windows with the same width
 nnoremap <silent><C-w>a :execute 'close\|$wincmd w\|belowright sbuffer '.bufnr('')<CR>
 
-cabbrev <expr>v getcmdtype() == ':' && getcmdpos() == 2 ?
+cnoreabbrev <expr>v getcmdtype() == ':' && getcmdpos() == 2 ?
       \ 'vert'.v#setvar('g:_t', nr2char(getchar(0))).
       \   (_t == ' ' ? '' : "<BS><BS><BS>")._t : 'v'
-cabbrev <expr>t getcmdtype() == ':' && getcmdpos() == 2 ? 'tab' : 't'
+cnoreabbrev <expr>t getcmdtype() == ':' && getcmdpos() == 2 ? 'tab' : 't'
 
 " Full screen
 nnoremap <silent><F11> :execute 'FullScreen' \|
@@ -528,9 +528,9 @@ command! -bang Bdelete execute 'silent'
 command! -bang Bwipeout execute 'silent'
       \ buflisted(0) ? 'buffer #' : 'bprevious' | silent! bwipeout! #
 
-cabbrev <expr>vb getcmdtype() == ':' && getcmdpos() == 3 ? 'vert sb' : 'vb'
-cabbrev <expr>tb getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sb' : 'tb'
-cabbrev <expr>ag getcmdtype() == ':' && getcmdpos() == 3 ? 'argu' : 'ag'
+cnoreabbrev <expr>vb getcmdtype() == ':' && getcmdpos() == 3 ? 'vert sb' : 'vb'
+cnoreabbrev <expr>tb getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sb' : 'tb'
+cnoreabbrev <expr>ag getcmdtype() == ':' && getcmdpos() == 3 ? 'argu' : 'ag'
 
 " Like :bufdo, but with a pattern matching buffers, a bang reverses the match.
 " Example: `Bufdo /tmp bw!`
@@ -550,7 +550,7 @@ nnoremap <silent><M-f>A :let @z = winnr() \|
 inoremap <M-z> <Esc>ZZ
 nnoremap <silent><M-f>e :edit<CR>
 nnoremap <silent><M-f><M-f>e :edit!<CR>
-cabbrev <expr>tw getcmdtype() == ':' && getcmdpos() == 3 ? 'tabe' : 'tw'
+cnoreabbrev <expr>tw getcmdtype() == ':' && getcmdpos() == 3 ? 'tabe' : 'tw'
 cnoremap <M-h> <C-r>=expand('%:h')<CR>/
 nnoremap <M-f>f :filetype detect<CR>
 nnoremap <M-f>F :silent! unlet b:did_ftplugin b:did_after_ftplugin<Bar>filetype detect<CR>
@@ -562,9 +562,9 @@ nnoremap <silent><C-W><M-s> :sbuffer #<CR>
 nnoremap <silent><C-W><M-v> :vert sbuffer #<CR>
 
 " Find a file in 'path'
-cabbrev <expr>fi getcmdtype() == ':' && getcmdpos() == 3 ? 'fin' : 'fi'
-cabbrev <expr>vf getcmdtype() == ':' && getcmdpos() == 3 ? 'vert sf' : 'vf'
-cabbrev <expr>tf getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sf' : 'tf'
+cnoreabbrev <expr>fi getcmdtype() == ':' && getcmdpos() == 3 ? 'fin' : 'fi'
+cnoreabbrev <expr>vf getcmdtype() == ':' && getcmdpos() == 3 ? 'vert sf' : 'vf'
+cnoreabbrev <expr>tf getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sf' : 'tf'
 
 " Directories to search by `gf, :find, cd, lcd etc.`
 " (dir of the current file, current dir, etc.)
@@ -659,7 +659,7 @@ cmap <M-CR> <C-\>e'tab '.getcmdline()<CR><CR>
 cnoremap <M-l> <C-\>ecmd#expand()<CR><Tab>
 
 " Abbreviations
-abbr bssoxx Bohr Shaw
+noreabbrev bssoxx Bohr Shaw
 
 " Type notated keys (:help key-notation)
 noremap! <expr><M-v> key#notate()
@@ -973,9 +973,9 @@ if has('nvim')
   tnoremap <C-PageUp> <C-\><C-n><C-b>
   tnoremap <C-PageDown> <C-\><C-n><C-f>
 
-  cabbrev <expr>st getcmdtype() == ':' && getcmdpos() == 3 ? 'new\|te' : 'st'
-  cabbrev <expr>vt getcmdtype() == ':' && getcmdpos() == 3 ? 'vne\|te' : 'vt'
-  cabbrev <expr>tt getcmdtype() == ':' && getcmdpos() == 3 ? 'tab new\|te' : 'tt'
+  cnoreabbrev <expr>st getcmdtype() == ':' && getcmdpos() == 3 ? 'new\|te' : 'st'
+  cnoreabbrev <expr>vt getcmdtype() == ':' && getcmdpos() == 3 ? 'vne\|te' : 'vt'
+  cnoreabbrev <expr>tt getcmdtype() == ':' && getcmdpos() == 3 ? 'tab new\|te' : 'tt'
 
   augroup init_term | autocmd!
     autocmd BufWinEnter,WinEnter term://*
