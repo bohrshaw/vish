@@ -497,17 +497,14 @@ nnoremap <silent>cof :let &foldmethod = tolower(matchstr(
       \','.nr2char(getchar()).'\zs\a*\C'))\|set foldmethod<CR>
 nmap <silent>zfm cof
 
-" Don't screw up folds when inserting text that might affect them. Also improve
-" speed by avoiding updating folds eagerly.
-" However, restoring 'foldmethod' on InsertLeave would cause text under the
-" cursor be closed if the inserted text creates a new fold level.
+" Avoid updating folds in Insert Mode, not needed as of Neovim 0.1.6
 " augroup init_fold_lazily | autocmd!
 "   autocmd InsertEnter * if !exists('w:vfdml') &&
 "         \ &foldmethod != 'manual' && empty(&buftype) |
 "         \ let w:vfdml=&foldmethod | set foldmethod=manual | endif
 "   autocmd InsertLeave * if exists('w:vfdml') && empty(&buftype) |
 "         \ let &foldmethod=w:vfdml | unlet w:vfdml |
-"         \ execute 'silent! normal! zo' |endif
+"         \ execute 'silent! normal! zO' |endif
 " augroup END
 
 "}}}
