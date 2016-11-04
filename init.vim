@@ -577,9 +577,7 @@ cnoremap <C-g>l <C-\>ecmd#link_targets()<CR><CR>
 cabbr <expr>vsoxx $MYVIMRC
 cabbr <expr>bsoxx $MYBUNDLE
 nnoremap <silent><M-f>i :<C-u>call buf#edit($MYVIMRC)<CR>
-nmap <M-f>v <M-f>i
-nnoremap <silent><M-f>I :<C-u>call buf#edit($MYBUNDLE)<CR>
-nmap <M-f>b <M-f>I
+nnoremap <silent><M-f>b :<C-u>call buf#edit($MYBUNDLE)<CR>
 
 " Make scratch buffers
 augroup init_scratch | autocmd!
