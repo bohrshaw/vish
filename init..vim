@@ -537,6 +537,7 @@ if Dundles('ctrlpvim/ctrlp.vim')
 endif
 
 " Unite and create user interfaces
+" call Bundles('shougo/denite.nvim')
 " 'shougo/tabpagebuffer.vim', 'kopischke/unite-spell-suggest'
 if DundlePath('shougo/unite.vim') &&
       \ Dundles('thinca/vim-unite-history', 'shougo/neomru.vim', 'shougo/unite-outline', 'tsukkee/unite-tag', 'shougo/unite-help')
