@@ -322,6 +322,10 @@ nnoremap <silent>gL :let g:hlsearch = 1 \|set hlsearch \|autocmd! search_hl<CR>
 " For :s and :g
 cnoremap <silent><M-j> <CR>:nohlsearch<CR>
 
+" Show effects of :substitute incrementally
+if exists('&inccommand')
+  set inccommand=nosplit
+endif
 " Substitute in a visual area
 xnoremap sv :s/\%V
 " Substitute in a visual area (eat the for-expanding-space)
