@@ -430,6 +430,7 @@ nnoremap <silent><C-w><M-h> :<C-u>execute 'tabmove-'.v:count1<CR>
 nnoremap <silent><M-Q> :windo quit<CR>
 nmap <silent><C-w>Q <M-Q>
 nnoremap <silent><C-w>C :lclose \| cclose<CR>
+nmap <C-w><M-c> <C-w>C
 
 " Split the current window to a new tab.
 nnoremap <silent><M-t> :<C-u>tab sbuffer % \| if v:count == 2 \| tabmove -1 \|
