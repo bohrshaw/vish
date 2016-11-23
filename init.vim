@@ -943,7 +943,8 @@ set ruler " not effective when 'statusline' is set
 set rulerformat=%50(%=%m%r%<%f%Y\ %c,%l/%L,%P%)
 
 set tabline=%!helpline#tabline()
-let &showtabline = g:l ? 1 : 2
+let &showtabline = 1
+nnoremap cot :let &showtabline = &showtabline == 1 ? 2 : 1<CR>
 
 if exists('$TMUX')
   " autocmd init FocusLost,VimLeavePre * set titlestring=
