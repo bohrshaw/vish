@@ -186,6 +186,8 @@ set cmdwinheight=5
 
 " Get the Entire current line
 cnoremap <C-r><C-e> <C-r>=getline('.')<CR>
+" Get the full path of a buffer with its number
+inoremap <C-r><C-b> <C-r>=fnamemodify(bufname(), ':p:~')<S-Left><Left><Left><Left>
 " Copy from the command line
 cnoreabbrev <expr>c getcmdtype() == ':' && getcmdpos() == 2 ? 'copy' : 'c'
 " Run the current command with a bang(!)
