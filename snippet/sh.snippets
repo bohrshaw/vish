@@ -19,8 +19,12 @@ $0
 endsnippet
 
 snippet dir "Get the directory path of the current file" b
-# Get the directory path of the current file
-${1:dir}="$( cd \`dirname \$0\` && pwd -P )"
+${1:DIR}="$(cd "\$(dirname "\$0")" && pwd -P)"
+$0
+endsnippet
+
+snippet root "Get the directory path of the current file" b
+${1:ROOT}="$(cd "\$(dirname "\$0")" && pwd -P)"
 $0
 endsnippet
 
