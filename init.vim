@@ -964,6 +964,7 @@ if has('nvim')
   tnoremap <M-I> <C-\><C-N>:
   tnoremap <M-v> <C-\><C-N>pi
   " tnoremap <expr><M-v> getchar()
+  tnoremap <M-V> <C-\><C-N>"+pi
 
   tnoremap <expr><M-w> winnr('$') == 1 ? "\<Esc>w" : "\<C-\>\<C-n>\<C-w>"
   tnoremap <expr><M-j> winnr('$') == 1 ? "\<Esc>j" : "\<C-\>\<C-n>\<C-w>w"
