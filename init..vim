@@ -130,8 +130,7 @@ endif
 " Cheatsheet: $MYVIM/bundle/targets.vim/cheatsheet.md
 " 'gaving/vim-textobj-argument', 'b4winckler/vim-angry', 'qstrahl/vim-dentures'
 if Bundles('tommcdo/vim-ninja-feet', 'kana/vim-textobj-indent', 'machakann/vim-textobj-delimited', 'coderifous/textobj-word-column.vim')
-  imap <C-g><BS> <Esc>cid
-  imap <C-g><C-w> <Esc>cid
+  imap <M-g><BS> <Esc>cid
   " Delay activating this bundle to reduce startup time
   if has('vim_starting')
     if has('timers') && !has('nvim') " function() in Neovim is not patched yet
