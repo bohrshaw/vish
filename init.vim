@@ -1022,10 +1022,10 @@ endif
 
 if has('vim_starting')
   set autoindent " indent at the same level of the previous line
-  set shiftwidth=4 " number of spaces to use for each step of (auto)indent
+  set shiftwidth=2 " number of spaces to use for each step of (auto)indent
   set shiftround " round indent to multiple of 'shiftwidth'
-  set tabstop=4 " number of spaces a tab displayed in
-  set softtabstop=4 " number of spaces used when press <Tab> or <BS>
+  set tabstop=2 " number of spaces a tab displayed in
+  set softtabstop=2 " number of spaces used when press <Tab> or <BS>
   set expandtab " expand a tab to spaces
   set smarttab " <Tab> in front of a line inserts blanks according to 'shiftwidth'
 endif
