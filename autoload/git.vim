@@ -58,7 +58,7 @@ let s:cmds = {
       \ 'wa':  'noautocmd wall',
       \ 's':   'Gstatus',
       \
-      \ 'a':      'update | call fugitive#repo().git_chomp_in_tree("add", expand("%:p")[len(b:git_dir)-4:])',
+      \ 'a':      'update | execute "G add" expand("%:p")[len(b:git_dir)-4:]',
       \ 'au':     'G add --update',
       \ 'A':      'G add --update',
       \ 'aa':     'G add --all',
