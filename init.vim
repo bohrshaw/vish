@@ -457,7 +457,13 @@ nnoremap <C-w>X <C-w>W<C-w>x<C-w>w
 " - Mixed vertical and horizontal window splits are allowed.
 nnoremap <silent><C-w>e :<C-u>execute 'buffer '.winbufnr(v:count1).'\|'
       \.v:count1.'wincmd w\|buffer '.winbufnr(0)<CR>
-" Attach the current window bellow the last windows with the same width
+" Move the {count}th window above the current one.
+nnoremap <silent><C-w>m :<C-u>let z_bufnr = winbufnr(v:count1) \|
+      \ execute v:count1.'quit' '\|' 'sbuffer' z_bufnr<CR>
+" Move the {count}th window below the current one.
+nnoremap <silent><C-w>M :<C-u>let z_bufnr = winbufnr(v:count1) \|
+      \ execute v:count1.'quit' '\|' 'bel sbuffer' z_bufnr<CR>
+" Attach the current window bellow the last windows.
 nnoremap <silent><C-w>a :execute 'close\|$wincmd w\|belowright sbuffer '.bufnr('')<CR>
 
 cnoreabbrev <expr>v getcmdtype() == ':' && getcmdpos() == 2 ?
