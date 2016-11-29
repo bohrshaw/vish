@@ -34,16 +34,6 @@ clone() {
   fi
 }
 
-# Include spell related files(mostly static and large)
-if vspell=$VISH/spell && [[ ! -e $vspell/.git ]]; then
-  [[ -d $vspell ]] && mv "$vspell" "${vspell}.bak"
-  clone vish-spell "$vspell"
-  for f in spl sug; do
-    curl -o "$vspell/en.utf-8.$f" \
-      http://ftp.vim.org/pub/vim/runtime/spell/en.utf-8.$f &>/dev/null &
-  done
-fi
-
 # Sync bundles
 if hash vundle &>/dev/null; then
   vundle
@@ -55,4 +45,3 @@ else
 fi
 
 wait
-echo "Vim ready!"
