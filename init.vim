@@ -434,12 +434,17 @@ nmap <silent><C-w>Q <M-Q>
 nnoremap <silent><C-w>C :lclose \| cclose<CR>
 nmap <C-w><M-c> <C-w>C
 
-" Split the current window to a new tab.
-nnoremap <silent><M-t> :<C-u>tab sbuffer % \| if v:count == 2 \| tabmove -1 \|
+" Like <C-w>T, but on the left
+nnoremap <silent><C-w><M-t> <C-w>T:tabmove -1<CR>
+" Split the current window to a new tab on the left. So that when it's closed I
+" should return to the last active tab.
+nnoremap <silent><M-t> :<C-u>tab sbuffer % \|
+      \ if v:count == 0 \| tabmove -1 \|
       \ elseif v:count == 1 \| 0tabmove \|
-      \ elseif v:count == 9 \| $tabmove \| endif<CR>
-" Open a temporary tab left to return to the previous tab when it's closed.
-nmap t<M-t> 2<M-t>
+      \ elseif v:count == 9 \| $tabmove \|
+      \ endif<CR>
+" Like above, but on the right.
+nmap <M-T> 2<M-t>
 " Maxmize the current window or restore the previously window layout
 nnoremap <silent><C-w>O :call win#max()<CR>
 
