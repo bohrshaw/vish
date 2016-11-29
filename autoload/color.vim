@@ -1,7 +1,7 @@
 function! color#highlight()
   " DarkGreen, DarkYellow, Gray, Green
   let [bt, bg, ft, fg, btn, bgn, ftn, fgn] = &background == 'dark' ?
-        \ ['22', '#005f00', '214', '#ffaf00', '237', '#3a3a3a', '40', '#00d700'] :
+        \ ['22', '#005f00', '220', '#ffdf00', '237', '#3a3a3a', '40', '#00d700'] :
         \ ['40', '#00df00', '88', '#870000', '250', '#bcbcbc', '22', '#005f00']
   execute 'hi StatusLine term=bold cterm=bold ctermfg='.ft 'ctermbg='.bt
         \ 'gui=bold guifg='.fg 'guibg='.bg
