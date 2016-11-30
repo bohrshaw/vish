@@ -595,11 +595,10 @@ if DundlePath('shougo/unite.vim') &&
 endif
 
 " A command-line fuzzy finder
-if 0 && (isdirectory($HOME.'/.fzf/plugin') && rtp#add('~/.fzf') ||
-      \ Dundles('junegunn/fzf')) &&
-      \   Dundles('junegunn/fzf.vim')
-  let g:fzf_command_prefix = 'F'
-  command! -nargs=? Fm call fzf#vim#maps(<f-args>)
+if (Bundles('junegunn/fzf') ||
+      \ isdirectory($HOME.'/.fzf/plugin') && rtp#add('~/.fzf')) &&
+      \ Bundles('junegunn/fzf.vim')
+  let g:fzf_command_prefix = ''
 
   let $FZF_DEFAULT_OPTS = '--exact --multi --cycle'
 endif
