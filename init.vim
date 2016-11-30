@@ -326,7 +326,7 @@ cnoremap <silent><M-j> <CR>:nohlsearch<CR>
 
 " Show effects of :substitute incrementally
 if exists('&inccommand')
-  set inccommand=nosplit
+  set inccommand=split
 endif
 " Substitute in a visual area
 xnoremap sv :s/\%V
