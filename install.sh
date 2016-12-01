@@ -2,7 +2,7 @@
 # Link init/vimrc files and install Vim plugins
 
 # Get the directory path of this file
-VISH="$(cd "${BASH_SOURCE%/*}" && pwd -P)"
+VISH="$(cd "${BASH_SOURCE%/*}" &>/dev/null; pwd -P)"
 VIM="$HOME/.vim"
 NVIM="${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
 

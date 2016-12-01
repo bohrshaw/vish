@@ -22,13 +22,14 @@ done
 $0
 endsnippet
 
+# Note: in the case of `bash install.sh`, `cd` should fail.
 snippet dir "Get the directory path of the current file" b
-${1:DIR}="$(cd "${BASH_SOURCE%/*}" && pwd -P)"
+${1:DIR}="$(cd "${BASH_SOURCE%/*}" &>/dev/null; pwd -P)"
 $0
 endsnippet
 
 snippet root "Get the directory path of the current file" b
-${1:ROOT}="$(cd "${BASH_SOURCE%/*}" && pwd -P)"
+${1:ROOT}="$(cd "${BASH_SOURCE%/*}" &>/dev/null; pwd -P)"
 $0
 endsnippet
 
