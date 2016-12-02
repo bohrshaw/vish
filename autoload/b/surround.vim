@@ -5,7 +5,7 @@ function! b#surround#()
   endif
   let pair = has_key(g:surround_pairs, k) ? g:surround_pairs[k] : k.k
   return pair.repeat(
-        \ mode()[0] == 'c' ? "\<Left>" : "\<C-g>U\<Left>", len(pair)/2)
+        \ mode()[0] =~# 'i\|R' ? "\<C-g>U\<Left>" : "\<Left>", len(pair)/2)
 endfunction
 
 let g:surround_pairs = {

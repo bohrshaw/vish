@@ -988,6 +988,9 @@ if has('nvim')
   tnoremap <C-PageUp> <C-\><C-n><C-b>
   tnoremap <C-PageDown> <C-\><C-n><C-f>
 
+  " Insert a surrounding pair of (), [], etc.
+  tnoremap <expr><M-s> b#surround#()
+
   cnoreabbrev <expr>st getcmdtype() == ':' && getcmdpos() == 3 ? 'new\|te' : 'st'
   cnoreabbrev <expr>vt getcmdtype() == ':' && getcmdpos() == 3 ? 'vne\|te' : 'vt'
   cnoreabbrev <expr>tt getcmdtype() == ':' && getcmdpos() == 3 ? 'tab new\|te' : 'tt'
