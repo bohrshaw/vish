@@ -557,7 +557,6 @@ command! -bang -nargs=1 Bufdo call
 nnoremap <silent><M-f>w :noautocmd write<CR>
 nnoremap <silent><M-f>u :noautocmd update<CR>
 nnoremap <silent><M-u> :noautocmd update<CR>
-nnoremap <silent><M-f>s :noautocmd update<CR>
 nnoremap <silent><M-f>a :noautocmd wall<CR>
 nnoremap <silent><M-f>A :let @z = winnr() \|
       \ execute 'windo noautocmd update' \| execute @z.'wincmd w'<CR>

@@ -599,7 +599,21 @@ if (Bundles('junegunn/fzf') ||
       \ isdirectory($HOME.'/.fzf/plugin') && rtp#add('~/.fzf')) &&
       \ Bundles('junegunn/fzf.vim')
   let g:fzf_command_prefix = ''
-
+  nnoremap <silent><M-f>l :call fzf#vim#files(expand('%:h'), 0)<CR>
+  nnoremap <silent><M-f>L :Files<CR>
+  nnoremap <silent><M-f>g :GitFiles<CR>
+  nnoremap <silent><M-f>s :GitFiles?<CR>
+  nnoremap <silent><M-f>r :History<CR>
+  nnoremap <silent><M-b>l :Buffers<CR>
+  nnoremap <silent><M-b>m :Marks<CR>
+  imap <C-x>F <plug>(fzf-complete-path)
+  imap <expr><C-x>K b#fzf#dict()
+  let g:fzf_action = {
+        \ 'ctrl-s': 'split',
+        \ 'ctrl-v': 'vsplit',
+        \ 'ctrl-t': 'tab split',
+        \ 'alt-t': '-tab split',
+        \ }
   let $FZF_DEFAULT_OPTS = '--exact --multi --cycle'
 endif
 
