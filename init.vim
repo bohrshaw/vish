@@ -483,6 +483,9 @@ if has('unix')
         \ execute "normal! \<C-l>"
 endif
 
+" View a buffer in two scroll-binded windows side by side
+nnoremap <silent><C-w>V <C-w>v:set scrollbind<CR><C-w>p<C-f>:set scrollbind<CR><C-w>p
+
 " }}}
 " Fold: "{{{
 
