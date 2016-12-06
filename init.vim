@@ -484,7 +484,10 @@ if has('unix')
 endif
 
 " View a buffer in two scroll-binded windows side by side
-nnoremap <silent><C-w>V <C-w>v:set scrollbind<CR><C-w>p<C-f>:set scrollbind<CR><C-w>p
+nnoremap <silent><C-w><C-f> :set noscrollbind\|belowright vsplit<CR><C-f>
+      \:set scrollbind\|wincmd p\|set scrollbind<CR>
+nnoremap <silent><C-w><C-b> :set noscrollbind\|vsplit<CR><C-b>
+      \:set scrollbind\|wincmd p\|set scrollbind<CR>
 
 " }}}
 " Fold: "{{{
