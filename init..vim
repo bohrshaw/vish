@@ -832,10 +832,10 @@ endif
 
 " Run Async Shell Commands in Vim 8.0
 if Bundles('skywind3000/asyncrun.vim')
-  call insert(g:statusline, "%{get(g:, 'asyncrun_status', '')}")
   " Override the command provided by "vim-dispatch" to make :Gpull asynchronous
   autocmd User Bundle command! -bang -nargs=* -complete=file
         \ Make AsyncRun -program=make @ <args>
+  call insert(g:statusline, "%{g:asyncrun_status}")
 endif
 
 " Execute whole/part of editing file

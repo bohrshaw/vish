@@ -21,13 +21,13 @@ endfunction
 let s:stl1 = "%1*%w%q" " preview, quickfix
 let s:stl1 .= "%n" " buffer number
 let s:stl1 .= "%<" " at this point to truncate
+let s:stl1 .= ":%{&filetype}" " file type
+let s:stl1 .= "%{(&fenc!='utf-8'&&&fenc!='')?':'.&fenc:''}" " file encoding
+let s:stl1 .= "%{&ff!='unix'?':'.&ff:''}" " file format
+let s:stl1 .= ":%*%.30f" " file path
+let s:stl1 .= "%1*%m%{(&modifiable?'':'-').(&readonly?'=':'')}"
 " g:statusline would be inserted here.
-let s:stl2 = ":%{&filetype}" " file type
-let s:stl2 .= "%{(&fenc!='utf-8'&&&fenc!='')?':'.&fenc:''}" " file encoding
-let s:stl2 .= "%{&ff!='unix'?':'.&ff:''}" " file format
-let s:stl2 .= ":%*%.30f" " file path
-let s:stl2 .= "%1*%m%{(&modifiable?'':'-').(&readonly?'=':'')}"
-let s:stl2 .= "%{get(b:,'case_reverse',0)?':CAPS':''}" " software caps lock
+let s:stl2 = "%{get(b:,'case_reverse',0)?':CAPS':''}" " software caps lock
 let s:stl2 .= "%*%=" " left/right separator
 " Note this isn't correct when two windows holding the same buffer have
 " different CWDs, which I think doesn't worth fixing.
@@ -36,7 +36,7 @@ let s:stl2 .= "%1*%{bufnr('%')==get(g:,'actual_curbuf')?".
 let s:stl2 .= "%*:%l/%L:%P" " cursor position, line percentage
 " The array g:statusline contains flags inserted by bundles
 execute has('vim_starting') ? 'autocmd User Init' : ''
-        \ "let s:stl = s:stl1.join(get(g:, 'statusline', []), '').s:stl2"
+        \ "let s:stl = s:stl1.join(get(g:, 'statusline', []), ':').s:stl2"
 
 function! helpline#tabline()
   let l = '%#StatusLineNC#'.s:prefix.':'
