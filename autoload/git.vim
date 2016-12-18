@@ -79,9 +79,9 @@ let s:cmds = {
       \ 'd':   'tab sbuffer % | Gdiff',
       \ 'b':   'Gblame',
       \ 'l':   'Glog',
-      \ 'ps':  'G! push',
-      \ 'pf':  'G! push -f',
-      \ 'pl':  'G! pull',
+      \ 'ps':  'Gpush',
+      \ 'pf':  'Gpush -f',
+      \ 'pl':  'Gpull',
       \ 'r':   'G! roll',
       \
       \ 'u':  'GitGutter',

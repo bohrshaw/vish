@@ -828,10 +828,15 @@ if Bundle('KabbAmine/zeavim.vim', {'m': 'nnoremap <silent>zK :Zeavim<CR>'})
 endif
 
 " Dispatch.vim: asynchronous build and test dispatcher
-call Bundles('tpope/vim-dispatch')
+" call Bundles('tpope/vim-dispatch')
 
 " Run Async Shell Commands in Vim 8.0
-" call Bundles('skywind3000/asyncrun.vim')
+if Bundles('skywind3000/asyncrun.vim')
+  call insert(g:statusline, "%{get(g:, 'asyncrun_status', '')}")
+  " Override the command provided by "vim-dispatch" to make :Gpull asynchronous
+  autocmd User Bundle command! -bang -nargs=* -complete=file
+        \ Make AsyncRun -program=make @ <args>
+endif
 
 " Execute whole/part of editing file
 if Bundles('thinca/vim-quickrun')
@@ -1167,6 +1172,7 @@ if Bundles('Tpope/vim-git') &&
       \ Bundles('tpope/vim-fugitive', 'tpope/vim-rhubarb')
   " Invoke a single git command, mnemonic: '9' resembles the shape of 'g'
   nnoremap <silent>g9 :call git#run()<CR>
+  nnoremap <silent><M-g> :call git#run()<CR>
   " Invoke multiple git commands, mnemonic: <Space> is to enter the cmdline
   nnoremap <silent>g<Space> :call git#run(9)<CR>
 
