@@ -596,8 +596,9 @@ if DundlePath('shougo/unite.vim') &&
 endif
 
 " A command-line fuzzy finder
-if (Bundles('junegunn/fzf') ||
-      \ isdirectory($HOME.'/.fzf/plugin') && rtp#add('~/.fzf')) &&
+if !has('win32') &&
+      \ (Bundles('junegunn/fzf') ||
+      \   isdirectory($HOME.'/.fzf/plugin') && rtp#add('~/.fzf')) &&
       \ Bundles('junegunn/fzf.vim')
   let g:fzf_command_prefix = ''
   nnoremap <silent><M-f>l :call fzf#vim#files(expand('%:h'), 0)<CR>
