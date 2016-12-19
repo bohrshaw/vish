@@ -733,6 +733,11 @@ command! -nargs=? -complete=buffer DiffWith call diff#with(<f-args>)
 " }}}
 " Spell:" {{{
 
+let $MYSPELL = $MYVIM.'/spell'
+if ! isdirectory($MYSPELL) " a junction point is not accessible in WSL
+  let $MYSPELL =  $MYVIM.'/after/spell'
+endif
+
 " Enable spell checking for particular file types
 augroup init_spell | autocmd!
   autocmd FileType gitcommit,markdown,txt setlocal spell
@@ -740,12 +745,12 @@ augroup END
 if has('patch-7.4.088')
   set spelllang=en,cjk " skip spell check for East Asian characters
 endif
-set spellfile=$MYVIM/spell/en.utf-8.add
+set spellfile=$MYSPELL/en.utf-8.add
 " Clean up spell files
 command! SpellCleanup silent runtime spell/cleanadd.vim
 
 " Dictionary files
-let s:dictionary = $MYVIM.'/spell/dictionary-oald.txt'
+let s:dictionary = $MYSPELL.'/dictionary-oald.txt'
 if filereadable(s:dictionary)
   let &dictionary = s:dictionary
 elseif !has('win32')
@@ -755,7 +760,7 @@ else
 endif
 
 " Thesaurus files
-set thesaurus=$MYVIM/spell/thesaurus-mwcd.txt
+set thesaurus=$MYSPELL/thesaurus-mwcd.txt
 
 "}}}
 " Persistence:" {{{

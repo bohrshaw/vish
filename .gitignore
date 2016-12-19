@@ -7,6 +7,7 @@
 /doc/tags
 /bundle/
 /spell
+/after/spell
 /tmp/
 /.netrwhist
 rplugin.vim
