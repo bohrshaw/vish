@@ -947,6 +947,9 @@ if has('patch-7.4.1799') && !s:is_win_ssh && $TERM !~ 'rxvt'
   set termguicolors
 endif
 
+" Highlight strings inside C comments.
+let c_comment_strings=1
+
 " }}}
 " Helpline:" {{{
 
