@@ -1075,7 +1075,7 @@ set winminheight=0 " the minimal height of a window
 set history=10000 " maximum number of commands and search patterns to keep
 set synmaxcol=999 " ignore further syntax items to avoid slow redrawing
 silent! set cryptmethod=blowfish cryptmethod=blowfish2 " medium strong
-silent! set langnoremap " 'langmap' doesn't apply to characters resulting from a mapping
+silent! set nolangremap " or 'langnoremap', for 'langmap'
 if 0 && has('win32') " disabled due to non-decent performance
   set renderoptions=type:directx
 endif
