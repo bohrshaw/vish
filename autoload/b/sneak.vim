@@ -29,7 +29,7 @@ function! b#sneak#(pattern, reverse, mode)
   else
     let pattern = substitute(a:pattern, '\CIN', c, 'g')
   endif
-  " op, input, inputlen, count, repeatmotion, reverse, inclusive, streak
+  " op, input, inputlen, count, repeatmotion, reverse, inclusive, label
   " inclusive: 2 means inclusive-exclusive motion like /
   call sneak#to(a:mode, '\m'.pattern, 1, 1, 0, a:reverse, 2, 1)
   let g:sneak#oneline = 0

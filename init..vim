@@ -83,7 +83,7 @@ if Bundles('Bohrshaw/vim-sneak') " 'Justinmk/vim-sneak'
   NXOmap <expr>9f v#setvar('g:sneak#oneline', 1).'L'
   NXOmap <expr>8f v#setvar('g:sneak#oneline', 1).'H'
   " Mimic the native search command / and ?, but literal
-  " Function signature: sneak#wrap(op, inputlen, reverse, inclusive, streak)
+  " Function signature: sneak#wrap(op, inputlen, reverse, inclusive, label)
   nnoremap <silent> z/ :<C-U>call sneak#wrap('', 99, 0, 2, 1)<CR>
   nnoremap <silent> z? :<C-U>call sneak#wrap('', 99, 1, 2, 1)<CR>
   xnoremap <silent> z/ :<C-U>call sneak#wrap(visualmode(), 99, 0, 2, 1)<CR>
@@ -97,15 +97,16 @@ if Bundles('Bohrshaw/vim-sneak') " 'Justinmk/vim-sneak'
   nnoremap <silent>, :<C-u>call b#sneak#repeat('', 1)<CR>
   xnoremap <silent>, :<C-u>call b#sneak#repeat(visualmode(), 1)<CR>
   onoremap <silent>, :<C-u>call b#sneak#repeat(v:operator, 1)<CR>
-  let g:sneak#streak = 1 " enable streak mode
-  " let g:sneak#streak_esc = "\<CR>" " key to exit streak-mode
+  let g:sneak#label = 1 " enable label mode
+  " let g:sneak#label_esc = "\<CR>" " key to exit label-mode
   let g:sneak#absolute_dir = 1 " always go forwards or backwards when repeating
   " let g:sneak#use_ic_scs = 1 " ignorecase and smartcase
+  " Disable highlighting
+  autocmd ColorScheme * hi! link Sneak Normal
   hi! link SneakPluginScope Comment
   " Disable default mappings
   NXOmap <Plug>_Sneak_s <Plug>Sneak_s
   NXOmap <Plug>_Sneak_S <Plug>Sneak_S
-  let sneak#textobject_z = 0 " prevent the default {operator}z mapping
 elseif Dundles('machakann/vim-patternjump')
   let g:patternjump_no_default_key_mappings = 1
 elseif Dundles('lokaltog/vim-easymotion')
