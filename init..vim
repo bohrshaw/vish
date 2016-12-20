@@ -770,14 +770,14 @@ Nop call Bundles('equalsraf/neovim-gui-shim')
 " Tools {{{2
 
 " Syntax checking hacks for vim
-if !has('nvim') && Bundles('scrooloose/syntastic')
+if 0 && Dundles('vim-syntastic/syntastic')
   let g:syntastic_mode_map = { 'mode': 'active',
         \ 'active_filetypes': [],
         \ 'passive_filetypes': [] }
   let g:syntastic_auto_loc_list = 0
   " let g:syntastic_always_populate_loc_list = 1
   " let g:syntastic_auto_jump = 3 " auto-jump to the first error
-elseif Bundles('benekastah/neomake')
+elseif Bundles('neomake/neomake')
   command! -nargs=* -bang -bar -complete=customlist,neomake#CompleteMakers M
         \ Neomake<bang> <args>
   augroup bundle_neomake | autocmd!
@@ -786,6 +786,7 @@ elseif Bundles('benekastah/neomake')
     autocmd User Bundle autocmd! neomake
   augroup END
   nnoremap <silent>sm :call neomake#EchoCurrentError()<CR>
+elseif Dundles('w0rp/ale')
 endif
 
 " Format codes with external code formatters
