@@ -88,8 +88,10 @@ if has('vim_starting')
     execute 'silent source' $MYVIMRCPRE
   endif
 
-  " No reliable way to detect putty
-  let s:is_win_ssh = has('win32') || !empty($SSH_TTY)
+  " If on the Windows platform
+  let s:windows = has('win32') ||
+        \ readfile('/proc/version')[0] =~? 'microsoft' ||
+        \ !empty($SSH_TTY)
 endif
 
 " }}}
@@ -894,8 +896,8 @@ if &encoding ==# 'utf-8' || &termencoding ==# 'utf-8'
   " Special unicode characters/symbols:
   " ¬ ¶ ⏎ ↲ ↪ ␣ ¨⠉⠒⠤⣀ ⣿ │ ░ ▒ ⇥ → ← ⇉ ⇇ ❯ ❮ » « ↓ ↑
   " ◉ ○ ● • · ■ □ ¤ ▫ ♦ ◆ ◇ ▶ ► ▲ ▸ ✚ ★ ✸ ✿ ✜ ☯ ☢ ❀ ✨ ♥ ♣ ♠
-  let s:lcs = split(s:is_win_ssh ? '· · » « ·' : '· ␣ ❯ ❮ ␣')
-  let &showbreak = s:is_win_ssh ? '→' : '╰' " └ ∟ ╰ ╘ ╙ τ Ŀ
+  let s:lcs = split(s:windows ? '· · » « ·' : '· ␣ ❯ ❮ ␣')
+  let &showbreak = s:windows ? '→' : '╰' " └ ∟ ╰ ╘ ╙ τ Ŀ
   set fillchars=vert:│,fold:-,diff:-
 else
   let s:lcs = ['>', '-', '>', '<', '+']
@@ -948,7 +950,7 @@ if has('vim_starting') && !has('gui_running') "{{{
   if &t_Co == 8 && &term !~ '^linux' | set t_Co=16 | endif
 endif "}}}
 " 24bit colors in Neovim
-if has('patch-7.4.1799') && !s:is_win_ssh && $TERM !~ 'rxvt'
+if has('patch-7.4.1799') && !s:windows && $TERM !~ 'rxvt'
   set termguicolors
 endif
 
