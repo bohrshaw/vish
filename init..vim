@@ -834,6 +834,7 @@ endif
 
 " Run Async Shell Commands in Vim 8.0
 if Bundles('skywind3000/asyncrun.vim')
+  command! -nargs=+ -complete=shellcmd B AsyncRun! <args>
   " Override the command provided by "vim-dispatch" to make :Gpull asynchronous
   autocmd User Bundle command! -bang -nargs=* -complete=file
         \ Make AsyncRun -program=make @ <args>
@@ -1147,10 +1148,16 @@ endif
 
 " An asynchronous execution library
 if Bundles('bohrshaw/vimproc.vim:') " 'shougo/vimproc.vim'
-  command! -nargs=+ -bang -complete=shellcmd B
-        \ if <bang>0 | execute 'AsyncRun! <args>' |
-        \ else | execute 'VimProcBang '.b#vimproc#esc(<q-args>, '/') | endif
-  command! -nargs=+ -complete=shellcmd R VimProcRead <args>
+  command! -nargs=+ -complete=shellcmd R call System(<q-args>)
+  if has('win32')
+    function! System(cmd)
+      call vimproc#cmd#system(a:cmd)
+    endfunction
+  else
+    function! System(cmd)
+      call system(a:cmd)
+    endfunction
+  endif
 endif
 
 " Shells inside Vim
@@ -1188,7 +1195,7 @@ if Bundles('Tpope/vim-git') &&
         \ Gi Git<bang> <args>
   " An asynchronous command :G, a complement to :Git
   execute "command! -nargs=1 -bang -bar -complete=customlist,git#compcmd"
-        \ "G execute 'B'.(<bang>0 ? '!' : '') 'git' ".
+        \ "G execute (<bang>0 ? 'B' : 'R') 'git' ".
         \   "(exists('b:git_dir') ? '-C '.b:git_dir[:-6] : '') <q-args>"
 
   call insert(g:statusline, "%{exists('b:git_dir')?':'.fugitive#head(7):''}")
