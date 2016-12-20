@@ -1148,7 +1148,7 @@ endif
 " An asynchronous execution library
 if Bundles('bohrshaw/vimproc.vim:') " 'shougo/vimproc.vim'
   command! -nargs=+ -bang -complete=shellcmd B
-        \ if <bang>0 | call vimproc#system_bg(b#vimproc#esc(<q-args>)) |
+        \ if <bang>0 | execute 'AsyncRun! <args>' |
         \ else | execute 'VimProcBang '.b#vimproc#esc(<q-args>, '/') | endif
   command! -nargs=+ -complete=shellcmd R VimProcRead <args>
 endif
@@ -1183,7 +1183,10 @@ if Bundles('Tpope/vim-git') &&
   nnoremap <expr><M-f>\ ':cd '.b:git_dir[:-6]."<CR>"
   cnoremap <M-\>\ <C-r>=v#execute('cd '.b:git_dir[:-6])<CR>
 
-  " A command :G using vimproc, an alternative to :Git
+  " Alias to :Git
+  command! -nargs=1 -bang -complete=customlist,git#compcmd
+        \ Gi Git<bang> <args>
+  " An asynchronous command :G, a complement to :Git
   execute "command! -nargs=1 -bang -bar -complete=customlist,git#compcmd"
         \ "G execute 'B'.(<bang>0 ? '!' : '') 'git' ".
         \   "(exists('b:git_dir') ? '-C '.b:git_dir[:-6] : '') <q-args>"
