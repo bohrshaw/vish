@@ -20,14 +20,15 @@ function! helpline#statusline()
 endfunction
 let s:stl1 = "%1*%w%q" " preview, quickfix
 let s:stl1 .= "%n" " buffer number
+let s:stl1 .= "%*%m" " modified or non-modifiable
 let s:stl1 .= "%<" " at this point to truncate
+let s:stl1 .= "%1*%{(&readonly?'=':'')}"
 let s:stl1 .= ":%{&filetype}" " file type
 let s:stl1 .= "%{(&fenc!='utf-8'&&&fenc!='')?':'.&fenc:''}" " file encoding
 let s:stl1 .= "%{&ff!='unix'?':'.&ff:''}" " file format
-let s:stl1 .= ":%*%.30f" " file path
-let s:stl1 .= "%1*%m%{(&modifiable?'':'-').(&readonly?'=':'')}"
+let s:stl1 .= ":%*%.30f%1*" " file path
 " g:statusline would be inserted here.
-let s:stl2 = "%{get(b:,'case_reverse',0)?':CAPS':''}" " software caps lock
+let s:stl2 = "%{get (b:,'case_reverse',0)?':CAPS':''}" " software caps lock
 let s:stl2 .= "%*%=" " left/right separator
 " Note this isn't correct when two windows holding the same buffer have
 " different CWDs, which I think doesn't worth fixing.
