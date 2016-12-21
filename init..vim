@@ -6,8 +6,6 @@
 " Initialization: {{{1
 
 let $MYBUNDLE = expand('<sfile>') " like $MYVIMRC
-let g:statusline = [] " flags to be inserted into 'statusline'
-let g:tabline = [] " flags to be inserted into 'tabline'
 
 " Let the bundle manager download ALL bundles even if the invoked Vim binary
 " doesn't have all these features.
@@ -840,8 +838,8 @@ if Bundles('skywind3000/asyncrun.vim')
   " Override the command provided by "vim-dispatch" to make :Gpull asynchronous
   autocmd User Bundle command! -bang -nargs=* -complete=file
         \ Make AsyncRun -program=make @ <args>
-  call insert(g:statusline, "%{tabpagenr('$')==1?g:asyncrun_status:''}")
-  call insert(g:tabline, "%{g:asyncrun_status}")
+  let g:statusline.2 = "%{tabpagenr('$')==1?g:asyncrun_status:''}"
+  let g:tabline.2 = "%{g:asyncrun_status}"
 endif
 
 " Execute whole/part of editing file
@@ -1201,7 +1199,7 @@ if Bundles('Tpope/vim-git') &&
         \ "G execute (<bang>0 ? 'B' : 'R') 'git' ".
         \   "(exists('b:git_dir') ? '-C '.b:git_dir[:-6] : '') <q-args>"
 
-  call insert(g:statusline, "%{exists('b:git_dir')?':'.fugitive#head(7):''}")
+  let g:statusline.1 = "%{exists('b:git_dir')?fugitive#head(7):''}"
   augroup bundle_fugitive | autocmd!
     autocmd FileType gitcommit set foldmethod=syntax foldlevel=1
     autocmd FileType git set foldlevel=1

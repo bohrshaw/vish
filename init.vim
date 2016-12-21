@@ -960,6 +960,7 @@ let c_comment_strings=1
 " }}}
 " Helpline:" {{{
 
+let g:statusline = {} " flags to be inserted into 'statusline'
 set statusline=%!helpline#statusline()
 set fillchars+=stl::,stlnc:: " characters to fill the statuslines
 set noshowmode " mode message hides normal messages and is redundant
@@ -969,6 +970,7 @@ set laststatus=2 " always display the status line
 set ruler " not effective when 'statusline' is set
 set rulerformat=%50(%=%m%r%<%f%Y\ %c,%l/%L,%P%)
 
+let g:tabline = {} " flags to be inserted into 'tabline'
 set tabline=%!helpline#tabline()
 let &showtabline = 1
 nnoremap cot :let &showtabline = &showtabline == 1 ? 2 : 1<CR>

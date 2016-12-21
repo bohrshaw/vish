@@ -37,7 +37,7 @@ let s:stl2 .= "%1*%{bufnr('%')==get(g:,'actual_curbuf')?".
 let s:stl2 .= "%*:%c%V:%l/%L:%P" " cursor position, line percentage
 " The array g:statusline contains flags inserted by bundles
 execute has('vim_starting') ? 'autocmd User Init' : ''
-        \ "let s:stl = s:stl1.join(get(g:, 'statusline', []), ':').s:stl2"
+        \ "let s:stl = s:stl1.':'.join(values(g:statusline), ':').s:stl2"
 
 function! helpline#tabline()
   let l = '%#StatusLineNC#'.s:prefix.':'
@@ -57,7 +57,7 @@ function! helpline#tablabel(t)
         \ ':')
 endfunction
 execute has('vim_starting') ? 'autocmd User Init' : ''
-        \ "let s:tabline = join(get(g:, 'tabline', []), ':')"
+        \ "let s:tabline = join(values(g:tabline), ':')"
 
 let s:prefix =
       \ (has('nvim') ? toupper(v:progname) : '%{v:servername}').
