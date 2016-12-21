@@ -838,7 +838,7 @@ if Bundles('skywind3000/asyncrun.vim')
   " Override the command provided by "vim-dispatch" to make :Gpull asynchronous
   autocmd User Bundle command! -bang -nargs=* -complete=file
         \ Make AsyncRun -program=make @ <args>
-  let g:statusline.2 = "%{tabpagenr('$')==1?g:asyncrun_status:''}"
+  let g:statusline.2 = "%{&showtabline==1&&tabpagenr('$')>1||&showtabline==2?'':g:asyncrun_status}"
   let g:tabline.2 = "%{g:asyncrun_status}"
 endif
 
