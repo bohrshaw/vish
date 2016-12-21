@@ -45,6 +45,7 @@ function! helpline#tabline()
     let l .= (i == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#').'%'.i.'T'.
           \ ' %{helpline#tablabel('.i.')} '
   endfor
+  let l .= '%#StatusLineNC# :'.s:tabline
   let l .= '%#TabLineFill#%T%=%#TabLine#%999X'
   let l .= '%{strftime("%a %m/%d/%Y %H:%M:%S")}' " useful in full screen
   return l
@@ -55,6 +56,8 @@ function! helpline#tablabel(t)
         \   "pathshorten(fnamemodify(getcwd(v:val, a:t),':~'))"),
         \ ':')
 endfunction
+execute has('vim_starting') ? 'autocmd User Init' : ''
+        \ "let s:tabline = join(get(g:, 'tabline', []), ':')"
 
 let s:prefix =
       \ (has('nvim') ? toupper(v:progname) : '%{v:servername}').

@@ -7,6 +7,7 @@
 
 let $MYBUNDLE = expand('<sfile>') " like $MYVIMRC
 let g:statusline = [] " flags to be inserted into 'statusline'
+let g:tabline = [] " flags to be inserted into 'tabline'
 
 " Let the bundle manager download ALL bundles even if the invoked Vim binary
 " doesn't have all these features.
@@ -839,7 +840,8 @@ if Bundles('skywind3000/asyncrun.vim')
   " Override the command provided by "vim-dispatch" to make :Gpull asynchronous
   autocmd User Bundle command! -bang -nargs=* -complete=file
         \ Make AsyncRun -program=make @ <args>
-  call insert(g:statusline, "%{g:asyncrun_status}")
+  call insert(g:statusline, "%{tabpagenr('$')==1?g:asyncrun_status:''}")
+  call insert(g:tabline, "%{g:asyncrun_status}")
 endif
 
 " Execute whole/part of editing file
