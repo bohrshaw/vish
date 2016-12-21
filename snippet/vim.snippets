@@ -1,3 +1,5 @@
+# Prefer to use Vim command abbreviations as snippet names.
+
 snippet if "if , . endif" b
 if $1
 	${VISUAL}$0
@@ -10,7 +12,7 @@ for $1 in $2
 endfor
 endsnippet
 
-snippet while "while , . endwhile" b
+snippet wh "while , . endwhile" b
 while $1
 	${VISUAL}$0
 endwhile
@@ -24,7 +26,7 @@ catch$2
 endtry
 endsnippet
 
-snippet f "function ,(,) . endfunction" b
+snippet fu "function ,(,) . endfunction" b
 function! `!v matchstr(substitute(expand('%:p'), '[/\\]\|\.vim$', '#', 'g'), '#autoload#\zs.*')`$1($2)
 	${VISUAL}$0
 endfunction
@@ -34,6 +36,14 @@ snippet aug "augroup" b
 augroup ${1:group} | autocmd!
 	${VISUAL}$0
 augroup END
+endsnippet
+
+snippet ml "'modeline'"
+" vim: $0
+endsnippet
+
+snippet fde "'modeline' 'foldexpr'"
+foldmethod=expr foldexpr=getline(v\:lnum)=~#'\\v^(\ \ )\?(function)'?'a1'\:getline(v\:lnum)=~#'\\v^(\ \ )\?endfunction'?'s1'\:'='
 endsnippet
 
 snippet didf "ftplugin guard" b
