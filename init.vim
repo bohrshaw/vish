@@ -476,7 +476,7 @@ cnoreabbrev <expr>t getcmdtype() == ':' && getcmdpos() == 2 ? 'tab' : 't'
 " Full screen
 nnoremap <silent><F11> :execute 'FullScreen' \|
       \ let g:_fullscreen = !get(g:, '_fullscreen') \|
-      \ if g:_fullscreen \| set showtabline=2 \| endif<CR>
+      \ let &showtabline = g:_fullscreen ? 2 : 1<CR>
 " In case <F11> is captured by the terminal
 nmap <S-F11> <F11>
 if has('unix')
