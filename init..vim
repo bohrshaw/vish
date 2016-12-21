@@ -1312,16 +1312,11 @@ if Bundle('Jamessan/vim-gnupg', {'f': '*.{gpg,asc,pgp}'})
 endif
 
 " Translation
-if Bundle('bohrshaw/vim-trance', {'m': [
-      \ 'nmap d<BS> <Plug>trance',
-      \ 'xmap d<BS> <Plug>trance'],
-      \ 'c': 'Trance'})
-  " let g:trance#default = 'iciba'
-  " Translation services
-  let g:trance = {
-        \ 'youdao': 'key=1387543717&keyfrom=vim-translate',
-        \ 'baidu': 'client_id=OjbuMOjZUwHtxcnxblAoQzds',
-        \ }
+if Bundles('bohrshaw/vim-trance')
+  nmap d<BS> <Plug>trance
+  xmap d<BS> <Plug>trance
+  " let g:trance#default = 'baidu'
+  " let g:trance#default_sentence = 'baidu'
   " let g:trance#youdao_target = 'dict' " 'translate', 'dict' or ''(both)
   " let g:trance#truncate = 0 " truncate long output to be unobtrusive
 endif
