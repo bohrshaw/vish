@@ -1077,7 +1077,7 @@ if s:pythonx && Bundle('davidhalter/jedi-vim', {'f': 'python'})
   " Completion
   let g:jedi#show_call_signatures = 2 " show it in the command line
 
-  " let g:jedi#force_py_version = has('python3') ? 3 : 2
+  let g:jedi#force_py_version = 3
   nnoremap c<Leader>p :call jedi#force_py_version_switch()<CR>
 
   " Let g:jedi#auto_initialization = 0
