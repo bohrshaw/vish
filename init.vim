@@ -327,7 +327,7 @@ nnoremap <silent>gL :let g:hlsearch = 1 \|set hlsearch \|autocmd! search_hl<CR>
 cnoremap <silent><M-j> <CR>:nohlsearch<CR>
 
 " Show effects of :substitute incrementally
-if exists('&inccommand')
+if 0 && exists('&inccommand')
   set inccommand=split
 endif
 " Substitute in a visual area
