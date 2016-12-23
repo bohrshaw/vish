@@ -25,6 +25,14 @@ snippet dn
 >/dev/null$0
 endsnippet
 
+snippet ml "'modeline'"
+" vim: $0
+endsnippet
+
+snippet fde "'modeline' 'foldexpr'"
+foldmethod=expr foldexpr=getline(v\:lnum)=~#'\\v^(\ \ )\?(function)'?'a1'\:getline(v\:lnum)=~#'\\v^(\ \ )\?endfunction'?'s1'\:'='
+endsnippet
+
 snippet author "author name and email" b
 `!p snip.rv=cms[0]`Author: ${1:`!v g:snips_author`} <${2:`!v g:snips_author_email`}>`!p snip.rv=cms[1]`
 endsnippet

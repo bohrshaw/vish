@@ -38,14 +38,6 @@ augroup ${1:group} | autocmd!
 augroup END
 endsnippet
 
-snippet ml "'modeline'"
-" vim: $0
-endsnippet
-
-snippet fde "'modeline' 'foldexpr'"
-foldmethod=expr foldexpr=getline(v\:lnum)=~#'\\v^(\ \ )\?(function)'?'a1'\:getline(v\:lnum)=~#'\\v^(\ \ )\?endfunction'?'s1'\:'='
-endsnippet
-
 snippet didf "ftplugin guard" b
 if exists("b:did_ftplugin")
 	finish
