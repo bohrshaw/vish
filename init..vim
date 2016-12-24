@@ -1315,6 +1315,7 @@ endif
 if Bundles('bohrshaw/vim-trance')
   nmap d<BS> <Plug>trance
   xmap d<BS> <Plug>trance
+  command! -nargs=1 D call trance#cmd(<q-args>)
   " let g:trance#default = 'baidu'
   " let g:trance#default_sentence = 'baidu'
   " let g:trance#youdao_target = 'dict' " 'translate', 'dict' or ''(both)
