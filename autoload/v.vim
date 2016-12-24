@@ -30,7 +30,7 @@ function! v#setvar(var, val)
 endfunction
 
 " Execute a command via an expression
-function v#execute(cmd)
+function! v#execute(cmd)
   execute a:cmd
   return ''
 endfunction

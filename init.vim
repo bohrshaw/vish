@@ -644,8 +644,12 @@ for s:c in split('lnpkti]fdvuos', '\zs')
   execute 'inoremap <C-X>'.s:c.' <C-X><C-'.s:c.'>'
 endfor
 " Mnemonic: diGraph
-noremap! <M-k> <C-k>
 noremap! <C-X>g <C-k>
+" Complete shell commands
+inoremap <expr><C-x>c comp#user('comp#shellcmd')
+
+" Shortcuts
+noremap! <M-k> <C-k>
 inoremap <M-O> <C-x><C-o>
 " }}}
 
