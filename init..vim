@@ -1187,9 +1187,7 @@ if Bundles('Tpope/vim-git') &&
   nnoremap <silent>g<Space> :call git#run(9)<CR>
 
   nnoremap <expr><M-f>/ ':lcd '.b:git_dir[:-6]."<CR>"
-  cnoremap <M-/> <C-r>=v#execute('lcd '.b:git_dir[:-6])<CR>
   nnoremap <expr><M-f>\ ':cd '.b:git_dir[:-6]."<CR>"
-  cnoremap <M-\>\ <C-r>=v#execute('cd '.b:git_dir[:-6])<CR>
 
   " Alias to :Git
   command! -nargs=1 -bang -complete=customlist,git#compcmd
