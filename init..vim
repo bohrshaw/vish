@@ -239,7 +239,8 @@ endif
 
 " Snippet solutions
 if s:pythonx && Bundle('Sirver/ultisnips', {
-      \ 'm': ['i <M-l>', 'i <C-g>l', 'x <M-l>'],
+      \ 'm': ['i <M-l>', 'x <M-l>', 'i <C-g>l',
+      \   'inoremap <C-x>S <C-r>=b#ultisnips#complete()<CR>'],
       \ 'c': 'UltiSnipsEdit',
       \ 'f': 'snippets',
       \ }, 'noftdetect') && Bundles('Honza/vim-snippets')

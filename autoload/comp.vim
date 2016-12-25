@@ -1,10 +1,14 @@
 " Complete shell commands
 function! comp#shellcmd()
-  let line = getline('.')
-  let start = match(line, '[[:alnum:]._-]*\%'.col('.').'c') " 0 based
-  let base = line[start:col('.')-2]
-  call complete(start+1, getcompletion(base, 'shellcmd'))
+  let start = comp#startcol('[[:alnum:]._-]*')
+  let base = getline('.')[start-1:col('.')-2]
+  call complete(start, getcompletion(base, 'shellcmd'))
   return ''
+endfunction
+
+" Return the start column(1 based) for complete()
+function! comp#startcol(pat)
+  return match(getline('.'), a:pat.'\%'.col('.').'c') + 1
 endfunction
 
 " Trigger user-completion without changing 'completefunc'.
