@@ -1071,16 +1071,17 @@ if s:pythonx && Bundle('davidhalter/jedi-vim', {'f': 'python'})
   let g:jedi#goto_command = 'gD'
   let g:jedi#rename_command = '<LocalLeader>r'
   let g:jedi#usages_command = '<LocalLeader>u'
+  " Behaviours
   " let g:jedi#use_tabs_not_buffers = 1
   " let g:jedi#use_splits_not_buffers = 'winwidth'
-
-  " Completion
   let g:jedi#show_call_signatures = 2 " show it in the command line
+  let g:jedi#smart_auto_mappings = 0 " for import
 
   let g:jedi#force_py_version = 3
   nnoremap c<Leader>p :call jedi#force_py_version_switch()<CR>
 
   " Let g:jedi#auto_initialization = 0
+  " let g:jedi#completions_enabled = 0
   let g:jedi#auto_vim_configuration = 0
   let g:jedi#completions_command = '' " don't map for omni completion
 endif
