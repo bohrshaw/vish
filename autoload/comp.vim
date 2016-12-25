@@ -1,4 +1,14 @@
+" Complete shell commands
+function! comp#shellcmd()
+  let line = getline('.')
+  let start = match(line, '[[:alnum:]._-]*\%'.col('.').'c') " 0 based
+  let base = line[start:col('.')-2]
+  call complete(start+1, getcompletion(base, 'shellcmd'))
+  return ''
+endfunction
+
 " Trigger user-completion without changing 'completefunc'.
+" Example: inoremap <expr><C-x>c comp#user('comp#shellcmd')
 function! comp#user(cfu)
   let s:completefuc = &completefunc
   let &completefunc = a:cfu
@@ -7,13 +17,4 @@ function! comp#user(cfu)
           \ autocmd! complete_user
   augroup END
   return "\<C-x>\<C-u>"
-endfunction
-
-" Return matching shell commands
-function! comp#shellcmd(findstart, base)
-  if a:findstart " locate the start of the word
-    return match(getline('.'), '[[:alnum:]._-]*\%'.col('.').'c')
-  else " find commands matching "a:base"
-    return getcompletion(a:base, 'shellcmd')
-  endif
 endfunction

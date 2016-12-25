@@ -646,7 +646,7 @@ endfor
 " Mnemonic: diGraph
 noremap! <C-X>g <C-k>
 " Complete shell commands
-inoremap <expr><C-x>c comp#user('comp#shellcmd')
+inoremap <silent><C-x>c <C-r>=comp#shellcmd()<CR>
 
 " Shortcuts
 noremap! <M-k> <C-k>
