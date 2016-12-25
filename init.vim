@@ -607,7 +607,7 @@ nnoremap <silent><M-f>b :<C-u>call buf#edit($MYBUNDLE)<CR>
 
 " Make scratch buffers
 augroup init_scratch | autocmd!
-  autocmd BufNew,BufNewFile,BufReadPost _,_.*
+  autocmd BufNewFile _,_.*
         \ set buftype=nofile nobuflisted bufhidden=hide
 augroup END
 
