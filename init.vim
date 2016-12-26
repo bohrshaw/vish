@@ -1038,6 +1038,8 @@ if has('nvim')
   command! -nargs=? S call term#shell(<q-args>)
   " mnemonic: SheO
   nnoremap <silent>so :<C-u>S <C-r>=v:count ? ';'.v:count : ''<CR><CR>
+  nnoremap <silent>sO :<C-u>split _ \| execute 'normal' v:count.'so'<CR>
+  nnoremap <silent>s<M-o> :<C-u>vsplit _ \| execute 'normal' v:count.'so'<CR>
   nnoremap s<Space> :S<Space><C-v><C-u>
 
   nnoremap <silent>S :set operatorfunc=term#send<CR>g@
