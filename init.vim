@@ -1095,6 +1095,7 @@ endif
 " Make 'cw' consistent with 'dw'
 " onoremap <silent> w :execute 'normal! '.v:count1.'w'<CR>
 
+set nojoinspaces " not two spaces between joined sentences
 " Join lines without any character or with specified characters in between
 command! -range -nargs=? -bang J execute
       \ 'keepp <line1>,'.(<line1> == <line2> ? <line2> : <line2>-1).
