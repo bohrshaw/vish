@@ -1103,8 +1103,6 @@ command! -range -nargs=? -bang J execute
 " Remove trailing white spaces
 command! -range=% Trim let _p=getpos('.')|
       \keepj keepp <line1>,<line2>s/\s\+$//| call setpos('.',_p)
-" Execute an external command silently
-command! -nargs=1 -complete=shellcmd Silent call system(<q-args>)
 " Remove duplicate lines:" {{{
 " Remove duplicate, consecutive lines (:sort /.\_^/ u)
 command! -range=% Uniqc <line1>,<line2>g/\v^(.*)\n\1$/d
