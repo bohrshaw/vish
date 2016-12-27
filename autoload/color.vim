@@ -1,22 +1,22 @@
 function! color#highlight()
-  " DarkGreen, DarkYellow, Gray, Green
   let [tf, tb, gf, gb] = &background == 'dark' ?
-        \ ['220', '22', '#ffdf00', '#005f00'] :
-        \ ['88', '40', '#870000', '#00df00']
+        \ ['226', '22', '#ffff00', '#005f00'] :
+        \ ['0', '40', '#000000', '#00df00']
   let [tfn, tbn, gfn, gbn] = &background == 'dark' ?
-        \ ['40', '237', '#00d700', '#3a3a3a'] :
-        \ ['22', '250', '#005f00', '#bcbcbc']
+        \ ['46', '237', '#00ff00', '#3a3a3a'] :
+        \ ['0', '247', '#000000', '#9e9e9e']
   execute 'hi StatusLine term=bold cterm=bold ctermfg='.tf 'ctermbg='.tb
         \ 'gui=bold guifg='.gf 'guibg='.gb
-  execute 'hi StatusLineNC term=NONE cterm=NONE ctermfg='.tfn 'ctermbg='.tbn
-        \ 'gui=NONE guifg='.gfn 'guibg='.gbn
+  execute 'hi StatusLineNC term=bold cterm=bold ctermfg='.tfn 'ctermbg='.tbn
+        \ 'gui=bold guifg='.gfn 'guibg='.gbn
   hi! link TabLineSel StatusLine
   hi! link TabLine StatusLineNC
   hi! link TabLineFill StatusLineNC
+
   let [tfm, tbm, gfm, gbm] = ['0', '220', '#000000', '#ffdf00']
-  execute 'hi WildMenu term=NONE cterm=NONE ctermfg='.tfm 'ctermbg='.tbm
-        \ 'gui=NONE guifg='.gfm 'guibg='.gbm
-  " Cyan/Blue, Magenta/Purple, Red
+  execute 'hi WildMenu term=bold cterm=bold ctermfg='.tfm 'ctermbg='.tbm
+        \ 'gui=bold guifg='.gfm 'guibg='.gbm
+
   let [tf1, gf1, tf2, gf2, tf3, gf3] = &background == 'dark' ?
         \ ['123', '#87FFFF', '218', '#ffafdf', '9', '#ff6666'] :
         \ ['21', '#0000ff', '92', '#8700d7', '196', '#ff0000']
