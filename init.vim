@@ -555,7 +555,7 @@ cnoreabbrev <expr>tb getcmdtype() == ':' && getcmdpos() == 3 ? 'tab sb' : 'tb'
 cnoreabbrev <expr>ag getcmdtype() == ':' && getcmdpos() == 3 ? 'argu' : 'ag'
 
 " Like :bufdo, but with a pattern matching buffers, a bang reverses the match.
-" Example: `Bufdo /tmp bw!`
+" Example: `Bufdo /tmp bw!`. While `bw! /tmp<C-a>` is a native way.
 command! -bang -nargs=1 Bufdo call
       \ call('buf#do', split(<f-args>, ' \ze\S\+$') + [<bang>0])
 
