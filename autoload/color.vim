@@ -1,9 +1,9 @@
 function! color#highlight()
   let [tf, tb, gf, gb] = &background == 'dark' ?
-        \ ['226', '22', '#ffff00', '#005f00'] :
+        \ ['214', '0', '#ffaf00', '#000000'] :
         \ ['0', '40', '#000000', '#00df00']
   let [tfn, tbn, gfn, gbn] = &background == 'dark' ?
-        \ ['46', '237', '#00ff00', '#3a3a3a'] :
+        \ ['34', '0', '#00af00', '#000000'] :
         \ ['0', '247', '#000000', '#9e9e9e']
   execute 'hi StatusLine term=bold cterm=bold ctermfg='.tf 'ctermbg='.tb
         \ 'gui=bold guifg='.gf 'guibg='.gb
