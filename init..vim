@@ -695,7 +695,9 @@ endif
 
 " All 256 xterm colors with their RGB equivalents, right in Vim!
 if Bundle('guns/xterm-color-table.vim', {'c': 'XtermColorTable'})
+  " Try local maps: t, f, #
   command! ColorTable XtermColorTable
+  let g:XtermColorTableDefaultOpen = 'edit'
 endif
 
 " A powerful color tool
