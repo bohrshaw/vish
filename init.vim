@@ -575,7 +575,8 @@ nnoremap <silent><M-f><M-f>e :edit!<CR>
 cnoreabbrev <expr>tw getcmdtype() == ':' && getcmdpos() == 3 ? 'tabe' : 'tw'
 cnoremap <M-h> <C-r>=expand('%:h')<CR>/
 nnoremap <M-f>f :filetype detect<CR>
-nnoremap <M-f>F :silent! unlet b:did_ftplugin b:did_after_ftplugin<Bar>filetype detect<CR>
+nnoremap <M-f>F :silent! unlet b:did_ftplugin b:did_after_ftplugin<Bar>
+      \ let &l:filetype = &filetype<CR>
 nnoremap <M-f>c :checktime<CR>
 " Switch to the alternative or {count}th buffer
 nnoremap <silent><M-a> :silent noautocmd keepjumps buffer
