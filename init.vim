@@ -571,7 +571,7 @@ nnoremap <silent><M-f>A :let @z = winnr() \|
 " Quick save and exit, useful when editing the shell command line
 inoremap <M-z> <Esc>ZZ
 nnoremap <silent><M-f>e :edit<CR>
-nnoremap <silent><M-f><M-f>e :edit!<CR>
+nnoremap <silent><M-f>E :edit!<CR>
 cnoreabbrev <expr>tw getcmdtype() == ':' && getcmdpos() == 3 ? 'tabe' : 'tw'
 cnoremap <M-h> <C-r>=expand('%:h')<CR>/
 nnoremap <M-f>f :filetype detect<CR>
