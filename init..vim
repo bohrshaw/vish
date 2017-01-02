@@ -957,7 +957,10 @@ endif
 
 " Javascript {{{2
 
-call Bundles('pangloss/vim-javascript', 'ternjs/tern_for_vim')
+if Bundles('pangloss/vim-javascript', 'ternjs/tern_for_vim')
+  let g:tern_show_argument_hints = 1
+  let g:tern_show_signature_in_pum = 1
+endif
 
 " CoffeeScript support for vim
 call Bundle('kchmck/vim-coffee-script', {'f': 'coffee'})
