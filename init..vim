@@ -1122,6 +1122,7 @@ endif
 
 " JSON runtime files
 if Bundle('elzr/vim-json', {'f': 'json'})
+  let g:vim_json_syntax_conceal = 0
   augroup bundle_json | autocmd!
     autocmd FileType json setlocal foldmethod=syntax
   augroup END
