@@ -957,14 +957,7 @@ endif
 
 " Javascript {{{2
 
-" Vastly improved Javascript indentation and syntax support
-call Bundle('pangloss/vim-javascript', {'f': 'javascript'})
-
-" A plugin that integrates JSHint with Vim
-" call Bundles('walm/jshint.vim')
-
-" Tern plugin for vim(provides Tern-based JavaScript editing support)
-" call Bundles('marijnh/tern_for_vim')
+call Bundles('pangloss/vim-javascript', 'ternjs/tern_for_vim')
 
 " CoffeeScript support for vim
 call Bundle('kchmck/vim-coffee-script', {'f': 'coffee'})
