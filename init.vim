@@ -642,9 +642,7 @@ inoremap <expr><M-n> pumvisible() ? ' <BS><C-n>' : '<C-n>'
 inoremap <expr><M-p> pumvisible() ? ' <BS><C-p>' : '<C-p>'
 
 " CTRL-X completion-sub-mode
-" Mnemonic: Expand
 map! <M-x> <C-x>
-imap <M-e> <C-x>
 for s:c in split('lnpkti]fdvuos', '\zs')
   execute 'inoremap <C-X>'.s:c.' <C-X><C-'.s:c.'>'
 endfor
@@ -654,8 +652,8 @@ noremap! <C-X>g <C-k>
 inoremap <silent><C-x>c <C-r>=comp#shellcmd()<CR>
 
 " Shortcuts
+inoremap <M-e> <C-x><C-o>
 noremap! <M-k> <C-k>
-inoremap <M-O> <C-x><C-o>
 " }}}
 
 " Completion behavior tweak
