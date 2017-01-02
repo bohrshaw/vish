@@ -40,8 +40,12 @@ if has('vim_starting')
   " as $MYVIM could be shared between OSs such as in the case of WSL.
   let $MYTMP = expand('~/.vimtmp/')
 
+  " Remove empty directories in 'runtimepath' to make various seeking faster
+  let &rtp = join(filter(split(&rtp, ','), 'isdirectory(v:val)'), ',')
   " Cross-platform 'runtimepath'
-  set rtp=$MYVIM,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$MYVIM/after
+  if has('win32') && !has('nvim')
+    let &rtp = $MYVIM.','.&rtp.','.$MYVIM.'/after'
+  endif
 
   if has('gui_running') || $termencoding ==? 'utf-8'
     set encoding=utf-8 " used inside Vim, allow mapping with the ALT key
