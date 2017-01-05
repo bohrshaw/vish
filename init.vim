@@ -1105,6 +1105,7 @@ set nojoinspaces " not two spaces between joined sentences
 command! -range -nargs=? -bang J execute
       \ 'keepp <line1>,'.(<line1> == <line2> ? <line2> : <line2>-1).
       \ 's/\s*\n\s*/'.escape(<bang>0 ? <q-args> : ' '.<q-args>.' ', '/\&~')
+nnoremap <silent>sJ :J!<CR>
 " Remove trailing white spaces
 command! -range=% Trim let _p=getpos('.')|
       \keepj keepp <line1>,<line2>s/\s\+$//| call setpos('.',_p)
