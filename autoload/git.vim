@@ -1,6 +1,7 @@
 " Depend on `git` related bundles like "vim-fugitive".
 
-let s:fugisid = "<SNR>".scriptease#scriptid(globpath(&rtp, 'plugin/fugitive.vim'))
+let s:fugisid = "<SNR>".scriptease#scriptid(resolve(globpath(&rtp,
+      \ 'plugin/fugitive.vim')))
 
 function! git#run(...)
   let batch = a:0 > 0 ? 1 : 0
