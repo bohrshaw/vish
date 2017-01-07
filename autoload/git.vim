@@ -19,7 +19,7 @@ function! git#run(...)
       return
     endif
     let s .= c
-    if !batch && exists('s:cmds["'.s.'"]')
+    if !batch && exists('g:git_cmds["'.s.'"]')
       break
     endif
   endwhile
@@ -28,7 +28,7 @@ function! git#run(...)
   while i <= j
     while j >= i
       let c = s[i : j]
-      if exists('s:cmds["'.c.'"]')
+      if exists('g:git_cmds["'.c.'"]')
         call add(cmds, c)
         let [i, j] = [j+1, end]
       elseif j > i
@@ -39,7 +39,7 @@ function! git#run(...)
     endwhile
   endwhile
   for c in cmds
-    execute s:cmds[c]
+    execute g:git_cmds[c]
   endfor
 endfunction
 
@@ -54,37 +54,33 @@ function! git#compfile(A, L, P) abort
   return map(fugitive#repo().superglob(a:A), 'fnameescape(v:val)')
 endfunction
 
-let s:cmds = {
-      \ 'w':   'noautocmd update',
-      \ 'wa':  'noautocmd wall',
-      \ 's':   'Gstatus',
-      \
-      \ 'a':      'update | execute "G add" expand("%:p")[len(b:git_dir)-4:]',
-      \ 'au':     'G add --update',
-      \ 'A':      'G add --update',
-      \ 'aa':     'G add --all',
-      \ "\<M-a>": 'G add --all',
-      \
-      \ 'c':   'Gcommit -v',
-      \ 'ca':  'Gcommit --all -v',
-      \ 'C':   'Gcommit --all -v',
-      \ 'cm':  'Gcommit --amend -v',
-      \ 'cam': 'Gcommit --all --amend -v',
-      \ 'cma': 'Gcommit --all --amend -v',
-      \ 'cah': 'G commit --amend -C HEAD | GitGutterAll',
-      \ 'ce':  "G commit --allow-empty-message -m '' | GitGutterAll",
-      \ 'cae': "G commit --all --allow-empty-message -m '' | GitGutterAll",
-      \ 'cea': "G commit --all --allow-empty-message -m '' | GitGutterAll",
-      \ 'cs':  'B! git -C '.$MYVIM.'/spell commit --all -m "Spell"',
-      \
-      \ 'd':   'tab sbuffer % | Gdiff',
-      \ 'b':   'Gblame',
-      \ 'l':   'Glog',
-      \ 'ps':  'Gpush',
-      \ 'pf':  'Gpush -f',
-      \ 'pl':  'Gpull',
-      \ 'r':   'G! roll',
-      \
-      \ 'u':  'GitGutter',
-      \ 'U':  'GitGutterAll',
-      \ }
+if !exists('g:git_cmds') | let g:git_cmds = {} | endif
+let g:git_cmds.w = 'noautocmd update'
+let g:git_cmds.wa = 'noautocmd wall'
+let g:git_cmds.s = 'Gstatus'
+
+let g:git_cmds.a = 'update | execute "G add" expand("%:p")[len(b:git_dir)-4:]'
+let g:git_cmds.au = 'G add --update'
+let g:git_cmds.A = 'G add --update'
+let g:git_cmds.aa = 'G add --all'
+
+let g:git_cmds.c = 'Gcommit -v'
+let g:git_cmds.ca = 'Gcommit --all -v'
+let g:git_cmds.C = 'Gcommit --all -v'
+let g:git_cmds.cm = 'Gcommit --amend -v'
+let g:git_cmds.cam = 'Gcommit --all --amend -v'
+let g:git_cmds.cma = 'Gcommit --all --amend -v'
+let g:git_cmds.cah = 'G commit --amend -C HEAD | GitGutterAll'
+let g:git_cmds.ce = "G commit --allow-empty-message -m '' | GitGutterAll"
+let g:git_cmds.cae = "G commit --all --allow-empty-message -m '' | GitGutterAll"
+let g:git_cmds.cea = "G commit --all --allow-empty-message -m '' | GitGutterAll"
+
+let g:git_cmds.d = 'tab sbuffer % | Gdiff'
+let g:git_cmds.b = 'Gblame'
+let g:git_cmds.l = 'Glog'
+let g:git_cmds.ps = 'Gpush'
+let g:git_cmds.pf = 'Gpush -f'
+let g:git_cmds.pl = 'Gpull'
+
+let g:git_cmds.u = 'GitGutter'
+let g:git_cmds.U = 'GitGutterAll'
