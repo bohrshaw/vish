@@ -1019,6 +1019,7 @@ if has('nvim')
   cnoreabbrev <expr>vt getcmdtype() == ':' && getcmdpos() == 3 ? 'vne\|te' : 'vt'
   cnoreabbrev <expr>tt getcmdtype() == ':' && getcmdpos() == 3 ? 'tab new\|te' : 'tt'
 
+  let g:terminal_scrollback_buffer_size = 5000
   augroup init_term | autocmd!
     autocmd BufWinEnter,WinEnter term://*
           \ if !get(b:, 'term_no_insert') | startinsert | endif
