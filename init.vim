@@ -499,7 +499,7 @@ nnoremap <silent><C-w><C-b> :set noscrollbind\|vsplit<CR><C-b>
 " Fold: "{{{
 
 if has('vim_starting')
-  set foldlevel=2 " semi-opend folds are common
+  " set foldlevel=2 " not advised as `zx` would not close other folds
 endif
 
 " Open the fold the cursor is in, recursively
