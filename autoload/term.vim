@@ -1,4 +1,4 @@
-function! term#shell(name)
+function! term#shell(name, ...)
   let [name, cmd] = a:name =~ '^;' ?
         \ [matchstr(a:name, ';\S*'), matchstr(a:name, '\s\zs.*')] :
         \ [';1', a:name]
@@ -7,6 +7,7 @@ function! term#shell(name)
   if bufwin > 0
     execute bufwin.'wincmd w'
   else
+    if a:0 | split _ | endif
     " Can't easily test if the buffer is listed.
     try
       execute 'keepjumps buffer '.bufname
@@ -28,6 +29,6 @@ function! term#send(type)
           \ a:type ==# 'V' ? ["'", '<>'] :
           \ a:type ==# 'v' ? ["`", '<>'] : ['', '']
     execute 'normal! '.wise.mode[0].'"zy'.(wise == '`' ? 'v' : '').wise.mode[1]
-  call term#shell(@z)
+  call term#shell(@z, 'split')
   call feedkeys("\<C-\>\<C-n>\<C-w>p")
 endfunction
