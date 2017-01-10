@@ -50,11 +50,15 @@ function! helpline#tabline()
   let l .= '%{strftime("%a %m/%d/%Y %H:%M:%S")}' " useful in full screen
   return l
 endfunction
-function! helpline#tablabel(t)
-  return a:t.':'.join(
-        \ map(range(1, tabpagewinnr(a:t, '$')),
-        \   "pathshorten(fnamemodify(getcwd(v:val, a:t),':~'))"),
-        \ ':')
+" Return the "context" of a tabpage
+function! helpline#tablabel(t) " t is the tabpage number
+  let bufs = []
+  for b in tabpagebuflist(a:t)
+    if getbufvar(b, '&buftype') == ''
+      call add(bufs, strpart(fnamemodify(bufname(b), ':t'), 0, 15))
+    endif
+  endfor
+  return a:t.':'.join(bufs, ',')
 endfunction
 execute has('vim_starting') ? 'autocmd User Init' : ''
         \ "let s:tabline = join(values(g:tabline), ':')"
