@@ -1079,7 +1079,7 @@ execute has('gui_gtk')||has('gui_motif')||has('gui_athena') ? 'set go+=a' : ''
 set scrolloff=1 " also set in CmdwinLeave
 set sidescrolloff=5 " minimal number of screen columns to keep around the cursor
 set backspace=indent,eol,start " backspace through anything in insert mode
-silent! set formatoptions+=jmM " deal with comments and multi-bytes
+silent! set formatoptions+=rojmM " deal with comments and multi-bytes
 set nrformats-=octal " 01 is treated as decimal
 set lazyredraw " don't redraw the screen while executing macros, etc.
 set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
