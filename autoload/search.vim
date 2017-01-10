@@ -61,5 +61,6 @@ endfunction
 nnoremap <silent><Plug>_nohlsearch :<C-u>nohlsearch<CR>
 xnoremap <silent><Plug>_nohlsearch :<C-u>nohlsearch<CR>gv
 snoremap <silent><Plug>_nohlsearch <Esc>:nohlsearch<CR>gv<C-g>
+tnoremap <silent><Plug>_nohlsearch <C-\><C-n>:nohlsearch<CR>i
 " This may break redo; thus don't break silently.
 " inoremap <silent><Plug>_nohlsearch <C-\><C-o>:nohlsearch<CR>
