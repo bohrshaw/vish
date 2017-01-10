@@ -40,7 +40,7 @@ execute has('vim_starting') ? 'autocmd User Init' : ''
         \ "let s:stl = s:stl1.':'.join(values(g:statusline), ':').s:stl2"
 
 function! helpline#tabline()
-  let l = '%#StatusLineNC#'.s:prefix.':'
+  let l = '%#StatusLineNC#'.s:prefix.': %<'
   for i in range(1, tabpagenr('$'))
     let l .= (i == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#').'%'.i.'T'.
           \ ' %{helpline#tablabel('.i.')} '
