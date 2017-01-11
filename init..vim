@@ -792,6 +792,8 @@ elseif Dundles('w0rp/ale')
 endif
 
 " Format codes with external code formatters
+if Bundle('sbdchd/neoformat', {'c': 'Neoformat'})
+endif
 if Bundle('chiel92/vim-autoformat', {'c': 'Autoformat'})
 endif
 
