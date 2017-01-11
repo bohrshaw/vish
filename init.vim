@@ -1089,6 +1089,7 @@ endif
 " autocmd init GUIEnter * set vb t_vb= " disable error beep and screen flash
 set guioptions=M " skip sourcing menu.vim, before enabling filetype/syntax
 set guioptions+=c " use a console dialog for confirmation instead of a pop-up
+" set guioptions+=a " visual selection syncs to the X11 primary selection
 set confirm " prompt for an action instead of fail immediately
 set winminheight=0 " the minimal height of a window
 set history=10000 " maximum number of commands and search patterns to keep
