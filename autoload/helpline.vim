@@ -40,14 +40,18 @@ execute has('vim_starting') ? 'autocmd User Init' : ''
         \ "let s:stl = s:stl1.':'.join(values(g:statusline), ':').s:stl2"
 
 function! helpline#tabline()
+  let tabpagenrs = tabpagenr('$')
   let l = '%#StatusLineNC#'.s:prefix.': %<'
-  for i in range(1, tabpagenr('$'))
+  for i in range(1, tabpagenrs)
     let l .= (i == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#').'%'.i.'T'.
           \ ' %{helpline#tablabel('.i.')} '
   endfor
   let l .= '%#StatusLineNC# :'.s:tabline
   let l .= '%#TabLineFill#%T%=%#TabLine#%999X'
-  let l .= '%{strftime("%a %m/%d/%Y %H:%M:%S")}' " useful in full screen
+  " Time info is especially useful in full screen
+  let l .= '%{strftime('.
+        \string(tabpagenrs < 4 ? "%a %m/%d/%Y %H:%M:%S" : "%H:%M").
+        \')}'
   return l
 endfunction
 " Return the "context" of a tabpage
