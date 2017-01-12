@@ -1021,15 +1021,12 @@ if has('nvim')
 
   let g:terminal_scrollback_buffer_size = 5000
   augroup init_term | autocmd!
-    autocmd BufWinEnter,WinEnter term://*
-          \ if !get(b:, 'term_no_insert') | startinsert | endif
+    " Use `so` and related mappings to auto-enter terminal mode.
+    " autocmd BufWinEnter,WinEnter term://* startinsert
     " Prevent from entering Insert Mode in a non-terminal buffer, when e.g.
     " a session is being restored in which `startinsert` is delayed.
     autocmd BufLeave term://* stopinsert
-    autocmd TermOpen * setlocal nolist |
-          \ nnoremap <silent><buffer><LocalLeader>i
-          \   :let b:term_no_insert = !get(b:, 'term_no_insert') \|
-          \   echo (b:term_no_insert ? 'no ' : '').'auto-insert'<CR>
+    autocmd TermOpen * setlocal nolist
     autocmd TermClose *#* call feedkeys("\<Plug>", 'n')
   augroup END
 endif
