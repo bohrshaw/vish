@@ -880,6 +880,7 @@ set guicursor+=a:blinkon0 " don't blink the cursor
 if has('multi_byte_ime')
   highlight CursorIM guifg=NONE guibg=green
 endif
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 set relativenumber " 'number'
 set numberwidth=3 " narrowed
