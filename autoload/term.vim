@@ -1,11 +1,14 @@
-function! term#shell(name, ...)
+function! term#shell(str, ...)
   " These terminal names end with text matching ';\d'. Why a ';'? Because it's
   " easy to type `:b;1` to switch to it.
   " And in practice, I seldom use more than 3 terminals. Thus numbers after 3
   " may be used for speciall purpose in the future.
-  let [name, cmd] = a:name =~ '^;' ?
-        \ [matchstr(a:name, ';\S*'), matchstr(a:name, '\s\zs.*')] :
-        \ [';1', a:name]
+  if a:str =~ '^;'
+    let sep = match(a:str, ' ')
+  endif
+  let [name, cmd] = exists('l:sep') ?
+        \ [strpart(a:str, 0, sep), strpart(a:str, sep+1)] :
+        \ [';1', a:str]
   let bufname = 'term://*;#'.name
   let bufwin = bufwinnr(bufname)
   if bufwin > 0
