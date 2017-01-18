@@ -28,17 +28,17 @@ call BundleRun('Tpope/vim-scriptease')
 
 " Debugging
 command! -nargs=? -complete=command VimNORC execute
-      \ v:progname.<q-args> =~ '^\S*gvim' ? "B!" : "Start"
+      \ v:progname.<q-args> =~ '^\S*gvim' ? "B" : "Start"
       \ empty(<q-args>) ? expand(exepath(v:progpath)) : <q-args>
       \ '-u' expand($MYVIM.'/init.min.vim')
 " Profiling
 command! -nargs=? -complete=command StartupTime execute
-      \ v:progname.<q-args> =~ '^\S*gvim' ? "B!" : "Start"
+      \ v:progname.<q-args> =~ '^\S*gvim' ? "B" : "Start"
       \ empty(<q-args>) ? expand(exepath(v:progpath)) : <q-args>
       \ '--startuptime startup.log +qall!' |
       \ tab drop startup.log
 command! -nargs=? -complete=command Profile execute
-      \ v:progname.<q-args> =~ '^\S*gvim' ? "B!" : "Start"
+      \ v:progname.<q-args> =~ '^\S*gvim' ? "B" : "Start"
       \ empty(<q-args>) ? expand(exepath(v:progpath)) : <q-args>
       \ '--cmd "profile start '.getcwd().'/profile.log | profile file *"'
       \ '-c "profdel file * | qall!"' |
@@ -1289,7 +1289,7 @@ if Bundle('Jamessan/vim-gnupg', {'f': '*.{gpg,asc,pgp}'})
   " For maximum privacy, I'd better edit in a standalone Vim instance with
   " minimum number of bundles.
   command! -nargs=? -complete=command GPG
-        \ B! gvim --cmd 'let l=1' -c 'BundleRun vim-gnupg' -c '<args>'
+        \ B gvim --cmd 'let l=1' -c 'BundleRun vim-gnupg' -c '<args>'
 
   " Note: 'viminfo' only takes effect when its file is read or written. Thus
   " it's meaningless to empty it temporarily.
