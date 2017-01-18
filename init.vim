@@ -566,6 +566,13 @@ cnoreabbrev <expr>ag getcmdtype() == ':' && getcmdpos() == 3 ? 'argu' : 'ag'
 command! -bang -nargs=1 Bufdo call
       \ call('buf#do', split(<f-args>, ' \ze\S\+$') + [<bang>0])
 
+augroup binary | autocmd!
+  autocmd BufReadPre  *.bin setlocal bin
+  autocmd BufReadPost * if &bin | execute '%!xxd' | set filetype=xxd | endif
+  autocmd BufWritePre * if &bin | execute '%!xxd -r' | endif
+  autocmd BufWritePost * if &bin | execute '%!xxd' | set nomodified | endif
+augroup END
+
 " }}}
 " File:" {{{
 
