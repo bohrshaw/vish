@@ -27,18 +27,15 @@ augroup END
 call BundleRun('Tpope/vim-scriptease')
 
 " Debugging
-command! -nargs=? -complete=command VimNORC execute
-      \ v:progname.<q-args> =~ '^\S*gvim' ? "B" : "Start"
+command! -nargs=? -complete=command VimNORC execute "Start"
       \ empty(<q-args>) ? expand(exepath(v:progpath)) : <q-args>
       \ '-u' expand($MYVIM.'/init.min.vim')
 " Profiling
-command! -nargs=? -complete=command StartupTime execute
-      \ v:progname.<q-args> =~ '^\S*gvim' ? "B" : "Start"
+command! -nargs=? -complete=command StartupTime execute "Start"
       \ empty(<q-args>) ? expand(exepath(v:progpath)) : <q-args>
       \ '--startuptime startup.log +qall!' |
       \ tab drop startup.log
-command! -nargs=? -complete=command Profile execute
-      \ v:progname.<q-args> =~ '^\S*gvim' ? "B" : "Start"
+command! -nargs=? -complete=command Profile execute "Start"
       \ empty(<q-args>) ? expand(exepath(v:progpath)) : <q-args>
       \ '--cmd "profile start '.getcwd().'/profile.log | profile file *"'
       \ '-c "profdel file * | qall!"' |
@@ -835,7 +832,7 @@ if Bundle('KabbAmine/zeavim.vim', {'m': 'nnoremap <silent>zK :Zeavim<CR>'})
 endif
 
 " Dispatch.vim: asynchronous build and test dispatcher
-" call Bundles('tpope/vim-dispatch')
+call Bundles('tpope/vim-dispatch')
 
 " Run Async Shell Commands in Vim 8.0
 if Bundles('skywind3000/asyncrun.vim')
