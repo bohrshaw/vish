@@ -932,7 +932,7 @@ endif "}}}
 
 " Font and window size
 if has('vim_starting') && has('gui_running') "{{{
-  let &guifont = has('win32') ? 'Consolas:h9' : 'Consolas 9'
+  let &guifont = has('win32') ? 'Consolas:h10' : 'Consolas 10'
   set linespace=-1
   set lines=40 columns=88
   if !g:l " maximize the window
