@@ -298,8 +298,9 @@ if Bundles('Tpope/vim-surround')
 
   " Surround replacements
   " let g:surround_{char2nr('s')} = '`\r`' " doesn't work
-  let g:surround_{char2nr("\<M-[>")} = "[[ \r ]]"
   let g:surround_{char2nr("\<M-9>")} = "(( \r ))"
+  let g:surround_{char2nr("9")} = "(( \r ))"
+  let g:surround_{char2nr("\<M-[>")} = "[[ \r ]]"
   let g:surround_{char2nr('e')} = " \r " " e(empty) as <Space>
   let g:surround_{char2nr("\<CR>")} = "\n\t\r\n"
   " Won't insert indents
