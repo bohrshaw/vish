@@ -26,13 +26,15 @@ function! term#shell(name, ...)
   endif
 endfunction
 
-function! term#send(type)
-    let [wise, mode] =
-          \ a:type ==# 'line' ? ["'", '[]'] :
-          \ a:type ==# 'char' ? ["`", '[]'] :
-          \ a:type ==# 'V' ? ["'", '<>'] :
-          \ a:type ==# 'v' ? ["`", '<>'] : ['', '']
-    execute 'normal! '.wise.mode[0].'"zy'.(wise == '`' ? 'v' : '').wise.mode[1]
-  call term#shell(@z, 'split')
+function! term#send(type, ...)
+  let tname = len(a:type) > 1 ?
+        \ (v:prevcount == 0 ? 1 : v:prevcount) : v:count1
+  let [wise, mode] =
+        \ a:type ==# 'line' ? ["'", '[]'] :
+        \ a:type ==# 'char' ? ["`", '[]'] :
+        \ a:type ==# 'V' ? ["'", '<>'] :
+        \ a:type ==# 'v' ? ["`", '<>'] : ['', '']
+  execute 'normal! '.wise.mode[0].'"zy'.(wise == '`' ? 'v' : '').wise.mode[1]
+  call term#shell(';'.tname.' '.@z, 'split')
   call feedkeys("\<C-\>\<C-n>\<C-w>p")
 endfunction

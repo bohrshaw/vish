@@ -1054,7 +1054,7 @@ if has('nvim')
   nnoremap <silent>s<M-o> :<C-u>vsplit _ \| execute 'normal' v:count.'so'<CR>
   nnoremap s<Space> :S<Space><C-v><C-u>
 
-  nnoremap <silent>S :set operatorfunc=term#send<CR>g@
+  nnoremap <silent>S :<C-u>set operatorfunc=term#send<CR>g@
   nmap Ss SVl
   xnoremap <silent>S :<C-u>call term#send(visualmode())<CR>
 endif
