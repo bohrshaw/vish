@@ -4,7 +4,7 @@ function! term#shell(str, ...)
   " And in practice, I seldom use more than 3 terminals. Thus numbers after 3
   " may be used for speciall purpose in the future.
   if a:str =~ '^;'
-    let sep = match(a:str, ' ')
+    let sep = match(a:str, ' \|$')
   endif
   let [name, cmd] = exists('l:sep') ?
         \ [strpart(a:str, 0, sep), strpart(a:str, sep+1)] :
