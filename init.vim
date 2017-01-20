@@ -184,12 +184,14 @@ NXnoremap <M-/> q/
 cnoremap <M-Space> <C-F>
 cnoremap <M-e> <C-F>
 augroup init_cmdwin | autocmd!
+  " Note: Fiddling with 'laststatus' to hide and show the statusline would mute
+  " command output.
   autocmd CmdwinEnter *
         \ NXInoremap <buffer><M-q> <C-c><C-c>|
         \ noremap <buffer><F5> <CR>q:|
         \ NXInoremap <buffer><nowait><CR> <CR>|
-        \ setlocal laststatus=0 norelativenumber nocursorline scrolloff=0
-  autocmd CmdwinLeave * set laststatus=2 scrolloff=1
+        \ setlocal norelativenumber nocursorline scrolloff=0
+  autocmd CmdwinLeave * set scrolloff=1
 augroup END
 set cmdwinheight=5
 
