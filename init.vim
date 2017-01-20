@@ -1010,8 +1010,9 @@ if has('nvim')
   tnoremap <M-i> <C-\><C-N>
   tnoremap <M-I> <C-\><C-N>:
   tnoremap <M-V> <C-\><C-N>pi
-  " In case the terminal didn't bind this key to paste
-  tnoremap <C-S-v> <C-\><C-N>"+pi
+  " In case the terminal didn't bind this key to paste, but <C-v> would be
+  " shadowed when Neovim doesn't distinguish between these two keys.
+  " tnoremap <C-S-v> <C-\><C-N>"+pi
 
   tnoremap <expr><M-w> winnr('$') == 1 ? "\<Esc>w" : "\<C-\>\<C-n>\<C-w>"
   tnoremap <expr><M-j> winnr('$') == 1 ? "\<Esc>j" : "\<C-\>\<C-n>\<C-w>w"
