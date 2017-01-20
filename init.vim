@@ -178,22 +178,29 @@ augroup init_optwin | autocmd!
 augroup END "}}}
 
 NXnoremap <M-Space> q:
-NXnoremap <M-e> q:
 NXnoremap <M-/> q/
 " set cedit=<C-G>
 cnoremap <M-Space> <C-F>
-cnoremap <M-e> <C-F>
 augroup init_cmdwin | autocmd!
   " Note: Fiddling with 'laststatus' to hide and show the statusline would mute
   " command output.
   autocmd CmdwinEnter *
         \ NXInoremap <buffer><M-q> <C-c><C-c>|
-        \ noremap <buffer><F5> <CR>q:|
         \ NXInoremap <buffer><nowait><CR> <CR>|
         \ setlocal norelativenumber nocursorline scrolloff=0
   autocmd CmdwinLeave * set scrolloff=1
 augroup END
 set cmdwinheight=5
+
+" A special buffer and window served as a custom cmdline-window
+" Note: The history is unidirectionally synced from the cmdwin to cmdline.
+nnoremap <silent><M-e> :call cmdwin#init()<CR>
+cnoremap <silent><M-e> <C-r>=
+      \v#setvar('[g:_cmdline, g:_cmdlinepos]', [getcmdline(), getcmdpos()])<CR>
+      \<End><C-u>call cmdwin#line2win()<CR>
+augroup init_cmdwin_custom | autocmd!
+  autocmd BufNewFile \[CommandLine\] call cmdwin#setup()
+augroup END
 
 " Get the Entire current line
 cnoremap <C-r><C-e> <C-r>=getline('.')<CR>
