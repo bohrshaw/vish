@@ -9,7 +9,7 @@ function! term#shell(str, ...)
     let sep = match(a:str, ' \|$') " assume a single space
     let [name, cmd] =  [strpart(a:str, 0, sep), strpart(a:str, sep+1)]
     if name[0] == '9' " change the directory
-      let cmd = 'pushd '.(exists('b:git_dir') ? b:git_dir[:-6] : expand('%:p:h'))."\<CR>".cmd
+      let cmd = 'pushd '.(exists('b:git_dir') ? b:git_dir[:-6] : expand('%:p:h'))."\n".cmd
       let name = name == '9' ? '1' : name[1:]
     endif
   endif
@@ -29,7 +29,7 @@ function! term#shell(str, ...)
   endif
   startinsert
   if !empty(cmd)
-    call feedkeys(cmd =~ "\<CR>$" ? cmd : cmd."\<CR>")
+    call feedkeys(cmd =~ "\n$" ? cmd : cmd."\n", 'n')
   endif
 endfunction
 
@@ -42,6 +42,6 @@ function! term#send(type, ...)
         \ a:type ==# 'V' ? ["'", '<>'] :
         \ a:type ==# 'v' ? ["`", '<>'] : ['', '']
   execute 'normal! '.wise.mode[0].'"zy'.(wise == '`' ? 'v' : '').wise.mode[1]
-  call term#shell(';'.tname.' '.@z, 'split')
+  call term#shell(tname.' '.@z, 'split')
   call feedkeys("\<C-\>\<C-n>\<C-w>p")
 endfunction
