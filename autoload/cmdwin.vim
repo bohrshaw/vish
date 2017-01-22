@@ -10,10 +10,21 @@ function! cmdwin#init()
 endfunction
 
 function! cmdwin#setup()
-  nnoremap <silent><buffer><M-q> :noautocmd wincmd k \| noautocmd +hide<CR>
-  nnoremap <silent><buffer><CR> :call histadd(':', getline('.')) \|
-        \ noautocmd wincmd k \| noautocmd +hide<CR>:<Up><CR>
+  nnoremap <silent><buffer><CR> :call <SID>execute()<CR>
   imap <buffer><CR> <C-c><CR>
+  nnoremap <silent><buffer><M-q> :call <SID>hide()<CR>
+endfunction
+
+function! s:hide()
+  noautocmd wincmd k
+  noautocmd +hide
+endfunction
+
+function! s:execute()
+  call histadd(':', getline('.'))
+  call s:hide()
+  " Use feedkeys() to make `@:` work.
+  call feedkeys(":\<Up>\<CR>", 't')
 endfunction
 
 function! cmdwin#line2win()
