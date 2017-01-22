@@ -1,3 +1,7 @@
+" Complementary helper functions
+"
+" There is a library of VimL functions: https://github.com/LucHermitte/lh-vim-lib
+
 " a wapper around getchar()
 function! v#getchar(...)
   let cs = ''
