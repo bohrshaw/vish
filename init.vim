@@ -948,6 +948,7 @@ endif "}}}
 
 " Font and window size
 if has('vim_starting') && has('gui_running') "{{{
+  " Note: also set in ginit.vim
   let &guifont = has('win32') ? 'Consolas:h10' : 'Consolas 10'
   set linespace=0
   set lines=40 columns=88
