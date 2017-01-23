@@ -438,6 +438,9 @@ for i in [2, 3, 4, 5]
 endfor
 nmap <M-j> <C-w>j
 nmap <M-k> <C-w>k
+" `i` to go to terminal mode
+nmap <M-J> <C-w>ji
+nmap <M-K> <C-w>ki
 nnoremap <M-s> <C-w>s
 nnoremap <M-v> <C-w>v
 nnoremap <M-q> <C-W>q
@@ -1028,6 +1031,8 @@ if has('nvim')
   tnoremap <expr><M-w> winnr('$') == 1 ? "\<Esc>w" : "\<C-\>\<C-n>\<C-w>"
   tnoremap <expr><M-j> winnr('$') == 1 ? "\<Esc>j" : "\<C-\>\<C-n>\<C-w>w"
   tnoremap <expr><M-k> winnr('$') == 1 ? "\<Esc>k" : "\<C-\>\<C-n>\<C-w>W"
+  tmap <M-J> <M-j>i
+  tmap <M-K> <M-k>i
   tmap     <expr><M-a> "\<C-\>\<C-n>\<M-a>"
 
   tnoremap <S-PageUp> <C-\><C-n><C-b>
