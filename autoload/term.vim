@@ -1,17 +1,17 @@
-function! term#shell(str, ...)
+function! term#shell(name, cmd, ...)
   " These terminal names end with text matching ';\d'. Why a ';'? Because it's
   " easy to type `:b;1` to switch to it.
   " And in practice, I seldom use more than 3 terminals. Thus numbers after 3
   " may be used for speciall purpose in the future.
-  if a:str !~ '^\d'
-    let [name, cmd] =  ['1', a:str]
-  else
-    let sep = match(a:str, ' \|$') " assume a single space
-    let [name, cmd] =  [strpart(a:str, 0, sep), strpart(a:str, sep+1)]
+  if a:cmd[0] != ';' " the terminal name is digits
+    let [name, cmd] =  [a:name, a:cmd]
     if name[0] == '9' " change the directory
       let cmd = 'pushd '.(exists('b:git_dir') ? b:git_dir[:-6] : expand('%:p:h'))."\n".cmd
       let name = name == '9' ? '1' : name[1:]
     endif
+  else " the terminal name could be arbitrary
+    let sep = match(a:cmd, ' \|$') " assume a single space
+    let [name, cmd] =  [strpart(a:cmd, 1, sep), strpart(a:cmd, sep+1)]
   endif
   let bufname = 'term://*;#;'.name
   let bufwin = bufwinnr(bufname)
@@ -42,6 +42,6 @@ function! term#send(type, ...)
         \ a:type ==# 'V' ? ["'", '<>'] :
         \ a:type ==# 'v' ? ["`", '<>'] : ['', '']
   execute 'normal! '.wise.mode[0].'"zy'.(wise == '`' ? 'v' : '').wise.mode[1]
-  call term#shell(tname.' '.@z, 'split')
+  call term#shell(tname, @z, 'split')
   call feedkeys("\<C-\>\<C-n>\<C-w>p")
 endfunction

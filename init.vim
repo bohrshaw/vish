@@ -1059,12 +1059,12 @@ endif
 " Note: This section deals with the terminal text, not necessarily a shell.
 
 if has('nvim')
-  command! -nargs=? S call term#shell(<q-args>)
+  command! -count=1 -nargs=? S call term#shell(<count>, <q-args>)
   " mnemonic: SheO
-  nnoremap <silent>so :<C-u>S <C-r>=v:count ? v:count : ''<CR><CR>
-  nnoremap <silent>sO :<C-u>split _ \| execute 'normal' v:count.'so'<CR>
-  nnoremap <silent>s<M-o> :<C-u>vsplit _ \| execute 'normal' v:count.'so'<CR>
-  nnoremap s<Space> :S<Space><C-v><C-u>
+  nnoremap <silent>so :<C-u><C-r>=v:count1<CR>S<CR>
+  nmap <silent>sO :<C-u>keepalt split _ \| <C-r>=v:count1<CR>S<CR>
+  nmap <silent>s<M-o> :<C-u>keepalt vsplit _ \| <C-r>=v:count1<CR>S<CR>
+  nnoremap s<Space> :<C-u><C-r>=v:count ? v:count : ''<CR>S<Space><C-v><C-u>
 
   nnoremap <silent>S :<C-u>set operatorfunc=term#send<CR>g@
   nmap Ss SVl
