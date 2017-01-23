@@ -604,6 +604,7 @@ nnoremap <M-f>c :checktime<CR>
 " Switch to the alternative or {count}th buffer
 nnoremap <silent><M-a> :silent noautocmd keepjumps buffer
       \ <C-r>=v:count ? v:count : '#'<CR><CR>
+" Like CTRL-W_^
 nnoremap <silent><C-W><M-s> :sbuffer #<CR>
 nnoremap <silent><C-W><M-v> :vert sbuffer #<CR>
 
