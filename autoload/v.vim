@@ -38,3 +38,23 @@ function! v#execute(cmd)
   execute a:cmd
   return ''
 endfunction
+
+" Get the first buffer name in the current window
+" Note: `pat` is a regexp instead of a file-pattern used in bufname().
+function! v#bufname(pat)
+  for w in range(1, winnr('$'))
+    let name = bufname(winbufnr(w))
+    if name =~# a:pat
+      return name
+    endif
+  endfor
+endfunction
+
+" Get the first buffer window number in the current window
+function! v#bufwinnr(pat)
+  for w in range(1, winnr('$'))
+    if bufname(winbufnr(w)) =~# a:pat
+      return w
+    endif
+  endfor
+endfunction

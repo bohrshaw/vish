@@ -13,8 +13,8 @@ function! term#shell(name, cmd, ...)
     let sep = match(a:cmd, ' \|$') " assume a single space
     let [name, cmd] =  [strpart(a:cmd, 1, sep), strpart(a:cmd, sep+1)]
   endif
-  let bufname = 'term://*;#;'.name
-  let bufwin = bufwinnr(bufname)
+  let bufname = 'term://.*;#;'.name
+  let bufwin = v#bufwinnr(bufname)
   if bufwin > 0
     execute bufwin.'wincmd w'
   else
@@ -34,14 +34,19 @@ function! term#shell(name, cmd, ...)
 endfunction
 
 function! term#send(type, ...)
-  let tname = len(a:type) > 1 ?
-        \ (v:prevcount == 0 ? 1 : v:prevcount) : v:count1
+  " Note: v:count would change after a `:normal` command below.
+  if v:count + v:prevcount == 0
+    let name = '*'
+  else
+    let name = len(a:type) > 1 ?
+          \ (v:prevcount == 0 ? 1 : v:prevcount) : v:count1
+  endif
   let [wise, mode] =
         \ a:type ==# 'line' ? ["'", '[]'] :
         \ a:type ==# 'char' ? ["`", '[]'] :
         \ a:type ==# 'V' ? ["'", '<>'] :
         \ a:type ==# 'v' ? ["`", '<>'] : ['', '']
   execute 'normal! '.wise.mode[0].'"zy'.(wise == '`' ? 'v' : '').wise.mode[1]
-  call term#shell(tname, @z, 'split')
+  call term#shell(name, @z, 'split')
   call feedkeys("\<C-\>\<C-n>\<C-w>p")
 endfunction
