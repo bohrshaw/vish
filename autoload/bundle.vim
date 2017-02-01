@@ -191,10 +191,10 @@ function! bundle#map()
 endfunction
 
 " Return the part "author/repo[/sub/dir]" in
-" "[domain.com/]author/repo[:[branch]][/sub/dir]".
+" "[domain.com(/|:)]author/repo[:[branch]][/sub/dir]".
 function! s:bundle(b)
   if a:b =~ '^[^/]\+\.' " repository not on github.com
-    let b = matchstr(a:b, '/\zs.*')
+    let b = matchstr(a:b, '[/:]\zs.*')
   else
     let b = a:b
   endif
