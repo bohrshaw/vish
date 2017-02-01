@@ -4,6 +4,8 @@
 
 # ignore directories under bundle
 /vimrc
+/init-.vim
+/init+.vim
 /doc/tags
 /bundle/
 /spell
