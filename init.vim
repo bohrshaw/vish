@@ -1081,6 +1081,10 @@ endif
 
 if has('vim_starting')
   runtime init..vim " bundle configuration
+  let $MYVIMRCAFTER = expand($MYTMP.'init+.vim')
+  if filereadable($MYVIMRCAFTER)
+    execute 'silent source' $MYVIMRCAFTER
+  endif
   call bundle#done() " inject bundle paths to 'rtp'
 endif
 
@@ -1168,11 +1172,6 @@ command! HelpWrite setlocal buftype= buflisted modifiable noreadonly |
       \ setlocal conceallevel=0 spell
 " Toggle automation of state toggle of IME(Fcitx)
 nnoremap <silent>c<Leader>i :call ime#auto()<CR>
-
-let $MYVIMRCAFTER = expand($MYTMP.'init+.vim')
-if filereadable($MYVIMRCAFTER)
-  execute 'silent source' $MYVIMRCAFTER
-endif
 
 if has('vim_starting')
   " Must be after setting 'rtp'

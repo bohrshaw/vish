@@ -190,16 +190,18 @@ function! bundle#map()
         \:call BundleRun(@z)<CR>g`z
 endfunction
 
-" Return the bundle with the branch part cut off
+" Return the part "author/repo[/sub/dir]" in
+" "[domain.com/]author/repo[:[branch]][/sub/dir]".
 function! s:bundle(b)
-  if a:b =~ ':'
-    if a:b[-1:] == ':'
-      return a:b[:-2]
-    endif
-    let [repo, other] = split(a:b, ':')
-    return repo . matchstr(other, '/.*')
+  if a:b =~ '^[^/]\+\.' " repository not on github.com
+    let b = matchstr(a:b, '/\zs.*')
+  else
+    let b = a:b
   endif
-  return a:b
+  if b =~ ':' " contain a branch
+    let b = join(split(b, ':[^/]*'), '')
+  endif
+  return b
 endfunction
 
 " Determine if the bundle is active. Meanwhile add it to the download list.
