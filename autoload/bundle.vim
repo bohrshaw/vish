@@ -16,7 +16,7 @@ let s:augroup_count = get(s:, 'augroup_count')
 function! Bundles(...)
   for b in a:000
     if s:active(b)
-      call s:uniqadd(g:bundles, s:bundle(b))
+      call s:uniqadd(g:bundles, s:dir(b))
       let act = 1
     endif
   endfor
@@ -33,8 +33,7 @@ function! Bundle(bundle, trigger, ...)
   endif
 
   if s:active(a:bundle)
-    let b = s:bundle(a:bundle)
-    let dir = split(b, '/')[-1]
+    let dir = s:dir(a:bundle)
 
     if !a:0
       let p = rtp#expand(dir)
@@ -136,8 +135,7 @@ endfunction
 function! BundleRun(b, ...)
   " the bundle could be a pathless directory
   if a:b !~ '/' || s:active(a:b)
-    let b = s:bundle(a:b)
-    call s:run(split(b, '/')[-1])
+    call s:run(s:dir(a:b))
     return 1
   endif
 endfunction
@@ -146,8 +144,7 @@ command! -nargs=1 -complete=file -bar BundleRun call BundleRun(<q-args>)
 " Inject a bundle to &rtp
 function! BundlePath(b)
   if s:active(a:b)
-    let b = s:bundle(a:b)
-    call rtp#add(b[stridx(b,"/")+1:])
+    call rtp#add(s:dir(a:b))
     return 1
   endif
 endfunction
@@ -165,7 +162,7 @@ endfunction
 " Finish bundling
 function! bundle#done()
   " Inject bundles from g:bundles to 'rtp'
-  call rtp#inject('bundle', map(g:bundles, 'v:val[stridx(v:val,"/")+1:]'))
+  call rtp#inject('bundle', g:bundles)
 
   " Source ftdetect scripts gathered in Bundle()
   augroup filetypedetect
@@ -190,18 +187,16 @@ function! bundle#map()
         \:call BundleRun(@z)<CR>g`z
 endfunction
 
-" Return the part "author/repo[/sub/dir]" in
-" "[domain.com(/|:)]author/repo[:[branch]][/sub/dir]".
-function! s:bundle(b)
+" Return the part "project[/sub/dir]" in
+" "[domain.com(/|:)]author/project[:[branch]][/sub/dir]".
+function! s:dir(b)
   if a:b =~ '^[^/]\+\.' " repository not on github.com
     let b = matchstr(a:b, '[/:]\zs.*')
   else
     let b = a:b
   endif
-  if b =~ ':' " contain a branch
-    let b = join(split(b, ':[^/]*'), '')
-  endif
-  return b
+  let p = split(b, ':[^/]*') " split on [:[branch]]
+  return matchstr(p[0], '/\zs.*').get(p, 1, '')
 endfunction
 
 " Determine if the bundle is active. Meanwhile add it to the download list.
