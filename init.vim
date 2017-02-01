@@ -90,7 +90,7 @@ if has('vim_starting')
     let [g:python_host_skip_check, g:python3_host_skip_check] = [1, 1]
   endif
 
-  let $MYVIMRCPRE = expand($MYTMP.'/init-.vim')
+  let $MYVIMRCPRE = expand($MYVIM.'/init-.vim')
   if filereadable($MYVIMRCPRE)
     execute 'silent source' $MYVIMRCPRE
   endif
