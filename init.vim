@@ -699,6 +699,8 @@ silent! set wildignorecase " ignore case when completing file names/directories
 " Auto-reverse letter case in insert mode
 inoremap <silent><M-u> <C-R>=key#case(1)<CR>
 inoremap <silent><M-U> <C-R>=key#case(2)<CR>
+smap <M-u> <BS><M-u>
+smap <M-U> <BS><M-U>
 
 " Make a command(e.g. `:h ...`) split vertically or in a new tab.
 cnoremap <M-w>v <C-\>e'vert '.getcmdline()<CR><CR>
