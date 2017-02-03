@@ -33,9 +33,12 @@ function! run#viml(type)
     execute 'silent normal! '.(a:type == 'v' ? '`<"zyv`>' : '`["zyv`]')
     noautocmd keepalt call writefile(split(@z, '\n'), path)
   endif
+  let curbufnr = bufnr('')
   execute 'source' path
   " The mark 'z' should be set before calling this function
-  normal! g`z
+  if bufnr('') == curbufnr
+    normal! g`z
+  endif
 endfunction
 
 function! run#map()
