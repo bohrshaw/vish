@@ -1110,7 +1110,6 @@ execute has('gui_gtk')||has('gui_motif')||has('gui_athena') ? 'set go+=a' : ''
 set scrolloff=1 " also set in CmdwinLeave
 set sidescrolloff=5 " minimal number of screen columns to keep around the cursor
 set backspace=indent,eol,start " backspace through anything in insert mode
-silent! set formatoptions+=rojmM " deal with comments and multi-bytes
 set nrformats-=octal " 01 is treated as decimal
 set lazyredraw " don't redraw the screen while executing macros, etc.
 set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
@@ -1133,11 +1132,12 @@ endif
 " Make 'cw' consistent with 'dw'
 " onoremap <silent> w :execute 'normal! '.v:count1.'w'<CR>
 
+silent! set formatoptions+=rojmM " deal with comments and multi-bytes
 set nojoinspaces " not two spaces between joined sentences
 " Join lines without any character or with specified characters in between
 command! -range -nargs=? -bang J execute
       \ 'keepp <line1>,'.(<line1> == <line2> ? <line2> : <line2>-1).
-      \ 's/\s*\n\s*/'.escape(<bang>0 ? <q-args> : ' '.<q-args>.' ', '/\&~')
+      \ 's/\s*\n\s*/'.escape(<bang>0 ? <q-args> : ' '.<q-args>, '/\&~')
 nnoremap <silent>sJ :J!<CR>
 " Remove trailing white spaces
 command! -range=% Trim let _p=getpos('.')|
