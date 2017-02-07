@@ -994,6 +994,10 @@ let c_comment_strings=1
 " }}}
 " Helpline:" {{{
 
+" This file is written with the confidence that it's sourced here.
+" I move the implementation details out to make this init file clearer.
+source $MYVIM/autoload/helpline.vim
+
 let g:statusline = {} " flags to be inserted into 'statusline'
 set statusline=%!helpline#statusline()
 set fillchars+=stl::,stlnc:: " characters to fill the statuslines
