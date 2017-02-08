@@ -14,6 +14,7 @@ function! cmdwin#setup()
   nnoremap <silent><buffer><CR> :call <SID>execute()<CR>
   imap <buffer><CR> <C-c><CR>
   nnoremap <silent><buffer><M-q> :call <SID>hide()<CR>
+  nnoremap <buffer><M-e> :call <SID>win2line1()<CR>:<C-\>e<SID>win2line2()<CR>
 endfunction
 
 function! s:hide()
@@ -32,4 +33,15 @@ function! cmdwin#line2win()
   call cmdwin#init()
   call append(line('$'), g:_cmdline)
   call cursor('$', g:_cmdlinepos)
+endfunction
+
+function! s:win2line1()
+  let s:cmdline = getline('.')
+  let s:cmdpos = col('.')
+  call s:hide()
+  redraw
+endfunction
+function! s:win2line2()
+  call setcmdpos(s:cmdpos)
+  return s:cmdline
 endfunction
