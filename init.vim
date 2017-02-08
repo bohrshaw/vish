@@ -198,9 +198,6 @@ nnoremap <silent><M-e> :call cmdwin#init()<CR>
 cnoremap <silent><M-e> <C-r>=
       \v#setvar('[g:_cmdline, g:_cmdlinepos]', [getcmdline(), getcmdpos()])<CR>
       \<End><C-u>call cmdwin#line2win()<CR>
-augroup init_cmdwin_custom | autocmd!
-  autocmd BufNewFile \{CommandLine\} call cmdwin#setup()
-augroup END
 
 " Get the Entire current line
 cnoremap <C-r><C-e> <C-r>=getline('.')<CR>
