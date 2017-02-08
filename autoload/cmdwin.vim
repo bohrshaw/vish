@@ -1,11 +1,17 @@
 function! cmdwin#init()
   if bufloaded(':Command:Line:')
-    " Note: Split below can reduce screen drawing.
-    noautocmd below 2split + :Command:Line: | setlocal nobuflisted
-    " noautocmd silent below sbuffer + :Command:Line: | resize 2
+    if winbufnr(winnr()) == s:bufnr
+    elseif winbufnr(winnr() + 1) == s:bufnr
+      noautocmd wincmd w
+    else
+      " Note: Split below can reduce screen drawing.
+      noautocmd below 2split + :Command:Line: | setlocal nobuflisted
+      " noautocmd silent below sbuffer + :Command:Line: | resize 2
+    endif
     return
   endif
   noswapfile below 2split :Command:Line:
+  let s:bufnr = bufnr('')
   call cmdwin#setup()
 endfunction
 
