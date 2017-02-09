@@ -101,8 +101,8 @@ if Bundles('Bohrshaw/vim-sneak') " 'Justinmk/vim-sneak'
   autocmd ColorScheme * hi! link Sneak Normal
   hi! link SneakPluginScope Comment
   " Disable default mappings
-  NXOmap <Plug>_Sneak_s <Plug>Sneak_s
-  NXOmap <Plug>_Sneak_S <Plug>Sneak_S
+  NXOmap <SID>Sneak_s <Plug>Sneak_s
+  NXOmap <SID>Sneak_S <Plug>Sneak_S
 elseif Dundles('machakann/vim-patternjump')
   let g:patternjump_no_default_key_mappings = 1
 elseif Dundles('lokaltog/vim-easymotion')
