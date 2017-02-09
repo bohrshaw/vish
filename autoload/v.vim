@@ -50,9 +50,11 @@ function! v#bufname(pat)
   endfor
 endfunction
 
-" Get the first buffer window number in the current window
-function! v#bufwinnr(pat)
-  for w in range(1, winnr('$'))
+" Get the window number of a buffer matching a pattern in the current tabpage.
+" If a:1 is true, ignore the current window.
+function! v#bufwinnr(pat, ...)
+  let [wc, wb] = [winnr(), winnr('$')]
+  for w in a:0 ? range(1, wc-1) + range(wc+1, wb) : range(1, wb)
     if bufname(winbufnr(w)) =~# a:pat
       return w
     endif

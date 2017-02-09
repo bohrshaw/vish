@@ -14,7 +14,7 @@ function! term#shell(name, cmd, ...)
     let [name, cmd] =  [strpart(a:cmd, 1, sep), strpart(a:cmd, sep+1)]
   endif
   let bufname = 'term://.*;#;'.name
-  let bufwin = v#bufwinnr(bufname)
+  let bufwin = v#bufwinnr(bufname, a:0 ? 1 : 0)
   if bufwin > 0
     execute bufwin.'wincmd w'
   else
@@ -47,6 +47,6 @@ function! term#send(type, ...)
         \ a:type ==# 'V' ? ["'", '<>'] :
         \ a:type ==# 'v' ? ["`", '<>'] : ['', '']
   execute 'normal! '.wise.mode[0].'"zy'.(wise == '`' ? 'v' : '').wise.mode[1]
-  call term#shell(name, @z, 'split')
+  call term#shell(name, @z, 'send')
   call feedkeys("\<C-\>\<C-n>\<C-w>p")
 endfunction
