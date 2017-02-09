@@ -59,7 +59,7 @@ let g:git_cmds.w = 'noautocmd update'
 let g:git_cmds.wa = 'noautocmd wall'
 let g:git_cmds.s = 'Gstatus'
 
-let g:git_cmds.a = 'update | execute "G add" expand("%:p")[len(b:git_dir)-4:]'
+let g:git_cmds.a = 'update | execute "G add" resolve(expand("%:p"))[len(resolve(b:git_dir))-4:]'
 let g:git_cmds.au = 'G add --update'
 let g:git_cmds.A = 'G add --update'
 let g:git_cmds.aa = 'G add --all'
