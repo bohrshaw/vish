@@ -1,3 +1,5 @@
+" Focus on a shell and execute a command in it.
+" If a:1 presents, this function is invoked from term#send().
 function! term#shell(name, cmd, ...)
   " These terminal names end with text matching ';\d'. Why a ';'? Because it's
   " easy to type `:b;1` to switch to it.
@@ -13,15 +15,19 @@ function! term#shell(name, cmd, ...)
     let sep = match(a:cmd, ' \|$') " assume a single space
     let [name, cmd] =  [strpart(a:cmd, 1, sep), strpart(a:cmd, sep+1)]
   endif
-  let bufname = 'term://.*;#;'.name
-  let bufwin = v#bufwinnr(bufname, a:0 ? 1 : 0)
+  let bufwin = v#bufwinnr('term://.*;#;'.name, a:0 ? 1 : 0)
   if bufwin > 0
     execute bufwin.'wincmd w'
   else
-    if a:0 | split _ | endif
+    if a:0
+      if name == '*'
+        let name = '2' " '*;2' is purposed to be the sended-in terminal.
+      endif
+      split _
+    endif
     " Can't easily test if the buffer is listed.
     try
-      execute 'keepjumps silent buffer '.bufname
+      execute 'keepjumps silent buffer term://*;#;'.name
     catch
       keepjumps enew
       keepjumps call termopen(matchstr(&shell, '\a*$').';#;'.name)
@@ -36,7 +42,7 @@ endfunction
 function! term#send(type, ...)
   " Note: v:count would change after a `:normal` command below.
   if v:count + v:prevcount == 0
-    let name = '*'
+    let name = '*' " should match any visible non-current terminal
   else
     let name = len(a:type) > 1 ?
           \ (v:prevcount == 0 ? 1 : v:prevcount) : v:count1
