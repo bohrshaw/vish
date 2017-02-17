@@ -232,8 +232,9 @@ xnoremap I<CR> ^og_
 onoremap <silent>i<CR> :<C-u>normal! 0vg_<CR>
 onoremap <silent>I<CR> :<C-u>normal! ^vg_<CR>
 
-" Only useful in a character wise motion
-onoremap - v-
+" "o_-" is only useful in a character wise motion.
+" Note: This behavior lacks of tests and I ran into a bug when `nmap zZ yvt=-`.
+" onoremap - v-
 " Go to the end of any previous line, depends on 'virtualedit'
 onoremap <silent>_ :<C-u>execute 'normal!' v:count1.'k$l'<CR>
 
