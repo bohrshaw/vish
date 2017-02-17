@@ -1139,8 +1139,10 @@ command! -range=% JSONFormatEncode <line1>,<line2>!python -m json.tool
 " A Vim plugin for Windows PowerShell support
 call Bundle('pprovost/vim-ps1', {'f': 'ps1,ps1xml'})
 
-" Syntax file for nginx
-call Bundle('vim-scripts/nginx.vim', {'f': 'nginx'})
+" nginx runtime files
+if filereadable('/usr/share/vim/vimfiles/syntax/nginx.vim') ||
+      \ Bundles('fatih/vim-nginx')
+endif
 
 " ExternalInteraction: {{{1
 
