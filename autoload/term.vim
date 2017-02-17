@@ -56,3 +56,21 @@ function! term#send(type, ...)
   call term#shell(name, @z, 'send')
   call feedkeys("\<C-\>\<C-n>\<C-w>p")
 endfunction
+
+" https://github.com/fcpg/vim-altscreen/blob/master/plugin/altscreen.vim
+function! term#altscreen(...)
+  if get(a:, 1, 1)
+    let [&t_ti, &t_te] = [s:t_ti, s:t_te]
+  else
+    let [s:t_ti, s:t_te] = [&t_ti, &t_te]
+    let [&t_ti, &t_te] = ['', '']
+  endif
+endfun
+function! term#suspend()
+  try
+    call term#altscreen()
+    suspend!
+  finally
+    call term#altscreen(0)()
+  endtry
+endfun

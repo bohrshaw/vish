@@ -1019,8 +1019,8 @@ augroup END
 " }}}
 " Terminal:"{{{
 
-if has('vim_starting') && !has('gui_running') "{{{
-  " 24bit colors in Neovim
+if !has('gui_running') && has('vim_starting')
+  " 24bit colors
   if has('patch-7.4.1799') && !s:windows && $TERM !~ 'rxvt'
     set termguicolors
   endif
@@ -1032,7 +1032,15 @@ if has('vim_starting') && !has('gui_running') "{{{
   if &term =~ '256col' | set t_ut= | endif
   " Allow color schemes do bright colors without forcing bold.
   if &t_Co == 8 && &term !~ '^linux' | set t_Co=16 | endif
-endif "}}}
+  if !has('nvim')
+    " Make `!ls` in `vim` sensible.
+    augroup init_terminal | autocmd!
+      autocmd VimEnter * call term#altscreen(0)
+      autocmd VimLeave * call term#altscreen()
+    augroup END
+    noremap <silent><C-z> :<C-u>call term#suspend()<CR>
+  endif
+endif
 " Disable error beep and screen flash
 " autocmd init GUIEnter * set vb t_vb=
 
