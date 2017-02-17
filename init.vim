@@ -42,6 +42,16 @@ if has('vim_starting')
 
   " Remove empty directories in 'runtimepath' to make various seeking faster
   let &rtp = join(filter(split(&rtp, ','), 'isdirectory(v:val)'), ',')
+  " Include files provided by system and packages
+  if has('nvim')
+    " Note: $VIM could be "/usr/local/share/nvim".
+    let vimfiles = '/usr/share/vim/vimfiles'
+    if isdirectory(vimfiles)
+      let &rtp = join(insert(split(&rtp, ',\?\ze\V'.$VIMRUNTIME),
+            \ vimfiles, 1), ',')
+    endif
+    unlet vimfiles
+  endif
   " Cross-platform 'runtimepath'
   if has('win32') && !has('nvim')
     let &rtp = $MYVIM.','.&rtp.','.$MYVIM.'/after'
@@ -969,21 +979,6 @@ endif "}}}
 " Setup and forget
 set display+=lastline
 set guiheadroom=0 " occupy more screen space on X11
-" Terminal hacks
-if has('vim_starting') && !has('gui_running') "{{{
-  " Assume 256 colors
-  if &term =~ '\v(xterm|screen)$' | let &term .= '-256color' | endif
-  " Disable Background Color Erase (BCE) so that color schemes
-  " render properly when inside 256-color tmux and GNU screen.
-  " See also http://snk.tuxfamily.org/log/vim-256color-bce.html
-  if &term =~ '256col' | set t_ut= | endif
-  " Allow color schemes do bright colors without forcing bold.
-  if &t_Co == 8 && &term !~ '^linux' | set t_Co=16 | endif
-endif "}}}
-" 24bit colors in Neovim
-if has('patch-7.4.1799') && !s:windows && $TERM !~ 'rxvt'
-  set termguicolors
-endif
 
 " Highlight strings inside C comments.
 let c_comment_strings=1
@@ -1023,7 +1018,24 @@ augroup END
 " }}}
 " Terminal:"{{{
 
-if has('nvim')
+if has('vim_starting') && !has('gui_running') "{{{
+  " 24bit colors in Neovim
+  if has('patch-7.4.1799') && !s:windows && $TERM !~ 'rxvt'
+    set termguicolors
+  endif
+  " Assume 256 colors
+  if &term =~ '\v(xterm|screen)$' | let &term .= '-256color' | endif
+  " Disable Background Color Erase (BCE) so that color schemes
+  " render properly when inside 256-color tmux and GNU screen.
+  " See also http://snk.tuxfamily.org/log/vim-256color-bce.html
+  if &term =~ '256col' | set t_ut= | endif
+  " Allow color schemes do bright colors without forcing bold.
+  if &t_Co == 8 && &term !~ '^linux' | set t_Co=16 | endif
+endif "}}}
+" Disable error beep and screen flash
+" autocmd init GUIEnter * set vb t_vb=
+
+if has('nvim') " nvim's built-in terminal
   tnoremap <M-i> <C-\><C-N>
   tnoremap <M-I> <C-\><C-N>:
   tnoremap <M-V> <C-\><C-N>pi
@@ -1117,7 +1129,6 @@ set shortmess=aoOtTI " avoid all the hit-enter prompts caused by file messages
 if has('patch-7.4.1570')
   set shortmess+=F
 endif
-" autocmd init GUIEnter * set vb t_vb= " disable error beep and screen flash
 set guioptions=M " skip sourcing menu.vim, before enabling filetype/syntax
 set guioptions+=c " use a console dialog for confirmation instead of a pop-up
 " set guioptions+=a " visual selection syncs to the X11 primary selection
