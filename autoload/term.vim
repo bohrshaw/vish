@@ -71,6 +71,6 @@ function! term#suspend()
     call term#altscreen()
     suspend!
   finally
-    call term#altscreen(0)()
+    call term#altscreen(0)
   endtry
 endfun
